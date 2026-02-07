@@ -1,134 +1,122 @@
-<?php
-
-$PROPOSALVAR="/proposal/";
-$MYSITEVAR="/mysite/";
-$AMPVAR="/amp/";
-$TBGVAR="www.citicoding.org/citi/coding/2025/tbgp7/";
-$JSWIKIVAR="/javascript/";
-$WIKIVAR="/myproject/wiki/";
-$WIKIDEVVAR="/myproject/wikiinfo/";
-$PKHEXVAR="/PKHEX_WEB/";
-$MYSITESPECIALVAR="/mysitespecial/";
-$CSSVAR="/css/";
-$DEBUGVAR=0;
-$WEBSITETITLE = "A.t.A. Projects";
-$PAGETITLE    = "Landing Page";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><?= $WEBSITETITLE ?> - <?= htmlspecialchars($PAGETITLE) ?></title>
+<meta charset="UTF-8">
 
-   
-        <?php include $_SERVER['DOCUMENT_ROOT'] . $CSSVAR . "style.css"; ?>
-    
+<title id="fullTitle"></title>
+
+<style>
+/* Your CSS that used to be included */
+@import url("/css/style.css");
+</style>
+
+<script>
+/* ====== PHP VARIABLES REPLACED ====== */
+const CONFIG = {
+  PROPOSALVAR: "/proposal/",
+  MYSITEVAR: "/mysite/",
+  AMPVAR: "/amp/",
+  TBGVAR: "https://www.citicoding.org/citi/coding/2025/tbgp7/",
+  JSWIKIVAR: "/javascript/",
+  WIKIVAR: "/myproject/wiki/",
+  WIKIDEVVAR: "/myproject/wikiinfo/",
+  PKHEXVAR: "/PKHEX_WEB/",
+  MYSITESPECIALVAR: "/mysitespecial/",
+  CSSVAR: "/css/",
+  DEBUGVAR: 0,
+  WEBSITETITLE: "A.t.A. Projects",
+  PAGETITLE: "Landing Page"
+};
+</script>
 </head>
 
 <body>
-<header>
-    <div class="header">
-        A.t.A. Tech Wiki<br>
-    </div>
 
-    <?php if ($DEBUGVAR == 1): ?>
-        Dev stuff is showing
-    <?php endif; ?>
+<header>
+  <div class="header">A.t.A. Tech Wiki<br></div>
+  <div id="debugNotice"></div>
 </header>
 
 <main>
 
-    <div class="fmwnavleft">
-        <h1></h1><center>High School Projects</center></h1><br><br>
-    <div class="fmwnavleft">
-     <div class="fs-15">1st year Projects</div><br><br>
-        <a href="<?= $PROPOSALVAR ?>index.html">Proposal Website</a><br><br>
-        <a href="<?= $MYSITEVAR ?>index.html">Murder Drones Fan Wiki (Mysite Project)</a><br><br>
-        <a href="<?= $AMPVAR ?>index.html">AMP Project</a><br><br>
-        <a href="https://www.citicoding.org/citi/coding/2025/tbgp7/index.html">One Wrong Choice (Text Based Game)</a><br><br>
-    </div>
-  <div class="fmwnavright">
-     <div class="fs-15">2nd year Projects</div><br><br>
-       <a href="<?= $JSWIKIVAR ?>index.html">Javascript Wiki</a><br><br>
-        <a href="<?= $WIKIVAR ?>index.html">A.T.A. Tech Wiki</a><br><br>
-        <a href="<?= $WIKIDEVVAR ?>index.html">A.T.A. Tech Wiki Dev Page</a><br><br>
-    </div>
-    </div>
+<div class="fmwnavleft">
+  <center><h1>High School Projects</h1></center><br><br>
 
-    <div class="fmwnavright">
-        <div class="fs-15">Other Projects</div><br><br>
-<a href="<?= $PKHEXVAR ?>index.html">PKHEX Web Browser Version</a><br><br>
-        <a href="<?= $MYSITESPECIALVAR ?>index.html">Murder Drones Fan Wiki (1st Year Annivarsary)</a><br><br>
-        
-      
-    </div>
+  <div class="fs-15">1st year Projects</div><br><br>
+  <a id="proposalLink"></a><br><br>
+  <a id="mysiteLink"></a><br><br>
+  <a id="ampLink"></a><br><br>
+  <a id="tbgLink"></a><br><br>
+</div>
 
+<div class="fmwnavright">
+  <div class="fs-15">2nd year Projects</div><br><br>
+  <a id="jswikiLink"></a><br><br>
+  <a id="wikiLink"></a><br><br>
+  <a id="wikidevLink"></a><br><br>
+</div>
 
-  
+<div class="fmwnavright">
+  <div class="fs-15">Other Projects</div><br><br>
+  <a id="pkhexLink"></a><br><br>
+  <a id="specialLink"></a><br><br>
+</div>
 
 </main>
 
-<footer>
-   &copy; A.t.A. Tech Wiki,
-<?php echo date("l, F d, Y"); ?> - <?php echo date("g:i A"); ?>
-</footer>
+<footer id="footerDate"></footer>
 
-<?php if ($DEBUGVAR == 1): ?>
-<style>
-.flex_container {
-    display: flex;
-    flex-wrap: nowrap;
-    border: 2px rgb(75, 75, 75) solid;
-    background-color: rgb(125, 125, 125);
+<!-- DEBUG SECTION -->
+<div id="debugSection"></div>
+
+<script>
+/* ====== TITLE ====== */
+document.getElementById("fullTitle").textContent =
+  CONFIG.WEBSITETITLE + " - " + CONFIG.PAGETITLE;
+
+/* ====== LINKS ====== */
+function setLink(id, url, text) {
+  const el = document.getElementById(id);
+  el.href = url;
+  el.textContent = text;
 }
-.flex {
-    width: 45%;
-    margin: 10px;
-    border: 2px rgb(75, 75, 75) solid;
-    background-color: rgb(175, 175, 175);
+
+setLink("proposalLink", CONFIG.PROPOSALVAR + "index.html", "Proposal Website");
+setLink("mysiteLink", CONFIG.MYSITEVAR + "index.html", "Murder Drones Fan Wiki (Mysite Project)");
+setLink("ampLink", CONFIG.AMPVAR + "index.html", "AMP Project");
+setLink("tbgLink", CONFIG.TBGVAR + "index.html", "One Wrong Choice (Text Based Game)");
+setLink("jswikiLink", CONFIG.JSWIKIVAR + "index.html", "Javascript Wiki");
+setLink("wikiLink", CONFIG.WIKIVAR + "index.html", "A.T.A. Tech Wiki");
+setLink("wikidevLink", CONFIG.WIKIDEVVAR + "index.html", "A.T.A. Tech Wiki Dev Page");
+setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version");
+setLink("specialLink", CONFIG.MYSITESPECIALVAR + "index.html", "Murder Drones Fan Wiki (1st Year Anniversary)");
+
+/* ====== DATE (replaces PHP date()) ====== */
+const now = new Date();
+document.getElementById("footerDate").innerHTML =
+  "&copy; A.t.A. Tech Wiki, " +
+  now.toLocaleDateString(undefined, { weekday:'long', year:'numeric', month:'long', day:'numeric' }) +
+  " - " +
+  now.toLocaleTimeString(undefined, { hour:'numeric', minute:'2-digit' });
+
+/* ====== DEBUG MODE ====== */
+if (CONFIG.DEBUGVAR === 1) {
+  document.getElementById("debugNotice").textContent = "Dev stuff is showing";
+
+  const dbg = document.getElementById("debugSection");
+  dbg.innerHTML = `
+  <style>
+  .flex_container { display:flex; flex-wrap:nowrap; border:2px solid #555; background:#777; }
+  .flex { width:45%; margin:10px; border:2px solid #555; background:#aaa; }
+  .DEBUGTITLE { background:#444; color:#fff; border:2px solid #ccc; }
+  </style>
+  <div class="DEBUGTITLE"><h1>Debug Info</h1></div>
+  <div class="flex_container">
+    <div class="flex"><strong>Browser Info</strong><br>${navigator.userAgent}</div>
+    <div class="flex"><strong>URL Info</strong><br>${window.location.href}</div>
+  </div>`;
 }
-.DEBUGTITLE {
-    background-color: rgb(75, 75, 75);
-    color: rgb(255, 255, 255);
-    border: 2px solid rgb(200, 200, 200);
-}
-</style>
-
-<div class="DEBUGTITLE"><h1>Debug Variables</h1></div>
-
-<div class="flex_container">
-    <div class="flex">
-        <strong>SERVER VARIABLES</strong><br>
-        <?php foreach ($_SERVER as $key => $value): ?>
-            <?= htmlspecialchars($key) ?> = <?= htmlspecialchars((string)$value) ?><br>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="flex">
-        <strong>FORM VARIABLES</strong><br>
-        <?php foreach ($_REQUEST as $key => $value): ?>
-            <?= htmlspecialchars($key) ?> = <?= htmlspecialchars((string)$value) ?><br>
-        <?php endforeach; ?>
-    </div>
-</div>
-
-<div class="flex_container">
-    <div class="flex">
-        <strong>COOKIES</strong><br>
-        <?php foreach ($_COOKIE as $key => $value): ?>
-            <?= htmlspecialchars($key) ?> = <?= htmlspecialchars((string)$value) ?><br>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="flex">
-        <strong>MIME / HEADERS</strong><br>
-        <?php foreach (getallheaders() as $key => $value): ?>
-            <?= htmlspecialchars($key) ?> = <?= htmlspecialchars($value) ?><br>
-        <?php endforeach; ?>
-    </div>
-</div>
-<?php endif; ?>
+</script>
 
 </body>
 </html>
-
