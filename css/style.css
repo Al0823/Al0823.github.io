@@ -1,0 +1,413 @@
+
+
+
+
+/* Apply to all elements */
+    * {
+      margin: 0;              /* Remove default outer spacing */
+      padding: 0;             /* Remove default inner spacing */
+      box-sizing: border-box; /* Include padding & borders in element’s total width/height */
+    }
+
+:root {
+--white: rgb(255, 255, 255);
+}
+
+    body {
+      line-height: 1.5;               /* Improve readability with more space between lines */
+      display: flex;                  /* Use flexbox to arrange child elements */
+      flex-direction: column;        
+      min-height: 100vh;              /* Ensure body fills at least full viewport height */
+    }
+
+    header {
+      background-color: rgb(75, 75, 75);
+      color: var(--white);
+      padding: 1rem;        /* Space inside header */
+      text-align: center;
+      font-size: 2.5rem;
+      border-bottom: 0.125rem solid rgb(125, 125, 125);
+    }
+
+    main {
+      flex: 1;              /* Expand to fill available vertical space */
+      display: flex!important;        /* Place nav and article side by side */
+      background-color: rgb(175, 175, 175);
+    }
+
+    nav {
+      width: 300px!important;
+      background-color: rgb(200, 200, 200);
+      padding: 1rem!important;              /* Space inside navigation area */
+      border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
+      color: rgb(255, 0, 0);
+    }
+    
+    .nav {
+      width: 300px!important;
+      background-color: rgb(200, 200, 200);
+      padding: 1rem!important;              /* Space inside navigation area */
+      border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
+      color: rgb(255, 0, 0);
+    }
+
+    nav ul {
+      list-style: none; /* Remove default list bullets */
+    }
+
+    nav ul li {
+      margin-bottom: 0.75rem; /* Space between navigation links */
+    }
+
+    nav a {
+      text-decoration: none;
+      color: rgb(75, 92, 1);      
+    }
+    
+    nav a:hover {
+background-color: rgb(225, 225, 225);
+border-radius: 20px;
+}
+
+    article {
+      flex: 1;           /* Take up remaining horizontal space beside nav */
+      padding: 1.5rem;   /* Space around body text */
+    }
+
+    footer {
+      background-color: rgb(75, 75, 75);  
+      color: var(--white);      
+      text-align: center;
+      padding: 1rem;     /* Space inside footer */
+      font-size: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgb(125, 125, 125)
+    }
+    
+    hr {
+    height: 10px;
+    background-color: rgb(75, 75, 75);
+    }
+
+    /* Responsive tweak: apply when screen width <= 768px */
+    @media (max-width: 768px) {
+      main {
+        flex-direction: column; /* Stack nav and article vertically instead of side by side */
+      }
+      nav {
+        width: 100%;             
+        border-right: none;      
+        border-bottom: 1px solid rgb(225, 225, 225) !important; /* Add horizontal divider instead */
+        color: rgb(0, 0, 0);
+      }
+    }
+    
+    .grid-container{
+    display: grid;
+float: center;
+    grid-template-columns: auto auto auto auto;
+padding: 10px;
+      background-color: rgb(175, 175, 175);
+    }
+    
+      .grid-container > div {
+      background-color: rgb(175, 175, 175);
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+  border: 2px rgb(75, 75, 75) solid;
+    }
+   
+   .big {
+float: left;
+width: 83%;
+border: 2px rgb(100, 100, 100) solid;
+border-radius: 10px;
+
+margin-left: 4.5px;
+padding-left: 10px;
+background-color: rgb(150, 150, 150, .7);
+min-height: 1000px;
+}
+
+
+.dropdown {
+  float: left;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  overflow: hidden;
+}
+.dropdown .dropbtn {
+ border: none;
+  font-size: 20px;  
+  color: rgb(0, 0, 0);
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+}
+nav a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(225, 225, 225);
+border-radius: 20px;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  background-color: var(--white);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  float: none;
+  color: rgb(0, 0, 0);
+  padding: 14px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+.dropdown-content a:hover {
+  background-color: rgb(230, 230, 230);
+  color: var(--white);
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.activenav {
+  background-color: rgb(225, 225, 225);
+border-radius: 20px;;
+}
+.activenav_dropdown {
+  background-color: rgb(230, 230, 230);
+  color: rgb(0, 0, 0);
+  border-radius: 20px;
+}
+}
+a {
+text-decoration: none;
+color: rgb(0, 0, 0);
+}
+
+.wikiadmin26{
+background-color: rgb(175, 175, 175);
+min-height: 530px;
+width: 99%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid rgb(150, 150, 150) 5px;
+color: rgb(0, 0, 0);
+font-size: 30px;
+}
+
+.fmwnavleft {
+ width: 50%!important;
+      background-color: rgb(200, 200, 200);
+      padding: 1rem!important;              /* Space inside navigation area */
+      border: 10px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
+      color: rgb(255, 0, 0);
+} 
+
+.fmwnavleft ul {
+      list-style: none; /* Remove default list bullets */
+    }
+
+    .fmwnavleft ul li {
+      margin-bottom: 0.75rem; /* Space between navigation links */
+    }
+
+    .fmwnavleft a {
+      text-decoration: none;
+      color: rgb(0, 255, 100);          
+    }
+    
+    .fmwnavleft a:hover {
+background-color: rgb(150, 150, 150);
+border-radius: 20px;
+}
+
+.fmwnavright {
+ width: 50%!important;
+      background-color: rgb(200, 200, 200);
+      padding: 1rem!important;              /* Space inside navigation area */
+     border: 10px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */ 
+      color: rgb(255, 0, 0);
+  
+} 
+
+.fmwnavright ul {
+      list-style: none; /* Remove default list bullets */
+    }
+
+    .fmwnavright ul li {
+      margin-bottom: 0.75rem; /* Space between navigation links */
+    }
+
+    .fmwnavright a {
+      text-decoration: none;
+      color: rgb(0, 255, 100);          
+    }
+    
+    .fmwnavright a:hover {
+background-color: rgb(150, 150, 150);
+border-radius: 20px;
+}
+
+.needs {
+display: flex;
+flex-wrap: wrap;
+height: 45%;
+}  
+.needs > div {
+background-color: rgb(230, 230, 230, .8);
+border-radius: 20px;
+width: 30%;
+margin: 10px;
+padding: 20px;
+text-align: center;
+align-content: center;
+font-size: 16px;
+flex-grow: 1;
+
+}
+
+.wants {
+display: flex;
+flex-wrap: wrap;
+height: 45%;
+}  
+.wants > div {
+background-color: rgb(230, 230, 230, .8);
+border-radius: 20px;
+width: 30%;
+margin: 10px;
+padding: 20px;
+text-align: center;
+align-content: center;
+font-size: 16px;
+flex-grow: 1;
+
+}
+
+.underconstruction {
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  background-color: rgb(255, 243, 205); /* bright yellow background */
+  border: 4px dashed rgb(255, 87, 51); /* bold orange border */
+  border-radius: 12px;
+  color: rgb(199, 0, 57); /* deep red text */
+  font-size: 35px;
+  font-weight: bold;
+  box-sizing: border-box;
+  animation: pulseBorder 2s infinite, glow 2s infinite alternate;
+}
+
+.underconstruction::before {
+  content: " Under Construction ";
+  display: block;
+  font-size: 40px;
+  margin-bottom: 20px;
+  animation: bounce 1s infinite alternate;
+}
+
+.underconstruction p {
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+
+@keyframes pulseBorder {
+  0% { border-color: rgb(255, 87, 51); }
+  50% { border-color: rgb(255, 189, 105) }
+  100% { border-color: rgb(255, 87, 51); }
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 5px rgb(199, 0, 57), 0 0 10px rgb(255, 87, 51); }
+  50% { text-shadow: 0 0 10px rgb(255, 189, 105), 0 0 20px rgb(255, 87, 51); }
+  100% { text-shadow: 0 0 5px rgb(199, 0, 57), 0 0 10px rgb(255, 87, 51); }
+}
+
+
+
+[loop start=10&end=50&advance=.25]
+.fs-[index]{
+font-size: [math][index]/10[/math]rem!Important;
+}
+[/loop]
+
+[loop start=10&end=100&advance=5]
+.pad-[index]{
+padding: [math][index]/10[/math]rem!Important;
+}
+
+.pad-b-[index]{
+padding-bottom: [math][index]/10[/math]rem!Important;
+}
+
+.pad-t-[index]{
+padding-top: [math][index]/10[/math]rem!Important;
+}
+
+.pad-l-[index]{
+padding-left: [math][index]/10[/math]rem!Important;
+}
+
+.pad-r-[index]{
+padding-right: [math][index]/10[/math]rem!Important;
+}
+
+.margin-[index]{
+margin: [math][index]/10[/math]rem!Important;
+}
+
+.margin-b-[index]{
+margin-bottom: [math][index]/10[/math]rem!Important;
+}
+
+.margin-t-[index]{
+padding-top: [math][index]/10[/math]rem!Important;}
+
+.margin-l-[index]{
+margin-left: [math][index]/10[/math]rem!Important;}
+
+.margin-r-[index]{
+margin-right: [math][index]/10[/math]rem!Important;}
+
+
+[/loop]
+
+[loop start=5&end=100&advance=5]
+.mh-[index]{
+min-height: [index]%!Important;
+}
+[/loop]
+
+
+[search db=[CSSVAR]colors.db&eqSTATUSdatarq=1]
+[founditems]
+
+.TC-[title] {
+color:rgb([RGB1], [RGB2], [RGB3])!Important;
+}
+[loop start=1&end=10]
+.TCGB-[title]-a[index] {
+background-color: rgb([RGB1], [RGB2], [RGB3])[math][index]/10[/math]!Important;
+}
+[/loop]
+
+[/founditems]
+[/search]
