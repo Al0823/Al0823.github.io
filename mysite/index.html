@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="/includes/vars.js"></script>
+  <script src="/includes/include.js" defer></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+
+<div id="header"></div>
+<div id="navbar"></div>
+
+<div class="bodycopy">
+  <div class="left">
+    Hello! This is the homepage of my Website! The purpose of my website is to talk about Murder Drones, the creators, overall run downs of the episodes, etc.
+  </div>
+
+  <div class="middle">
+    Murder Drones is a fictional series made by Liam Vickers and Glitch Productions, it takes place on Copper 9...
+  </div>
+
+  <div class="right">
+    <img class="imgright" id="posterImg" alt="Uh oh broken">
+  </div>
+</div>
+
+<div id="footer"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("posterImg").src = window.vars.imgVAR + "md_poster.png";
+});
+</script>
+
+</body>
+</html>
 
