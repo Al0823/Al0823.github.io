@@ -185,7 +185,7 @@ border-radius: 20px;;
   color: rgb(0, 0, 0);
   border-radius: 20px;
 }
-}
+
 a {
 text-decoration: none;
 color: rgb(0, 0, 0);
@@ -343,71 +343,3 @@ flex-grow: 1;
 
 
 
-[loop start=10&end=50&advance=.25]
-.fs-[index]{
-font-size: [math][index]/10[/math]rem!Important;
-}
-[/loop]
-
-[loop start=10&end=100&advance=5]
-.pad-[index]{
-padding: [math][index]/10[/math]rem!Important;
-}
-
-.pad-b-[index]{
-padding-bottom: [math][index]/10[/math]rem!Important;
-}
-
-.pad-t-[index]{
-padding-top: [math][index]/10[/math]rem!Important;
-}
-
-.pad-l-[index]{
-padding-left: [math][index]/10[/math]rem!Important;
-}
-
-.pad-r-[index]{
-padding-right: [math][index]/10[/math]rem!Important;
-}
-
-.margin-[index]{
-margin: [math][index]/10[/math]rem!Important;
-}
-
-.margin-b-[index]{
-margin-bottom: [math][index]/10[/math]rem!Important;
-}
-
-.margin-t-[index]{
-padding-top: [math][index]/10[/math]rem!Important;}
-
-.margin-l-[index]{
-margin-left: [math][index]/10[/math]rem!Important;}
-
-.margin-r-[index]{
-margin-right: [math][index]/10[/math]rem!Important;}
-
-
-[/loop]
-
-[loop start=5&end=100&advance=5]
-.mh-[index]{
-min-height: [index]%!Important;
-}
-[/loop]
-
-
-[search db=[CSSVAR]colors.db&eqSTATUSdatarq=1]
-[founditems]
-
-.TC-[title] {
-color:rgb([RGB1], [RGB2], [RGB3])!Important;
-}
-[loop start=1&end=10]
-.TCGB-[title]-a[index] {
-background-color: rgb([RGB1], [RGB2], [RGB3])[math][index]/10[/math]!Important;
-}
-[/loop]
-
-[/founditems]
-[/search]
