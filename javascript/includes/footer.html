@@ -1,30 +1,24 @@
 <footer id="footerText"></footer>
-
 <div id="debugArea"></div>
 
 <script>
+(function() {
+  const footerEl = document.getElementById("footerText");
+  if (!footerEl) return;
 
-
-  
   const now = new Date();
   const dateStr = now.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
+    weekday: "long", year: "numeric", month: "long", day: "numeric"
   });
   const timeStr = now.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit"
+    hour: "numeric", minute: "2-digit"
   });
 
-  document.getElementById("footerText").innerHTML =
-    "Copyright " + dateStr + " - " + timeStr;
+  footerEl.textContent = "Copyright " + dateStr + " - " + timeStr;
 
-
-  if (window.vars && window.vars.DEBUGVAR) {
+  // Load debug section if DEBUGVAR is true
+  if (window.vars && window.vars.DEBUGVAR && typeof loadInclude === "function") {
     loadInclude("debugArea", window.vars.INCVAR + "debug.html");
   }
-
-
+})();
 </script>
