@@ -9,24 +9,21 @@
 <div id="devNotice" style="display:none;">Dev stuff is showing</div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+// 🧠 WEBSITE TITLE
+window.vars.WEBSITETITLE = "Javascript Wiki";
 
-  // 🧠 WEBSITE TITLE (replaces [text]WEBSITETITLE)
-  window.vars.WEBSITETITLE = "Javascript Wiki";
+// 🏷 Page title
+document.title = window.vars.WEBSITETITLE + " - " + window.vars.PAGETITLE;
 
-  // 🏷 Page title (replaces <title> WebDNA)
-  document.title = window.vars.WEBSITETITLE + " - " + window.vars.PAGETITLE;
+// 🎨 CSS include
+document.getElementById("mainStylesheet").href =
+  window.vars.CSSVAR + "style.css";
 
-  // 🎨 CSS include (replaces [include style.css])
-  document.getElementById("mainStylesheet").href =
-    window.vars.CSSVAR + "style.css";
+// 🐞 Debug notice
+if (window.vars.DEBUGVAR) {
+  document.getElementById("devNotice").style.display = "block";
+}
 
-  // 🐞 Debug notice (replaces [showif])
-  if (window.vars.DEBUGVAR) {
-    document.getElementById("devNotice").style.display = "block";
-  }
-
-});
 </script>
 
 </header>
