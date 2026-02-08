@@ -1,0 +1,318 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>NUMBER PROPERTIES Javascript tutorial</h2>
+<br><br>
+
+
+This is the "NUMBER PROPERTIES" Javascript page, it teaches you how to write this code and how it works.<BR><BR>
+Now what this code can do is help with controlling and converting numbers which makes NUMBER code easier.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<DIV CLASS="FS-10">In Javascript there are seven different kinds of Number Properties, these methods are listed down below.</DIV><br><br>
+<DIV CLASS="FS-10">
+
+
+<UL>
+<LI>Number.EPSILON</LI>
+<LI>Number.MAX_VALUE</LI>
+<LI>Number.MAX_VALUE</LI>
+<LI>Number.MAX_SAFE_INTEGER</LI>
+<LI>Number.MIN_SAFE_INTEGER</LI>
+<LI>Number.POSITIVE_INFINITY</LI>
+<LI>Number.NEGATIVE_INFINITY</LI>
+<LI>Number.NaN</LI>
+</UL>
+</DIV><br><br>
+
+
+<DIV CLASS="FS-15">Javascript EPSILON</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.EPSILON is the difference between the smallest floating point number greater than 1 and 1.</DIV><BR><BR>
+
+<p id="NUMEP"></p>
+
+<script>
+let x = Number.EPSILON;
+document.getElementById("NUMEP").innerHTML = x;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Number.EPSILON is an ES6 feature.
+<BR><BR>
+It does not work in Internet Explorer.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Javascript MAX_VALUE</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MAX_VALUE is a constant representing the largest possible number in JavaScript.
+</DIV><BR><BR>
+<p id="NUMMAXVAL"></p>
+
+<script>
+let x = Number.MAX_VALUE;
+document.getElementById("NUMMAXVAL").innerHTML = x;
+</script><BR><BR>
+
+<DIV CLASS="FS-15">Number Properties Cannot be Used on Variables</DIV><BR><BR>
+<DIV CLASS="FS-10">Number properties belong to the JavaScript Number Object.
+<BR><BR>
+These properties can only be accessed as Number.MAX_VALUE.
+<BR><BR>
+Using x.MAX_VALUE, where x is a variable or a value, will return undefined.
+</DIV><BR><BR>
+<p id="NUMPROPEX"></p>
+
+<script>
+let x = 6;
+document.getElementById("NUMPROPEX").innerHTML = x.MAX_VALUE;
+</script><BR><BR>
+
+<DIV CLASS="FS-15">JavaScript MIN_VALUE</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MIN_VALUE is a constant representing the lowest possible number in JavaScript.
+</DIV><BR><BR>
+
+<p id="NUMMINVAL"></p>
+
+<script>
+let x = Number.MIN_VALUE;
+document.getElementById("NUMMINVAL").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">Minimum and Maximum Safe Integers</DIV><BR><BR>
+<DIV CLASS="FS-10">ES6 added max and min properties to the Number object, these properties are listed below.<br><br>
+<ul>
+<li>Number.MAX_SAFE_INTEGER</li>
+<li>Number.MIN_SAFE_INTEGER</li>
+</ul>
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">JavaScript MIN_SAFE_INTEGER</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MIN_SAFE_INTEGER represents the minimum safe integer in JavaScript.
+<br><br>
+Number.MIN_SAFE_INTEGER is -(253 - 1).
+</DIV><BR><BR>
+
+<p id="NUMMININT"></p>
+
+<script>
+let x = Number.MIN_SAFE_INTEGER;
+document.getElementById("NUMMININT").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript MAX_SAFE_INTEGER</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MAX_SAFE_INTEGER represents the maximum safe integer in JavaScript.
+<BR><BR>
+Number.MAX_SAFE_INTEGER is (253 - 1).
+</DIV><BR><BR>
+
+<p id="NUMMAXINT"></p>
+
+<script>
+let x = Number.MAX_SAFE_INTEGER;
+document.getElementById("NUMMAXINT").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript POSITIVE_INFINITY</DIV><BR><BR>
+
+<p id="NUMPOSINF1"></p>
+
+<script>
+let x = Number.POSITIVE_INFINITY;
+document.getElementById("NUMPOSINF1").innerHTML = x;
+</script><BR><BR>
+
+<p id="NUMPOSINF2"></p>
+
+<script>
+let x = 1 / 0;
+document.getElementById("NUMPOSINF2").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript NEGATIVE_INFINITY</DIV><BR><BR>
+<p id="NUMNEGINF1"></p>
+
+<script>
+let x = Number.NEGATIVE_INFINITY;
+document.getElementById("NUMNEGINF1").innerHTML = x;
+</script><BR><BR>
+
+<p id="NUMNEGINF2"></p>
+
+<script>
+let x = -1 / 0;
+document.getElementById("NUMNEGINF2").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript NaN - Not a Number</DIV><BR><BR>
+<DIV CLASS="FS-10">NaN is a JavaScript reserved word for a number that is not a legal number.
+</DIV><BR><BR>
+<p id="NUMNAN1"></p>
+
+<script>
+document.getElementById("NUMNAN1").innerHTML = Number.NaN;
+</script><BR><BR>
+
+<p id="NUMNAN2"></p>
+
+<script>
+document.getElementById("NUMNAN2").innerHTML = Number.NaN;
+</script><BR><BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<DIV CLASS="FS-10">In Javascript there are seven different kinds of Number Properties, these methods are listed down below.</DIV><br><br>
+<DIV CLASS="FS-10">
+
+
+<UL>
+<LI>Number.EPSILON</LI>
+<LI>Number.MAX_VALUE</LI>
+<LI>Number.MAX_VALUE</LI>
+<LI>Number.MAX_SAFE_INTEGER</LI>
+<LI>Number.MIN_SAFE_INTEGER</LI>
+<LI>Number.POSITIVE_INFINITY</LI>
+<LI>Number.NEGATIVE_INFINITY</LI>
+<LI>Number.NaN</LI>
+</UL>
+</DIV><br><br>
+
+
+<DIV CLASS="FS-15">Javascript EPSILON</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.EPSILON is the difference between the smallest floating point number greater than 1 and 1.</DIV><BR><BR>
+
+<p id="NUMEP"></p>
+
+<script>
+let x = Number.EPSILON;
+document.getElementById("NUMEP").innerHTML = x;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Number.EPSILON is an ES6 feature.
+<BR><BR>
+It does not work in Internet Explorer.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Javascript MAX_VALUE</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MAX_VALUE is a constant representing the largest possible number in JavaScript.
+</DIV><BR><BR>
+<p id="NUMMAXVAL"></p>
+
+<script>
+let x = Number.MAX_VALUE;
+document.getElementById("NUMMAXVAL").innerHTML = x;
+</script><BR><BR>
+
+<DIV CLASS="FS-15">Number Properties Cannot be Used on Variables</DIV><BR><BR>
+<DIV CLASS="FS-10">Number properties belong to the JavaScript Number Object.
+<BR><BR>
+These properties can only be accessed as Number.MAX_VALUE.
+<BR><BR>
+Using x.MAX_VALUE, where x is a variable or a value, will return undefined.
+</DIV><BR><BR>
+<p id="NUMPROPEX"></p>
+
+<script>
+let x = 6;
+document.getElementById("NUMPROPEX").innerHTML = x.MAX_VALUE;
+</script><BR><BR>
+
+<DIV CLASS="FS-15">JavaScript MIN_VALUE</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MIN_VALUE is a constant representing the lowest possible number in JavaScript.
+</DIV><BR><BR>
+
+<p id="NUMMINVAL"></p>
+
+<script>
+let x = Number.MIN_VALUE;
+document.getElementById("NUMMINVAL").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">Minimum and Maximum Safe Integers</DIV><BR><BR>
+<DIV CLASS="FS-10">ES6 added max and min properties to the Number object, these properties are listed below.<br><br>
+<ul>
+<li>Number.MAX_SAFE_INTEGER</li>
+<li>Number.MIN_SAFE_INTEGER</li>
+</ul>
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">JavaScript MIN_SAFE_INTEGER</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MIN_SAFE_INTEGER represents the minimum safe integer in JavaScript.
+<br><br>
+Number.MIN_SAFE_INTEGER is -(253 - 1).
+</DIV><BR><BR>
+
+<p id="NUMMININT"></p>
+
+<script>
+let x = Number.MIN_SAFE_INTEGER;
+document.getElementById("NUMMININT").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript MAX_SAFE_INTEGER</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.MAX_SAFE_INTEGER represents the maximum safe integer in JavaScript.
+<BR><BR>
+Number.MAX_SAFE_INTEGER is (253 - 1).
+</DIV><BR><BR>
+
+<p id="NUMMAXINT"></p>
+
+<script>
+let x = Number.MAX_SAFE_INTEGER;
+document.getElementById("NUMMAXINT").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript POSITIVE_INFINITY</DIV><BR><BR>
+
+<p id="NUMPOSINF1"></p>
+
+<script>
+let x = Number.POSITIVE_INFINITY;
+document.getElementById("NUMPOSINF1").innerHTML = x;
+</script><BR><BR>
+
+<p id="NUMPOSINF2"></p>
+
+<script>
+let x = 1 / 0;
+document.getElementById("NUMPOSINF2").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript NEGATIVE_INFINITY</DIV><BR><BR>
+<p id="NUMNEGINF1"></p>
+
+<script>
+let x = Number.NEGATIVE_INFINITY;
+document.getElementById("NUMNEGINF1").innerHTML = x;
+</script><BR><BR>
+
+<p id="NUMNEGINF2"></p>
+
+<script>
+let x = -1 / 0;
+document.getElementById("NUMNEGINF2").innerHTML = x;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript NaN - Not a Number</DIV><BR><BR>
+<DIV CLASS="FS-10">NaN is a JavaScript reserved word for a number that is not a legal number.
+</DIV><BR><BR>
+<p id="NUMNAN1"></p>
+
+<script>
+document.getElementById("NUMNAN1").innerHTML = Number.NaN;
+</script><BR><BR>
+
+<p id="NUMNAN2"></p>
+
+<script>
+document.getElementById("NUMNAN2").innerHTML = Number.NaN;
+</script><BR><BR>
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Random Numbers Tutorial</h2>
+    <p>JavaScript uses the <strong>Math.random()</strong> method to generate random numbers. This is commonly used in games, simulations, and decision-making logic.</p>
+
+    <h3>Basic Random Number</h3>
+    <p><code>Math.random()</code> returns a number between 0 (inclusive) and 1 (exclusive).</p>
+
+    <pre><code>let num = Math.random();
+console.log(num);</code></pre>
+
+    <h3>Random Whole Numbers</h3>
+    <p>To get a random whole number, combine <code>Math.random()</code> with <code>Math.floor()</code>.</p>
+
+    <pre><code>// Random number from 0 to 9
+let num = Math.floor(Math.random() * 10);</code></pre>
+
+    <h3>Random Number in a Range</h3>
+    <pre><code>// Random number from 1 to 100
+let num = Math.floor(Math.random() * 100) + 1;</code></pre>
+
+    <h3>Example Output</h3>
+    <pre><code id="randomExample"></code></pre>
+
+    <script>
+      document.getElementById("randomExample").textContent =
+        "Random decimal: " + Math.random() +
+        "\nRandom 1-10: " + (Math.floor(Math.random() * 10) + 1) +
+        "\nRandom 1-100: " + (Math.floor(Math.random() * 100) + 1);
+    </script>
+
+    <h3>Interactive Examples</h3>
+
+    <p><strong>Dice Roll 🎲</strong></p>
+    <button id="diceBtn">Roll Dice</button>
+    <pre id="diceOutput"></pre>
+
+    <p><strong>Coin Flip 🪙</strong></p>
+    <button id="coinBtn">Flip Coin</button>
+    <pre id="coinOutput"></pre>
+
+    <script>
+      document.getElementById("diceBtn").addEventListener("click", () => {
+        const dice = Math.floor(Math.random() * 6) + 1;
+        document.getElementById("diceOutput").textContent = "You rolled: " + dice;
+      });
+
+      document.getElementById("coinBtn").addEventListener("click", () => {
+        const coin = Math.random() < 0.5 ? "Heads" : "Tails";
+        document.getElementById("coinOutput").textContent = "Result: " + coin;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now();
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Random Numbers Tutorial";
+
+// Footer date
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
+  " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

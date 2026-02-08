@@ -1,0 +1,210 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>ARRAY SEARCH Javascript tutorial</h2>
+<br><br>
+
+
+This is the "ARRAY SEARCH" Javascript page, it teaches you how to write this code and how it works.<BR><BR>
+Now what this code can do is help to find previously existing arrays and values in such Arrays.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">JavaScript Array indexOf()</DIV><BR><BR>
+<DIV CLASS="FS-10">The indexOf() method searches an array for an element value and returns its position.<BR><BR>The first item has position 0, the second item has position 1, and so on
+</DIV><BR><BR>
+<p id="ARRAYSEARCH1"></p>
+
+<script>
+const fruits = ["Apple", "Orange", "Apple", "Mango"];
+let position = fruits.indexOf("Apple") + 1;
+
+document.getElementById("ARRAYSEARCH1").innerHTML = "Apple is found in position " + position;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array lastIndexOf()</DIV><BR><BR>
+<DIV CLASS="FS-10">Array.lastIndexOf() is the same as Array.indexOf(), but returns the position of the last occurrence of the specified element.
+</DIV><BR><BR>
+<p id="ARRAYSEARCH2"></p>
+
+<script>
+const fruits = ["Apple", "Orange", "Apple", "Mango"];
+let position = fruits.lastIndexOf("Apple") + 1;
+
+document.getElementById("ARRAYSEARCH2").innerHTML = "Apple is found in position " + position;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array includes()</DIV><BR><BR>
+<DIV CLASS="FS-10">ECMAScript 2016 introduced Array.includes() to arrays. This allows us to check if an element is present in an array (including NaN, unlike indexOf).
+</DIV><BR><BR>
+<p id="ARRAYSEARCH3"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSEARCH3").innerHTML = fruits.includes("Mango");
+</script><BR><BR>
+<DIV CLASS="FS-10">Array.includes() allows to check for NaN values. Unlike Array.indexOf().</DIV><BR><BR>
+<DIV CLASS="FS-15">JJavaScript Array find()</DIV><BR><BR>
+<DIV CLASS="FS-10">The find() method returns the value of the first array element that passes a test function.
+<BR><BR>
+This example finds (returns the value of) the first element that is larger than 18
+</DIV><BR><BR>
+<p id="ARRAYSEARCH4"></p>
+
+<script>
+const numbers = [4, 9, 16, 25, 29];
+let first = numbers.find(myFunction);
+
+document.getElementById("ARRAYSEARCH4").innerHTML = "First number over 18 is " + first;
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array findIndex()</DIV><BR><BR>
+<DIV CLASS="FS-10">The findIndex() method returns the index of the first array element that passes a test function.
+<BR><BR>
+This example finds the index of the first element that is larger than 18
+</DIV><BR><BR>
+<p id="ARRAYSEARCH5"></p>
+
+<script>
+const numbers = [4, 9, 16, 25, 29];
+
+document.getElementById("ARRAYSEARCH5").innerHTML = "First number over 18 has index " + numbers.findIndex(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array findLast() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2023 added the findLast() method that will start from the end of an array and return the value of the first element that satisfies a condition.
+</DIV><BR><BR>
+<p id="ARRAYSEARCH6"></p>
+
+<script>
+const temp = [27, 28, 30, 40, 42, 35, 30];
+let high = temp.findLast(x => x > 40);
+
+document.getElementById("ARRAYSEARCH6").innerHTML = "The last temperature over 40 was " + high;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array findLastIndex() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The findLastIndex() method finds the index of the last element that satisfies a condition.
+</DIV><BR><BR>
+<p id="ARRAYSEARCH7"></p>
+
+<script>
+const temp = [27, 28, 30, 40, 42, 35, 30];
+let pos = temp.findLastIndex(x => x > 40);
+
+document.getElementById("ARRAYSEARCH7").innerHTML = "The last temperature over 40 was in position " + pos;
+</script><BR><BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<DIV CLASS="FS-15">JavaScript Array indexOf()</DIV><BR><BR>
+<DIV CLASS="FS-10">The indexOf() method searches an array for an element value and returns its position.<BR><BR>The first item has position 0, the second item has position 1, and so on
+</DIV><BR><BR>
+<p id="ARRAYSEARCH1"></p>
+
+<script>
+const fruits = ["Apple", "Orange", "Apple", "Mango"];
+let position = fruits.indexOf("Apple") + 1;
+
+document.getElementById("ARRAYSEARCH1").innerHTML = "Apple is found in position " + position;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array lastIndexOf()</DIV><BR><BR>
+<DIV CLASS="FS-10">Array.lastIndexOf() is the same as Array.indexOf(), but returns the position of the last occurrence of the specified element.
+</DIV><BR><BR>
+<p id="ARRAYSEARCH2"></p>
+
+<script>
+const fruits = ["Apple", "Orange", "Apple", "Mango"];
+let position = fruits.lastIndexOf("Apple") + 1;
+
+document.getElementById("ARRAYSEARCH2").innerHTML = "Apple is found in position " + position;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array includes()</DIV><BR><BR>
+<DIV CLASS="FS-10">ECMAScript 2016 introduced Array.includes() to arrays. This allows us to check if an element is present in an array (including NaN, unlike indexOf).
+</DIV><BR><BR>
+<p id="ARRAYSEARCH3"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSEARCH3").innerHTML = fruits.includes("Mango");
+</script><BR><BR>
+<DIV CLASS="FS-10">Array.includes() allows to check for NaN values. Unlike Array.indexOf().</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array find()</DIV><BR><BR>
+<DIV CLASS="FS-10">The find() method returns the value of the first array element that passes a test function.
+<BR><BR>
+This example finds (returns the value of) the first element that is larger than 18
+</DIV><BR><BR>
+<p id="ARRAYSEARCH4"></p>
+
+<script>
+const numbers = [4, 9, 16, 25, 29];
+let first = numbers.find(myFunction);
+
+document.getElementById("ARRAYSEARCH4").innerHTML = "First number over 18 is " + first;
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array findIndex()</DIV><BR><BR>
+<DIV CLASS="FS-10">The findIndex() method returns the index of the first array element that passes a test function.
+<BR><BR>
+This example finds the index of the first element that is larger than 18
+</DIV><BR><BR>
+<p id="ARRAYSEARCH5"></p>
+
+<script>
+const numbers = [4, 9, 16, 25, 29];
+
+document.getElementById("ARRAYSEARCH5").innerHTML = "First number over 18 has index " + numbers.findIndex(myFunction);
+
+function myFunction(value, index, array) {
+  return value > 18;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array findLast() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2023 added the findLast() method that will start from the end of an array and return the value of the first element that satisfies a condition.
+</DIV><BR><BR>
+<p id="ARRAYSEARCH6"></p>
+
+<script>
+const temp = [27, 28, 30, 40, 42, 35, 30];
+let high = temp.findLast(x => x > 40);
+
+document.getElementById("ARRAYSEARCH6").innerHTML = "The last temperature over 40 was " + high;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array findLastIndex() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The findLastIndex() method finds the index of the last element that satisfies a condition.
+</DIV><BR><BR>
+<p id="ARRAYSEARCH7"></p>
+
+<script>
+const temp = [27, 28, 30, 40, 42, 35, 30];
+let pos = temp.findLastIndex(x => x > 40);
+
+document.getElementById("ARRAYSEARCH7").innerHTML = "The last temperature over 40 was in position " + pos;
+</script><BR><BR>
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Date Formats Tutorial</h2>
+    <p>This page teaches you how to format dates in JavaScript. Date objects can be displayed in different ways using built-in methods or custom formatting.</p>
+
+    <h3>Common Date Formats</h3>
+    <ul>
+      <li><code>toDateString()</code> – returns the date in a readable format (e.g., "Fri Feb 05 2026")</li>
+      <li><code>toTimeString()</code> – returns only the time (e.g., "15:30:45 GMT-0500 (EST)")</li>
+      <li><code>toLocaleDateString()</code> – returns the date in local format (e.g., "2/5/2026")</li>
+      <li><code>toLocaleTimeString()</code> – returns the time in local format (e.g., "3:30:45 PM")</li>
+      <li><code>toISOString()</code> – returns the date in ISO 8601 format (e.g., "2026-02-05T20:30:45.000Z")</li>
+    </ul>
+
+    <h3>Examples</h3>
+    <pre><code id="formatExample"></code></pre>
+
+    <script>
+      const now = new Date();
+      const formats = `
+toDateString(): ${now.toDateString()}
+toTimeString(): ${now.toTimeString()}
+toLocaleDateString(): ${now.toLocaleDateString()}
+toLocaleTimeString(): ${now.toLocaleTimeString()}
+toISOString(): ${now.toISOString()}
+      `;
+      document.getElementById("formatExample").textContent = formats;
+    </script>
+
+    <h3>Custom Date Format</h3>
+    <p>You can build your own format using the get methods:</p>
+    <pre><code id="customFormatExample"></code></pre>
+
+    <script>
+      const day = now.getDate();
+      const month = now.getMonth() + 1; // months are 0-based
+      const year = now.getFullYear();
+      const hour = now.getHours();
+      const minute = now.getMinutes();
+      const second = now.getSeconds();
+
+      document.getElementById("customFormatExample").textContent =
+        `Custom Format: ${month}/${day}/${year} ${hour}:${minute}:${second}`;
+    </script>
+
+    <p>This produces a string like: <em>2/5/2026 15:30:45</em>, and you can adjust it for any format you want.</p>
+
+    <h3>Interactive Example</h3>
+    <p>Click the button to see the current date and time in different formats:</p>
+    <button id="showDateBtn">Show Current Date & Time</button>
+    <pre id="interactiveOutput"></pre>
+
+    <script>
+      document.getElementById("showDateBtn").addEventListener("click", () => {
+        const now = new Date();
+        document.getElementById("interactiveOutput").textContent =
+          `toDateString(): ${now.toDateString()}
+toLocaleDateString(): ${now.toLocaleDateString()}
+toLocaleTimeString(): ${now.toLocaleTimeString()}
+toISOString(): ${now.toISOString()}`;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS (non-static, auto-refresh)
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now(); // cache-buster
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Date Formats Tutorial";
+
+// Date in footer
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() + " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

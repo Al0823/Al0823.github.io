@@ -1,0 +1,479 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>String Search Javascript tutorial</h2>
+<br><br>
+
+
+This is the "String Search" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what a "String Search" is in Javascript is it is the process of finding a certain substring or pattern inside a larger string.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<div class="fs-15">JavaScript String indexOf()</div>
+<br><br>
+<div class="fs-10">The indexOf() method returns the index (position) of the first occurrence of a string in a string, or it returns -1 if the string is not found.</div><br><br>
+<p id="STRINGSEARCH"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.indexOf("locate");
+document.getElementById("STRINGSEARCH").innerHTML = index; 
+</script>
+<br><br>
+<div class="fs-10">Javascript counts positions from zero
+<br><br>
+0 is the first position in a string, 1 would be the second and so on so forth.</div><br><br>
+<div class="fs-15">JavaScript String lastIndexOf()</div>
+<br><br>
+<div class="fs-10">The lastIndexOf() method returns the index of the last occurrence of a specified text in a string</div><br><br>
+<p id="STRINGSEARCH2"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.lastIndexOf("locate");
+document.getElementById("STRINGSEARCH2").innerHTML = index;
+</script><br><br>
+Both indexOf(), and lastIndexOf() will return -1 if the text is not found.
+<br><br>
+<p id="STRINGSEARCH3"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.indexOf("Aloysius");
+document.getElementById("STRINGSEARCH3").innerHTML = index;
+</script>
+<br><br>
+Both of these methods accept a second parameter as the starting position for the search.
+<br><br>
+<p id="STRINGSEARCH4"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.indexOf("locate",300);
+document.getElementById("STRINGSEARCH4").innerHTML = index; 
+</script>
+<BR><BR>
+The lastIndexOf() methods searches backwards from end to start. Which means if the second parameter is 300, the search starts at position 300, and searches to the Start of the string.
+<br><br>
+<div class="fs-15">Javascript String Search()</div><br><br>
+<div class="fs-10">The search() method searches a string for a string or a basic expression and returns the position of the match.</div><br><br>
+<p id="STRINGSEARCH5"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.search("locate");
+document.getElementById("STRINGSEARCH5").innerHTML = index; 
+</script><BR><BR>
+<p id="STRINGSEARCH6"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.search(/locate/);
+document.getElementById("STRINGSEARCH6").innerHTML = index;
+</script><BR><BR>
+<div class="fs-10">You may have noticed that indexOf() and search() are almost identical in how they look.<br><br>
+They are NOT the same, they have differences; these differences are:
+<br><br>
+The search() method cannot take a second start position argument.
+<br><br>
+The indexOf() method cannot take powerful search values also known as regular expressions.
+<br><br>
+<div class="fs-15">Javascript String match()</div><br><br>
+<div class="fs-10">The match() method returns an array containing the results of matching a string against a string also known as a regular expression</div><br><br>
+<p id="STRINGSEARCH7"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain";
+const myArr = text.match("ain");
+document.getElementById("STRINGSEARCH7").innerHTML = myArr.length + " " + myArr;
+</script>
+<br><br>
+
+<p id="STRINGSEARCH8"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain"; 
+const myArr = text.match(/ain/);
+document.getElementById("STRINGSEARCH8").innerHTML = myArr.length + " " + myArr;
+
+</script>
+<br><br>
+
+<p id="STRINGSEARCH9"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain"; 
+const myArr = text.match(/ain/g);
+document.getElementById("STRINGSEARCH9").innerHTML = myArr.length + " " + myArr;
+</script>
+<br><br>
+
+<p id="STRINGSEARCH10"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain"; 
+const myArr = text.match(/ain/gi);
+document.getElementById("STRINGSEARCH10").innerHTML = myArr.length + " " + myArr;
+</script>
+<br><br>
+
+<Div class="fs-10">
+
+If a regular expression lacks the g (global) modifier, the match() method returns only the first match found in the string.<br><br>
+</div>
+<div class="fs-15">String matchAll( )</div>
+
+<div class="fs-10>"The matchAll( ) method returns an iterator with all results from matching a string against another string or a regular expression.</div><br>
+
+<br>
+<p id="STRINGSEARCH11"></p>
+
+<script>
+let text = "I love rats. Rats are very easy to love. Rats are very popular."
+const iterator = text.matchAll("Rats");
+
+document.getElementById("STRINGSEARCH11").innerHTML = Array.from(iterator);
+</script>
+
+<br><br>
+
+<div class="fs-10">When using a normal expression as the parameter, the global flag (g) is needed; otherwise, a TypeError will be thrown.</div>
+
+<br><br>
+<p id="STRINGSEARCH12"></p>
+
+<script>
+let text = "I love cats. Cats are very easy to love. Cats are very popular."
+const iterator = text.matchAll(/Cats/g);
+
+document.getElementById("STRINGSEARCH12").innerHTML = Array.from(iterator);
+</script>
+
+<br><br>
+
+To perform a case-insensitive search, the insensitive flag (i) must be included.
+
+<br><br>
+<p id="STRINGSEARCH13"></p>
+
+<script>
+let text = "I love cats. Cats are very easy to love. Cats are very popular."
+const iterator = text.matchAll(/Cats/gi);
+
+document.getElementById("STRINGSEARCH13").innerHTML = Array.from(iterator);
+</script>
+<br><br>
+
+<DIV CLASS="FS-10">
+
+The matchAll( ) method was introduced in 2020.
+It is not supported in Internet Explorer.</DIV><br><br>
+
+<div class="fs-15">String includes( )</div>
+
+The includes( ) method returns true if a string contains the specified value; otherwise, it returns false.<br><br>
+
+<p id="STRINGSEARCH14"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH14").innerHTML = text.includes("world");
+</script><BR><BR>
+
+Check if a string includes "world" then start at position 600.<br>
+
+<br><br>
+let text = "Hello world, welcome to the universe.";
+text.includes("world", 600);
+<br><br>
+
+The includes( ) method is case-sensitive. It was introduced in 2015<br><br>
+
+<div class="fs-15">String startsWith( )</div>
+
+The startsWith( ) method returns true if a string starts with a specified value; otherwise, it returns false.<br><br>
+
+<p id="STRINGSEARCH15"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH15").innerHTML = text.startsWith("Hello");
+</script>
+<br><br>
+
+<p id="STRINGSEARCH16"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH16").innerHTML = text.startsWith("world");
+</script>
+<br><br>
+
+<div class="fs-10">You can also specify a starting position for the search.</div><br><br>
+
+<p id="STRINGSEARCH17"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH17").innerHTML = text.startsWith("world", 700);
+</script>
+<br><br>
+
+<p id="STRINGSEARCH18"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH18").innerHTML = text.startsWith("world", 700);
+</script>
+<br><br>
+
+<DIV CLASS="FS-10">The startsWith( ) method is case-sensitive. It was introduced in 2015.</DIV><br><br>
+<div class="fs-15">String [URLendsWith( )</div>
+
+<DIV CLASS="FS-10">The endsWith( ) method returns true if a string ends with the specified value; otherwise, it returns false.</DIV><br><br>
+
+[/input]
+</textarea>
+<br><br>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+
+<div class="fs-15">JavaScript String indexOf()</div>
+<br><br>
+<div class="fs-10">The indexOf() method returns the index (position) of the first occurrence of a string in a string, or it returns -1 if the string is not found.</div><br><br>
+<p id="STRINGSEARCH"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.indexOf("locate");
+document.getElementById("STRINGSEARCH").innerHTML = index; 
+</script>
+<br><br>
+<div class="fs-10">Javascript counts positions from zero
+<br><br>
+0 is the first position in a string, 1 would be the second and so on so forth.</div><br><br>
+<div class="fs-15">JavaScript String lastIndexOf()</div>
+<br><br>
+<div class="fs-10">The lastIndexOf() method returns the index of the last occurrence of a specified text in a string</div><br><br>
+<p id="STRINGSEARCH2"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.lastIndexOf("locate");
+document.getElementById("STRINGSEARCH2").innerHTML = index;
+</script><br><br>
+Both indexOf(), and lastIndexOf() will return -1 if the text is not found.
+<br><br>
+<p id="STRINGSEARCH3"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.indexOf("Aloysius");
+document.getElementById("STRINGSEARCH3").innerHTML = index;
+</script>
+<br><br>
+Both of these methods accept a second parameter as the starting position for the search.
+<br><br>
+<p id="STRINGSEARCH4"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.indexOf("locate",300);
+document.getElementById("STRINGSEARCH4").innerHTML = index; 
+</script>
+<BR><BR>
+The lastIndexOf() methods searches backwards from end to start. Which means if the second parameter is 300, the search starts at position 300, and searches to the Start of the string.
+<br><br>
+<div class="fs-15">Javascript String Search()</div><br><br>
+<div class="fs-10">The search() method searches a string for a string or a basic expression and returns the position of the match.</div><br><br>
+<p id="STRINGSEARCH5"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.search("locate");
+document.getElementById("STRINGSEARCH5").innerHTML = index; 
+</script><BR><BR>
+<p id="STRINGSEARCH6"></p>
+
+<script>
+let text = "Please locate where 'locate' occurs!";
+let index = text.search(/locate/);
+document.getElementById("STRINGSEARCH6").innerHTML = index;
+</script><BR><BR>
+<div class="fs-10">You may have noticed that indexOf() and search() are almost identical in how they look.<br><br>
+They are NOT the same, they have differences; these differences are:
+<br><br>
+The search() method cannot take a second start position argument.
+<br><br>
+The indexOf() method cannot take powerful search values also known as regular expressions.
+<br><br>
+<div class="fs-15">Javascript String match()</div><br><br>
+<div class="fs-10">The match() method returns an array containing the results of matching a string against a string also known as a regular expression</div><br><br>
+<p id="STRINGSEARCH7"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain";
+const myArr = text.match("ain");
+document.getElementById("STRINGSEARCH7").innerHTML = myArr.length + " " + myArr;
+</script>
+<br><br>
+
+<p id="STRINGSEARCH8"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain"; 
+const myArr = text.match(/ain/);
+document.getElementById("STRINGSEARCH8").innerHTML = myArr.length + " " + myArr;
+
+</script>
+<br><br>
+
+<p id="STRINGSEARCH9"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain"; 
+const myArr = text.match(/ain/g);
+document.getElementById("STRINGSEARCH9").innerHTML = myArr.length + " " + myArr;
+</script>
+<br><br>
+
+<p id="STRINGSEARCH10"></p>
+
+<script>
+let text = "The rain in SPAIN stays mainly in the plain"; 
+const myArr = text.match(/ain/gi);
+document.getElementById("STRINGSEARCH10").innerHTML = myArr.length + " " + myArr;
+</script>
+<br><br>
+
+<Div class="fs-10">
+
+If a regular expression lacks the g (global) modifier, the match() method returns only the first match found in the string.<br><br>
+</div>
+<div class="fs-15">String matchAll( )</div>
+
+<div class="fs-10>"The matchAll( ) method returns an iterator with all results from matching a string against another string or a regular expression.</div><br>
+
+<br>
+<p id="STRINGSEARCH11"></p>
+
+<script>
+let text = "I love rats. Rats are very easy to love. Rats are very popular."
+const iterator = text.matchAll("Rats");
+
+document.getElementById("STRINGSEARCH11").innerHTML = Array.from(iterator);
+</script>
+
+<br><br>
+
+<div class="fs-10">When using a normal expression as the parameter, the global flag (g) is needed; otherwise, a TypeError will be thrown.</div>
+
+<br><br>
+<p id="STRINGSEARCH12"></p>
+
+<script>
+let text = "I love cats. Cats are very easy to love. Cats are very popular."
+const iterator = text.matchAll(/Cats/g);
+
+document.getElementById("STRINGSEARCH12").innerHTML = Array.from(iterator);
+</script>
+
+<br><br>
+
+To perform a case-insensitive search, the insensitive flag (i) must be included.
+
+<br><br>
+<p id="STRINGSEARCH13"></p>
+
+<script>
+let text = "I love cats. Cats are very easy to love. Cats are very popular."
+const iterator = text.matchAll(/Cats/gi);
+
+document.getElementById("STRINGSEARCH13").innerHTML = Array.from(iterator);
+</script>
+<br><br>
+
+<DIV CLASS="FS-10">
+
+The matchAll( ) method was introduced in 2020.
+It is not supported in Internet Explorer.</DIV><br><br>
+
+<div class="fs-15">String includes( )</div>
+
+The includes( ) method returns true if a string contains the specified value; otherwise, it returns false.<br><br>
+
+<p id="STRINGSEARCH14"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH14").innerHTML = text.includes("world");
+</script><BR><BR>
+
+
+
+The includes( ) method is case-sensitive. It was introduced in 2015<br><br>
+
+<div class="fs-15">String startsWith( )</div>
+
+The startsWith( ) method returns true if a string starts with a specified value; otherwise, it returns false.<br><br>
+
+<p id="STRINGSEARCH15"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH15").innerHTML = text.startsWith("Hello");
+</script>
+<br><br>
+
+<p id="STRINGSEARCH16"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH16").innerHTML = text.startsWith("world");
+</script>
+<br><br>
+
+<div class="fs-10">You can also specify a starting position for the search.</div><br><br>
+
+<p id="STRINGSEARCH17"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH17").innerHTML = text.startsWith("world", 700);
+</script>
+<br><br>
+
+<p id="STRINGSEARCH18"></p>
+
+<script>
+let text = "Hello world, welcome to the universe.";
+document.getElementById("STRINGSEARCH18").innerHTML = text.startsWith("world", 700);
+</script>
+<br><br>
+
+<DIV CLASS="FS-10">The startsWith( ) method is case-sensitive. It was introduced in 2015.</DIV><br><br>
+<div class="fs-15">String [URLendsWith( )</div>
+
+<DIV CLASS="FS-10">The endsWith( ) method returns true if a string ends with the specified value; otherwise, it returns false.</DIV><br><br>
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

@@ -1,0 +1,590 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>OBJECTS Javascript tutorial</h2>
+<br><br>
+
+<DIV CLASS="FS-10">
+This is the "OBJECTS" Javascript page, it teaches you how to write this code and how it works.
+<BR><BR>
+Now what an "Object" is in Javascript is a variable that can hold many variables.
+</DIV>
+
+<DIV CLASS="FS-15">What is an Object?</DIV><BR><BR>
+<DIV CLASS="FS-10">
+An "Object" in Javascript is a collection of key-value pairs, where each key(aka property names) has a value.<BR><BR>
+Objects can describe anything like people, cars, animals, etc.
+</DIV>
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<p id="OBJECTS"></p>
+
+<script>
+// Create an Object:
+const car = {type:"PONTIAC", model:"GTO", color:"PLUM CRAZY PURPLE"};
+
+// Display Data from the Object:
+document.getElementById("OBJECTS").innerHTML =
+"The car type is " + car.type;
+</script>
+<BR>
+<DIV CLASS="FS-10">The code above assigns several values (PONTIAC, GTO, PLUM CRAZY PURPLE) to an object named "car."
+</DIV>
+
+<DIV CLASS="FS-15">How to make an Object in Javascript</DIV><BR><BR>
+<DIV CLASS="FS-10">An Object Literal is a relevant way to create an Object.<BR><BR>
+An Object literal is a list of "key : value" pairs inside curly braces.
+</DIV>
+<BR><BR>
+
+<p id="OBJECTS2"></p>
+
+<script>
+// Create an Object:
+const person = {firstName:"Aloysius", lastName:"Konys-Merrill", age:17, eyeColor:"Brown"};
+
+// Display Data from the Object:
+document.getElementById("OBJECTS2").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+
+<p id="OBJECTS3"></p>
+
+<script>
+// Create an Object:
+const person = {
+  firstName: "Aloysius",
+  lastName: "Konys-Merrill",
+  age: 17,
+  eyeColor: "Brown"
+};
+
+// Display Data from the Object:
+document.getElementById("OBJECTS3").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+
+<p id="OBJECTS4"></p>
+
+<script>
+// Create an empty Object
+const person = {};
+
+// Add Properties
+person.firstName = "Aloysius";
+person.lastName = "Konys-Merrill";
+person.age = 17;
+person.eyeColor = "brown"; 
+
+// Display Data from Object
+document.getElementById("OBJECTS4").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">In Object terms, the key : value pairs are the object properties<BR><BR>
+All the examples above, make a JavaScript object with 4 properties.
+<BR><BR>
+You can also create an empty object, and add the properties later.
+<BR><BR>
+</DIV>
+
+<p id="OBJECTS5"></p>
+
+<script>
+// Create an Object
+const person = new Object({
+  firstName: "Aloysius",
+  lastName: "Konys-Merrill",
+  age: 17,
+  eyeColor: "brown" 
+});
+
+// Display Object Content
+document.getElementById("OBJECTS5").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">Create a new JavaScript object using new "Object()"</DIV><BR><BR>
+
+<DIV CLASS="FS-15">OBJECT Properties</DIV><BR><BR>
+
+<p id="OBJECTS6"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS6").innerHTML = person.firstname + " is " + person.age + " years old.";
+</script>
+<BR>
+<p id="OBJECTS7"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS7").innerHTML = person["firstname"] + " is " + person["age"] + " years old.";
+</script>
+
+<DIV CLASS="FS-10">
+There are two ways to access Object Properties.
+<BR>
+The first way is by using "."
+<BR>
+The second way is by using "[]"
+<BR>
+There are examples of both of these above this statement.
+</DIV>
+<BR>
+
+<DIV CLASS="FS-15">Javascript OBJECT Methods</DIV>
+<BR>
+<DIV CLASS="FS-10">
+Object methods are actions that can be performed on objects.
+<br>
+An Object method is a series of function definitions stored as property values.
+</DIV>
+<br>
+
+<p id="OBJECTS8"></p>
+
+<script>
+const person = {
+  firstName: "Aloysius",
+  lastName: "Konys-Merrill",
+  id: 0067,
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+
+document.getElementById("OBJECTS8").innerHTML = person.fullName();
+</script>
+<BR>
+<DIV CLASS="FS-10">
+In the example presented above, "this" is refering to the person OBJECT.
+<br>
+"this.firstName" is the "firstName" property of "person"
+<br>
+"this.lastName" is the "lastName" property of "person"
+</DIV>
+<br>
+
+<DIV CLASS="FS-15">How to display Javascript OBJECTS</DIV>
+<br>
+<DIV CLASS="FS-10">When you display a Javascript OBJECT, it will output [object OBJECT]</DIV>
+<br>
+<p id="OBJECTS9"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Object
+let text = person;
+
+document.getElementById("OBJECTS9").innerHTML = text;
+</script>
+<br>
+<DIV CLASS="FS-15">Displaying OBJECT Properties</DIV>
+<br>
+<DIV CLASS="FS-10">An Object's properties can be added in a string.</DIV>
+<br>
+<p id="OBJECTS10"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Properties
+let text = person.name + ", " + person.age + ", " + person.city;
+
+document.getElementById("OBJECTS10").innerHTML = text;
+</script>
+<BR>
+<DIV CLASS="FS-15">OBJECT Constructor Functions</DIV>
+<br>
+<DIV CLASS="FS-10">When making an "Object type", you must use an "OBJECT constructor function"
+<br>
+</DIV>
+<br>
+
+<p id="OBJECTS11"></p>
+
+<script>
+// Constructor Function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create a Person object
+const mybioFather = new Person("Robert", "Konys", 43, "hazel");
+
+// Display age
+document.getElementById("OBJECTS11").innerHTML =
+"My father is " + mybioFather.age + "."; 
+</script>
+<br>
+<DIV CLASS="FS-10">
+In the constructor function above, "this" has no value.
+<br>
+The value of "this" will become a new object when a new object is created.
+<br>
+In the function below, we can use "new Person()" to create many new Person objects.
+</DIV>
+<BR>
+<p id="OBJECTS12"></P>
+
+<script>
+
+// Constructor function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create two Person objects
+const myFather = new Person("Nicholas", "Merrill", 37, "blue");
+const myMother = new Person("Shayla", "Merrill", 27, "brown");
+
+// Display age
+document.getElementById("OBJECTS12").innerHTML =
+"My father is " + myFather.age + ". My mother is " + myMother.age + "."; 
+
+</script>
+<BR>
+<DIV CLASS="FS-15">Summary</DIV>
+<br>
+<DIV CLASS="FS-10">
+"Objects" are containers for "Properties" and "Methods"
+<BR>
+"Properties" are named "Values"
+<BR>
+"Methods" are "Functions" stored as "Properties".
+<BR>
+"Properties" can be primitive values, functions, or even other objects.
+<BR>
+"Constructors" are Object "Prototypes"
+</DIV>
+<BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<p id="OBJECTS"></p>
+
+<script>
+// Create an Object:
+const car = {type:"PONTIAC", model:"GTO", color:"PLUM CRAZY PURPLE"};
+
+// Display Data from the Object:
+document.getElementById("OBJECTS").innerHTML =
+"The car type is " + car.type;
+</script>
+<BR>
+<DIV CLASS="FS-10">The code above assigns several values (PONTIAC, GTO, PLUM CRAZY PURPLE) to an object named "car."
+</DIV>
+
+<DIV CLASS="FS-15">How to make an Object in Javascript</DIV><BR><BR>
+<DIV CLASS="FS-10">An Object Literal is a relevant way to create an Object.<BR><BR>
+An Object literal is a list of "key : value" pairs inside curly braces.
+</DIV>
+<BR><BR>
+
+<p id="OBJECTS2"></p>
+
+<script>
+// Create an Object:
+const person = {firstName:"Aloysius", lastName:"Konys-Merrill", age:17, eyeColor:"Brown"};
+
+// Display Data from the Object:
+document.getElementById("OBJECTS2").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+
+<p id="OBJECTS3"></p>
+
+<script>
+// Create an Object:
+const person = {
+  firstName: "Aloysius",
+  lastName: "Konys-Merrill",
+  age: 17,
+  eyeColor: "Brown"
+};
+
+// Display Data from the Object:
+document.getElementById("OBJECTS3").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+
+<p id="OBJECTS4"></p>
+
+<script>
+// Create an empty Object
+const person = {};
+
+// Add Properties
+person.firstName = "Aloysius";
+person.lastName = "Konys-Merrill";
+person.age = 17;
+person.eyeColor = "brown"; 
+
+// Display Data from Object
+document.getElementById("OBJECTS4").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">In Object terms, the key : value pairs are the object properties<BR><BR>
+All the examples above, make a JavaScript object with 4 properties.
+<BR><BR>
+You can also create an empty object, and add the properties later.
+<BR><BR>
+</DIV>
+
+<p id="OBJECTS5"></p>
+
+<script>
+// Create an Object
+const person = new Object({
+  firstName: "Aloysius",
+  lastName: "Konys-Merrill",
+  age: 17,
+  eyeColor: "brown" 
+});
+
+// Display Object Content
+document.getElementById("OBJECTS5").innerHTML =
+person.firstName + " is " + person.age + " years old.";
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">Create a new JavaScript object using new "Object()"</DIV><BR><BR>
+
+<DIV CLASS="FS-15">OBJECT Properties</DIV><BR><BR>
+
+<p id="OBJECTS6"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS6").innerHTML = person.firstname + " is " + person.age + " years old.";
+</script>
+<BR>
+<p id="OBJECTS7"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS7").innerHTML = person["firstname"] + " is " + person["age"] + " years old.";
+</script>
+
+<DIV CLASS="FS-10">
+There are two ways to access Object Properties.
+<BR>
+The first way is by using "."
+<BR>
+The second way is by using "[]"
+<BR>
+There are examples of both of these above this statement.
+</DIV>
+<BR>
+
+<DIV CLASS="FS-15">Javascript OBJECT Methods</DIV>
+<BR>
+<DIV CLASS="FS-10">
+Object methods are actions that can be performed on objects.
+<br>
+An Object method is a series of function definitions stored as property values.
+</DIV>
+<br>
+
+<p id="OBJECTS8"></p>
+
+<script>
+const person = {
+  firstName: "Aloysius",
+  lastName: "Konys-Merrill",
+  id: 0067,
+  fullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+
+document.getElementById("OBJECTS8").innerHTML = person.fullName();
+</script>
+<BR>
+<DIV CLASS="FS-10">
+In the example presented above, "this" is refering to the person OBJECT.
+<br>
+"this.firstName" is the "firstName" property of "person"
+<br>
+"this.lastName" is the "lastName" property of "person"
+</DIV>
+<br>
+
+<DIV CLASS="FS-15">How to display Javascript OBJECTS</DIV>
+<br>
+<DIV CLASS="FS-10">When you display a Javascript OBJECT, it will output [object OBJECT]</DIV>
+<br>
+<p id="OBJECTS9"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Object
+let text = person;
+
+document.getElementById("OBJECTS9").innerHTML = text;
+</script>
+<br>
+<DIV CLASS="FS-15">Displaying OBJECT Properties</DIV>
+<br>
+<DIV CLASS="FS-10">An Object's properties can be added in a string.</DIV>
+<br>
+<p id="OBJECTS10"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Properties
+let text = person.name + ", " + person.age + ", " + person.city;
+
+document.getElementById("OBJECTS10").innerHTML = text;
+</script>
+<BR>
+<DIV CLASS="FS-15">OBJECT Constructor Functions</DIV>
+<br>
+<DIV CLASS="FS-10">When making an "Object type", you must use an "OBJECT constructor function"
+<br>
+</DIV>
+<br>
+
+<p id="OBJECTS11"></p>
+
+<script>
+// Constructor Function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create a Person object
+const mybioFather = new Person("Robert", "Konys", 43, "hazel");
+
+// Display age
+document.getElementById("OBJECTS11").innerHTML =
+"My father is " + mybioFather.age + "."; 
+</script>
+<br>
+<DIV CLASS="FS-10">
+In the constructor function above, "this" has no value.
+<br>
+The value of "this" will become a new object when a new object is created.
+<br>
+In the function below, we can use "new Person()" to create many new Person objects.
+</DIV>
+<BR>
+<p id="OBJECTS12"></P>
+
+<script>
+
+// Constructor function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create two Person objects
+const myFather = new Person("Nicholas", "Merrill", 37, "blue");
+const myMother = new Person("Shayla", "Merrill", 27, "brown");
+
+// Display age
+document.getElementById("OBJECTS12").innerHTML =
+"My father is " + myFather.age + ". My mother is " + myMother.age + "."; 
+
+</script>
+<BR>
+<DIV CLASS="FS-15">Summary</DIV>
+<br>
+<DIV CLASS="FS-10">
+"Objects" are containers for "Properties" and "Methods"
+<BR>
+"Properties" are named "Values"
+<BR>
+"Methods" are "Functions" stored as "Properties".
+<BR>
+"Properties" can be primitive values, functions, or even other objects.
+<BR>
+"Constructors" are Object "Prototypes"
+</DIV>
+<BR>
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

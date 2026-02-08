@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<main>
+  <div id="nav"></div>
+
+<article>
+<h2>LET Javascript tutorial</h2>
+<br><br>
+
+
+This is the "LET" Javascript page, it teaches you how to write this code and how it works.
+Now what this code can do is change what some text says, it can also make buttons and just possibly redirects you if you know what you are doing.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<p id="LET"></p>
+<script>
+
+{
+  let x = 2;
+}
+
+let x = 67;
+
+document.getElementById("LET").innerHTML = "The value of x is" x;
+
+
+</script><br>
+
+"let" statements will not work outside of the squiggly brackets. If it was working, x would equal 2. They do not work because they are apart of the block scope.<br>
+
+<p id="LET2"></p>
+<script>
+
+{
+  var y = 2;
+}
+
+let x = 65;
+
+let z = x + y;
+
+document.getElementById("LET2").innerHTML = "The value of z is" + z;
+
+
+</script><br>
+
+"let" statements will not work outside of the squiggly brackets but "var" statments will. This is because "VAR" statements are old, also because they are apart of the global scope.<br>
+
+<p id="LET3"></p>
+<script>
+
+let x = "Skibidi";
+
+let x = 67;
+
+document.getElementById("LET3").innerHTML = x;
+
+
+</script>
+
+Variables defined with "let" cannot be redeclared.<br>
+
+<p id="LET4"></p>
+<script>
+
+var x = "Skibidi";
+
+var x = 67;
+
+document.getElementById("LET4").innerHTML = x;
+
+
+</script>
+
+Variables defined with "var" can be redeclared. Redeclaring a variable with "var" inside a block will also redeclare the variable out side the block, this can impose problems. But using a "let" statement instead can fix this issue.<br>
+
+<p id="LET5"></p>
+
+<script>
+let x = 67;   // Allowed
+
+{
+  let x = 34 + 33;   // Allowed
+}
+
+{
+  let x = 2 * 33.5;   // Allowed
+}
+
+Declaring "let" statements alone in separate blocks is safe though.
+document.getElementById("LET5").innerHTML = x;
+</script>
+[/input]
+</textarea>
+
+
+
+
+
+
+
+<h2>EXAMPLES</h2>
+<br><br>
+
+<p id="LET"></p>
+<script>
+
+{
+  let x = 2;
+}
+
+let x = 67;
+
+document.getElementById("LET").innerHTML = "The value of x is" x;
+
+
+</script><br>
+
+"let" statements will not work outside of the squiggly brackets. If it was working, x would equal 2. They do not work because they are apart of the block scope.<br>
+
+<p id="LET2"></p>
+<script>
+
+{
+  var y = 2;
+}
+
+let x = 65;
+
+let z = x + y;
+
+document.getElementById("LET2").innerHTML = "The value of z is" + z;
+
+
+</script><br>
+
+"let" statements will not work outside of the squiggly brackets but "var" statments will. This is because "VAR" statements are old, also because they are apart of the global scope.<br>
+
+<p id="LET3"></p>
+<script>
+
+let x = "Skibidi";
+
+let x = 67;
+
+document.getElementById("LET3").innerHTML = x;
+
+
+</script>
+
+Variables defined with "let" cannot be redeclared.<br>
+
+<p id="LET4"></p>
+<script>
+
+var x = "Skibidi";
+
+var x = 67;
+
+document.getElementById("LET4").innerHTML = x;
+
+
+</script>
+
+Variables defined with "var" can be redeclared. Redeclaring a variable with "var" inside a block will also redeclare the variable out side the block, this can impose problems. But using a "let" statement instead can fix this issue.<br>
+
+<p id="LET5"></p>
+
+<script>
+let x = 67;   // Allowed
+
+{
+  let x = 34 + 33;   // Allowed
+}
+
+{
+  let x = 2 * 33.5;   // Allowed
+}
+
+Declaring "let" statements alone in separate blocks is safe though.
+document.getElementById("LET5").innerHTML = x;
+</script>
+
+  </article>
+ </main> 
+<div id="footer"></div>
+
+<script src="../includes/include.js"></script>
+<script src="../includes/db-debug.js"></script>
+
+</body>
+</html>

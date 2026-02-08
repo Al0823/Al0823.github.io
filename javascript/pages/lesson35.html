@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Dates Tutorial</h2>
+    This page teaches you how to work with <strong>Date objects</strong> in JavaScript. You can create a Date object to get the current date and time, or set a specific date.<br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+    <textarea id="textbox" rows="10" cols="70">
+const d = new Date("2022-03-25");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+     <div class="fs-10">
+Date objects are static. The "clock" is not "running".
+<br><br>
+The computer clock is ticking, date objects are not.
+     </div><br><br>
+    <div class="fs-15">JavaScript Date Output</div><br><br>
+    <div class="fs-10">
+By default, JavaScript will use the browser's time zone and display a date as a full text string:
+<br><br>
+Fri Feb 06 2026 06:29:43 GMT-0500 (Eastern Standard Time)
+<br><br>
+You will learn much more about how to display dates, later in this tutorial.
+    </div><br><br>
+<h3>Examples</h3>    
+    <h3>Creating a Date Object</h3>
+    <p>Use the <code>Date()</code> constructor:</p>
+    <pre><code>let today = new Date();
+console.log(today);</code></pre>
+
+    <h3>Getting the Current Date and Time</h3>
+    <p>You can use methods like <code>getFullYear()</code>, <code>getMonth()</code>, <code>getDate()</code>, <code>getHours()</code>, etc.</p>
+    <pre><code>let now = new Date();
+let year = now.getFullYear();
+let month = now.getMonth() + 1; 
+let day = now.getDate();
+let hour = now.getHours();
+let minute = now.getMinutes();
+
+console.log(`Today is ${month}/${day}/${year} ${hour}:${minute}`);</code></pre>
+
+    <h3>Setting a Specific Date</h3>
+    <p>You can create a Date object for a specific date:</p>
+    <pre><code>let birthday = new Date("2005-06-15");
+console.log(birthday);</code></pre>
+
+    <h3>Other Useful Date Methods</h3>
+    <ul>
+      <li><code>getDay()</code> – returns the day of the week (0–6)</li>
+      <li><code>getTime()</code> – returns milliseconds since January 1, 1970</li>
+      <li><code>setFullYear(year)</code>, <code>setMonth(month)</code>, <code>setDate(day)</code> – modify a date</li>
+    </ul>
+
+    <h3>Example: Display Current Date and Time on Page</h3>
+    <p>Try this snippet:</p>
+    <pre><code id="dateExample"></code></pre>
+
+    <script>
+      const now = new Date();
+      document.getElementById("dateExample").textContent =
+        now.toLocaleString();
+    </script>
+
+    <p>This will output something like: <em>2/5/2026, 3:15:20 PM</em> depending on your local time.</p>
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now(); // cache-buster
+  document.head.appendChild(link);
+})();
+
+
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
+
+
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() + " - " + new Date().toLocaleString();
+
+
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<main>
+  <div id="nav"></div>
+
+<article>
+<h2>Comments Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Comments" Javascript page, it teaches you how to write this code and how it works.
+Now what this code can do keep code from firing and it can be used to make notes on your website that will only show in your text editing software.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<h1 id="MYHEADER"></h1>
+<p id="MYPARAGRAPH"></p>
+
+<script>
+// Change heading:
+document.getElementById("MYHEADER").innerHTML = "JavaScript Comments";
+// Change paragraph:
+document.getElementById("MYPARAGRAPH").innerHTML = "My first paragraph.";
+</script>
+
+What the Comment code above does is hide the "Change Heading" and "Change Paragraph" labels on the front end of the website. But it still shows in the Code and in textarea boxes.
+
+<p id="DECLARE"></p>
+
+<script>
+let x = 5;      // Declare x, give it the value of 5
+let y = x + 2;  // Declare y, give it the value of x + 2 
+
+// Write y to demo:
+document.getElementById("DECLARE").innerHTML = y;
+</script>
+
+What this Comment code (above) does is similar to the last one, but instead of labeling what some code does. It is explaining what it does.
+
+
+<h1 id="MYHEADER2"></h1>
+<p id="MYPARAGRAPH2"></p>
+
+<script>
+/*
+The code below is going to change
+the heading with id = "MYHEADER2"
+and the paragraph with id = "MYPARAGRAPH2"
+*/
+document.getElementById("MYHEADER2").innerHTML = "JavaScript Comments part 2";
+document.getElementById("MYPARAGRAPH2").innerHTML = "My second paragraph.";
+</script>
+
+What the Comment code (above) does is explain that the Heading and paragraph are gonna change with certain IDs applied. This comment tag looks different though, it looks different because this type of Comment tag allows your comment to be multiple lines long.
+
+<h1 id="MYHEADER3"></h1>
+
+<p id="MYPARAGRAPH3"></p>
+
+<script>
+//document.getElementById("MYHEADER3").innerHTML = "My Third Page";
+document.getElementById("MYPARAGRAPH3").innerHTML = "My Third paragraph.";
+</script>
+
+What the Comment code (above) does is keep "MYHEADER3" from firing on the page that it is on.
+
+<h1 id="MYHEADER4"></h1>
+
+<p id="MYPARAGRAPH4"></p>
+
+<script>
+/*
+document.getElementById("MYHEADER4").innerHTML = "Welcome to my Homepage";
+document.getElementById("MYPARAGRAPH4").innerHTML = "This is my fourth paragraph.";
+*/
+document.getElementById("MYPARAGRAPH4").innerHTML = "The things in the comment do not fire.";
+</script>
+
+As seen above, you can also use the multi-line comment tag to disable code as well.
+
+[/input]
+</textarea>
+
+
+
+
+<h2>Live Examples</h2>
+<br><br>
+
+<h1 id="MYHEADER"></h1>
+<p id="MYPARAGRAPH"></p>
+
+<script>
+// Change heading:
+document.getElementById("MYHEADER").innerHTML = "JavaScript Comments";
+// Change paragraph:
+document.getElementById("MYPARAGRAPH").innerHTML = "My first paragraph.";
+</script>
+
+What the Comment code above does is hide the "Change Heading" and "Change Paragraph" labels on the front end of the website. But it still shows in the Code and in textarea boxes. As you can see above, you cannot see the "Change Heading" and "Change Paragraph" labels because they are in the Comment tag.
+
+<p id="DECLARE"></p>
+
+<script>
+let x = 5;      // Declare x, give it the value of 5
+let y = x + 2;  // Declare y, give it the value of x + 2 
+
+// Write y to demo:
+document.getElementById("DECLARE").innerHTML = "DECLARE"
+document.getElementById("DECLARE").innerHTML = y;
+</script>
+
+What this Comment code (above) does is similar to the last one, but instead of labeling what some code does. It is explaining what it does. As you can see (above), you cannot see the "Declare" explanations because they are in the Comment tag.
+
+
+<h1 id="MYHEADER2"></h1>
+<p id="MYPARAGRAPH2"></p>
+
+<script>
+/*
+The code below is going to change
+the heading with id = "MYHEADER2"
+and the paragraph with id = "MYPARAGRAPH2"
+*/
+document.getElementById("MYHEADER2").innerHTML = "JavaScript Comments part 2";
+document.getElementById("MYPARAGRAPH2").innerHTML = "My second paragraph.";
+</script>
+
+What the Comment code (above) does is explain that the Heading and paragraph are gonna change with certain IDs applied. This comment tag looks different though, it looks different because this type of Comment tag allows your comment to be multiple lines long. As you can see above, you cannot see the Comment tag just like a normal one.
+
+<h1 id="MYHEADER3"></h1>
+
+<p id="MYPARAGRAPH3"></p>
+
+<script>
+//document.getElementById("MYHEADER3").innerHTML = "My Third Page";
+document.getElementById("MYPARAGRAPH3").innerHTML = "My Third paragraph seeeeee.";
+</script>
+
+What the Comment code (above) does is keep "MYHEADER3" from firing on the page that it is on. You cannot see that it is commented out right now though, this is because we are on the front-end of the website.
+
+<h1 id="MYHEADER4"></h1>
+
+<p id="MYPARAGRAPH4"></p>
+
+<script>
+/*
+document.getElementById("MYHEADER4").innerHTML = "Welcome to my Homepage";
+document.getElementById("MYPARAGRAPH4").innerHTML = "This is my fourth paragraph.";
+*/
+document.getElementById("MYPARAGRAPH4").innerHTML = "The things in the comment do not fire seeeeee.";
+</script>
+
+As seen above, you can also use the multi-line comment tag to disable code as well. Right now you cannot see what is commented out though.
+
+  </article>
+ </main> 
+<div id="footer"></div>
+
+<script src="../includes/include.js"></script>
+<script src="../includes/db-debug.js"></script>
+
+</body>
+</html>

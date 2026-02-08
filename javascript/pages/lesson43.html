@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript If / Else Tutorial</h2>
+    <p><strong>If statements</strong> are used to make decisions in JavaScript. They run different code depending on whether a condition is true or false.</p>
+
+    <h3>The if Statement</h3>
+    <pre><code>let age = 18;
+
+if (age >= 18) {
+  console.log("You are an adult.");
+}</code></pre>
+
+    <h3>The else Statement</h3>
+    <pre><code>let age = 16;
+
+if (age >= 18) {
+  console.log("Adult");
+} else {
+  console.log("Minor");
+}</code></pre>
+
+    <h3>The else if Statement</h3>
+    <pre><code>let score = 85;
+
+if (score >= 90) {
+  console.log("Grade A");
+} else if (score >= 80) {
+  console.log("Grade B");
+} else {
+  console.log("Keep trying!");
+}</code></pre>
+
+    <h3>Example Output</h3>
+    <pre><code id="ifExample"></code></pre>
+
+    <script>
+      let temperature = 30;
+      let message;
+
+      if (temperature > 30) {
+        message = "It's hot!";
+      } else if (temperature >= 20) {
+        message = "Nice weather.";
+      } else {
+        message = "It's cold!";
+      }
+
+      document.getElementById("ifExample").textContent = message;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Enter your age:</p>
+    <input type="number" id="ageInput" placeholder="Enter age">
+    <button id="checkAgeBtn">Check Age</button>
+    <pre id="ageOutput"></pre>
+
+    <script>
+      document.getElementById("checkAgeBtn").addEventListener("click", () => {
+        const age = Number(document.getElementById("ageInput").value);
+        let result;
+
+        if (age >= 18) {
+          result = "You are an adult.";
+        } else if (age > 0) {
+          result = "You are a minor.";
+        } else {
+          result = "Please enter a valid age.";
+        }
+
+        document.getElementById("ageOutput").textContent = result;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now();
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript If / Else Tutorial";
+
+// Footer date
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
+  " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<main>
+  <div id="nav"></div>
+
+<article>
+<h2>Variables Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Variables" Javascript page, it teaches you how to write this code and how it works.
+Now what this code does is that it works like a data container, there are 4 ways to declare variables. These ways are using the "let"(Modern way), "const"(Modern way), "var"(old way), or let it do it Automatically(old way). Variables can be a large amount of symbols and letters as well.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+
+
+
+<p id="87"></p>
+
+<p id="VARIABLES"></p>
+
+<script>
+let x = 44;
+let y = 43;
+let z = x + y;
+
+document.getElementById("VARIABLES").innerHTML = "The value of z is " + z;
+document.getElementById("87").innerHTML = "WAS THAT THE BITE OF 87?!"
+
+</script>
+
+As you can see above, the "x," "y," and "z" values are being declared as Variables.
+
+<p id="VARIABLES2"></p>
+
+<script>
+const x = 6;
+const y = 7;
+const z = x + y;
+
+document.getElementById("VARIABLES2").innerHTML = "The value of z is " + z;
+</script>
+
+As you can see above the "x," "y," and "z" values are being declared as Variables. This is the same thing as the prior one but with "const" tags instead.
+
+<p id="VARIABLES3"></p>
+
+<script>
+let _x = 2;
+let _100 = 5;
+
+document.getElementById("VARIABLES3").innerHTML = _x + _100;
+</script>
+
+"_" is a valid part of script tags.
+
+<p id="VARIABLES4"></p>
+
+<script>
+let $$$ = 2;
+let $myMoney = 65;
+
+document.getElementById("VARIABLES4").innerHTML = $$$ + $myMoney;
+</script>
+
+The money sign also works for these things, people do not use it often though. Apparently professional coders use it to organize their libraries.
+
+<p id="VARIABLES5"></p>
+
+<script>
+let carName;
+
+carName = "Pontiac";
+
+document.getElementById("VARIABLES5").innerHTML = carName;
+</script>
+
+Declaring a variable by using a "let" tag. It will most often be undeclared alone, but when you pair it with the second part of the script. The Variable then gets a value and you can summon it using a "document" tag which makes a working javascript piece.
+
+<p id="VARIABLES6">mixing let and const</p>
+
+<script>
+const price1 = 5;
+const price2 = 62;
+let total = price1 + price2;
+
+document.getElementById("VARIABLES6").innerHTML = "The total is: " + total;
+</script>
+
+You should use "Const" if you do not want the value being declared with it to NOT be changeable. "Let" statements are good for values that you want to be changeable. In this example "price1" and "price2" are not changeable, but the total is changeable.
+
+<p id="VARIABLES67"></p>
+
+<script>
+x = 5;
+y = 6;
+z = x + y;
+
+document.getElementById("VARIABLES67").innerHTML = "The value of z is " + z;
+</script>
+
+Undeclared variables are automatically declared when first used. This method is not recommended but can work. In this example "x," "y," and "z" are undeclared until used.
+
+<p id="VARIABLES7"></p>
+
+<script>
+var x = 61;
+var y = 6;
+var z = x + y;
+
+document.getElementById("VARIABLES7").innerHTML = "The value of z is " + z;
+</script>
+
+Declaring Variables using "VAR" is not recommended, it is old-fashioned and has flaws.
+
+<p id="VARIABLES8"></p>
+
+<script>
+let person = "Aloysius Konys-Merrill",
+carName = "Pontiac",
+price = 200;
+
+document.getElementById("VARIABLES8").innerHTML = carName;
+</script>
+
+You can declare multiple variables in one "let" statement.
+
+
+</textarea>
+
+
+
+
+<h2>Demonstration</h2>
+<br><br>
+
+
+<p id="87"></p>
+
+<p id="VARIABLES"></p>
+
+<script>
+let x = 44;
+let y = 43;
+let z = x + y;
+
+document.getElementById("VARIABLES").innerHTML = "The value of z is " + z;
+document.getElementById("87").innerHTML = "WAS THAT THE BITE OF 87?!"
+
+</script>
+
+As you can see above, the "x," "y," and "z" values are being declared as Variables.
+
+<p id="VARIABLES2"></p>
+
+<script>
+const x = 6;
+const y = 7;
+const z = x + y;
+
+document.getElementById("VARIABLES2").innerHTML = "The value of z is " + z;
+</script>
+
+As you can see above the "x," "y," and "z" values are being declared as Variables. This is the same thing as the prior one but with "const" tags instead.
+
+<p id="VARIABLES3"></p>
+
+<script>
+let _x = 2;
+let _100 = 5;
+
+document.getElementById("VARIABLES3").innerHTML = _x + _100;
+</script>
+
+"_" is a valid part of script tags.
+
+<p id="VARIABLE4"></p>
+
+<script>
+let $$$ = 2;
+let $myMoney = 65;
+
+document.getElementById("VARIABLES4").innerHTML = $$$ + $myMoney;
+</script>
+
+The money sign also works for these things, people do not use it often though. Apparently professional coders use it to organize their libraries.
+
+<p id="VARIABLES5"></p>
+
+<script>
+let carName;
+
+carName = "Pontiac";
+
+document.getElementById("VARIABLES5").innerHTML = carName;
+</script>
+
+Declaring a variable by using a "let" tag. It will most often be undeclared alone, but when you pair it with the second part of the script. The Variable then gets a value and you can summon it using a "document" tag which makes a working javascript piece.
+
+<p id="VARIABLES6">mixing let and const</p>
+
+<script>
+const price1 = 5;
+const price2 = 62;
+let total = price1 + price2;
+
+document.getElementById("VARIABLES6").innerHTML = "The total is: " + total;
+</script>
+
+You should use "Const" if you do not want the value being declared with it to NOT be changeable. "Let" statements are good for values that you want to be changeable. In this example "price1" and "price2" are not changeable, but the total is changeable.
+
+<p id="VARIABLES67"></p>
+
+<script>
+x = 5;
+y = 6;
+z = x + y;
+
+document.getElementById("VARIABLES67").innerHTML = "The value of z is " + z;
+</script>
+
+Undeclared variables are automatically declared when first used. This method is not recommended but can work. In this example "x," "y," and "z" are undeclared until used.
+
+<p id="VARIABLES7"></p>
+
+<script>
+var x = 61;
+var y = 6;
+var z = x + y;
+
+document.getElementById("VARIABLES7").innerHTML = "The value of z is " + z;
+</script>
+
+Declaring Variables using "VAR" is not recommended, it is old-fashioned and has flaws.
+
+<p id="VARIABLES8"></p>
+
+<script>
+let person = "Aloysius Konys-Merrill",
+carName = "Pontiac",
+price = 200;
+
+document.getElementById("VARIABLES8").innerHTML = carName;
+</script>
+
+You can declare multiple variables in one "let" statement.
+
+
+
+
+  </article>
+ </main> 
+<div id="footer"></div>
+
+<script src="../includes/include.js"></script>
+<script src="../includes/db-debug.js"></script>
+
+</body>
+</html>

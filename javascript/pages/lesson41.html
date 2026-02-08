@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Booleans Tutorial</h2>
+    <p>A <strong>Boolean</strong> represents one of two values: <code>true</code> or <code>false</code>. Booleans are mainly used for decision-making in code.</p>
+
+    <h3>Boolean Values</h3>
+    <pre><code>let isCodingFun = true;
+let isMathBoring = false;
+
+console.log(isCodingFun);
+console.log(isMathBoring);</code></pre>
+
+    <h3>Booleans from Comparisons</h3>
+    <p>Comparisons return Boolean values.</p>
+
+    <pre><code id="comparisonExample"></code></pre>
+
+    <script>
+      let x = 10;
+      let y = 5;
+
+      document.getElementById("comparisonExample").textContent =
+`x > y: ${x > y}
+x < y: ${x < y}
+x == y: ${x == y}
+x != y: ${x != y}`;
+    </script>
+
+    <h3>The Boolean() Function</h3>
+    <p>The <code>Boolean()</code> function converts values to true or false.</p>
+
+    <pre><code id="booleanFunctionExample"></code></pre>
+
+    <script>
+      document.getElementById("booleanFunctionExample").textContent =
+`Boolean(100): ${Boolean(100)}
+Boolean(0): ${Boolean(0)}
+Boolean("Hello"): ${Boolean("Hello")}
+Boolean(""): ${Boolean("")}
+Boolean(null): ${Boolean(null)}`;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Check if a number is greater than 50:</p>
+    <input type="number" id="numInput" placeholder="Enter a number">
+    <button id="checkBtn">Check</button>
+    <pre id="resultOutput"></pre>
+
+    <script>
+      document.getElementById("checkBtn").addEventListener("click", () => {
+        const num = Number(document.getElementById("numInput").value);
+        const result = num > 50;
+        document.getElementById("resultOutput").textContent =
+          "Is number greater than 50? " + result;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now();
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Booleans Tutorial";
+
+// Footer date
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
+  " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

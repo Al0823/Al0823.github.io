@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Date Get Methods Tutorial</h2>
+    <p>The <strong>get methods</strong> are used to extract parts of a Date object, such as the year, month, day, hour, and more.</p>
+
+    <h3>Common Date Get Methods</h3>
+    <ul>
+      <li><code>getFullYear()</code> – returns the year (e.g., 2026)</li>
+      <li><code>getMonth()</code> – returns the month (0–11)</li>
+      <li><code>getDate()</code> – returns the day of the month (1–31)</li>
+      <li><code>getDay()</code> – returns the day of the week (0–6)</li>
+      <li><code>getHours()</code> – returns the hour (0–23)</li>
+      <li><code>getMinutes()</code> – returns minutes (0–59)</li>
+      <li><code>getSeconds()</code> – returns seconds (0–59)</li>
+      <li><code>getMilliseconds()</code> – returns milliseconds (0–999)</li>
+      <li><code>getTime()</code> – returns milliseconds since Jan 1, 1970</li>
+    </ul>
+
+    <h3>Example</h3>
+    <pre><code id="getMethodsExample"></code></pre>
+
+    <script>
+      const now = new Date();
+
+      const output = `
+Year: ${now.getFullYear()}
+Month (0-11): ${now.getMonth()}
+Date (day of month): ${now.getDate()}
+Day of week (0=Sun): ${now.getDay()}
+Hours: ${now.getHours()}
+Minutes: ${now.getMinutes()}
+Seconds: ${now.getSeconds()}
+Milliseconds: ${now.getMilliseconds()}
+Timestamp (ms since 1970): ${now.getTime()}
+      `;
+
+      document.getElementById("getMethodsExample").textContent = output;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Click the button to get the current date parts:</p>
+    <button id="getDateBtn">Get Current Date Parts</button>
+    <pre id="interactiveOutput"></pre>
+
+    <script>
+      document.getElementById("getDateBtn").addEventListener("click", () => {
+        const now = new Date();
+        document.getElementById("interactiveOutput").textContent =
+`Year: ${now.getFullYear()}
+Month: ${now.getMonth() + 1}
+Day: ${now.getDate()}
+Hour: ${now.getHours()}
+Minute: ${now.getMinutes()}
+Second: ${now.getSeconds()}`;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now();
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Date Get Methods Tutorial";
+
+// Footer date
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
+  " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

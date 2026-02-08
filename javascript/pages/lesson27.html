@@ -1,0 +1,716 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Number Methods Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Number methods" Javascript page, it teaches you how to write this code and how it works.
+<BR><BR>
+Now what this code does is improve the ability to function for working with numeric values. These methods can be sorted by their purpose.
+<br><br>
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-10">In Javascript there are two different kinds of Number Methods, those methods are basic methods and Static Methods</DIV><br><br>
+<div class="fs-15">BASIC METHODS</div><br><br>
+<DIV CLASS="FS-10">
+
+Basic number methods can be used on any number, these basic number methods are:<br><br>
+<UL>
+<LI>toString()</LI>
+<LI>toExponential()</LI>
+<LI>toFixed()</LI>
+<LI>toPrecision()</LI>
+<LI>valueOf()</LI>
+</UL>
+</DIV><br><br>
+<div class="fs-15">STATIC METHODS</div><br><br>
+<DIV CLASS="FS-10">
+
+Static methods can only be used on Number, these STATIC number methods are:
+<UL>
+<LI>Number.isFinite()</LI>
+<LI>Number.isInteger()</LI>
+<LI>Number.isNan()</LI>
+<LI>Number.isSafeInteger()</LI>
+<LI>Number.parseInt()</LI>
+<LI>Number.parseFloat()</LI>
+</UL>
+</DIV>
+<DIV CLASS="FS-15">The toString() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">
+The toString() method returns a number as a string.
+<BR>
+All number methods can be used on any type of numbers (literals, variables, or expressions)
+</DIV><BR>
+
+<p id="NUMMETH"></p>
+
+<script>
+let x = 123;
+document.getElementById("NUMMETH").innerHTML =
+  x.toString() + "<br>" +
+   (67).toString() + "<br>" +
+   (44 + 23).toString();
+</script><BR><BR>
+<DIV CLASS="FS-10">The toString() method can take an optional radix argument to convert the number to a different base</DIV>
+
+<p id="NUMMETH_2"></p>
+
+<script>
+let x = 123;
+let text = x.toString(2); 
+document.getElementById("NUMMETH_2").innerHTML = text;
+</script><BR><BR>
+<DIV CLASS="FS-15">The toExponential() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">
+toExponential() returns a string, with a number rounded and written using exponential notation.
+<br><br>
+A parameter defines the number of characters behind the decimal point.
+</DIV><BR><BR>
+
+
+
+
+<p id="NUMMETH_3"></p>
+
+<script>
+let x = 9.656;
+document.getElementById("NUMMETH_3").innerHTML =
+  x.toExponential() + "<br>" + 
+  x.toExponential(2) + "<br>" + 
+  x.toExponential(4) + "<br>" + 
+  x.toExponential(6);
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">
+The parameter is optional. If you don't specify it, JavaScript will not round the number.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The toFixed() Method</DIV>
+<DIV CLASS="FS-10">toFixed() returns a string, with the number written with a specified number of decimals</DIV>
+
+<p id="NUMMETH_4"></p>
+
+<script>
+let x = 9.656;
+document.getElementById("NUMMETH_4").innerHTML =
+  x.toFixed(0) + "<br>" +
+  x.toFixed(2) + "<br>" +
+  x.toFixed(4) + "<br>" +
+  x.toFixed(6);
+</script>
+
+<DIV CLASS="FS-10">toFixed(2) is perfect for working with money.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The toPrecision() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">toPrecision() returns a string, with a number written with a specified length</DIV><BR><BR>
+
+<p id="NUMMETH_5"></p>
+
+<script>
+let x = 9.656;
+document.getElementById("NUMMETH_5").innerHTML = 
+  x.toPrecision() + "<br>" +
+  x.toPrecision(2) + "<br>" +
+  x.toPrecision(4) + "<br>" +
+  x.toPrecision(6);  
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The valueOf() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">valueOf() returns a number as a number.</DIV><BR><BR>
+
+<p id="NUMMETH_6"></p>
+
+<script>
+let x = 123;
+
+document.getElementById("NUMMETH_6").innerHTML = 
+  x.valueOf() + "<br>" +
+  (70).valueOf() + "<br>" +
+  (47 + 23).valueOf();
+</script><BR><BR>
+<DIV CLASS="FS-10">In JavaScript, a number can be a primitive value (typeof = number) or an object (typeof = object).
+<BR><BR>
+The valueOf() method is used internally in JavaScript to convert Number objects to primitive values.
+<BR><BR>
+There is no reason to use it in your code.
+<BR><BR>
+All JavaScript data types have a valueOf() and a toString() method.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Converting Variables to Numbers</DIV><BR><BR>
+<DIV CLASS="FS-10">There are 3 JavaScript methods that can be used to convert a variable to a number, these methods are<br><br>
+<UL style="list-style-type: none;">
+<LI>Number()	(Returns a number converted from its argument)</LI>
+<LI>parseFloat()	(Parses its argument and returns a floating point number)</LI>
+<LI>BparseInt()	(Parses its argument and returns a whole number)</LI>
+</UL><br><br>
+
+The methods above are not number methods. They are global JavaScript methods.
+
+
+
+
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The Number() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number() method can be used to convert JavaScript variables to numbers</DIV><BR><BR>
+
+<p id="NUMMETH_7"></p>
+
+<script>
+document.getElementById("NUMMETH_7").innerHTML = 
+  Number(true) + "<br>" +
+  Number(false) + "<br>" +
+  Number("10") + "<br>" + 
+  Number("  10") + "<br>" +
+  Number("10  ") + "<br>" +
+  Number(" 10  ") + "<br>" +
+  Number("10.33") + "<br>" + 
+  Number("10,33") + "<br>" +
+  Number("10 33") + "<br>" +
+  Number("Aloysius");
+</script><BR><BR>
+<DIV CLASS="FS-10">If the number cannot be converted, NaN (Not a Number) is returned.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The Number() Method Used on Dates</DIV><BR><BR>
+<DIV CLASS="FS-10">Number() can also convert a date to a number.</DIV><BR><BR>
+
+<p id="NUMMETH_8"></p>
+
+<script>
+let x = new Date("1970-01-01");
+document.getElementById("NUMMETH_8").innerHTML = Number(x); 
+</script><BR><BR>
+
+<DIV CLASS="FS-10">The Date() method returns the number of milliseconds since 1.1.1970.
+<BR><BR>
+The number of milliseconds between 1970-01-02 and 1970-01-01 is 86400000:</DIV><BR><BR>
+<p id="NUMMETH_9"></p>
+
+<script>
+let x = new Date("1970-01-02");
+document.getElementById("NUMMETH_9").innerHTML = Number(x); 
+</script><BR><BR>
+<p id="NUMMETH_10"></p>
+
+<script>
+let x = new Date("2008-08-23");
+document.getElementById("NUMMETH_10").innerHTML = Number(x); 
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The parseInt() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">parseInt() parses a string and returns a whole number. Spaces are allowed. Only the first number is returned.
+</DIV><BR><BR>
+
+<p id="NUMMETH11"></p>
+
+<script>
+document.getElementById("NUMMETH_11").innerHTML = 
+  parseInt("-10") + "<br>" +
+  parseInt("-10.33") + "<br>" +
+  parseInt("10") + "<br>" +
+  parseInt("10.33") + "<br>" +
+  parseInt("10 6") + "<br>" +  
+  parseInt("10 years") + "<br>" +  
+  parseInt("years 10");  
+</script><BR><BR>
+<DIV CLASS="FS-10">If the number cannot be converted, NaN (Not a Number) is returned.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The parseFloat() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">parseFloat() parses a string and returns a number. Spaces are allowed and only the first number is returned.
+</DIV><BR><BR>
+
+<p id="NUMMETH_12"></p>
+
+<script>
+document.getElementById("NUMMETH_12").innerHTML = 
+  parseFloat("10") + "<br>" +
+  parseFloat("10.33") + "<br>" +
+  parseFloat("10 6") + "<br>" +  
+  parseFloat("10 years") + "<br>" +
+  parseFloat("years 10");    
+</script><BR><BR>
+<DIV CLASS="FS-10">If the number cannot be converted, NaN (Not a Number) is returned.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Number Object Methods
+</DIV><BR><BR>
+<DIV CLASS="FS-10">These object methods below belong to the Number object<br><br>
+<UL style="list-style-type: none;">
+<LI>Number.isInteger()	(Returns true if the argument is an integer)</LI>
+<LI>Number.isNaN()	(Returns true if the argument is NaN)</LI>
+<LI>Number.isFinite()	(Returns true if the argument is not Infinity nor NaN)</LI>
+<LI>Number.isSafeInteger()	(Returns true if the argument is a safe integer)</LI>
+<LI>Number.parseFloat()	(Converts a string to a number)</LI>
+<LI>Number.parseInt()	(Converts a string to a whole number)</LI>
+</UL><br><br>
+</DIV><BR><BR>
+<DIV CLASS="FS-15">The Number.isInteger() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isInteger() method returns true if the argument is an integer.
+</DIV><BR><BR>
+
+<p id="NUMMETH_13"></p>
+
+<script>
+document.getElementById("NUMMETH_13").innerHTML =
+Number.isInteger(10) + "<br>" + Number.isInteger(10.5);
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The Number.isFinite() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isFinite() method returns true if the argument is an integer.
+</DIV><BR><BR>
+
+<p id="NUMMETH_13"></p>
+
+<script>
+let result = Number.isFinite(123);
+document.getElementById("NUMMETH_13").innerHTML = result;
+</script><BR><BR>
+<DIV CLASS="FS-15">The Number.isNaN() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isNaN() method returns true if the argument is NaN (Not a Number).<BR><BR>
+Number.isNaN() is the preferred way to check for equality with NaN. You cannot test for equality with NaN using == or ===.
+</DIV><BR><BR>
+
+<p id="NUMMETH_14"></p>
+
+<script>
+let result = Number.isNaN(123);
+document.getElementById("NUMMETH_14").innerHTML = result;
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The Number.isSafeInteger() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">A safe integer is an integer that can be exactly represented as a double precision number.
+<BR><BR>
+The Number.isSafeInteger() method returns true if the argument is a safe integer.
+<BR><BR>
+Safe integers are all integers from -(253 - 1) to +(253 - 1).<BR><BR>
+This is safe: 9007199254740991. This is not safe: 9007199254740992.
+</DIV><BR><BR>
+
+<p id="NUMMETH_15"></p>
+
+<script>
+document.getElementById("NUMMETH_15").innerHTML =
+Number.isSafeInteger(10) + "<br>" + Number.isSafeInteger(12345678901234567890);
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The Number.parseFloat() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.parseFloat() parses a string and returns a number.
+<BR><BR>
+Spaces are allowed and only the first number is returned.<br><br>
+If the number cannot be converted, NaN (Not a Number) is returned.<BR><BR>
+The Number methods Number.parseInt() and Number.parseFloat() are the same as the Global methods parseInt() and parseFloat().
+<BR><BR>
+The purpose of these two methods is modularization of globals, to make it easier to use the same JavaScript code outside the browser.
+</DIV><BR><BR>
+
+<p id="NUMMETH_16"></p>
+
+<script>
+document.getElementById("NUMMETH_16").innerHTML = 
+Number.parseFloat("10") + "<br>" +
+Number.parseFloat("10.33") + "<br>" +
+Number.parseFloat("10 20 30") + "<br>" +
+Number.parseFloat("10 years") + "<br>" +
+Number.parseFloat("years 10");
+</script><BR><BR>
+<DIV CLASS="FS-15">The Number.parseInt() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.parseInt() parses a string and returns a whole number.
+<BR><BR>
+Spaces are allowed. Only the first number is returned.
+<BR><BR>
+If the number cannot be converted, NaN (Not a Number) is returned.
+</DIV><BR><BR>
+
+<p id="NUMMETH_17"></p>
+
+<script>
+document.getElementById("NUMMETH_17").innerHTML = 
+  Number.parseInt("-10") + "<br>" +
+  Number.parseInt("-10.33") + "<br>" +
+  Number.parseInt("10") + "<br>" +
+  Number.parseInt("10.33") + "<br>" +
+  Number.parseInt("10 6") + "<br>" +  
+  Number.parseInt("10 years") + "<br>" +  
+  Number.parseInt("years 10");  
+</script><BR><BR>
+<DIV CLASS="FS-15">The Number.isInteger() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isInteger() method returns true if the argument is an integer.
+</DIV><BR><BR>
+
+<p id="NUMMETH_18"></p>
+
+<script>
+document.getElementById("NUMMETH_18").innerHTML =
+Number.isInteger(10) + "<br>" + Number.isInteger(10.5);
+</script>
+
+[/input]
+</textarea>
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+
+<DIV CLASS="FS-10">In Javascript there are two different kinds of Number Methods, those methods are basic methods and Static Methods</DIV><br><br>
+<div class="fs-15">BASIC METHODS</div><br><br>
+<DIV CLASS="FS-10">
+
+Basic number methods can be used on any number, these basic number methods are:<br><br>
+<UL>
+<LI>toString()</LI>
+<LI>toExponential()</LI>
+<LI>toFixed()</LI>
+<LI>toPrecision()</LI>
+<LI>valueOf()</LI>
+</UL>
+</DIV><br><br>
+<div class="fs-15">STATIC METHODS</div><br><br>
+<DIV CLASS="FS-10">
+
+Static methods can only be used on Number, these STATIC number methods are:
+<UL>
+<LI>Number.isFinite()</LI>
+<LI>Number.isInteger()</LI>
+<LI>Number.isNan()</LI>
+<LI>Number.isSafeInteger()</LI>
+<LI>Number.parseInt()</LI>
+<LI>Number.parseFloat()</LI>
+</UL>
+</DIV>
+<DIV CLASS="FS-15">The toString() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">
+The toString() method returns a number as a string.
+<BR>
+All number methods can be used on any type of numbers (literals, variables, or expressions)
+</DIV><BR>
+
+<p id="NUMMETH"></p>
+
+<script>
+let x = 123;
+document.getElementById("NUMMETH").innerHTML =
+  x.toString() + "<br>" +
+   (67).toString() + "<br>" +
+   (44 + 23).toString();
+</script><BR><BR>
+<DIV CLASS="FS-10">The toString() method can take an optional radix argument to convert the number to a different base</DIV>
+
+<p id="NUMMETH_2"></p>
+
+<script>
+let x = 123;
+let text = x.toString(2); 
+document.getElementById("NUMMETH_2").innerHTML = text;
+</script><BR><BR>
+<DIV CLASS="FS-15">The toExponential() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">
+toExponential() returns a string, with a number rounded and written using exponential notation.
+<br><br>
+A parameter defines the number of characters behind the decimal point.
+</DIV><BR><BR>
+
+
+
+
+<p id="NUMMETH_3"></p>
+
+<script>
+let x = 9.656;
+document.getElementById("NUMMETH_3").innerHTML =
+  x.toExponential() + "<br>" + 
+  x.toExponential(2) + "<br>" + 
+  x.toExponential(4) + "<br>" + 
+  x.toExponential(6);
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">
+The parameter is optional. If you don't specify it, JavaScript will not round the number.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The toFixed() Method</DIV>
+<DIV CLASS="FS-10">toFixed() returns a string, with the number written with a specified number of decimals</DIV>
+
+<p id="NUMMETH_4"></p>
+
+<script>
+let x = 9.656;
+document.getElementById("NUMMETH_4").innerHTML =
+  x.toFixed(0) + "<br>" +
+  x.toFixed(2) + "<br>" +
+  x.toFixed(4) + "<br>" +
+  x.toFixed(6);
+</script>
+
+<DIV CLASS="FS-10">toFixed(2) is perfect for working with money.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The toPrecision() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">toPrecision() returns a string, with a number written with a specified length</DIV><BR><BR>
+
+<p id="NUMMETH_5"></p>
+
+<script>
+let x = 9.656;
+document.getElementById("NUMMETH_5").innerHTML = 
+  x.toPrecision() + "<br>" +
+  x.toPrecision(2) + "<br>" +
+  x.toPrecision(4) + "<br>" +
+  x.toPrecision(6);  
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The valueOf() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">valueOf() returns a number as a number.</DIV><BR><BR>
+
+<p id="NUMMETH_6"></p>
+
+<script>
+let x = 123;
+
+document.getElementById("NUMMETH_6").innerHTML = 
+  x.valueOf() + "<br>" +
+  (70).valueOf() + "<br>" +
+  (47 + 23).valueOf();
+</script><BR><BR>
+<DIV CLASS="FS-10">In JavaScript, a number can be a primitive value (typeof = number) or an object (typeof = object).
+<BR><BR>
+The valueOf() method is used internally in JavaScript to convert Number objects to primitive values.
+<BR><BR>
+There is no reason to use it in your code.
+<BR><BR>
+All JavaScript data types have a valueOf() and a toString() method.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Converting Variables to Numbers</DIV><BR><BR>
+<DIV CLASS="FS-10">There are 3 JavaScript methods that can be used to convert a variable to a number, these methods are<br><br>
+<UL style="list-style-type: none;">
+<LI>Number()	(Returns a number converted from its argument)</LI>
+<LI>parseFloat()	(Parses its argument and returns a floating point number)</LI>
+<LI>BparseInt()	(Parses its argument and returns a whole number)</LI>
+</UL><br><br>
+
+The methods above are not number methods. They are global JavaScript methods.
+
+
+
+
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The Number() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number() method can be used to convert JavaScript variables to numbers</DIV><BR><BR>
+
+<p id="NUMMETH_7"></p>
+
+<script>
+document.getElementById("NUMMETH_7").innerHTML = 
+  Number(true) + "<br>" +
+  Number(false) + "<br>" +
+  Number("10") + "<br>" + 
+  Number("  10") + "<br>" +
+  Number("10  ") + "<br>" +
+  Number(" 10  ") + "<br>" +
+  Number("10.33") + "<br>" + 
+  Number("10,33") + "<br>" +
+  Number("10 33") + "<br>" +
+  Number("Aloysius");
+</script><BR><BR>
+<DIV CLASS="FS-10">If the number cannot be converted, NaN (Not a Number) is returned.</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The Number() Method Used on Dates</DIV><BR><BR>
+<DIV CLASS="FS-10">Number() can also convert a date to a number.</DIV><BR><BR>
+
+<p id="NUMMETH_8"></p>
+
+<script>
+let x = new Date("1970-01-01");
+document.getElementById("NUMMETH_8").innerHTML = Number(x); 
+</script><BR><BR>
+
+<DIV CLASS="FS-10">The Date() method returns the number of milliseconds since 1.1.1970.
+<BR><BR>
+The number of milliseconds between 1970-01-02 and 1970-01-01 is 86400000:</DIV><BR><BR>
+<p id="NUMMETH_9"></p>
+
+<script>
+let x = new Date("1970-01-02");
+document.getElementById("NUMMETH_9").innerHTML = Number(x); 
+</script><BR><BR>
+<p id="NUMMETH_10"></p>
+
+<script>
+let x = new Date("2008-08-23");
+document.getElementById("NUMMETH_10").innerHTML = Number(x); 
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The parseInt() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">parseInt() parses a string and returns a whole number. Spaces are allowed. Only the first number is returned.
+</DIV><BR><BR>
+
+<p id="NUMMETH11"></p>
+
+<script>
+document.getElementById("NUMMETH_11").innerHTML = 
+  parseInt("-10") + "<br>" +
+  parseInt("-10.33") + "<br>" +
+  parseInt("10") + "<br>" +
+  parseInt("10.33") + "<br>" +
+  parseInt("10 6") + "<br>" +  
+  parseInt("10 years") + "<br>" +  
+  parseInt("years 10");  
+</script><BR><BR>
+<DIV CLASS="FS-10">If the number cannot be converted, NaN (Not a Number) is returned.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">The parseFloat() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">parseFloat() parses a string and returns a number. Spaces are allowed and only the first number is returned.
+</DIV><BR><BR>
+
+<p id="NUMMETH_12"></p>
+
+<script>
+document.getElementById("NUMMETH_12").innerHTML = 
+  parseFloat("10") + "<br>" +
+  parseFloat("10.33") + "<br>" +
+  parseFloat("10 6") + "<br>" +  
+  parseFloat("10 years") + "<br>" +
+  parseFloat("years 10");    
+</script><BR><BR>
+<DIV CLASS="FS-10">If the number cannot be converted, NaN (Not a Number) is returned.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Number Object Methods
+</DIV><BR><BR>
+<DIV CLASS="FS-10">These object methods below belong to the Number object<br><br>
+<UL style="list-style-type: none;">
+<LI>Number.isInteger()	(Returns true if the argument is an integer)</LI>
+<LI>Number.isNaN()	(Returns true if the argument is NaN)</LI>
+<LI>Number.isFinite()	(Returns true if the argument is not Infinity nor NaN)</LI>
+<LI>Number.isSafeInteger()	(Returns true if the argument is a safe integer)</LI>
+<LI>Number.parseFloat()	(Converts a string to a number)</LI>
+<LI>Number.parseInt()	(Converts a string to a whole number)</LI>
+</UL><br><br>
+</DIV><BR><BR>
+<DIV CLASS="FS-15">The Number.isInteger() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isInteger() method returns true if the argument is an integer.
+</DIV><BR><BR>
+
+<p id="NUMMETH_13"></p>
+
+<script>
+document.getElementById("NUMMETH_13").innerHTML =
+Number.isInteger(10) + "<br>" + Number.isInteger(10.5);
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The Number.isFinite() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isFinite() method returns true if the argument is an integer.
+</DIV><BR><BR>
+
+<p id="NUMMETH_13"></p>
+
+<script>
+let result = Number.isFinite(123);
+document.getElementById("NUMMETH_13").innerHTML = result;
+</script><BR><BR>
+<DIV CLASS="FS-15">The Number.isNaN() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isNaN() method returns true if the argument is NaN (Not a Number).<BR><BR>
+Number.isNaN() is the preferred way to check for equality with NaN. You cannot test for equality with NaN using == or ===.
+</DIV><BR><BR>
+
+<p id="NUMMETH_14"></p>
+
+<script>
+let result = Number.isNaN(123);
+document.getElementById("NUMMETH_14").innerHTML = result;
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The Number.isSafeInteger() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">A safe integer is an integer that can be exactly represented as a double precision number.
+<BR><BR>
+The Number.isSafeInteger() method returns true if the argument is a safe integer.
+<BR><BR>
+Safe integers are all integers from -(253 - 1) to +(253 - 1).<BR><BR>
+This is safe: 9007199254740991. This is not safe: 9007199254740992.
+</DIV><BR><BR>
+
+<p id="NUMMETH_15"></p>
+
+<script>
+document.getElementById("NUMMETH_15").innerHTML =
+Number.isSafeInteger(10) + "<br>" + Number.isSafeInteger(12345678901234567890);
+</script><BR><BR>
+
+<DIV CLASS="FS-15">The Number.parseFloat() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.parseFloat() parses a string and returns a number.
+<BR><BR>
+Spaces are allowed and only the first number is returned.<br><br>
+If the number cannot be converted, NaN (Not a Number) is returned.<BR><BR>
+The Number methods Number.parseInt() and Number.parseFloat() are the same as the Global methods parseInt() and parseFloat().
+<BR><BR>
+The purpose of these two methods is modularization of globals, to make it easier to use the same JavaScript code outside the browser.
+</DIV><BR><BR>
+
+<p id="NUMMETH_16"></p>
+
+<script>
+document.getElementById("NUMMETH_16").innerHTML = 
+Number.parseFloat("10") + "<br>" +
+Number.parseFloat("10.33") + "<br>" +
+Number.parseFloat("10 20 30") + "<br>" +
+Number.parseFloat("10 years") + "<br>" +
+Number.parseFloat("years 10");
+</script><BR><BR>
+<DIV CLASS="FS-15">The Number.parseInt() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">Number.parseInt() parses a string and returns a whole number.
+<BR><BR>
+Spaces are allowed. Only the first number is returned.
+<BR><BR>
+If the number cannot be converted, NaN (Not a Number) is returned.
+</DIV><BR><BR>
+
+<p id="NUMMETH_17"></p>
+
+<script>
+document.getElementById("NUMMETH_17").innerHTML = 
+  Number.parseInt("-10") + "<br>" +
+  Number.parseInt("-10.33") + "<br>" +
+  Number.parseInt("10") + "<br>" +
+  Number.parseInt("10.33") + "<br>" +
+  Number.parseInt("10 6") + "<br>" +  
+  Number.parseInt("10 years") + "<br>" +  
+  Number.parseInt("years 10");  
+</script><BR><BR>
+<DIV CLASS="FS-15">The Number.isInteger() Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">The Number.isInteger() method returns true if the argument is an integer.
+</DIV><BR><BR>
+
+<p id="NUMMETH_18"></p>
+
+<script>
+document.getElementById("NUMMETH_18").innerHTML =
+Number.isInteger(10) + "<br>" + Number.isInteger(10.5);
+</script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

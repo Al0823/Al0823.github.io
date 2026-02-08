@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Date Set Methods Tutorial</h2>
+    <p>The <strong>set methods</strong> allow you to change parts of a Date object, such as the year, month, day, or time.</p>
+
+    <h3>Common Date Set Methods</h3>
+    <ul>
+      <li><code>setFullYear(year)</code> – sets the year</li>
+      <li><code>setMonth(month)</code> – sets the month (0–11)</li>
+      <li><code>setDate(day)</code> – sets the day of the month</li>
+      <li><code>setHours(hour)</code> – sets the hour</li>
+      <li><code>setMinutes(min)</code> – sets the minutes</li>
+      <li><code>setSeconds(sec)</code> – sets the seconds</li>
+      <li><code>setMilliseconds(ms)</code> – sets milliseconds</li>
+      <li><code>setTime(ms)</code> – sets date using milliseconds since Jan 1, 1970</li>
+    </ul>
+
+    <h3>Example</h3>
+    <pre><code id="setMethodsExample"></code></pre>
+
+    <script>
+      let date = new Date();
+      date.setFullYear(2030);
+      date.setMonth(11); // December
+      date.setDate(25);
+      date.setHours(10);
+      date.setMinutes(30);
+
+      document.getElementById("setMethodsExample").textContent =
+        "Modified Date: " + date.toString();
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Click the button to change a date into the future:</p>
+    <button id="changeDateBtn">Set Date 5 Years Ahead</button>
+    <pre id="interactiveOutput"></pre>
+
+    <script>
+      document.getElementById("changeDateBtn").addEventListener("click", () => {
+        let future = new Date();
+        future.setFullYear(future.getFullYear() + 5);
+        future.setMonth(0);  // January
+        future.setDate(1);
+        future.setHours(0, 0, 0);
+
+        document.getElementById("interactiveOutput").textContent =
+          "Future Date: " + future.toString();
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now();
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Date Set Methods Tutorial";
+
+// Footer date
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
+  " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,382 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>"Data Types" Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Data Types" Javascript page, it teaches you about this code and how it works.
+<br>
+<h2>Different kinds of Data Types</h2>
+<br><br>
+There are "String," "Number," "Bigint," "Boolean," "Object," "Undefined," "Null," and "Symbol." 
+<br>
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<h2>Data Types Examples</h2>
+
+{
+// Strings
+let color = "Yellow";
+let lastName = "Johnson";
+
+// Number
+let length = 16;
+let weight = 7.5;
+
+// BigInt
+let x = 1234567890123456789012345n;
+let y = BigInt(1234567890123456789012345)
+
+// Boolean
+let x = true;
+let y = false;
+
+// Object
+const person = {firstName:"John", lastName:"Doe"};
+
+// Array object
+const cars = ["Saab", "Volvo", "BMW"];
+
+// Date object
+const date = new Date("2022-03-25");
+
+// Undefined
+let x;
+let y;
+
+// Null
+let x = null;
+let y = null;
+
+// Symbol
+const x = Symbol();
+const y = Symbol();
+
+}
+
+<p id="DATATYPES"></p>
+
+<script>
+let x = 16 + "Pontiac";
+document.getElementById("DATATYPES").innerHTML = x;
+</script>
+
+
+
+<p id="DATATYPES2"></p>
+
+<script>
+let x = "Pontiac" + 67;
+document.getElementById("DATATYPES2").innerHTML = x;
+</script>
+
+When adding a number and a String, Javascript will treat the number as a string.
+
+<p id="DATATYPES3"></p>
+
+<script>
+let x = 63 + 4 + "Pontiac";
+document.getElementById("demo").innerHTML = x;
+</script>
+
+<p id="DATATYPES4"></p>
+
+<script>
+let x = "Pontiac" + 6 + 7;
+document.getElementById("DATATYPES4").innerHTML = x;
+</script>
+
+JavaScript evaluates expressions from left to right. Different sequences can produce different results as seen above.
+<br>
+In the first example, JavaScript treats 6 and 7 as numbers, until it reaches "Pontiac".
+<br>
+In the second example, since the first thing is a string(Pontiac), all things after are treated as strings.
+
+<p id="DATATYPES5"></p>
+
+<script>
+let x;         // Now x is undefined
+x = 67;         // Now x is a Number
+x = "Aloysius";    // Now x is a String
+
+document.getElementById("DATATYPES5").innerHTML = x;
+</script>
+
+JavaScript has dynamic data types. This means that the same variable can be used to hold different data types.
+
+<p id="DATATYPES6"></p>
+
+<script>
+let carName1 = "Pontiac GTO";
+let carName2 = 'Pontiac GTO';
+
+document.getElementById("DATATYPES6").innerHTML =
+carName1 + "<br>" + 
+carName2; 
+</script>
+
+A string (or a text string) is a series of characters like "Pontiac GTO."
+Strings are written with quotes, single or double quotes work for this.
+
+<p id="DATATYPES7"></p>
+
+<script>
+let answer1 = "It's alright";
+let answer2 = "He is called 'Aloysius'";
+let answer3 = 'He is called "Aloysius"';
+
+document.getElementById("DATATYPES7").innerHTML =
+answer1 + "<br>" + 
+answer2 + "<br>" + 
+answer3;
+</script>
+
+You can use quotes inside a string, as long as they do not match the quotes around the String.
+
+<p id="DATATYPES8"></p>
+
+<script>
+let x1 = 67.00;
+let x2 = 67;
+let x3 = 6.7;
+let x4 = 0.67;
+
+document.getElementById("DATATYPES8").innerHTML =
+x1 + "<br>" + x2 + "<br>" + x3 "<br>" + x4;
+</script>
+
+Numbers can be written in any way possible, be it with or without decimals.
+
+<p id="DATATYPES9"></p>
+
+<script>
+let y = 67e5;
+let z = 67e-5;
+
+document.getElementById("DATATYPES9").innerHTML =
+y + "<br>" + z;
+</script>
+
+Extra big or extra small numbers can be written with "scientific" notation.
+
+<p id="DATATYPES10"></p>
+
+<p>You cannot perform math between a BigInt type and a Number type.</p>
+
+<script>
+let x = BigInt("123456789012345678901234567890");
+document.getElementById("DATATYPES10").innerHTML = x; 
+</script>
+
+You can not perform math between a BigInt data type and a Number data type.
+
+<p id="DATATYPES11"></p>
+
+<script>
+let x = 67;
+let y = 67;
+let z = 0.67;
+
+document.getElementById("DATATYPES11").innerHTML =
+(x == y) + "<br>" + (x == z);
+</script>
+
+Javascript based booleans can have 2 values, true or false.
+<br><br>
+
+
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<h2>Data Types Examples</h2>
+
+{
+// Strings
+let color = "Yellow";
+let lastName = "Johnson";
+
+// Number
+let length = 16;
+let weight = 7.5;
+
+// BigInt
+let x = 1234567890123456789012345n;
+let y = BigInt(1234567890123456789012345)
+
+// Boolean
+let x = true;
+let y = false;
+
+// Object
+const person = {firstName:"John", lastName:"Doe"};
+
+// Array object
+const cars = ["Saab", "Volvo", "BMW"];
+
+// Date object
+const date = new Date("2022-03-25");
+
+// Undefined
+let x;
+let y;
+
+// Null
+let x = null;
+let y = null;
+
+// Symbol
+const x = Symbol();
+const y = Symbol();
+
+}
+
+<p id="DATATYPES"></p>
+
+<script>
+let x = 16 + "Pontiac";
+document.getElementById("DATATYPES").innerHTML = x;
+</script>
+
+
+
+<p id="DATATYPES2"></p>
+
+<script>
+let x = "Pontiac" + 67;
+document.getElementById("DATATYPES2").innerHTML = x;
+</script>
+
+When adding a number and a String, Javascript will treat the number as a string.
+
+<p id="DATATYPES3"></p>
+
+<script>
+let x = 63 + 4 + "Pontiac";
+document.getElementById("demo").innerHTML = x;
+</script>
+
+<p id="DATATYPES4"></p>
+
+<script>
+let x = "Pontiac" + 6 + 7;
+document.getElementById("DATATYPES4").innerHTML = x;
+</script>
+
+JavaScript evaluates expressions from left to right. Different sequences can produce different results as seen above.
+<br>
+In the first example, JavaScript treats 6 and 7 as numbers, until it reaches "Pontiac".
+<br>
+In the second example, since the first thing is a string(Pontiac), all things after are treated as strings.
+
+<p id="DATATYPES5"></p>
+
+<script>
+let x;         // Now x is undefined
+x = 67;         // Now x is a Number
+x = "Aloysius";    // Now x is a String
+
+document.getElementById("DATATYPES5").innerHTML = x;
+</script>
+
+JavaScript has dynamic data types. This means that the same variable can be used to hold different data types.
+
+<p id="DATATYPES6"></p>
+
+<script>
+let carName1 = "Pontiac GTO";
+let carName2 = 'Pontiac GTO';
+
+document.getElementById("DATATYPES6").innerHTML =
+carName1 + "<br>" + 
+carName2; 
+</script>
+
+A string (or a text string) is a series of characters like "Pontiac GTO."
+Strings are written with quotes, single or double quotes work for this.
+
+<p id="DATATYPES7"></p>
+
+<script>
+let answer1 = "It's alright";
+let answer2 = "He is called 'Aloysius'";
+let answer3 = 'He is called "Aloysius"';
+
+document.getElementById("DATATYPES7").innerHTML =
+answer1 + "<br>" + 
+answer2 + "<br>" + 
+answer3;
+</script>
+
+You can use quotes inside a string, as long as they do not match the quotes around the String.
+
+<p id="DATATYPES8"></p>
+
+<script>
+let x1 = 67.00;
+let x2 = 67;
+let x3 = 6.7;
+let x4 = 0.67;
+
+document.getElementById("DATATYPES8").innerHTML =
+x1 + "<br>" + x2 + "<br>" + x3 "<br>" + x4;
+</script>
+
+Numbers can be written in any way possible, be it with or without decimals.
+
+<p id="DATATYPES9"></p>
+
+<script>
+let y = 67e5;
+let z = 67e-5;
+
+document.getElementById("DATATYPES9").innerHTML =
+y + "<br>" + z;
+</script>
+
+Extra big or extra small numbers can be written with "scientific" notation.
+
+<p id="DATATYPES10"></p>
+
+<p>You cannot perform math between a BigInt type and a Number type.</p>
+
+<script>
+let x = BigInt("123456789012345678901234567890");
+document.getElementById("DATATYPES10").innerHTML = x; 
+</script>
+
+You can not perform math between a BigInt data type and a Number data type.
+
+<p id="DATATYPES11"></p>
+
+<script>
+let x = 67;
+let y = 67;
+let z = 0.67;
+
+document.getElementById("DATATYPES11").innerHTML =
+(x == y) + "<br>" + (x == z);
+</script>
+
+Javascript based booleans can have 2 values, true or false.
+<br><br>
+
+</script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

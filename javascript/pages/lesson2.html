@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+
+<div id="header"></div>
+
+<main>
+  <div id="nav"></div>
+
+<article>
+<h2>Where to Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Where To" Javascript page, it teaches you how to write this code and how it works.<br><br>
+Now what this code can do is change what some text says, it can also make buttons and just possibly redirects you if you know what you are doing.
+<br><br>
+
+
+<h2>Example</h2>
+<br><br>
+
+
+
+<p id=whereto>A normal paragraph, hmm I wonder what that button does?</p>
+
+<button type="button" onclick="CHANGEME()">Change me</button>
+
+<button type="button" onclick="CHANGEBACK()">CHANGE BACK</button>
+
+<script>
+
+function CHANGEME() {
+  document.getElementById("whereto").innerHTML = "Oh nothing hap- Wait what is this tingly feeling? WAIT IT BURNS, STOP PLEASE MAKE IT STOP!!! CHANGE ME BACK PLEASE!!!!!";
+}
+
+function CHANGEBACK() {
+  document.getElementById("whereto").innerHTML = "Oh thank the heavens above, I'm alive. Please do not touch that button again.";
+}
+
+
+
+</script>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+
+
+<p id=whereto>A normal paragraph, hmm I wonder what that button does?</p>
+
+<button type="button" onclick="CHANGEME()">Change me</button>
+
+<button type="button" onclick="CHANGEBACK()">CHANGE BACK</button>
+
+<script>
+
+function CHANGEME() {
+  document.getElementById("whereto").whereto = "Oh nothing hap- Wait what is this tingly feeling? WAIT IT BURNS, STOP PLEASE MAKE IT STOP!!! CHANGE ME BACK PLEASE!!!!!";
+}
+
+function CHANGEBACK() {
+  document.getElementById("whereto").whereto = "Oh thank the heavens above, I'm alive. Please do not touch that button again.";
+}
+
+
+
+</script>
+
+</textarea>
+  
+  </article>
+ </main> 
+<div id="footer"></div>
+
+<script src="../includes/include.js"></script>
+<script src="../includes/db-debug.js"></script>
+
+</body>
+</html>

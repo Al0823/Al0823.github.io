@@ -1,0 +1,198 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>String Templates Javascript tutorial</h2>
+<br><br>
+
+
+This is the "String Templates" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what a "String Template" is in Javascript is it can make a more flexible and readable way to work with strings making doing Javascript easier to do.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<div class="fs-15">Back-Tics Syntax</div>
+<br><br>
+<div class="fs-10">Template Strings use these symbols called back-ticks rather than use the basic quotes to define strings</div>
+<br><br>
+<p id="STRINGTEMPLATES"></p>
+
+<script>
+let text = `Hello carbon based lifeform.`;
+document.getElementById("STRINGTEMPLATES").innerHTML = text;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">Quotes inside Strings</div>
+<br><br>
+<div class="fs-10">Template Strings allow both single and double quotes to be used inside a string.</div>
+<br><br>
+<p id="STRINGTEMPLATES2"></p>
+
+<script>
+let text = `He's often called "Aloysius"`;
+document.getElementById("STRINGTEMPLATES2").innerHTML = text;
+</script>
+<br><br>
+<div class=fs-15>Multiline Strings</div>
+<br><br>
+<p id="STRINGTEMPLATES3"></p>
+
+<script>
+let text =
+
+`The quick
+Student gets
+work done
+faster than
+the lazy Student`;
+
+document.getElementById("STRINGTEMPLATES3").innerHTML = text;
+</script>
+<BR><BR>
+<div class="fs-15">Interpolation</div>
+<br><br>
+<div class="fs-10">Template strings allow variables to be in strings.<br><br>Template Strings provide an easy way to interpolate variables in strings.</div><br><br>
+<p id="STRINGTEMPLATES4"></p>
+
+<script>
+let firstName = "Aloysius";
+let lastName = "Konys-Merrill";
+
+let text = `Welcome ${firstName}, ${lastName}!`;
+
+document.getElementById("STRINGTEMPLATES4").innerHTML = text;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">Expression Substitution</DIV><br><br>
+<DIV CLASS="FS-10">Template Strings allow interpolation</DIV><br><br>
+<p id="STRINGTEMPLATES5"></p>
+
+<script>
+let price = 53.6;
+let VAT = 0.25;
+let total = `Total: ${(price * (1 + VAT)).toFixed(2)}`;
+
+document.getElementById("STRINGTEMPLATES5").innerHTML = total;
+</script>
+<BR><BR>
+<p id="STRINGTEMPLATES6"></p>
+
+<script>
+let header = "Template Strings";
+let tags = ["template strings", "javascript", "es6"];
+
+let html = `<h2>${header}</h2><ul>`;
+
+for (const x of tags) {
+  html += `<li>${x}</li>`;
+}
+
+html += `</ul>`;
+document.getElementById("STRINGTEMPLATES6").innerHTML = html;
+</script>
+<BR><BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<div class="fs-15">Back-Tics Syntax</div>
+<br><br>
+<div class="fs-10">Template Strings use these symbols called back-ticks rather than use the basic quotes to define strings</div>
+<br><br>
+<p id="STRINGTEMPLATES"></p>
+
+<script>
+let text = `Hello carbon based lifeform.`;
+document.getElementById("STRINGTEMPLATES").innerHTML = text;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">Quotes inside Strings</div>
+<br><br>
+<div class="fs-10">Template Strings allow both single and double quotes to be used inside a string.</div>
+<br><br>
+<p id="STRINGTEMPLATES2"></p>
+
+<script>
+let text = `He's often called "Aloysius"`;
+document.getElementById("STRINGTEMPLATES2").innerHTML = text;
+</script>
+<br><br>
+<div class=fs-15>Multiline Strings</div>
+<br><br>
+<p id="STRINGTEMPLATES3"></p>
+
+<script>
+let text =
+
+`The quick
+Student gets
+work done
+faster than
+the lazy Student`;
+
+document.getElementById("STRINGTEMPLATES3").innerHTML = text;
+</script>
+<BR><BR>
+<div class="fs-15">Interpolation</div>
+<br><br>
+<div class="fs-10">Template strings allow variables to be in strings.<br><br>Template Strings provide an easy way to interpolate variables in strings.</div><br><br>
+<p id="STRINGTEMPLATES4"></p>
+
+<script>
+let firstName = "Aloysius";
+let lastName = "Konys-Merrill";
+
+let text = `Welcome ${firstName}, ${lastName}!`;
+
+document.getElementById("STRINGTEMPLATES4").innerHTML = text;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">Expression Substitution</DIV><br><br>
+<DIV CLASS="FS-10">Template Strings allow interpolation</DIV><br><br>
+<p id="STRINGTEMPLATES5"></p>
+
+<script>
+let price = 53.6;
+let VAT = 0.25;
+let total = `Total: ${(price * (1 + VAT)).toFixed(2)}`;
+
+document.getElementById("STRINGTEMPLATES5").innerHTML = total;
+</script>
+<BR><BR>
+<p id="STRINGTEMPLATES6"></p>
+
+<script>
+let header = "Template Strings";
+let tags = ["template strings", "javascript", "es6"];
+
+let html = `<h2>${header}</h2><ul>`;
+
+for (const x of tags) {
+  html += `<li>${x}</li>`;
+}
+
+html += `</ul>`;
+document.getElementById("STRINGTEMPLATES6").innerHTML = html;
+</script>
+<BR><BR>
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

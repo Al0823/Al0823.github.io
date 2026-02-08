@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Math Object Tutorial</h2>
+    <p>The <strong>Math object</strong> allows you to perform mathematical tasks in JavaScript. It has properties (like PI) and methods (like round, random, and square root).</p>
+
+    <h3>Math Properties</h3>
+    <ul>
+      <li><code>Math.PI</code> – returns 3.141592653589793</li>
+      <li><code>Math.E</code> – returns Euler's number</li>
+      <li><code>Math.SQRT2</code> – square root of 2</li>
+    </ul>
+
+    <h3>Common Math Methods</h3>
+    <ul>
+      <li><code>Math.round(x)</code> – rounds to nearest integer</li>
+      <li><code>Math.ceil(x)</code> – rounds up</li>
+      <li><code>Math.floor(x)</code> – rounds down</li>
+      <li><code>Math.trunc(x)</code> – removes decimal part</li>
+      <li><code>Math.pow(x, y)</code> – x to the power of y</li>
+      <li><code>Math.sqrt(x)</code> – square root</li>
+      <li><code>Math.abs(x)</code> – absolute value</li>
+      <li><code>Math.min(...numbers)</code> – smallest number</li>
+      <li><code>Math.max(...numbers)</code> – largest number</li>
+      <li><code>Math.random()</code> – random number between 0 and 1</li>
+    </ul>
+
+    <h3>Example</h3>
+    <pre><code id="mathExample"></code></pre>
+
+    <script>
+      const output = `
+PI: ${Math.PI}
+Round 4.7: ${Math.round(4.7)}
+Floor 4.7: ${Math.floor(4.7)}
+Ceil 4.2: ${Math.ceil(4.2)}
+2^5: ${Math.pow(2, 5)}
+Square root of 64: ${Math.sqrt(64)}
+Random number: ${Math.random()}
+      `;
+
+      document.getElementById("mathExample").textContent = output;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Click to generate a random number between 1 and 100:</p>
+    <button id="randomBtn">Generate Number</button>
+    <pre id="interactiveOutput"></pre>
+
+    <script>
+      document.getElementById("randomBtn").addEventListener("click", () => {
+        const num = Math.floor(Math.random() * 100) + 1;
+        document.getElementById("interactiveOutput").textContent =
+          "Random Number: " + num;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now();
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Math Object Tutorial";
+
+// Footer date
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
+  " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>

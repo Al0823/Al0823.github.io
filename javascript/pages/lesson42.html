@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Comparisons Tutorial</h2>
+    <p>Comparison operators are used to compare values. They return a <strong>Boolean</strong> value: <code>true</code> or <code>false</code>.</p>
+
+    <h3>Comparison Operators</h3>
+    <ul>
+      <li><code>==</code> – equal to (value only)</li>
+      <li><code>===</code> – equal value and type</li>
+      <li><code>!=</code> – not equal</li>
+      <li><code>!==</code> – not equal value or type</li>
+      <li><code>&gt;</code> – greater than</li>
+      <li><code>&lt;</code> – less than</li>
+      <li><code>&gt;=</code> – greater than or equal</li>
+      <li><code>&lt;=</code> – less than or equal</li>
+    </ul>
+
+    <h3>Examples</h3>
+    <pre><code id="comparisonExample"></code></pre>
+
+    <script>
+      let x = 10;
+      let y = "10";
+      let z = 5;
+
+      document.getElementById("comparisonExample").textContent =
+`x == y: ${x == y}
+x === y: ${x === y}
+x != z: ${x != z}
+x > z: ${x > z}
+x < z: ${x < z}
+x >= 10: ${x >= 10}
+x <= 5: ${x <= 5}`;
+    </script>
+
+    <h3>Logical Operators</h3>
+    <ul>
+      <li><code>&&</code> – AND (both must be true)</li>
+      <li><code>||</code> – OR (one must be true)</li>
+      <li><code>!</code> – NOT (reverses true/false)</li>
+    </ul>
+
+    <pre><code id="logicalExample"></code></pre>
+
+    <script>
+      let a = true;
+      let b = false;
+
+      document.getElementById("logicalExample").textContent =
+`a && b: ${a && b}
+a || b: ${a || b}
+!a: ${!a}`;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Enter two numbers to compare:</p>
+    <input type="number" id="num1" placeholder="First number">
+    <input type="number" id="num2" placeholder="Second number">
+    <button id="compareBtn">Compare</button>
+    <pre id="compareOutput"></pre>
+
+    <script>
+      document.getElementById("compareBtn").addEventListener("click", () => {
+        const n1 = Number(document.getElementById("num1").value);
+        const n2 = Number(document.getElementById("num2").value);
+
+        document.getElementById("compareOutput").textContent =
+`n1 == n2: ${n1 == n2}
+n1 === n2: ${n1 === n2}
+n1 > n2: ${n1 > n2}
+n1 < n2: ${n1 < n2}`;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer>
+  <div id="footer"><span id="dateTime"></span></div>
+</footer>
+
+<div id="debugInclude"></div>
+
+<script>
+// Dynamically load CSS
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now();
+  document.head.appendChild(link);
+})();
+
+// Page title
+document.getElementById("pageTitle").textContent =
+  window.vars.WEBSITETITLE + " - JavaScript Comparisons Tutorial";
+
+// Footer date
+document.getElementById("dateTime").textContent =
+  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
+  " - " + new Date().toLocaleString();
+
+// Includes
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  const html = await res.text();
+  document.getElementById(id).innerHTML = html;
+}
+
+loadInclude("header", window.vars.INCVAR + "header.html");
+loadInclude("nav", window.vars.INCVAR + "nav.html");
+loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+if (window.vars.DEBUGVAR) {
+  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+}
+</script>
+
+</body>
+</html>
