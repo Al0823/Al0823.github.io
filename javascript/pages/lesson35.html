@@ -160,13 +160,25 @@ document.getElementById("demo").innerHTML = d;
 <div class="fs-15">Previous Century</div><br><br>
 <div class="fs-10">One and two digit years will be interpreted as 19xx:</div>
 <textarea id="textbox" rows="10" cols="70">
-const d = new Date(2018);
+const d = new Date(99, 11, 24);
 document.getElementById("demo").innerHTML = d;
       </textarea><br><br>
-
-
-
-
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(9, 11, 24);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">JavaScript stores dates as number of milliseconds since January 01, 1970.
+<br><br>
+Zero time is January 01, 1970 00:00:00 UTC.
+<br><br>
+One day (24 hours) is 86 400 000 milliseconds.</div>
+<br><br>
+<div class="fs-15">new Date(milliseconds)</div>
+<div class="fs-10">new Date(milliseconds) creates a new date object as milliseconds plus zero time<br><br>01 January 1970 plus 100 000 000 000 milliseconds is:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(100000000000);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
 <h3>Examples</h3>    
     <h3>Creating a Date Object</h3>
