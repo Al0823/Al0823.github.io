@@ -2,7 +2,7 @@ window.vars = {
 
 
 
-  MACVAR: "/javascript/databases/",
+  MACVAR: "/javascript/data/",
   PATHVAR: "/javascript/",
   INCVAR: "/javascript/includes/",
   DBVAR: "/javascript/data/",
