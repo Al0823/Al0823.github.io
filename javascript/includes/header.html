@@ -9,17 +9,17 @@
 <div id="devNotice" style="display:none;">Dev stuff is showing</div>
 
 <script>
-// 🧠 WEBSITE TITLE
+
 window.vars.WEBSITETITLE = "Javascript Wiki";
 
-// 🏷 Page title
+
 document.title = window.vars.WEBSITETITLE + " - " + window.vars.PAGETITLE;
 
-// 🎨 CSS include
+
 document.getElementById("mainStylesheet").href =
   window.vars.CSSVAR + "style.css";
 
-// 🐞 Debug notice
+
 if (window.vars.DEBUGVAR) {
   document.getElementById("devNotice").style.display = "block";
 }
