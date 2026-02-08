@@ -18,7 +18,7 @@ const CONFIG = {
   JSWIKIVAR: "/javascript/",
   WIKIVAR: "/myproject/wiki/",
   WIKIDEVVAR: "/myproject/wikiinfo/",
-  PKHEXVAR: "/PKHEX-WEB/wwwroot/",
+  PKHEXVAR: "https://Al0823.github.io/PKHEX-WEB/wwwroot/", // external GitHub Pages link
   MYSITESPECIALVAR: "/mysitespecial/",
   CSSVAR: "/css/",
   DEBUGVAR: 0,
@@ -54,8 +54,8 @@ const CONFIG = {
 
 <div class="fmwnavright">
   <div class="fs-15">Other Projects</div><br><br>
-  <a id="pkhexLink" href="#"></a><br><br>
-  <a id="specialLink" href="#" target="_blank"></a><br><br>
+  <a id="pkhexLink" href="#" target="_blank"></a><br><br>
+  <a id="specialLink" href="#"></a><br><br>
 </div>
 
 </main>
@@ -91,7 +91,7 @@ setLink("wikiLink", CONFIG.WIKIVAR + "index.html", "A.T.A. Tech Wiki");
 setLink("wikidevLink", CONFIG.WIKIDEVVAR + "index.html", "A.T.A. Tech Wiki Dev Page");
 
 // other projects
-setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version", true); // external
+setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version", true); // external GitHub Pages
 setLink("specialLink", CONFIG.MYSITESPECIALVAR + "index.html", "Murder Drones Fan Wiki (1st Year Anniversary)"); // internal
 
 /* ====== DATE ====== */
