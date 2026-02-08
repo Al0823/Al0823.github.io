@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Page</title>
+<style>
+.big.fs-15 {
+  font-size: 15px;
+  margin: 20px;
+}
+a {
+  text-decoration: none;
+}
+hr {
+  margin: 20px 0;
+}
+</style>
+</head>
+<body>
+
+<div id="header"></div>
+<main>
+  <div id="nav"></div>
+  <div class="big fs-15" id="admin-content">
+    Loading...
+  </div>
+</main>
+<div id="footer"></div>
+
+<script>
+// ---------- Variables ----------
+const INCVAR = "../../includes/";
+const PATHVAR = "../../"; // base path for templates
+let dbPages = []; // pages.json data
+let dbNav = [];   // nav.json data
+
+// ---------- Utility Functions ----------
+async function fetchJSON(file) {
+  const res = await fetch(file);
+  return await res.json();
+}
+
+function redirect(url) {
+  window.location.href = url;
+}
+
+function copyFile(src, dest) {
+  console.log(`Simulate copy: ${src} -> ${dest}`);
+}
+
+function appendDB(newRecord) {
+  console.log("Simulate append to pages.json:", newRecord);
+  dbPages.push(newRecord);
+}
+
+async function loadInclude(id, file) {
+  const res = await fetch(file);
+  document.getElementById(id).innerHTML = await res.text();
+}
+
+// ---------- Action Handler ----------
+function handleAction(action, skuvar) {
+  if (!action || !skuvar) return;
+
+  const page = dbPages.find(p => p.r_nav === skuvar);
+
+  if (action === "disable" && page) {
+    page.status = 0;
+    redirect(window.location.href);
+  } 
+  else if (action === "enable" && page) {
+    page.status = 1;
+    redirect(window.location.href);
+  } 
+  else if (action === "create") {
+    const newPage = { r_nav: skuvar, status: 1 };
+    copyFile(`${PATHVAR}templates/lessontemplate.html`, `${PATHVAR}pages/lesson${skuvar}.html`);
+    appendDB(newPage);
+    redirect(window.location.href);
+  }
+}
+
+// ---------- Render Admin Content ----------
+function renderAdminContent() {
+  const adminDiv = document.getElementById("admin-content");
+  adminDiv.innerHTML = "";
+
+  // --- Render navigation weeks from nav.json ---
+  dbNav.forEach(weekItem => {
+    adminDiv.innerHTML += `<b>${weekItem.week}</b><br>`;
+
+    const subItems = dbNav.filter(i => i.week === weekItem.week);
+    subItems.forEach(sub => {
+      adminDiv.innerHTML += `- ${sub.title}<br>`;
+    });
+  });
+
+  adminDiv.innerHTML += `<hr>`;
+
+  // --- Render all pages with enable/disable/create links ---
+  dbPages.forEach(page => {
+    const defaction = page.status === 1 ? "disable" : "enable";
+    const color = page.status === 1 ? "rgb(111,190,141)" : "rgb(211,49,49)";
+    adminDiv.innerHTML += `- - <a style="color:${color}" href="?action=${defaction}&skuvar=${page.r_nav}">${page.r_nav} (${defaction})</a><br>`;
+  });
+
+  // Optional: show "Create" links for SKUs that exist in nav but not in pages.json
+  const navSkus = dbNav.map(n => n.sku).filter(Boolean); // assumes nav.json has a sku field
+  navSkus.forEach(sku => {
+    if (!dbPages.find(p => p.r_nav === sku)) {
+      adminDiv.innerHTML += `- - <a href="?action=create&skuvar=${sku}">Create ${sku}</a><br>`;
+    }
+  });
+}
+
+// ---------- Main ----------
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadInclude("header", `${INCVAR}header.html`);
+  await loadInclude("nav", `${INCVAR}nav.html`);
+  await loadInclude("footer", `${INCVAR}footer.html`);
+
+  dbPages = await fetchJSON("pages.json");
+  dbNav = await fetchJSON("nav.json");
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const action = urlParams.get("action");
+  const skuvar = urlParams.get("skuvar");
+
+  if(action) handleAction(action, skuvar);
+
+  renderAdminContent();
+});
+</script>
+
+</body>
+</html>
