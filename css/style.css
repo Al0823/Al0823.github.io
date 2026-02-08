@@ -74,15 +74,16 @@ border-radius: 20px;
       padding: 1.5rem;   /* Space around body text */
     }
 
-    footer {
-      background-color: rgb(75, 75, 75);  
-      color: var(--white);      
-      text-align: center;
-      padding: 1rem;     /* Space inside footer */
-      font-size: 40px;
-      padding-top: 20px;
-      border-top: 1px solid rgb(125, 125, 125)
-    }
+footer {
+  flex-shrink: 0; /* ensure footer doesn't shrink */
+  font-size: 20px; /* more reasonable for most layouts */
+  background-color: rgb(75, 75, 75);
+  color: var(--white);
+  text-align: center;
+  padding: 15px 10px;
+  border-top: 1px solid rgb(125, 125, 125);
+}
+
     
     hr {
     height: 10px;
