@@ -3,9 +3,9 @@
 <div id="debugArea"></div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
 
-  // 📅 Replace [date] and [time]
+
+  
   const now = new Date();
   const dateStr = now.toLocaleDateString("en-US", {
     weekday: "long",
@@ -21,10 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("footerText").innerHTML =
     "Copyright " + dateStr + " - " + timeStr;
 
-  // 🐞 [showif [debugVAR]=1]
+
   if (window.vars && window.vars.DEBUGVAR) {
     loadInclude("debugArea", window.vars.INCVAR + "debug.html");
   }
 
-});
+
 </script>
