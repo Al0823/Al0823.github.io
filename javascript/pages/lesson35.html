@@ -123,6 +123,48 @@ document.getElementById("demo").innerHTML = d;
 const d = new Date(2018, 11, 24, 10, 33, 30);
 document.getElementById("demo").innerHTML = d;
       </textarea><br><br>
+<div class="fs-10">
+5 numbers specify year, month, day, hour, minute:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24, 10, 33);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">
+4 numbers specify year, month, day, and hour:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24, 10);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">
+3 numbers specify year, month, and day:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">
+2 numbers specify year, and month:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">You cannot omit month. If you supply only one parameter it will be treated as milliseconds.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-15">Previous Century</div><br><br>
+<div class="fs-10">One and two digit years will be interpreted as 19xx:</div>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+
+
 
 
 
