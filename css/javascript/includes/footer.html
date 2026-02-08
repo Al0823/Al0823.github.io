@@ -1,0 +1,30 @@
+<footer id="footerText"></footer>
+
+<div id="debugArea"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // 📅 Replace [date] and [time]
+  const now = new Date();
+  const dateStr = now.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+  const timeStr = now.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit"
+  });
+
+  document.getElementById("footerText").innerHTML =
+    "Copyright " + dateStr + " - " + timeStr;
+
+  // 🐞 [showif [debugVAR]=1]
+  if (window.vars && window.vars.DEBUGVAR) {
+    loadInclude("debugArea", window.vars.INCVAR + "debug.html");
+  }
+
+});
+</script>
