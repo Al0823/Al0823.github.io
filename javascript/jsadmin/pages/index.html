@@ -108,7 +108,7 @@ function renderAdminContent() {
 }
 
 // ---------- Main ----------
-document.addEventListener("DOMContentLoaded", async () => {
+
   // db files from your vars.js
   const pagesFile = window.vars.DBVAR + "pages.json";
   const navFile = window.vars.MACVAR + "nav.json";
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if(action) handleAction(action, skuvar);
 
   renderAdminContent();
-});
+
 </script>
 
 </body>
