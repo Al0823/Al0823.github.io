@@ -223,7 +223,7 @@ font-size: 30px;
 
     .fmwnavleft a {
       text-decoration: none;
-      color: rgb(0, 255, 100);          
+      color: rgb(75, 92, 1);          
     }
     
     .fmwnavleft a:hover {
@@ -250,7 +250,7 @@ border-radius: 20px;
 
     .fmwnavright a {
       text-decoration: none;
-      color: rgb(0, 255, 100);          
+      color: rgb(75, 92, 1);          
     }
     
     .fmwnavright a:hover {
