@@ -1,135 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Admin Page</title>
-<style>
-.big.fs-15 {
-  font-size: 15px;
-  margin: 20px;
-}
-a {
-  text-decoration: none;
-}
-hr {
-  margin: 20px 0;
-}
-</style>
-</head>
+[include file=../../includes/vars.inc]
+<html>
+
+
+[include file=[INCVAR]header.inc]
 <body>
 
-<div id="header"></div>
-<main>
-  <div id="nav"></div>
-  <div class="big fs-15" id="admin-content">
-    Loading...
-  </div>
-</main>
-<div id="footer"></div>
+ <main> 
+ [include file=[INCVAR]nav.inc]
+ 
+<div class="big, fs-15">
+ 
+ [text]dbname=[dbvar]pages.db[/text]
+   
+[showif [action]=disable]
+[replace db=[dbname]&eqskudatarq=[skuvar]]status=0[/replace]
+[redirect [thisurl]]
+[/showif]
 
-<script>
-// ---------- Variables ----------
+[showif [action]=enable]
+[replace db=[dbname]&eqskudatarq=[skuvar]]status=1[/replace]
+[redirect [thisurl]]
+[/showif]
 
-let dbPages = []; // pages.json data
-let dbNav = [];   // nav.json data
+[showif [action]=create]
 
-// ---------- Utility Functions ----------
-async function fetchJSON(file) {
-  const res = await fetch(file);
-  return await res.json();
-}
+[copyfile from=[pathvar]/templates/lessontemplate.html&to=[pathvar]pages/lesson[skuvar].html]
+[append db=[dbname]&autonumber=sku]r_nav=[skuvar]&status=1[/append]
+[redirect [thisurl]]
+[/showif]
 
-function redirect(url) {
-  window.location.href = url;
-}
 
-function copyFile(src, dest) {
-  console.log(`Simulate copy: ${src} -> ${dest}`);
-}
+ 
+ 
+ 
 
-function appendDB(newRecord) {
-  console.log("Simulate append to pages.json:", newRecord);
-  dbPages.push(newRecord);
-}
+[search db=[macvar]nav.db&neskudatarq=fa&sortordersort=1&sortordertype=num&weeksumm=T]
+	[founditems]
+			[week]<br>
+		[search db=[macvar]nav.db&eqweekdatarq=[week]&sortordersort=1&sortordertype=num]
+			[founditems]
 
-async function loadInclude(id, file) {
-  const res = await fetch(file);
-  document.getElementById(id).innerHTML = await res.text();
-}
 
-// ---------- Action Handler ----------
-function handleAction(action, skuvar) {
-  if (!action || !skuvar) return;
+[search db=[dbname]&eqr_navdatarq=[sku]]
+	[founditems]
+[text]defaction=enable[/text]
+[showif [status]=1][text]defaction=disable[/text][/showif]
+[title] - - <a [showif [defaction]=enable]style="color: rgb(111, 190, 141);"[/showif] [showif [defaction]=disable]style="color: rgb(211, 49, 49);"[/showif] href="[thisurl]?action=[defaction]&skuvar=[sku]">[defaction]</a><br>
+[/founditems]
 
-  const page = dbPages.find(p => p.r_nav === skuvar);
+[showif [numfound]=0][title] - - <a href="[thisurl]?action=create&skuvar=[sku]">Create</a><br>[/showif]
 
-  if (action === "disable" && page) {
-    page.status = 0;
-    redirect(window.location.href);
-  } 
-  else if (action === "enable" && page) {
-    page.status = 1;
-    redirect(window.location.href);
-  } 
-  else if (action === "create") {
-    const newPage = { r_nav: skuvar, status: 1 };
-    copyFile(`/javascript/templates/lessontemplate.html`, `/javascript/pages/lesson${skuvar}.html`);
-    appendDB(newPage);
-    redirect(window.location.href);
-  }
-}
+[/search]
 
-// ---------- Render Admin Content ----------
-function renderAdminContent() {
-  const adminDiv = document.getElementById("admin-content");
-  adminDiv.innerHTML = "";
+[/founditems][/search]
+[/founditems][/search]
 
-  // --- Render navigation weeks from nav.json ---
-  dbNav.forEach(weekItem => {
-    adminDiv.innerHTML += `<b>${weekItem.week}</b><br>`;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ [!]
+[search db=[DBVAR][DBNAME]&neSKUdatarq=FA&SKUSORT=1&SKUtype=num]
+[numfound] records found<br>
+    <a href="add.html">Add New Record</a><br>
 
-    const subItems = dbNav.filter(i => i.week === weekItem.week);
-    subItems.forEach(sub => {
-      adminDiv.innerHTML += `- ${sub.title}<br>`;
-    });
-  });
+<div class="grid-container">
+[SHOWIF [action]=disable]
+[replace db=[DBVAR]pages.db&eqSKUdatarq=[SKUVAR]][!]
+[/!]STATUS=0[!]
+[/!][/replace]
+[redirect [thisurl]]
+[/showif]
 
-  adminDiv.innerHTML += `<hr>`;
+[SHOWIF [action]=enable]
+[replace db=[DBVAR]pages.db&eqSKUdatarq=[SKUVAR]][!]
+[/!]STATUS=1[!]
+[/!][/replace]
+[redirect [thisurl]]
+[/showif]
 
-  // --- Render all pages with enable/disable/create links ---
-  dbPages.forEach(page => {
-    const defaction = page.status === 1 ? "disable" : "enable";
-    const color = page.status === 1 ? "rgb(111,190,141)" : "rgb(211,49,49)";
-    adminDiv.innerHTML += `- - <a style="color:${color}" href="?action=${defaction}&skuvar=${page.r_nav}">${page.r_nav} (${defaction})</a><br>`;
-  });
+[founditems]
+<div><a href=[PAGEVAR][PAGEURL]>[PAGEURL]</a></div>
 
-  // Optional: show "Create" links for SKUs that exist in nav but not in pages.json
-  const navSkus = dbNav.map(n => n.sku).filter(Boolean); // assumes nav.json has a sku field
-  navSkus.forEach(sku => {
-    if (!dbPages.find(p => p.r_nav === sku)) {
-      adminDiv.innerHTML += `- - <a href="?action=create&skuvar=${sku}">Create ${sku}</a><br>`;
-    }
-  });
-}
+[SHOWIF [STATUS]=1]
 
-// ---------- Main ----------
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadInclude("header", `/javascript/includes/header.html`);
-  await loadInclude("nav", `/javascript/includes/nav.html`);
-  await loadInclude("footer", `/javascript/includes/footer.html`);
+<a href="[thisurl]?action=disable&SKUVAR=[SKU]">Disable</a><br>
+[/SHOWIF]
 
-  dbPages = await fetchJSON("/javascript/data/pages.json");
-  dbNav = await fetchJSON("/javascript/data/nav.json");
+[SHOWIF [STATUS]=0]
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const action = urlParams.get("action");
-  const skuvar = urlParams.get("skuvar");
+<a href="[thisurl]?action=enable&SKUVAR=[SKU]">Enable</a><br>
+[/SHOWIF]
 
-  if(action) handleAction(action, skuvar);
+[/founditems]
+</div>
+[/search]
+[/!]
+</div>
+ </main> 
 
-  renderAdminContent();
-});
-</script>
-
-</body>
-</html>
+[include file=[INCVAR]footer.inc]
