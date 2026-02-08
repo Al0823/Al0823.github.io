@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title id="pageTitle"></title>
-  <script src="../includes/vars.js"></script>
-</head>
-
+<html>
+[include file=../includes/vars.inc]
+[include file=../includes/header.inc]
 <body>
 
-<div id="header"></div>
-
 <main>
-  <div id="nav"></div>
+[include file=../includes/nav.inc]
 
 <article>
 <h2>Syntax Javascript tutorial</h2>
@@ -27,7 +20,7 @@ Now what this code can do is define mathematic variables as well as declare and 
 <br><br>
 
 <textarea id="textbox" name="textbox" rows="30" cols="70">
-
+[input]
 
 <p id=SYNTAX></p>
 
@@ -94,7 +87,7 @@ document.getElementById("SYNTAX").syntax = x * 10;
 document.getElementById("SYNTAX").syntax = "Aloysius" + " "  + "Konys_Merrill";
 
 </script>
-
+[/input]
 </textarea>
 
 
@@ -175,10 +168,5 @@ document.getElementById("SYNTAX").syntax = "Aloysius" + " "  + "Konys_Merrill";
 
   </article>
  </main> 
-<div id="footer"></div>
-
-<script src="../includes/include.js"></script>
-
-
-</body>
+[include file=../includes/footer.inc]
 </html>

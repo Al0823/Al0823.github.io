@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title id="pageTitle"></title>
-  <script src="../includes/vars.js"></script>
-</head>
-
+<html>
+[include file=../includes/vars.inc]
+[include file=../includes/header.inc]
 <body>
 
-<div id="header"></div>
-
 <main>
-  <div id="nav"></div>
-
+[include file=../includes/nav.inc]
 
 <article>
 <h2>Output Javascript tutorial</h2>
@@ -26,7 +18,7 @@ what this code does is it is basically a more complicated Paragraph tag.
 <br><br>
 
 <textarea id="textbox" name="textbox" rows="30" cols="70">
-
+[input]
 
 <p id=OUTPUT></p>
 
@@ -41,7 +33,7 @@ function OUTPUT() {
 
 
 </script>
-
+[/input]
 </textarea>
 
 
@@ -62,15 +54,10 @@ function OUTPUT() {
 
 
 
-</script>
+
 
 
   </article>
  </main> 
-<div id="footer"></div>
-
-<script src="../includes/include.js"></script>
-
-
-</body>
+[include file=../includes/footer.inc]
 </html>

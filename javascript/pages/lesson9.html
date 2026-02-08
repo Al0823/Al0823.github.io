@@ -1,17 +1,10 @@
-<<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title id="pageTitle"></title>
-  <script src="../includes/vars.js"></script>
-</head>
-
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
 <body>
 
-<div id="header"></div>
-
 <main>
-  <div id="nav"></div>
+[include file=[INCVAR]nav.inc]
 
 <article>
 <h2>CONST Javascript tutorial</h2>
@@ -27,7 +20,7 @@ You should use "CONST" when you declare a new Array, Object, Function, or RegExp
 <br><br>
 
 <textarea id="textbox" name="textbox" rows="30" cols="70">
-
+[input]
 
 
 
@@ -77,7 +70,7 @@ catch (err) {
 
 You can NOT reassign Arrays though.
 
-
+[/input]
 </textarea>
 
 
@@ -138,10 +131,5 @@ You can NOT reassign Arrays though.
 
   </article>
  </main> 
-<div id="footer"></div>
-
-<script src="../includes/include.js"></script>
-
-
-</body>
+[include file=[INCVAR]footer.inc]
 </html>

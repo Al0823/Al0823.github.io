@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title id="pageTitle"></title>
-  <script src="../includes/vars.js"></script>
-</head>
-
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
 <body>
 
-<div id="header"></div>
-
 <main>
-  <div id="nav"></div>
+[include file=[INCVAR]nav.inc]
 
 <article>
 <h2>Variables Javascript tutorial</h2>
@@ -23,8 +16,8 @@ Now what this code does is that it works like a data container, there are 4 ways
 <br><br>
 
 <textarea id="textbox" name="textbox" rows="30" cols="70">
-
-
+[input]
+<script>
 
 <p id="87"></p>
 
@@ -65,7 +58,7 @@ document.getElementById("VARIABLES3").innerHTML = _x + _100;
 
 "_" is a valid part of script tags.
 
-<p id="VARIABLES4"></p>
+<p id="VARIABLE4"></p>
 
 <script>
 let $$$ = 2;
@@ -136,7 +129,7 @@ document.getElementById("VARIABLES8").innerHTML = carName;
 
 You can declare multiple variables in one "let" statement.
 
-
+[/input]
 </textarea>
 
 
@@ -144,9 +137,9 @@ You can declare multiple variables in one "let" statement.
 
 <h2>Demonstration</h2>
 <br><br>
+<script>
 
-
-<p id="87"></p>
+<<p id="87"></p>
 
 <p id="VARIABLES"></p>
 
@@ -261,10 +254,5 @@ You can declare multiple variables in one "let" statement.
 
   </article>
  </main> 
-<div id="footer"></div>
-
-<script src="../includes/include.js"></script>
-
-
-</body>
+[include file=[INCVAR]footer.inc]
 </html>

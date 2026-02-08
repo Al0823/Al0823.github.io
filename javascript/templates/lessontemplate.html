@@ -1,31 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title id="pageTitle"></title>
-  <script src="/includes/vars.js"></script>
-</head>
-
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
 <body>
 
-<div id="header"></div>
-
 <main>
-<div id="nav"></div>
+[include file=[INCVAR]nav.inc]
 
 <article>
 <h2>INSERT NAME HERE Javascript tutorial</h2>
 <br><br>
 
 
-This is the "INSERT NAME HERE" Javascript page, it teaches you how to write this code and how it works.<br><br>
+This is the "INSERT NAME HERE" Javascript page, it teaches you how to write this code and how it works.
 Now what this code can do is change what some text says, it can also make buttons and just possibly redirects you if you know what you are doing.
 <br><br>
 
 <textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<script>
 
-
-
+</script>
+[/input]
 </textarea>
 
 
@@ -38,14 +33,9 @@ Now what this code can do is change what some text says, it can also make button
 
 
 
-
+</script>
 
   </article>
  </main> 
-<div id="footer"></div>
-
-<script src="/includes/include.js"></script>
-<script src="/includes/db-debug.js"></script>
-
-</body>
+[include file=[INCVAR]footer.inc]
 </html>

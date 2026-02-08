@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title id="pageTitle"></title>
-  <script src="../includes/vars.js"></script>
-</head>
-
+<html>
+[include file=../includes/vars.inc]
+[include file=../includes/header.inc]
 <body>
 
-<div id="header"></div>
-
 <main>
-  <div id="nav"></div>
-
+[include file=../includes/nav.inc]
 
 <article>
 <h2>Statements Javascript tutorial</h2>
@@ -26,7 +18,7 @@ This is the "Statements" Javascript page, it teaches you how to write this code 
 <br><br>
 
 <textarea id="textbox" name="textbox" rows="30" cols="70">
-
+[input]
 
 <p id=STATEMENTS>An Example</p>
 
@@ -50,7 +42,7 @@ document.getElementById("STATEMENTS").innerHTML = "The value of z is " + z;
 document.getElementById("STATEMENTS2").innerHTML = "Merry Christmas";
 </script>
 
-
+[/input]
 </textarea>
 
 
@@ -88,10 +80,5 @@ document.getElementById("STATEMENTS2").innerHTML = "Merry Christmas";
 
   </article>
  </main> 
-<div id="footer"></div>
-
-<script src="../includes/include.js"></script>
-
-
-</body>
+[include file=../includes/footer.inc]
 </html>

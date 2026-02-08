@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title id="pageTitle"></title>
-  <script src="../includes/vars.js"></script>
-</head>
-
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
 <body>
 
-<div id="header"></div>
-
 <main>
-  <div id="nav"></div>
+[include file=[INCVAR]nav.inc]
 
 <article>
 <h2>LET Javascript tutorial</h2>
@@ -196,10 +189,5 @@ document.getElementById("LET5").innerHTML = x;
 
   </article>
  </main> 
-<div id="footer"></div>
-
-<script src="../includes/include.js"></script>
-
-
-</body>
+[include file=[INCVAR]footer.inc]
 </html>
