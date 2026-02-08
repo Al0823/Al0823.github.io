@@ -2,16 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
 <title id="fullTitle"></title>
 
 <style>
-
 @import url("/css/style.css");
 </style>
 
 <script>
-/* ====== PHP VARIABLES REPLACED ====== */
+/* ====== CONFIG VARIABLES ====== */
 const CONFIG = {
   PROPOSALVAR: "/proposal/",
   MYSITEVAR: "/mysite/",
@@ -43,24 +41,22 @@ const CONFIG = {
   <center><h1>High School Projects</h1></center><br><br>
 
   <div class="fs-15">1st year Projects</div><br><br>
-  <a id="proposalLink"></a><br><br>
-  <a id="mysiteLink"></a><br><br>
-  <a id="ampLink"></a><br><br>
-  <a id="tbgLink"></a><br><br>
+  <a id="proposalLink" href="#"></a><br><br>
+  <a id="mysiteLink" href="#"></a><br><br>
+  <a id="ampLink" href="#"></a><br><br>
+  <a id="tbgLink" href="#" target="_blank"></a><br><br>
 
   <div class="fs-15">2nd year Projects</div><br><br>
-  <a id="jswikiLink"></a><br><br>
-  <a id="wikiLink"></a><br><br>
-  <a id="wikidevLink"></a><br><br>
+  <a id="jswikiLink" href="#"></a><br><br>
+  <a id="wikiLink" href="#"></a><br><br>
+  <a id="wikidevLink" href="#"></a><br><br>
 </div><br><br>
 
 <div class="fmwnavright">
   <div class="fs-15">Other Projects</div><br><br>
-  <a id="pkhexLink"></a><br><br>
-  <a id="specialLink"></a><br><br>
+  <a id="pkhexLink" href="#"></a><br><br>
+  <a id="specialLink" href="#" target="_blank"></a><br><br>
 </div>
-
-
 
 </main>
 
@@ -75,23 +71,30 @@ document.getElementById("fullTitle").textContent =
   CONFIG.WEBSITETITLE + " - " + CONFIG.PAGETITLE;
 
 /* ====== LINKS ====== */
-function setLink(id, url, text) {
+function setLink(id, url, text, newTab = false) {
   const el = document.getElementById(id);
+  if (!el) return;
   el.href = url;
   el.textContent = text;
+  if (newTab) el.target = "_blank";
 }
 
+// 1st year projects
 setLink("proposalLink", CONFIG.PROPOSALVAR + "index.html", "Proposal Website");
 setLink("mysiteLink", CONFIG.MYSITEVAR + "index.html", "Murder Drones Fan Wiki (Mysite Project)");
 setLink("ampLink", CONFIG.AMPVAR + "index.html", "AMP Project");
-setLink("tbgLink", CONFIG.TBGVAR + "index.html", "One Wrong Choice (Text Based Game)");
-setLink("jswikiLink", "/javascript/index.html", "Javascript Wiki");
+setLink("tbgLink", CONFIG.TBGVAR + "index.html", "One Wrong Choice (Text Based Game)", true);
+
+// 2nd year projects
+setLink("jswikiLink", CONFIG.JSWIKIVAR + "index.html", "Javascript Wiki");
 setLink("wikiLink", CONFIG.WIKIVAR + "index.html", "A.T.A. Tech Wiki");
 setLink("wikidevLink", CONFIG.WIKIDEVVAR + "index.html", "A.T.A. Tech Wiki Dev Page");
-setLink("pkhexLink", "/PKHEX-WEB/wwwroot/index.html", "PKHEX Web Browser Version");
-setLink("specialLink", "/Al0823.github.io/mysitespecial/index.html", "Murder Drones Fan Wiki (1st Year Anniversary)");
 
-/* ====== DATE (replaces PHP date()) ====== */
+// other projects
+setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version");
+setLink("specialLink", CONFIG.MYSITESPECIALVAR + "index.html", "Murder Drones Fan Wiki (1st Year Anniversary)", true);
+
+/* ====== DATE ====== */
 const now = new Date();
 document.getElementById("footerDate").innerHTML =
   "&copy; A.t.A. Tech Wiki, " +
