@@ -1,0 +1,40 @@
+<?php
+include "../../includes/vars.inc";
+
+$CHARNAME = "Khan";
+$PAGETITLE = "Character Page - $CHARNAME";
+
+include $incVAR . "header.inc";
+include $incVAR . "navbar.inc";
+?>
+
+<div class="bodycopy clearfix">
+
+
+  <div class="left">
+    <b><?php echo $CHARNAME; ?></b> Doorman, or just "Khan", is a supporting character from the Murder Drones series.<br><br>
+    <b>Role:</b> Supporting Character<br>
+    <b>Family:</b> Father of Uzi Doorman<br>
+    <b>Inventor:</b> Blast doors protecting the colony from Disassembly Drones<br>
+    <b>Voiced by:</b> David J. Dixon (English)
+  </div>
+
+  <!-- MIDDLE COLUMN: Description / Overview -->
+  <div class="middle">
+    <div class="midtitle">Overview of Khan Doorman</div><br>
+    <?php echo $CHARNAME; ?> is a supporting character in the Murder Drones series. 
+    He is the father of Uzi Doorman, the previous estranged husband of Nori Doorman, 
+    and the inventor of the blast doors that kept the colony safe from Disassembly Drones.<br><br>
+
+    <?php include $incVAR . "underconstruction.inc"; ?>
+  </div>
+
+
+  <div class="right">
+    <img class="imgright" src="<?php echo $imgVAR; ?>khan_md.jpeg" alt="Khan Doorman">
+  </div>
+
+</div>
+
+<?php include $incVAR . "footer.inc"; ?>
+<?php if ($debugVAR == 1) include $incVAR . "debug.inc"; ?>

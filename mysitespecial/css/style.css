@@ -1,24 +1,142 @@
+/* ==============================
+   BODY & GLOBAL
+   ============================== */
 body {
   margin: 0;
-  background-color: black;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(255,255,255);
+  font-family: "Times New Roman", serif;
+  color: rgb(0,255,255);
 }
 
-a:hover {
-  color: yellow;
-}
-
-.header, .footer {
-  background-color: black;
-  color: yellow;
+/* ==============================
+   HEADER
+   ============================== */
+.header {
+  background-color: rgb(0,0,0);
+  height: 80px;
+  width: 100%;
   text-align: center;
+  font-size: 48px;
+  padding-top: 20px;
+  color: rgb(255,255,0);
+  font-weight: bold;
 }
 
+/* ==============================
+   BODY LAYOUT
+   ============================== */
+.bodycopy {
+  background-color: rgb(0,0,0);
+  width: 100%;
+  overflow: hidden;
+  display: block;
+}
+
+.left {
+  background-color: rgb(128,128,128);
+  width: 18%;
+  float: left;
+  padding: 20px;
+  border: solid black 3px;
+  font-size: 32px;
+  min-height: 500px;
+}
+
+.middle {
+  background-color: rgb(128,128,128);
+  width: 60%;
+  float: left;
+  padding: 20px;
+  border: solid black 3px;
+  font-size: 32px;
+  min-height: 500px;
+}
+
+.right {
+  background-color: rgb(128,128,128);
+  width: 18%;
+  float: left;
+  padding: 20px;
+  border: solid black 3px;
+  font-size: 32px;
+  min-height: 500px;
+}
+
+/* ==============================
+   FOOTER
+   ============================== */
+.footer {
+  background-color: rgb(0,0,0);
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  font-size: 40px;
+  color: rgb(255,255,0);
+  font-weight: bold;
+  clear: both;
+  padding-top: 10px;
+}
+
+/* ==============================
+   NAVBAR
+   ============================== */
 .navbar {
-  background-color: #333333;
+  background-color: rgb(51,51,51);
+  width: 100%;
+  overflow: hidden;
 }
 
 .navbar a {
-  color: #B026FF;
+  float: left;
+  font-size: 18px;
+  color: rgb(176,38,255);
   text-decoration: none;
+  padding: 10px 12px;
+}
+
+.navbar a:hover {
+  background-color: rgb(0,0,0);
+  color: rgb(255,255,0);
+}
+
+.activenav {
+  background-color: rgb(0,0,0);
+  color: rgb(255,255,0);
+  font-weight: bold;
+}
+
+/* ==============================
+   MISC CLASSES
+   ============================== */
+.imgright {
+  width: 300px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.midtitle {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.underconstruction {
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  background-color: rgb(255,243,205);
+  border: 4px dashed rgb(255,87,51);
+  color: rgb(199,0,57);
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* ==============================
+   CLEAR FLOATS
+   ============================== */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
