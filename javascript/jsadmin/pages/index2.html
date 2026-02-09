@@ -4,44 +4,105 @@
 <meta charset="UTF-8">
 <title>Admin Page</title>
 <style>
-.big.fs-15 {
-  font-size: 15px;
-  margin: 20px;
+.big.fs-15 { font-size: 15px; margin: 20px; }
+a { text-decoration: none; }
+hr { margin: 20px 0; }
+
+#loginScreen {
+  text-align: center;
+  margin-top: 120px;
 }
-a {
-  text-decoration: none;
+#loginScreen input, #loginScreen button {
+  padding: 10px;
+  font-size: 16px;
+  margin: 5px;
 }
-hr {
-  margin: 20px 0;
-}
+#msg { color: red; }
 </style>
 </head>
 <body>
 
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <h2>Admin Login</h2>
+  <input type="password" id="pw" placeholder="Password">
+  <button onclick="login()">Login</button>
+  <p id="msg"></p>
+</div>
+
 <div id="header"></div>
+
 <main>
   <div id="nav"></div>
-  <div class="big fs-15" id="admin-content">
+
+  <!-- ADMIN CONTENT (LOCKED) -->
+  <div class="big fs-15" id="admin-content" style="display:none;">
+    <button onclick="logout()">Logout</button>
+    <hr>
     Loading...
   </div>
 </main>
+
 <div id="footer"></div>
 
 <script>
-// ---------- Variables ----------
+/* ================= AUTH SYSTEM ================= */
 
-let dbPages = []; // pages.json data
-let dbNav = [];   // nav.json data
+// 🔑 Replace this with your generated hash
+const PASSWORD_HASH = "PASTE_HASH_HERE";
 
-// ---------- Utility Functions ----------
+let attempts = 0;
+const MAX_ATTEMPTS = 5;
+
+async function sha256(text) {
+  const buf = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(text)
+  );
+  return [...new Uint8Array(buf)]
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+async function login() {
+  if (attempts >= MAX_ATTEMPTS) {
+    document.getElementById("msg").textContent = "Too many attempts. Reload page.";
+    return;
+  }
+
+  const input = document.getElementById("pw").value;
+  const hash = await sha256(input);
+
+  if (hash === PASSWORD_HASH) {
+    sessionStorage.setItem("adminAuth", "true");
+    unlockAdmin();
+  } else {
+    attempts++;
+    document.getElementById("msg").textContent = "Wrong password";
+  }
+}
+
+function unlockAdmin() {
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("admin-content").style.display = "block";
+}
+
+function logout() {
+  sessionStorage.removeItem("adminAuth");
+  location.reload();
+}
+
+/* ================= ADMIN SYSTEM ================= */
+
+let dbPages = [];
+let dbNav = [];
+
 async function fetchJSON(file) {
   const res = await fetch(file);
   return await res.json();
 }
 
-function redirect(url) {
-  window.location.href = url;
-}
+function redirect(url) { window.location.href = url; }
 
 function copyFile(src, dest) {
   console.log(`Simulate copy: ${src} -> ${dest}`);
@@ -57,21 +118,23 @@ async function loadInclude(id, file) {
   document.getElementById(id).innerHTML = await res.text();
 }
 
-// ---------- Action Handler ----------
 function handleAction(action, skuvar) {
   if (!action || !skuvar) return;
 
   const page = dbPages.find(p => p.r_nav === skuvar);
 
   if (action === "disable" && page) {
+    if (!confirm("Disable this page?")) return;
     page.status = 0;
     redirect(window.location.href);
   } 
   else if (action === "enable" && page) {
+    if (!confirm("Enable this page?")) return;
     page.status = 1;
     redirect(window.location.href);
   } 
   else if (action === "create") {
+    if (!confirm("Create this page?")) return;
     const newPage = { r_nav: skuvar, status: 1 };
     copyFile(`/javascript/templates/lessontemplate.html`, `/javascript/pages/lesson${skuvar}.html`);
     appendDB(newPage);
@@ -79,32 +142,25 @@ function handleAction(action, skuvar) {
   }
 }
 
-// ---------- Render Admin Content ----------
 function renderAdminContent() {
   const adminDiv = document.getElementById("admin-content");
-  adminDiv.innerHTML = "";
+  adminDiv.innerHTML += `<hr><b>Navigation</b><br>`;
 
-  // --- Render navigation weeks from nav.json ---
   dbNav.forEach(weekItem => {
     adminDiv.innerHTML += `<b>${weekItem.week}</b><br>`;
-
-    const subItems = dbNav.filter(i => i.week === weekItem.week);
-    subItems.forEach(sub => {
-      adminDiv.innerHTML += `- ${sub.title}<br>`;
-    });
+    dbNav.filter(i => i.week === weekItem.week)
+      .forEach(sub => adminDiv.innerHTML += `- ${sub.title}<br>`);
   });
 
-  adminDiv.innerHTML += `<hr>`;
+  adminDiv.innerHTML += `<hr><b>Pages</b><br>`;
 
-  // --- Render all pages with enable/disable/create links ---
   dbPages.forEach(page => {
     const defaction = page.status === 1 ? "disable" : "enable";
     const color = page.status === 1 ? "rgb(111,190,141)" : "rgb(211,49,49)";
     adminDiv.innerHTML += `- - <a style="color:${color}" href="?action=${defaction}&skuvar=${page.r_nav}">${page.r_nav} (${defaction})</a><br>`;
   });
 
-  // Optional: show "Create" links for SKUs that exist in nav but not in pages.json
-  const navSkus = dbNav.map(n => n.sku).filter(Boolean); // assumes nav.json has a sku field
+  const navSkus = dbNav.map(n => n.sku).filter(Boolean);
   navSkus.forEach(sku => {
     if (!dbPages.find(p => p.r_nav === sku)) {
       adminDiv.innerHTML += `- - <a href="?action=create&skuvar=${sku}">Create ${sku}</a><br>`;
@@ -112,11 +168,18 @@ function renderAdminContent() {
   });
 }
 
-// ---------- Main ----------
+/* ================= MAIN ================= */
+
 document.addEventListener("DOMContentLoaded", async () => {
   await loadInclude("header", `/javascript/includes/header.html`);
   await loadInclude("nav", `/javascript/includes/nav.html`);
   await loadInclude("footer", `/javascript/includes/footer.html`);
+
+  if (sessionStorage.getItem("adminAuth") === "true") {
+    unlockAdmin();
+  } else {
+    return; // STOP everything if not logged in
+  }
 
   dbPages = await fetchJSON("/javascript/data/pages.json");
   dbNav = await fetchJSON("/javascript/data/nav.json");
@@ -126,10 +189,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const skuvar = urlParams.get("skuvar");
 
   if(action) handleAction(action, skuvar);
-
   renderAdminContent();
 });
 </script>
-
 </body>
 </html>
