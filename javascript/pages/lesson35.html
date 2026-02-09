@@ -179,7 +179,19 @@ One day (24 hours) is 86 400 000 milliseconds.</div>
 const d = new Date(100000000000);
 document.getElementById("demo").innerHTML = d;
       </textarea><br><br>
-
+<div class="fs-10">01 January 1970 minus 100 000 000 000 milliseconds is:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(-100000000000);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<div class="fs-10">January 01 1970 plus 24 hours is:</div><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+const d = new Date(86400000);
+document.getElementById("demo").innerHTML = d;
+// or
+const d = new Date(24 * 60 * 60 * 1000);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 <h3>Examples</h3>    
     <h3>Creating a Date Object</h3>
     <p>Use the <code>Date()</code> constructor:</p>
