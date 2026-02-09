@@ -1,0 +1,76 @@
+<?php
+include '../includes/vars.inc';
+$PAGETITLE = 'MD Wiki Gallery';
+include $incVAR . 'header.inc';
+include $incVAR . 'navbar.inc';
+?>
+
+<!-- BODY COLUMNS -->
+<table width="100%" border="0" cellspacing="0" cellpadding="10">
+<tr>
+  <!-- LEFT COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080">
+    This is the Gallery! The purpose of the gallery is to show off the images and videos used in the creation of this website.
+  </td>
+
+  <!-- MIDDLE COLUMN: Warning -->
+  <td width="60%" valign="top" bgcolor="#000000" style="color:#FF0000; font-weight:bold;">
+    <center>
+      !WARNING!<br>
+      !THE CONTENT UP AHEAD MAY INCLUDE SPOILERS FOR MURDER DRONES!<br>
+      !VIEW AT YOUR OWN RISK!
+    </center>
+  </td>
+
+  <!-- RIGHT COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080">
+    <img src="<?php echo $imgVAR; ?>null_flashback_tiktok_cynforreal3.png" width="100%" alt="Featured Image">
+  </td>
+</tr>
+</table>
+
+<br>
+
+<!-- RETRO TABLE GALLERY -->
+<table width="100%" border="1" cellspacing="5" cellpadding="5">
+<tr>
+  <td><img src="<?php echo $imgVAR; ?>null_flashback_tiktok_cynforreal3.png" width="100%" alt="Image 1"></td>
+  <td><img src="<?php echo $imgVAR; ?>about_website.jpg" width="100%" alt="Image 2"></td>
+  <td><img src="<?php echo $imgVAR; ?>md_poster.png" width="100%" alt="Image 3"></td>
+</tr>
+<tr>
+  <td><img src="<?php echo $imgVAR; ?>uzi_md.jpeg" width="100%" alt="Image 4"></td>
+  <td><img src="<?php echo $imgVAR; ?>v_md.png" width="100%" alt="Image 5"></td>
+  <td><img src="<?php echo $imgVAR; ?>n_md.png" width="100%" alt="Image 6"></td>
+</tr>
+<tr>
+  <td><img src="<?php echo $imgVAR; ?>j_md.png" width="100%" alt="Image 7"></td>
+  <td><img src="<?php echo $imgVAR; ?>cyn_absolutesolver_md.png" width="100%" alt="Image 8"></td>
+  <td><img src="<?php echo $imgVAR; ?>khan_md.png" width="100%" alt="Image 9"></td>
+</tr>
+<tr>
+  <td><img src="<?php echo $imgVAR; ?>prom_uzi_md.png" width="100%" alt="Image 10"></td>
+  <td><img src="<?php echo $imgVAR; ?>solver_uzi_md.png" width="100%" alt="Image 11"></td>
+  <td><img src="<?php echo $imgVAR; ?>epilogue_uzi_md.png" width="100%" alt="Image 12"></td>
+</tr>
+<tr>
+  <td><img src="<?php echo $imgVAR; ?>thank_you.png" width="100%" alt="Image 13"></td>
+  <td><img src="<?php echo $imgVAR; ?>contact.png" width="100%" alt="Image 14"></td>
+  <td>
+    
+    <a href="https://www.youtube.com/watch?v=mlmFz8mkaHo" target="_blank">
+      <img src="<?php echo $imgVAR; ?>yt_placeholder1.jpg" width="100%" alt="Video 1">
+    </a>
+  </td>
+</tr>
+<tr>
+  <td colspan="3">
+    <a href="https://www.youtube.com/watch?v=7z8DO1KhPFo" target="_blank">
+      <img src="<?php echo $imgVAR; ?>yt_placeholder2.jpg" width="100%" alt="Video 2">
+    </a>
+  </td>
+</tr>
+</table>
+
+<?php include $incVAR . 'footer.inc'; ?>
+<?php if ($debugVAR == 1) include $incVAR . 'debug.inc'; ?>
