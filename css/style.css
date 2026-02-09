@@ -76,7 +76,7 @@ border-radius: 20px;
 
 footer {
   flex-shrink: 0;                 
-  font-size: 20px;                
+  font-size: 40px;                
   background-color: rgb(75, 75, 75);
   color: var(--white);
   text-align: center;
