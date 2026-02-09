@@ -1,196 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Admin Page</title>
+<meta charset="UTF-8" />
+<title>Admin Panel</title>
+
 <style>
-.big.fs-15 { font-size: 15px; margin: 20px; }
-a { text-decoration: none; }
-hr { margin: 20px 0; }
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+  }
 
-#loginScreen {
-  text-align: center;
-  margin-top: 120px;
-}
-#loginScreen input, #loginScreen button {
-  padding: 10px;
-  font-size: 16px;
-  margin: 5px;
-}
-#msg { color: red; }
+  /* Login screen */
+  #loginScreen {
+    position: fixed;
+    inset: 0;
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+  }
+
+  #loginScreen input {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  #loginScreen button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  /* Admin content */
+  header, main, footer {
+    padding: 20px;
+  }
 </style>
-</head>
-<body>
 
-<!-- LOGIN SCREEN -->
+<!-- Hide page immediately before anything renders -->
+<script>
+  document.documentElement.style.display = "none";
+</script>
+</head>
+
+<body id="pageBody">
+
+<!-- LOGIN OVERLAY -->
 <div id="loginScreen">
   <h2>Admin Login</h2>
-  <input type="password" id="pw" placeholder="Password">
-  <button onclick="login()">Login</button>
-  <p id="msg"></p>
+  <input type="password" id="passwordInput" placeholder="Enter password" />
+  <button onclick="checkPassword()">Login</button>
+  <p id="errorMsg" style="color:red;"></p>
 </div>
 
-<div id="header"></div>
+<!-- ADMIN CONTENT -->
+<header>
+  <h1>Admin Control Panel</h1>
+</header>
 
 <main>
-  <div id="nav"></div>
-
-  <!-- ADMIN CONTENT (LOCKED) -->
-  <div class="big fs-15" id="admin-content" style="display:none;">
-    <button onclick="logout()">Logout</button>
-    <hr>
-    Loading...
-  </div>
+  <p>Welcome to the admin area. Only authorized users can see this.</p>
 </main>
 
-<div id="footer"></div>
+<footer>
+  Admin System
+</footer>
 
 <script>
-/* ================= AUTH SYSTEM ================= */
+/* 🔐 CHANGE THIS HASH TO YOUR PASSWORD HASH */
+const PASSWORD_HASH = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd38aef8e4f5f9e4f06"; // "password"
 
-// 🔑 Replace this with your generated hash
-const PASSWORD_HASH = "77c9c10fe02348165bfb45d2a896c5bc0dfaae7cd2a0607edc08b381efd8fd59";
-
-let attempts = 0;
-const MAX_ATTEMPTS = 5;
-
+/* Hash function */
 async function sha256(text) {
-  const buf = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(text)
-  );
-  return [...new Uint8Array(buf)]
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hashBuffer))
     .map(b => b.toString(16).padStart(2, "0"))
     .join("");
 }
 
-async function login() {
-  if (attempts >= MAX_ATTEMPTS) {
-    document.getElementById("msg").textContent = "Too many attempts. Reload page.";
-    return;
-  }
+/* Show page safely */
+function showPage() {
+  document.documentElement.style.display = "block";
+}
 
-  const input = document.getElementById("pw").value;
+/* Unlock admin */
+function unlockAdmin() {
+  document.getElementById("loginScreen").style.display = "none";
+  sessionStorage.setItem("adminAuth", "true");
+  showPage();
+}
+
+/* Check password */
+async function checkPassword() {
+  const input = document.getElementById("passwordInput").value;
   const hash = await sha256(input);
 
   if (hash === PASSWORD_HASH) {
-    sessionStorage.setItem("adminAuth", "true");
     unlockAdmin();
   } else {
-    attempts++;
-    document.getElementById("msg").textContent = "Wrong password";
+    document.getElementById("errorMsg").textContent = "Wrong password";
   }
 }
 
-function unlockAdmin() {
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("admin-content").style.display = "block";
-}
-
-function logout() {
-  sessionStorage.removeItem("adminAuth");
-  location.reload();
-}
-
-/* ================= ADMIN SYSTEM ================= */
-
-let dbPages = [];
-let dbNav = [];
-
-async function fetchJSON(file) {
-  const res = await fetch(file);
-  return await res.json();
-}
-
-function redirect(url) { window.location.href = url; }
-
-function copyFile(src, dest) {
-  console.log(`Simulate copy: ${src} -> ${dest}`);
-}
-
-function appendDB(newRecord) {
-  console.log("Simulate append to pages.json:", newRecord);
-  dbPages.push(newRecord);
-}
-
-async function loadInclude(id, file) {
-  const res = await fetch(file);
-  document.getElementById(id).innerHTML = await res.text();
-}
-
-function handleAction(action, skuvar) {
-  if (!action || !skuvar) return;
-
-  const page = dbPages.find(p => p.r_nav === skuvar);
-
-  if (action === "disable" && page) {
-    if (!confirm("Disable this page?")) return;
-    page.status = 0;
-    redirect(window.location.href);
-  } 
-  else if (action === "enable" && page) {
-    if (!confirm("Enable this page?")) return;
-    page.status = 1;
-    redirect(window.location.href);
-  } 
-  else if (action === "create") {
-    if (!confirm("Create this page?")) return;
-    const newPage = { r_nav: skuvar, status: 1 };
-    copyFile(`/javascript/templates/lessontemplate.html`, `/javascript/pages/lesson${skuvar}.html`);
-    appendDB(newPage);
-    redirect(window.location.href);
-  }
-}
-
-function renderAdminContent() {
-  const adminDiv = document.getElementById("admin-content");
-  adminDiv.innerHTML += `<hr><b>Navigation</b><br>`;
-
-  dbNav.forEach(weekItem => {
-    adminDiv.innerHTML += `<b>${weekItem.week}</b><br>`;
-    dbNav.filter(i => i.week === weekItem.week)
-      .forEach(sub => adminDiv.innerHTML += `- ${sub.title}<br>`);
-  });
-
-  adminDiv.innerHTML += `<hr><b>Pages</b><br>`;
-
-  dbPages.forEach(page => {
-    const defaction = page.status === 1 ? "disable" : "enable";
-    const color = page.status === 1 ? "rgb(111,190,141)" : "rgb(211,49,49)";
-    adminDiv.innerHTML += `- - <a style="color:${color}" href="?action=${defaction}&skuvar=${page.r_nav}">${page.r_nav} (${defaction})</a><br>`;
-  });
-
-  const navSkus = dbNav.map(n => n.sku).filter(Boolean);
-  navSkus.forEach(sku => {
-    if (!dbPages.find(p => p.r_nav === sku)) {
-      adminDiv.innerHTML += `- - <a href="?action=create&skuvar=${sku}">Create ${sku}</a><br>`;
-    }
-  });
-}
-
-/* ================= MAIN ================= */
-
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadInclude("header", `/javascript/includes/header.html`);
-  await loadInclude("nav", `/javascript/includes/nav.html`);
-  await loadInclude("footer", `/javascript/includes/footer.html`);
-
+/* On page load */
+document.addEventListener("DOMContentLoaded", () => {
   if (sessionStorage.getItem("adminAuth") === "true") {
     unlockAdmin();
   } else {
-    return; // STOP everything if not logged in
+    showPage(); // Show only login screen
   }
-
-  dbPages = await fetchJSON("/javascript/data/pages.json");
-  dbNav = await fetchJSON("/javascript/data/nav.json");
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const action = urlParams.get("action");
-  const skuvar = urlParams.get("skuvar");
-
-  if(action) handleAction(action, skuvar);
-  renderAdminContent();
 });
 </script>
+
 </body>
 </html>
