@@ -8,33 +8,45 @@ include $incVAR . "header.inc";
 include $incVAR . "navbar.inc";
 ?>
 
-<div class="bodycopy clearfix">
+<!-- MAIN LAYOUT TABLE -->
+<table width="100%" cellspacing="10" cellpadding="10">
+<tr>
 
+  <!-- LEFT INFO COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000;">
+    <font size="5"><b><?php echo $CHARNAME; ?></b> Doorman</font><br><br>
 
-  <div class="left">
-    <b><?php echo $CHARNAME; ?></b> Doorman, or just "Khan", is a supporting character from the Murder Drones series.<br><br>
     <b>Role:</b> Supporting Character<br>
     <b>Family:</b> Father of Uzi Doorman<br>
-    <b>Inventor:</b> Blast doors protecting the colony from Disassembly Drones<br>
+    <b>Inventor:</b> Blast doors protecting the colony<br>
     <b>Voiced by:</b> David J. Dixon (English)
-  </div>
+  </td>
 
- 
-  <div class="middle">
-    <div class="midtitle">Overview of Khan Doorman</div><br>
-    <?php echo $CHARNAME; ?> is a supporting character in the Murder Drones series. 
-    He is the father of Uzi Doorman, the previous estranged husband of Nori Doorman, 
-    and the inventor of the blast doors that kept the colony safe from Disassembly Drones.<br><br>
+
+  <!-- CENTER CONTENT -->
+  <td width="60%" valign="top" bgcolor="#C0C0C0" style="border:3px solid #000000;">
+    <center>
+      <font size="6"><b>Overview of Khan Doorman</b></font>
+    </center>
+    <br>
+
+    <?php echo $CHARNAME; ?> is a supporting character in the Murder Drones series.
+    He is the father of Uzi Doorman, the estranged husband of Nori Doorman,
+    and the inventor of the blast doors that kept the colony safe from Disassembly Drones.
+    <br><br>
 
     <?php include $incVAR . "underconstruction.inc"; ?>
-  </div>
+  </td>
 
 
-  <div class="right">
-    <img class="imgright" src="<?php echo $imgVAR; ?>khan_md.jpeg" alt="Khan Doorman">
-  </div>
+  <!-- RIGHT IMAGE COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000; text-align:center;">
+    <img src="<?php echo $imgVAR; ?>khan_md.jpeg" width="220" alt="Khan Doorman"><br>
+    <font size="2">Khan Doorman</font>
+  </td>
 
-</div>
+</tr>
+</table>
 
 <?php include $incVAR . "footer.inc"; ?>
 <?php if ($debugVAR == 1) include $incVAR . "debug.inc"; ?>

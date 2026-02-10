@@ -1,0 +1,41 @@
+<?php
+include "../../includes/vars.inc";
+
+
+$PAGETITLE = "About A.t.A.";
+
+include $incVAR . "header.inc";
+include $incVAR . "navbar.inc";
+?>
+
+<!-- MAIN LAYOUT TABLE -->
+<table width="100%" cellspacing="10" cellpadding="10">
+<tr>
+
+  <!-- LEFT INFO COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000;">
+    This it the About A.t.A page, it's purpose is to give a brief explanation on what A.t.A makes.
+  </td>
+
+
+
+  <td width="60%" valign="top" bgcolor="#C0C0C0" style="border:3px solid #000000;">
+   
+
+
+
+    <?php include $incVAR . "underconstruction.inc"; ?>
+  </td>
+
+
+  <!-- RIGHT IMAGE COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000; text-align:center;">
+    <img src="<?php echo $imgVAR; ?>about_website.jpg" width="220" alt="about website"><br>
+
+  </td>
+
+</tr>
+</table>
+
+<?php include $incVAR . "footer.inc"; ?>
+<?php if ($debugVAR == 1) include $incVAR . "debug.inc"; ?>

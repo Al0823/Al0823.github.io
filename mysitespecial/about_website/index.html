@@ -1,0 +1,47 @@
+<?php include '../includes/vars.inc'; ?>
+<?php $PAGETITLE = 'About MD Wiki'; ?>
+<?php include $incVAR . 'header.inc'; ?>
+<?php include $incVAR . 'navbar.inc'; ?>
+
+<!-- MAIN LAYOUT TABLE -->
+<table width="100%" cellspacing="10" cellpadding="10">
+<tr>
+
+  <!-- LEFT COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000;">
+    <font size="5"><b>About This Website</b></font><br><br>
+    This is the About Website page.<br>
+    Its purpose is to give a brief explanation of what this website is about.
+  </td>
+
+
+  <!-- MIDDLE CONTENT -->
+  <td width="60%" valign="top" bgcolor="#C0C0C0" style="border:3px solid #000000;">
+    <center>
+      <font size="6"><b>Welcome to the MD Wiki!</b></font>
+    </center>
+    <br>
+
+    This website is dedicated to <b>Murder Drones</b> and its very complicated lore.<br><br>
+
+    What does this website include?<br>
+    • Character information<br>
+    • Behind-the-scenes lore<br>
+    • Story explanations<br>
+    • Media and images<br><br>
+
+    More content is always being added as the series grows!
+  </td>
+
+
+  <!-- RIGHT IMAGE COLUMN -->
+  <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000; text-align:center;">
+    <img src="<?php echo $imgVAR; ?>about_website.jpg" width="220" alt="About the Website"><br>
+    <font size="2">MD Wiki</font>
+  </td>
+
+</tr>
+</table>
+
+<?php include $incVAR . 'footer.inc'; ?>
+<?php if ($debugVAR == 1) include $incVAR . "debug.inc"; ?>
