@@ -1,37 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>MD Wiki Homepage</title>
-  <link rel="stylesheet" href="/style.css" />
+<?php include 'includes/vars.inc'; ?>
+<?php include 'includes/header.inc'; ?>
+<?php
+$PAGETITLE = 'MD Wiki Homepage';
+?>
+<?php include 'includes/navbar.inc'; ?>
 
-  <!-- Global variables -->
-  <script src="/includes/vars.js"></script>
-</head>
+<div class="bodycopy">
+	<div class="left">
+		Hello! This is the homepage of my Website! The purpose of my website is to talk about Murder Drones, the creators, overall run downs of the episodes, etc.
+	</div>
 
-<body>
+	<div class="middle">
+		Murder Drones is a fictional series made by Liam Vickers and Glitch Productions, it takes place on Copper 9. Copper 9 is a terrestrial exoplanet colonized by the JCJenson corporation, valued at least in part for mining operations, industrial manufacturing, and robot research. But unfortunately the planet's core collapsed which also reduced the planets surface to a frozen wasteland. This killed all biological life on the planet, but it allowed the "rogue" worker drones to gain sentience and maintain a society. The Absolute Solver posing as the JcJenson company did not like that and sent at least 3 Disassembly Drones to exterminate all Worker Drones.
+	</div>
 
-  <!-- Includes load here -->
-  <div id="header"></div>
-  <div id="nav"></div>
+	<div class="right">
+		<img class="imgright" src="<?php echo $imgVAR; ?>md_poster.png" alt="Uh oh broken">
+	</div>
+</div>
 
-  <div class="bodycopy">
-    <div class="left">
-      Hello! This is the homepage of my Website! The purpose of my website is to talk about Murder Drones, the creators, overall run downs of the episodes, etc.
-    </div>
+<?php include 'includes/footer.inc'; ?>
 
-    <div class="middle">
-      Murder Drones is a fictional series made by Liam Vickers and Glitch Productions, it takes place on Copper 9. Copper 9 is a terrestrial exoplanet colonized by the JCJenson corporation, valued at least in part for mining operations, industrial manufacturing, and robot research. But unfortunately the planet's core collapsed which also reduced the planet's surface to a frozen wasteland. This killed all biological life on the planet, but it allowed the "rogue" worker drones to gain sentience and maintain a society. The Absolute Solver posing as the JCJenson company did not like that and sent at least 3 Disassembly Drones to exterminate all Worker Drones.
-    </div>
-
-    <div class="right">
-      <img class="imgright" id="posterImg" alt="Murder Drones Poster">
-    </div>
-  </div>
-
-  <div id="footer"></div>
-
-  <script src="/includes/load.js"></script>
-  <script src="/includes/page-init.js"></script>
-</body>
-</html>
