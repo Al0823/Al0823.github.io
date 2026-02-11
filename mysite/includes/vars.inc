@@ -1,5 +1,5 @@
 <?php
-$pathVAR  = '/aloysiusprojects/main/mysite/';
+$pathVAR  = '/mysite/';
 $imgVAR   = $pathVAR . 'gallery/images/';
 $cssVAR   = $pathVAR . 'css/';
 $incVAR   = $pathVAR . 'includes/';
