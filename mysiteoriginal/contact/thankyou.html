@@ -1,0 +1,30 @@
+[include file=../includes/vars.inc]
+[include file=[incVAR]header.inc]
+[include file=[incVAR]navbar.inc]
+
+<div class="bodycopy">
+<div class="left"> YIPPEE! </div>
+  <div class="middle"> THANK YOU FOR DOING THE FORM NOW! WE WILL GET BACK TO YOU SOON! </div>
+	<div class="right"><img class=imgright src="[imgVAR]thank_you.png" alt="Uh oh broken"></div>
+</div>
+[sendmail to=akonysmerrill@citiboces.net&from=amccombie@citiboces.org&subject=Murder Drones Feedback Contact]
+The following information was sent from on [date] @ [time].
+
+Name: [fname] [lname]
+Phone: [Phone]
+Email: [Email]
+Address: [address]
+Reason for Contacting: [Reason]
+Comment: [comment]
+
+This was sent from [ipaddress]
+[/sendmail]
+
+[sendmail to=akonysmerrill@citiboces.net&from=amccombie@citiboces.org&subject=Murder Drones Feedback Contact]
+The following information was sent from on [date] @ [time].
+
+[formvariables]
+  [index], [name] = [value]
+[/formvariables]
+[/sendmail]
+[include file=[incVAR]footer.inc]
