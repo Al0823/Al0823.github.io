@@ -1,0 +1,100 @@
+<?php
+include '../includes/vars.inc';
+
+$pagetitle = "Login / Signup";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+$dbname = "members.db";
+$dbpath = $dbVAR . $dbname;
+
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+$action = $_POST['action'] ?? '';
+
+
+function setLoginCookies($userSKU, $key, $pathVAR, $domainVAR) {
+    $expire = time() + 7 * 24 * 60 * 60; // 7 days
+    setcookie('userV', $userSKU, $expire, $pathVAR, $domainVAR);
+    setcookie('keyV', $key, $expire, $pathVAR, $domainVAR);
+}
+
+
+if ($action === 'login') {
+    $uname = $_POST['uname'] ?? '';
+    $pword = $_POST['pword'] ?? '';
+
+    $stmt = $db->prepare("SELECT * FROM members WHERE uname = :uname AND pword = :pword AND status = 1");
+    $stmt->execute([':uname'=>$uname, ':pword'=>$pword]);
+    $member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$member) {
+     
+        header("Location: index.html?error=login");
+        exit();
+    }
+
+    setLoginCookies($member['SKU'], $member['key'], $pathVAR, $domainVAR);
+    header("Location: index.html");
+    exit();
+}
+
+
+if ($action === 'signup') {
+    $fname = $_POST['fname'] ?? '';
+    $lname = $_POST['lname'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $uname = $_POST['uname'] ?? '';
+    $pword = $_POST['pword'] ?? '';
+
+    
+    $stmt = $db->prepare("SELECT * FROM members WHERE uname = :uname");
+    $stmt->execute([':uname'=>$uname]);
+    if ($stmt->fetch(PDO::FETCH_ASSOC)) {
+        
+        header("Location: index.html?error=signup");
+        exit();
+    }
+
+  
+    $cartKey = bin2hex(random_bytes(8));
+
+   
+    $stmt = $db->prepare("
+        INSERT INTO members (key, fname, lname, email, uname, pword, admin, createdate, status)
+        VALUES (:key, :fname, :lname, :email, :uname, :pword, 0, :createdate, 1)
+    ");
+    $stmt->execute([
+        ':key' => $cartKey,
+        ':fname' => $fname,
+        ':lname' => $lname,
+        ':email' => $email,
+        ':uname' => $uname,
+        ':pword' => $pword,
+        ':createdate' => date('Y-m-d H:i:s')
+    ]);
+
+    $lastId = $db->lastInsertId();
+
+    setLoginCookies($lastId, $cartKey, $pathVAR, $domainVAR);
+
+    
+    header("Location: index.php?success=newaccount");
+    exit();
+}
+
+$db = null;
+?>
+
+<div class="bodycopy">
+
+</div>
+
+<?php include $incVAR . '/footer.inc'; ?>

@@ -1,0 +1,91 @@
+<?php
+// Include variables
+include '../../includes/vars.inc';
+
+// Set page title
+$PAGETITLE = "Country Index";
+
+// Include header and navigation
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+// Database setup
+$dbname = "country.db";
+$dbpath = $dbVAR . $dbname;
+
+// Connect to SQLite
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Handle Delete action
+if (isset($_GET['action']) && $_GET['action'] === 'Delete') {
+    $sku = $_GET['SKUVAR'] ?? 0;
+
+    if ($sku) {
+        $stmt = $db->prepare("DELETE FROM records WHERE SKU = :sku");
+        $stmt->execute([':sku' => $sku]);
+
+        // Redirect to same page to avoid re-submitting
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
+}
+
+// Fetch all records (excluding 'fa' SKU if necessary)
+$stmt = $db->query("SELECT * FROM records WHERE SKU != 'fa' ORDER BY SKU ASC");
+$records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$numFound = count($records);
+
+?>
+
+<div class="bodycopy">
+    <?php echo "SKU  TITLE CODE  CREATEDATE  MODDATE STATUS"; ?>
+    <div class="devmysite25">
+        <?php echo "dbname=$dbname"; ?><br>
+
+        <h2><?php echo htmlspecialchars($dbname); ?></h2><br>
+
+        <?php echo "$numFound records found"; ?><br>
+        <a href="add.html">Add New Record</a><br><br>
+
+        <table style="width: 100%" border="1">
+            <tr>
+                <th>SKU</th>
+                <th>TITLE</th>
+                <th>CODE</th>
+                <th>CREATEDATE</th>
+                <th>MODDATE</th>
+                <th>STATUS</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+            <?php foreach ($records as $record): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($record['SKU']); ?></td>
+                <td><?php echo htmlspecialchars($record['TITLE']); ?></td>
+                <td><?php echo htmlspecialchars($record['CODE']); ?></td>
+                <td><?php echo htmlspecialchars($record['CREATEDATE']); ?></td>
+                <td><?php echo htmlspecialchars($record['MODDATE']); ?></td>
+                <td><?php echo htmlspecialchars($record['STATUS']); ?></td>
+                <td><a href="edit.html?SKUVAR=<?php echo $record['SKU']; ?>">Edit</a></td>
+                <td><a href="<?php echo $_SERVER['PHP_SELF']; ?>?action=Delete&SKUVAR=<?php echo $record['SKU']; ?>" onclick="return confirm('Are you sure you want to delete this record?');">Delete</a></td>
+            </tr>
+            <?php endforeach; ?>
+
+        </table>
+
+    </div>
+</div>
+
+<?php
+// Close database
+$db = null;
+
+// Include footer
+include $incVAR . '/footer.inc';
+?>

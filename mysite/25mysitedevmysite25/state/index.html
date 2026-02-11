@@ -1,0 +1,95 @@
+<?php
+include '../../includes/vars.inc';
+
+$pagetitle = "State Admin";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+
+
+$dbname = "state.db";
+$dbpath = $dbVAR . $dbname;
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Country DB for lookup
+    $countryDB = new PDO("sqlite:" . $dbVAR . "country.db");
+
+} catch (PDOException $e) {
+    die("DB connection failed: " . $e->getMessage());
+}
+
+
+if (isset($_GET['action']) && $_GET['action'] === 'Delete') {
+    $sku = $_GET['SKUVAR'] ?? 0;
+
+    if ($sku) {
+        $stmt = $db->prepare("DELETE FROM states WHERE SKU = :sku");
+        $stmt->execute([':sku' => $sku]);
+
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
+}
+
+
+$stmt = $db->query("SELECT * FROM states WHERE SKU != 'fa' ORDER BY SKU ASC");
+$states = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+$countries = [];
+$countryRows = $countryDB->query("SELECT SKU, TITLE FROM countries")->fetchAll(PDO::FETCH_ASSOC);
+foreach ($countryRows as $c) {
+    $countries[$c['SKU']] = $c['TITLE'];
+}
+?>
+
+<div class="bodycopy">
+  <div class="devmysite25">
+    <?php echo "dbname=$dbname"; ?><br>
+
+    <h2><?php echo htmlspecialchars($dbname); ?></h2><br>
+
+    <?php echo count($states); ?> records found<br>
+    <a href="add.html">Add New Record</a><br><br>
+
+    <table style="width:100%" border="1">
+      <tr>
+        <th>SKU</th>
+        <th>TITLE</th>
+        <th>CODE</th>
+        <th>Country</th>
+        <th>STATUS</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+
+      <?php foreach ($states as $state): ?>
+      <tr>
+        <td><?php echo $state['SKU']; ?></td>
+        <td><?php echo htmlspecialchars($state['TITLE']); ?></td>
+        <td><?php echo htmlspecialchars($state['CODE']); ?></td>
+        <td><?php echo htmlspecialchars($countries[$state['R_COUNTRY']] ?? 'Not Found'); ?></td>
+        <td><?php echo $state['STATUS'] ? 'Active' : 'Inactive'; ?></td>
+        <td><a href="edit.html?SKUVAR=<?php echo $state['SKU']; ?>">Edit</a></td>
+        <td>
+            <a href="?action=Delete&SKUVAR=<?php echo $state['SKU']; ?>"
+               onclick="return confirm('Delete this record?');">
+               Delete
+            </a>
+        </td>
+      </tr>
+      <?php endforeach; ?>
+
+    </table>
+  </div>
+</div>
+
+<?php
+$db = null;
+$countryDB = null;
+include $incVAR . '/footer.inc';
+?>

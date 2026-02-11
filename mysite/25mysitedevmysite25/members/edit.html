@@ -1,0 +1,125 @@
+<?php
+include '../../includes/vars.inc';
+
+$pagetitle = "Edit Member";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+// ------------------ Admin Protection ------------------
+if ($AdminVAR == 0) {
+    include $incVAR . '/adminprotection.inc';
+    exit();
+}
+
+// Database connection
+$dbname = "members.db";
+$dbpath = $dbVAR . $dbname;
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Get SKUVAR from GET or POST
+$SKUVAR = $_GET['SKUVAR'] ?? $_POST['SKUVAR'] ?? null;
+
+if (!$SKUVAR) {
+    die("No member specified.");
+}
+
+// ------------------ Handle Form Submission ------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'replace') {
+    $fname = $_POST['fname'] ?? '';
+    $lname = $_POST['lname'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $uname = $_POST['uname'] ?? '';
+    $pword = $_POST['pword'] ?? '';
+    $admin = $_POST['ADMIN'] ?? 0;
+    $status = $_POST['STATUS'] ?? 1;
+    
+    $stmt = $db->prepare("
+        UPDATE members
+        SET fname = :fname,
+            lname = :lname,
+            email = :email,
+            uname = :uname,
+            pword = :pword,
+            admin = :admin,
+            moddate = :moddate,
+            status = :status
+        WHERE SKU = :sku
+    ");
+    $stmt->execute([
+        ':fname' => $fname,
+        ':lname' => $lname,
+        ':email' => $email,
+        ':uname' => $uname,
+        ':pword' => $pword,
+        ':admin' => $admin,
+        ':moddate' => date('Y-m-d H:i:s'),
+        ':status' => $status,
+        ':sku' => $SKUVAR
+    ]);
+
+    header("Location: index.html");
+    exit();
+}
+
+// ------------------ Fetch Member Info ------------------
+$stmt = $db->prepare("SELECT * FROM members WHERE SKU = :sku");
+$stmt->execute([':sku' => $SKUVAR]);
+$member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$member) {
+    die("Member not found.");
+}
+
+$db = null;
+?>
+
+<div class="bodycopy">
+  <div class="devmysite25">
+    <h2>Edit Member #<?= htmlspecialchars($SKUVAR) ?></h2><br>
+
+    <form method="post" action="">
+      <input type="hidden" name="action" value="replace">
+      <input type="hidden" name="SKUVAR" value="<?= htmlspecialchars($SKUVAR) ?>">
+
+      First name<br>
+      <input type="text" id="fname" name="fname" class="text" value="<?= htmlspecialchars($member['fname']) ?>" required><br><br>
+
+      Last name<br>
+      <input type="text" id="lname" name="lname" class="text" value="<?= htmlspecialchars($member['lname']) ?>" required><br><br>
+
+      Email<br>
+      <input type="email" id="email" name="email" class="text" value="<?= htmlspecialchars($member['email']) ?>" required><br><br>
+
+      Username<br>
+      <input type="text" id="uname" name="uname" value="<?= htmlspecialchars($member['uname']) ?>" required><br><br>
+
+      Password<br>
+      <input type="password" id="pword" name="pword" class="text" value="<?= htmlspecialchars($member['pword']) ?>" required><br><br>
+
+      ADMIN<br>
+      <select name="ADMIN" id="ADMIN">
+        <option value="1" <?= $member['admin'] == 1 ? 'selected' : '' ?>>Yes</option>
+        <option value="0" <?= $member['admin'] == 0 ? 'selected' : '' ?>>No</option>
+      </select>
+      <br><br>
+
+      STATUS<br>
+      <select name="STATUS" id="STATUS">
+        <option value="1" <?= $member['status'] == 1 ? 'selected' : '' ?>>Active</option>
+        <option value="0" <?= $member['status'] == 0 ? 'selected' : '' ?>>Inactive</option>
+      </select>
+      <br><br>
+
+      <input type="submit" value="Update Member">
+    </form>
+  </div>
+</div>
+
+<?php include $incVAR . '/footer.inc'; ?>

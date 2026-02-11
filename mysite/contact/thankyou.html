@@ -1,0 +1,64 @@
+<?php
+include '../includes/vars.inc';
+
+$PAGETITLE = 'Thank You Page';
+
+include $incVAR . 'header.inc';
+include $incVAR . 'navbar.inc';
+
+/* -------------------------
+   EMAIL SETUP
+-------------------------- */
+$to      = 'akonysmerrill@citiboces.net';
+$from    = 'amccombie@citiboces.org';
+$subject = 'Murder Drones Feedback Contact';
+
+$headers  = "From: $from\r\n";
+$headers .= "Reply-To: $from\r\n";
+$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+$date = date('Y-m-d');
+$time = date('g:i A');
+$ip   = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
+
+/* -------------------------
+   EMAIL #1 (Formatted)
+-------------------------- */
+$message1  = "The following information was sent on $date @ $time.\n\n";
+$message1 .= "Name: " . ($_POST['fname'] ?? '') . " " . ($_POST['lname'] ?? '') . "\n";
+$message1 .= "Phone: " . ($_POST['Phone'] ?? '') . "\n";
+$message1 .= "Email: " . ($_POST['Email'] ?? '') . "\n";
+$message1 .= "Address: " . ($_POST['address'] ?? '') . "\n";
+$message1 .= "Reason for Contacting: " . ($_POST['Reason'] ?? '') . "\n";
+$message1 .= "Comment: " . ($_POST['comment'] ?? '') . "\n\n";
+$message1 .= "This was sent from $ip\n";
+
+mail($to, $subject, $message1, $headers);
+
+/* -------------------------
+   EMAIL #2 (All Form Vars)
+-------------------------- */
+$message2  = "The following information was sent on $date @ $time.\n\n";
+
+$index = 0;
+foreach ($_POST as $name => $value) {
+    $message2 .= $index . ", $name = $value\n";
+    $index++;
+}
+
+mail($to, $subject, $message2, $headers);
+?>
+
+<div class="bodycopy">
+    <div class="left">YIPPEE!</div>
+
+    <div class="middle">
+        THANK YOU FOR DOING THE FORM NOW! WE WILL GET BACK TO YOU SOON!
+    </div>
+
+    <div class="right">
+        <img class="imgright" src="<?php echo $imgVAR; ?>thank_you.png" alt="Uh oh broken">
+    </div>
+</div>
+
+<?php include $incVAR . 'footer.inc'; ?>

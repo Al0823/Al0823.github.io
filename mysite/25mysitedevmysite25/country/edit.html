@@ -1,0 +1,105 @@
+<?php
+// Include variables
+include '../../includes/vars.inc';
+
+// Set page title
+$PAGETITLE = "Country Edit";
+
+// Include header and navigation
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+// Define database
+$dbname = "country.db";
+$dbpath = $dbVAR . $dbname;
+
+// Connect to SQLite database
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// Handle form submission for updating a record
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'replace') {
+    $sku = $_POST['SKUVAR'] ?? 0;
+    $title = $_POST['title'] ?? '';
+    $code = $_POST['code'] ?? '';
+    $status = $_POST['Status'] ?? 1;
+    $moddate = date("Y-m-d H:i:s");
+
+    // Update record in database
+    $stmt = $db->prepare("
+        UPDATE records
+        SET TITLE = :title,
+            CODE = :code,
+            MODDATE = :moddate,
+            STATUS = :status
+        WHERE SKU = :sku
+    ");
+    $stmt->execute([
+        ':title' => $title,
+        ':code' => $code,
+        ':moddate' => $moddate,
+        ':status' => $status,
+        ':sku' => $sku
+    ]);
+
+    // Redirect to index.html
+    header("Location: index.html");
+    exit();
+}
+
+// Fetch the record to edit
+$skuToEdit = $_GET['SKUVAR'] ?? 0; // Or you can also use POST if you prefer
+$record = null;
+
+if ($skuToEdit) {
+    $stmt = $db->prepare("SELECT * FROM records WHERE SKU = :sku");
+    $stmt->execute([':sku' => $skuToEdit]);
+    $record = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+?>
+
+<div class="bodycopy">
+    <div class="devmysite25">
+        <?php echo "dbname=$dbname"; ?><br>
+
+        <?php if ($record): ?>
+            SKU  TITLE CODE  CREATEDATE  MODDATE STATUS<br>
+            Edit Record #<?php echo htmlspecialchars($record['SKU']); ?><br><br>
+
+            <form method="post" action="">
+                <input type="hidden" name="action" value="replace">
+                <input type="hidden" name="SKUVAR" value="<?php echo htmlspecialchars($record['SKU']); ?>">
+
+                Title<br>
+                <input type="text" name="title" id="title" value="<?php echo htmlspecialchars($record['TITLE']); ?>" size="50"><br><br>
+
+                Code<br>
+                <input type="text" name="code" id="code" value="<?php echo htmlspecialchars($record['CODE']); ?>" size="3"><br><br>
+
+                Status<br>
+                <select name="Status" id="Status">
+                    <option value="1" <?php echo ($record['STATUS'] == 1) ? 'selected' : ''; ?>>Active</option>
+                    <option value="0" <?php echo ($record['STATUS'] == 0) ? 'selected' : ''; ?>>Inactive</option>
+                </select>
+                <br><br>
+                <input type="submit" value="Update Record">
+            </form>
+        <?php else: ?>
+            <p>Record not found.</p>
+        <?php endif; ?>
+
+    </div>
+</div>
+
+<?php
+// Close database connection
+$db = null;
+
+// Include footer
+include $incVAR . '/footer.inc';
+?>

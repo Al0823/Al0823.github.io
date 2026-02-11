@@ -247,3 +247,51 @@ color: rgb(255,255,0);
   color: rgb(176, 38, 255);
   border-radius: 20px;
 }
+
+.underconstruction {
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  background-color: rgb(255, 243, 205); /* bright yellow background */
+  border: 4px dashed rgb(255, 87, 51); /* bold orange border */
+  border-radius: 12px;
+  color: rgb(199, 0, 57); /* deep red text */
+  font-size: 35px;
+  font-weight: bold;
+  box-sizing: border-box;
+  animation: pulseBorder 2s infinite, glow 2s infinite alternate;
+}
+
+.underconstruction::before {
+  content: " Under Construction ";
+  display: block;
+  font-size: 40px;
+  margin-bottom: 20px;
+  animation: bounce 1s infinite alternate;
+}
+
+.underconstruction p {
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+
+@keyframes pulseBorder {
+  0% { border-color: rgb(255, 87, 51); }
+  50% { border-color: rgb(255, 189, 105) }
+  100% { border-color: rgb(255, 87, 51); }
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 5px rgb(199, 0, 57), 0 0 10px rgb(255, 87, 51); }
+  50% { text-shadow: 0 0 10px rgb(255, 189, 105), 0 0 20px rgb(255, 87, 51); }
+  100% { text-shadow: 0 0 5px rgb(199, 0, 57), 0 0 10px rgb(255, 87, 51); }
+}
+

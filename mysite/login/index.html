@@ -1,0 +1,86 @@
+<?php
+include '../includes/vars.inc';
+
+$pagetitle = "Login";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+$dbname = "members.db";
+$dbpath = $dbVAR . $dbname;
+
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    setcookie('userV', '', time() - 3600, $pathVAR, $domainVAR);
+    setcookie('keyV', '', time() - 3600, $pathVAR, $domainVAR);
+    header("Location: index.html");
+    exit();
+}
+
+
+$error = $_GET['error'] ?? '';
+$success = $_GET['success'] ?? '';
+?>
+
+<div class="flex-container">
+
+ 
+  <div> 
+    <?php if ($error === 'login'): ?>
+        <p style="color:red;">Invalid username or password. Try again.</p>
+    <?php endif; ?>
+
+    <form method="post" action="confirm.html">
+      <input type="hidden" name="action" value="login">
+      <fieldset>
+        <legend><div>Already a member? - Log in</div></legend>
+        <label for="uname">Username:</label><br>
+        <input type="text" id="uname" name="uname" placeholder="Username" required><br>
+        <label for="pword">Password:</label><br>
+        <input type="password" id="pword" name="pword" placeholder="Password" required><br>
+        <input type="submit" value="Submit" style="width: 150px;">
+      </fieldset>
+    </form>
+  </div>
+
+ 
+  <div>
+    <?php if ($error === 'signup'): ?>
+        <p style="color:red;">Username already taken. Please try another.</p>
+    <?php elseif ($success === 'newaccount'): ?>
+        <p style="color:green;">Account created successfully! You are now logged in.</p>
+    <?php endif; ?>
+
+    <form method="post" action="confirm.html">
+      <input type="hidden" name="action" value="signup">
+      <fieldset>
+        <legend><div>Become a Member - Sign Up</div></legend>
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" placeholder="First Name" required><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" placeholder="Last Name" required><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="Email" required><br>
+        <label for="uname">Username:</label><br>
+        <input type="text" id="uname" name="uname" placeholder="Username" required><br>
+        <label for="pword">Password:</label><br>
+        <input type="password" id="pword" name="pword" placeholder="Password" required><br>
+        <input type="submit" value="Submit" style="width: 150px;">
+      </fieldset>
+    </form>
+  </div>
+
+</div>
+
+<?php
+$db = null;
+include $incVAR . '/footer.inc';
+?>

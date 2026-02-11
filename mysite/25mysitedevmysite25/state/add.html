@@ -1,0 +1,96 @@
+<?php
+include '../../includes/vars.inc';
+
+$pagetitle = "Add State";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+$dbname = "state.db";
+$dbpath = $dbVAR . $dbname;
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'append') {
+
+    $title = $_POST['TITLE'] ?? '';
+    $code = $_POST['CODE'] ?? '';
+    $r_country = $_POST['R_COUNTRY'] ?? null;
+    $status = $_POST['Status'] ?? 1;
+
+   
+    $sku = $db->query("SELECT MAX(SKU) FROM states")->fetchColumn();
+    $sku = $sku ? $sku + 1 : 1000;
+
+    $stmt = $db->prepare("
+        INSERT INTO states (SKU, CODE, TITLE, R_COUNTRY, STATUS)
+        VALUES (:sku, :code, :title, :country, :status)
+    ");
+
+    $stmt->execute([
+        ':sku' => $sku,
+        ':code' => $code,
+        ':title' => $title,
+        ':country' => $r_country,
+        ':status' => $status
+    ]);
+
+    header("Location: index.html");
+    exit();
+}
+
+
+$countries = $db->query("SELECT SKU, TITLE FROM countries ORDER BY TITLE ASC")
+                ->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+<div class="bodycopy">
+  <div class="devmysite25">
+    <?php echo "dbname=$dbname"; ?><br>
+
+    SKU CODE TITLE R_COUNTRY STATUS<br>
+    Add Record to <?php echo $dbname; ?><br><br>
+
+    <form method="post">
+      <input type="hidden" name="action" value="append">
+
+      TITLE<br>
+      <input type="text" id="TITLE" name="TITLE" placeholder="title here" size="50"><br><br>
+
+      CODE<br>
+      <input type="text" id="CODE" name="CODE" placeholder="text here" size="3"><br><br>
+
+      Country<br>
+      <select name="R_COUNTRY" id="R_COUNTRY" required>
+          <option value="">-- Select Country --</option>
+          <?php foreach ($countries as $country): ?>
+              <option value="<?php echo $country['SKU']; ?>">
+                  <?php echo htmlspecialchars($country['TITLE']); ?>
+              </option>
+          <?php endforeach; ?>
+      </select>
+      <br><br>
+
+      Status<br>
+      <select name="Status">
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+      </select>
+      <br><br>
+
+      <input type="submit" value="Add Record">
+    </form>
+
+  </div>
+</div>
+
+<?php
+$db = null;
+include $incVAR . '/footer.inc';
+?>

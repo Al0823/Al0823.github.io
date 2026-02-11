@@ -1,0 +1,96 @@
+<?php include 'includes/vars.inc'; ?>
+<?php include 'includes/header.inc'; ?>
+<?php
+$PAGETITLE = 'Contact Page';
+?>
+<?php include 'includes/navbar.inc'; ?>
+
+<div class="bodycopy">
+    <div class="left">
+        This is my Contact page, the purpose of this page is to have contact to me,
+        whom is the creator of the website.
+    </div>
+
+    <div class="conmiddle">
+        <form action="{{ url_for('contact') }}" method="post" autocomplete="on">
+
+            <!-- NAME -->
+            <fieldset style="border-color: black;">
+                <legend>Name</legend>
+
+                <label for="fname">First name:</label><br>
+                <input type="text" id="fname" name="fname"
+                       style="width:500px; height:30px;" required><br>
+
+                <label for="lname">Last name:</label><br>
+                <input type="text" id="lname" name="lname"
+                       style="width:500px; height:30px;" required><br>
+            </fieldset>
+
+            <!-- CONTACT INFO -->
+            <fieldset style="border-color: black;">
+                <legend>Contact Information</legend>
+
+                <label>Email:</label><br>
+                <input type="email" name="Email"
+                       style="width:500px; height:30px;"><br>
+
+                <label>Address:</label><br>
+                <input type="text" name="address"
+                       style="width:500px; height:30px;"><br>
+
+                <label>State:</label><br>
+                <select name="state" id="state">
+                {% for block in country_state_data %}
+                    <option disabled>{{ block.country }}</option>
+                    {% for state in block.states %}
+                        <option value="{{ state.code }}"
+                          {% if state.code == block.default %}selected{% endif %}>
+                            {{ state.title }}
+                        </option>
+                    {% endfor %}
+                {% endfor %}
+                </select>
+
+                <br><br>
+
+                <label>Phone number:</label><br>
+                <input type="tel" name="Phone"
+                       placeholder="012-345-6789"
+                       pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                       style="height:30px;">
+            </fieldset>
+
+            <!-- COMMENTS -->
+            <fieldset style="border-color: black;">
+                <legend>Comments</legend>
+
+                <label>Reason why you are contacting me:</label><br>
+                <select name="Reason" required>
+                    <option value="">Select One</option>
+                    <option>Report Bug</option>
+                    <option>Questions</option>
+                    <option>Suggestions</option>
+                    <option>Other</option>
+                </select><br>
+
+                <label>Comment</label><br>
+                <textarea name="comment" rows="10" cols="50"
+                          placeholder="Write your comment here"></textarea><br>
+
+                <!-- IP ADDRESS -->
+                <input type="hidden" name="UserIP"
+                       value="{{ request.remote_addr }}">
+
+                <input type="submit" value="Submit"
+                       style="width:100px; height:30px;">
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="right">
+        <img class="imgright" src="{{ imgVAR }}contact.png" alt="Contact image">
+    </div>
+</div>
+
+<?php include 'includes/footer.inc'; ?>

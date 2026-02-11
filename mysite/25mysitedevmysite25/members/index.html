@@ -1,0 +1,85 @@
+<?php
+include '../../includes/vars.inc';
+
+$pagetitle = "Members Admin";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+
+if ($AdminVAR == 0) {
+    include $incVAR . '/adminprotection.inc';
+    exit();
+}
+
+
+$dbname = "members.db";
+$dbpath = $dbVAR . $dbname;
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+
+if (isset($_GET['action']) && $_GET['action'] === 'Delete' && isset($_GET['SKUVAR'])) {
+    $sku = $_GET['SKUVAR'];
+    $stmt = $db->prepare("DELETE FROM members WHERE SKU = :sku");
+    $stmt->execute([':sku' => $sku]);
+    echo "DELETED RECORD #$sku<br>";
+}
+
+
+$stmt = $db->query("SELECT * FROM members ORDER BY SKU ASC");
+$members = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$numfound = count($members);
+?>
+
+<div class="bodycopy">
+  <div class="devmysite25">
+    <h2>Members Database: <?= htmlspecialchars($dbname) ?></h2><br>
+    <?= $numfound ?> records found<br>
+    <a href="add.html">Add New Record</a><br><br>
+
+    <table style="width: 100%" border="1">
+      <tr>
+        <th>FNAME</th>
+        <th>LNAME</th>
+        <th>EMAIL</th>
+        <th>UNAME</th>
+        <th>PWORD</th>
+        <th>ADMIN</th>
+        <th>CREATEDATE</th>
+        <th>MODDATE</th>
+        <th>STATUS</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+
+      <?php foreach ($members as $member): ?>
+      <tr>
+        <td><?= htmlspecialchars($member['FNAME']) ?></td>
+        <td><?= htmlspecialchars($member['LNAME']) ?></td>
+        <td><?= htmlspecialchars($member['EMAIL']) ?></td>
+        <td><?= htmlspecialchars($member['UNAME']) ?></td>
+        <td><?= htmlspecialchars($member['PWORD']) ?></td>
+        <td><?= htmlspecialchars($member['ADMIN']) ?></td>
+        <td><?= htmlspecialchars($member['CREATEDATE']) ?></td>
+        <td><?= htmlspecialchars($member['MODDATE']) ?></td>
+        <td><?= htmlspecialchars($member['STATUS']) ?></td>
+        <td><a href="edit.html?SKUVAR=<?= urlencode($member['SKU']) ?>">Edit</a></td>
+        <td><a href="?action=Delete&SKUVAR=<?= urlencode($member['SKU']) ?>" onclick="return confirm('Are you sure you want to delete this member?')">Delete</a></td>
+      </tr>
+      <?php endforeach; ?>
+
+    </table>
+  </div>
+</div>
+
+<?php
+$db = null;
+
+include $incVAR . '/footer.inc';
+?>

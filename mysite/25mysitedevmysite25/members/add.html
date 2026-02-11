@@ -1,0 +1,105 @@
+<?php
+include '../../includes/vars.inc';
+
+$pagetitle = "Add Member";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+// ------------------ Admin Protection ------------------
+if ($AdminVAR == 0) {
+    include $incVAR . '/adminprotection.inc';
+    exit();
+}
+
+// Database setup
+$dbname = "members.db";
+$dbpath = $dbVAR . $dbname;
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+// ------------------ Handle Form Submission ------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'append') {
+    $fname = $_POST['fname'] ?? '';
+    $lname = $_POST['lname'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $uname = $_POST['uname'] ?? '';
+    $pword = $_POST['pword'] ?? '';
+    $admin = $_POST['ADMIN'] ?? 0;
+    $status = $_POST['STATUS'] ?? 1;
+
+    // Generate a random key for the new member
+    $cart = bin2hex(random_bytes(16));
+
+    $stmt = $db->prepare("
+        INSERT INTO members (KEY, fname, lname, email, uname, pword, admin, createdate, moddate, status)
+        VALUES (:key, :fname, :lname, :email, :uname, :pword, :admin, :createdate, :moddate, :status)
+    ");
+    $stmt->execute([
+        ':key' => $cart,
+        ':fname' => $fname,
+        ':lname' => $lname,
+        ':email' => $email,
+        ':uname' => $uname,
+        ':pword' => $pword,
+        ':admin' => $admin,
+        ':createdate' => date('Y-m-d H:i:s'),
+        ':moddate' => date('Y-m-d H:i:s'),
+        ':status' => $status
+    ]);
+
+    header("Location: index.html");
+    exit();
+}
+
+$db = null;
+?>
+
+<div class="bodycopy">
+  <div class="admin25">
+    <h2>Add Member</h2><br>
+
+    <form method="post" action="">
+      <input type="hidden" name="action" value="append">
+
+      First name<br>
+      <input type="text" id="fname" name="fname" placeholder="First Name here" class="text" required><br><br>
+
+      Last name<br>
+      <input type="text" id="lname" name="lname" placeholder="Last Name here" class="text" required><br><br>
+
+      Email<br>
+      <input type="email" id="email" name="email" placeholder="Email here" class="text" required><br><br>
+
+      Username<br>
+      <input type="text" id="uname" name="uname" placeholder="Username here" required><br><br>
+
+      Password<br>
+      <input type="password" id="pword" name="pword" placeholder="Password here" class="text" required><br><br>
+
+      ADMIN<br>
+      <select name="ADMIN" id="ADMIN">
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+      </select>
+      <br><br>
+
+      STATUS<br>
+      <select name="STATUS" id="STATUS">
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+      </select>
+      <br><br>
+
+      <input type="submit" value="Add Record">
+    </form>
+
+  </div>
+</div>
+
+<?php include $incVAR . '/footer.inc'; ?>

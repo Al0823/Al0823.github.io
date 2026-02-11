@@ -1,0 +1,83 @@
+<?php
+include '../../includes/vars.inc';
+PAGETITLE = "Country Add";
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+
+$dbname = "country.db";
+$dbpath = $dbVAR . $dbname;
+
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'append') {
+    $title = $_POST['title'] ?? '';
+    $code = $_POST['code'] ?? '';
+    $status = $_POST['Status'] ?? 1;
+    $createdate = date("Y-m-d H:i:s");
+    $moddate = $createdate;
+
+   
+    $sku = $db->query("SELECT MAX(SKU) FROM records")->fetchColumn();
+    $sku = $sku ? $sku + 1 : 1;
+
+    
+    $stmt = $db->prepare("
+        INSERT INTO records (SKU, TITLE, CODE, CREATEDATE, MODDATE, STATUS)
+        VALUES (:sku, :title, :code, :createdate, :moddate, :status)
+    ");
+    $stmt->execute([
+        ':sku' => $sku,
+        ':title' => $title,
+        ':code' => $code,
+        ':createdate' => $createdate,
+        ':moddate' => $moddate,
+        ':status' => $status
+    ]);
+
+   
+    header("Location: index.html");
+    exit();
+}
+?>
+
+<div class="bodycopy">
+    <div class="devmysite25">
+        <?php echo "dbname=$dbname"; ?><br>
+        SKU  TITLE CODE  CREATEDATE  MODDATE STATUS<br> Add Record to <?php echo $dbname; ?><br><br>
+
+        <form method="post" action="">
+            <input type="hidden" name="action" value="append">
+            
+            Title<br>
+            <input type="text" name="title" id="title" placeholder="title here" size="50"><br><br>
+            
+            Code<br>
+            <input type="text" name="code" id="code" placeholder="code here" size="3"><br><br>
+
+            Status<br>
+            <select name="Status" id="Status">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+            <br><br>
+            <input type="submit" value="Add Record">
+        </form>
+
+    </div>
+</div>
+
+<?php
+// Close database
+$db = null;
+
+// Include footer
+include $incVAR . '/footer.inc';
+?>

@@ -1,0 +1,114 @@
+<?php
+include '../../includes/vars.inc';
+
+$pagetitle = "Edit State";
+
+include $incVAR . '/header.inc';
+include $incVAR . '/nav.inc';
+
+$dbname = "state.db";
+$dbpath = $dbVAR . $dbname;
+
+try {
+    $db = new PDO("sqlite:$dbpath");
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Country DB
+    $countryDB = new PDO("sqlite:" . $dbVAR . "country.db");
+
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+}
+
+/* ================= UPDATE RECORD ================= */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'replace') {
+
+    $sku = $_POST['SKUVAR'] ?? 0;
+    $title = $_POST['TITLE'] ?? '';
+    $code = $_POST['CODE'] ?? '';
+    $r_country = $_POST['R_COUNTRY'] ?? null;
+    $status = $_POST['Status'] ?? 1;
+
+    $stmt = $db->prepare("
+        UPDATE states
+        SET TITLE = :title,
+            CODE = :code,
+            R_COUNTRY = :country,
+            STATUS = :status
+        WHERE SKU = :sku
+    ");
+
+    $stmt->execute([
+        ':title' => $title,
+        ':code' => $code,
+        ':country' => $r_country,
+        ':status' => $status,
+        ':sku' => $sku
+    ]);
+
+    header("Location: index.html");
+    exit();
+}
+
+/* ================= LOAD RECORD ================= */
+$skuToEdit = $_GET['SKUVAR'] ?? $_POST['SKUVAR'] ?? 0;
+
+$stmt = $db->prepare("SELECT * FROM states WHERE SKU = :sku");
+$stmt->execute([':sku' => $skuToEdit]);
+$state = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$state) {
+    die("Record not found.");
+}
+
+/* Load countries */
+$countries = $countryDB->query("SELECT SKU, TITLE FROM countries ORDER BY TITLE ASC")
+                       ->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+<div class="bodycopy">
+  <div class="devmysite25">
+    <?php echo "dbname=$dbname"; ?><br>
+
+    SKU TITLE CODE R_COUNTRY STATUS<br>
+    Edit Record #<?php echo $state['SKU']; ?><br><br>
+
+    <form method="post">
+      <input type="hidden" name="action" value="replace">
+      <input type="hidden" name="SKUVAR" value="<?php echo $state['SKU']; ?>">
+
+      TITLE<br>
+      <input type="text" name="TITLE" value="<?php echo htmlspecialchars($state['TITLE']); ?>" size="50"><br><br>
+
+      CODE<br>
+      <input type="text" name="CODE" value="<?php echo htmlspecialchars($state['CODE']); ?>" size="3"><br><br>
+
+      Country<br>
+      <select name="R_COUNTRY" required>
+        <?php foreach ($countries as $country): ?>
+            <option value="<?php echo $country['SKU']; ?>"
+                <?php echo ($state['R_COUNTRY'] == $country['SKU']) ? 'selected' : ''; ?>>
+                <?php echo htmlspecialchars($country['TITLE']); ?>
+            </option>
+        <?php endforeach; ?>
+      </select>
+      <br><br>
+
+      Status<br>
+      <select name="Status">
+        <option value="1" <?php echo ($state['STATUS'] == 1) ? 'selected' : ''; ?>>Active</option>
+        <option value="0" <?php echo ($state['STATUS'] == 0) ? 'selected' : ''; ?>>Inactive</option>
+      </select>
+      <br><br>
+
+      <input type="submit" value="Update Record">
+    </form>
+
+  </div>
+</div>
+
+<?php
+$db = null;
+$countryDB = null;
+include $incVAR . '/footer.inc';
+?>
