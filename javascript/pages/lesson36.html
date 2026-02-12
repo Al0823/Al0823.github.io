@@ -18,6 +18,92 @@
     <h2>JavaScript Date Formats Tutorial</h2>
     <p>This page teaches you how to format dates in JavaScript. Date objects can be displayed in different ways using built-in methods or custom formatting.</p>
 <br><br>
+<div class="fs-15">JavaScript Date Input</div><br><br>
+<div class="fs-10">There are generally 3 types of JavaScript date input formats:
+<br><br>
+
+<ul>
+      <li>ISO	("2015-03-25" (The International Standard))</li>
+      <li>Short	("03/25/2015")</li>
+      <li>Long	("Mar 25 2015" or "25 Mar 2015")</li>
+    </ul>
+				<br><br>
+				The ISO format follows a strict standard in JavaScript.
+<br><br>
+The other formats are not so well defined and might be browser specific.
+</div><br><br>
+
+<div class="fs-15">JavaScript Date Output</div><br><br>
+<div class="fs-10">Independent of input format, JavaScript will (by default) output dates in full text string format:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+Thu Feb 12 2026 13:47:10 GMT-0500 (Eastern Standard Time)
+      </textarea><br><br>
+
+<div class="fs-15">JavaScript ISO Dates</div><br><br>
+<div class="fs-10">ISO 8601 is the international standard for the representation of dates and times.
+<br><br>
+The ISO 8601 syntax (YYYY-MM-DD) is also the preferred JavaScript date format:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-03-25");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">The computed date will be relative to your time zone.
+Depending on your time zone, the result above will vary between March 24 and March 25.</div><br><br>
+
+<div class="fs-15">ISO Dates (Year and Month)</div><br><br>
+<div class="fs-10">ISO dates can be written without specifying the day (YYYY-MM):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-03"); 
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Time zones will vary the result above between February 28 and March 01.</div><br><br>
+
+<div class="fs-15">ISO Dates (Only Year)</div><br><br>
+<div class="fs-10">ISO dates can be written without month and day (YYYY):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Time zones will vary the result above between December 31 2014 and January 01 2015.</div><br><br>
+
+
+<div class="fs-15">ISO Dates (Date-Time)</div><br><br>
+<div class="fs-10">ISO dates can be written with added hours, minutes, and seconds (YYYY-MM-DDTHH:MM:SSZ):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-03-25T12:00:00Z");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Date and time is separated with a capital T.
+<br><br>
+UTC time is defined with a capital letter Z.
+<br><br>
+If you want to modify the time relative to UTC, remove the Z and add +HH:MM or -HH:MM instead:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+new Date("2015-03-25T12:00:00-06:00");
+      </textarea><br><br>
+<div class="fs-10">UTC (Universal Time Coordinated) is the same as GMT (Greenwich Mean Time).
+<br><br>
+Omitting T or Z in a date-time string can give different results in different browsers.</div><br><br>
+
+<div class="fs-15">Time Zones</div><br><br>
+<div class="fs-10">When setting a date, without specifying the time zone, JavaScript will use the browser's time zone.
+<br><br>
+When getting a date, without specifying the time zone, the result is converted to the browser's time zone.
+<br><br>
+In other words: If a date/time is created in GMT (Greenwich Mean Time), the date/time will be converted to CDT (Central US Daylight Time) if a user browses from central US.
+</div><br><br>
+
+
+
+
+
+
 
     <h3>Common Date Formats</h3>
     <ul>
