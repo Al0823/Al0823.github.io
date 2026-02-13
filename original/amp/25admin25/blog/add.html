@@ -1,0 +1,78 @@
+[include file=../../includes/vars.inc]
+[include file=[incvar]header.inc]
+[include file=[incvar]nav.inc]
+[include file=[incvar]adminnav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+<style>
+.blogimage{
+overflow: scroll;
+width: 850px;
+height: 400px;
+
+border-width: 15px;
+border-radius: 15px;
+border:1px black solid;
+}
+</style>
+<center>
+[showif [action]=append]
+	[append db=[dbVAR]blog.db&autonumber=sku][!]
+	[/!]TITLE=[url][TITLE][/url]&[!]
+	[/!]R_IMAGE=[url][R_IMAGE][/url]&[!]
+	[/!]R_MEMBER=[url][R_MEMBER][/url]&[!]
+	[/!]STATUS=[url][STATUS][/url]&[!]
+	[/!]CAPTION=[url][CAPTION][/url]&[!]
+	[/!]DATECREATED=[date]&[!]
+	[/!]TIMECREATED=[time]&[!]
+	[/!]BODYCOPY=[url][BODYCOPY][/url][/append]
+	[redirect index.html]
+[/showif]
+
+<form method="post" action="[thisurl]">
+<input type="hidden" name="action" value="append"><br>
+
+Title<br>
+<input type="text" name="title" id="title" size=50><br>
+
+Member<br>
+<select name="r_member" id="r_member" >
+[search db=[dbVAR]members.db&eqSTATUSdatarq=1][founditems]
+<option value="[sku]">[UNAME]</option>
+[/founditems][/search]
+</select><br>
+
+Caption<br>
+<textarea name="caption" id="caption" style="width: 30%; height: 100px;"></textarea><br>
+
+Bodycopy<br>
+<textarea name="bodycopy" id="bodycopy" style="width: 40%; height: 300px;"></textarea><br>
+
+Status<br>
+<select name="status" id="status">
+<option value="1">Enabled</option>
+<option value="0">Disabled</option>
+</select><br>
+
+Image<br>
+<input type="text" name="r_image" id="r_image"  size=20 readonly value=""><br>
+<div class="blogimage">
+
+[search db=[dbVAR]category.db&eqSTATUSdataRQ=1&titlesort=1]
+[founditems]
+<hr><h1>[title]</h1><hr>
+[search db=[dbVAR]gallery.db&eqR_categorydataRQ=[SKU]&eqSTATUSdatarq=1]
+[founditems]
+<a style="padding:0;"href="javascript:void(0)"
+onclick="javascript:document.getElementById('r_image').value = '[sku]'"><img
+src="[amppathVAR][lookup db=[dbVAR]category.db&lookinfield=SKU&returnfield=TITLE&value=[R_CATEGORY]]/[IMAGEPATH]"
+style="max-height:80px; width:auto; height:auto;"></a>
+[/founditems]
+[/search]
+[/founditems]
+[/search]
+</div>
+<P>
+<input type="submit">
+</form>
+</center>
+[include file=[includevar]footer.inc]

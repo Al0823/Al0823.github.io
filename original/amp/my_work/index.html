@@ -1,0 +1,129 @@
+[include file=../includes/vars.inc]
+[text]pagetitle=My Work[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+
+<style>
+.flex-category {
+display: flex;
+flex-wrap: wrap;
+}  
+.flex-category > div {
+background-color: rgb(230, 230, 230, .8);
+border-radius: 20px;
+width: 30%;
+margin: 10px;
+padding: 20px;
+text-align: center;
+align-content: center;
+font-size: 30px;
+flex-grow: 1;
+}
+.catimg {
+  width: 90%;
+  border-radius: 20px;
+  margin-top: 10px;
+}
+.workcontent {
+  width: 100%;
+  display: flex;
+  align-self: center;
+justify-content: center;
+align-items: baseline;
+ flex-wrap: wrap;
+}
+.workcontent a{
+color: rgba(0, 0, 0, 1);
+display: block;
+float: left;
+margin-right: 5px;
+margin-top: 0px;
+padding-right: 15px;
+padding-top: 10px;
+text-align: center;
+text-decoration: none;
+width: 30%;
+}
+.workcontent img {
+margin: 7px;
+padding: 5px;
+width: 100%;
+border: 3px solid rgba(0, 0, 0, 1);
+}
+.workcontent h2 {
+color: rgba(0, 0, 0, 1.0);
+margin: 0px;
+margin-bottom: 10px;
+text-align: center;
+text-decoration: none;
+}
+</style>
+
+<center><h1>My Work</h1></center>
+[if ("[catSKU]" ^ "catSKU")]
+[then]
+<div class="flex-category">
+  [!]Category Field
+  SKU  STATUS  TITLE DESC  SORTORDER CREATEDATE  MODDATE[/!]
+  [search db=[dbVAR]category.db&eqSTATUSdataRQ=1&sortorderSORT=1&sortorderTYPE=NUM]
+   [founditems]
+  <div><a href="[thisurl]?catSKU=[SKU]&v=[cart]">
+  [title]
+
+[!]Gallery Fields
+SKU STATUS  R_CATEGORY  COVER ORIENTATION IMAGEPATH CREATEDATE  MODDATE
+[/!]
+
+[search db=[dbVAR]gallery.db&eqSTATUSdataRQ=1&EQR_categorydataRQ=[SKU]&max=1&raSKUsort=1]
+  [founditems]
+
+  <img src="[amppathVAR][TITLE]/[IMAGEPATH]" class="catimg">
+ [/founditems]
+  [/search]
+
+</a></div>
+  [/founditems]
+  [/search]
+</div>
+[/then]
+[else]
+<div class="workcontent">
+[search db=[dbVAR]category.db&eqSTATUSdataRQ=1&sortorderSORT=1&sortorderTYPE=NUM]
+[founditems]
+[showif [catSKU]=[SKU]][text]cattitleVAR=[title][/text][/showif]
+
+<a href="[thisurl]?catSKU=[SKU]"><h2>[uppercase][title][/uppercase]</h2></a>
+[/founditems]
+[/search]
+[/else]
+[/if]
+</div>
+[hideif [catSKU]^catSKU]
+
+[hideif [picSKU]^picSKU]
+[search db=[dbVAR]gallery.db&eqSKUdataRQ=[picSKU]&eqSTATUSdataRQ=1]
+  [founditems]
+<a href="[amppathVAR][cattitleVAR]/[IMAGEPATH]" target="mygal"><img src="[amppathVAR][cattitleVAR]/[IMAGEPATH]"alt="Photo" class="gallery" style="height: 400px; float: left;"></a> 
+ [/founditems]
+  [/search]
+[/hideif]
+[search db=[dbVAR]gallery.db&EQR_categorydataRQ=[catSKU]&eqSTATUSdataRQ=1]
+  [founditems]
+ <a href="[thisurl]?picSKU=[SKU]&catSKU=[CATSKU]"><img src="[amppathVAR][cattitleVAR]/[IMAGEPATH]" alt="Photo" class="gallery">
+ [hideif [picSKU]^picSKU <style= height: 115px; float:left;>[/hideif]</a> 
+ [/founditems]
+  [/search]
+[/hideif]
+
+
+
+
+
+
+
+
+
+
+
+
+[include file=[incVAR]/footer.inc]

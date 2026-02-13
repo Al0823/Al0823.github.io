@@ -1,0 +1,42 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Add Country[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=country.db[/text]
+    [showif [action]=append]
+    APPENDING to [dbname]
+[append db=[dbVAR][dbname]&autonumber=SKU][!]
+[/!]TITLE=[TITLE]&[!]
+[/!]CODE=[CODE]&[!]
+[/!]CREATEDATE=[date]&[!]
+[/!]MODDATE=[date]&[!]
+[/!]STATUS=[STATUS][!]
+[/!][/append]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU  TITLE CODE  CREATEDATE  MODDATE STATUS[/!] Add Record to [dbname]<br><br>
+
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="append">
+  Title<br>
+  <input type="text" name="title" id="title" placeholder="[TITLE]" size="50"><br><br>
+  Code<br>
+  <input type="text" name="code" id="code" placeholder="[CODE]" size="3"><br><br>
+
+Status<br>
+   <select name="Status" id="Status">
+     <option value="1">Active</option>
+     <option value="0">Inactive</option>
+   </select>
+   <br>
+   <br>
+   <input type="submit" value="Add Record">
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

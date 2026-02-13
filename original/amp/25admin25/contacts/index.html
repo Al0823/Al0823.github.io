@@ -1,0 +1,64 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Contact Admin[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+<div class="bodycopy">
+  [!]SKU  FNAME LNAME ADDRESS PHONE EMAIL CONTACTTYPE COMMENTS  IPADDRESS CREATEDATE  MODDATE STATUS  CLIENTNOTES[/!] 
+  <div class="contactadmin25">[text]dbname=contact.db[/text]
+    [showif [action]=Delete]
+    [Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+    [redirect [thisurl]]
+    DELETED RECORD #[SKUVAR]<br>
+    [/showif]
+
+     <h2>[dbname]</h2><br>
+
+    [search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1&SKUtype=num]
+    [numfound] records found<br>
+    
+<table style="width: 100%" border=1>
+  <tr>
+    <th>SKU</th>
+    <th>FNAME</th>
+    <th>LNAME</th>
+    <th>ADDRESS</th>
+    <th>PHONE</th>
+    <th>EMAIL</th>
+    <th>CONTACTTYPE</th>
+    <th>COMMENTS</th>
+    <th>IPADDRESS</th>
+    <th>CREATEDATE</th>
+    <th>MODDATE</th>
+    <th>STATUS</th>
+    <th>CLIENTNOTES</th>
+  </tr>
+
+  [founditems]
+<tr>
+    <td>[SKU]</td>
+    <td>[FNAME]</td>
+    <td>[LNAME]</td>
+    <td>[ADDRESS]</td>
+    <td>[PHONE]</td>
+    <td>[EMAIL]</td>
+    <td>[CONTACTTYPE]</td>
+    <td>[COMMENTS]</td>
+    <td>[IPADDRESS]</td>
+    <td>[CREATEDATE]</td>
+    <td>[MODDATE]</td>
+    <td>[STATUS]</td>
+    <td>[CLIENTNOTES]</td>
+    <td><a href="edit.html?SKUVAR=[SKU]"> Edit</a></td>
+    <td><a href="[thisurl]?action=Delete&SKUVAR=[SKU]">Delete</a></td>
+  </tr>
+  [/founditems]
+</table>
+[/search]
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

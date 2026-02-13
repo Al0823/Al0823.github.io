@@ -1,0 +1,77 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Add Venue[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=venues.db[/text]
+     [showif [action]=replace]
+    REPLACING to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]TITLE=[TITLE]&[!]
+[/!]DESCRIPTION=[DESCRIPTION]&[!]
+[/!]ADDRESS=[ADDRESS]&[!]
+[/!]CITY=[CITY]&[!]
+[/!]R_STATE=[R_STATE]&[!]
+[/!]SORTORDER=[SORTORDER]&[!]
+[/!]createdate=[date]&[!]
+[/!]moddate=[date]&[!]
+[/!]status=1[/replace]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU  TITLE DESCRIPTION ADDRESS CITY  R_STATE SORTORDER CREATEDATE  MODDATE STATUS[/!] Edit Record #[SKUVAR]<br><br>
+
+[search db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[founditems]
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="replace">
+  <input type="hidden" name="SKUVAR" value="[SKUVAR]">
+
+  TITLE<br>
+<input type="text" id="TITLE" name="TITLE" value="[TITLE]" class="text" required><br>
+
+DESCRIPTION<br>
+  <textarea type="text" name="DESCRIPTION" id="DESCRIPTION" rows="10" cols="50" value="[DESCRIPTION]" required>[DESCRIPTION]</textarea><br><br>
+
+ADDRESS<br>
+  <input type="text" name="ADDRESS" id="ADDRESS" value="[ADDRESS]" size="50" required><br><br>
+
+CITY<br>
+<input type="text" id="CITY" name="CITY" value="[CITY]" required><br>
+
+<label for="text">State:</label><br>
+<select name="state" id="state">
+[search db=[dbvar]country.db&EQstatusDATArq=1]
+[founditems]
+  <option disabled>[title]</option>
+  [search db=[dbvar]state.db&EQr_countryDATArq=[sku]&titleSORT=1]
+  [founditems]
+  <option value="[R_STATE]" [showif [R_STATE]=Alabama]selected[/showif]>[title]</option>
+  [/founditems]
+  [/search]
+[/founditems]
+[/search]
+</select>
+
+SORTORDER<br>
+  <input type="text" name="SORTORDER" id="SORTORDER" value="[SORTORDER]" size="50"><br><br>
+
+   STATUS<br>
+   <select name="STATUS" id="STATUS">
+     <option value="1">Active</option>
+     <option value="0">Inactive</option>
+   </select>
+   <br>
+   <br>
+ <input type="submit" value="Add Record">
+    [/founditems]
+   [/search]
+
+
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

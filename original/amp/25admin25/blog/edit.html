@@ -1,0 +1,85 @@
+[include file=../../includes/vars.inc]
+[include file=[incvar]header.inc]
+[include file=[incvar]nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+<style>
+.blogimage{
+overflow: scroll;
+width: 850px;
+height: 400px;
+
+border-width: 15px;
+border-radius: 15px;
+border:1px black solid;
+}
+</style>
+<center>
+[showif [action]=replace]
+	[replace db=[dbVAR]blog.db&eqSKUdataRQ=[skuvar]][!]
+	[/!]TITLE=[url][TITLE][/url]&[!]
+	[/!]R_IMAGE=[r_image]&[!]
+	[/!]R_MEMBER=[R_MEMBER]&[!]
+	[/!]STATUS=[url][STATUS][/url]&[!]
+	[/!]CAPTION=[url][CAPTION][/url]&[!]
+	[/!]DATECREATED=[url][date][/url]&[!]
+	[/!]TIMECREATED=[url][time][/url]&[!]
+	[/!]BODYCOPY=[url][BODYCOPY][/url][/replace]
+	[redirect index.html]
+[/showif]
+
+[search db=[dbVAR]blog.db&eqSKUdataRQ=[skuvar]]
+[founditems]
+<form method="post" action="[thisurl]">
+<input type="hidden" name="action" value="replace"><br>
+<input type="hidden" name="skuvar" value="[sku]"><br>
+Title<br>
+<input type="text" name="title" id="title" value="[title]" size=50><br>
+
+R_Member<br>
+<select name="r_member" id="r_member" >
+[search db=[dbVAR]members.db&eqSTATUSdatarq=1][founditems]
+<option value="[sku]" [showif [sku]=[r_member]]selected[/showif]>[UNAME]</option>
+[/founditems][/search]
+</select><br>
+
+Caption<br>
+<textarea name="caption" id="caption" style="width: 30%; height: 100px;">[input][caption][/input]</textarea><br>
+
+Bodycopy<br>
+<textarea name="bodycopy" id="bodycopy" style="width: 40%; height: 300px;">[input][bodycopy][/input]</textarea><br>
+
+Status<br>
+<select name="status" id="status">
+<option value="1"[showif [status]=1]selected[/showif]>Enabled</option>
+<option value="0"[showif [status]=0]selected[/showif]>Disabled</option>
+</select><br>
+
+Image<br>
+<input type="text" name="r_image" id="r_image"  size=20 readonly value="[r_image]"><br><br>
+<div class="blogimage">
+
+[search db=[dbVAR]category.db&eqSTATUSdataRQ=1&titlesort=1]
+[founditems]
+<hr><h1>[title]</h1>
+<hr>
+[search db=[dbVAR]gallery.db&eqR_categorydataRQ=[SKU]&eqSTATUSdatarq=1]
+[founditems]
+<a style="padding:0;"href="javascript:void(0)"
+onclick="javascript:document.getElementById('r_image').value = '[sku]'"><img
+src="[amppathVAR][lookup db=[dbVAR]category.db&lookinfield=SKU&returnfield=TITLE&value=[R_CATEGORY]]/[IMAGEPATH]"
+style="max-height:80px; width:auto; height:auto;"></a>
+
+[/founditems]
+[/search]
+[/founditems]
+[/search]
+
+</div>
+ <P>
+<input type="submit">
+[/founditems]
+[/search]
+</form>
+</center>
+
+[include file=[INCVAR]/footer.inc]

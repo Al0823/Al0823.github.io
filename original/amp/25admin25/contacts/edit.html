@@ -1,0 +1,83 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Edit Contact[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+<div class="bodycopy">
+  <div class="contactadmin25">[text]dbname=contact.db[/text]
+    [showif [action]=replace]
+    REPLACING to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]FNAME=[FNAME]&[!]
+[/!]LNAME=[LNAME]&[!]
+[/!]ADDRESS=[ADDRESS]&[!]
+[/!]PHONE=[PHONE]&[!]
+[/!]EMAIL=[EMAIL]&[!]
+[/!]CONTACTTYPE=[CONTACTTYPE]&[!]
+[/!]COMMENTS=[COMMENTS]&[!]
+[/!]IPADDRESS=[IPADDRESS]&[!]
+[/!]CREATEDATE=[date]&[!]
+[/!]MODDATE=[date]&[!]
+[/!]STATUS=[STATUS]&[!]
+[/!]CLIENTNOTES=[url][CLIENTNOTES][/url][!]
+[/!][/replace]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU  FNAME LNAME ADDRESS PHONE EMAIL CONTACTTYPE COMMENTS  IPADDRESS CREATEDATE  MODDATE STATUS  CLIENTNOTES[/!] Edit Record #[SKUVAR]<br><br>
+
+[search db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[founditems]
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="replace">
+  <input type="hidden" name="SKUVAR" value="[SKUVAR]">
+  
+ FNAME<br>
+  <input type="text" name="FNAME" id="FNAME" value="[FNAME]" size="50"><br><br>
+  
+  LNAME<br>
+  <input type="text" name="LNAME" id="LNAME" value="[LNAME]" size="50"><br><br>
+
+ADDRESS<br>
+  <input type="text" name="ADDRESS" id="ADDRESS" value="[ADDRESS]" size="50"><br><br>
+
+  PHONE<br>
+  <input type="text" name="PHONE" id="PHONE" value="[PHONE]" size="50"><br><br>
+
+ EMAIL<br>
+  <input type="text" name="EMAIL" id="EMAIL" value="[EMAIL]" size="50"><br><br>
+
+  CONTACTTYPE<br>
+<select id="CONTACTTYPE" name="CONTACTTYPE" style="width:100px; height:30px;" required>
+    <option value="">Select One</option>
+    <option value="2" [showif [CONTACTTYPE]=2]selected[/showif]>Wedding Photo</option>
+    <option value="3" [showif [CONTACTTYPE]=3]selected[/showif]>Maternity Photo</option>
+    <option value="4" [showif [CONTACTTYPE]=4]selected[/showif]>Baby Photo</option>
+    <option value="5" [showif [CONTACTTYPE]=5]selected[/showif]>Family Portrait</option>
+    <option value="6" [showif [CONTACTTYPE]=6]selected[/showif]>Other</option>
+  </select><br>
+  
+  COMMENTS<br>
+  <textarea type="text" name="COMMENTS" id="COMMENTS" rows="10" cols="50" value="[COMMENTS]">[COMMENTS]</textarea><br><br>
+
+Status<br>
+   <select name="Status" id="Status">
+     <option value="1"[showif [Status]=1]selected[/showif]>Active</option>
+     <option value="0"[showif [Status]=0]selected[/showif]>Inactive</option>
+   </select>
+   <br>
+   <br>
+
+CLIENTNOTES<br>
+    <textarea type="text" name="CLIENTNOTES" id="CLIENTNOTES" rows="10" cols="50" value="[CLIENTNOTES]">[CLIENTNOTES]</textarea><br><br>
+
+   <input type="submit" value="Add Record">
+ </form>
+   [/founditems]
+   [/search]
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

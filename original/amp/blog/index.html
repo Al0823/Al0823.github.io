@@ -1,0 +1,217 @@
+[include file=../includes/vars.inc]
+[text]pagetitle=Blog[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[!]https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_blog&stacked=h[/!]
+
+<div class="bodycopy">
+[!]<div class="left">  
+</div>
+  <div class="middle">
+  </div>
+	<div class="right"> </div>
+</div>[/!]
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="[CSSVAR]blog.css?v=[cart]">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+
+<!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+<div class="w3-content" style="max-width:1400px">
+
+
+
+<!-- Grid -->
+<div class="w3-row">
+
+<!-- Blog entries -->
+<div class="w3-col l8 s12">
+  
+[!]starting blog search[/!]
+[search db=[dbVAR]blog.db&eqSTATUSdatarq=1[hideif [SKUVAR]^SKUVAR]&eqSKUdatarq=[SKUVAR][/hideif]]
+[founditems]
+  <!-- Blog entry -->
+  <div class="w3-card-4 w3-margin w3-white">
+
+
+
+[search db=[dbVAR]gallery.db&eqSKUdatarq=[R_GALLERY]]
+[founditems]
+
+<img src="[amppathVAR][lookup db=[dbVAR]category.db&lookinfield=SKU&returnfield=TITLE&value=[R_CATEGORY]]/[IMAGEPATH]" alt="AMP" style="width:100%">
+[/founditems]
+[/search]
+
+  
+    <div class="w3-container">
+      <h3><b>[TITLE]</b></h3>
+      <h5>Posted by [lookup db=[dbVAR]members.db&lookinfield=SKU&returnfield=uname&value=[R_MEMBERS]&notfound=No Author], <span class="w3-opacity">[format days_to_date_ %B %d, %Y][math]{[CREATEDATE]}[/math][/format]</span></h5>
+    </div>
+
+    <div class="w3-container">
+<p>
+[if ("[action]" = "detail")]
+[then][bodycopy][/then]
+[else][CAPTION][/else]
+[/if]
+
+      </p>
+      <div class="w3-row">
+        <div class="w3-col m8 s12">
+          <p>
+
+[if ("[action]" = "detail")]
+[then]<a href="[thisurl]"><button class="w3-button w3-padding-large w3-white w3-border"><b>Go Back »</b></a></button>[/then]
+[else]<a href="[thisurl]?action=detail&SKUVAR=[SKU]"><button class="w3-button w3-padding-large w3-white w3-border"><b>READ MORE »</b></a></button>[/else]
+[/if]
+
+</p>
+        </div>
+        <div class="w3-col m4 w3-hide-small">
+          <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-badge">
+
+[search db=[dbVAR]comments.db&eqR_BLOGdatarq=[SKU]&eqSTATUSdatarq=1] [numfound] [/search]
+
+
+
+          </span></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+[showif [action]=detail]
+  <div class="w3-card-4 w3-margin w3-white">
+[showif [addblog]=yes]
+[append db=[dbVAR]comments.db&autonumber=SKU][!]
+[/!]R_MEMBERS=[userVAR]&[!]
+[/!]R_BLOG=[SKUVAR]&[!]
+[/!]STATUS=1&[!]
+[/!]CREATEDATE=[date]&[!]
+[/!]CREATETIME=[time]&[!]
+[/!]comment=[url][comment][/url][/append]
+
+[redirect [thisurl]?action=[action]&SKUVAR=[SKUVAR]]
+
+[/showif]
+[if ("[userVAR]"="")]
+[then]To add a comment please log in.[/then]
+[else]
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="[action]">
+    <input type="hidden" name="SKUVAR" value="[SKUVAR]">
+      <input type="hidden" name="addblog" value="yes">
+
+<h2>Add Comment Below</h2>
+<textarea name="comment" style="width: 100%; height: 140px;"></textarea>
+<br>
+
+  <input type="submit" value="Add Comment">     
+
+</form>
+[/else]
+[/if]
+
+<h3>Comments<h3>
+
+[search db=[dbVAR]comments.db&eqR_BLOGdatarq=[SKU]&eqSTATUSdatarq=1&deSKUsort=1&SKUtype=num] 
+[founditems] 
+
+[lookup db=[dbVAR]members.db&lookinfield=SKU&returnfield=uname&value=[R_MEMBERS]&notfound=No Author] - [comment]
+
+<hr>
+[/founditems]
+[/search]
+</div>
+[/showif]
+  [/founditems]
+  [/search]
+  [!]ending blog search[/!]
+<!-- END BLOG ENTRIES -->
+
+</div>
+
+<!-- Introduction menu -->
+<div class="w3-col l4">
+  <!-- About Card -->
+  <div class="w3-card w3-margin w3-margin-top">
+[search db=[dbVAR]gallery.db&eqSKUdatarq=[R_GALLERY]]
+[founditems]
+
+<img src="[amppathVAR][lookup db=[dbVAR]category.db&lookinfield=SKU&returnfield=TITLE&value=[R_CATEGORY]]/[IMAGEPATH]" alt="AMP" style="width:100%">
+[/founditems]
+[/search]
+    <div class="w3-container w3-white">
+      <h4><b>My Name</b></h4>
+      <p>Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.</p>
+    </div>
+  </div><hr>
+  
+  <!-- Posts -->
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Popular Posts</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+
+[search db=[dbVAR]blog.db&eqSTATUSdatarq=1[hideif [SKUVAR]^SKUVAR]&eqSKUdatarq=[/hideif]]
+[founditems]
+
+<a href="[thisurl]?action=detail&SKUVAR=[SKU]">
+
+
+[search db=[dbVAR]gallery.db&eqSKUdatarq=[R_GALLERY]]
+[founditems]
+
+<img src="[amppathVAR][lookup db=[dbVAR]category.db&lookinfield=SKU&returnfield=TITLE&value=[R_CATEGORY]]/[IMAGEPATH]" class="w3-padding-16" style="width:50px">
+[/founditems]
+[/search]
+        <span class="w3-large">[TITLE]</span><br clear=all>
+        
+      </li></a>
+[/founditems]
+[/search]
+
+
+
+
+      
+       
+
+  </div>
+  <hr> 
+ 
+  
+  
+<!-- END Introduction Menu -->
+</div>
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END w3-content -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[include file=[incVAR]/footer.inc]

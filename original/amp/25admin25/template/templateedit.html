@@ -1,0 +1,47 @@
+[include file=../../includes/vars.inc]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=CHANGE.db[/text]
+    [showif [action]=replace]
+    REPLACING to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]CHANGE=[CHANGE]&[!]
+[/!]CHANGE=[CHANGE]&[!]
+[/!]MODDATE=[date]&[!]
+[/!]STATUS=[STATUS][!]
+[/!][/replace]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU  CHANGE CHANGE  CREATEDATE  MODDATE STATUS[/!] Edit Record #[SKUVAR]<br><br>
+
+[search db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[founditems]
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="replace">
+  <input type="hidden" name="SKUVAR" value="[SKUVAR]">
+  
+  CHANGE<br>
+  <input type="text" name="CHANGE" id="CHANGE" value="[CHANGE]" size="50"><br><br>
+  
+  CHANGE<br>
+  <input type="text" name="CHANGE" id="CHANGE" value="[CHANGE]" size="3"><br><br>
+
+Status<br>
+   <select name="Status" id="Status">
+     <option value="1"[showif [Status]=1]selected[/showif]>Active</option>
+     <option value="0"[showif [Status]=0]selected[/showif]>Inactive</option>
+   </select>
+   <br>
+   <br>
+   <input type="submit" value="Add Record">
+ </form>
+   [/founditems]
+   [/search]
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

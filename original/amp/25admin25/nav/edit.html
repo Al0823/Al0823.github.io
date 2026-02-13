@@ -1,0 +1,66 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Edit Nav[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=nav.db[/text]
+    [showif [action]=replace]
+    REPLACING to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]TITLE=[TITLE]&[!]
+[/!]PATHNAME=[PATHNAME]&[!]
+[/!]ADMIN=[ADMIN]&[!]
+[/!]STATUS=[STATUS]&[!]
+[/!]SORTORDER=[SORTORDER]&[!]
+[/!]CREATEDATE=[date]&[!]
+[/!]MODDATE=[date][!]
+[/!][/replace]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU  TITLE PATHNAME  ADMIN PULLDOWN  STATUS  SORTORDER CREATEDATE  MODDATE[/!] Edit Record #[SKUVAR]<br><br>
+
+[search db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[founditems]
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="replace">
+  <input type="hidden" name="SKUVAR" value="[SKUVAR]">
+  
+  TITLE<br>
+  <input type="text" name="TITLE" id="TITLE" value="[TITLE]" size="50"><br><br>
+
+  PATHNAME<br>
+  <input type="text" name="PATHNAME" id="PATHNAME" value="[PATHNAME]" size="50"><br><br>
+
+ADMIN/LOGIN<br>
+   <select name="ADMIN" id="ADMIN">
+     <option value="2"[showif [ADMIN]=2]selected[/showif]>Login Yes</option>
+     <option value="1"[showif [ADMIN]=1]selected[/showif]>Admin Yes</option>
+     <option value="0"[showif [ADMIN]=0]selected[/showif]>Inactive</option>
+   </select>
+   <br>
+   <br>
+
+STATUS<br>
+   <select name="STATUS" id="STATUS">
+     <option value="1"[showif [STATUS]=1]selected[/showif]>Active</option>
+     <option value="0"[showif [STATUS]=0]selected[/showif]>Inactive</option>
+   </select>
+   <br>
+   <br>
+
+SORTORDER<br>
+  <input type="text" name="SORTORDER" id="SORTORDER" placeholder="[SORTORDER]" size="50"><br><br>
+
+   <input type="submit" value="Add Record">
+ </form>
+   [/founditems]
+   [/search]
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

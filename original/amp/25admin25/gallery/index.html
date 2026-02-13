@@ -1,0 +1,84 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Gallery Admin[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+<div class="bodycopy">
+  [!]SKU  STATUS  R_CATEGORY  COVER ORIENTATION IMAGEPATH CREATEDATE  MODDATE[/!]
+  <div class="admin25">[text]dbname=gallery.db[/text]
+    [showif [action]=Delete]
+    [Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+    [redirect [thisurl]]
+    DELETED RECORD #[SKUVAR]<br>
+    [/showif]
+
+
+ [!] Burner code
+ [replace db=[dbVAR][dbname]&neSKUdata=fa]CREATEDATE=[date]&MODDATE=[date][/replace]
+[/!]
+
+
+     <h2>[dbname]</h2><br>
+
+    [search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1&SKUtype=num]
+    [numfound] records found<br>
+    <a href="add.html">Add New Record</a><br>
+    
+<table style="width: 100%" border=1>
+  <tr>
+    
+    <th>STATUS</th>
+    <th>R_CATEGORY</th>
+    <th>COVER</th>
+    <th>ORIENTATION</th>
+    <th>IMAGEPATH</th>
+    <th>CREATEDATE</th>
+    <th>MODDATE</th>
+  </tr>
+
+  [founditems]
+<tr>
+    
+[replace db=[dbVAR]gallery.db&eqSKUdata=[SKU]][!]
+[/!]ORIENTATION=[!]
+[/!][fileinfo file=[!]
+[/!][amppathVAR][!]
+[/!][lookup db=[dbVAR]category.db&lookinfield=SKU&value=[R_CATEGORY]&returnfield=title]/[url][imagepath][/url]][!]
+[/!][if ([imageheight]>[imagewidth])][!]
+[/!][then]p[/then][!]
+[/!][else]l[/else][!]
+[/!][/if][!]
+[/!][/fileinfo][/replace]
+
+    <td>[STATUS]</td>
+    <td>[lookup db=[dbVAR]category.db&lookinfield=SKU&value=[R_CATEGORY]&returnfield=TITLE&notfound=Not Found]</td>
+    <td>[COVER]</td>
+    <td>[ORIENTATION]</td>
+    <td><img src="/citi/coding/ampassets/[lookup db=[dbVAR]category.db&lookinfield=SKU&value=[R_CATEGORY]&returnfield=TITLE]/[IMAGEPATH]" style="width:200px;">[search db=[dbVAR]category.db&eqSTATUSdataRQ=1&max=1]
+   [founditems]
+    [text]cattitleVAR=[title][/text]
+    [search db=[dbVAR]gallery.db&eqSTATUSdataRQ=1&EQR_categorydataRQ=[SKU]&max=1&raSKUsort=1]
+    [founditems]
+[!]
+    <a href="[amppathVAR][cattitleVAR]/[IMAGEPATH]" target="mygal"><img src="[amppathVAR][cattitleVAR]/[IMAGEPATH]"alt="Photo" class="footergallery" style="height: 250px; float: right;"></a>[/!] 
+     [/founditems]
+      [/search]  
+    [/founditems]
+  [/search]<br> [IMAGEPATH]</a></td>
+    <td>[CREATEDATE]</td>
+    <td>[MODDATE]</td>
+    <td><a href="edit.html?SKUVAR=[SKU]"> Edit</a></td>
+    <td><a href="[thisurl]?action=Delete&SKUVAR=[SKU]">Delete</a></td>
+  </tr>
+  [/founditems]
+</table>
+[/search]
+    [closedatabase db=[dbVAR][dbname]]
+    [closedatabase db=[dbVAR]gallerytemp.db]
+[closedatabase db=[dbVAR]category.db]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

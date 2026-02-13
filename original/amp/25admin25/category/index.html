@@ -1,0 +1,55 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Category Admin[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+
+<div class="bodycopy">
+  [!]SKU  STATUS  TITLE DESC  SORTORDER CREATEDATE  MODDATE[/!] 
+  <div class="admin25">[text]dbname=category.db[/text]
+    [showif [action]=Delete]
+    [Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+    [redirect [thisurl]]
+    DELETED RECORD #[SKUVAR]<br>
+    [/showif]
+
+     <h2>[dbname]</h2><br>
+
+    [search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1&SKUtype=num]
+    [numfound] records found<br>
+    <a href="add.html">Add New Record</a><br>
+    
+<table style="width: 100%" border=1>
+  <tr>
+    
+    <th>STATUS</th>
+    <th>TITLE</th>
+    <th>DESC</th>
+    <th>SORTORDER</th>
+    <th>CREATEDATE</th>
+    <th>MODDATE</th>
+  </tr>
+
+  [founditems]
+<tr>
+    
+    <td>[STATUS]</td>
+    <td>[TITLE]</td>
+     <td>[DESC]</td>
+     <td>[SORTORDER]</td>
+    <td>[CREATEDATE]</td>
+    <td>[MODDATE]</td>
+    <td><a href="edit.html?SKUVAR=[SKU]"> Edit</a></td>
+    <td><a href="[thisurl]?action=Delete&SKUVAR=[SKU]">Delete</a></td>
+  </tr>
+  [/founditems]
+</table>
+[/search]
+    [closedatabase db=[dbVAR][dbname]]
+[closedatabase db=[dbVAR]gallerytemp.db]
+[closedatabase db=[dbVAR]gallery.db]
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

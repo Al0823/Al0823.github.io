@@ -1,0 +1,73 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Edit Member[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=members.db[/text]
+    [showif [action]=replace]
+    REPLACING to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]KEY=[cart]&[!]
+[/!]fname=[fname]&[!]
+[/!]lname=[lname]&[!]
+[/!]email=[email]&[!]
+[/!]uname=[uname]&[!]
+[/!]pword=[pword]&[!]
+[/!]admin=[admin]&[!]
+[/!]createdate=[date]&[!]
+[/!]moddate=[date]&[!]
+[/!]status=1[/replace]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU  KEY FNAME LNAME EMAIL UNAME PWORD ADMIN CREATEDATE  MODDATE STATUS[/!] Edit Record #[SKUVAR]<br><br>
+
+[search db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[founditems]
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="replace">
+  <input type="hidden" name="SKUVAR" value="[SKUVAR]">
+
+First name<br>
+<input type="text" id="fname" name="fname" class="text" value="[fname]" required><br>
+
+Last name<br>
+<input type="text" id="lname" name="lname" class="text" value="[lname]" required><br>
+
+Email<br>
+<input type="email" id="email" name="email" class="text" value="[email]" required><br>
+
+Username<br>
+<input type="text" id="uname" name="uname" value="[uname]" required><br>
+
+Password<br>
+<input type="password" id="pword" name="pword" class="text" value="[pword]" required><br>
+
+ADMIN<br>
+   <select name="ADMIN" id="ADMIN">
+    <option value="1"[showif [ADMIN]=1]selected[/showif]>Yes</option>
+     <option value="0"[showif [ADMIN]=0]selected[/showif]>No</option>
+   </select>
+   <br>
+   <br>
+  
+STATUS<br>
+   <select name="STATUS" id="STATUS">
+     <option value="1"[showif [STATUS]=1]selected[/showif]>Active</option>
+     <option value="0"[showif [STATUS]=0]selected[/showif]>Inactive</option>
+   </select>
+   <br>
+   <br>
+
+   <input type="submit" value="Add Record">
+ </form>
+   [/founditems]
+   [/search]
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

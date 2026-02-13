@@ -1,0 +1,115 @@
+[include file=../includes/vars.inc]
+[text]pagetitle=Login[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[text]dbname=members.db[/text]
+
+<div class="bodycopy">
+  [!]
+<div class="left">  
+</div>
+  <div class="middle">  
+  </div>
+	<div class="right"> </div>
+</div>
+[/!]
+
+
+[showif [action]=login]
+
+[showif [uname]=][text]uname=[cart][/text][/showif]
+[showif [pword]=][text]pword=[cart][/text][/showif]
+
+[search db=[dbvar][dbname]&equnamedatarq=[uname]&eqworddatarq=[pword]&eqstatusdatarq=1]
+[showif [numfound]=0]
+No such Username/Password found.<br>
+You can try again, or <a href="login.html">sign up here</a> 
+<form method="post" action="confirm.html">
+<input type="hidden" name="action" value="login">
+<fieldset class="fsbody">
+<legend><div class="fs">Log in</div></legend>
+<label for="uname">Username:</label><br>
+<input type="text" id="uname" name="uname" class="text" placeholder="Username" required><br>
+<label for="pword">Password:</label><br>
+<input type="password" id="pword" name="pword" class="text" placeholder="Password:" required><br>
+<input type="submit" value="Submit" class="text" style="width: 150px">
+</fieldset>
+</form>
+[/showif]
+[founditems]
+
+[setcookie name=userV&value=[SKU]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+
+[setcookie name=keyV&value=[key]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+
+[redirect [pathVAR]index.html]
+
+[/founditems]
+[/search]
+[/showif]
+
+
+
+
+
+
+
+
+[showif [action]=signup]
+[search db=[dbVAR][dbname]&eqUNAMEdatarq=[uname]]
+[showif [numfound]=0]
+An account was created with the following:<br>
+First name = [fname] <br>
+Last name = [lname] <br>
+Email = [email] <br>
+Username = [uname] <br>
+Password = [pword] <br>
+
+[append db=[dbVAR][dbname]&autonumber=SKU][!]
+[/!]KEY=[cart]&[!]
+[/!]fname=[fname]&[!]
+[/!]lname=[lname]&[!]
+[/!]email=[email]&[!]
+[/!]uname=[uname]&[!]
+[/!]pword=[pword]&[!]
+[/!]admin=0&[!]
+[/!]createdate=[date]&[!]
+[/!]status=1[/append]
+
+
+[setcookie name=userV&value=[lastautonumber]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+
+[setcookie name=keyV&value=[cart]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+
+[redirect [pathVAR]index.html?action=newaccount]
+[/showif]
+[showif [numfound]>0]
+Sorry [uname] already taken <br>
+
+
+
+
+<form action="confirm.html" method="post">
+<fieldset>
+<input type="hidden" name="action" value="signup" >
+<legend><div>Sign Up</div></legend>
+<label for="fname">First name:</label><br>
+<input type="text" id="fname" name="fname" placeholder="First Name" class="text" value="[fname]" required><br>
+<label for="lname">Last name:</label><br>
+<input type="text" id="lname" name="lname" placeholder="Last Name" class="text" value="[lname]" required><br>
+<label for="email">Email:</label><br>
+<input type="email" id="email" name="email" placeholder="Email" class="text" value="[email]" required><br>
+<label for="uname">Username:</label><br>
+<input type="text" id="uname" name="uname" placeholder="Username taken, Please try another." required><br>
+<label for="pword">Password:</label><br>
+<input type="password" id="pword" name="pword" placeholder="Password" class="text" value="[pword]" required><br>
+<input type="submit" value="Submit" class="text" style="width: 150px;">
+</fieldset>
+</form>
+[/showif]
+[/search]
+[/showif]
+</div>
+</div>
+
+[include file=[incVAR]/footer.inc]

@@ -1,0 +1,69 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=State Admin[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+[text]cattitleVAR=[title][/text]
+
+<div class="bodycopy">
+  [!]SKU  TITLE R_GALLERY R_MEMBERS STATUS  CAPTION CREATEDATE  CREATETIME  BODYCOPY[/!]
+  <div class="admin25">[text]dbname=blog.db[/text]
+    [showif [action]=Delete]
+    [Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+    [redirect [thisurl]]
+    DELETED RECORD #[SKUVAR]<br>
+    [/showif]
+
+
+ [!] Burner code
+ [replace db=[dbVAR][dbname]&neSKUdata=fa]CREATEDATE=[date]&MODDATE=[date][/replace]
+[/!]
+
+
+     <h2>[dbname]</h2><br>
+
+    [search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1&SKUtype=num]
+    [numfound] records found<br>
+    <a href="add.html">Add New Record</a><br>
+    
+<table style="width: 100%" border=1>
+  <tr>
+    
+    <th>TITLE</th>
+    <th>R_GALLERY</th>
+    <th>R_MEMBERS</th>
+    <th>STATUS</th>
+    <th>CAPTION</th>
+    <th>CREATEDATE</th>
+    <th>CREATETIME</th>
+    <th>BODYCOPY</th>
+  </tr>
+
+  [founditems]
+<tr>
+   
+    <td>[TITLE]</td>
+     <td>[search db=[dbVAR]gallery.db&eqSKUdatarq=[R_GALLERY]]
+[founditems]
+
+<img src="[amppathVAR][lookup db=[dbVAR]category.db&lookinfield=SKU&returnfield=TITLE&value=[R_CATEGORY]]/[IMAGEPATH]" alt="AMP" style="width:100%">
+[/founditems]
+[/search]</td>
+    <td>[lookup db=[dbVAR]members.db&lookinfield=SKU&returnfield=uname&value=[R_MEMBERS]&notfound=No Author]</td>
+    <td>[STATUS]</td>
+    <td>[CAPTION]</td>
+    <td>[CREATEDATE]</td>
+    <td>[CREATETIME]</td>
+    <td>[BODYCOPY]</td>
+    <td><a href="edit.html?SKUVAR=[SKU]"> Edit</a></td>
+    <td><a href="[thisurl]?action=Delete&SKUVAR=[SKU]">Delete</a></td>
+  </tr>
+  [/founditems]
+</table>
+[/search]
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

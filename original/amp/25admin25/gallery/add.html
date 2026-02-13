@@ -1,0 +1,54 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Add Adminnav[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=gallery.db[/text]
+    [showif [action]=append]
+    APPENDING to [dbname]
+[append db=[dbVAR][dbname]&autonumber=SKU][!]
+[/!]STATUS=[STATUS]&[!]
+[/!]R_CATEGORY=[R_CATEGORY]&[!]
+[/!]COVER=[COVER]&[!]
+[/!]ORIENTATION=[ORIENTATION]&[!]
+[/!]IMAGEPATH=[IMAGEPATH]&[!]
+[/!]CREATEDATE=[date]&[!]
+[/!]MODDATE=[date][!]
+[/!][/append]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU  STATUS  R_CATEGORY  COVER ORIENTATION IMAGEPATH CREATEDATE  MODDATE[/!] Add Record to [dbname]<br><br>
+
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="append">
+
+STATUS<br>
+   <select name="STATUS" id="STATUS">
+     <option value="1">Active</option>
+     <option value="0">Inactive</option>
+   </select>
+   <br>
+   <br>
+
+    R_CATEGORY<br>
+  <input type="text" name="R_CATEGORY" id="R_CATEGORY" placeholder="R_CATEGORY here" size="3"><br><br>
+
+  COVER<br>
+  <input type="text" name="COVER" id="COVER" placeholder="COVER here" size="50"><br><br>
+  ORIENTATION<br>
+  <input type="text" name="ORIENTATION" id="ORIENTATION" placeholder="ORIENTATION here" size="50"><br><br>
+  IMAGEPATH<br>
+  <input type="text" name="IMAGEPATH" id="IMAGEPATH" placeholder="IMAGEPATH here" size="50"><br><br>
+  
+
+   <input type="submit" value="Add Record">
+
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

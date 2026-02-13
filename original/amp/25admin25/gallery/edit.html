@@ -1,0 +1,63 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Edit State[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=gallery.db[/text]
+    [showif [action]=replace]
+    REPLACING to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]STATUS=[STATUS]&[!]
+[/!]R_CATEGORY=[R_CATEGORY]&[!]
+[/!]COVER=[COVER]&[!]
+[/!]ORIENTATION=[ORIENTATION]&[!]
+[/!]IMAGEPATH=[IMAGEPATH]&[!]
+[/!]CREATEDATE=[date]&[!]
+[/!]MODDATE=[date][!]
+[/!][/replace]
+[redirect index.html]
+    [/showif]<br>
+
+    
+   
+
+
+    [!]SKU  STATUS  R_CATEGORY  COVER ORIENTATION IMAGEPATH CREATEDATE  MODDATE[/!] Edit Record #[SKUVAR]<br><br>
+
+[search db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[founditems]
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="replace">
+  <input type="hidden" name="SKUVAR" value="[SKUVAR]">
+
+Status<br>
+   <select name="Status" id="Status">
+     <option value="1"[showif [Status]=1]selected[/showif]>Active</option>
+     <option value="0"[showif [Status]=0]selected[/showif]>Inactive</option>
+   </select>
+   <br>
+   <br>
+
+ R_CATEGORY<br>
+  <input type="text" name="R_CATEGORY" id="R_CATEGORY" placeholder="[R_CATEGORY]" size="3"><br><br>
+
+  COVER<br>
+  <input type="text" name="COVER" id="COVER" placeholder="[COVER]" size="50"><br><br>
+  ORIENTATION<br>
+  <input type="text" name="ORIENTATION" id="ORIENTATION" placeholder="[ORIENTATION]" size="50"><br><br>
+  IMAGEPATH<br>
+  <input type="text" name="IMAGEPATH" id="IMAGEPATH" placeholder="[IMAGEPATH]" size="50"><br><br>
+  
+
+   <input type="submit" value="Add Record">
+ </form>
+   [/founditems]
+   [/search]
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]

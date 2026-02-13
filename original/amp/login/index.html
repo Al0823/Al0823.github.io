@@ -1,0 +1,83 @@
+[include file=../includes/vars.inc]
+[text]pagetitle=Login[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[text]dbname=members.db[/text]
+
+<div class="bodycopy">
+  [!]
+<div class="left">  
+</div>
+  <div class="middle">  
+  </div>
+	<div class="right"> </div>
+</div>
+[/!]
+
+[showif [action]=logout]
+[setcookie name=userV&value=[SKU]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}-7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+
+[setcookie name=keyV&value=[key]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}-7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+
+[redirect [pathVAR]index.html]
+[/showif]
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: rgb(255, 255, 255);  
+}
+
+.flex-container > div {
+background-color: rgb(255, 255, 255); 
+width: 50%;
+margin: 10px;
+text-align: center;
+font-size: 38px;
+}
+</style>
+<div class="flex-container">
+<div> 
+<form method="post" action="confirm.html">
+  <input type="hidden" name="action" value="login" >
+<fieldset>
+<legend><div>Already a member? - Log in</div></legend>
+<label for="uname">Username:</label>
+  <br>
+  <input type="text" id="uname" name="uname" placeholder="Username" required>
+  <br>
+<label for="pword">Password:</label>
+  <br>
+<input type="password" id="pword" name="pword" placeholder="Password" required>
+  <br>
+<input type="submit" value="Submit" style="width: 150px;">
+</fieldset>
+</form>
+
+</div>
+<div>
+<form action="confirm.html" method="post">
+<fieldset>
+<input type="hidden" name="action" value="signup" >
+<legend><div>Become a Member - Sign Up</div></legend>
+<label for="fname">First name:</label><br>
+<input type="text" id="fname" name="fname" placeholder="First Name" required><br>
+<label for="lname">Last name:</label><br>
+<input type="text" id="lname" name="lname" placeholder="Last Name" required><br>
+<label for="email">Email:</label>
+<br>
+<input type="email" id="email" name="email" placeholder="Email" required><br>
+<label for="uname">Username:</label>
+<br>
+<input type="text" id="uname" name="uname" placeholder="Username" required>
+<br>
+<label for="pword">Password:</label>
+<br>
+<input type="password" id="pword" name="pword" placeholder="Password"required>
+<br>
+<input type="submit" value="Submit" style="width: 150px;">
+</fieldset>
+</form>
+</div>
+</div>
+[include file=[incVAR]/footer.inc]

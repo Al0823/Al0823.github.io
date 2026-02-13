@@ -1,0 +1,76 @@
+[include file=../../includes/vars.inc]
+[text]pagetitle=Add Testimonial[/text]
+[include file=[incVAR]/header.inc]
+[include file=[incVAR]/nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+
+<div class="bodycopy">
+  <div class="admin25">[text]dbname=testimonials.db[/text]
+    [showif [action]=append]
+    APPENDING to [dbname]
+[append db=[dbVAR][dbname]&autonumber=SKU][!]
+[/!]FNAME=[FNAME]&[!]
+[/!]LNAME=[LNAME]&[!]
+[/!]TITLE=[TITLE]&[!]
+[/!]COMMENT=[COMMENT]&[!]
+[/!]RATING=[RATING]&[!]
+[/!]SORTORDER=[SORTORDER]&[!]
+[/!]CREATEDATE=[date]&[!]
+[/!]MODDATE=[date]&[!]
+[/!]STATUS=[STATUS][!]
+[/!][/append]
+[redirect index.html]
+    [/showif]<br>
+    [!]SKU	FNAME	LNAME	TITLE	COMMENT	RATING	SORTORDER	CREATEDATE	MODDATE	STATUS[/!] Add Record to [dbname]<br><br>
+
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="append">
+
+  First name<br>
+<input type="text" id="fname" name="fname" placeholder="First Name" class="text" required><br>
+
+Last name<br>
+<input type="text" id="lname" name="lname" placeholder="Last Name here" class="text" required><br>
+
+   TITLE<br>
+  <input type="text" name="TITLE" id="TITLE" placeholder="TITLE here" size="50"><br><br>
+  
+  COMMENTS<br>
+  <textarea type="text" name="COMMENTS" id="COMMENTS" rows="10" cols="50" placeholder="COMMENTS HERE"></textarea><br><br>
+ 
+ Rating<br>
+   <select name="RATING" id="RATING">
+     <option value="0">0 Stars</option>
+     <option value="1">0.5 Stars</option>
+     <option value="2">1 Star</option>
+     <option value="3">1.5 Stars</option>
+     <option value="4">2 Stars</option>
+     <option value="5">2.5 Stars</option>
+     <option value="6">3 Stars</option>
+     <option value="7">3.5 Stars</option>
+     <option value="8">4 Stars</option>
+     <option value="9">4.5 Stars</option>
+     <option value="10">5 Stars</option>
+   </select>
+   <br>
+   <br>
+
+SORTORDER<br>
+  <input type="text" name="SORTORDER" id="SORTORDER" placeholder="SORTORDER here" size="50"><br><br>
+
+  STATUS<br>
+   <select name="STATUS" id="STATUS">
+     <option value="1">Active</option>
+     <option value="0">Inactive</option>
+   </select>
+   <br>
+   <br>
+
+   <input type="submit" value="Add Record">
+
+    [closedatabase db=[dbVAR][dbname]]
+
+  </div>
+</div>
+
+[include file=[incVAR]/footer.inc]
