@@ -99,19 +99,88 @@ When getting a date, without specifying the time zone, the result is converted t
 In other words: If a date/time is created in GMT (Greenwich Mean Time), the date/time will be converted to CDT (Central US Daylight Time) if a user browses from central US.
 </div><br><br>
 
+<div class="fs-15">JavaScript Short Dates.</div><br><br>
+<div class="fs-10">Short dates are written with an "MM/DD/YYYY" syntax like this:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("03/25/2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
+<div class="fs-15">WARNINGS </div><br><br>
+<div class="fs-10">In some browsers, months or days with no leading zeroes may produce an error:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-3-25");
+      </textarea><br><br>
+						<div class="fs-10">The behavior of "YYYY/MM/DD" is undefined.
+Some browsers will try to guess the format. Some will return NaN.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015/03/25");
+      </textarea><br><br>
+<div class="fs-10">The behavior of  "DD-MM-YYYY" is also undefined.
+Some browsers will try to guess the format. Some will return NaN.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("25-03-2015");
+      </textarea><br><br>
 
+						<div class="fs-15">JavaScript Long Dates</div><br><br>
+<div class="fs-10">Long dates are most often written with a "MMM DD YYYY" syntax like this:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("Mar 25 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<div class="fs-10">Month and day can be in any order:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("25 Mar 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">And, month can be written in full (January), or abbreviated (Jan):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 25 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+const d = new Date("Jan 25 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<div class="fs-10">Commas are ignored. Names are case insensitive:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("JANUARY, 25, 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
-
+						<div class="fs-15">Date Input - Parsing Dates</div><br><br>
+<div class="fs-10">If you have a valid date string, you can use the Date.parse() method to convert it to milliseconds.
+<br><br>
+Date.parse() returns the number of milliseconds between the date and January 1, 1970:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const msec = Date.parse("March 21, 2012");
+document.getElementById("demo").innerHTML = msec;
+      </textarea><br><br>
+						<div class="fs-10">You can then use the number of milliseconds to convert it to a date object:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let msec = Date.parse("March 21, 2012");
+const d = new Date(msec);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
 
     <h3>Common Date Formats</h3>
     <ul>
-      <li><code>toDateString()</code> – returns the date in a readable format (e.g., "Fri Feb 05 2026")</li>
-      <li><code>toTimeString()</code> – returns only the time (e.g., "15:30:45 GMT-0500 (EST)")</li>
-      <li><code>toLocaleDateString()</code> – returns the date in local format (e.g., "2/5/2026")</li>
-      <li><code>toLocaleTimeString()</code> – returns the time in local format (e.g., "3:30:45 PM")</li>
-      <li><code>toISOString()</code> – returns the date in ISO 8601 format (e.g., "2026-02-05T20:30:45.000Z")</li>
+      <li><code>toDateString()</code>  returns the date in a readable format (e.g., "Fri Feb 05 2026")</li>
+      <li><code>toTimeString()</code> returns only the time (e.g., "15:30:45 GMT-0500 (EST)")</li>
+      <li><code>toLocaleDateString()</code>  returns the date in local format (e.g., "2/5/2026")</li>
+      <li><code>toLocaleTimeString()</code>  returns the time in local format (e.g., "3:30:45 PM")</li>
+      <li><code>toISOString()</code>  returns the date in ISO 8601 format (e.g., "2026-02-05T20:30:45.000Z")</li>
     </ul>
 
     <h3>Examples</h3>
