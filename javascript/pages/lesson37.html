@@ -18,27 +18,36 @@
     <h2>JavaScript Date Get Methods Tutorial</h2>
     <p>The <strong>get methods</strong> are used to extract parts of a Date object, such as the year, month, day, hour, and more.</p>
 
-    
+    <div class="fs-15">The new Date() Constructor</div><br><br>
+<div class="fs-10">In JavaScript, date objects are created with new Date().
+<br><br>
+new Date() returns a date object with the current date and time.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 				
-				
-				
-				
-				
-				
-				
-				
-				<h3>Common Date Get Methods</h3>
-    <ul>
-      <li><code>getFullYear()</code> – returns the year (e.g., 2026)</li>
-      <li><code>getMonth()</code> – returns the month (0–11)</li>
-      <li><code>getDate()</code> – returns the day of the month (1–31)</li>
-      <li><code>getDay()</code> – returns the day of the week (0–6)</li>
-      <li><code>getHours()</code> – returns the hour (0–23)</li>
-      <li><code>getMinutes()</code> – returns minutes (0–59)</li>
-      <li><code>getSeconds()</code> – returns seconds (0–59)</li>
-      <li><code>getMilliseconds()</code> – returns milliseconds (0–999)</li>
-      <li><code>getTime()</code> – returns milliseconds since Jan 1, 1970</li>
+						<div class="fs-15">Date Get Methods</div><br><br>
+<div class="fs-10"><ul>
+      <li>getFullYear()	(Get year as a four digit number (yyyy))</li>
+      <li>getMonth()	(Get month as a number (0-11))</li>
+      <li>getDate()	Get day as a number (1-31)</li>
+      <li>getDay()	(Get weekday as a number (0-6))</li>
+      <li>getHours()	(Get hour (0-23))</li>
+      <li>getMinutes()	(Get minute (0-59))</li>
+      <li>getSeconds()	(Get second (0-59))</li>
+      <li>getMilliseconds()	(Get millisecond (0-999))</li>
+      <li>getTime()	(Get time (milliseconds since January 1, 1970))</li>
     </ul>
+</div><br><br>
+				
+				
+				
+				
+				
+				
+			
 
     <h3>Example</h3>
     <pre><code id="getMethodsExample"></code></pre>
