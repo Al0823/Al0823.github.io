@@ -2,3 +2,73 @@
   <ul id="navList"></ul>
 </nav>
 
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+
+  const navList = document.getElementById("navList");
+
+  // Static links (WebDNA equivalent)
+  navList.innerHTML += `
+    <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
+    <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
+    <hr>
+  `;
+
+  try {
+
+   
+    const navResponse = await fetch(window.vars.DBVAR + "nav.json");
+    const pagesResponse = await fetch(window.vars.DBVAR + "pages.json");
+
+    const navData = await navResponse.json();
+    const pagesData = await pagesResponse.json();
+
+ 
+    navData.sort((a, b) => Number(a.SORTORDER) - Number(b.SORTORDER));
+
+    navData.forEach(navItem => {
+
+      // WEEK Header
+      const weekHeader = document.createElement("h2");
+      weekHeader.style.color = "black";
+      weekHeader.textContent = navItem.WEEK;
+      navList.appendChild(weekHeader);
+
+      navList.appendChild(document.createElement("hr"));
+
+      // Match pages (R_NAV + STATUS=1)
+      const matchingPages = pagesData.filter(page =>
+        page.R_NAV == navItem.SKU &&
+        Number(page.STATUS) === 1
+      );
+
+      if (matchingPages.length > 0) {
+
+        matchingPages.forEach(page => {
+
+          const link = document.createElement("a");
+
+         
+          link.href = window.vars.PAGEVAR + page.PAGE + ".html";
+
+          link.textContent = page.TITLE;
+
+          navList.appendChild(link);
+          navList.appendChild(document.createElement("br"));
+        });
+
+      } else {
+       
+        const noPageText = document.createTextNode("No lessons yet");
+        navList.appendChild(noPageText);
+        navList.appendChild(document.createElement("br"));
+      }
+
+    });
+
+  } catch (error) {
+    console.error("Navigation failed:", error);
+  }
+
+});
+</script>
