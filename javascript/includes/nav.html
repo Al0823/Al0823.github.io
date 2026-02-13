@@ -1,74 +1,27 @@
-<nav>
-  <ul id="navList"></ul>
-</nav>
+// Match pages (R_NAV + STATUS=1)
+const matchingPage = pagesData.find(page =>
+  String(page.R_NAV) === String(navItem.SKU) &&
+  Number(page.STATUS) === 1
+);
 
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
+if (matchingPage) {
 
-  const navList = document.getElementById("navList");
+  // ✅ Page exists and is active
+  const link = document.createElement("a");
+  link.href = window.vars.PAGEVAR + matchingPage.PAGE + ".html";
+  link.textContent = matchingPage.TITLE;
 
-  // Static links (WebDNA equivalent)
-  navList.innerHTML += `
-    <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
-    <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
-    <hr>
-  `;
+  link.classList.add("lesson-live"); // optional CSS class
+  navList.appendChild(link);
 
-  try {
+} else {
 
-    // ✅ Use your DBVAR
-    const navResponse = await fetch(window.vars.DBVAR + "nav.json");
-    const pagesResponse = await fetch(window.vars.DBVAR + "pages.json");
+  // ❌ Page does NOT exist yet
+  const span = document.createElement("span");
+  span.textContent = navItem.TITLE || "Coming Soon";
 
-    const navData = await navResponse.json();
-    const pagesData = await pagesResponse.json();
+  span.classList.add("lesson-missing"); // optional CSS class
+  navList.appendChild(span);
+}
 
-    // Sort like SORTORDERsort=1&SORTORDERtype=num
-    navData.sort((a, b) => Number(a.SORTORDER) - Number(b.SORTORDER));
-
-    navData.forEach(navItem => {
-
-      // WEEK Header
-      const weekHeader = document.createElement("h2");
-      weekHeader.style.color = "black";
-      weekHeader.textContent = navItem.WEEK;
-      navList.appendChild(weekHeader);
-
-      navList.appendChild(document.createElement("hr"));
-
-      // Match pages (R_NAV + STATUS=1)
-      const matchingPages = pagesData.filter(page =>
-        page.R_NAV == navItem.SKU &&
-        Number(page.STATUS) === 1
-      );
-
-      if (matchingPages.length > 0) {
-
-        matchingPages.forEach(page => {
-
-          const link = document.createElement("a");
-
-          // ✅ Use PAGEVAR like old [PAGEVAR]
-          link.href = window.vars.PAGEVAR + page.PAGE + ".html";
-
-          link.textContent = page.TITLE;
-
-          navList.appendChild(link);
-          navList.appendChild(document.createElement("br"));
-        });
-
-      } else {
-        // Equivalent to [showif [numfound]=0]
-        const noPageText = document.createTextNode("No lessons yet");
-        navList.appendChild(noPageText);
-        navList.appendChild(document.createElement("br"));
-      }
-
-    });
-
-  } catch (error) {
-    console.error("Navigation failed:", error);
-  }
-
-});
-</script>
+navList.appendChild(document.createElement("br"));
