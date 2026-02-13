@@ -64,7 +64,8 @@ document.getElementById("demo").innerHTML = d.getFullYear();
 <textarea id="textbox" rows="10" cols="70">
 const d = new Date();
 document.getElementById("demo").innerHTML = d.getFullYear();
-      </textarea><br><br>				
+      </textarea><br><br>	
+
 <div class="fs-15">Warning</div><br><br>
 <div class="fs-10">Old JavaScript code might use the non-standard method getYear().
 <br><br>
@@ -72,6 +73,53 @@ getYear() is supposed to return a 2-digit year.
 <br><br>
 getYear() is deprecated. Do not use it!
 </div><br><br>
+
+<div class="fs-15">The getMonth() Method</div><br><br>
+<div class="fs-10">The getMonth() method returns the month of a date as a number (0-11).<br><br>
+	In JavaScript, January is month number 0, February is number 1, etc.
+<br><br>
+Finally, December is month number 11.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getMonth() + 1;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getMonth() + 1;
+      </textarea><br><br>	
+<div class="fs-10">You can use an array of names to return the month as a name:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const d = new Date("2021-03-25");
+let month = months[d.getMonth()];
+document.getElementById("demo").innerHTML = month;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const d = new Date();
+let month = months[d.getMonth()];
+document.getElementById("demo").innerHTML = month;
+      </textarea><br><br>	
+
+<div class="fs-15">The getDate() Method</div><br><br>
+<div class="fs-10">TThe getDate() method returns the day of a date as a number (1-31):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getDate();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getDate();
+      </textarea><br><br>	
+
+
+
+
 
 
 
