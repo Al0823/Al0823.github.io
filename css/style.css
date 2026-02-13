@@ -343,5 +343,9 @@ flex-grow: 1;
   100% { text-shadow: 0 0 5px rgb(199, 0, 57), 0 0 10px rgb(255, 87, 51); }
 }
 
+.lesson-missing {
+  color: rgb(255,0,0);
+  cursor: default;
+}
 
 

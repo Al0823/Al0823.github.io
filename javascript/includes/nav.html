@@ -1,27 +1,87 @@
-// Match pages (R_NAV + STATUS=1)
-const matchingPage = pagesData.find(page =>
-  String(page.R_NAV) === String(navItem.SKU) &&
-  Number(page.STATUS) === 1
-);
+<nav>
+  <ul id="navList"></ul>
+</nav>
 
-if (matchingPage) {
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
 
-  // ✅ Page exists and is active
-  const link = document.createElement("a");
-  link.href = window.vars.PAGEVAR + matchingPage.PAGE + ".html";
-  link.textContent = matchingPage.TITLE;
+  const navList = document.getElementById("navList");
 
-  link.classList.add("lesson-live"); // optional CSS class
-  navList.appendChild(link);
+  // -------------------------
+  // Static Links (WebDNA style)
+  // -------------------------
+  navList.innerHTML += `
+    <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
+    <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
+    <hr>
+  `;
 
-} else {
+  try {
 
-  // ❌ Page does NOT exist yet
-  const span = document.createElement("span");
-  span.textContent = navItem.TITLE || "Coming Soon";
+    // -------------------------
+    // Load Databases
+    // -------------------------
+    const navResponse = await fetch(window.vars.DBVAR + "nav.json");
+    const pagesResponse = await fetch(window.vars.DBVAR + "pages.json");
 
-  span.classList.add("lesson-missing"); // optional CSS class
-  navList.appendChild(span);
-}
+    const navData = await navResponse.json();
+    const pagesData = await pagesResponse.json();
 
-navList.appendChild(document.createElement("br"));
+    // -------------------------
+    // Sort nav like WebDNA
+    // SORTORDERsort=1&SORTORDERtype=num
+    // -------------------------
+    navData.sort((a, b) => Number(a.SORTORDER) - Number(b.SORTORDER));
+
+    // -------------------------
+    // Build Navigation
+    // -------------------------
+    navData.forEach(navItem => {
+
+      // WEEK Header
+      const weekHeader = document.createElement("h2");
+      weekHeader.style.color = "black";
+      weekHeader.textContent = navItem.WEEK;
+      navList.appendChild(weekHeader);
+
+      navList.appendChild(document.createElement("hr"));
+
+      // Find ONE matching active page
+      const matchingPage = pagesData.find(page =>
+        String(page.R_NAV) === String(navItem.SKU) &&
+        Number(page.STATUS) === 1
+      );
+
+      if (matchingPage && matchingPage.PAGE) {
+
+        // ✅ Page exists and is active
+        const link = document.createElement("a");
+        link.href = window.vars.PAGEVAR + matchingPage.PAGE + ".html";
+        link.textContent = matchingPage.TITLE;
+
+        navList.appendChild(link);
+
+      } else {
+
+        // ❌ Page does NOT exist yet
+        const text = document.createElement("span");
+        text.textContent = navItem.TITLE || "Coming Soon";
+        text.classList.add("lesson-missing");
+
+        navList.appendChild(text);
+      }
+
+      navList.appendChild(document.createElement("br"));
+
+    });
+
+  } catch (error) {
+    console.error("Navigation failed:", error);
+
+    if (window.vars.DEBUGVAR) {
+      navList.innerHTML += "<br><span style='color:red;'>Navigation failed to load data.</span>";
+    }
+  }
+
+});
+</script>
