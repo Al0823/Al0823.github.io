@@ -159,47 +159,7 @@
 </ul>
 </nav>
 
-<script>
 
-
-  // Fix static links
-  document.getElementById("homeLink").href = window.vars.PATHVAR + "index.html";
-  document.getElementById("adminLink").href = window.vars.PATHVAR + "jsadmin/pages/index.html";
-
-  const navData = await fetch(window.vars.MACVAR + "nav.json").then(r => r.json());
-  const pageData = await fetch(window.vars.DBVAR + "pages.json").then(r => r.json());
-
-  const navList = document.getElementById("navList");
-
-  // Get unique weeks
-  const weeks = [...new Set(navData.map(item => item.WEEK))];
-
-  weeks.forEach(week => {
-
-    // Week header
-    navList.innerHTML += `<h2 style="color: rgb(0,0,0)">${week}</h2><hr>`;
-
-    // Items in this week sorted
-    const weekItems = navData
-      .filter(item => item.WEEK === week)
-      .sort((a,b) => a.SORTORDER - b.SORTORDER);
-
-    weekItems.forEach(item => {
-
-      const pageMatch = pageData.find(p => p.R_NAV === item.SKU && p.STATUS == 1);
-
-      if (pageMatch) {
-        navList.innerHTML += `<a href="${window.vars.PAGEVAR}lesson${item.SKU}.html">${item.TITLE}</a><br>`;
-      } else {
-        navList.innerHTML += item.TITLE + "<br>";
-      }
-
-    });
-
-  });
-
-
-</script>
 
 
 <!--
