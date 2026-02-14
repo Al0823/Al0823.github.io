@@ -152,6 +152,111 @@ const d = new Date();
 document.getElementById("demo").innerHTML = d.getSeconds();
       </textarea><br><br>	
 
+<div class="fs-15">The getMilliseconds() Method</div><br><br>
+<div class="fs-10">The getMilliseconds() method returns the milliseconds of a date as a number (0-999):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getMilliseconds();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getMilliseconds();
+      </textarea><br><br>	
+
+<div class="fs-15">The getDay() Method</div><br><br>
+<div class="fs-10">The getDay() method returns the weekday of a date as a number (0-6).<br><br>
+	In JavaScript, the first day of the week (day 0) is Sunday.
+<br><br>
+Some countries in the world consider the first day of the week to be Monday.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getDay();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getDay();
+      </textarea><br><br>	
+<div class="fs-10">You can use an array of names, and getDay() to return weekday as a name:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+const d = new Date("2021-03-25");
+let day = days[d.getDay()];
+document.getElementById("demo").innerHTML = day;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+const d = new Date();
+let day = days[d.getDay()];
+document.getElementById("demo").innerHTML = day;
+      </textarea><br><br>	
+
+<div class="fs-15">The getTime() Method</div><br><br>
+<div class="fs-10">The getTime() method returns the number of milliseconds since January 1, 1970:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("1970-01-01");
+document.getElementById("demo").innerHTML = d.getTime();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getTime();
+      </textarea><br><br>	
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getTime();
+      </textarea><br><br>
+
+<div class="fs-15">The Date.now() Method</div><br><br>
+<div class="fs-10">Date.now() returns the number of milliseconds since January 1, 1970.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const date = Date.now();
+document.getElementById("demo").innerHTML = date;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const minute = 1000 * 60;
+const hour = minute * 60;
+const day = hour * 24;
+const year = day * 365;
+
+
+let years = Math.round(Date.now() / year);
+document.getElementById("demo").innerHTML = years;
+      </textarea><br><br>	
+<div class="fs-10">Date.now() is a static method of the Date object.
+<br><br>
+You cannot use it on a date object like myDate.now().
+<br><br>
+The syntax is always Date.now().</div><br><br>
+
+<div class="fs-15">UTC Date Get Methods</div><br><br>
+<div class="fs-10"><ul>
+      <li>getUTCDate()	(Returns the UTC date)</li>
+      <li>getUTCDate()	(Returns the UTC date)</li>
+      <li>getUTCFullYear()	(Returns the UTC year)</li>
+      <li>getUTCMonth()	(Returns the UTC month)</li>
+      <li>getUTCDay()	(Returns the UTC day)</li>
+      <li>getUTCHours()	(Returns the UTC hour)</li>
+      <li>getUTCMinutes()	(Returns the UTC minutes)</li>
+      <li>getUTCSeconds()	(Returns the UTC seconds)</li>
+      <li>getUTCMilliseconds()	(Returns the UTC milliseconds)</li>
+    </ul>
+</div><br><br>
+
+
+
+
+
+
+
+
+
+
 
 
 
