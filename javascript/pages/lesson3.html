@@ -60,7 +60,7 @@ OUTPUT();
 <div id="debugInclude"></div>
 
 <script>
-  // Load CSS dynamically
+
   (function loadCSS() {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -68,18 +68,18 @@ OUTPUT();
     document.head.appendChild(link);
   })();
 
-  // Set page title
+
   document.getElementById("pageTitle").textContent =
     window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
 
-  // Fixed loadInclude that executes scripts
+  
   async function loadInclude(id, file) {
     const res = await fetch(file);
     const html = await res.text();
     const container = document.getElementById(id);
     container.innerHTML = html;
 
-    // Execute any scripts inside the included HTML
+
     container.querySelectorAll("script").forEach(oldScript => {
       const newScript = document.createElement("script");
       if (oldScript.src) {
@@ -92,7 +92,7 @@ OUTPUT();
     });
   }
 
-  // Load includes
+
   loadInclude("header", window.vars.INCVAR + "header.html");
   loadInclude("nav", window.vars.INCVAR + "nav.html");
   loadInclude("footer", window.vars.INCVAR + "footer.html");
