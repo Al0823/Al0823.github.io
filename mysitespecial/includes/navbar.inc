@@ -40,9 +40,9 @@ function activeNav($target) {
   </td>
 
   <td align="center">
-    <a href="<?php echo $pathVAR; ?>contact/index.html"<?php echo activeNav($pathVAR.'contact/index.pl'); ?>
+    <a href="<?php echo $pathVAR; ?>contact/index.pl"<?php echo activeNav($pathVAR.'contact/index.pl'); ?>
        onMouseOver="this.style.color='#FFFF00'; this.style.backgroundColor='#000000';"
-       onMouseOut="this.style.color='<?php echo ($currentURL===$pathVAR.'contact/index.html')?'#FFFF00':'#B026FF'; ?>'; this.style.backgroundColor='<?php echo ($currentURL===$pathVAR.'contact/index.html')?'#000000':'#333333'; ?>';">
+       onMouseOut="this.style.color='<?php echo ($currentURL===$pathVAR.'contact/index.pl')?'#FFFF00':'#B026FF'; ?>'; this.style.backgroundColor='<?php echo ($currentURL===$pathVAR.'contact/index.pl')?'#000000':'#333333'; ?>';">
        Contact
     </a>
   </td>
