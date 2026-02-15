@@ -1,16 +1,15 @@
 
 <center>
-  <table width="100%" bgcolor="#000000" border="0" cellspacing="0" cellpadding="10">
-    <tr>
-      <td align="center">
-        <font size="3" color="#FFFF00">
-          &copy; A.t.A. Tech Wiki, <?php echo date("l, F d, Y"); ?> - <?php echo date("g:i A"); ?>
-        </font>
-      </td>
-    </tr>
-  </table>
+  <table width="100%" bgcolor="#000000">
+<tr>
+  <td align="center">
+    <iframe src="<?php echo $incVAR; ?>datefooter.jsp" 
+            style="border:none; width:400px; height:20px;" scrolling="no"></iframe>
+  </td>
+</tr>
+</table>
 </center>
-
 <?php if ($debugVAR == 1) include $incVAR . 'debug.inc'; ?>
+
 </body>
 </html>
