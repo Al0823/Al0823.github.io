@@ -1,2 +1,15 @@
-<footer id="footerText"></footer>
-<div id="debugArea"></div>
+<footer id="footer">
+  <span id="dateTime"></span>
+</footer>
+
+<script>
+  // Set the footer text dynamically after inclusion
+  (function setFooterText() {
+    const dateSpan = document.getElementById("dateTime");
+    if (dateSpan) {
+      const currentYear = new Date().getFullYear();
+      const fullDate = new Date().toLocaleString();
+      dateSpan.textContent = `Copyright A.t.A. Tech Wiki 2025-${currentYear} - ${fullDate}`;
+    }
+  })();
+</script>
