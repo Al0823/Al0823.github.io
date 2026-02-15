@@ -10,7 +10,7 @@ window.vars = {
   IMGVAR: "/javascript/images/",
   PAGEVAR: "/javascript/pages/",
 
-  DEBUGVAR: true,   // [text]DEBUGVAR=1
+  DEBUGVAR: false,   // [text]DEBUGVAR=1
 
   WEBSITETITLE: "Javascript Wiki"
 };
