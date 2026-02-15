@@ -15,8 +15,8 @@
   <div id="nav"></div>
 
   <article>
-    <h2>JavaScript Math Object Tutorial</h2>
-    <p>The <strong>Math object</strong> allows you to perform mathematical tasks in JavaScript. It has properties (like PI) and methods (like round, random, and square root).</p>
+    <h2>JavaScript Math Tutorial</h2>
+    <p>The <strong>Math</strong> allows you to perform mathematical tasks in JavaScript. It has properties (like PI) and methods (like round, random, and square root).</p>
 
 				<div class="fs-15">The Math Object</div><br><br>
 <div class="fs-10">The JavaScript Math object allows you to perform mathematical tasks.
@@ -100,30 +100,119 @@ document.getElementById("demo").innerHTML = Math.trunc(4.7);
 
 						<div class="fs-15">Math.sign()</div><br><br>
 <div class="fs-10">Math.sign(x) returns if x is negative, null or positive.<br><br>
-	<ol>
+	<ul>
 <li>If x is positive it returns 1</li>
       <li>If x is negative it returns -1</li>
       <li>If x is zero, it returns 0</li>
-	</ol>
+	</ul>
 </div><br><br>
 <textarea id="textbox" rows="10" cols="70">
 document.getElementById("demo").innerHTML = Math.sign(4);
       </textarea><br><br>
-
+<div class="fs-10">Math.trunc(x) returns the integer part of x:
+</div><br><br>
 						
+<div class="fs-15">Math.pow()</div><br><br>
+<div class="fs-10">Math.pow(x, y) returns the value of x to the power of y:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.pow(8,2);
+      </textarea><br><br>
 
+<div class="fs-15">Math.sqrt()</div><br><br>
+<div class="fs-10">Math.sqrt(x) returns the square root of x:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.sqrt(64);
+      </textarea><br><br>
 
+<div class="fs-15">Math.abs()</div><br><br>
+<div class="fs-10">Math.abs(x) returns the absolute (positive) value of x:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.abs(-4.7);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.sin()</div><br><br>
+<div class="fs-10">Math.sin(x) returns the sine (a value between -1 and 1) of the angle x (given in radians).
+<br><br>
+If you want to use degrees instead of radians, you have to convert degrees to radians:
+<br><br>
+Angle in radians = Angle in degrees x PI / 180.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = 
+"The sine value of 90 degrees is " + Math.sin(90 * Math.PI / 180);
+      </textarea><br><br>
+
+<div class="fs-15">Math.cos()</div><br><br>
+<div class="fs-10">Math.cos(x) returns the cosine (a value between -1 and 1) of the angle x (given in radians).
+<br><br>
+If you want to use degrees instead of radians, you have to convert degrees to radians:
+<br><br>
+Angle in radians = Angle in degrees x PI / 180.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = 
+"The cosine value of 0 degrees is " + Math.cos(0 * Math.PI / 180);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.min() and Math.max()</div><br><br>
+<div class="fs-10">Math.min() and Math.max() can be used to find the lowest or highest value in a list of arguments:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.min(0, 150, 30, 20, -8, -200);
+      </textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.max(0, 150, 30, 20, -8, -200);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.random()</div><br><br>
+<div class="fs-10">Math.random() returns a random number between 0 (inclusive), and 1 (exclusive):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.random();
+      </textarea><br><br>
+					<div class="fs-10">You will learn more about Math.random() in the next chapter of this tutorial.
+</div><br><br>
+
+<div class="fs-15">The Math.log() Method</div><br><br>
+<div class="fs-10">Math.log(x) returns the natural logarithm of x.
+<br><br>
+The natural logarithm returns the time needed to reach a certain level of growth:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log(1);
+      </textarea><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log(2);
+      </textarea><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log(3);
+      </textarea><br><br>
+					<div class="fs-10">Math.E and Math.log() are twins</div><br><br>
+
+					<div class="fs-15">The Math.log2() Method</div><br><br>
+<div class="fs-10">Math.log2(x) returns the base 2 logarithm of x.
+	<br><br>
+	How many times must we multiply 2 to get 8?
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log2(8);
+      </textarea><br><br>
+
+											<div class="fs-15">The Math.log10() Method</div><br><br>
+<div class="fs-10">Math.log10(x) returns the base 10 logarithm of x.
+<br><br>
+How many times must we multiply 10 to get 1000?
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log10(1000);
+      </textarea><br><br>
   
-    <ul>
-      
-      <li><code>Math.trunc(x)</code> – removes decimal part</li>
-      <li><code>Math.pow(x, y)</code> – x to the power of y</li>
-      <li><code>Math.sqrt(x)</code> – square root</li>
-      <li><code>Math.abs(x)</code> – absolute value</li>
-      <li><code>Math.min(...numbers)</code> – smallest number</li>
-      <li><code>Math.max(...numbers)</code> – largest number</li>
-      <li><code>Math.random()</code> – random number between 0 and 1</li>
-    </ul>
+  
 
     <h3>Example</h3>
     <pre><code id="mathExample"></code></pre>
@@ -173,7 +262,7 @@ Random number: ${Math.random()}
 
 
   document.getElementById("pageTitle").textContent =
-    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
+    window.vars.WEBSITETITLE + " - JavaScript Math Tutorial";
 
   
   async function loadInclude(id, file) {
