@@ -7,7 +7,6 @@ $PAGETITLE = "Character Page - $CHARNAME";
 include $incVAR . "header.inc";
 include $incVAR . "navbar.inc";
 
-// Load characters.xml
 $charactersXML = simplexml_load_file($dbVAR . "XML/characters.xml");
 $charData = null;
 
@@ -24,7 +23,7 @@ foreach ($charactersXML->character as $char) {
 <table width="100%" cellspacing="10" cellpadding="10">
 <tr>
 
-  <!-- LEFT INFO COLUMN -->
+
   <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000;">
     <font size="5"><b><?php echo $charData->name; ?></b></font><br><br>
     <b>Role:</b> <?php echo $charData->role; ?><br>
@@ -33,7 +32,7 @@ foreach ($charactersXML->character as $char) {
     <b>Voiced by:</b> <?php echo $charData->voice; ?>
   </td>
 
-  <!-- CENTER CONTENT -->
+
   <td width="60%" valign="top" bgcolor="#C0C0C0" style="border:3px solid #000000;">
     <center>
       <font size="6"><b>Overview of <?php echo $charData->name; ?></b></font>
@@ -44,7 +43,7 @@ foreach ($charactersXML->character as $char) {
     <?php include $incVAR . "underconstruction.inc"; ?>
   </td>
 
-  <!-- RIGHT IMAGE COLUMN -->
+
   <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000; text-align:center;">
     <img src="<?php echo $imgVAR . $charData->image; ?>" width="220" alt="<?php echo $charData->name; ?>"><br>
     <font size="2"><?php echo $charData->name; ?></font>
