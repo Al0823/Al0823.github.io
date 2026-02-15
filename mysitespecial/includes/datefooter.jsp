@@ -3,7 +3,7 @@
     // Create a Date object
     Date now = new Date();
     
-    // Format date in classic 90s style
+ 
     String[] days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
     String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
