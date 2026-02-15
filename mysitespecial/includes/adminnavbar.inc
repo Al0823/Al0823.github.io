@@ -1,19 +1,19 @@
 <?php
-/* ===============================
-   ADMIN NAVBAR - 90s TABLE STYLE
-   =============================== */
+
 
 $currentURL = $_SERVER['REQUEST_URI'];
 
 function activeNav($target) {
     global $currentURL;
-    return ($currentURL === $target) ? '<b><font color="yellow">' : '<font color="#B026FF">';
+    // Return yellow bold font if active, otherwise purple
+    return ($currentURL === $target) ? '<b><font color="#FFFF00">' : '<font color="#B026FF">';
 }
 
 function endNav() {
-    return '</font>';
+    return '</font></b>';
 }
 
+// Only display if URL contains '25admin25'
 if (strpos($currentURL, '25admin25') !== false) {
 
     echo '<center>';
@@ -35,6 +35,5 @@ if (strpos($currentURL, '25admin25') !== false) {
     echo '</td></tr>';
     echo '</table>';
     echo '</center>';
-
 }
 ?>
