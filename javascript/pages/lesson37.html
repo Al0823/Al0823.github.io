@@ -245,11 +245,22 @@ The syntax is always Date.now().</div><br><br>
       <li>getUTCMinutes()	(Returns the UTC minutes)</li>
       <li>getUTCSeconds()	(Returns the UTC seconds)</li>
       <li>getUTCMilliseconds()	(Returns the UTC milliseconds)</li>
-    </ul>
+    </ul><br><br>
+UTC methods use UTC time (Coordinated Universal Time).
+<br><br>
+UTC time is the same as GMT (Greenwich Mean Time).
+<br><br>
+The difference between Local time and UTC time can be up to 24 hours.
 </div><br><br>
 
-
-
+<div class="fs-15">The getTimezoneOffset() Method</div><br><br>
+<div class="fs-10"><ul>
+      The getTimezoneOffset() method returns the difference (in minutes) between local time an UTC time:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getTimezoneOffset();
+      </textarea><br><br>	
 
 
 
