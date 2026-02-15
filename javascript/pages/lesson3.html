@@ -67,8 +67,8 @@ function OUTPUT() {
 
    </article>
  </main> 
-<footer>
-  <div id="footer"><span id="dateTime"></span></div>
+<footer id="footer">
+  <span id="dateTime"></span>
 </footer>
 
 <div id="debugInclude"></div>
@@ -101,6 +101,15 @@ loadInclude("header", window.vars.INCVAR + "header.html");
 loadInclude("nav", window.vars.INCVAR + "nav.html");
 loadInclude("footer", window.vars.INCVAR + "footer.html");
 
+(function setFooterText() {
+    const dateSpan = document.getElementById("dateTime");
+    if (dateSpan) {
+      const currentYear = new Date().getFullYear();
+      const fullDate = new Date().toLocaleString();
+      dateSpan.textContent = `Copyright A.t.A. Tech Wiki 2025-${currentYear} - ${fullDate}`;
+    }
+  })();
+
 if (window.vars.DEBUGVAR) {
   loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
 }
@@ -108,3 +117,7 @@ if (window.vars.DEBUGVAR) {
 
 </body>
 </html>
+
+
+
+
