@@ -1,0 +1,66 @@
+[include file=../../includes/vars.inc]
+<html>
+[text]PAGETITLE = PAGES ADMIN INDEX[/text]
+[include file=[INCVAR]header.inc]
+
+
+<main>
+[include file=[INCVAR]nav.inc]
+[showif [AdminVAR]=0][include file=[incVAR]/adminprotection.inc][/showif]
+<article>
+
+<div class="wikiadmin26">[text]dbname=pages.db[/text]
+    [showif [action]=Delete]
+    [Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+    [redirect [thisurl]]
+    DELETED RECORD #[SKUVAR]<br>
+    [/showif]
+
+     <h2>[dbname]</h2><br>
+
+    [search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1&SKUtype=num]
+    [numfound] records found<br>
+    <a href="add.html">Add New Record</a><br>
+    
+<table style="width: 100%" border=1>
+  <tr>
+    
+
+
+<th>SKU</th>
+<Th>TITLE</Th>
+<Th>MEMBER</Th>
+<th>HIDDENTITLE</th>
+<Th>BODYCOPY</Th>
+<Th>ADMIN</Th>
+<Th>CREATEDATE</Th>
+<Th>MODDATE</Th>
+    <th>STATUS</th>
+  </tr>
+
+  [founditems]
+<tr>
+    
+
+
+<td>[SKU]</td>
+<td>[TITLE]</td>
+<td>[lookup db=[dbVAR]members.db&lookinfield=SKU&returnfield=uname&value=[R_MEMBERS]&notfound=No Author]</td>
+  <td>[HIDDENTITLE]</td>
+    <td>[BODYCOPY]</td>
+   <td>[ADMIN]</td>
+   <td>[CREATEDATE]</td>
+   <td>[MODDATE]</td>
+    <td>[STATUS]</td>
+     <td><a href="edit.html?SKUVAR=[SKU]">Edit</a></td>
+    <td><a href="[thisurl]?action=Delete&SKUVAR=[SKU]">Delete</a></td>
+  </tr>
+  [/founditems]
+</table>
+[/search]
+    [closedatabase db=[dbVAR][dbname]]
+  </div>
+
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]

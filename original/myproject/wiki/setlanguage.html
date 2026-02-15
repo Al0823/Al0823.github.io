@@ -1,0 +1,35 @@
+<html>
+ 
+[include file=includes/vars.inc]
+[text]PAGETITLE=Main page[/text]
+
+[include file=[INCVAR]header.inc]
+
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article>
+
+HELLO WORLD
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ar,ru',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript"
+  src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+
+
+</article>
+</main> 
+[include file=[INCVAR]footer.inc]
+

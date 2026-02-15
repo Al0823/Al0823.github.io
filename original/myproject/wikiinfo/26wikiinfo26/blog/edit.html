@@ -1,0 +1,70 @@
+[include file=../../includes/vars.inc]
+[include file=[incvar]header.inc]
+<main>
+[include file=[incVAR]/nav.inc]
+<article>
+
+<div class="wikiadmin26">[text]dbname=blog.db[/text]
+     [showif [action]=replace]
+    REPLACING to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]TITLE=[TITLE]&[!]
+[/!]STATUS=[STATUS]&[!]
+	[/!]CAPTION=[url][CAPTION][/url]&[!]
+
+	[/!]BODYCOPY=[BODYCOPY][/replace]
+	[redirect index.html]
+[/showif]
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center>
+
+
+
+[search db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[founditems]
+<form method="post" action="[thisurl]">
+<input type="hidden" name="action" value="replace"><br>
+<input type="hidden" name="skuvar" value="[SKUVAR]"><br>
+Title<br>
+<input type="text" name="title" id="title" value="[TITLE]" size=50><br>
+
+
+
+Caption<br>
+<textarea name="caption" id="caption" value="CAPTION" style="width: 30%; height: 100px;">[CAPTION]</textarea><br>
+
+Bodycopy<br>
+<textarea name="bodycopy" id="bodycopy" value="bodycopy" style="width: 40%; height: 300px;">[bodycopy]</textarea><br>
+
+Status<br>
+<select name="status" id="status">
+<option value="1"selected>Enabled</option>
+<option value="0">Disabled</option>
+</select><br>
+
+
+
+<input type="submit" value="edit record">
+
+
+</form>
+[/founditems]
+   [/search]
+
+
+</center>
+</article>
+</main>
+[include file=[incvar]footer.inc]
