@@ -318,45 +318,50 @@ Second: ${now.getSeconds()}`;
   </article>
 </main>
 
-<footer>
-  <div id="footer"><span id="dateTime"></span></div>
-</footer>
+<footer id="footer"></footer>
 
 <div id="debugInclude"></div>
 
 <script>
-// Dynamically load CSS
-(function loadCSS() {
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = "../../css/style.css?v=" + Date.now();
-  document.head.appendChild(link);
-})();
 
-// Page title
-document.getElementById("pageTitle").textContent =
-  window.vars.WEBSITETITLE + " - JavaScript Date Get Methods Tutorial";
+  (function loadCSS() {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "../../css/style.css?v=" + Date.now();
+    document.head.appendChild(link);
+  })();
 
-// Footer date
-document.getElementById("dateTime").textContent =
-  "Copyright A.t.A. Tech Wiki 2025-" + new Date().getFullYear() +
-  " - " + new Date().toLocaleString();
 
-// Includes
-async function loadInclude(id, file) {
-  const res = await fetch(file);
-  const html = await res.text();
-  document.getElementById(id).innerHTML = html;
-}
+  document.getElementById("pageTitle").textContent =
+    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
 
-loadInclude("header", window.vars.INCVAR + "header.html");
-loadInclude("nav", window.vars.INCVAR + "nav.html");
-loadInclude("footer", window.vars.INCVAR + "footer.html");
+  
+  async function loadInclude(id, file) {
+    const res = await fetch(file);
+    const html = await res.text();
+    const container = document.getElementById(id);
+    container.innerHTML = html;
 
-if (window.vars.DEBUGVAR) {
-  loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-}
+
+    container.querySelectorAll("script").forEach(oldScript => {
+      const newScript = document.createElement("script");
+      if (oldScript.src) {
+        newScript.src = oldScript.src;
+      } else {
+        newScript.textContent = oldScript.textContent;
+      }
+      document.body.appendChild(newScript);
+      oldScript.remove();
+    });
+  }
+
+
+  loadInclude("header", window.vars.INCVAR + "header.html");
+  loadInclude("nav", window.vars.INCVAR + "nav.html");
+  loadInclude("footer", window.vars.INCVAR + "footer.html");
+  if (window.vars.DEBUGVAR) {
+    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+  }
 </script>
-
 </body>
 </html>
