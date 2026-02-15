@@ -43,17 +43,92 @@ document.getElementById("demo").innerHTML = d;
 <div class="fs-10">The setFullYear() method can optionally set month and day:
 </div><br><br>
 <textarea id="textbox" rows="10" cols="70">
-const d = new Date();
+const d = new Date("January 01, 2025");
+d.setFullYear(2020, 11, 3);
 document.getElementById("demo").innerHTML = d;
       </textarea><br><br>
 
+<div class="fs-15">The setMonth() Method</div><br><br>
+<div class="fs-10">The setMonth() method sets the month of a date object (0-11):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 01, 2025");
+d.setMonth(11);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
+<div class="fs-15">The setDate() Method</div><br><br>
+<div class="fs-10">The setDate() method sets the day of a date object (1-31):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 01, 2025");
+d.setDate(15);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">The setDate() method can also be used to add days to a date:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 01, 2025");
+d.setDate(d.getDate() + 50);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">If adding days shifts the month or year, the changes are handled automatically by the Date object.
+</div><br><br>
 
+<div class="fs-15">The setHours() Method</div><br><br>
+<div class="fs-10">The setHours() method sets the hours of a date object (0-23):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 01, 2025");
+d.setHours(22);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">The setHours() method can also be used to set minutes and seconds.
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 01, 2025");
+d.setHours(22, 10, 20);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
+<div class="fs-15">The setMinutes() Method</div><br><br>
+<div class="fs-10">The setMinutes() method sets the minutes of a date object (0-59):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 01, 2025");
+d.setMinutes(30);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
+						<div class="fs-15">The setSeconds() Method</div><br><br>
+<div class="fs-10">The setSeconds() method sets the seconds of a date object (0-59):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 01, 2025");
+d.setSeconds(30);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
 
+<div class="fs-15">Compare Dates</div><br><br>
+<div class="fs-10">Dates can easily be compared.
+<br><br>
+The following example compares today's date with January 14, 2100:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text;
+const today = new Date();
+const someday = new Date();
+someday.setFullYear(2100, 0, 14);
 
+if (someday > today) {
+  text = "Today is before January 14, 2100.";
+} else {
+  text = "Today is after January 14, 2100.";
+}
 
+document.getElementById("demo").innerHTML = text;
+      </textarea><br><br>
+<div class="fs-10">JavaScript counts months from 0 to 11. January is 0. December is 11.
+</div><br><br>
 
 
     <h3>Example</h3>
