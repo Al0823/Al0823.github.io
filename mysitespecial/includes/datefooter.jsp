@@ -3,7 +3,7 @@
     // Create a Date object
     Date now = new Date();
     
-    // Format date in a 90s-style verbose format
+    // Format date in classic 90s style
     String[] days = {"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
     String[] months = {"January","February","March","April","May","June","July","August","September","October","November","December"};
 
@@ -22,6 +22,8 @@
 
     String formattedDate = dayName + ", " + monthName + " " + day + ", " + year + " - " + hour + ":" + (minute<10?"0"+minute:minute) + " " + ampm;
 %>
+
+
 <font face="Times New Roman" color="#FFFF00" size="2">
-    &copy; A.t.A. Tech Wiki, <%= formattedDate %>
+    <blink>&copy; A.t.A. Tech Wiki, <%= formattedDate %></blink>
 </font>
