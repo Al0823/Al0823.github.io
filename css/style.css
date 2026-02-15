@@ -300,10 +300,10 @@ flex-grow: 1;
   width: 100%;
   padding: 30px;
   text-align: center;
-  background-color: rgb(255, 243, 205); /* bright yellow background */
-  border: 4px dashed rgb(255, 87, 51); /* bold orange border */
+  background-color: rgb(255, 243, 205); 
+  border: 4px dashed rgb(255, 87, 51); 
   border-radius: 12px;
-  color: rgb(199, 0, 57); /* deep red text */
+  color: rgb(199, 0, 57); 
   font-size: 35px;
   font-weight: bold;
   box-sizing: border-box;
@@ -348,4 +348,23 @@ flex-grow: 1;
   cursor: default;
 }
 
+
+.theme-light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.theme-light a {
+  color: #0066cc;
+}
+
+
+.theme-dark {
+  background-color: #121212;
+  color: #e5e5e5;
+}
+
+.theme-dark a {
+  color: #4ea3ff;
+}
 

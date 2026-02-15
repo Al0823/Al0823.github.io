@@ -1,0 +1,87 @@
+<html>
+ 
+[include file=includes/vars.inc]
+[text]PAGETITLE=Main page[/text]
+
+[include file=[INCVAR]header.inc]
+
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article>
+<hr>
+<div class="fs-15">Language</div>
+<hr><br><br>
+<div class="fs-10">
+HELLO WORLD
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    includedLanguages: 'en,es,fr,de,it,pt,zh-CN,ja,ko,ar,ru',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript"
+  src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+</div>
+<hr>
+<div class="fs-15">Website theme</div>
+<hr><br><br>
+<div class="fs-10">
+<label for="themeSelect">Choose theme:</label><br><br>
+
+<select id="themeSelect">
+  <option value="original">Original site colors</option>
+  <option value="light">Light mode</option>
+  <option value="dark">Dark mode</option>
+</select>
+
+<script>
+(function () {
+  const select = document.getElementById("themeSelect");
+  const key = "site-theme";
+
+  function apply(theme) {
+    // Remove all theme classes first
+    document.documentElement.classList.remove("theme-light", "theme-dark");
+
+    if (theme === "light") {
+      document.documentElement.classList.add("theme-light");
+    } else if (theme === "dark") {
+      document.documentElement.classList.add("theme-dark");
+    }
+  }
+
+  // Load saved theme
+  const saved = localStorage.getItem(key) || "original";
+  apply(saved);
+  select.value = saved;
+
+  // Listen for changes
+  select.addEventListener("change", function () {
+    const theme = this.value;
+
+    if (theme === "original") {
+      localStorage.removeItem(key); // true reset
+    } else {
+      localStorage.setItem(key, theme);
+    }
+
+    apply(theme);
+  });
+})();
+</script>
+</div>
+<hr>
+
+</article>
+</main> 
+[include file=[INCVAR]footer.inc]
+
