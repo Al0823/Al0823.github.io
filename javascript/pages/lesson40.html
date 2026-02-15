@@ -1,120 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<script>let PAGETITLE="Random Tutorial"</script>
   <meta charset="UTF-8">
+
+  <!-- Page-specific title variable -->
+  <script>let PAGETITLE = "Random Tutorial";</script>
+
+  <!-- Empty title element updated via JS -->
   <title id="pageTitle"></title>
+
+  <!-- Global variables for paths, etc. -->
   <script src="../includes/vars.js"></script>
 </head>
 
 <body>
-<header>
-  <div id="header">Javascript Wiki</div>
-</header>
 
-<main>
-  <div id="nav"></div>
+  <!-- Header will be injected here -->
+  <header id="header"></header>
 
-  <article>
-    <h2>JavaScript Random Tutorial</h2>
-    <p>JavaScript uses the <strong>Math.random()</strong> method to generate random numbers. This is commonly used in games, simulations, and decision-making logic.</p>
+  <main>
+    <!-- Navigation -->
+    <div id="nav"></div>
 
-    <h3>Basic Random Number</h3>
-    <p><code>Math.random()</code> returns a number between 0 (inclusive) and 1 (exclusive).</p>
+    <article>
+      <h2>JavaScript Random Tutorial</h2>
 
-    <pre><code>let num = Math.random();
+      <p>JavaScript uses the <strong>Math.random()</strong> method to generate random numbers. This is commonly used in games, simulations, and decision-making logic.</p>
+
+      <!-- Example code sections -->
+      <h3>Basic Random Number</h3>
+      <pre><code>let num = Math.random();
 console.log(num);</code></pre>
 
-    <h3>Random Whole Numbers</h3>
-    <p>To get a random whole number, combine <code>Math.random()</code> with <code>Math.floor()</code>.</p>
+      <h3>Random Whole Numbers</h3>
+      <pre><code>let num = Math.floor(Math.random() * 10);</code></pre>
 
-    <pre><code>// Random number from 0 to 9
-let num = Math.floor(Math.random() * 10);</code></pre>
+      <h3>Random Number in a Range</h3>
+      <pre><code>let num = Math.floor(Math.random() * 100) + 1;</code></pre>
 
-    <h3>Random Number in a Range</h3>
-    <pre><code>// Random number from 1 to 100
-let num = Math.floor(Math.random() * 100) + 1;</code></pre>
+      <h3>Example Output</h3>
+      <pre id="randomExample"></pre>
 
-    <h3>Example Output</h3>
-    <pre><code id="randomExample"></code></pre>
+      <script>
+        document.getElementById("randomExample").textContent =
+          "Random decimal: " + Math.random() +
+          "\nRandom 1-10: " + (Math.floor(Math.random() * 10) + 1) +
+          "\nRandom 1-100: " + (Math.floor(Math.random() * 100) + 1);
+      </script>
 
-    <script>
-      document.getElementById("randomExample").textContent =
-        "Random decimal: " + Math.random() +
-        "\nRandom 1-10: " + (Math.floor(Math.random() * 10) + 1) +
-        "\nRandom 1-100: " + (Math.floor(Math.random() * 100) + 1);
-    </script>
+      <!-- Interactive examples -->
+      <h3>Interactive Examples</h3>
+      <p><strong>Dice Roll 🎲</strong></p>
+      <button id="diceBtn">Roll Dice</button>
+      <pre id="diceOutput"></pre>
 
-    <h3>Interactive Examples</h3>
+      <p><strong>Coin Flip 🪙</strong></p>
+      <button id="coinBtn">Flip Coin</button>
+      <pre id="coinOutput"></pre>
 
-    <p><strong>Dice Roll 🎲</strong></p>
-    <button id="diceBtn">Roll Dice</button>
-    <pre id="diceOutput"></pre>
+      <script>
+        document.getElementById("diceBtn").addEventListener("click", () => {
+          const dice = Math.floor(Math.random() * 6) + 1;
+          document.getElementById("diceOutput").textContent = "You rolled: " + dice;
+        });
 
-    <p><strong>Coin Flip 🪙</strong></p>
-    <button id="coinBtn">Flip Coin</button>
-    <pre id="coinOutput"></pre>
+        document.getElementById("coinBtn").addEventListener("click", () => {
+          const coin = Math.random() < 0.5 ? "Heads" : "Tails";
+          document.getElementById("coinOutput").textContent = "Result: " + coin;
+        });
+      </script>
 
-    <script>
-      document.getElementById("diceBtn").addEventListener("click", () => {
-        const dice = Math.floor(Math.random() * 6) + 1;
-        document.getElementById("diceOutput").textContent = "You rolled: " + dice;
+    </article>
+  </main>
+
+  <footer id="footer"></footer>
+  <div id="debugInclude"></div>
+
+  <script>
+    // Utility to load include files asynchronously
+    async function loadInclude(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      const container = document.getElementById(id);
+      container.innerHTML = html;
+
+      // Re-run scripts inside the loaded HTML
+      container.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        document.body.appendChild(newScript);
+        oldScript.remove();
       });
+    }
 
-      document.getElementById("coinBtn").addEventListener("click", () => {
-        const coin = Math.random() < 0.5 ? "Heads" : "Tails";
-        document.getElementById("coinOutput").textContent = "Result: " + coin;
-      });
-    </script>
-
-  </article>
-</main>
-
-<footer id="footer"></footer>
-
-<div id="debugInclude"></div>
-
-<script>
-
-  (function loadCSS() {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "../../css/style.css?v=" + Date.now();
-    document.head.appendChild(link);
-  })();
-
-
-
-  document.getElementById("pageTitle").textContent =
-    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
-
-  
-  async function loadInclude(id, file) {
-    const res = await fetch(file);
-    const html = await res.text();
-    const container = document.getElementById(id);
-    container.innerHTML = html;
-
-
-    container.querySelectorAll("script").forEach(oldScript => {
-      const newScript = document.createElement("script");
-      if (oldScript.src) {
-        newScript.src = oldScript.src;
-      } else {
-        newScript.textContent = oldScript.textContent;
-      }
-      document.body.appendChild(newScript);
-      oldScript.remove();
+    // Load header, nav, footer, and debug include
+    loadInclude("header", window.vars.INCVAR + "header.html").then(() => {
+      // Update page title after header is loaded
+      if (typeof updatePageTitle === "function") updatePageTitle();
     });
-  }
 
+    loadInclude("nav", window.vars.INCVAR + "nav.html");
+    loadInclude("footer", window.vars.INCVAR + "footer.html");
+    if (window.vars.DEBUGVAR) {
+      loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+    }
+  </script>
 
-  loadInclude("header", window.vars.INCVAR + "header.html");
-  loadInclude("nav", window.vars.INCVAR + "nav.html");
-  loadInclude("footer", window.vars.INCVAR + "footer.html");
-  if (window.vars.DEBUGVAR) {
-    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-  }
-</script>
 </body>
 </html>

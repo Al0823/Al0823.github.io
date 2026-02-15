@@ -1,33 +1,41 @@
 <header>
+  <!-- Main stylesheet -->
+  <link id="mainStylesheet" rel="stylesheet" href="/css/style.css">
 
-<link id="mainStylesheet" rel="stylesheet" href="/css/style.css">
-<!--
-<audio autoplay loop>
-    <source src="/audio/bgmusic.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>-->
-<div class="header">
-  Javascript Wiki<br>
-</div>
+  <!-- Header title -->
+  <div class="header">
+    Javascript Wiki
+  </div>
 
-<div id="devNotice" style="display:none;">Dev stuff is showing</div>
+  <!-- Dev notice -->
+  <div id="devNotice" style="display:none;">Dev stuff is showing</div>
 
-<script>
+  <script>
+    // Global site title
+    window.vars.WEBSITETITLE = "Javascript Wiki";
 
-window.vars.WEBSITETITLE = "Javascript Wiki";
+    // Function to update the page title after header is loaded
+    function updatePageTitle() {
+      const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
+      const fullTitle = window.vars.WEBSITETITLE + (pageTitle ? " - " + pageTitle : "");
 
+      // Set the browser tab
+      document.title = fullTitle;
 
-document.title = window.vars.WEBSITETITLE + " - " + PAGETITLE;
+      // Set <title> element if it exists
+      const titleEl = document.getElementById("pageTitle");
+      if (titleEl) titleEl.textContent = fullTitle;
+    }
 
+    // Apply main stylesheet dynamically (if needed)
+    if (window.vars.CSSVAR) {
+      const mainLink = document.getElementById("mainStylesheet");
+      mainLink.href = window.vars.CSSVAR + "style.css";
+    }
 
-document.getElementById("mainStylesheet").href =
-  window.vars.CSSVAR + "style.css";
-
-
-if (window.vars.DEBUGVAR) {
-  document.getElementById("devNotice").style.display = "block";
-}
-
-</script>
-
+    // Show dev notice if DEBUGVAR is true
+    if (window.vars.DEBUGVAR) {
+      document.getElementById("devNotice").style.display = "block";
+    }
+  </script>
 </header>
