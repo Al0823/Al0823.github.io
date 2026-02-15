@@ -52,7 +52,7 @@ OUTPUT();
   </article>
 </main>
 
-<!-- Footer -->
+<!-- Footer container for include -->
 <footer id="footer"></footer>
 
 <div id="debugInclude"></div>
@@ -75,6 +75,16 @@ OUTPUT();
     const res = await fetch(file);
     const html = await res.text();
     document.getElementById(id).innerHTML = html;
+
+    // Special handling for footer: set date text AFTER inclusion
+    if (id === "footer") {
+      const dateSpan = document.getElementById("dateTime");
+      if (dateSpan) {
+        const currentYear = new Date().getFullYear();
+        const fullDate = new Date().toLocaleString();
+        dateSpan.textContent = `Copyright A.t.A. Tech Wiki 2025-${currentYear} - ${fullDate}`;
+      }
+    }
   }
 
   // Load includes
