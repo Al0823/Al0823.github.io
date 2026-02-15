@@ -45,20 +45,22 @@ OUTPUT();
       function OUTPUT() {
         document.getElementById("OUTPUT").innerHTML = "Hello! This is your dynamic output.";
       }
-
-      // Run it immediately
       OUTPUT();
     </script>
   </article>
 </main>
 
+<<<<<<< HEAD
+<!-- Footer container -->
+=======
 <!-- Footer -->
+>>>>>>> dbe2eabaae19d5a3067d8b26cc18765c03de6b81
 <footer id="footer"></footer>
 
 <div id="debugInclude"></div>
 
 <script>
-  // Load CSS dynamically with cache-busting
+  // Load CSS dynamically
   (function loadCSS() {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -70,11 +72,24 @@ OUTPUT();
   document.getElementById("pageTitle").textContent =
     window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
 
-  // Function to dynamically load HTML includes
+  // Fixed loadInclude that executes scripts
   async function loadInclude(id, file) {
     const res = await fetch(file);
     const html = await res.text();
-    document.getElementById(id).innerHTML = html;
+    const container = document.getElementById(id);
+    container.innerHTML = html;
+
+    // Execute any scripts inside the included HTML
+    container.querySelectorAll("script").forEach(oldScript => {
+      const newScript = document.createElement("script");
+      if (oldScript.src) {
+        newScript.src = oldScript.src;
+      } else {
+        newScript.textContent = oldScript.textContent;
+      }
+      document.body.appendChild(newScript);
+      oldScript.remove();
+    });
   }
 
   // Load includes
