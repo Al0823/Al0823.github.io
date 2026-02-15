@@ -6,47 +6,58 @@ $PAGETITLE = "Character Page - $CHARNAME";
 
 include $incVAR . "header.inc";
 include $incVAR . "navbar.inc";
+
+// Load characters.xml
+$charactersXML = simplexml_load_file($dbVAR . "XML/characters.xml");
+$charData = null;
+
+// Find the character
+foreach ($charactersXML->character as $char) {
+    if (strcasecmp($char->name, $CHARNAME) === 0) {
+        $charData = $char;
+        break;
+    }
+}
 ?>
 
-<!-- MAIN LAYOUT TABLE -->
+<?php if ($charData): ?>
 <table width="100%" cellspacing="10" cellpadding="10">
 <tr>
 
   <!-- LEFT INFO COLUMN -->
   <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000;">
-    <font size="5"><b><?php echo $CHARNAME; ?></b> Doorman</font><br><br>
-
-    <b>Role:</b> Supporting Character<br>
-    <b>Family:</b> Father of Uzi Doorman<br>
-    <b>Inventor:</b> Blast doors protecting the colony<br>
-    <b>Voiced by:</b> David J. Dixon (English)
+    <font size="5"><b><?php echo $charData->name; ?></b></font><br><br>
+    <b>Role:</b> <?php echo $charData->role; ?><br>
+    <b>Family:</b> <?php echo $charData->family; ?><br>
+    <b>Inventor / Notes:</b> <?php echo $charData->notes; ?><br>
+    <b>Voiced by:</b> <?php echo $charData->voice; ?>
   </td>
-
 
   <!-- CENTER CONTENT -->
   <td width="60%" valign="top" bgcolor="#C0C0C0" style="border:3px solid #000000;">
     <center>
-      <font size="6"><b>Overview of Khan Doorman</b></font>
+      <font size="6"><b>Overview of <?php echo $charData->name; ?></b></font>
     </center>
     <br>
-
-    <?php echo $CHARNAME; ?> is a supporting character in the Murder Drones series.
-    He is the father of Uzi Doorman, the estranged husband of Nori Doorman,
-    and the inventor of the blast doors that kept the colony safe from Disassembly Drones.
-    <br><br>
+    <?php echo $charData->overview ?? "No overview available."; ?><br><br>
 
     <?php include $incVAR . "underconstruction.inc"; ?>
   </td>
 
-
   <!-- RIGHT IMAGE COLUMN -->
   <td width="20%" valign="top" bgcolor="#808080" style="border:3px solid #000000; text-align:center;">
-    <img src="<?php echo $imgVAR; ?>khan_md.jpeg" width="220" alt="Khan Doorman"><br>
-    <font size="2">Khan Doorman</font>
+    <img src="<?php echo $imgVAR . $charData->image; ?>" width="220" alt="<?php echo $charData->name; ?>"><br>
+    <font size="2"><?php echo $charData->name; ?></font>
   </td>
 
 </tr>
 </table>
+
+<?php else: ?>
+  <center>
+    <b>Character "<?php echo $CHARNAME; ?>" not found in characters.xml!</b>
+  </center>
+<?php endif; ?>
 
 <?php include $incVAR . "footer.inc"; ?>
 <?php if ($debugVAR == 1) include $incVAR . "debug.inc"; ?>
