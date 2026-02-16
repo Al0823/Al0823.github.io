@@ -182,8 +182,10 @@ document.getElementById("demo").innerHTML = text;
 
 <div class="fs-15">Examples</div><br><br>
 
-<p id="DemoEx"></p> // Change Demo to say the Fruit name 
+
 <textarea id="textbox" rows="10" cols="70">
+<p id="DemoEx"></p> // Change Demo to say the Fruit name 
+<script>
 let fruit = ""; // Fruit name is either banana, apple or orange
 let text = ""
 
@@ -201,13 +203,14 @@ switch (fruit) {
     console.log("Unknown fruit");
 }
 document.getElementById("DemoEX").innerHTML = text; // Change Demo here too
+</script>
 </textarea><br><br>
 
 <p id = "AppleEx"></p>
 
 <script>
 let fruit = "apple";
-let text = ""
+let text = "";
 
 switch (fruit) {
   case "banana":
