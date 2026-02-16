@@ -131,7 +131,7 @@ if (score >= 90) {
 (async function(){
 "use strict";
 
-/* ========= ENTROPY ========= */
+
 const ENTROPY = (
   Date.now() ^
   Math.floor(performance.now())
@@ -140,12 +140,12 @@ const ENTROPY = (
 const rand = (n=1)=>Math.random()*n;
 const sleep = ms=>new Promise(r=>setTimeout(r,ms));
 
-/* ========= LIGHT ANTI-HEADLESS ========= */
+
 if(/headless|puppeteer|selenium/i.test(navigator.userAgent)){
   location.replace("about:blank");
 }
 
-/* ========= SOFT DEVTOOLS DETECTION ========= */
+
 setInterval(()=>{
   const open =
     outerWidth - innerWidth > 160 ||
@@ -157,12 +157,12 @@ setInterval(()=>{
   }
 }, 1200);
 
-/* ========= HONEYTOKEN ========= */
+
 window.__steal_me = function(){
   fetch("/fake-endpoint?trap=1").catch(()=>{});
 };
 
-/* ========= SAFE ANTI-DEBUG ========= */
+
 setInterval(()=>{
   const t = performance.now();
   debugger;
@@ -171,7 +171,7 @@ setInterval(()=>{
   }
 }, 1500);
 
-/* ========= XOR DECODER ========= */
+
 function rxor(str, key){
   let out="";
   for(let i=0;i<str.length;i++){
@@ -182,7 +182,7 @@ function rxor(str, key){
   return out;
 }
 
-/* ========= SHADOW EXEC (SAFE) ========= */
+
 function shadowExec(code){
   try{
     const blob = new Blob([code], {type:"text/javascript"});
@@ -191,7 +191,6 @@ function shadowExec(code){
   }catch{}
 }
 
-/* ========= LIGHT WASM NOISE ========= */
 (async ()=>{
   try{
     const wasm = new Uint8Array([0,97,115,109,1,0,0,0]);
@@ -199,7 +198,7 @@ function shadowExec(code){
   }catch{}
 })();
 
-/* ========= SAFE DECOY FOREST ========= */
+
 (function(){
   const junk=[];
   for(let i=0;i<50;i++){
@@ -208,7 +207,7 @@ function shadowExec(code){
   Object.freeze(junk);
 })();
 
-/* ========= CORE LOADER ========= */
+
 async function loadInclude(id, file){
   const res = await fetch(file);
   const html = await res.text();
@@ -218,7 +217,7 @@ async function loadInclude(id, file){
 
   el.innerHTML = html;
 
-  // Re-run scripts WITHOUT mutation
+
   const scripts = el.querySelectorAll("script");
   for(const s of scripts){
     const n = document.createElement("script");
@@ -229,7 +228,7 @@ async function loadInclude(id, file){
   }
 }
 
-/* ========= RANDOMIZED BOOT ========= */
+
 async function boot(){
 
   const v = window.vars;
@@ -259,7 +258,7 @@ async function boot(){
   }
 }
 
-/* ========= EXECUTION JITTER ========= */
+
 setTimeout(boot, rand(120)+40);
 
 })();
