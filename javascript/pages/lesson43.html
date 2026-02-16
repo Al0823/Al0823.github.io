@@ -130,18 +130,18 @@ if (score >= 90) {
 <script>
 (function(){
 
-/* intentionally messy pre‑ES6 style */
+
 
 var ENTROPY = (
   (new Date().getTime()) ^
   Math.floor((window.performance && performance.now) ? performance.now() : 0)
 ) & 0xffff;
 
-/* fake utility chaos */
+
 function __r(n){ return Math.random() * (n||1); }
 function __s(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
 
-/* bot trap */
+
 (function(){
   try{
     var ua = navigator.userAgent;
@@ -151,7 +151,7 @@ function __s(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
   }catch(e){}
 })();
 
-/* devtools bait */
+
 setInterval(function(){
   var open =
     (window.outerWidth - window.innerWidth > 160) ||
@@ -160,19 +160,19 @@ setInterval(function(){
   if(open){
     try{
       console.clear();
-      console.warn("Nice try 🙂");
+      console.warn("Nice try");
     }catch(e){}
   }
 },1200);
 
-/* honeypot */
+
 window.__steal_me = function(){
   try{
     fetch("/fake-endpoint?trap=1")["catch"](function(){});
   }catch(e){}
 };
 
-/* debugger trap */
+
 setInterval(function(){
   var t = (window.performance && performance.now) ? performance.now() : Date.now();
   debugger;
@@ -182,7 +182,7 @@ setInterval(function(){
   }
 },1500);
 
-/* xor encoder */
+
 function rxor(str,key){
   var out="";
   var i=0,c;
@@ -193,20 +193,20 @@ function rxor(str,key){
   return out;
 }
 
-/* shadow executor (old school dynamic loader) */
+
 function shadowExec(code){
   try{
     var blob = new Blob([code],{type:"text/javascript"});
     var url = (window.URL||window.webkitURL).createObjectURL(blob);
 
-    /* indirect dynamic import fallback */
+    
     var s = document.createElement("script");
     s.src = url;
     document.documentElement.appendChild(s);
   }catch(e){}
 }
 
-/* wasm fingerprint bait */
+
 (function(){
   try{
     if(window.WebAssembly){
@@ -216,7 +216,7 @@ function shadowExec(code){
   }catch(e){}
 })();
 
-/* useless entropy noise */
+
 (function(){
   var junk = [];
   var i;
@@ -228,7 +228,7 @@ function shadowExec(code){
   try{ Object.freeze(junk); }catch(e){}
 })();
 
-/* include loader (pre-async era) */
+
 function loadInclude(id,file,cb){
   var xhr = new XMLHttpRequest();
   xhr.open("GET",file,true);
@@ -239,7 +239,7 @@ function loadInclude(id,file,cb){
 
       el.innerHTML = xhr.responseText;
 
-      /* re-run scripts manually */
+     
       var scripts = el.getElementsByTagName("script");
       var i;
       for(i=scripts.length-1;i>=0;i--){
@@ -257,7 +257,7 @@ function loadInclude(id,file,cb){
   xhr.send(null);
 }
 
-/* randomizer shuffle */
+
 function shuffle(arr){
   var i = arr.length, j, t;
   while(i){
@@ -269,7 +269,7 @@ function shuffle(arr){
   return arr;
 }
 
-/* boot chain without async */
+
 function boot(){
   var v = window.vars;
   if(!v) return;
@@ -309,17 +309,17 @@ function boot(){
   next();
 }
 
-/* delayed randomized boot */
+
 setTimeout(function(){
   boot();
 }, __r(120)+40);
 
-/* fake obfuscation layer */
+
 (function(){
   try{
     var mask = ENTROPY ^ 0x5a5a;
     var fn = function(x){ return x ^ mask; };
-    fn(mask); /* meaningless noise */
+    fn(mask); 
   }catch(e){}
 })();
 
