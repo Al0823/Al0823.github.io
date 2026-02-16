@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+		<script>var PAGETITLE = "If Else Tutorial";</script>
   <title id="pageTitle"></title>
   <script src="../includes/vars.js"></script>
 </head>
@@ -17,6 +18,40 @@
   <article>
     <h2>JavaScript If / Else Tutorial</h2>
     <p><strong>If statements</strong> are used to make decisions in JavaScript. They run different code depending on whether a condition is true or false.</p>
+
+<div class="fs-15">The else Statement</div><br><br>
+<div class="fs-10">Use the else statement to specify a block of code to be executed if a condition is false.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+if (condition) {
+  //  block of code to be executed if the condition is true
+} else {
+  //  block of code to be executed if the condition is false
+}
+</textarea><br><br>
+<div class="fs-10">If the hour is less than 18, create a "Good day" greeting, otherwise "Good evening":</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const hour = new Date().getHours(); 
+let greeting;
+
+if (hour < 18) {
+  greeting = "Good day";
+} else {
+  greeting = "Good evening";
+}
+
+document.getElementById("demo").innerHTML = greeting;
+</textarea><br><br>
+
+<div class="fs-15">The else if Statement</div><br><br>
+<div class="fs-10">Use the else if statement to specify a new condition if the first is false.
+<br><br>
+Syntax:</div><br><br>
+
+
+
+
+
+
 
     <h3>The if Statement</h3>
     <pre><code>let age = 18;
@@ -90,49 +125,41 @@ if (score >= 90) {
 </main>
 
 <footer id="footer"></footer>
+  <div id="debugInclude"></div>
 
-<div id="debugInclude"></div>
+  <script>
+    // Utility to load include files asynchronously
+    async function loadInclude(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      const container = document.getElementById(id);
+      container.innerHTML = html;
 
-<script>
+      // Re-run scripts inside the loaded HTML
+      container.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        document.body.appendChild(newScript);
+        oldScript.remove();
+      });
+    }
 
-  (function loadCSS() {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "../../css/style.css?v=" + Date.now();
-    document.head.appendChild(link);
-  })();
-
-
-  document.getElementById("pageTitle").textContent =
-    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
-
-  
-  async function loadInclude(id, file) {
-    const res = await fetch(file);
-    const html = await res.text();
-    const container = document.getElementById(id);
-    container.innerHTML = html;
-
-
-    container.querySelectorAll("script").forEach(oldScript => {
-      const newScript = document.createElement("script");
-      if (oldScript.src) {
-        newScript.src = oldScript.src;
-      } else {
-        newScript.textContent = oldScript.textContent;
-      }
-      document.body.appendChild(newScript);
-      oldScript.remove();
+    // Load header, nav, footer, and debug include
+    loadInclude("header", window.vars.INCVAR + "header.html").then(() => {
+      // Update page title after header is loaded
+      if (typeof updatePageTitle === "function") updatePageTitle();
     });
-  }
 
+    loadInclude("nav", window.vars.INCVAR + "nav.html");
+    loadInclude("footer", window.vars.INCVAR + "footer.html");
+    if (window.vars.DEBUGVAR) {
+      loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+    }
+  </script>
 
-  loadInclude("header", window.vars.INCVAR + "header.html");
-  loadInclude("nav", window.vars.INCVAR + "nav.html");
-  loadInclude("footer", window.vars.INCVAR + "footer.html");
-  if (window.vars.DEBUGVAR) {
-    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-  }
-</script>
 </body>
 </html>
