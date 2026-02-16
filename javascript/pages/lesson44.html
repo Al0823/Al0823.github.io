@@ -180,10 +180,31 @@ switch (x) {
 document.getElementById("demo").innerHTML = text;
 </textarea><br><br>
 
-<div class="fs-15">Example</div><br><br>
+<div class="fs-15">Examples</div><br><br>
 
 
+<textarea id="textbox" rows="10" cols="70">
+<p id="DemoEx"></p> // Change Demo to say the Fruit name 
+<script>
+let Fruit = ""; // Fruit name is either banana, apple or orange
+let text = "";
 
+switch (Fruit) {
+  case "banana":
+    text = "Yellow and sweet"; 
+    break;
+  case "apple":
+    text = "Red or green, crunchy"; 
+    break;
+  case "orange":
+    text = "Citrus fruit"; 
+    break;
+  default:
+    text = "Unknown fruit"; 
+}
+document.getElementById("DemoEX").innerHTML = text; // Change Demo here too
+</script>
+</textarea><br><br>
 
 <p id="BananaEx"></p>
 
