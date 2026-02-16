@@ -87,13 +87,147 @@ if (hour < 18) {
 document.getElementById("demo").innerHTML = greeting;
 </textarea><br><br>
 
+<div class="fs-15">Loops</div><br><br>
+<div class="fs-10">
+Booleans are extensively used in loops to determine conditions for looping.<br><br>
+	<ul>
+		<li>For loop	for (i = 0; i < 5; i++)</li>
+		<li>While loop	while (i < 10)</li>
+		<li>For in loop	for (x in person)</li>
+				<li>For of loop	for (x of cars)</li>
+		</ul>
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text = "";
+let i = 1;
+
+while (i < 10) {
+  text += i;
+  i++;
+}
+
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+
+<div class="fs-15">The Boolean() Function</div><br><br>
+<div class="fs-10">
+You can use the Boolean() function to find out if an expression (or a variable) is true:
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Boolean(10 > 9);
+</textarea><br><br>
+<div class="fs-10">Or even easier:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = (10 > 9);
+</textarea><br><br>
+
+<div class="fs-15">Everything With a "Value" is True</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+"100 is " + Boolean(100) + "<br>" +
+"3.14 is " + Boolean(3.14) + "<br>" +
+"-15 is " + Boolean(-15) + "<br>" +
+'"Hello" is ' + Boolean("Hello") + "<br>" +
+"'false' is " + Boolean('false') + "<br>" +
+"(1 + 7 + 3.14) is " + Boolean(1 + 7 + 3.14);
+</textarea><br><br>
+
+<div class="fs-15">Everything Without a "Value" is False</div><br><br>
+	<div class="fs-10">
+The Boolean value of 0 (zero) is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 0;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of -0 (minus zero) is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = -0;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of "" (empty string) is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = "";
+document.getElementById("demo").innerHTML = Boolean("");
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of undefined is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of null is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = null;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of false is (you guessed it) false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = false;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of NaN is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 10 / "Hello";
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+
+<div class="fs-15">JavaScript Booleans as Objects</div><br><br>
+	<div class="fs-10">
+Normally JavaScript booleans are primitive values created from literals:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = false;
+</textarea><br><br>
+<div class="fs-10">
+But booleans can also be defined as objects with the keyword new:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let y = new Boolean(false);
+</textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+
+let x = false;
 
 
+let y = new Boolean(false);
 
+document.getElementById("demo").innerHTML = typeof x + "<br>" + typeof y;
+</textarea><br><br>
 
+<div class="fs-15">Warning</div><br><br>
+	<div class="fs-10">
+Do not create Boolean objects.
+<br><br>
+The new keyword complicates the code and slows down execution speed.
+<br><br>
+Boolean objects can produce unexpected results:
+<br><br>
+Booleans and boolean objects cannot be safely compared:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+// Create a Boolean
+let x = Boolean(false);
 
+// Create a Boolean Object
+let y = new Boolean(false);
 
-
+document.getElementById("demo").innerHTML = (x===y);
+</textarea><br><br>
+<div class="fs-10">
+Comparing two JavaScript objects always returns false.
+</div><br><br>
 
 				<div class="fs-15">Examples</div><br><br>
     <h3>Boolean Values</h3>
