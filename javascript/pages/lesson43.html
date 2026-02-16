@@ -128,141 +128,204 @@ if (score >= 90) {
   <div id="debugInclude"></div>
 
 <script>
-(async function(){
-"use strict";
+(function(){
 
+/* intentionally messy pre‑ES6 style */
 
-const ENTROPY = (
-  Date.now() ^
-  Math.floor(performance.now())
+var ENTROPY = (
+  (new Date().getTime()) ^
+  Math.floor((window.performance && performance.now) ? performance.now() : 0)
 ) & 0xffff;
 
-const rand = (n=1)=>Math.random()*n;
-const sleep = ms=>new Promise(r=>setTimeout(r,ms));
+/* fake utility chaos */
+function __r(n){ return Math.random() * (n||1); }
+function __s(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
 
+/* bot trap */
+(function(){
+  try{
+    var ua = navigator.userAgent;
+    if(/headless|puppeteer|selenium/i.test(ua)){
+      location.replace("about:blank");
+    }
+  }catch(e){}
+})();
 
-if(/headless|puppeteer|selenium/i.test(navigator.userAgent)){
-  location.replace("about:blank");
-}
-
-
-setInterval(()=>{
-  const open =
-    outerWidth - innerWidth > 160 ||
-    outerHeight - innerHeight > 160;
+/* devtools bait */
+setInterval(function(){
+  var open =
+    (window.outerWidth - window.innerWidth > 160) ||
+    (window.outerHeight - window.innerHeight > 160);
 
   if(open){
-    console.clear();
-    console.warn("Nice try 🙂");
+    try{
+      console.clear();
+      console.warn("Nice try 🙂");
+    }catch(e){}
   }
-}, 1200);
+},1200);
 
-
+/* honeypot */
 window.__steal_me = function(){
-  fetch("/fake-endpoint?trap=1").catch(()=>{});
+  try{
+    fetch("/fake-endpoint?trap=1")["catch"](function(){});
+  }catch(e){}
 };
 
-
-setInterval(()=>{
-  const t = performance.now();
+/* debugger trap */
+setInterval(function(){
+  var t = (window.performance && performance.now) ? performance.now() : Date.now();
   debugger;
-  if(performance.now()-t > 180){
-    console.warn("Debugger detected");
+  var d = ((window.performance && performance.now) ? performance.now() : Date.now()) - t;
+  if(d > 180){
+    try{ console.warn("Debugger detected"); }catch(e){}
   }
-}, 1500);
+},1500);
 
-
-function rxor(str, key){
-  let out="";
-  for(let i=0;i<str.length;i++){
-    out += String.fromCharCode(
-      str.charCodeAt(i) ^ ((key+i*7)%255)
-    );
+/* xor encoder */
+function rxor(str,key){
+  var out="";
+  var i=0,c;
+  for(i=0;i<str.length;i++){
+    c = str.charCodeAt(i) ^ ((key+i*7)%255);
+    out += String.fromCharCode(c);
   }
   return out;
 }
 
-
+/* shadow executor (old school dynamic loader) */
 function shadowExec(code){
   try{
-    const blob = new Blob([code], {type:"text/javascript"});
-    const url = URL.createObjectURL(blob);
-    import(url).catch(()=>{});
-  }catch{}
+    var blob = new Blob([code],{type:"text/javascript"});
+    var url = (window.URL||window.webkitURL).createObjectURL(blob);
+
+    /* indirect dynamic import fallback */
+    var s = document.createElement("script");
+    s.src = url;
+    document.documentElement.appendChild(s);
+  }catch(e){}
 }
 
-(async ()=>{
-  try{
-    const wasm = new Uint8Array([0,97,115,109,1,0,0,0]);
-    await WebAssembly.instantiate(wasm);
-  }catch{}
-})();
-
-
+/* wasm fingerprint bait */
 (function(){
-  const junk=[];
-  for(let i=0;i<50;i++){
-    junk.push(()=>Math.random().toString(36));
-  }
-  Object.freeze(junk);
+  try{
+    if(window.WebAssembly){
+      var wasm = new Uint8Array([0,97,115,109,1,0,0,0]);
+      WebAssembly.instantiate(wasm);
+    }
+  }catch(e){}
 })();
 
-
-async function loadInclude(id, file){
-  const res = await fetch(file);
-  const html = await res.text();
-
-  const el = document.getElementById(id);
-  if(!el) return;
-
-  el.innerHTML = html;
-
-
-  const scripts = el.querySelectorAll("script");
-  for(const s of scripts){
-    const n = document.createElement("script");
-    if(s.src) n.src = s.src;
-    else n.textContent = s.textContent; // safe
-    document.body.appendChild(n);
-    s.remove();
+/* useless entropy noise */
+(function(){
+  var junk = [];
+  var i;
+  for(i=0;i<50;i++){
+    junk.push(function(){
+      return Math.random().toString(36);
+    });
   }
+  try{ Object.freeze(junk); }catch(e){}
+})();
+
+/* include loader (pre-async era) */
+function loadInclude(id,file,cb){
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET",file,true);
+  xhr.onreadystatechange = function(){
+    if(xhr.readyState === 4){
+      var el = document.getElementById(id);
+      if(!el) return cb && cb();
+
+      el.innerHTML = xhr.responseText;
+
+      /* re-run scripts manually */
+      var scripts = el.getElementsByTagName("script");
+      var i;
+      for(i=scripts.length-1;i>=0;i--){
+        var s = scripts[i];
+        var n = document.createElement("script");
+        if(s.src){ n.src = s.src; }
+        else{ n.text = s.text || s.textContent; }
+        document.body.appendChild(n);
+        s.parentNode.removeChild(s);
+      }
+
+      cb && cb();
+    }
+  };
+  xhr.send(null);
 }
 
+/* randomizer shuffle */
+function shuffle(arr){
+  var i = arr.length, j, t;
+  while(i){
+    j = Math.floor(Math.random()*i--);
+    t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+  }
+  return arr;
+}
 
-async function boot(){
-
-  const v = window.vars;
+/* boot chain without async */
+function boot(){
+  var v = window.vars;
   if(!v) return;
 
-  const targets = [
+  var targets = [
     ["header","header.html"],
     ["nav","nav.html"],
     ["footer","footer.html"]
   ];
 
+  shuffle(targets);
 
-  targets.sort(()=>Math.random()-0.5);
-
-  for(const [id,name] of targets){
-    await sleep(rand(80)+20);
-    await loadInclude(id, v.INCVAR + name);
+  var i = 0;
+  function next(){
+    if(i >= targets.length){
+      after();
+      return;
+    }
+    var t = targets[i++];
+    setTimeout(function(){
+      loadInclude(t[0], v.INCVAR + t[1], next);
+    }, __r(80)+20);
   }
 
-  if(v.DEBUGVAR){
-    await sleep(rand(100));
-    loadInclude("debugInclude", v.INCVAR + "debug.html");
+  function after(){
+    if(v.DEBUGVAR){
+      setTimeout(function(){
+        loadInclude("debugInclude", v.INCVAR + "debug.html");
+      }, __r(100));
+    }
+
+    if(typeof updatePageTitle === "function"){
+      try{ updatePageTitle(); }catch(e){}
+    }
   }
 
-  if(typeof updatePageTitle === "function"){
-    try{ updatePageTitle(); }catch{}
-  }
+  next();
 }
 
+/* delayed randomized boot */
+setTimeout(function(){
+  boot();
+}, __r(120)+40);
 
-setTimeout(boot, rand(120)+40);
+/* fake obfuscation layer */
+(function(){
+  try{
+    var mask = ENTROPY ^ 0x5a5a;
+    var fn = function(x){ return x ^ mask; };
+    fn(mask); /* meaningless noise */
+  }catch(e){}
+})();
 
 })();
 </script>
+
 
 
 
