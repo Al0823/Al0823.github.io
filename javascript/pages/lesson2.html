@@ -65,8 +65,22 @@ function myFunction() {
 <button type="button" onclick="myFunction()">Try it</button>
       </textarea><br><br>
 
+<div class="fs-15">JavaScript in body</div><br><br>
+<div class="fs-10">In this example, a JavaScript function is placed in the body section of an HTML page.
+<br><br>
+The function is invoked (called) when a button is clicked:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
 
+<button type="button" onclick="myFunction()">Try it</button>
 
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+      </textarea><br><br>
+<div class="fs-10">Placing scripts at the bottom of the <body> element improves the display speed, because script interpretation slows down the display.</div><br><br>
 
 
 
