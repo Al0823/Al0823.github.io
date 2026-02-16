@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+		<script>let PAGETITLE = "Booleans Tutorial"</script>
   <title id="pageTitle"></title>
   <script src="../includes/vars.js"></script>
 </head>
@@ -18,6 +19,83 @@
     <h2>JavaScript Booleans Tutorial</h2>
     <p>A <strong>Boolean</strong> represents one of two values: <code>true</code> or <code>false</code>. Booleans are mainly used for decision-making in code.</p>
 
+				<div class="fs-15">The Boolean Data Type</div><br><br>
+<div class="fs-10">In JavaScript, a Boolean is a primitive data type that can only have one of two values:
+<br><br>
+true or false
+<br><br>
+The Boolean value of an expression is the basis for all JavaScript comparisons and conditions.</div><br><br>
+
+				<div class="fs-15">Key Boolean Characteristics</div><br><br>
+<div class="fs-10">
+	<ul>
+		<li>true and false are boolean data types</li>
+		<li>true and false are the only possible boolean values</li>
+		<li>true and false must be written in lowercase</li>
+		<li>true and false must be written without quotes</li>
+		</ul>
+	</div><br><br>
+
+<div class="fs-15">Boolean Use Cases</div><br><br>
+<div class="fs-10">
+Very often, in programming, you will need a data type that can represent one of two values, like:<br><br>
+	<ul>
+		<li>yes or no</li>
+		<li>on or off</li>
+		<li>true and false</li>
+		</ul><br><br>
+		Boolean values are fundamental for logical operations and control flow in JavaScript programming.
+	</div><br><br>
+
+<div class="fs-15">Comparisons</div><br><br>
+<div class="fs-10">
+All JavaScript comparison operators (like ==, !=, <, >) return true or false from the comparison.
+<br><br>
+Given that x = 5, the table below explains comparison:<br><br>
+	<ul>
+		<li>Description	Example	Returns</li>
+		<li>Equal to	(x == 8)	false</li>
+		<li>Not equal to	(x != 8)	true</li>
+				<li>Greater than	(x > 8)	false</li>
+		<li>Less than	(x < 8)	true</li>
+		</ul>
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 5;
+document.getElementById("demo").innerHTML = (x == 8);
+</textarea><br><br>
+
+<div class="fs-15">Conditions</div><br><br>
+<div class="fs-10">
+Booleans are extensively used in if statements to determine the code blocks to execute based on the logic.<br><br>
+	<ul>
+		<li>if (day == "Monday")	true or false</li>
+		<li>if (salary > 9000)	true or false</li>
+		<li>if (age < 18)	true or false</li>
+		</ul>
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const hour = new Date().getHours(); 
+let greeting;
+
+if (hour < 18) {
+  greeting = "Good day!";
+} else {
+  greeting = "Good evening!";
+}
+
+document.getElementById("demo").innerHTML = greeting;
+</textarea><br><br>
+
+
+
+
+
+
+
+
+
+				<div class="fs-15">Examples</div><br><br>
     <h3>Boolean Values</h3>
     <pre><code>let isCodingFun = true;
 let isMathBoring = false;
@@ -74,49 +152,41 @@ Boolean(null): ${Boolean(null)}`;
 </main>
 
 <footer id="footer"></footer>
+  <div id="debugInclude"></div>
 
-<div id="debugInclude"></div>
+  <script>
+    // Utility to load include files asynchronously
+    async function loadInclude(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      const container = document.getElementById(id);
+      container.innerHTML = html;
 
-<script>
+      // Re-run scripts inside the loaded HTML
+      container.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        document.body.appendChild(newScript);
+        oldScript.remove();
+      });
+    }
 
-  (function loadCSS() {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "../../css/style.css?v=" + Date.now();
-    document.head.appendChild(link);
-  })();
-
-
-  document.getElementById("pageTitle").textContent =
-    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
-
-  
-  async function loadInclude(id, file) {
-    const res = await fetch(file);
-    const html = await res.text();
-    const container = document.getElementById(id);
-    container.innerHTML = html;
-
-
-    container.querySelectorAll("script").forEach(oldScript => {
-      const newScript = document.createElement("script");
-      if (oldScript.src) {
-        newScript.src = oldScript.src;
-      } else {
-        newScript.textContent = oldScript.textContent;
-      }
-      document.body.appendChild(newScript);
-      oldScript.remove();
+    // Load header, nav, footer, and debug include
+    loadInclude("header", window.vars.INCVAR + "header.html").then(() => {
+      // Update page title after header is loaded
+      if (typeof updatePageTitle === "function") updatePageTitle();
     });
-  }
 
+    loadInclude("nav", window.vars.INCVAR + "nav.html");
+    loadInclude("footer", window.vars.INCVAR + "footer.html");
+    if (window.vars.DEBUGVAR) {
+      loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+    }
+  </script>
 
-  loadInclude("header", window.vars.INCVAR + "header.html");
-  loadInclude("nav", window.vars.INCVAR + "nav.html");
-  loadInclude("footer", window.vars.INCVAR + "footer.html");
-  if (window.vars.DEBUGVAR) {
-    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-  }
-</script>
 </body>
 </html>
