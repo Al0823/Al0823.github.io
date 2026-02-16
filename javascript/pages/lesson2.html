@@ -80,11 +80,93 @@ function myFunction() {
 }
 </script>
       </textarea><br><br>
-<div class="fs-10">Placing scripts at the bottom of the <body> element improves the display speed, because script interpretation slows down the display.</div><br><br>
+<div class="fs-10">Placing scripts at the bottom of the body element improves the display speed, because script interpretation slows down the display.</div><br><br>
 
+<div class="fs-15">External JavaScript</div><br><br>
+<div class="fs-10">Scripts can also be placed in external files:
+<br><br>
+External file: myScript.js</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+      </textarea><br><br>
+<div class="fs-10">External scripts are practical when the same code is used in many different web pages.
+<br><br>
+JavaScript files have the file extension .js.
+<br><br>
+To use an external script, put the name of the script file in the src (source) attribute of a script tag:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
 
+<button type="button" onclick="myFunction()">Try it</button>
 
+<p>This example links to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
 
+<script src="myScript.js"></script>
+      </textarea><br><br>
+<div class="fs-10">You can place an external script reference in head or body as you like.
+<br><br>
+The script will behave as if it was located exactly where the script tag is located.
+<br><br>
+External scripts cannot contain script tags.</div><br><br>
+
+<div class="fs-15">External JavaScript Advantages</div><br><br>
+<div class="fs-10">Placing scripts in external files has some advantages:
+<br><br>
+<ul>
+<li>It separates HTML and code</li>
+<li>It makes HTML and JavaScript easier to read and maintain</li>
+<li>Cached JavaScript files can speed up page loads</li>
+</ul><br><br>
+To add several script files to one page  - use several script tags:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<script src="myScript1.js"></script>
+<script src="myScript2.js"></script>
+      </textarea><br><br>
+
+<div class="fs-15">External References</div><br><br>
+<div class="fs-10">An external script can be referenced in 3 different ways:
+<br><br>
+<ul>
+<li>With a full URL (a full web address)</li>
+<li>With a file path (like /js/)</li>
+<li>Without any path</li>
+</ul><br><br>
+This example uses a full URL to link to myScript.js:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Click Me</button>
+
+<p>This example uses a full web URL to link to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
+
+<script src="https://www.w3schools.com/js/myScript.js"></script>
+      </textarea><br><br>
+<div class="fs-10">This example uses a file path to link to myScript.js:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<p>This example uses a file path to link to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
+
+<script src="/js/myScript.js"></script>
+      </textarea><br><br>
+						<div class="fs-10">This example uses no path to link to myScript.js:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<p>This example links to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
+
+<script src="myScript.js"></script>
+      </textarea><br><br>
 
 <h2>Example</h2>
 <br><br>
