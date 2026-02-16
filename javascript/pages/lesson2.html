@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+		<script>let PAGETITLE = "Where to Tutorial";</script>
   <title id="pageTitle"></title>
   <script src="../includes/vars.js"></script>
 </head>
@@ -22,6 +23,53 @@
 This is the "Where To" Javascript page, it teaches you how to write this code and how it works.<br><br>
 Now what this code can do is change what some text says, it can also make buttons and just possibly redirects you if you know what you are doing.
 <br><br>
+
+<div class="fs-15">The script Tag</div><br><br>
+<div class="fs-10">In HTML, JavaScript code is inserted between <script> and </script> tags.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = "My First JavaScript";
+      </textarea><br><br>
+<div class="fs-10">Old JavaScript examples may use a type attribute: script type="text/javascript".<br><br>
+The type attribute is not required. JavaScript is the default scripting language in HTML.</div><br><br>
+
+<div class="fs-15">JavaScript Functions and Events</div><br><br>
+<div class="fs-10">A JavaScript function is a block of JavaScript code, that can be executed when "called" for.
+<br><br>
+For example, a function can be called when an event occurs, like when the user clicks a button.
+<br><br>
+You will learn much more about functions and events in later chapters.</div><br><br>
+
+<div class="fs-15">JavaScript in head or body</div><br><br>
+<div class="fs-10">You can place any number of scripts in an HTML document.
+
+Scripts can be placed in the body, or in the head section of an HTML page, or in both.
+</div><br><br>
+
+<div class="fs-15">JavaScript in head</div><br><br>
+<div class="fs-10">In this example, a JavaScript function is placed in the head section of an HTML page.
+<br><br>
+The function is invoked (called) when a button is clicked:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</head>
+<body>
+
+<h2>Demo JavaScript in Head</h2>
+
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+      </textarea><br><br>
+
+
+
+
+
+
 
 
 <h2>Example</h2>
@@ -76,50 +124,42 @@ function CHANGEBACK() {
   
   </article>
  </main> 
-<footer id="footer"></footer>
+  <footer id="footer"></footer>
+  <div id="debugInclude"></div>
 
-<div id="debugInclude"></div>
+  <script>
+    // Utility to load include files asynchronously
+    async function loadInclude(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      const container = document.getElementById(id);
+      container.innerHTML = html;
 
-<script>
+     
+      container.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        document.body.appendChild(newScript);
+        oldScript.remove();
+      });
+    }
 
-  (function loadCSS() {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "../../css/style.css?v=" + Date.now();
-    document.head.appendChild(link);
-  })();
-
-
-  document.getElementById("pageTitle").textContent =
-    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
-
-  
-  async function loadInclude(id, file) {
-    const res = await fetch(file);
-    const html = await res.text();
-    const container = document.getElementById(id);
-    container.innerHTML = html;
-
-
-    container.querySelectorAll("script").forEach(oldScript => {
-      const newScript = document.createElement("script");
-      if (oldScript.src) {
-        newScript.src = oldScript.src;
-      } else {
-        newScript.textContent = oldScript.textContent;
-      }
-      document.body.appendChild(newScript);
-      oldScript.remove();
+ 
+    loadInclude("header", window.vars.INCVAR + "header.html").then(() => {
+      // Update page title after header is loaded
+      if (typeof updatePageTitle === "function") updatePageTitle();
     });
-  }
 
+    loadInclude("nav", window.vars.INCVAR + "nav.html");
+    loadInclude("footer", window.vars.INCVAR + "footer.html");
+    if (window.vars.DEBUGVAR) {
+      loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+    }
+  </script>
 
-  loadInclude("header", window.vars.INCVAR + "header.html");
-  loadInclude("nav", window.vars.INCVAR + "nav.html");
-  loadInclude("footer", window.vars.INCVAR + "footer.html");
-  if (window.vars.DEBUGVAR) {
-    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-  }
-</script>
 </body>
 </html>
