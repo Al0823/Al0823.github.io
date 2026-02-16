@@ -131,124 +131,140 @@ if (score >= 90) {
 (async function(){
 "use strict";
 
-
+/* ========= ENTROPY ========= */
 const ENTROPY = (
   Date.now() ^
-  performance.now() ^
-  (navigator.hardwareConcurrency || 4)
+  Math.floor(performance.now())
 ) & 0xffff;
 
+const rand = (n=1)=>Math.random()*n;
+const sleep = ms=>new Promise(r=>setTimeout(r,ms));
 
-const fp = btoa([
-  screen.width,
-  screen.height,
-  navigator.platform,
-  navigator.language
-].join("|"));
+/* ========= LIGHT ANTI-HEADLESS ========= */
+if(/headless|puppeteer|selenium/i.test(navigator.userAgent)){
+  location.replace("about:blank");
+}
 
+/* ========= SOFT DEVTOOLS DETECTION ========= */
+setInterval(()=>{
+  const open =
+    outerWidth - innerWidth > 160 ||
+    outerHeight - innerHeight > 160;
 
-const timeKey = Math.floor(Date.now() / 60000); // rotates every minute
+  if(open){
+    console.clear();
+    console.warn("Nice try 🙂");
+  }
+}, 1200);
 
+/* ========= HONEYTOKEN ========= */
+window.__steal_me = function(){
+  fetch("/fake-endpoint?trap=1").catch(()=>{});
+};
 
+/* ========= SAFE ANTI-DEBUG ========= */
+setInterval(()=>{
+  const t = performance.now();
+  debugger;
+  if(performance.now()-t > 180){
+    console.warn("Debugger detected");
+  }
+}, 1500);
+
+/* ========= XOR DECODER ========= */
 function rxor(str, key){
   let out="";
   for(let i=0;i<str.length;i++){
     out += String.fromCharCode(
-      str.charCodeAt(i) ^ ((key + i*7) % 255)
+      str.charCodeAt(i) ^ ((key+i*7)%255)
     );
   }
   return out;
 }
 
-
-if(/headless|puppeteer|selenium/i.test(navigator.userAgent)){
-  location.replace("about:blank");
+/* ========= SHADOW EXEC (SAFE) ========= */
+function shadowExec(code){
+  try{
+    const blob = new Blob([code], {type:"text/javascript"});
+    const url = URL.createObjectURL(blob);
+    import(url).catch(()=>{});
+  }catch{}
 }
 
-
-setInterval(()=>{
-  const d = outerWidth-innerWidth > 160 || outerHeight-innerHeight > 160;
-  if(d){
-    document.documentElement.innerHTML="";
-    for(;;) console.clear();
-  }
-}, 700);
-
-
-window.__steal_me = function(){
-  fetch("/fake-endpoint?trap=1"); 
-};
-
-
-function mutate(fn){
-  return function(){
-    const jitter = Math.random()*ENTROPY;
-    if(jitter % 13 < 1) return;
-    return fn.apply(this, arguments);
-  }
-}
-
-
-async function fetchChunk(name){
-  const res = await fetch(`/chunks/${name}?t=${timeKey}&fp=${fp}`);
-  let data = await res.text();
-  return rxor(data, timeKey ^ ENTROPY);
-}
-
-
-function shadowEval(code){
-  const blob = new Blob([code], {type:"text/javascript"});
-  const url = URL.createObjectURL(blob);
-  import(url).catch(()=>{});
-}
-
-
-async function wasmIsland(){
-  const wasm = new Uint8Array([0,97,115,109,1,0,0,0]);
-  try{ await WebAssembly.instantiate(wasm); }catch{}
-}
-wasmIsland();
-
-
-(function(){
-  const traps=[];
-  for(let i=0;i<200;i++){
-    traps.push(()=>Math.random().toString(36).slice(2));
-  }
-  Object.freeze(traps);
+/* ========= LIGHT WASM NOISE ========= */
+(async ()=>{
+  try{
+    const wasm = new Uint8Array([0,97,115,109,1,0,0,0]);
+    await WebAssembly.instantiate(wasm);
+  }catch{}
 })();
 
+/* ========= SAFE DECOY FOREST ========= */
+(function(){
+  const junk=[];
+  for(let i=0;i<50;i++){
+    junk.push(()=>Math.random().toString(36));
+  }
+  Object.freeze(junk);
+})();
 
-[
-  Object.prototype,
-  Array.prototype,
-  Function.prototype,
-  String.prototype,
-  Number.prototype
-].forEach(Object.freeze);
+/* ========= CORE LOADER ========= */
+async function loadInclude(id, file){
+  const res = await fetch(file);
+  const html = await res.text();
 
+  const el = document.getElementById(id);
+  if(!el) return;
 
-const boot = mutate(async function(){
+  el.innerHTML = html;
+
+  // Re-run scripts WITHOUT mutation
+  const scripts = el.querySelectorAll("script");
+  for(const s of scripts){
+    const n = document.createElement("script");
+    if(s.src) n.src = s.src;
+    else n.textContent = s.textContent; // safe
+    document.body.appendChild(n);
+    s.remove();
+  }
+}
+
+/* ========= RANDOMIZED BOOT ========= */
+async function boot(){
 
   const v = window.vars;
   if(!v) return;
 
+  const targets = [
+    ["header","header.html"],
+    ["nav","nav.html"],
+    ["footer","footer.html"]
+  ];
 
-  const chunks = ["h","n","f"];
+  // random order for unpredictability
+  targets.sort(()=>Math.random()-0.5);
 
-  for(const c of chunks.sort(()=>Math.random()-0.5)){
-    const code = await fetchChunk(c);
-    shadowEval(code);
-    await new Promise(r=>setTimeout(r, Math.random()*120));
+  for(const [id,name] of targets){
+    await sleep(rand(80)+20);
+    await loadInclude(id, v.INCVAR + name);
   }
 
-});
+  if(v.DEBUGVAR){
+    await sleep(rand(100));
+    loadInclude("debugInclude", v.INCVAR + "debug.html");
+  }
 
+  if(typeof updatePageTitle === "function"){
+    try{ updatePageTitle(); }catch{}
+  }
+}
 
-setTimeout(boot, Math.random()*200 + 50);
+/* ========= EXECUTION JITTER ========= */
+setTimeout(boot, rand(120)+40);
 
 })();
 </script>
+
 
 
 </body>
