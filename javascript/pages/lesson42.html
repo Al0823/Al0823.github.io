@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+		<script>let PAGETITLE = "Comparisons Tutorial";</script>
   <title id="pageTitle"></title>
   <script src="../includes/vars.js"></script>
 </head>
@@ -18,17 +19,67 @@
     <h2>JavaScript Comparisons Tutorial</h2>
     <p>Comparison operators are used to compare values. They return a <strong>Boolean</strong> value: <code>true</code> or <code>false</code>.</p>
 
-    <h3>Comparison Operators</h3>
-    <ul>
-      <li><code>==</code> – equal to (value only)</li>
-      <li><code>===</code> – equal value and type</li>
-      <li><code>!=</code> – not equal</li>
-      <li><code>!==</code> – not equal value or type</li>
-      <li><code>&gt;</code> – greater than</li>
-      <li><code>&lt;</code> – less than</li>
-      <li><code>&gt;=</code> – greater than or equal</li>
-      <li><code>&lt;=</code> – less than or equal</li>
-    </ul>
+    <div class="fs-15">Comparison Operators</div><br><br>
+				<div class="fs-10">Comparison operators are used to compare two values.
+<br><br>
+Comparison operators always return true or false.<br><br>
+Comparison operators can be used in conditional statements to compare values and take action depending on the result:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+if (age < 18) text = "Too young to buy alcohol";
+</textarea><br><br>
+<div class="fs-10">You will learn more about the use of conditional statements in the if...else chapter of this tutorial.</div><br><br>
+
+<div class="fs-15">JavaScript String Comparison</div><br><br>
+<div class="fs-10">All the comparison operators above can also be used on strings:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text1 = "A";
+let text2 = "B";
+let result = text1 < text2;
+document.getElementById("demo").innerHTML = "Is A less than B? " + result;
+</textarea><br><br>
+<div class="fs-10">Note that strings are compared alphabetically:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text1 = "20";
+let text2 = "5";
+let result = text1 < text2;
+document.getElementById("demo").innerHTML = "Is 20 less than 5? " + result;
+</textarea><br><br>
+
+<div class="fs-15">Comparing Different Types</div><br><br>
+<div class="fs-10">Comparing data of different types may give unexpected results.
+<br><br>
+When comparing a string with a number, JavaScript will convert the string to a number when doing the comparison. An empty string converts to 0. A non-numeric string converts to NaN which is always false.<br><br>
+When comparing two strings, "2" will be greater than "12".
+<br><br>
+Alphabetically 1 is less than 21.
+<br><br>
+To secure a proper result, variables should be converted to the proper type before comparison:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<input id="age" value="18" />
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  let voteable;
+  let age = Number(document.getElementById("age").value);
+  if (isNaN(age)) {
+    voteable = "Input is not a number";
+  } else {
+    voteable = (age < 18) ? "Too young" : "Old enough";
+  }
+  document.getElementById("demo").innerHTML = voteable + " to vote";
+}
+</script>
+</textarea><br><br>
+
+
+
+
 
     <h3>Examples</h3>
     <pre><code id="comparisonExample"></code></pre>
@@ -91,49 +142,41 @@ n1 < n2: ${n1 < n2}`;
 </main>
 
 <footer id="footer"></footer>
+  <div id="debugInclude"></div>
 
-<div id="debugInclude"></div>
+  <script>
+    // Utility to load include files asynchronously
+    async function loadInclude(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      const container = document.getElementById(id);
+      container.innerHTML = html;
 
-<script>
+      // Re-run scripts inside the loaded HTML
+      container.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        document.body.appendChild(newScript);
+        oldScript.remove();
+      });
+    }
 
-  (function loadCSS() {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "../../css/style.css?v=" + Date.now();
-    document.head.appendChild(link);
-  })();
-
-
-  document.getElementById("pageTitle").textContent =
-    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
-
-  
-  async function loadInclude(id, file) {
-    const res = await fetch(file);
-    const html = await res.text();
-    const container = document.getElementById(id);
-    container.innerHTML = html;
-
-
-    container.querySelectorAll("script").forEach(oldScript => {
-      const newScript = document.createElement("script");
-      if (oldScript.src) {
-        newScript.src = oldScript.src;
-      } else {
-        newScript.textContent = oldScript.textContent;
-      }
-      document.body.appendChild(newScript);
-      oldScript.remove();
+    // Load header, nav, footer, and debug include
+    loadInclude("header", window.vars.INCVAR + "header.html").then(() => {
+      // Update page title after header is loaded
+      if (typeof updatePageTitle === "function") updatePageTitle();
     });
-  }
 
+    loadInclude("nav", window.vars.INCVAR + "nav.html");
+    loadInclude("footer", window.vars.INCVAR + "footer.html");
+    if (window.vars.DEBUGVAR) {
+      loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+    }
+  </script>
 
-  loadInclude("header", window.vars.INCVAR + "header.html");
-  loadInclude("nav", window.vars.INCVAR + "nav.html");
-  loadInclude("footer", window.vars.INCVAR + "footer.html");
-  if (window.vars.DEBUGVAR) {
-    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-  }
-</script>
 </body>
 </html>
