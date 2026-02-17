@@ -2,13 +2,13 @@ window.vars = {
 
 
 
-  MACVAR: "/javascript/data/",
-  PATHVAR: "/javascript/",
-  INCVAR: "/javascript/includes/",
-  DBVAR: "/javascript/data/",
+  MACVAR: "/javascript/frontend/data/",
+  PATHVAR: "/javascript/frontend/",
+  INCVAR: "/javascript/frontend/includes/",
+  DBVAR: "/javascript/frontend/data/",
   CSSVAR: "/css/",
-  IMGVAR: "/javascript/images/",
-  PAGEVAR: "/javascript/pages/",
+  IMGVAR: "/javascript/frontend/images/",
+  PAGEVAR: "/javascript/frontend/pages/",
 
   DEBUGVAR: false,   // [text]DEBUGVAR=1
 
