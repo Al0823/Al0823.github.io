@@ -15,7 +15,149 @@
 <article>
 	<h2>Loop For</h2><br><br>
 	<div class="fs-10">A "Loop for" in JavaScript lets you repeat a block of code a specific number of times.
-It&#39;s most useful when you know how many times you want something to run.</div><br><br>
+It&#39;s most useful when you know how many times you want something to run.<br><br>
+For Loops can execute a block of code a number of times.
+<br><br>
+For Loops are fundamental for tasks like performing an action multiple times.</div><br><br>
+
+<div class="fs-15">The For Loop</div><br><br>
+<div class="fs-10">The for statement creates a loop with 3 optional expressions:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+for (exp 1; exp 2; exp 3) {
+  // code block to be executed
+}
+</textarea><br><br>
+<div class="fs-10">exp 1 is executed (one time) before the execution of the code block.
+<br><br>
+exp 2 defines the condition for executing the code block.
+<br><br>
+exp 3 is executed (every time) after the code block has been executed.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const cars = ["BMW", "Volvo", "Saab", "Ford"];
+let len = cars.length;
+
+let text = "";
+for (let i = 0; i < len; i++) {
+  text += cars[i] + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+<div class="fs-10">From the example above, you can read:
+<br><br>
+exp 1 sets a variable before the loop starts (let i = 0).
+<br><br>
+exp 2 defines the condition for the loop to run (i must be less than 5).
+<br><br>
+exp 3 increases a value (i++) after the code block has been executed.<br><br>
+The example below usea a for loop to collect the car names from the cars array:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const cars = ["BMW", "Volvo", "Saab", "Ford"];
+let len = cars.length;
+
+let text = "";
+for (let i = 0; i < len; i++) {
+  text += cars[i] + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+
+<div class="fs-15">How to use exp 1</div><br><br>
+<div class="fs-10">exp 1 is used to initialize the variable(s) used in the loop (let i = 0).
+<br><br>
+exp 1 is optional.
+<br><br>
+You can omit exp 1 if the value is set before the loop starts:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const cars = ["BMW", "Volvo", "Saab", "Ford"];
+let len = cars.length;
+
+let i = 2;
+
+let text = "";
+for (; i < len; i++) {
+  text += cars[i] + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+
+<div class="fs-15">How to use exp 2</div><br><br>
+<div class="fs-10">exp 2 is used to evaluate the condition of the initial variable (i < len).
+<br><br>
+exp 2 is also optional.
+<br><br>
+If exp 2 returns false, the loop will end.
+<br><br>
+If you omit exp 2, you must provide a break inside the loop.
+<br><br>
+Otherwise the loop will never end.
+<br><br>
+This will crash your browser.</div><br><br>
+
+<div class="fs-15">How to use exp 3</div><br><br>
+<div class="fs-10">exp 3 increments the value of the initial variable (i++).
+<br><br>
+exp 3 is optional.
+<br><br>
+exp 3 can do anything like negative increment (i--), positive increment (i = i + 15), or anything else.
+<br><br>
+exp 3 can be omitted (if you increment the value inside the loop):</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const cars = ["BMW", "Volvo", "Saab", "Ford"];
+let len = cars.length;
+
+let i = 0;
+
+let text = "";
+for (; i < len; ) {
+  text += cars[i] + "<br>";
+  i++;
+}
+
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+--
+<div class="fs-15">Loop Scope/div><br><br>
+<div class="fs-10">Using var in a loop:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+var i = 5;
+
+for (var i = 0; i < 10; i++) {
+  // some statements
+}
+
+document.getElementById("demo").innerHTML = i;
+</textarea><br><br>
+<div class="fs-10">Using let in a loop:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let i = 5;
+
+for (let i = 0; i < 10; i++) {
+  // some statements
+}
+
+document.getElementById("demo").innerHTML = i;
+</textarea><br><br>
+<div class="fs-10">In the first example, using var, the variable declared in the loop redeclares the variable outside the loop.
+<br><br>
+In the second example, using let, the variable declared in the loop does not redeclare the variable outside the loop.
+<br><br>
+When let is used to declare the i variable in a loop, the i variable will only be visible within the loop.</div><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
 </article>
 </main>
 <footer id="footer"></footer>
