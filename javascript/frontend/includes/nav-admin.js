@@ -29,37 +29,44 @@ function render() {
     weeks[item.WEEK].push(item);
   });
 
-  Object.keys(weeks).sort().forEach(week => {
+  // Sort weeks chronologically
+  const sortedWeeks = Object.keys(weeks).sort((a, b) => {
+    return new Date(a) - new Date(b);
+  });
+
+  sortedWeeks.forEach(week => {
     const h3 = document.createElement('h3');
     h3.textContent = week;
     container.appendChild(h3);
 
-    weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
-      const div = document.createElement('div');
-      div.className = 'item';
-      div.textContent = `${item.TITLE} `;
+    // Sort lessons by SORTORDER
+    weeks[week]
+      .sort((a, b) => a.SORTORDER - b.SORTORDER)
+      .forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.textContent = `${item.TITLE} `;
 
-      const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
+        const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
 
-      if (page) {
-        // If record exists, show Enable/Disable based on STATUS
-        const btn = document.createElement('a');
-        btn.textContent = page.STATUS ? 'Disable' : 'Enable';
-        btn.className = page.STATUS ? 'enabled' : 'disabled';
-        btn.onclick = () => handleAction(Number(item.SKU), 'toggle');
-        div.appendChild(btn);
-      } else {
-        // If record does NOT exist, show Create
-        const btn = document.createElement('a');
-        btn.textContent = 'Create';
-        btn.onclick = () => handleAction(Number(item.SKU), 'create');
-        div.appendChild(btn);
-      }
+        if (page) {
+          const btn = document.createElement('a');
+          btn.textContent = page.STATUS ? 'Disable' : 'Enable';
+          btn.className = page.STATUS ? 'enabled' : 'disabled';
+          btn.onclick = () => handleAction(Number(item.SKU), 'toggle');
+          div.appendChild(btn);
+        } else {
+          const btn = document.createElement('a');
+          btn.textContent = 'Create';
+          btn.onclick = () => handleAction(Number(item.SKU), 'create');
+          div.appendChild(btn);
+        }
 
-      container.appendChild(div);
-    });
+        container.appendChild(div);
+      });
   });
 }
+
 
 // Handle button clicks
 async function handleAction(sku, action) {
