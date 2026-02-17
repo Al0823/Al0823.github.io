@@ -12,8 +12,8 @@ async function loadJSON(url) {
 
 // Initialize
 async function initAdmin() {
-  navData = await loadJSON('/data/nav.json');
-  pagesData = await loadJSON('/data/pages.json');
+  navData = await loadJSON('../../data/nav.json');
+  pagesData = await loadJSON('../../data/pages.json');
   render();
 }
 
