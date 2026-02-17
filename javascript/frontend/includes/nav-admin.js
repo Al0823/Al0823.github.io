@@ -7,6 +7,35 @@
     return await res.json();
   }
 
+  // Action handler for Create / Enable / Disable
+  async function handleAction(SKU, action) {
+    try {
+      let res;
+      if (action === 'toggle') {
+        res = await fetch('/api/toggle', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ SKU })
+        });
+      } else if (action === 'create') {
+        res = await fetch('/api/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ SKU })
+        });
+      }
+      const data = await res.json();
+      if (res.ok) {
+        location.reload(); // reload admin UI to show updates
+      } else {
+        alert(data.error || 'Action failed');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Action failed: ' + e.message);
+    }
+  }
+
   // Load nav and pages data
   let navData = [];
   let pagesData = [];
@@ -50,7 +79,7 @@
 
       if (page) {
         const btn = document.createElement('a');
-        const status = Number(page.STATUS); // force numeric
+        const status = Number(page.STATUS);
 
         if (status === 1) {
           btn.textContent = 'Disable';
