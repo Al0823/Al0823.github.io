@@ -1,92 +1,107 @@
-(async function() {
-  // Load JSON data
-  const navResponse = await fetch('../../data/nav.json');
-  const navData = await navResponse.json();
+// nav-admin.js
+// Load nav.json and pages.json, then render the admin UI
 
-  const pagesResponse = await fetch('../../data/pages.json');
-  const pagesData = await pagesResponse.json();
+let navData = [];
+let pagesData = [];
 
-  const adminDiv = document.getElementById('nav-admin');
+// Helper to fetch JSON
+async function loadJSON(url) {
+  const res = await fetch(url);
+  return await res.json();
+}
 
-  function render() {
-    adminDiv.innerHTML = '';
+// Initialize
+async function initAdmin() {
+  navData = await loadJSON('/data/nav.json');
+  pagesData = await loadJSON('/data/pages.json');
+  render();
+}
 
-    // Group nav items by WEEK
-    const weeks = {};
-    navData.forEach(item => {
-      if (!weeks[item.WEEK]) weeks[item.WEEK] = [];
-      weeks[item.WEEK].push(item);
-    });
+// Render the admin UI
+function render() {
+  const container = document.getElementById('nav-admin');
+  container.innerHTML = '';
 
-    // Sort weeks by date ascending
-    Object.keys(weeks).sort((a, b) => new Date(a) - new Date(b)).forEach(week => {
-      const weekHeader = document.createElement('h3');
-      weekHeader.textContent = `Week: ${week}`;
-      adminDiv.appendChild(weekHeader);
-
-      // Sort items by SORTORDER
-      weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
-        const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
-        const div = document.createElement('div');
-        div.className = 'item';
-
-        if (page) {
-          // Convert STATUS to number to avoid string issues
-          const status = Number(page.STATUS);
-          div.innerHTML = `
-            <span>${item.TITLE}</span>
-            <a class="${status ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
-              ${status ? 'Disable' : 'Enable'}
-            </a>
-          `;
-        } else {
-          // Show Create if page doesn't exist
-          div.innerHTML = `
-            <span>${item.TITLE}</span>
-            <a data-sku="${item.SKU}" data-action="create">Create</a>
-          `;
-        }
-
-        adminDiv.appendChild(div);
-      });
-    });
-
-    // Attach click listeners
-    adminDiv.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', e => {
-        const sku = Number(link.dataset.sku);
-        const action = link.dataset.action;
-        handleAction(sku, action);
-      });
-    });
-  }
-
-  function handleAction(sku, action) {
-    const pageIndex = pagesData.findIndex(p => p.R_NAV === sku);
-
-    if (action === 'toggle') {
-      if (pageIndex >= 0) {
-        pagesData[pageIndex].STATUS = pagesData[pageIndex].STATUS ? 0 : 1;
-      }
-    } else if (action === 'create') {
-      if (pageIndex < 0) {
-        pagesData.push({ SKU: sku, R_NAV: sku, STATUS: 1 });
-      }
-    }
-
-    render();
-  }
-
-  // Download updated pages.json
-  document.getElementById('download-json').addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify(pagesData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'pages.json';
-    a.click();
-    URL.revokeObjectURL(url);
+  // Group nav items by WEEK
+  const weeks = {};
+  navData.forEach(item => {
+    if (!weeks[item.WEEK]) weeks[item.WEEK] = [];
+    weeks[item.WEEK].push(item);
   });
 
-  render();
-})();
+  Object.keys(weeks).sort().forEach(week => {
+    const h3 = document.createElement('h3');
+    h3.textContent = week;
+    container.appendChild(h3);
+
+    weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.textContent = `${item.TITLE} `;
+
+      const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
+
+      if (page) {
+        // If record exists, show Enable/Disable based on STATUS
+        const btn = document.createElement('a');
+        btn.textContent = page.STATUS ? 'Disable' : 'Enable';
+        btn.className = page.STATUS ? 'enabled' : 'disabled';
+        btn.onclick = () => handleAction(Number(item.SKU), 'toggle');
+        div.appendChild(btn);
+      } else {
+        // If record does NOT exist, show Create
+        const btn = document.createElement('a');
+        btn.textContent = 'Create';
+        btn.onclick = () => handleAction(Number(item.SKU), 'create');
+        div.appendChild(btn);
+      }
+
+      container.appendChild(div);
+    });
+  });
+}
+
+// Handle button clicks
+async function handleAction(sku, action) {
+  const pageIndex = pagesData.findIndex(p => p.R_NAV === sku);
+
+  if (action === 'toggle') {
+    if (pageIndex >= 0) {
+      pagesData[pageIndex].STATUS = pagesData[pageIndex].STATUS ? 0 : 1;
+    }
+    render();
+  } else if (action === 'create') {
+    try {
+      const res = await fetch('/api/create-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sku })
+      });
+      const result = await res.json();
+      if (result.success) {
+        pagesData.push({ SKU: Number(sku), R_NAV: Number(sku), STATUS: 1 });
+        alert(`Created ${result.lessonFile}`);
+        render();
+      } else {
+        alert('Failed to create lesson');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error creating lesson');
+    }
+  }
+}
+
+// Download updated pages.json
+document.getElementById('download-json').onclick = () => {
+  const blob = new Blob([JSON.stringify(pagesData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'pages.json';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+// Start
+initAdmin();

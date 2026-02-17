@@ -3,28 +3,22 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-app.use(express.json()); // parse JSON POST bodies
-
-// Serve frontend files
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Paths
 const PAGES_JSON = path.join(__dirname, '../frontend/data/pages.json');
 const TEMPLATE_HTML = path.join(__dirname, '../frontend/jsadmin/pages/lessontemplate.html');
 const LESSONS_DIR = path.join(__dirname, '../frontend/jsadmin/pages/');
 
-// API endpoint to create a new lesson
 app.post('/api/create-lesson', (req, res) => {
   const { sku } = req.body;
-  if (!sku) return res.status(400).json({ error: 'SKU is required' });
+  if (!sku) return res.status(400).json({ error: 'SKU required' });
 
   const lessonFile = path.join(LESSONS_DIR, `lesson${sku}.html`);
 
-  // Copy the template to new lesson file
   fs.copyFile(TEMPLATE_HTML, lessonFile, (err) => {
     if (err) return res.status(500).json({ error: 'Failed to copy template' });
 
-    // Read pages.json and update
     fs.readFile(PAGES_JSON, 'utf8', (err, data) => {
       if (err) return res.status(500).json({ error: 'Failed to read pages.json' });
 
@@ -43,6 +37,5 @@ app.post('/api/create-lesson', (req, res) => {
   });
 });
 
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
