@@ -1,5 +1,4 @@
 (async function() {
-  // Load the nav and pages JSON files
   const navResponse = await fetch('../../data/nav.json');
   const navData = await navResponse.json();
 
@@ -24,31 +23,34 @@
       weekHeader.textContent = `Week: ${week}`;
       adminDiv.appendChild(weekHeader);
 
-      // Sort items within the week by SORTORDER
+      // Sort items within the week
       weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
-        // Correctly match pages using R_NAV
         const page = pagesData.find(p => p.R_NAV === item.SKU);
-        const status = page ? page.STATUS : 0; // 0 = disabled
 
         const div = document.createElement('div');
         div.className = 'item';
 
-        // Only show "Create" if page doesn't exist
-        const createLink = page ? '' : `<a data-sku="${item.SKU}" data-action="create">Create</a>`;
-
-        div.innerHTML = `
-          <span>${item.TITLE}</span>
-          <a class="${status ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
-            ${status ? 'Disable' : 'Enable'}
-          </a>
-          ${createLink}
-        `;
+        // If page exists, show Enable/Disable
+        if (page) {
+          div.innerHTML = `
+            <span>${item.TITLE}</span>
+            <a class="${page.STATUS ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
+              ${page.STATUS ? 'Disable' : 'Enable'}
+            </a>
+          `;
+        } else {
+          // If page doesn't exist, show Create only
+          div.innerHTML = `
+            <span>${item.TITLE}</span>
+            <a data-sku="${item.SKU}" data-action="create">Create</a>
+          `;
+        }
 
         adminDiv.appendChild(div);
       });
     });
 
-    // Add click listeners
+    // Attach click listeners
     adminDiv.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', e => {
         const sku = parseInt(link.dataset.sku);
@@ -64,9 +66,6 @@
     if (action === 'toggle') {
       if (pageIndex >= 0) {
         pagesData[pageIndex].STATUS = pagesData[pageIndex].STATUS ? 0 : 1;
-      } else {
-        // If no page exists, create it enabled
-        pagesData.push({ SKU: sku, R_NAV: sku, STATUS: 1 });
       }
     } else if (action === 'create') {
       if (pageIndex < 0) {
@@ -74,7 +73,7 @@
       }
     }
 
-    render(); // Re-render after action
+    render(); // Refresh admin
   }
 
   // Download updated pages.json
