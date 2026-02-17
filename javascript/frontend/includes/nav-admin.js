@@ -1,4 +1,5 @@
 (async function() {
+  // Load JSON data
   const navResponse = await fetch('../../data/nav.json');
   const navData = await navResponse.json();
 
@@ -10,49 +11,50 @@
   function render() {
     adminDiv.innerHTML = '';
 
-   
+    // Group nav items by WEEK
     const weeks = {};
     navData.forEach(item => {
       if (!weeks[item.WEEK]) weeks[item.WEEK] = [];
       weeks[item.WEEK].push(item);
     });
 
- 
+    // Sort weeks by date ascending
     Object.keys(weeks).sort((a, b) => new Date(a) - new Date(b)).forEach(week => {
       const weekHeader = document.createElement('h3');
       weekHeader.textContent = `Week: ${week}`;
       adminDiv.appendChild(weekHeader);
 
-    
+      // Sort items by SORTORDER
       weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
-   
-    const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
+        const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
+        const div = document.createElement('div');
+        div.className = 'item';
 
-    const div = document.createElement('div');
-    div.className = 'item';
+        if (page) {
+          // Convert STATUS to number to avoid string issues
+          const status = Number(page.STATUS);
+          div.innerHTML = `
+            <span>${item.TITLE}</span>
+            <a class="${status ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
+              ${status ? 'Disable' : 'Enable'}
+            </a>
+          `;
+        } else {
+          // Show Create if page doesn't exist
+          div.innerHTML = `
+            <span>${item.TITLE}</span>
+            <a data-sku="${item.SKU}" data-action="create">Create</a>
+          `;
+        }
 
-    if (page) {
-        div.innerHTML = `
-          <span>${item.TITLE}</span>
-          <a class="${page.STATUS ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
-            ${page.STATUS ? 'Disable' : 'Enable'}
-          </a>
-        `;
-    } else {
-        div.innerHTML = `
-          <span>${item.TITLE}</span>
-          <a data-sku="${item.SKU}" data-action="create">Create</a>
-        `;
-    }
-
-    adminDiv.appendChild(div);
-});
+        adminDiv.appendChild(div);
+      });
     });
 
-   
+    // Attach click listeners
     adminDiv.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', e => {
-        const sku = parseInt(link.dataset.sku);
+        const sku = Number(link.dataset.sku);
         const action = link.dataset.action;
         handleAction(sku, action);
       });
@@ -72,10 +74,10 @@
       }
     }
 
-    render(); 
+    render();
   }
 
-  
+  // Download updated pages.json
   document.getElementById('download-json').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(pagesData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
