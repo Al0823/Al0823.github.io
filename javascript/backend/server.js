@@ -2,126 +2,88 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
+const bodyParser = require('body-parser');
+const simpleGit = require('simple-git');
 
 const app = express();
-app.use(express.json());
-
 const PORT = process.env.PORT || 10000;
 
-// ------------------- Paths -------------------
-// Folder containing lesson templates
-const TEMPLATES = path.join(__dirname, '../frontend/templates');
-console.log('Templates:', TEMPLATES);
+app.use(bodyParser.json());
 
-// Data files
-const NAV_JSON = path.join(__dirname, '../frontend/data/nav.json');
-const PAGES_JSON = path.join(__dirname, '../frontend/data/pages.json');
+// Paths
+const FRONTEND_DIR = path.join(__dirname, '../frontend');
+const PAGES_JSON = path.join(FRONTEND_DIR, 'data/pages.json');
+const NAV_JSON = path.join(FRONTEND_DIR, 'data/nav.json');
+const TEMPLATE_DIR = path.join(FRONTEND_DIR, 'templates');
+const LESSONS_DIR = path.join(FRONTEND_DIR, 'jsadmin/pages'); // new lessons go here
 
-// GitHub environment variables
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const GITHUB_REPO = process.env.GITHUB_REPO;
-const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+// Git setup
+const git = simpleGit(FRONTEND_DIR);
 
-if (!GITHUB_TOKEN || !GITHUB_REPO) {
-  console.warn('⚠️ GitHub token or repo not set in environment variables!');
+// Serve frontend static files
+app.use('/jsadmin/pages', express.static(path.join(FRONTEND_DIR, 'jsadmin/pages')));
+app.use('/javascript/frontend', express.static(FRONTEND_DIR));
+
+// Helper to read JSON
+function readJSON(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 }
 
-// ------------------- Helper Functions -------------------
-
-async function pushFileToGitHub(filePath, commitMessage) {
-  const relativePath = path.relative(path.join(__dirname, '..'), filePath).replace(/\\/g, '/');
-
-  const content = fs.readFileSync(filePath, 'utf-8');
-  const encoded = Buffer.from(content).toString('base64');
-
-  try {
-    // Check if file exists in repo
-    let sha;
-    try {
-      const resp = await axios.get(`https://api.github.com/repos/${GITHUB_REPO}/contents/${relativePath}?ref=${GITHUB_BRANCH}`, {
-        headers: { Authorization: `Bearer ${GITHUB_TOKEN}` }
-      });
-      sha = resp.data.sha;
-    } catch (err) {
-      // File does not exist, will create
-    }
-
-    await axios.put(
-      `https://api.github.com/repos/${GITHUB_REPO}/contents/${relativePath}`,
-      {
-        message: commitMessage,
-        content: encoded,
-        branch: GITHUB_BRANCH,
-        sha: sha
-      },
-      { headers: { Authorization: `Bearer ${GITHUB_TOKEN}` } }
-    );
-
-    console.log('✅ Pushed file to GitHub:', relativePath);
-  } catch (err) {
-    console.error('❌ GitHub push failed for', relativePath, err.message);
-    throw err;
-  }
+// Helper to write JSON
+function writeJSON(filePath, data) {
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
-// ------------------- Routes -------------------
-
-// Create a lesson
-app.post('/create', async (req, res) => {
-  const { sku } = req.body;
-  if (!sku) return res.status(400).json({ error: 'Missing SKU' });
-
-  try {
-    const lessonFile = path.join(__dirname, `../frontend/jsadmin/pages/lesson${sku}.html`);
-    const templateFile = path.join(TEMPLATES, 'lessontemplate.html');
-
-    // Copy template
-    fs.copyFileSync(templateFile, lessonFile);
-
-    // Update pages.json
-    const pages = JSON.parse(fs.readFileSync(PAGES_JSON, 'utf-8'));
-    const exists = pages.find(p => p.SKU === Number(sku));
-    if (!exists) {
-      pages.push({ SKU: Number(sku), R_NAV: Number(sku), STATUS: 1 });
-    }
-    fs.writeFileSync(PAGES_JSON, JSON.stringify(pages, null, 2));
-
-    // Push lesson + pages.json to GitHub
-    await pushFileToGitHub(lessonFile, `Create lesson ${sku}`);
-    await pushFileToGitHub(PAGES_JSON, `Update pages.json after creating lesson ${sku}`);
-
-    res.json({ success: true, message: `Lesson ${sku} created` });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: 'Failed to create lesson' });
-  }
-});
-
-// Enable / disable a lesson
-app.post('/toggle', async (req, res) => {
+// API: Toggle STATUS
+app.post('/toggle', (req, res) => {
   const { sku, action } = req.body;
-  if (!sku || !action) return res.status(400).json({ error: 'Missing SKU or action' });
+  const pages = readJSON(PAGES_JSON);
+  const page = pages.find(p => p.SKU === Number(sku));
 
-  try {
-    const pages = JSON.parse(fs.readFileSync(PAGES_JSON, 'utf-8'));
-    const record = pages.find(p => p.SKU === Number(sku));
-    if (!record) return res.status(404).json({ error: 'Lesson not found' });
+  if (!page) return res.json({ success: false, message: 'Page not found' });
 
-    record.STATUS = action === 'enable' ? 1 : 0;
+  if (action === 'enable') page.STATUS = 1;
+  else if (action === 'disable') page.STATUS = 0;
+  else return res.json({ success: false, message: 'Invalid action' });
 
-    fs.writeFileSync(PAGES_JSON, JSON.stringify(pages, null, 2));
+  writeJSON(PAGES_JSON, pages);
 
-    await pushFileToGitHub(PAGES_JSON, `Set lesson ${sku} to ${action}`);
-
-    res.json({ success: true, message: `Lesson ${sku} ${action}d` });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: 'Failed to toggle lesson' });
-  }
+  // Commit changes
+  git.add('data/pages.json')
+    .then(() => git.commit(`Update STATUS for SKU ${sku}`))
+    .then(() => git.push())
+    .then(() => res.json({ success: true }))
+    .catch(err => res.json({ success: false, message: err.message }));
 });
 
-// ------------------- Start Server -------------------
+// API: Create new lesson
+app.post('/create', (req, res) => {
+  const { sku } = req.body;
+  const nav = readJSON(NAV_JSON);
+  const pages = readJSON(PAGES_JSON);
+  const item = nav.find(n => n.SKU === Number(sku));
+  if (!item) return res.json({ success: false, message: 'Nav item not found' });
+
+  const templatePath = path.join(TEMPLATE_DIR, 'lessontemplate.html');
+  const newLessonPath = path.join(LESSONS_DIR, `lesson${sku}.html`);
+
+  if (!fs.existsSync(templatePath)) return res.json({ success: false, message: 'Template missing' });
+
+  fs.copyFileSync(templatePath, newLessonPath);
+
+  // Add to pages.json
+  pages.push({ SKU: Number(sku), R_NAV: Number(sku), STATUS: 1 });
+  writeJSON(PAGES_JSON, pages);
+
+  // Commit new lesson and pages.json
+  git.add([newLessonPath, 'data/pages.json'])
+    .then(() => git.commit(`Create lesson ${sku}`))
+    .then(() => git.push())
+    .then(() => res.json({ success: true }))
+    .catch(err => res.json({ success: false, message: err.message }));
+});
+
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
