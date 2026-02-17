@@ -25,29 +25,28 @@
 
       // Sort items within the week
       weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
-        const page = pagesData.find(p => p.R_NAV === item.SKU);
+    // Fix: cast SKU to number for matching
+    const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
 
-        const div = document.createElement('div');
-        div.className = 'item';
+    const div = document.createElement('div');
+    div.className = 'item';
 
-        // If page exists, show Enable/Disable
-        if (page) {
-          div.innerHTML = `
-            <span>${item.TITLE}</span>
-            <a class="${page.STATUS ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
-              ${page.STATUS ? 'Disable' : 'Enable'}
-            </a>
-          `;
-        } else {
-          // If page doesn't exist, show Create only
-          div.innerHTML = `
-            <span>${item.TITLE}</span>
-            <a data-sku="${item.SKU}" data-action="create">Create</a>
-          `;
-        }
+    if (page) {
+        div.innerHTML = `
+          <span>${item.TITLE}</span>
+          <a class="${page.STATUS ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
+            ${page.STATUS ? 'Disable' : 'Enable'}
+          </a>
+        `;
+    } else {
+        div.innerHTML = `
+          <span>${item.TITLE}</span>
+          <a data-sku="${item.SKU}" data-action="create">Create</a>
+        `;
+    }
 
-        adminDiv.appendChild(div);
-      });
+    adminDiv.appendChild(div);
+});
     });
 
     // Attach click listeners
