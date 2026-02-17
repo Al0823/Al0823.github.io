@@ -9,7 +9,7 @@ app.use(express.json());
 const ROOT = path.resolve(__dirname, '..'); // /javascript
 const FRONTEND = path.join(ROOT, 'frontend');
 const DATA = path.join(FRONTEND, 'data');
-const TEMPLATES = path.join(FRONTEND, 'jsadmin', 'templates');
+const TEMPLATE_FILE = path.join(FRONTEND, 'templates', 'lessontemplate.html');
 const PAGES = path.join(FRONTEND, 'jsadmin', 'pages');
 
 // Serve frontend
@@ -50,7 +50,6 @@ app.post('/api/toggle', (req, res) => {
   }
 });
 
-// ===== CREATE LESSON =====
 app.post('/api/create', (req, res) => {
   try {
     const { SKU } = req.body;
@@ -62,7 +61,7 @@ app.post('/api/create', (req, res) => {
 
     ensureDir(PAGES);
 
-    const template = path.join(TEMPLATES, 'lessontemplate.html');
+    const template = path.join(FRONTEND, 'templates', 'lessontemplate.html');
     const newFile = path.join(PAGES, `lesson${SKU}.html`);
 
     if (!fs.existsSync(template)) {
