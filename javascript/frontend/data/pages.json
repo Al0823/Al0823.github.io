@@ -54,5 +54,18 @@
 		{ "SKU": 54, "R_NAV": 54, "STATUS": 0 },
 		{ "SKU": 55, "R_NAV": 55, "STATUS": 0 },
 		{ "SKU": 56, "R_NAV": 56, "STATUS": 0 },
-		{ "SKU": 57, "R_NAV": 57, "STATUS": 0 }
+		{ "SKU": 57, "R_NAV": 57, "STATUS": 0 },
+		{ "SKU": 58, "R_NAV": 58, "STATUS": 0 },
+		{ "SKU": 59, "R_NAV": 59, "STATUS": 0 },
+		{ "SKU": 60, "R_NAV": 60, "STATUS": 0 },
+		{ "SKU": 61, "R_NAV": 61, "STATUS": 0 },
+		{ "SKU": 62, "R_NAV": 62, "STATUS": 0 },
+		{ "SKU": 63, "R_NAV": 63, "STATUS": 0 },
+		{ "SKU": 64, "R_NAV": 64, "STATUS": 0 },
+		{ "SKU": 65, "R_NAV": 65, "STATUS": 0 },
+		{ "SKU": 66, "R_NAV": 66, "STATUS": 0 },
+		{ "SKU": 67, "R_NAV": 67, "STATUS": 0 },
+		{ "SKU": 68, "R_NAV": 68, "STATUS": 0 },
+		{ "SKU": 69, "R_NAV": 69, "STATUS": 0 },
+		{ "SKU": 70, "R_NAV": 70, "STATUS": 0 }
 ]
