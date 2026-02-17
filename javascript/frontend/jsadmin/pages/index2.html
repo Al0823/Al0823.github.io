@@ -1,123 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Admin Panel</title>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Loop For Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../../includes/vars.js"></script>
 
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: white;
-  }
-
-  /* Login screen */
-  #loginScreen {
-    position: fixed;
-    inset: 0;
-    background: #111;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 9999;
-  }
-
-  #loginScreen input {
-    padding: 10px;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-
-  #loginScreen button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  /* Admin content */
-  header, main, footer {
-    padding: 20px;
-  }
+body { font-family: sans-serif; padding: 20px; }
+h3 { margin-top: 20px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+.item { margin-left: 20px; margin-bottom: 6px; }
+a { text-decoration: none; cursor: pointer; margin-left: 10px; }
+.enabled { color: rgb(111, 190, 141); }
+.disabled { color: rgb(211, 49, 49); }
 </style>
-
-<!-- Hide page immediately before anything renders -->
-<script>
-  document.documentElement.style.display = "none";
-</script>
 </head>
-
-<body id="pageBody">
-
-<!-- LOGIN OVERLAY -->
-<div id="loginScreen">
-  <h2>Admin Login</h2>
-  <input type="password" id="passwordInput" placeholder="Enter password" />
-  <button onclick="checkPassword()">Login</button>
-  <p id="errorMsg" style="color:red;"></p>
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+<main>
+<div id="nav"></div>
+<div class="big"></div>
+<h2>Wiki Navigation Admin</h2>
+<div id="nav-admin"></div>
+<button id="download-json">Download Updated pages.json</button>
 </div>
 
-<!-- ADMIN CONTENT -->
-<header>
-  <h1>Admin Control Panel</h1>
-</header>
 
-<main>
-  <p>Welcome to the admin area. Only authorized users can see this.</p>
 </main>
-
-<footer>
-  Admin System
-</footer>
+<footer id="footer"></footer>
+  <div id="debugInclude"></div>
+<script src="../../includes/nav-admin.js"></script>
 
 <script>
-/* 🔐 CHANGE THIS HASH TO YOUR PASSWORD HASH */
-const PASSWORD_HASH = "6606dd0c5bdc357c9e01da022fab5945855a8a7132b4b1745a5901fdaf003262"; // "password"
-
-/* Hash function */
-async function sha256(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-/* Show page safely */
-function showPage() {
-  document.documentElement.style.display = "block";
-}
-
-/* Unlock admin */
-function unlockAdmin() {
-  document.getElementById("loginScreen").style.display = "none";
-  sessionStorage.setItem("adminAuth", "true");
-  showPage();
-}
-
-/* Check password */
-async function checkPassword() {
-  const input = document.getElementById("passwordInput").value;
-  const hash = await sha256(input);
-
-  if (hash === PASSWORD_HASH) {
-    unlockAdmin();
-  } else {
-    document.getElementById("errorMsg").textContent = "Wrong password";
+(function(){
+var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";
+var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function d(x){
+  var o="",i=0,c;
+  for(i=0;i<x.length;i+=2){
+    c=parseInt(x.substr(i,2),16);
+    o+=String.fromCharCode(c);
   }
+  return o;
 }
-
-/* On page load */
-document.addEventListener("DOMContentLoaded", () => {
-  if (sessionStorage.getItem("adminAuth") === "true") {
-    unlockAdmin();
-  } else {
-    showPage(); // Show only login screen
+function m(s){
+  var o="",i,c;
+  for(i=0;i<s.length;i++){
+    c=s.charCodeAt(i)^((i*7+13)%255);
+    o+=String.fromCharCode(c);
   }
-});
+  return o;
+}
+var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";
+
+try{
+  eval(payload);
+}catch(e){}
+})();
 </script>
 
 </body>
