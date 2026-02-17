@@ -1,100 +1,127 @@
+// server.js
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 
 const app = express();
 app.use(express.json());
 
-// ===== PATH SETUP =====
-const ROOT = path.resolve(__dirname, '..'); // /javascript
-const FRONTEND = path.join(ROOT, 'frontend');
-const DATA = path.join(FRONTEND, 'data');
-const TEMPLATE_FILE = path.join(FRONTEND, 'templates', 'lessontemplate.html');
-const PAGES = path.join(FRONTEND, 'jsadmin', 'pages');
+const PORT = process.env.PORT || 10000;
 
-// Serve frontend
-app.use(express.static(FRONTEND));
+// ------------------- Paths -------------------
+// Folder containing lesson templates
+const TEMPLATES = path.join(__dirname, '../frontend/templates');
+console.log('Templates:', TEMPLATES);
 
-// ===== HELPERS =====
-function loadJSON(file) {
-  const full = path.join(DATA, file);
-  return JSON.parse(fs.readFileSync(full, 'utf8'));
+// Data files
+const NAV_JSON = path.join(__dirname, '../frontend/data/nav.json');
+const PAGES_JSON = path.join(__dirname, '../frontend/data/pages.json');
+
+// GitHub environment variables
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_REPO = process.env.GITHUB_REPO;
+const GITHUB_BRANCH = process.env.GITHUB_BRANCH || 'main';
+
+if (!GITHUB_TOKEN || !GITHUB_REPO) {
+  console.warn('⚠️ GitHub token or repo not set in environment variables!');
 }
 
-function saveJSON(file, data) {
-  const full = path.join(DATA, file);
-  fs.writeFileSync(full, JSON.stringify(data, null, 2));
-}
+// ------------------- Helper Functions -------------------
 
-// Ensure folders exist
-function ensureDir(dir) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-}
+async function pushFileToGitHub(filePath, commitMessage) {
+  const relativePath = path.relative(path.join(__dirname, '..'), filePath).replace(/\\/g, '/');
 
-// ===== TOGGLE ENABLE/DISABLE =====
-app.post('/api/toggle', (req, res) => {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const encoded = Buffer.from(content).toString('base64');
+
   try {
-    const { SKU } = req.body;
-    const pages = loadJSON('pages.json');
-
-    const page = pages.find(p => Number(p.R_NAV) === Number(SKU));
-    if (!page) return res.status(404).json({ error: 'Page not found' });
-
-    page.STATUS = page.STATUS === 1 ? 0 : 1;
-    saveJSON('pages.json', pages);
-
-    res.json({ success: true, status: page.STATUS });
-  } catch (err) {
-    console.error('Toggle error:', err);
-    res.status(500).json({ error: 'Toggle failed' });
-  }
-});
-
-app.post('/api/create', (req, res) => {
-  try {
-    const { SKU } = req.body;
-    const pages = loadJSON('pages.json');
-
-    if (pages.some(p => Number(p.R_NAV) === Number(SKU))) {
-      return res.status(400).json({ error: 'Already exists' });
-    }
-
-    ensureDir(PAGES);
-
-    const template = path.join(FRONTEND, 'templates', 'lessontemplate.html');
-    const newFile = path.join(PAGES, `lesson${SKU}.html`);
-
-    if (!fs.existsSync(template)) {
-      return res.status(500).json({
-        error: `Template missing: ${template}`
+    // Check if file exists in repo
+    let sha;
+    try {
+      const resp = await axios.get(`https://api.github.com/repos/${GITHUB_REPO}/contents/${relativePath}?ref=${GITHUB_BRANCH}`, {
+        headers: { Authorization: `Bearer ${GITHUB_TOKEN}` }
       });
+      sha = resp.data.sha;
+    } catch (err) {
+      // File does not exist, will create
     }
 
-    fs.copyFileSync(template, newFile);
+    await axios.put(
+      `https://api.github.com/repos/${GITHUB_REPO}/contents/${relativePath}`,
+      {
+        message: commitMessage,
+        content: encoded,
+        branch: GITHUB_BRANCH,
+        sha: sha
+      },
+      { headers: { Authorization: `Bearer ${GITHUB_TOKEN}` } }
+    );
 
-    pages.push({
-      SKU: Number(SKU),
-      R_NAV: Number(SKU),
-      STATUS: 1
-    });
-
-    saveJSON('pages.json', pages);
-
-    res.json({ success: true, file: `lesson${SKU}.html` });
-
+    console.log('✅ Pushed file to GitHub:', relativePath);
   } catch (err) {
-    console.error('CREATE ERROR:', err);
-    res.status(500).json({
-      error: 'Failed to create',
-      details: err.message
-    });
+    console.error('❌ GitHub push failed for', relativePath, err.message);
+    throw err;
+  }
+}
+
+// ------------------- Routes -------------------
+
+// Create a lesson
+app.post('/create', async (req, res) => {
+  const { sku } = req.body;
+  if (!sku) return res.status(400).json({ error: 'Missing SKU' });
+
+  try {
+    const lessonFile = path.join(__dirname, `../frontend/jsadmin/pages/lesson${sku}.html`);
+    const templateFile = path.join(TEMPLATES, 'lessontemplate.html');
+
+    // Copy template
+    fs.copyFileSync(templateFile, lessonFile);
+
+    // Update pages.json
+    const pages = JSON.parse(fs.readFileSync(PAGES_JSON, 'utf-8'));
+    const exists = pages.find(p => p.SKU === Number(sku));
+    if (!exists) {
+      pages.push({ SKU: Number(sku), R_NAV: Number(sku), STATUS: 1 });
+    }
+    fs.writeFileSync(PAGES_JSON, JSON.stringify(pages, null, 2));
+
+    // Push lesson + pages.json to GitHub
+    await pushFileToGitHub(lessonFile, `Create lesson ${sku}`);
+    await pushFileToGitHub(PAGES_JSON, `Update pages.json after creating lesson ${sku}`);
+
+    res.json({ success: true, message: `Lesson ${sku} created` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Failed to create lesson' });
   }
 });
 
-// ===== START SERVER =====
-const PORT = process.env.PORT || 3000;
+// Enable / disable a lesson
+app.post('/toggle', async (req, res) => {
+  const { sku, action } = req.body;
+  if (!sku || !action) return res.status(400).json({ error: 'Missing SKU or action' });
+
+  try {
+    const pages = JSON.parse(fs.readFileSync(PAGES_JSON, 'utf-8'));
+    const record = pages.find(p => p.SKU === Number(sku));
+    if (!record) return res.status(404).json({ error: 'Lesson not found' });
+
+    record.STATUS = action === 'enable' ? 1 : 0;
+
+    fs.writeFileSync(PAGES_JSON, JSON.stringify(pages, null, 2));
+
+    await pushFileToGitHub(PAGES_JSON, `Set lesson ${sku} to ${action}`);
+
+    res.json({ success: true, message: `Lesson ${sku} ${action}d` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Failed to toggle lesson' });
+  }
+});
+
+// ------------------- Start Server -------------------
 app.listen(PORT, () => {
-  console.log('Server running on port', PORT);
-  console.log('Templates:', TEMPLATES);
-  console.log('Pages:', PAGES);
+  console.log(`Server running on port ${PORT}`);
 });
