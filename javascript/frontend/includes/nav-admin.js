@@ -7,7 +7,6 @@ const navAdminDiv = document.getElementById('nav-admin');
 let navData = [];
 let pagesData = [];
 
-// Utility: group by week
 function groupByWeek(items) {
   const weeks = {};
   items.forEach(item => {
@@ -17,7 +16,6 @@ function groupByWeek(items) {
   return weeks;
 }
 
-// Fetch JSON data
 async function fetchData() {
   try {
     const [navResp, pagesResp] = await Promise.all([
@@ -33,11 +31,9 @@ async function fetchData() {
   }
 }
 
-// Render admin table
 function renderAdmin() {
   navAdminDiv.innerHTML = '';
-  
-  // Sort by date
+
   navData.sort((a,b) => new Date(a.WEEK) - new Date(b.WEEK));
   const weeks = groupByWeek(navData);
 
@@ -46,7 +42,6 @@ function renderAdmin() {
     weekHeader.textContent = `Week of ${week}`;
     navAdminDiv.appendChild(weekHeader);
 
-    // Sort by SORTORDER
     weeks[week].sort((a,b) => a.SORTORDER - b.SORTORDER);
 
     weeks[week].forEach(item => {
@@ -54,9 +49,7 @@ function renderAdmin() {
       lessonDiv.className = 'item';
       lessonDiv.textContent = item.TITLE;
 
-      // Check if lesson exists in pagesData
       const pageRecord = pagesData.find(p => p.R_NAV === item.SKU);
-
       const btn = document.createElement('a');
       btn.href = '#';
 
@@ -76,7 +69,6 @@ function renderAdmin() {
   }
 }
 
-// Create lesson
 async function createLesson(sku) {
   try {
     const res = await fetch(`${BACKEND_URL}/create`, {
@@ -92,7 +84,6 @@ async function createLesson(sku) {
   }
 }
 
-// Toggle Enable/Disable
 async function toggleLesson(sku, currentStatus) {
   try {
     const res = await fetch(`${BACKEND_URL}/toggle`, {
@@ -108,7 +99,6 @@ async function toggleLesson(sku, currentStatus) {
   }
 }
 
-// Download updated pages.json
 document.getElementById('download-json').onclick = () => {
   const blob = new Blob([JSON.stringify(pagesData, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -119,5 +109,4 @@ document.getElementById('download-json').onclick = () => {
   URL.revokeObjectURL(url);
 };
 
-// Initial load
 fetchData();

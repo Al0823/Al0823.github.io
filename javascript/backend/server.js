@@ -1,9 +1,7 @@
-// server.js
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
-const simpleGit = require('simple-git');
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -12,78 +10,78 @@ app.use(bodyParser.json());
 
 // Paths
 const FRONTEND_DIR = path.join(__dirname, '../frontend');
-const PAGES_JSON = path.join(FRONTEND_DIR, 'data/pages.json');
-const NAV_JSON = path.join(FRONTEND_DIR, 'data/nav.json');
-const TEMPLATE_DIR = path.join(FRONTEND_DIR, 'templates');
-const LESSONS_DIR = path.join(FRONTEND_DIR, 'jsadmin/pages'); // new lessons go here
+const DATA_DIR = path.join(FRONTEND_DIR, 'data');
+const TEMPLATES_DIR = path.join(FRONTEND_DIR, 'templates');
+const PAGES_DIR = path.join(FRONTEND_DIR, 'jsadmin/pages');
+const INCLUDES_DIR = path.join(FRONTEND_DIR, 'includes');
 
-// Git setup
-const git = simpleGit(FRONTEND_DIR);
-
-// Serve frontend static files
-app.use('/jsadmin/pages', express.static(path.join(FRONTEND_DIR, 'jsadmin/pages')));
+// Serve frontend files
+app.use('/jsadmin/pages', express.static(PAGES_DIR));
 app.use('/javascript/frontend', express.static(FRONTEND_DIR));
+app.use('/includes', express.static(INCLUDES_DIR));
 
-// Helper to read JSON
+// Utility functions
 function readJSON(filePath) {
-  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-// Helper to write JSON
 function writeJSON(filePath, data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-// API: Toggle STATUS
-app.post('/toggle', (req, res) => {
-  const { sku, action } = req.body;
-  const pages = readJSON(PAGES_JSON);
-  const page = pages.find(p => p.SKU === Number(sku));
-
-  if (!page) return res.json({ success: false, message: 'Page not found' });
-
-  if (action === 'enable') page.STATUS = 1;
-  else if (action === 'disable') page.STATUS = 0;
-  else return res.json({ success: false, message: 'Invalid action' });
-
-  writeJSON(PAGES_JSON, pages);
-
-  // Commit changes
-  git.add('data/pages.json')
-    .then(() => git.commit(`Update STATUS for SKU ${sku}`))
-    .then(() => git.push())
-    .then(() => res.json({ success: true }))
-    .catch(err => res.json({ success: false, message: err.message }));
-});
-
-// API: Create new lesson
+// Create lesson
 app.post('/create', (req, res) => {
-  const { sku } = req.body;
-  const nav = readJSON(NAV_JSON);
-  const pages = readJSON(PAGES_JSON);
-  const item = nav.find(n => n.SKU === Number(sku));
-  if (!item) return res.json({ success: false, message: 'Nav item not found' });
+  try {
+    const { sku } = req.body;
+    if (!sku) return res.status(400).send('SKU missing');
 
-  const templatePath = path.join(TEMPLATE_DIR, 'lessontemplate.html');
-  const newLessonPath = path.join(LESSONS_DIR, `lesson${sku}.html`);
+    const pagesFile = path.join(DATA_DIR, 'pages.json');
+    let pagesData = readJSON(pagesFile);
 
-  if (!fs.existsSync(templatePath)) return res.json({ success: false, message: 'Template missing' });
+    if (pagesData.find(p => p.R_NAV === sku)) {
+      return res.status(400).send('Lesson already exists');
+    }
 
-  fs.copyFileSync(templatePath, newLessonPath);
+    const templateFile = path.join(TEMPLATES_DIR, 'lessontemplate.html');
+    const newLessonFile = path.join(PAGES_DIR, `lesson${sku}.html`);
 
-  // Add to pages.json
-  pages.push({ SKU: Number(sku), R_NAV: Number(sku), STATUS: 1 });
-  writeJSON(PAGES_JSON, pages);
+    if (!fs.existsSync(templateFile)) return res.status(500).send('Template not found');
 
-  // Commit new lesson and pages.json
-  git.add([newLessonPath, 'data/pages.json'])
-    .then(() => git.commit(`Create lesson ${sku}`))
-    .then(() => git.push())
-    .then(() => res.json({ success: true }))
-    .catch(err => res.json({ success: false, message: err.message }));
+    fs.copyFileSync(templateFile, newLessonFile);
+
+    const newRecord = { SKU: parseInt(sku), R_NAV: parseInt(sku), STATUS: 1 };
+    pagesData.push(newRecord);
+    writeJSON(pagesFile, pagesData);
+
+    res.send('Lesson created');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.toString());
+  }
 });
 
-// Start server
+// Toggle Enable/Disable
+app.post('/toggle', (req, res) => {
+  try {
+    const { sku, status } = req.body;
+    if (sku === undefined || status === undefined) return res.status(400).send('Missing data');
+
+    const pagesFile = path.join(DATA_DIR, 'pages.json');
+    let pagesData = readJSON(pagesFile);
+
+    const page = pagesData.find(p => p.R_NAV === sku);
+    if (!page) return res.status(404).send('Lesson not found');
+
+    page.STATUS = status;
+    writeJSON(pagesFile, pagesData);
+
+    res.send('Status updated');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.toString());
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
