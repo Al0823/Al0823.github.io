@@ -1,5 +1,5 @@
 // nav-admin.js
-const BACKEND_URL = 'https://your-backend-service.onrender.com'; // <-- replace with your Render URL
+const BACKEND_URL = 'https://al0823-github-io.onrender.com/'; // <-- replace with your Render URL
 const NAV_JSON = '/javascript/frontend/data/nav.json';
 const PAGES_JSON = '/javascript/frontend/data/pages.json';
 const ADMIN_DIV = document.getElementById('nav-admin');
