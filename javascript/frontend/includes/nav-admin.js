@@ -1,109 +1,123 @@
-// nav-admin.js
-const BACKEND_URL = 'https://al0823-github-io.onrender.com/'; // <-- replace with your Render URL
+const BACKEND_URL = ''; // same origin
 const NAV_JSON = '/javascript/frontend/data/nav.json';
 const PAGES_JSON = '/javascript/frontend/data/pages.json';
-const ADMIN_DIV = document.getElementById('nav-admin');
 
-async function loadData() {
+const navAdminDiv = document.getElementById('nav-admin');
+
+let navData = [];
+let pagesData = [];
+
+// Utility: group by week
+function groupByWeek(items) {
+  const weeks = {};
+  items.forEach(item => {
+    if (!weeks[item.WEEK]) weeks[item.WEEK] = [];
+    weeks[item.WEEK].push(item);
+  });
+  return weeks;
+}
+
+// Fetch JSON data
+async function fetchData() {
   try {
     const [navResp, pagesResp] = await Promise.all([
       fetch(NAV_JSON),
       fetch(PAGES_JSON)
     ]);
-
-    const nav = await navResp.json();
-    const pages = await pagesResp.json();
-
-    // Group nav items by WEEK
-    const weeks = {};
-    nav.forEach(item => {
-      if (!weeks[item.WEEK]) weeks[item.WEEK] = [];
-      weeks[item.WEEK].push(item);
-    });
-
-    // Sort weeks chronologically
-    const sortedWeeks = Object.keys(weeks).sort((a, b) => new Date(a) - new Date(b));
-
-    // Clear admin div
-    ADMIN_DIV.innerHTML = '';
-
-    sortedWeeks.forEach(week => {
-      const weekDiv = document.createElement('div');
-      weekDiv.innerHTML = `<h3>${week}</h3>`;
-
-      // Sort items by SORTORDER
-      weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER);
-
-      weeks[week].forEach(item => {
-        const page = pages.find(p => p.SKU === Number(item.SKU));
-        let buttonLabel, buttonClass;
-
-        if (!page) {
-          buttonLabel = 'Create';
-          buttonClass = '';
-        } else if (page.STATUS === 1) {
-          buttonLabel = 'Disable';
-          buttonClass = 'disabled';
-        } else {
-          buttonLabel = 'Enable';
-          buttonClass = 'enabled';
-        }
-
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('item');
-        itemDiv.innerHTML = `
-          <strong>${item.TITLE}</strong>
-          <button class="${buttonClass}" data-sku="${item.SKU}" data-action="${buttonLabel.toLowerCase()}">${buttonLabel}</button>
-        `;
-        weekDiv.appendChild(itemDiv);
-      });
-
-      ADMIN_DIV.appendChild(weekDiv);
-    });
-
-    // Attach button events
-    ADMIN_DIV.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const sku = btn.getAttribute('data-sku');
-        const action = btn.getAttribute('data-action');
-
-        btn.disabled = true;
-        btn.textContent = 'Processing...';
-
-        try {
-          const endpoint = action === 'create'
-            ? `${BACKEND_URL}/create`
-            : `${BACKEND_URL}/toggle`;
-
-          const resp = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sku, action })
-          });
-
-          const data = await resp.json();
-
-          if (data.success) {
-            await loadData(); // Reload admin after change
-          } else {
-            alert('Error: ' + data.message);
-            btn.disabled = false;
-            btn.textContent = action.charAt(0).toUpperCase() + action.slice(1);
-          }
-        } catch (err) {
-          console.error(err);
-          alert('Request failed. Make sure the backend is running and accessible.');
-          btn.disabled = false;
-          btn.textContent = action.charAt(0).toUpperCase() + action.slice(1);
-        }
-      });
-    });
-
+    navData = await navResp.json();
+    pagesData = await pagesResp.json();
+    renderAdmin();
   } catch (err) {
-    console.error('Failed to load data:', err);
-    ADMIN_DIV.innerHTML = '<p style="color:red;">Failed to load admin data. Check console.</p>';
+    navAdminDiv.innerHTML = `<p style="color:red;">Failed to load data: ${err}</p>`;
+    console.error(err);
   }
 }
 
+// Render admin table
+function renderAdmin() {
+  navAdminDiv.innerHTML = '';
+  
+  // Sort by date
+  navData.sort((a,b) => new Date(a.WEEK) - new Date(b.WEEK));
+  const weeks = groupByWeek(navData);
+
+  for (const week of Object.keys(weeks)) {
+    const weekHeader = document.createElement('h3');
+    weekHeader.textContent = `Week of ${week}`;
+    navAdminDiv.appendChild(weekHeader);
+
+    // Sort by SORTORDER
+    weeks[week].sort((a,b) => a.SORTORDER - b.SORTORDER);
+
+    weeks[week].forEach(item => {
+      const lessonDiv = document.createElement('div');
+      lessonDiv.className = 'item';
+      lessonDiv.textContent = item.TITLE;
+
+      // Check if lesson exists in pagesData
+      const pageRecord = pagesData.find(p => p.R_NAV === item.SKU);
+
+      const btn = document.createElement('a');
+      btn.href = '#';
+
+      if (!pageRecord) {
+        btn.textContent = 'Create';
+        btn.className = 'enabled';
+        btn.onclick = () => createLesson(item.SKU);
+      } else {
+        btn.textContent = pageRecord.STATUS === 1 ? 'Disable' : 'Enable';
+        btn.className = pageRecord.STATUS === 1 ? 'disabled' : 'enabled';
+        btn.onclick = () => toggleLesson(item.SKU, pageRecord.STATUS);
+      }
+
+      lessonDiv.appendChild(btn);
+      navAdminDiv.appendChild(lessonDiv);
+    });
+  }
+}
+
+// Create lesson
+async function createLesson(sku) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sku })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    await fetchData();
+  } catch (err) {
+    alert('Failed to create lesson: ' + err);
+    console.error(err);
+  }
+}
+
+// Toggle Enable/Disable
+async function toggleLesson(sku, currentStatus) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/toggle`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sku, status: currentStatus === 1 ? 0 : 1 })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    await fetchData();
+  } catch (err) {
+    alert('Failed to update lesson: ' + err);
+    console.error(err);
+  }
+}
+
+// Download updated pages.json
+document.getElementById('download-json').onclick = () => {
+  const blob = new Blob([JSON.stringify(pagesData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'pages.json';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
 // Initial load
-loadData();
+fetchData();
