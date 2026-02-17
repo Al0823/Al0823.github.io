@@ -86,6 +86,8 @@
   { "SKU": "68", "WEEK": "3/13/2026", "SORTORDER": 3, "TITLE": "Modules" },
 
 { "SKU": "69", "WEEK": "3/23/2026", "SORTORDER": 1, "TITLE": "JSON" },
-  { "SKU": "70", "WEEK": "3/23/2026", "SORTORDER": 2, "TITLE": "Debugging" }
+  { "SKU": "70", "WEEK": "3/23/2026", "SORTORDER": 2, "TITLE": "Debugging" },
 
+{ "SKU": "71", "WEEK": "EXTRA", "SORTORDER": 1, "TITLE": "Unnamed 1" },
+  { "SKU": "72", "WEEK": "EXTRA", "SORTORDER": 2, "TITLE": "Unnamed 2" }
 ]
