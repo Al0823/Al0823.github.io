@@ -6,9 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-const PAGES_JSON = path.join(__dirname, '../frontend/data/pages.json');
-const TEMPLATE_HTML = path.join(__dirname, '../frontend/jsadmin/pages/lessontemplate.html');
-const LESSONS_DIR = path.join(__dirname, '../frontend/jsadmin/pages/');
+const PAGES_JSON = path.join(__dirname, '../../frontend/data/pages.json');
+const TEMPLATE_HTML = path.join(__dirname, '../../frontend/jsadmin/pages/lessontemplate.html');
+const LESSONS_DIR = path.join(__dirname, '../../frontend/jsadmin/pages/');
 
 app.post('/api/create-lesson', (req, res) => {
   const { sku } = req.body;
