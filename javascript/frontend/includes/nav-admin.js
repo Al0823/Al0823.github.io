@@ -1,4 +1,5 @@
 (async function() {
+  // Adjust paths to your /data/ folder
   const navResponse = await fetch('../../data/nav.json');
   const navData = await navResponse.json();
 
@@ -23,7 +24,7 @@
       weekHeader.textContent = `Week: ${week}`;
       adminDiv.appendChild(weekHeader);
 
-      // Sort items by SORTORDER
+      // Sort items within the week by SORTORDER
       weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
         const page = pagesData.find(p => p.R_NAV === item.SKU);
         const status = page ? page.STATUS : 0;
@@ -31,21 +32,23 @@
         const div = document.createElement('div');
         div.className = 'item';
 
-        // Inline "links" like WebDNA
+        // Only show "Create" if page does not exist
+        const createLink = page ? '' : `<a data-sku="${item.SKU}" data-action="create">Create</a>`;
+
+        // Inline Enable/Disable link
         div.innerHTML = `
           <span>${item.TITLE}</span>
           <a class="${status ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
             ${status ? 'Disable' : 'Enable'}
           </a>
-          <a data-sku="${item.SKU}" data-action="create">
-            ${page ? '' : 'Create'}
-          </a>
+          ${createLink}
         `;
+
         adminDiv.appendChild(div);
       });
     });
 
-    // Attach event listeners to links
+    // Attach click listeners to all links
     adminDiv.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', e => {
         const sku = parseInt(link.dataset.sku);
@@ -62,6 +65,7 @@
       if (pageIndex >= 0) {
         pagesData[pageIndex].STATUS = pagesData[pageIndex].STATUS ? 0 : 1;
       } else {
+        // If no page exists, create it enabled
         pagesData.push({ SKU: sku, R_NAV: sku, STATUS: 1 });
       }
     } else if (action === 'create') {
@@ -70,7 +74,7 @@
       }
     }
 
-    render(); // re-render after each action
+    render(); // re-render the interface after action
   }
 
   // Download updated pages.json
