@@ -10,22 +10,22 @@
   function render() {
     adminDiv.innerHTML = '';
 
-    // Group nav items by WEEK
+   
     const weeks = {};
     navData.forEach(item => {
       if (!weeks[item.WEEK]) weeks[item.WEEK] = [];
       weeks[item.WEEK].push(item);
     });
 
-    // Sort weeks by date ascending
+ 
     Object.keys(weeks).sort((a, b) => new Date(a) - new Date(b)).forEach(week => {
       const weekHeader = document.createElement('h3');
       weekHeader.textContent = `Week: ${week}`;
       adminDiv.appendChild(weekHeader);
 
-      // Sort items within the week
+    
       weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
-    // Fix: cast SKU to number for matching
+   
     const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
 
     const div = document.createElement('div');
@@ -49,7 +49,7 @@
 });
     });
 
-    // Attach click listeners
+   
     adminDiv.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', e => {
         const sku = parseInt(link.dataset.sku);
@@ -72,10 +72,10 @@
       }
     }
 
-    render(); // Refresh admin
+    render(); 
   }
 
-  // Download updated pages.json
+  
   document.getElementById('download-json').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(pagesData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
