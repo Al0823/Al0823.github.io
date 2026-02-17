@@ -1,5 +1,5 @@
 (async function() {
-  // Adjust paths to your /data/ folder
+  // Load the nav and pages JSON files
   const navResponse = await fetch('../../data/nav.json');
   const navData = await navResponse.json();
 
@@ -26,16 +26,16 @@
 
       // Sort items within the week by SORTORDER
       weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
+        // Correctly match pages using R_NAV
         const page = pagesData.find(p => p.R_NAV === item.SKU);
-        const status = page ? page.STATUS : 0;
+        const status = page ? page.STATUS : 0; // 0 = disabled
 
         const div = document.createElement('div');
         div.className = 'item';
 
-        // Only show "Create" if page does not exist
+        // Only show "Create" if page doesn't exist
         const createLink = page ? '' : `<a data-sku="${item.SKU}" data-action="create">Create</a>`;
 
-        // Inline Enable/Disable link
         div.innerHTML = `
           <span>${item.TITLE}</span>
           <a class="${status ? 'enabled' : 'disabled'}" data-sku="${item.SKU}" data-action="toggle">
@@ -48,7 +48,7 @@
       });
     });
 
-    // Attach click listeners to all links
+    // Add click listeners
     adminDiv.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', e => {
         const sku = parseInt(link.dataset.sku);
@@ -74,7 +74,7 @@
       }
     }
 
-    render(); // re-render the interface after action
+    render(); // Re-render after action
   }
 
   // Download updated pages.json
