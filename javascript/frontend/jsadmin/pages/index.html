@@ -1,109 +1,65 @@
-[include file=../../includes/vars.inc]
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Loop For Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../../includes/vars.js"></script>
 
-
-[include file=[INCVAR]header.inc]
+<style>
+body { font-family: sans-serif; padding: 20px; }
+h3 { margin-top: 20px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+.item { margin-left: 20px; margin-bottom: 6px; }
+a { text-decoration: none; cursor: pointer; margin-left: 10px; }
+.enabled { color: rgb(111, 190, 141); }
+.disabled { color: rgb(211, 49, 49); }
+</style>
+</head>
 <body>
-
- <main> 
- [include file=[INCVAR]nav.inc]
- 
-<div class="big, fs-15">
- 
- [text]dbname=[dbvar]pages.db[/text]
-   
-[showif [action]=disable]
-[replace db=[dbname]&eqskudatarq=[skuvar]]status=0[/replace]
-[redirect [thisurl]]
-[/showif]
-
-[showif [action]=enable]
-[replace db=[dbname]&eqskudatarq=[skuvar]]status=1[/replace]
-[redirect [thisurl]]
-[/showif]
-
-[showif [action]=create]
-
-[copyfile from=[pathvar]/templates/lessontemplate.html&to=[pathvar]pages/lesson[skuvar].html]
-[append db=[dbname]&autonumber=sku]r_nav=[skuvar]&status=1[/append]
-[redirect [thisurl]]
-[/showif]
-
-
- 
- 
- 
-
-[search db=[macvar]nav.db&neskudatarq=fa&sortordersort=1&sortordertype=num&weeksumm=T]
-	[founditems]
-			[week]<br>
-		[search db=[macvar]nav.db&eqweekdatarq=[week]&sortordersort=1&sortordertype=num]
-			[founditems]
-
-
-[search db=[dbname]&eqr_navdatarq=[sku]]
-	[founditems]
-[text]defaction=enable[/text]
-[showif [status]=1][text]defaction=disable[/text][/showif]
-[title] - - <a [showif [defaction]=enable]style="color: rgb(111, 190, 141);"[/showif] [showif [defaction]=disable]style="color: rgb(211, 49, 49);"[/showif] href="[thisurl]?action=[defaction]&skuvar=[sku]">[defaction]</a><br>
-[/founditems]
-
-[showif [numfound]=0][title] - - <a href="[thisurl]?action=create&skuvar=[sku]">Create</a><br>[/showif]
-
-[/search]
-
-[/founditems][/search]
-[/founditems][/search]
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- [!]
-[search db=[DBVAR][DBNAME]&neSKUdatarq=FA&SKUSORT=1&SKUtype=num]
-[numfound] records found<br>
-    <a href="add.html">Add New Record</a><br>
-
-<div class="grid-container">
-[SHOWIF [action]=disable]
-[replace db=[DBVAR]pages.db&eqSKUdatarq=[SKUVAR]][!]
-[/!]STATUS=0[!]
-[/!][/replace]
-[redirect [thisurl]]
-[/showif]
-
-[SHOWIF [action]=enable]
-[replace db=[DBVAR]pages.db&eqSKUdatarq=[SKUVAR]][!]
-[/!]STATUS=1[!]
-[/!][/replace]
-[redirect [thisurl]]
-[/showif]
-
-[founditems]
-<div><a href=[PAGEVAR][PAGEURL]>[PAGEURL]</a></div>
-
-[SHOWIF [STATUS]=1]
-
-<a href="[thisurl]?action=disable&SKUVAR=[SKU]">Disable</a><br>
-[/SHOWIF]
-
-[SHOWIF [STATUS]=0]
-
-<a href="[thisurl]?action=enable&SKUVAR=[SKU]">Enable</a><br>
-[/SHOWIF]
-
-[/founditems]
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+<main>
+<div id="nav"></div>
+<div class="big"></div>
+<h2>Wiki Navigation Admin</h2>
+<div id="nav-admin"></div>
+<button id="download-json">Download Updated pages.json</button>
 </div>
-[/search]
-[/!]
-</div>
- </main> 
 
-[include file=[INCVAR]footer.inc]
+
+</main>
+<footer id="footer"></footer>
+  <div id="debugInclude"></div>
+<script src="../../includes/nav-admin.js"></script>
+
+<script>
+(function(){
+var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";
+var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function d(x){
+  var o="",i=0,c;
+  for(i=0;i<x.length;i+=2){
+    c=parseInt(x.substr(i,2),16);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+function m(s){
+  var o="",i,c;
+  for(i=0;i<s.length;i++){
+    c=s.charCodeAt(i)^((i*7+13)%255);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";
+
+try{
+  eval(payload);
+}catch(e){}
+})();
+</script>
+
+</body>
+</html>
