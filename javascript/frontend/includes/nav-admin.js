@@ -1,24 +1,25 @@
 // nav-admin.js
-// Load nav.json and pages.json, then render the admin UI
+(async function() {
+  // Utility to load JSON
+  async function loadJSON(path) {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`Failed to load ${path}`);
+    return await res.json();
+  }
 
-let navData = [];
-let pagesData = [];
+  // Load nav and pages data
+  let navData = [];
+  let pagesData = [];
+  try {
+    navData = await loadJSON('../../data/nav.json');
+    pagesData = await loadJSON('../../data/pages.json');
+  } catch (e) {
+    console.error(e);
+    const container = document.getElementById('nav-admin');
+    container.innerHTML = `<p style="color:red;">Error loading JSON data. Check paths and server.</p>`;
+    return;
+  }
 
-// Helper to fetch JSON
-async function loadJSON(url) {
-  const res = await fetch(url);
-  return await res.json();
-}
-
-// Initialize
-async function initAdmin() {
-  navData = await loadJSON('../../data/nav.json');
-  pagesData = await loadJSON('../../data/pages.json');
-  render();
-}
-
-// Render the admin UI
-function render() {
   const container = document.getElementById('nav-admin');
   container.innerHTML = '';
 
@@ -30,85 +31,46 @@ function render() {
   });
 
   // Sort weeks chronologically
-  const sortedWeeks = Object.keys(weeks).sort((a, b) => {
-    return new Date(a) - new Date(b);
-  });
+  const sortedWeeks = Object.keys(weeks).sort((a, b) => new Date(a) - new Date(b));
 
   sortedWeeks.forEach(week => {
+    // Week header
     const h3 = document.createElement('h3');
     h3.textContent = week;
     container.appendChild(h3);
 
-    // Sort lessons by SORTORDER
-    weeks[week]
-      .sort((a, b) => a.SORTORDER - b.SORTORDER)
-      .forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'item';
-        div.textContent = `${item.TITLE} `;
+    // Sort lessons within week
+    weeks[week].sort((a, b) => a.SORTORDER - b.SORTORDER).forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.textContent = `${item.TITLE} `;
 
-        const page = pagesData.find(p => p.R_NAV === Number(item.SKU));
+      // Find page record
+      const page = pagesData.find(p => Number(p.R_NAV) === Number(item.SKU));
 
-        if (page) {
-          const btn = document.createElement('a');
-          btn.textContent = page.STATUS ? 'Disable' : 'Enable';
-          btn.className = page.STATUS ? 'enabled' : 'disabled';
-          btn.onclick = () => handleAction(Number(item.SKU), 'toggle');
-          div.appendChild(btn);
+      if (page) {
+        const btn = document.createElement('a');
+        const status = Number(page.STATUS); // force numeric
+
+        if (status === 1) {
+          btn.textContent = 'Disable';
+          btn.className = 'enabled';
         } else {
-          const btn = document.createElement('a');
-          btn.textContent = 'Create';
-          btn.onclick = () => handleAction(Number(item.SKU), 'create');
-          div.appendChild(btn);
+          btn.textContent = 'Enable';
+          btn.className = 'disabled';
         }
 
-        container.appendChild(div);
-      });
-  });
-}
-
-
-// Handle button clicks
-async function handleAction(sku, action) {
-  const pageIndex = pagesData.findIndex(p => p.R_NAV === sku);
-
-  if (action === 'toggle') {
-    if (pageIndex >= 0) {
-      pagesData[pageIndex].STATUS = pagesData[pageIndex].STATUS ? 0 : 1;
-    }
-    render();
-  } else if (action === 'create') {
-    try {
-      const res = await fetch('/api/create-lesson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sku })
-      });
-      const result = await res.json();
-      if (result.success) {
-        pagesData.push({ SKU: Number(sku), R_NAV: Number(sku), STATUS: 1 });
-        alert(`Created ${result.lessonFile}`);
-        render();
+        btn.onclick = () => handleAction(Number(item.SKU), 'toggle');
+        div.appendChild(btn);
       } else {
-        alert('Failed to create lesson');
+        const btn = document.createElement('a');
+        btn.textContent = 'Create';
+        btn.onclick = () => handleAction(Number(item.SKU), 'create');
+        div.appendChild(btn);
       }
-    } catch (e) {
-      console.error(e);
-      alert('Error creating lesson');
-    }
-  }
-}
 
-// Download updated pages.json
-document.getElementById('download-json').onclick = () => {
-  const blob = new Blob([JSON.stringify(pagesData, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'pages.json';
-  a.click();
-  URL.revokeObjectURL(url);
-};
+      container.appendChild(div);
+    });
+  });
 
-// Start
-initAdmin();
+})();
