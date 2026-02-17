@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -15,10 +16,11 @@ const TEMPLATES_DIR = path.join(FRONTEND_DIR, 'templates');
 const PAGES_DIR = path.join(FRONTEND_DIR, 'jsadmin/pages');
 const INCLUDES_DIR = path.join(FRONTEND_DIR, 'includes');
 
-// Serve frontend files
-app.use('/jsadmin/pages', express.static(PAGES_DIR));
-app.use('/javascript/frontend', express.static(FRONTEND_DIR));
+// Serve frontend static files
+app.use('/data', express.static(DATA_DIR));
+app.use('/templates', express.static(TEMPLATES_DIR));
 app.use('/includes', express.static(INCLUDES_DIR));
+app.use('/jsadmin/pages', express.static(PAGES_DIR));
 
 // Utility functions
 function readJSON(filePath) {
@@ -29,7 +31,7 @@ function writeJSON(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
 }
 
-// Create lesson
+// CREATE lesson
 app.post('/create', (req, res) => {
   try {
     const { sku } = req.body;
@@ -38,7 +40,7 @@ app.post('/create', (req, res) => {
     const pagesFile = path.join(DATA_DIR, 'pages.json');
     let pagesData = readJSON(pagesFile);
 
-    if (pagesData.find(p => p.R_NAV === sku)) {
+    if (pagesData.find(p => p.R_NAV === Number(sku))) {
       return res.status(400).send('Lesson already exists');
     }
 
@@ -49,18 +51,18 @@ app.post('/create', (req, res) => {
 
     fs.copyFileSync(templateFile, newLessonFile);
 
-    const newRecord = { SKU: parseInt(sku), R_NAV: parseInt(sku), STATUS: 1 };
+    const newRecord = { SKU: Number(sku), R_NAV: Number(sku), STATUS: 1 };
     pagesData.push(newRecord);
     writeJSON(pagesFile, pagesData);
 
-    res.send('Lesson created');
+    res.send('Lesson created successfully');
   } catch (err) {
     console.error(err);
     res.status(500).send(err.toString());
   }
 });
 
-// Toggle Enable/Disable
+// TOGGLE Enable/Disable
 app.post('/toggle', (req, res) => {
   try {
     const { sku, status } = req.body;
@@ -69,19 +71,25 @@ app.post('/toggle', (req, res) => {
     const pagesFile = path.join(DATA_DIR, 'pages.json');
     let pagesData = readJSON(pagesFile);
 
-    const page = pagesData.find(p => p.R_NAV === sku);
+    const page = pagesData.find(p => p.R_NAV === Number(sku));
     if (!page) return res.status(404).send('Lesson not found');
 
-    page.STATUS = status;
+    page.STATUS = Number(status);
     writeJSON(pagesFile, pagesData);
 
-    res.send('Status updated');
+    res.send('Status updated successfully');
   } catch (err) {
     console.error(err);
     res.status(500).send(err.toString());
   }
 });
 
+// Fallback route for testing
+app.get('/', (req, res) => {
+  res.send('JS Wiki Backend is running!');
+});
+
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

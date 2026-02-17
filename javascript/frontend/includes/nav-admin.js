@@ -1,9 +1,9 @@
 // nav-admin.js
 
-const NAV_JSON = '/data/nav.json';      // Served via Render or static folder
-const PAGES_JSON = '/data/pages.json';
-const TEMPLATES_PATH = '/templates/lessontemplate.html'; // Path to lesson template
-const BACKEND_URL = 'https://your-render-backend-url.onrender.com'; // Replace with your Render backend
+const NAV_JSON = "/data/nav.json";      // Served via Render or static folder
+const PAGES_JSON = "/data/pages.json";
+const TEMPLATES_PATH = "/templates/lessontemplate.html"; // Path to lesson template
+const BACKEND_URL = "https://al0823-github-io.onrender.com"; // Your Render backend URL
 
 document.addEventListener('DOMContentLoaded', async () => {
   const navContainer = document.getElementById('nav-admin');
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       fetch(NAV_JSON),
       fetch(PAGES_JSON)
     ]);
+
     const navData = await navRes.json();
     const pagesData = await pagesRes.json();
 
@@ -22,7 +23,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('pagesData', pagesData);
 
     // Group nav items by week
-    const weeks = [...new Set(navData.map(n => n.WEEK))].sort((a,b) => new Date(a) - new Date(b));
+    const weeks = [...new Set(navData.map(n => n.WEEK))]
+      .sort((a, b) => new Date(a) - new Date(b));
 
     weeks.forEach(week => {
       const weekDiv = document.createElement('div');
@@ -30,9 +32,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       h3.textContent = `Week: ${week}`;
       weekDiv.appendChild(h3);
 
+      // Sort items by SORTORDER within the week
       const items = navData
         .filter(n => n.WEEK === week)
-        .sort((a,b) => a.SORTORDER - b.SORTORDER);
+        .sort((a, b) => a.SORTORDER - b.SORTORDER);
 
       items.forEach(item => {
         const itemDiv = document.createElement('div');
@@ -43,11 +46,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const pageRecord = pagesData.find(p => Number(p.R_NAV) === Number(item.SKU));
 
         const btn = document.createElement('button');
+
         if (!pageRecord) {
+          // Lesson does not exist
           btn.textContent = 'Create';
           btn.className = 'create';
           btn.onclick = () => createLesson(item.SKU);
         } else {
+          // Lesson exists: STATUS 1 = enabled, 0 = disabled
           btn.textContent = pageRecord.STATUS === 1 ? 'Disable' : 'Enable';
           btn.className = pageRecord.STATUS === 1 ? 'enabled' : 'disabled';
           btn.onclick = () => toggleStatus(item.SKU, pageRecord.STATUS);
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// Create lesson
+// CREATE lesson
 async function createLesson(sku) {
   try {
     const res = await fetch(`${BACKEND_URL}/create`, {
@@ -82,7 +88,7 @@ async function createLesson(sku) {
   }
 }
 
-// Toggle status
+// TOGGLE status (enable/disable)
 async function toggleStatus(sku, currentStatus) {
   const newStatus = currentStatus === 1 ? 0 : 1;
   try {
