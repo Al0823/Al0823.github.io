@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RPG Maker Packer</title>
+<style>
+body{background:#111;color:#0f0;font-family:monospace;padding:20px}
+#drop{border:2px dashed #0f0;padding:40px;margin-top:20px;text-align:center}
+button{margin-top:20px;padding:10px 20px;background:#0f0;border:none;font-weight:bold}
+</style>
+</head>
+<body>
+
+<h3>RPG Maker Hybrid Packer</h3>
+<div id="drop">Drop exported game here</div>
+<button id="build">Build</button>
+
+<script>
+var files=[];
+var drop=document.getElementById("drop");
+
+drop.ondragover=function(e){e.preventDefault();};
+drop.ondrop=function(e){
+  e.preventDefault();
+  files=[].slice.call(e.dataTransfer.files);
+  drop.textContent=files.length+" files loaded";
+};
+
+document.getElementById("build").onclick=async function(){
+
+  if(!files.length){alert("Drop files first");return;}
+
+  function read(f){
+    return new Promise(function(r){
+      var fr=new FileReader();
+      fr.onload=function(){r(fr.result);};
+      fr.readAsText(f);
+    });
+  }
+
+  var scripts="";
+  var json="";
+
+  for(var i=0;i<files.length;i++){
+    var f=files[i];
+    var n=f.name.toLowerCase();
+
+    if(n.endsWith(".js")){
+      scripts+="\n/* "+f.name+" */\n"+await read(f)+"\n";
+    }
+
+    if(n.endsWith(".json")){
+      var raw=await read(f);
+      var b64=btoa(unescape(encodeURIComponent(raw)));
+      json+='window.__JSON["'+f.name+'"]="'+b64+'";\n';
+    }
+  }
+
+  var out="";
+  out+="<!DOCTYPE html><html><head><meta charset='UTF-8'>";
+  out+="<title>Packed RPG</title></head><body>";
+  out+="<div id='game'></div>";
+
+  // JSON loader
+  out+="<script>window.__JSON={};\n"+json;
+  out+="var oOpen=XMLHttpRequest.prototype.open;";
+  out+="XMLHttpRequest.prototype.open=function(m,u){this._u=u.split('/').pop();return oOpen.apply(this,arguments);};";
+  out+="var oSend=XMLHttpRequest.prototype.send;";
+  out+="XMLHttpRequest.prototype.send=function(){var n=this._u;";
+  out+="if(window.__JSON[n]){this.status=200;";
+  out+="this.responseText=decodeURIComponent(escape(atob(window.__JSON[n])));";
+  out+="this.onload&&this.onload();return;}return oSend.apply(this,arguments);};";
+  out+="<\/script>";
+
+  // Scripts
+  out+="<script>\n"+scripts+"\n<\/script>";
+  out+="</body></html>";
+
+  var blob=new Blob([out],{type:"text/html"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="index_packed.html";
+  a.click();
+};
+</script>
+
+</body>
+</html>
