@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-		<script>var PAGETITLE = "Loop For IN Tutorial";</script>
+		<script>var PAGETITLE = "1999 (ES3) Lesson";</script>
   <title id="pageTitle"></title>
   <script src="../includes/vars.js"></script>
 </head>
@@ -13,21 +13,99 @@
 <main>
 <div id="nav"></div>
 <article>
-	<h2>For In Loop</h2><br><br>
-<div class="fs-10">Loop for in lets you loop through the keys of an object and do something with each key or its value.</div><br><br>
+	<h2>JavaScript 1999 (ES3)</h2><br><br>
+<div class="fs-10">JavaScript ES3 added many things to aid the average user, it added things like Regular expressions, Error handling (try...catch), the switch keyword, and the do...while loop</div><br><br>
 
-<div class="fs-15">The For In Loop</div><br><br>
-<div class="fs-10">The for...in loop iterates over the enumerable properties of an object.
+<div class="fs-15">ECMAScript 3 (1999)</div><br><br>
+<div class="fs-10">The first revision to JavaScript.
 <br><br>
-The for...in loop is primarily used for objects to access their property names (keys).</div><br><br>
+ECMAScript 1999 is also known as ES3.
+<br><br>
+Despite it&#39;s age, it is still supported by all modern browsers today</div><br><br>
 
-<div class="fs-15">Syntax</div><br><br>
+<div class="fs-15">ES3 Features</div><br><br>
+<div class="fs-10">
+<ul>
+<li>Regular expressions (Sequence of characters that forms a search pattern)</li>
+<li>Error handling (try...catch) (Statement to define code blocks to be tested in case of an error)</li>
+<li>The switch keyword (Selects code blocks to be executed based on a conditions)</li>
+<li>The do...while loop	(A variant of the while loop)</li>
+</ul>
+</div><br><br>
+
+<div class="fs-15">Regular Expressions</div><br><br>
+<div class="fs-10">A sequence of characters that forms a search pattern.<br><br>Do a case-insensitive search for "w3schools" in a string:</div><br><br>
 <textarea id="textbox" rows="10" cols="70">
-for (key in object) {
-  // code block to be executed
+let text = "Visit JSWIKI"; 
+let n = text.search(/javascript/i);
+document.getElementById("demo").innerHTML = n;
+</textarea><br><br>
+
+<div class="fs-15">The try...catch Keywords</div><br><br>
+<div class="fs-10">Statement to define code blocks to be tested in case of an error.
+<br><br>
+You cannot use a non-existing variable:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 5;
+try {
+  x = y + 1;
+} catch(err) {
+  let text = err.name + "<br>" + err.message;
+  document.getElementById("demo").innerHTML = text;
 }
 </textarea><br><br>
 
+<div class="fs-15">The switch Keyword</div><br><br>
+<div class="fs-10">Based on a condition, switch selects one or more code blocks to be executed.
+<br><br>
+This example uses the weekday number to calculate the weekday name:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let day;
+let date = new Date().getDay();
+ 
+switch (date) {
+  case 0:
+    day = "Sunday";
+    break;
+  case 1:
+    day = "Monday";
+    break;
+  case 2:
+    day = "Tuesday";
+    break;
+  case 3:
+    day = "Wednesday";
+    break;
+  case 4:
+    day = "Thursday";
+    break;
+  case 5:
+    day = "Friday";
+    break;
+  case  6:
+    day = "Saturday";
+}
+
+document.getElementById("demo").innerHTML = "Today is " + day;
+</textarea><br><br>
+
+<div class="fs-15">The do...while Loop</div><br><br>
+<div class="fs-10">The do while runs at least once, even if the condition is false from the start.
+<br><br>
+This is because the code block is executed before the condition is tested:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+var text = ""
+var i = 0;
+
+do {
+  text += "<br>The number is " + i;
+  i++;
+}
+while (i < 10);  
+
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+<div class="fs-10">Do not forget to increase the variable used in the condition, otherwise the loop will never end!</div><br><br>
 
 </article>
 </main>

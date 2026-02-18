@@ -68,6 +68,6 @@
 		{ "SKU": 68, "R_NAV": 68, "STATUS": 0 },
 		{ "SKU": 69, "R_NAV": 69, "STATUS": 0 },
 		{ "SKU": 70, "R_NAV": 70, "STATUS": 0 },
-		{ "SKU": 71, "R_NAV": 71, "STATUS": 0 },
+		{ "SKU": 71, "R_NAV": 71, "STATUS": 1 },
 		{ "SKU": 72, "R_NAV": 72, "STATUS": 0 }
 ]
