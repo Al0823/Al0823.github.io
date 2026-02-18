@@ -1,5 +1,85 @@
+<nav>
+  <ul id="navList"></ul>
+</nav>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+  const navList = document.getElementById("navList");
+
+  // Static links (PATHVAR equivalent)
+  navList.innerHTML += `
+    <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
+    <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
+  `;
+
+  try {
+    const [navRes, pagesRes] = await Promise.all([
+      fetch(window.vars.DBVAR + "nav.json"),
+      fetch(window.vars.DBVAR + "pages.json")
+    ]);
+
+    const navData = await navRes.json();
+    const pagesData = await pagesRes.json();
+
+    // Build fast lookup map (like indexed DB)
+    const pagesByNav = {};
+    pagesData.forEach(p => {
+      pagesByNav[p.R_NAV] = p;
+    });
+
+    // Sort by WEEK then SORTORDER
+    navData.sort((a, b) => {
+      if (a.WEEK === b.WEEK) {
+        return Number(a.SORTORDER) - Number(b.SORTORDER);
+      }
+      return new Date(a.WEEK) - new Date(b.WEEK);
+    });
+
+    let lastWeek = null;
+
+    navData.forEach(item => {
+
+      // Render WEEK header once
+      if (item.WEEK !== lastWeek) {
+        const h2 = document.createElement("h2");
+        h2.style.color = "black";
+        h2.textContent = item.WEEK;
+        navList.appendChild(h2);
+        navList.appendChild(document.createElement("hr"));
+        lastWeek = item.WEEK;
+      }
+
+      const page = pagesByNav[item.SKU];
+
+      // STATUS = 1 → clickable link
+      if (page && Number(page.STATUS) === 1) {
+        const link = document.createElement("a");
+        link.href = window.vars.PAGEVAR + "lesson" + item.SKU + ".html";
+        link.textContent = item.TITLE;
+        navList.appendChild(link);
+        navList.appendChild(document.createElement("br"));
+      }
+      // STATUS = 0 → plain text (like WEBDNA fallback)
+      else {
+        navList.appendChild(document.createTextNode(item.TITLE));
+        navList.appendChild(document.createElement("br"));
+      }
+
+    });
+
+  } catch (err) {
+    console.error("Nav build failed:", err);
+  }
+
+});
+</script>
 
 
+
+
+
+<!--
 <nav>
 <ul id="navList">
   <a href="/javascript/frontend/index.html" id="homeLink">Homepage</a><br>
@@ -157,84 +237,4 @@
 
 
 </ul>
-</nav>
-
-
-
-
-<!--
-<nav>
-  <ul id="navList"></ul>
-</nav>
-
-<script>
-document.addEventListener("DOMContentLoaded", async () => {
-
-  const navList = document.getElementById("navList");
-
- 
-  navList.innerHTML += `
-    <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
-    <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
-    <hr>
-  `;
-
-  try {
-
-
-    const navResponse = await fetch(window.vars.DBVAR + "nav.json");
-    const pagesResponse = await fetch(window.vars.DBVAR + "pages.json");
-
-    const navData = await navResponse.json();
-    const pagesData = await pagesResponse.json();
-
-    // Sort like SORTORDERsort=1&SORTORDERtype=num
-    navData.sort((a, b) => Number(a.SORTORDER) - Number(b.SORTORDER));
-
-    navData.forEach(navItem => {
-
-      // WEEK Header
-      const weekHeader = document.createElement("h2");
-      weekHeader.style.color = "black";
-      weekHeader.textContent = navItem.WEEK;
-      navList.appendChild(weekHeader);
-
-      navList.appendChild(document.createElement("hr"));
-
-      // Match pages (R_NAV + STATUS=1)
-      const matchingPages = pagesData.filter(page =>
-        page.R_NAV == navItem.SKU &&
-        Number(page.STATUS) === 1
-      );
-
-      if (matchingPages.length > 0) {
-
-        matchingPages.forEach(page => {
-
-          const link = document.createElement("a");
-
-       
-          link.href = window.vars.PAGEVAR + page.PAGE + ".html";
-
-          link.textContent = page.TITLE;
-
-          navList.appendChild(link);
-          navList.appendChild(document.createElement("br"));
-        });
-
-      } else {
-        // Equivalent to [showif [numfound]=0]
-        const noPageText = document.createTextNode("No lessons yet");
-        navList.appendChild(noPageText);
-        navList.appendChild(document.createElement("br"));
-      }
-
-    });
-
-  } catch (error) {
-    console.error("Navigation failed:", error);
-  }
-
-});
-</script>
--->
+</nav> -->
