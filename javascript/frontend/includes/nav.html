@@ -7,101 +7,98 @@ document.addEventListener("DOMContentLoaded", async () => {
   const navList = document.getElementById("navList");
 
   // --- 1️⃣ Static links ---
-  navList.innerHTML += `
-    <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
-    <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
-    <hr>
-  `;
+  ["Homepage", "Admin"].forEach((title, i) => {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.textContent = title;
+    a.href = i === 0 
+      ? window.vars.PATHVAR + "index.html"
+      : window.vars.PATHVAR + "jsadmin/pages/index.html";
+    li.appendChild(a);
+    navList.appendChild(li);
+  });
+
+  // Horizontal rule
+  const hr = document.createElement("hr");
+  navList.appendChild(hr);
 
   try {
-    // --- 2️⃣ Fetch nav + pages JSON ---
+    // --- 2️⃣ Load nav + pages JSON ---
     const [navRes, pagesRes] = await Promise.all([
       fetch(window.vars.DBVAR + "nav.json"),
       fetch(window.vars.DBVAR + "pages.json")
     ]);
-
-    if (!navRes.ok || !pagesRes.ok) {
-      throw new Error("Failed to fetch JSON data");
-    }
-
     const navData = await navRes.json();
     const pagesData = await pagesRes.json();
 
-    // --- 3️⃣ Build fast lookup map by R_NAV ---
+    // --- 3️⃣ Build fast lookup for pages ---
     const pagesByNav = {};
     pagesData.forEach(p => { pagesByNav[p.R_NAV] = p; });
 
-    // --- 4️⃣ Sort nav: dates first, EXTRA last, then SORTORDER ---
+    // --- 4️⃣ Sort nav: by date-like WEEK first, then SORTORDER ---
     navData.sort((a, b) => {
-      const aWeek = String(a.WEEK || "").trim();
-      const bWeek = String(b.WEEK || "").trim();
-
+      const aWeek = String(a.WEEK).trim();
+      const bWeek = String(b.WEEK).trim();
       const aDate = Date.parse(aWeek);
       const bDate = Date.parse(bWeek);
 
-      const aIsExtra = isNaN(aDate);
-      const bIsExtra = isNaN(bDate);
-
-      // EXTRA or non-date goes last
-      if (aIsExtra && !bIsExtra) return 1;
-      if (!aIsExtra && bIsExtra) return -1;
-
-      // Both valid dates → chronological
-      if (!aIsExtra && !bIsExtra && aDate !== bDate) return aDate - bDate;
-
-      // Otherwise SORTORDER
-      return Number(a.SORTORDER || 0) - Number(b.SORTORDER || 0);
+      if (!isNaN(aDate) && !isNaN(bDate) && aDate !== bDate) return aDate - bDate;
+      if (aWeek.toLowerCase() !== bWeek.toLowerCase()) return aWeek.toLowerCase().localeCompare(bWeek.toLowerCase());
+      return Number(a.SORTORDER) - Number(b.SORTORDER);
     });
 
-    // --- 5️⃣ Render nav ---
+    // --- 5️⃣ Render nav (WEBDNA style) ---
     let lastWeek = null;
     const currentPath = window.location.pathname.split("/").pop();
 
     navData.forEach(item => {
       const week = String(item.WEEK || "").trim();
 
-      // Week header
+      // Render week header only once
       if (week.toLowerCase() !== (lastWeek || "").toLowerCase()) {
-        const h2 = document.createElement("h2");
-        h2.style.color = "black";
-        h2.textContent = week || "No Week";
-        navList.appendChild(h2);
-        navList.appendChild(document.createElement("hr"));
+        const weekLi = document.createElement("li");
+        const weekHeader = document.createElement("h2");
+        weekHeader.textContent = week || "No Week";
+        weekHeader.style.color = "black";
+        weekLi.appendChild(weekHeader);
+        navList.appendChild(weekLi);
+
+        const hrLi = document.createElement("li");
+        hrLi.appendChild(document.createElement("hr"));
+        navList.appendChild(hrLi);
+
         lastWeek = week;
       }
 
       const page = pagesByNav[item.SKU];
 
+      const li = document.createElement("li");
+
       if (page && Number(page.STATUS) === 1) {
         const link = document.createElement("a");
-        link.href = `${window.vars.PAGEVAR}lesson${item.SKU}.html`;
+        link.href = window.vars.PAGEVAR + "lesson" + item.SKU + ".html";
         link.textContent = item.TITLE;
 
         // Highlight current page
-        if (currentPath === `lesson${item.SKU}.html`) {
+        if (currentPath === "lesson" + item.SKU + ".html") {
           link.style.fontWeight = "bold";
           link.style.textDecoration = "underline";
         }
 
-        navList.appendChild(link);
-        navList.appendChild(document.createElement("br"));
+        li.appendChild(link);
       } else {
-        // STATUS = 0 → plain text
-        const textNode = document.createTextNode(item.TITLE);
-        navList.appendChild(textNode);
-        navList.appendChild(document.createElement("br"));
+        li.textContent = item.TITLE; // fallback text
       }
+
+      navList.appendChild(li);
     });
 
   } catch (err) {
-    console.error("Navigation failed:", err);
-    const errorNode = document.createElement("p");
-    errorNode.style.color = "red";
-    errorNode.textContent = "Failed to load navigation.";
-    navList.appendChild(errorNode);
+    console.error("Navigation build failed:", err);
   }
 });
 </script>
+
 
 
 
