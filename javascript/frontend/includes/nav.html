@@ -155,48 +155,92 @@
 <a href="/javascript/pages/lesson69.html">JSON</a><br>
 <a href="/javascript/pages/lesson70.html">Debugging</a><br>
 
+<h2 style="color: rgb(0, 0, 0)">EXTRA</h2>
+<hr>
+
+<a href="/javascript/pages/lesson71.html">EXTRA LESSON 1</a><br>
+<a href="/javascript/pages/lesson72.html">EXTRA LESSON 2</a><br>
+
 
 </ul>
 </nav>
 
+
+
+
+<!--
+<nav>
+  <ul id="navList"></ul>
+</nav>
+
 <script>
-
-
-  // Fix static links
-  document.getElementById("homeLink").href = window.vars.PATHVAR + "index.html";
-  document.getElementById("adminLink").href = window.vars.PATHVAR + "jsadmin/pages/index.html";
-
-  const navData = await fetch(window.vars.MACVAR + "nav.json").then(r => r.json());
-  const pageData = await fetch(window.vars.DBVAR + "pages.json").then(r => r.json());
+document.addEventListener("DOMContentLoaded", async () => {
 
   const navList = document.getElementById("navList");
 
-  // Get unique weeks
-  const weeks = [...new Set(navData.map(item => item.WEEK))];
+ 
+  navList.innerHTML += `
+    <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
+    <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
+    <hr>
+  `;
 
-  weeks.forEach(week => {
+  try {
 
-    // Week header
-    navList.innerHTML += `<h2 style="color: rgb(0,0,0)">${week}</h2><hr>`;
 
-    // Items in this week sorted
-    const weekItems = navData
-      .filter(item => item.WEEK === week)
-      .sort((a,b) => a.SORTORDER - b.SORTORDER);
+    const navResponse = await fetch(window.vars.DBVAR + "nav.json");
+    const pagesResponse = await fetch(window.vars.DBVAR + "pages.json");
 
-    weekItems.forEach(item => {
+    const navData = await navResponse.json();
+    const pagesData = await pagesResponse.json();
 
-      const pageMatch = pageData.find(p => p.R_NAV === item.SKU && p.STATUS == 1);
+    // Sort like SORTORDERsort=1&SORTORDERtype=num
+    navData.sort((a, b) => Number(a.SORTORDER) - Number(b.SORTORDER));
 
-      if (pageMatch) {
-        navList.innerHTML += `<a href="${window.vars.PAGEVAR}lesson${item.SKU}.html">${item.TITLE}</a><br>`;
+    navData.forEach(navItem => {
+
+      // WEEK Header
+      const weekHeader = document.createElement("h2");
+      weekHeader.style.color = "black";
+      weekHeader.textContent = navItem.WEEK;
+      navList.appendChild(weekHeader);
+
+      navList.appendChild(document.createElement("hr"));
+
+      // Match pages (R_NAV + STATUS=1)
+      const matchingPages = pagesData.filter(page =>
+        page.R_NAV == navItem.SKU &&
+        Number(page.STATUS) === 1
+      );
+
+      if (matchingPages.length > 0) {
+
+        matchingPages.forEach(page => {
+
+          const link = document.createElement("a");
+
+       
+          link.href = window.vars.PAGEVAR + page.PAGE + ".html";
+
+          link.textContent = page.TITLE;
+
+          navList.appendChild(link);
+          navList.appendChild(document.createElement("br"));
+        });
+
       } else {
-        navList.innerHTML += item.TITLE + "<br>";
+        // Equivalent to [showif [numfound]=0]
+        const noPageText = document.createTextNode("No lessons yet");
+        navList.appendChild(noPageText);
+        navList.appendChild(document.createElement("br"));
       }
 
     });
 
-  });
+  } catch (error) {
+    console.error("Navigation failed:", error);
+  }
 
-
+});
 </script>
+-->
