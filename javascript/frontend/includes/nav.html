@@ -30,11 +30,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Sort by WEEK then SORTORDER
     navData.sort((a, b) => {
-      if (a.WEEK === b.WEEK) {
-        return Number(a.SORTORDER) - Number(b.SORTORDER);
-      }
-      return new Date(a.WEEK) - new Date(b.WEEK);
-    });
+  const da = Date.parse(a.WEEK);
+  const db = Date.parse(b.WEEK);
+
+  const aValid = !isNaN(da);
+  const bValid = !isNaN(db);
+
+  // Both real dates → sort normally
+  if (aValid && bValid) return da - db;
+
+  // Real dates come before non-dates
+  if (aValid) return -1;
+  if (bValid) return 1;
+
+  // Both non-dates → alphabetical
+  return a.WEEK.localeCompare(b.WEEK);
+});
+
 
     let lastWeek = null;
 
