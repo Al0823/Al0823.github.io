@@ -14,44 +14,53 @@ document.addEventListener("DOMContentLoaded", async () => {
   `;
 
   try {
-    // --- 2️⃣ Load nav + pages JSON ---
+    // --- 2️⃣ Fetch nav + pages JSON ---
     const [navRes, pagesRes] = await Promise.all([
       fetch(window.vars.DBVAR + "nav.json"),
       fetch(window.vars.DBVAR + "pages.json")
     ]);
+
+    if (!navRes.ok || !pagesRes.ok) {
+      throw new Error("Failed to fetch JSON data");
+    }
+
     const navData = await navRes.json();
     const pagesData = await pagesRes.json();
 
-    // --- 3️⃣ Build fast lookup for pages ---
+    // --- 3️⃣ Build fast lookup map by R_NAV ---
     const pagesByNav = {};
     pagesData.forEach(p => { pagesByNav[p.R_NAV] = p; });
 
-    // --- 4️⃣ Sort nav: date-like weeks first, then SORTORDER ---
+    // --- 4️⃣ Sort nav: dates first, EXTRA last, then SORTORDER ---
     navData.sort((a, b) => {
-      const aWeek = String(a.WEEK).trim();
-      const bWeek = String(b.WEEK).trim();
+      const aWeek = String(a.WEEK || "").trim();
+      const bWeek = String(b.WEEK || "").trim();
 
       const aDate = Date.parse(aWeek);
       const bDate = Date.parse(bWeek);
 
-      if (!isNaN(aDate) && !isNaN(bDate) && aDate !== bDate) {
-        return aDate - bDate;
-      }
-      if (aWeek.toLowerCase() !== bWeek.toLowerCase()) {
-        return aWeek.toLowerCase().localeCompare(bWeek.toLowerCase());
-      }
+      const aIsExtra = isNaN(aDate);
+      const bIsExtra = isNaN(bDate);
 
-      return Number(a.SORTORDER) - Number(b.SORTORDER);
+      // EXTRA or non-date goes last
+      if (aIsExtra && !bIsExtra) return 1;
+      if (!aIsExtra && bIsExtra) return -1;
+
+      // Both valid dates → chronological
+      if (!aIsExtra && !bIsExtra && aDate !== bDate) return aDate - bDate;
+
+      // Otherwise SORTORDER
+      return Number(a.SORTORDER || 0) - Number(b.SORTORDER || 0);
     });
 
-    // --- 5️⃣ Render loop (WEBDNA style) ---
+    // --- 5️⃣ Render nav ---
     let lastWeek = null;
     const currentPath = window.location.pathname.split("/").pop();
 
     navData.forEach(item => {
       const week = String(item.WEEK || "").trim();
 
-      // Render week header once per week
+      // Week header
       if (week.toLowerCase() !== (lastWeek || "").toLowerCase()) {
         const h2 = document.createElement("h2");
         h2.style.color = "black";
@@ -63,23 +72,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const page = pagesByNav[item.SKU];
 
-      // STATUS = 1 → clickable link
       if (page && Number(page.STATUS) === 1) {
         const link = document.createElement("a");
-        link.href = window.vars.PAGEVAR + "lesson" + item.SKU + ".html";
+        link.href = `${window.vars.PAGEVAR}lesson${item.SKU}.html`;
         link.textContent = item.TITLE;
 
-        // Highlight current page like WEBDNA
-        if (currentPath === "lesson" + item.SKU + ".html") {
+        // Highlight current page
+        if (currentPath === `lesson${item.SKU}.html`) {
           link.style.fontWeight = "bold";
           link.style.textDecoration = "underline";
         }
 
         navList.appendChild(link);
         navList.appendChild(document.createElement("br"));
-      } 
-      // STATUS = 0 → plain text
-      else {
+      } else {
+        // STATUS = 0 → plain text
         const textNode = document.createTextNode(item.TITLE);
         navList.appendChild(textNode);
         navList.appendChild(document.createElement("br"));
@@ -87,10 +94,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
   } catch (err) {
-    console.error("Nav build failed:", err);
+    console.error("Navigation failed:", err);
+    const errorNode = document.createElement("p");
+    errorNode.style.color = "red";
+    errorNode.textContent = "Failed to load navigation.";
+    navList.appendChild(errorNode);
   }
 });
 </script>
+
 
 
 
