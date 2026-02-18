@@ -2,38 +2,60 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>RPG Maker Packer</title>
+<title>RPG Maker Hybrid Packer</title>
+
 <style>
-body{background:#111;color:#0f0;font-family:monospace;padding:20px}
-#drop{border:2px dashed #0f0;padding:40px;margin-top:20px;text-align:center}
-button{margin-top:20px;padding:10px 20px;background:#0f0;border:none;font-weight:bold}
+body{
+  background:#111;
+  color:#0f0;
+  font-family:monospace;
+  padding:20px;
+}
+button,input{
+  margin-top:15px;
+  padding:10px;
+  background:#0f0;
+  border:none;
+  font-weight:bold;
+}
+#status{margin-top:10px;color:#0ff}
 </style>
 </head>
 <body>
 
-<h3>RPG Maker Hybrid Packer</h3>
-<div id="drop">Drop exported game here</div>
-<button id="build">Build</button>
+<h2>RPG Maker Hybrid HTML Packer</h2>
+
+<input type="file" id="folder" webkitdirectory multiple>
+<br>
+<button id="build">Build Packed HTML</button>
+<div id="status">No folder loaded</div>
 
 <script>
 var files=[];
-var drop=document.getElementById("drop");
+var status=document.getElementById("status");
 
-drop.ondragover=function(e){e.preventDefault();};
-drop.ondrop=function(e){
-  e.preventDefault();
-  files=[].slice.call(e.dataTransfer.files);
-  drop.textContent=files.length+" files loaded";
+// =========================
+// FOLDER PICKER (CHROMEBOOK SAFE)
+// =========================
+document.getElementById("folder").onchange=function(e){
+  files=[].slice.call(e.target.files);
+  status.textContent=files.length+" files loaded";
 };
 
+// =========================
+// BUILD BUTTON
+// =========================
 document.getElementById("build").onclick=async function(){
 
-  if(!files.length){alert("Drop files first");return;}
+  if(!files.length){
+    alert("Select your exported RPG Maker folder first!");
+    return;
+  }
 
   function read(f){
-    return new Promise(function(r){
+    return new Promise(function(res){
       var fr=new FileReader();
-      fr.onload=function(){r(fr.result);};
+      fr.onload=function(){res(fr.result);};
       fr.readAsText(f);
     });
   }
@@ -41,27 +63,38 @@ document.getElementById("build").onclick=async function(){
   var scripts="";
   var json="";
 
+  status.textContent="Packing...";
+
   for(var i=0;i<files.length;i++){
     var f=files[i];
-    var n=f.name.toLowerCase();
+    var name=f.name.toLowerCase();
 
-    if(n.endsWith(".js")){
+    // =========================
+    // INLINE JS
+    // =========================
+    if(name.endsWith(".js")){
       scripts+="\n/* "+f.name+" */\n"+await read(f)+"\n";
     }
 
-    if(n.endsWith(".json")){
+    // =========================
+    // BASE64 JSON (bulletproof)
+    // =========================
+    if(name.endsWith(".json")){
       var raw=await read(f);
       var b64=btoa(unescape(encodeURIComponent(raw)));
       json+='window.__JSON["'+f.name+'"]="'+b64+'";\n';
     }
   }
 
+  // =========================
+  // BUILD OUTPUT HTML
+  // =========================
   var out="";
   out+="<!DOCTYPE html><html><head><meta charset='UTF-8'>";
-  out+="<title>Packed RPG</title></head><body>";
+  out+="<title>Packed RPG Maker</title></head><body>";
   out+="<div id='game'></div>";
 
-  // JSON loader
+  // JSON Loader
   out+="<script>window.__JSON={};\n"+json;
   out+="var oOpen=XMLHttpRequest.prototype.open;";
   out+="XMLHttpRequest.prototype.open=function(m,u){this._u=u.split('/').pop();return oOpen.apply(this,arguments);};";
@@ -72,15 +105,20 @@ document.getElementById("build").onclick=async function(){
   out+="this.onload&&this.onload();return;}return oSend.apply(this,arguments);};";
   out+="<\/script>";
 
-  // Scripts
+  // Inline Scripts
   out+="<script>\n"+scripts+"\n<\/script>";
   out+="</body></html>";
 
+  // =========================
+  // DOWNLOAD
+  // =========================
   var blob=new Blob([out],{type:"text/html"});
   var a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
   a.download="index_packed.html";
   a.click();
+
+  status.textContent="Done! index_packed.html downloaded";
 };
 </script>
 
