@@ -3,63 +3,62 @@
 </nav>
 
 <script>
-document.addEventListener("DOMContentLoaded", async function () {
-
+document.addEventListener("DOMContentLoaded", async () => {
   const navList = document.getElementById("navList");
 
-  // Static links (PATHVAR equivalent)
+  // --- 1️⃣ Static links ---
   navList.innerHTML += `
     <a href="${window.vars.PATHVAR}index.html">Homepage</a><br>
     <a href="${window.vars.PATHVAR}jsadmin/pages/index.html">Admin</a>
+    <hr>
   `;
 
   try {
+    // --- 2️⃣ Load nav + pages JSON ---
     const [navRes, pagesRes] = await Promise.all([
       fetch(window.vars.DBVAR + "nav.json"),
       fetch(window.vars.DBVAR + "pages.json")
     ]);
-
     const navData = await navRes.json();
     const pagesData = await pagesRes.json();
 
-    // Build fast lookup map (like indexed DB)
+    // --- 3️⃣ Build fast lookup for pages ---
     const pagesByNav = {};
-    pagesData.forEach(p => {
-      pagesByNav[p.R_NAV] = p;
+    pagesData.forEach(p => { pagesByNav[p.R_NAV] = p; });
+
+    // --- 4️⃣ Sort nav: date-like weeks first, then SORTORDER ---
+    navData.sort((a, b) => {
+      const aWeek = String(a.WEEK).trim();
+      const bWeek = String(b.WEEK).trim();
+
+      const aDate = Date.parse(aWeek);
+      const bDate = Date.parse(bWeek);
+
+      if (!isNaN(aDate) && !isNaN(bDate) && aDate !== bDate) {
+        return aDate - bDate;
+      }
+      if (aWeek.toLowerCase() !== bWeek.toLowerCase()) {
+        return aWeek.toLowerCase().localeCompare(bWeek.toLowerCase());
+      }
+
+      return Number(a.SORTORDER) - Number(b.SORTORDER);
     });
 
-    // Sort by WEEK then SORTORDER
-    navData.sort((a, b) => {
-  const da = Date.parse(a.WEEK);
-  const db = Date.parse(b.WEEK);
-
-  const aValid = !isNaN(da);
-  const bValid = !isNaN(db);
-
-  // Both real dates → sort normally
-  if (aValid && bValid) return da - db;
-
-  // Real dates come before non-dates
-  if (aValid) return -1;
-  if (bValid) return 1;
-
-  // Both non-dates → alphabetical
-  return a.WEEK.localeCompare(b.WEEK);
-});
-
-
+    // --- 5️⃣ Render loop (WEBDNA style) ---
     let lastWeek = null;
+    const currentPath = window.location.pathname.split("/").pop();
 
     navData.forEach(item => {
+      const week = String(item.WEEK || "").trim();
 
-      // Render WEEK header once
-      if (item.WEEK !== lastWeek) {
+      // Render week header once per week
+      if (week.toLowerCase() !== (lastWeek || "").toLowerCase()) {
         const h2 = document.createElement("h2");
         h2.style.color = "black";
-        h2.textContent = item.WEEK;
+        h2.textContent = week || "No Week";
         navList.appendChild(h2);
         navList.appendChild(document.createElement("hr"));
-        lastWeek = item.WEEK;
+        lastWeek = week;
       }
 
       const page = pagesByNav[item.SKU];
@@ -69,21 +68,27 @@ document.addEventListener("DOMContentLoaded", async function () {
         const link = document.createElement("a");
         link.href = window.vars.PAGEVAR + "lesson" + item.SKU + ".html";
         link.textContent = item.TITLE;
+
+        // Highlight current page like WEBDNA
+        if (currentPath === "lesson" + item.SKU + ".html") {
+          link.style.fontWeight = "bold";
+          link.style.textDecoration = "underline";
+        }
+
         navList.appendChild(link);
         navList.appendChild(document.createElement("br"));
-      }
-      // STATUS = 0 → plain text (like WEBDNA fallback)
+      } 
+      // STATUS = 0 → plain text
       else {
-        navList.appendChild(document.createTextNode(item.TITLE));
+        const textNode = document.createTextNode(item.TITLE);
+        navList.appendChild(textNode);
         navList.appendChild(document.createElement("br"));
       }
-
     });
 
   } catch (err) {
     console.error("Nav build failed:", err);
   }
-
 });
 </script>
 
