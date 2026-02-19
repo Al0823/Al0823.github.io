@@ -2,13 +2,15 @@
 <head>
 <title>JavaScript 1999 (ES3) Lesson</title>
 <script language="JavaScript">
+/* --- Page title --- */
 var PAGETITLE = "1999 (ES3) Lesson";
 
-/* 1999-style include loader */
+/* --- 1999-style include loader --- */
 function loadInclude(id, file, callback) {
   var req;
   try { req = new XMLHttpRequest(); } 
   catch(e) { try { req = new ActiveXObject("Microsoft.XMLHTTP"); } catch(e2) { return; } }
+
   req.onreadystatechange = function() {
     if (req.readyState == 4) {
       var container = document.getElementById(id);
@@ -16,7 +18,7 @@ function loadInclude(id, file, callback) {
         container.innerHTML = req.responseText;
         // Execute scripts inside included HTML
         var scripts = container.getElementsByTagName('script');
-        for (var i=0;i<scripts.length;i++) {
+        for (var i=0; i<scripts.length; i++) {
           var oldScript = scripts[i];
           var newScript = document.createElement('script');
           if (oldScript.src) newScript.src = oldScript.src;
@@ -31,22 +33,53 @@ function loadInclude(id, file, callback) {
   req.send(null);
 }
 
-/* Load all includes in order */
+/* --- Load all includes in safe order --- */
 function loadAllIncludes() {
+  if (!window.vars) return;
   loadInclude("header", window.vars.INCVAR + "header.html", function() {
+    if (typeof updatePageTitle === "function") updatePageTitle();
     loadInclude("nav", window.vars.INCVAR + "nav.html", function() {
       loadInclude("footer", window.vars.INCVAR + "footer.html");
       if (window.vars.DEBUGVAR) loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
     });
   });
 }
-window.onload = loadAllIncludes;
 
-/* JS Examples */
-function runRegexExample(){var text="Visit javascript";var n=text.search(/javascript/i);document.getElementById("demo").innerHTML=n;}
-function runTryCatchExample(){var x=5;try{x=y+1;}catch(err){document.getElementById("demo").innerHTML=err.name+"<br>"+err.message;}}
-function runSwitchExample(){var day;var date=new Date().getDay();switch(date){case 0:day="Sunday";break;case 1:day="Monday";break;case 2:day="Tuesday";break;case 3:day="Wednesday";break;case 4:day="Thursday";break;case 5:day="Friday";break;case 6:day="Saturday";}document.getElementById("demo").innerHTML="Today is "+day;}
-function runDoWhileExample(){var text="";var i=0;do{text+="<br>The number is "+i;i++;}while(i<10);document.getElementById("demo").innerHTML=text;}
+/* --- JS Examples --- */
+function runRegexExample() {
+  var text="Visit javascript";
+  var n=text.search(/javascript/i);
+  document.getElementById("demo").innerHTML=n;
+}
+function runTryCatchExample() {
+  var x=5;
+  try { x=y+1; } catch(err) { document.getElementById("demo").innerHTML=err.name+"<br>"+err.message; }
+}
+function runSwitchExample() {
+  var day;
+  var date=new Date().getDay();
+  switch(date){
+    case 0:day="Sunday";break;
+    case 1:day="Monday";break;
+    case 2:day="Tuesday";break;
+    case 3:day="Wednesday";break;
+    case 4:day="Thursday";break;
+    case 5:day="Friday";break;
+    case 6:day="Saturday";
+  }
+  document.getElementById("demo").innerHTML="Today is "+day;
+}
+function runDoWhileExample() {
+  var text="";
+  var i=0;
+  do { text+="<br>The number is "+i; i++; } while(i<10);
+  document.getElementById("demo").innerHTML=text;
+}
+
+/* --- Wait a tiny bit for table to render, then load includes --- */
+window.onload=function() {
+  setTimeout(loadAllIncludes, 50);
+};
 </script>
 </head>
 
@@ -56,14 +89,19 @@ function runDoWhileExample(){var text="";var i=0;do{text+="<br>The number is "+i
 <table width="700" border="0" cellpadding="5" cellspacing="0">
 
 <!-- Header -->
-<tr><td id="header" bgcolor="#eeeeee"></td></tr>
+<tr><td id="header" bgcolor="#eeeeee" align="center">
+<font face="Verdana, Arial" size="3"><b>Loading header...</b></font>
+</td></tr>
 
 <!-- Nav -->
-<tr><td id="nav" bgcolor="#dddddd"></td></tr>
+<tr><td id="nav" bgcolor="#dddddd" align="center">
+<font face="Verdana, Arial" size="2">Loading nav...</font>
+</td></tr>
 
-<!-- Content -->
+<!-- Main Content -->
 <tr><td>
 <h2>JavaScript 1999 (ES3)</h2>
+
 <font size="2">
 JavaScript ES3 added many things to aid the average user, such as Regular expressions, Error handling (try...catch), the switch keyword, and the do...while loop.
 </font>
