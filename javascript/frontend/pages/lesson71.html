@@ -3,7 +3,6 @@
 <title>JavaScript 1999 (ES3) Lesson</title>
 
 <script language="JavaScript">
-/* Page title variable */
 var PAGETITLE = "1999 (ES3) Lesson";
 
 /* 1999-style include loader */
@@ -25,7 +24,7 @@ function loadInclude(id, file, callback) {
       if (container) {
         container.innerHTML = req.responseText;
 
-        // Run scripts inside loaded HTML
+        // Execute scripts inside included HTML
         var scripts = container.getElementsByTagName('script');
         for (var i=0; i<scripts.length; i++) {
           var oldScript = scripts[i];
@@ -46,14 +45,14 @@ function loadInclude(id, file, callback) {
   req.send(null);
 }
 
-/* 1999-style CSS setup */
+/* Minimal 1999-safe CSS loader */
 var cssLink = document.createElement('link');
 cssLink.rel = 'stylesheet';
 cssLink.type = 'text/css';
 cssLink.href = window.vars ? (window.vars.INCVAR + "style.css") : "style.css";
 document.getElementsByTagName('head')[0].appendChild(cssLink);
 
-/* Load header, nav, footer, debug */
+/* Load all includes */
 function loadAllIncludes() {
   loadInclude("header", window.vars.INCVAR + "header.html", function() {
     if (typeof updatePageTitle === "function") updatePageTitle();
@@ -65,27 +64,21 @@ function loadAllIncludes() {
   }
 }
 
-/* JS Examples (ES3) */
+/* JS examples */
 function runRegexExample() {
   var text = "Visit javascript";
   var n = text.search(/javascript/i);
   document.getElementById("demo").innerHTML = n;
 }
-
 function runTryCatchExample() {
   var x = 5;
-  try {
-    x = y + 1;
-  } catch(err) {
-    var text = err.name + "<br>" + err.message;
-    document.getElementById("demo").innerHTML = text;
-  }
+  try { x = y + 1; } 
+  catch(err) { document.getElementById("demo").innerHTML = err.name + "<br>" + err.message; }
 }
-
 function runSwitchExample() {
   var day;
   var date = new Date().getDay();
-  switch (date) {
+  switch(date) {
     case 0: day="Sunday"; break;
     case 1: day="Monday"; break;
     case 2: day="Tuesday"; break;
@@ -96,14 +89,10 @@ function runSwitchExample() {
   }
   document.getElementById("demo").innerHTML = "Today is " + day;
 }
-
 function runDoWhileExample() {
   var text = "";
   var i = 0;
-  do {
-    text += "<br>The number is " + i;
-    i++;
-  } while(i < 10);
+  do { text += "<br>The number is " + i; i++; } while(i<10);
   document.getElementById("demo").innerHTML = text;
 }
 
@@ -122,7 +111,7 @@ window.onload = loadAllIncludes;
 <div id="nav"></div>
 <hr>
 
-<!-- Content -->
+<!-- Content Table -->
 <center>
 <table width="700" border="0" cellpadding="5" cellspacing="0">
 <tr><td>
@@ -149,31 +138,22 @@ Despite its age, it is still supported by all modern browsers today.
 </ul>
 
 <h3>Regular Expressions</h3>
-<font size="2">
-A sequence of characters that forms a search pattern.<br>
-Do a case-insensitive search for "javascript":
-</font><br>
+<font size="2">Case-insensitive search for "javascript":</font><br>
 <button onclick="runRegexExample()">Run Example</button>
 
 <h3>The try...catch Keywords</h3>
-<font size="2">
-You cannot use a non-existing variable:
-</font><br>
+<font size="2">Using a non-existing variable:</font><br>
 <button onclick="runTryCatchExample()">Run Example</button>
 
 <h3>The switch Keyword</h3>
-<font size="2">
-This example uses the weekday number to get the weekday name:
-</font><br>
+<font size="2">Weekday name from number:</font><br>
 <button onclick="runSwitchExample()">Run Example</button>
 
 <h3>The do...while Loop</h3>
-<font size="2">
-The do...while runs at least once, even if the condition is false from the start:
-</font><br>
+<font size="2">Runs at least once:</font><br>
 <button onclick="runDoWhileExample()">Run Example</button>
 
-<p><b>Tip:</b> Do not forget to increase the variable in the condition or the loop will never end!</p>
+<p><b>Tip:</b> Always increment your counter or the loop will never end!</p>
 
 <hr>
 <div id="demo"><font size="2">Output will appear here...</font></div>
@@ -182,7 +162,7 @@ The do...while runs at least once, even if the condition is false from the start
 </table>
 </center>
 
-
+<!-- Footer and Debug -->
 <div id="footer"></div>
 <div id="debugInclude"></div>
 
