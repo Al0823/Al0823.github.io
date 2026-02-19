@@ -1,7 +1,10 @@
 <html>
 <head>
 <title>JavaScript 1999 (ES3) Lesson</title>
-<script src="../includes/vars.js"
+
+<!-- Include vars.js for INCVAR and DEBUGVAR -->
+<script src="../includes/vars.js"></script>
+
 <script language="JavaScript">
 /* --- Page title --- */
 var PAGETITLE = "1999 (ES3) Lesson";
@@ -17,7 +20,6 @@ function loadInclude(id, file, callback) {
       var container = document.getElementById(id);
       if (container) {
         container.innerHTML = req.responseText;
-        // Execute scripts inside included HTML
         var scripts = container.getElementsByTagName('script');
         for (var i=0; i<scripts.length; i++) {
           var oldScript = scripts[i];
@@ -77,25 +79,87 @@ function runDoWhileExample() {
   document.getElementById("demo").innerHTML=text;
 }
 
-/* --- Wait a tiny bit for table to render, then load includes --- */
+/* --- Load includes after table renders --- */
 window.onload=function() {
+  var cssLink = document.createElement('link');
+  cssLink.rel = 'stylesheet';
+  cssLink.type = 'text/css';
+  cssLink.href = window.vars ? (window.vars.INCVAR + "style.css") : "style.css";
+  document.getElementsByTagName('head')[0].appendChild(cssLink);
+
   setTimeout(loadAllIncludes, 50);
 };
 </script>
+
+<style>
+/* --- Retro 1999 page overrides --- */
+.lesson-1999 #header {
+  background-color: rgb(75, 75, 75);
+  color: rgb(255,255,255);
+  padding: 1rem;
+  text-align: center;
+  font-size: 2.5rem;
+  border-bottom: 0.125rem solid rgb(125, 125, 125);
+}
+
+.lesson-1999 #nav {
+  width: 300px;
+  background-color: rgb(200, 200, 200);
+  padding: 1rem;
+  border-right: 1px solid rgb(100, 100, 100);
+  color: rgb(255, 0, 0);
+}
+
+.lesson-1999 #footer {
+  font-size: 40px;
+  background-color: rgb(75, 75, 75);
+  color: rgb(255,255,255);
+  text-align: center;
+  padding: 15px 10px;
+  border-top: 1px solid rgb(125, 125, 125);
+}
+
+/* --- Retro content styling --- */
+.lesson-1999 td {
+  font-family: "Verdana", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: rgb(240, 240, 240);
+  padding: 10px;
+}
+
+.lesson-1999 button {
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  padding: 4px 8px;
+  margin-top: 5px;
+  cursor: pointer;
+  background-color: rgb(200, 200, 200);
+  border: 1px solid rgb(100, 100, 100);
+}
+
+.lesson-1999 #demo {
+  background-color: rgb(230, 230, 230);
+  padding: 10px;
+  border: 1px solid rgb(150, 150, 150);
+  font-family: "Courier New", monospace;
+}
+</style>
+
 </head>
 
-<body bgcolor="#ffffff" text="#000000" link="#0000ff">
+<body class="lesson-1999" bgcolor="#ffffff" text="#000000" link="#0000ff">
 
 <center>
 <table width="700" border="0" cellpadding="5" cellspacing="0">
 
 <!-- Header -->
-<tr><td id="header" bgcolor="#eeeeee" align="center">
+<tr><td id="header">
 <font face="Verdana, Arial" size="3"><b>Loading header...</b></font>
 </td></tr>
 
 <!-- Nav -->
-<tr><td id="nav" bgcolor="#dddddd" align="center">
+<tr><td id="nav">
 <font face="Verdana, Arial" size="2">Loading nav...</font>
 </td></tr>
 
@@ -145,7 +209,7 @@ Despite its age, it is still supported by all modern browsers today.
 </td></tr>
 
 <!-- Footer -->
-<tr><td id="footer" bgcolor="#cccccc" align="center">
+<tr><td id="footer">
 <font size="2" face="Verdana, Arial, Helvetica, sans-serif">
 &copy; 1999 My Website | All Rights Reserved
 </font>
