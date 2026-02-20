@@ -61,7 +61,24 @@ letters.add("c");
 letters.add("c");
 
 // Display the Size
-document.getElementById("demo").innerHTML = "The set has " + letters.size + " values.";</textarea><br><br><div class="fs-15">Listing the Elements</div><br><br><div class="fs-10">You can list all Set elements (values) with a for..of loop:</div><br><br>
+document.getElementById("demo").innerHTML = "The set has " + letters.size + " values.";</textarea><br><br><div class="fs-15">Listing the Elements</div><br><br><div class="fs-10">You can list all Set elements (values) with a for..of loop:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set(["a","b","c"]);
+
+// List all Elements
+let text = "";
+for (const x of letters) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Sets are Objects</div><br><br><div class="fs-10">typeof returns object:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a new Set
+const letters = new Set(["a","b","c"]);
+
+// Display typeof
+document.getElementById("demo").innerHTML = "The type of the set is " + typeof letters;</textarea><br><br><div class="fs-10">instanceof Set returns true:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a new Set
+const letters = new Set(["a","b","c"]);
+
+// Display typeof
+document.getElementById("demo").innerHTML = letters instanceof Set;</textarea><br><br>
 
 </article>
 </main>
