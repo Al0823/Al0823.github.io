@@ -96,6 +96,13 @@ Comment: ${comment}
 </script>
 
   <script src="../js/includes.js"></script>
-
+  <script>
+    // Set footer date after injection
+    const dateSpan = document.getElementById("dateTime");
+    if (dateSpan) {
+      const currentYear = new Date().getFullYear();
+      dateSpan.textContent = `Copyright A.t.A. Tech Wiki, Shay's Animal Shelter 2026-${currentYear}`;
+    }
+  </script>
 </body>
 </html>
