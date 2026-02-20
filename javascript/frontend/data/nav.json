@@ -89,5 +89,6 @@
   { "SKU": "70", "WEEK": "3/23/2026", "SORTORDER": 2, "TITLE": "Debugging" },
 
 { "SKU": "71", "WEEK": "EXTRA", "SORTORDER": 1, "TITLE": "ECMAScript 1999" },
-  { "SKU": "72", "WEEK": "EXTRA", "SORTORDER": 2, "TITLE": "ECMAScript 2009" }
+{ "SKU": "72", "WEEK": "EXTRA", "SORTORDER": 2, "TITLE": "ECMAScript 2009" },
+  { "SKU": "73", "WEEK": "EXTRA", "SORTORDER": 3, "TITLE": "ECMAScript 2015" }
 ]
