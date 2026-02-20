@@ -1,0 +1,41 @@
+<header>
+
+  <link id="mainStylesheet" rel="stylesheet" href="/css/style.css">
+	
+
+  <div class="header">
+    Shay's Animal Shelter
+  </div>
+
+
+
+
+  <script>
+
+    window.vars.WEBSITETITLE = "Shay&#39;s Animal Shelter";
+
+
+    function updatePageTitle() {
+      const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
+      const fullTitle = window.vars.WEBSITETITLE + (pageTitle ? " - " + pageTitle : "");
+
+
+      document.title = fullTitle;
+
+
+      const titleEl = document.getElementById("pageTitle");
+      if (titleEl) titleEl.textContent = fullTitle;
+    }
+
+
+    if (window.vars.CSSVAR) {
+      const mainLink = document.getElementById("mainStylesheet");
+      mainLink.href = window.vars.CSSVAR + "style.css";
+    }
+
+
+    if (window.vars.DEBUGVAR) {
+      document.getElementById("devNotice").style.display = "block";
+    }
+  </script>
+</header>
