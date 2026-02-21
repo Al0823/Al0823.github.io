@@ -30,7 +30,7 @@
     if (!win.vars || !win.vars.INCVAR) return;
 
     const base = win.vars.INCVAR;
-    const siteTitle = win.vars.WEBSITETITLE;
+    const siteTitle = win.vars.WEBSITETITLE || "Shay's Animal Shelter";
 
     const includes = [
       ["header", base + "header.html"],
@@ -47,9 +47,9 @@
 
     next();
 
-    // --- Set page title dynamically ---
+    // --- Set page title dynamically: WEBSITETITLE - PAGETITLE ---
     if (window.PAGETITLE) {
-      document.title = window.PAGETITLE + " | " + siteTitle;
+      document.title = siteTitle + " - " + window.PAGETITLE;
     } else {
       document.title = siteTitle;
     }
