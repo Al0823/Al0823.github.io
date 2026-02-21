@@ -38,7 +38,7 @@
       background-color: rgb(200, 200, 200);
       padding: 1rem!important;              /* Space inside navigation area */
       border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
-      color: rgb(255, 0, 0);
+      color: rgb(176, 38, 255);
     }
     
     .left {
@@ -46,7 +46,7 @@
       background-color: rgb(200, 200, 200);
       padding: 1rem!important;              /* Space inside navigation area */
       border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
-      color: rgb(255, 0, 0);
+      color: rgb(176, 38, 255);
     }
 
     nav ul {
