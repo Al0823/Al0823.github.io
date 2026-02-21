@@ -281,7 +281,7 @@ color: rgb(0, 0, 0);
    ========================== */
 
 .navbar {
-    background-color: rgb(41, 131, 184); 
+    background-color: rgb(41, 131, 184)!important; 
     min-height: 50px;
     width: 100%;
     overflow: hidden;
