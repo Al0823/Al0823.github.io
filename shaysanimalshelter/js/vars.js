@@ -10,5 +10,5 @@ window.vars = {
 
   DEBUGVAR: false,   // [text]DEBUGVAR=1
 
-  WEBSITETITLE: "Shay\' Animal Shelter"
+  WEBSITETITLE: "Shay\'s Animal Shelter"
 };
