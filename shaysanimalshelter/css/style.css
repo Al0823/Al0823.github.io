@@ -52,7 +52,7 @@
     
     .left {
       width: 300px!important;
-       background-color: rgb(61, 131, 184); /* Slightly darker than header/footer */
+       background-color: rgb(61, 141, 194); /* Slightly darker than header/footer */
     color: rgb(107, 14, 156);
       padding: 1rem!important;              /* Space inside navigation area */
       border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
@@ -281,7 +281,7 @@ color: rgb(0, 0, 0);
    ========================== */
 
 .navbar {
-    background-color: rgb(41, 131, 184); /* Darker than left/nav for contrast */
+    background-color: rgb(51, 131, 184) /* Darker than left/nav for contrast */
     min-height: 50px;
     width: 100%;
     overflow: hidden;
