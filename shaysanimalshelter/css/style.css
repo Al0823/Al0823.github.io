@@ -27,6 +27,15 @@
       border-bottom: 0.125rem solid rgb(125, 125, 125);
     }
 
+				.header {
+      background-color: rgb(71, 151, 204);
+       color: rgb(176, 38, 255);
+      padding: 1rem;        /* Space inside header */
+      text-align: center;
+      font-size: 2.5rem;
+      border-bottom: 0.125rem solid rgb(125, 125, 125);
+    }
+
     main {
       flex: 1;              /* Expand to fill available vertical space */
       display: flex!important;        /* Place nav and article side by side */
