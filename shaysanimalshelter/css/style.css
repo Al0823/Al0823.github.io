@@ -39,23 +39,23 @@
     main {
       flex: 1;              /* Expand to fill available vertical space */
       display: flex!important;        /* Place nav and article side by side */
-      background-color: rgb(175, 175, 175);
+      
     }
 
     left {
       width: 300px!important;
-      background-color: rgb(200, 200, 200);
+       background-color: rgb(61, 131, 184); /* Slightly darker than header/footer */
+    color: rgb(107, 14, 156);
       padding: 1rem!important;              /* Space inside navigation area */
       border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
-      color: rgb(176, 38, 255);
     }
     
     .left {
       width: 300px!important;
-      background-color: rgb(200, 200, 200);
+       background-color: rgb(61, 131, 184); /* Slightly darker than header/footer */
+    color: rgb(107, 14, 156);
       padding: 1rem!important;              /* Space inside navigation area */
       border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
-      color: rgb(176, 38, 255);
     }
 
     nav ul {
@@ -79,6 +79,8 @@ border-radius: 20px;
     article {
       flex: 1;           /* Take up remaining horizontal space beside nav */
       padding: 1.5rem;   /* Space around body text */
+						background-color: rgb(81, 171, 224); /* Slightly lighter than header/footer */
+						 color: rgb(107, 14, 156);
     }
 
 footer {
