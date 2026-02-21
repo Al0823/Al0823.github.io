@@ -24,7 +24,7 @@
       padding: 1rem;        /* Space inside header */
       text-align: center;
       font-size: 2.5rem;
-      border-bottom: 0.125rem solid rgb(125, 125, 125);
+      border-bottom: 0.125rem solid rgb(71, 151, 204);
     }
 
 				.header {
@@ -33,7 +33,7 @@
       padding: 1rem;        /* Space inside header */
       text-align: center;
       font-size: 2.5rem;
-      border-bottom: 0.125rem solid rgb(125, 125, 125);
+      border-bottom: 0.125rem solid rgb(71, 151, 204);
     }
 
     main {
