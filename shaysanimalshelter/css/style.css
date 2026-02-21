@@ -9,10 +9,7 @@
       box-sizing: border-box; /* Include padding & borders in element’s total width/height */
     }
 
-:root {
---white: rgb(255, 255, 255);
 
-}
 
     body {
       line-height: 1.5;               /* Improve readability with more space between lines */
