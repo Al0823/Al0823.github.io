@@ -1,4 +1,18 @@
-<!-- includes/footer.html -->
-<footer>
-  <span id="dateTime"></span>
-</footer>
+<span id="dateTime"></span>
+
+<script>
+(function () {
+  function renderFooter() {
+    const el = document.getElementById("dateTime");
+    if (!el) return;
+
+    const year = new Date().getFullYear();
+    el.textContent =
+      "Copyright A.t.A. Tech Wiki, Shay's Animal Shelter 2026-" + year;
+  }
+
+  // Run immediately and again just in case
+  renderFooter();
+  setTimeout(renderFooter, 50);
+})();
+</script>
