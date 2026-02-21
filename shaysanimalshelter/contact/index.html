@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-		<script>var PAGETITLE = "Contact Form";</script>
+  <script>var PAGETITLE = "Contact Form";</script>
   <title id="pageTitle"></title>
   <script src="../js/vars.js"></script>
 </head>
@@ -56,10 +56,10 @@
   <input type="submit" value="Submit">
 </form>
 
-<div id="thankyou">
+<div id="thankyou" style="display:none;">
   <h3>Thank you for contacting us!</h3>
   <p>We will get back to you soon.</p>
-		<a href="/shaysanimalshelter/index.html">Back to Homepage</a>
+  <a href="/shaysanimalshelter/index.html">Back to Homepage</a>
 </div>
 </article>
 
@@ -67,7 +67,6 @@
 document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault(); 
 
- 
   const fname = document.getElementById('fname').value;
   const lname = document.getElementById('lname').value;
   const email = document.getElementById('Email').value;
@@ -76,33 +75,37 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   const reason = document.getElementById('Reason').value;
   const comment = document.getElementById('comment').value;
 
-
-  const mailtoLink = `mailto:shaysanimalrescue@gmail.com?subject=Contact Form Submission&body=
-Name: ${fname} ${lname}
+  // Encode the body to handle spaces and line breaks
+  const body = encodeURIComponent(
+    `Name: ${fname} ${lname}
 Email: ${email}
 Phone: ${phone}
 Address: ${address}
 Reason: ${reason}
-Comment: ${comment}
-`;
+Comment: ${comment}`
+  );
 
+  const mailtoLink = `mailto:shaysanimalrescue@gmail.com?subject=Contact Form Submission&body=${body}`;
 
-  window.location.href = mailtoLink;
+  // Open mail in a new tab
+  window.open(mailtoLink, '_blank');
 
-
+  // Show thank you message
   document.getElementById('contactForm').style.display = 'none';
   document.getElementById('thankyou').style.display = 'block';
 });
 </script>
-</main><footer id="footer"></footer>
-  <script src="../js/includes.js"></script>
-  <script>
-    // Set footer date after injection
-    const dateSpan = document.getElementById("dateTime");
-    if (dateSpan) {
-      const currentYear = new Date().getFullYear();
-      dateSpan.textContent = `Copyright A.t.A. Tech Wiki, Shay's Animal Shelter 2026-${currentYear}`;
-    }
-  </script>
+</main>
+
+<footer id="footer"></footer>
+<script src="../js/includes.js"></script>
+<script>
+  // Set footer date after injection
+  const dateSpan = document.getElementById("dateTime");
+  if (dateSpan) {
+    const currentYear = new Date().getFullYear();
+    dateSpan.textContent = `Copyright A.t.A. Tech Wiki, Shay's Animal Shelter 2026-${currentYear}`;
+  }
+</script>
 </body>
 </html>
