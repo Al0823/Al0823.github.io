@@ -2,6 +2,7 @@
   const win = window;
   const doc = document;
 
+  // --- Load a single include ---
   function loadInclude(targetId, url, callback) {
     fetch(url)
       .then(res => res.text())
@@ -11,7 +12,7 @@
 
         el.innerHTML = html;
 
-        // Run scripts inside included HTML
+        // Run any scripts inside the included HTML
         el.querySelectorAll("script").forEach(oldScript => {
           const newScript = doc.createElement("script");
           newScript.textContent = oldScript.textContent;
@@ -24,6 +25,7 @@
       .catch(() => callback && callback());
   }
 
+  // --- Load all includes in order ---
   function loadIncludes() {
     if (!win.vars || !win.vars.INCVAR) return;
 
@@ -43,8 +45,19 @@
     }
 
     next();
+
+    // --- Set page title automatically ---
+    if (window.PAGETITLE) {
+      document.title = window.PAGETITLE + " | Shay's Animal Shelter";
+    } else {
+      document.title = "Shay's Animal Shelter";
+    }
   }
 
-  // slight delay ensures vars.js already loaded
-  window.addEventListener("DOMContentLoaded", loadIncludes);
+  // --- Start loading after DOM is ready ---
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadIncludes);
+  } else {
+    loadIncludes();
+  }
 })();
