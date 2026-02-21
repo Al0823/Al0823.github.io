@@ -281,7 +281,7 @@ color: rgb(0, 0, 0);
    ========================== */
 
 .navbar {
-    background-color: rgb(41, 131, 184); /* Darker than left/nav for contrast */
+    background-color: rgb(41, 131, 184); 
     min-height: 50px;
     width: 100%;
     overflow: hidden;
@@ -298,7 +298,7 @@ color: rgb(0, 0, 0);
 
 /* Hover effect to stand out */
 .navbar a:hover {
-    background-color: rgb(81, 171, 224); /* Lighter, matches article */
+    background-color: rgb(41, 131, 184); /* Lighter, matches article */
     border-radius: 20px;
     color: rgb(107, 14, 156); /* Keep text readable */
 }
