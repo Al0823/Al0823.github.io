@@ -30,7 +30,7 @@
     if (!win.vars || !win.vars.INCVAR) return;
 
     const base = win.vars.INCVAR;
-    const siteTitle = win.vars.WEBSITETITLE || "Shay's Animal Shelter";
+    const siteTitle = win.vars.WEBSITETITLE;
 
     const includes = [
       ["header", base + "header.html"],
