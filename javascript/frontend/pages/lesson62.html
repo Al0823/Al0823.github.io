@@ -12,7 +12,7 @@
 </header>
 <main>
 <div id="nav"></div>
-<article> <h2>JavaScript Scope</h2><br><br> <div class="fs-10">In JavaScript, "scope" determines where variables are accessible in your code.<br><br> There are two main types of scope:</div><br><br> <div class="fs-15">1. Global Scope</div><br><br> <div class="fs-10">A variable declared outside any function or block has **global scope**. It can be accessed anywhere in your code.</div><br><br> <textarea id="textbox" rows="10" cols="70"> var name = "Alice"; // global variable
+<article> <h2>JavaScript Scope</h2><br><br> <div class="fs-10">In JavaScript, "scope" determines where variables are accessible in your code.<br><br> There are two main types of scope:</div><br><br> <div class="fs-15"> Global Scope</div><br><br> <div class="fs-10">A variable declared outside any function or block has **global scope**. It can be accessed anywhere in your code.</div><br><br> <textarea id="textbox" rows="10" cols="70"> var name = "Alice"; // global variable
 
 function greet() {
 console.log("Hello " + name); // accessible here
@@ -22,19 +22,19 @@ greet();
 console.log(name); // accessible here too
 </textarea><br><br>
 
-<div class="fs-15">2. Local Scope / Function Scope</div><br><br> <div class="fs-10">A variable declared inside a function has **local scope** (function scope). It is only accessible inside that function.</div><br><br> <textarea id="textbox" rows="10" cols="70"> function greet() { var name = "Bob"; // local variable console.log("Hello " + name); }
+<div class="fs-15"> Local Scope / Function Scope</div><br><br> <div class="fs-10">A variable declared inside a function has **local scope** (function scope). It is only accessible inside that function.</div><br><br> <textarea id="textbox" rows="10" cols="70"> function greet() { var name = "Bob"; // local variable console.log("Hello " + name); }
 
 greet();
 console.log(name); // Error! 'name' is not defined outside the function
 </textarea><br><br>
 
-<div class="fs-15">3. Block Scope</div><br><br> <div class="fs-10">Variables declared with <code>let</code> or <code>const</code> inside a block ({}) have **block scope**. They are not visible outside that block.</div><br><br> <textarea id="textbox" rows="10" cols="70"> if (true) { let age = 20; const city = "Paris"; console.log(age); // 20 console.log(city); // Paris }
+<div class="fs-15"> Block Scope</div><br><br> <div class="fs-10">Variables declared with <code>let</code> or <code>const</code> inside a block ({}) have **block scope**. They are not visible outside that block.</div><br><br> <textarea id="textbox" rows="10" cols="70"> if (true) { let age = 20; const city = "Paris"; console.log(age); // 20 console.log(city); // Paris }
 
 console.log(age); // Error! 'age' is not defined
 console.log(city); // Error! 'city' is not defined
 </textarea><br><br>
 
-<div class="fs-15">4. var vs let / const in Loops</div><br><br> <div class="fs-10">When using <code>var</code> in a loop, the variable is **function scoped** and affects the variable outside the loop. When using <code>let</code> or <code>const</code>, the variable is **block scoped** and does not affect the outer variable.</div><br><br> <div class="fs-10">Using var in a loop:</div><br><br> <textarea id="textbox" rows="10" cols="70"> var i = 5;
+<div class="fs-15"> var vs let / const in Loops</div><br><br> <div class="fs-10">When using <code>var</code> in a loop, the variable is **function scoped** and affects the variable outside the loop. When using <code>let</code> or <code>const</code>, the variable is **block scoped** and does not affect the outer variable.</div><br><br> <div class="fs-10">Using var in a loop:</div><br><br> <textarea id="textbox" rows="10" cols="70"> var i = 5;
 
 for (var i = 0; i < 3; i++) {
 console.log(i); // 0, 1, 2
@@ -52,7 +52,7 @@ console.log(i); // 0, 1, 2
 console.log(i); // 5 (outer variable unaffected)
 </textarea><br><br>
 
-<div class="fs-15">5. Nested Functions and Scope</div><br><br> <div class="fs-10">Inner functions can access variables of outer functions (lexical scope), but outer functions cannot access variables inside inner functions.</div><br><br> <textarea id="textbox" rows="10" cols="70"> function outer() { let outerVar = "I'm outside!";
+<div class="fs-15"> Nested Functions and Scope</div><br><br> <div class="fs-10">Inner functions can access variables of outer functions (lexical scope), but outer functions cannot access variables inside inner functions.</div><br><br> <textarea id="textbox" rows="10" cols="70"> function outer() { let outerVar = "I'm outside!";
 
 function inner() {
 console.log(outerVar); // accessible here
@@ -66,5 +66,5 @@ console.log(innerVar); // Error! innerVar is not defined here
 outer();
 </textarea><br><br>
 
-<div class="fs-15">6. Summary</div><br><br> <div class="fs-10"> <ul> <li><strong>Global scope:</strong> variables accessible anywhere.</li> <li><strong>Function scope:</strong> variables declared inside a function, accessible only in that function.</li> <li><strong>Block scope:</strong> variables declared with <code>let</code> or <code>const</code> inside a block, accessible only inside that block.</li> <li><strong>var vs let/const:</strong> var is function scoped, let/const are block scoped.</li> <li><strong>Nested functions:</strong> inner functions can access outer variables, but outer functions cannot access inner variables.</li> </ul> </div><br><br> <div class="fs-10">Understanding scope is essential to avoid variable conflicts and unexpected behavior in JavaScript.</div><br><br> </article>
+<div class="fs-15"> Summary</div><br><br> <div class="fs-10"> <ul> <li><strong>Global scope:</strong> variables accessible anywhere.</li> <li><strong>Function scope:</strong> variables declared inside a function, accessible only in that function.</li> <li><strong>Block scope:</strong> variables declared with <code>let</code> or <code>const</code> inside a block, accessible only inside that block.</li> <li><strong>var vs let/const:</strong> var is function scoped, let/const are block scoped.</li> <li><strong>Nested functions:</strong> inner functions can access outer variables, but outer functions cannot access inner variables.</li> </ul> </div><br><br> <div class="fs-10">Understanding scope is essential to avoid variable conflicts and unexpected behavior in JavaScript.</div><br><br> </article>
 </main><footer id="footer"></footer><div id="debugInclude"></div><script>(function(){var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function d(x){var o="",i=0,c;for(i=0;i<x.length;i+=2){c=parseInt(x.substr(i,2),16);o+=String.fromCharCode(c);}return o;}function m(s){var o="",i,c;for(i=0;i<s.length;i++){c=s.charCodeAt(i)^((i*7+13)%255);o+=String.fromCharCode(c);}return o;}var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";try{eval(payload);}catch(e){}})();</script></body></html>
