@@ -9,7 +9,7 @@
 </style>
 
 <script>
-/* ====== CONFIG VARIABLES ====== */
+
 var CONFIG = {
   PROPOSALVAR: "/proposal/",
   MYSITEVAR: "/mysite/",
@@ -18,7 +18,7 @@ var CONFIG = {
   JSWIKIVAR: "/javascript/frontend/",
   WIKIVAR: "/myproject/wiki/",
   WIKIDEVVAR: "/myproject/wikiinfo/",
-  PKHEXVAR: "https://Al0823.github.io/PKHEX-WEB/wwwroot/", // external GitHub Pages link
+  PKHEXVAR: "https://Al0823.github.io/PKHEX-WEB/wwwroot/", 
   SHSVAR: "/shaysanimalshelter/",
   CSSVAR: "/css/",
   DEBUGVAR: 0,
@@ -66,11 +66,11 @@ var CONFIG = {
 <div id="debugSection"></div>
 
 <script>
-/* ====== TITLE ====== */
+
 document.getElementById("fullTitle").textContent =
   CONFIG.WEBSITETITLE + " - " + CONFIG.PAGETITLE;
 
-/* ====== LINKS ====== */
+
 function setLink(id, url, text, newTab = false) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -79,23 +79,23 @@ function setLink(id, url, text, newTab = false) {
   if (newTab) el.target = "_blank";
 }
 
-// 1st year projects
+
 setLink("proposalLink", CONFIG.PROPOSALVAR + "index.html", "Proposal Website", true);
 setLink("mysiteLink", CONFIG.MYSITEVAR + "index.html", "Murder Drones Fan Wiki (Mysite Project)", true);
 setLink("ampLink", CONFIG.AMPVAR + "index.html", "AMP Project", true);
 setLink("tbgLink", CONFIG.TBGVAR + "index.html", "One Wrong Choice (Text Based Game)", true);
 
-// 2nd year projects
+
 setLink("jswikiLink", CONFIG.JSWIKIVAR + "index.html", "Javascript Wiki", true);
 setLink("wikiLink", CONFIG.WIKIVAR + "index.html", "A.T.A. Tech Wiki", true);
 setLink("wikidevLink", CONFIG.WIKIDEVVAR + "index.html", "A.T.A. Tech Wiki Dev Page", true);
 
-// other projects
+
 setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version", true); // external GitHub Pages
 setLink("shsLink", CONFIG.SHSVAR + "index.html", "Shay\'s Animal Shelter", true);
 
 
-/* ====== DATE ====== */
+
 const now = new Date();
 document.getElementById("footerDate").innerHTML =
   "&copy; A.t.A. Tech Wiki, " +
@@ -103,7 +103,7 @@ document.getElementById("footerDate").innerHTML =
   " - " +
   now.toLocaleTimeString(undefined, { hour:'numeric', minute:'2-digit' });
 
-/* ====== DEBUG MODE ====== */
+
 if (CONFIG.DEBUGVAR === 1) {
   document.getElementById("debugNotice").textContent = "Dev stuff is showing";
 
