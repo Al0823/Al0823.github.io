@@ -19,7 +19,7 @@ var CONFIG = {
   WIKIVAR: "/myproject/wiki/",
   WIKIDEVVAR: "/myproject/wikiinfo/",
   PKHEXVAR: "https://Al0823.github.io/PKHEX-WEB/wwwroot/", // external GitHub Pages link
-  MYSITESPECIALVAR: "/mysitespecial/frontend/",
+  SHSVAR: "/shaysanimalshelter/index.html",
   CSSVAR: "/css/",
   DEBUGVAR: 0,
   WEBSITETITLE: "A.t.A. Projects",
@@ -55,6 +55,7 @@ var CONFIG = {
 <div class="fmwnavright">
   <center><h1>Other Projects</h1></center><br><br>
   <a id="pkhexLink" href="#" target="_blank"></a><br><br>
+		 <a id="shsLink" href="#" target="_blank"></a><br><br>
 </div>
 
 </main>
@@ -82,7 +83,7 @@ function setLink(id, url, text, newTab = false) {
 setLink("proposalLink", CONFIG.PROPOSALVAR + "index.html", "Proposal Website", true);
 setLink("mysiteLink", CONFIG.MYSITEVAR + "index.html", "Murder Drones Fan Wiki (Mysite Project)", true);
 setLink("ampLink", CONFIG.AMPVAR + "index.html", "AMP Project", true);
-setLink("tbgLink", CONFIG.TBGVAR + "index.html", "One Wrong Choice (Text Based Game)", true); // external
+setLink("tbgLink", CONFIG.TBGVAR + "index.html", "One Wrong Choice (Text Based Game)", true);
 
 // 2nd year projects
 setLink("jswikiLink", CONFIG.JSWIKIVAR + "index.html", "Javascript Wiki", true);
@@ -91,6 +92,7 @@ setLink("wikidevLink", CONFIG.WIKIDEVVAR + "index.html", "A.T.A. Tech Wiki Dev P
 
 // other projects
 setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version", true); // external GitHub Pages
+setLink("shsLink", CONFIG.SHSVAR + "index.html", "Shay\'s Animal Shelter", true);
 
 
 /* ====== DATE ====== */
