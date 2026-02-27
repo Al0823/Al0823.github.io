@@ -88,7 +88,10 @@
 { "SKU": "69", "WEEK": "3/23/2026", "SORTORDER": 1, "TITLE": "JSON" },
   { "SKU": "70", "WEEK": "3/23/2026", "SORTORDER": 2, "TITLE": "Debugging" },
 
-{ "SKU": "71", "WEEK": "EXTRA", "SORTORDER": 1, "TITLE": "ECMAScript 1999" },
-{ "SKU": "72", "WEEK": "EXTRA", "SORTORDER": 2, "TITLE": "ECMAScript 2009" },
-  { "SKU": "73", "WEEK": "EXTRA", "SORTORDER": 3, "TITLE": "ECMAScript 2015" }
+{ "SKU": "71", "WEEK": "EXTRA", "SORTORDER": 4, "TITLE": "ECMAScript 1999" },
+{ "SKU": "72", "WEEK": "EXTRA", "SORTORDER": 5, "TITLE": "ECMAScript 2009" },
+  { "SKU": "73", "WEEK": "EXTRA", "SORTORDER": 6, "TITLE": "ECMAScript 2015" },
+{ "SKU": "74", "WEEK": "EXTRA", "SORTORDER": 1, "TITLE": "Ternary" },
+{ "SKU": "75", "WEEK": "EXTRA", "SORTORDER": 2, "TITLE": "Logical" },
+  { "SKU": "76", "WEEK": "EXTRA", "SORTORDER": 3, "TITLE": "Continue" }
 ]
