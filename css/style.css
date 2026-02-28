@@ -375,14 +375,19 @@ flex-grow: 1;
 
 /* Tablets and smaller devices (≤1024px) */
 @media (max-width: 1024px) {
-  main { flex-direction: column !important; }
-  nav, .nav, .fmwnavleft, .fmwnavright {
-    width: 100% !important;
+  main { 
+			flex-direction: column !important; 
+		 }
+  nav, .nav {
+    width: 25% !important;
     border-right: none !important;
     border-bottom: 1px solid rgb(225, 225, 225) !important;
     padding: 0.75rem !important;
   }
-  article { padding: 1rem !important; }
+  article { 
+			padding: 1rem !important;
+			width: 75% !important;
+		 }
   .big { width: 100% !important; margin-left: 0 !important; padding-left: 0.5rem !important; }
   .grid-container { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .grid-container > div { font-size: 20px !important; padding: 8px; }
@@ -391,6 +396,12 @@ flex-grow: 1;
 
 /* Phones and small screens (≤768px) */
 @media (max-width: 768px) {
+	nav, .nav {
+    width: 25% !important;
+	}
+	  article { 
+			width: 75% !important;
+		 }
   header { font-size: 2rem !important; padding: 0.75rem !important; }
   nav a, .fmwnavleft a, .fmwnavright a { font-size: 16px !important; }
   nav ul li, .fmwnavleft ul li, .fmwnavright ul li { margin-bottom: 0.5rem !important; }
@@ -402,6 +413,12 @@ flex-grow: 1;
 
 /* Very small phones (≤480px) */
 @media (max-width: 480px) {
+		nav, .nav {
+    width: 25% !important;
+	}
+	  article { 
+			width: 75% !important;
+		 }
   header { font-size: 1.5rem !important; padding: 0.5rem !important; }
   footer { font-size: 25px !important; padding: 10px !important; }
   nav a, .fmwnavleft a, .fmwnavright a { font-size: 14px !important; padding: 10px 12px !important; }
