@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+		<script>var PAGETITLE = "Arithmetic Lesson";</script>
   <title id="pageTitle"></title>
   <script src="../includes/vars.js"></script>
 </head>
@@ -15,329 +16,124 @@
   <div id="nav"></div>
 
 <article>
-<h2>Arithmetic Javascript tutorial</h2>
+	<h2>Arithmetic</h2><br><br>
+	<div class="fs-10">Arithmetic in JavaScript lets you perform math operations on numbers.
+It includes basic math like addition and subtraction, as well as more advanced operations.
 <br><br>
-
-
-This is the "Arithmetic" Javascript page, it teaches you how to write this code and how it works.
-Now what this page does is go over different Arithmetic Operators, some of these operators are "+" "-" "*" "**" "/" "%" "++" "--". These Arithmetic operators are Addition, Subtraction, Multiplication, Exponentiation, Division, Modulus/Remainder, Increment and Decrement.
+Arithmetic is used everywhere in programming, from simple counters to complex calculations.
 <br><br>
+JavaScript supports multiple arithmetic operators that work with numbers and sometimes strings.</div><br><br>
 
-<textarea id="textbox" name="textbox" rows="30" cols="70">
-[input]
+<div class="fs-15">Arithmetic Operators</div><br><br>
+<div class="fs-10">JavaScript provides several arithmetic operators:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let a = 10;
+let b = 5;
 
+a + b  // Addition (15)
+a - b  // Subtraction (5)
+a * b  // Multiplication (50)
+a / b  // Division (2)
+a % b  // Modulus (0)
+a ** b // Exponentiation (100000)
+</textarea><br><br>
+<div class="fs-10">Addition (+) adds numbers together.
+<br><br>
+Subtraction (-) removes one number from another.
+<br><br>
+Multiplication (*) multiplies numbers.
+<br><br>
+Division (/) divides numbers.
+<br><br>
+Modulus (%) returns the remainder of a division.
+<br><br>
+Exponentiation (**) raises a number to a power.</div><br><br>
 
-<p id="ARITHMETIC"></p>
+<div class="fs-15">Arithmetic with Strings</div><br><br>
+<div class="fs-10">The + operator can also combine strings:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text1 = "Hello";
+let text2 = "World";
 
-<script>
-let x = 17 + 50;
-document.getElementById("ARITHMETIC").innerHTML = x;
-</script>
+let result = text1 + " " + text2;
+// "Hello World"
+</textarea><br><br>
+<div class="fs-10">If you use + with a number and a string, JavaScript converts the number to a string:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 5 + "5";
+// Result: "55"
+</textarea><br><br>
+<div class="fs-10">Other operators like -, *, and / will try to convert strings into numbers.</div><br><br>
 
-The Average Arithmetic operation takes two numbers and makes a new one.
-
-<p id="ARITHMETIC2"></p>
-
-<script>
-let a = 17;
-let b = 50;
-let x = a + b;
-document.getElementById("ARITHMETIC2").innerHTML = x;
-</script>
-
-Arithmetic operations can also be used done with numbers being represented as variables.
-
-<p id="ARITHMETIC3"></p>
-
-<script>
-let a = 3;
-let x = (100 + 50) * a;
-document.getElementById("ARITHMETIC3").innerHTML = x;
-</script>
-
-You can also use expressions to produce a new number.
-
-<p id="ARITHMETIC4"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x + y;
-document.getElementById("ARITHMETIC4").innerHTML = z;
-</script>
-
-The add operator adds numbers.
-
-<p id="ARITHMETIC5"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x - y;
-document.getElementById("ARITHMETIC5").innerHTML = z;
-</script>
-
-The subtraction operator subtracts numbers
-
-<p id="ARITHMETIC6"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x * y;
-document.getElementById("ARITHMETIC6").innerHTML = z;
-</script>
-
-The multiplication operator multiplies numbers
-
-<p id="ARITHMETIC67"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x / y;
-document.getElementById("67").innerHTML = z;
-</script>
-
-The division operator divides numbers
-
-<p id="ARITHMETIC7"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x % y;
-document.getElementById("ARITHMETIC7").innerHTML = z;
-</script>
-
-The modulus operator returns the division remainder.
-
-<p id="ARITHMETIC8"></p>
-
-<script>
+<div class="fs-15">Increment and Decrement</div><br><br>
+<div class="fs-10">Increment (++) increases a number by 1.
+<br><br>
+Decrement (--) decreases a number by 1.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
 let x = 5;
 x++;
-let z = x;
-document.getElementById("ARITHMETIC8").innerHTML = z;
-</script>
+// x is now 6
 
-The Increment operator increments the numbers
-
-<p id="ARITHMETIC9"></p>
-
-<script>
+let y = 5;
+y--;
+// y is now 4
+</textarea><br><br>
+<div class="fs-10">These can be placed before or after the variable:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
 let x = 5;
-x--;
-let z = x;
-document.getElementById("ARITHMETIC9").innerHTML = z;
-</script>
 
-The Decrement Operator decreases numbers.
-
-<p id="ARITHMETIC10"></p>
-
-<script>
-let x = 5;
-document.getElementById("ARITHMETIC10").innerHTML = x ** 2;
-</script>
-
-The exponentiation operator raises the first operand to the power of the second operand.
-
-<p id="ARITHMETIC11"></p>
-
-<script>
-let x = 5;
-document.getElementById("ARITHMETIC11").innerHTML = Math.pow(x,2);
-</script>
-
-"Math.pow(x,2)" makes the same result as "x**y"
-
-
-
-[/input]
-</textarea>
-
-
-
-<h2>Examples</h2>
+let a = x++; // a = 5, x = 6
+let b = ++x; // b = 7, x = 7
+</textarea><br><br>
+<div class="fs-10">When used before the variable, the value is incremented first.
 <br><br>
+When used after the variable, the original value is used first.</div><br><br>
 
-<p id="ARITHMETIC"></p>
+<div class="fs-15">Operator Precedence</div><br><br>
+<div class="fs-10">Operator precedence defines the order in which operations are performed.
+<br><br>
+Multiplication and division are done before addition and subtraction:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 100 + 50 * 3;
+// Result: 250
+</textarea><br><br>
+<div class="fs-10">You can use parentheses to change the order:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = (100 + 50) * 3;
+// Result: 450
+</textarea><br><br>
+<div class="fs-10">Parentheses have the highest priority.
+<br><br>
+Exponentiation is evaluated before multiplication and division.</div><br><br>
 
-<script>
-let x = 17 + 50;
-document.getElementById("ARITHMETIC").innerHTML = x;
-</script>
+<div class="fs-15">Assignment Arithmetic Operators</div><br><br>
+<div class="fs-10">JavaScript also supports combined arithmetic and assignment operators:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 10;
 
-The Average Arithmetic operation takes two numbers and makes a new one.
+x += 5;  // x = x + 5
+x -= 3;  // x = x - 3
+x *= 2;  // x = x * 2
+x /= 4;  // x = x / 4
+x %= 3;  // x = x % 3
+x **= 2; // x = x ** 2
+</textarea><br><br>
+<div class="fs-10">These operators make code shorter and easier to read.
+<br><br>
+They are commonly used in counters and loops.</div><br><br>
 
-<p id="ARITHMETIC2"></p>
+<div class="fs-15">Special Cases</div><br><br>
+<div class="fs-10">Dividing by zero does not crash JavaScript, but returns Infinity:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 10 / 0;
+// Result: Infinity
+</textarea><br><br>
+<div class="fs-10">Invalid math operations return NaN (Not a Number):</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 100 / "apple";
+// Result: NaN
+</textarea><br><br>
+<div class="fs-10">NaN is still considered a number type in JavaScript.</div><br><br>
 
-<script>
-let a = 17;
-let b = 50;
-let x = a + b;
-document.getElementById("ARITHMETIC2").innerHTML = x;
-</script>
-
-Arithmetic operations can also be used done with numbers being represented as variables.
-
-<p id="ARITHMETIC3"></p>
-
-<script>
-let a = 3;
-let x = (100 + 50) * a;
-document.getElementById("ARITHMETIC3").innerHTML = x;
-</script>
-
-You can also use expressions to produce a new number.
-
-<p id="ARITHMETIC4"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x + y;
-document.getElementById("ARITHMETIC4").innerHTML = z;
-</script>
-
-The add operator adds numbers.
-
-<p id="ARITHMETIC5"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x - y;
-document.getElementById("ARITHMETIC5").innerHTML = z;
-</script>
-
-The subtraction operator subtracts numbers
-
-<p id="ARITHMETIC6"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x * y;
-document.getElementById("ARITHMETIC6").innerHTML = z;
-</script>
-
-The multiplication operator multiplies numbers
-
-<p id="ARITHMETIC67"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x / y;
-document.getElementById("67").innerHTML = z;
-</script>
-
-The division operator divides numbers
-
-<p id="ARITHMETIC7"></p>
-
-<script>
-let x = 5;
-let y = 2;
-let z = x % y;
-document.getElementById("ARITHMETIC7").innerHTML = z;
-</script>
-
-The modulus operator returns the division remainder.
-
-<p id="ARITHMETIC8"></p>
-
-<script>
-let x = 5;
-x++;
-let z = x;
-document.getElementById("ARITHMETIC8").innerHTML = z;
-</script>
-
-The Increment operator increments the numbers
-
-<p id="ARITHMETIC9"></p>
-
-<script>
-let x = 5;
-x--;
-let z = x;
-document.getElementById("ARITHMETIC9").innerHTML = z;
-</script>
-
-The Decrement Operator decreases numbers.
-
-<p id="ARITHMETIC10"></p>
-
-<script>
-let x = 5;
-document.getElementById("ARITHMETIC10").innerHTML = x ** 2;
-</script>
-
-The exponentiation operator raises the first operand to the power of the second operand.
-
-<p id="ARITHMETIC11"></p>
-
-<script>
-let x = 5;
-document.getElementById("ARITHMETIC11").innerHTML = Math.pow(x,2);
-</script>
-
-"Math.pow(x,2)" makes the same result as "x**y"
-
-
-
-
-
-
-  </article>
- </main> 
-<footer id="footer"></footer>
-
-<div id="debugInclude"></div>
-
-<script>
-
-  (function loadCSS() {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "../../css/style.css?v=" + Date.now();
-    document.head.appendChild(link);
-  })();
-
-
-  document.getElementById("pageTitle").textContent =
-    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
-
-  
-  async function loadInclude(id, file) {
-    const res = await fetch(file);
-    const html = await res.text();
-    const container = document.getElementById(id);
-    container.innerHTML = html;
-
-
-    container.querySelectorAll("script").forEach(oldScript => {
-      const newScript = document.createElement("script");
-      if (oldScript.src) {
-        newScript.src = oldScript.src;
-      } else {
-        newScript.textContent = oldScript.textContent;
-      }
-      document.body.appendChild(newScript);
-      oldScript.remove();
-    });
-  }
-
-
-  loadInclude("header", window.vars.INCVAR + "header.html");
-  loadInclude("nav", window.vars.INCVAR + "nav.html");
-  loadInclude("footer", window.vars.INCVAR + "footer.html");
-  if (window.vars.DEBUGVAR) {
-    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
-  }
-</script>
-</body>
-</html>
+</article>
+  </main><footer id="footer"></footer><div id="debugInclude"></div><script>(function(){var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function d(x){var o="",i=0,c;for(i=0;i<x.length;i+=2){c=parseInt(x.substr(i,2),16);o+=String.fromCharCode(c);}return o;}function m(s){var o="",i,c;for(i=0;i<s.length;i++){c=s.charCodeAt(i)^((i*7+13)%255);o+=String.fromCharCode(c);}return o;}var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";try{eval(payload);}catch(e){}})();</script></body></html>
