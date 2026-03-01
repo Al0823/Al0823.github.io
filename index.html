@@ -20,6 +20,7 @@ var CONFIG = {
   WIKIDEVVAR: "/myproject/wikiinfo/",
   PKHEXVAR: "https://Al0823.github.io/PKHEX-WEB/wwwroot/", 
   SHSVAR: "/shaysanimalshelter/",
+		ALTDOMAINVAR: "https://aloysiusprojects.kesug.com/",
   CSSVAR: "/css/",
   DEBUGVAR: 0,
   WEBSITETITLE: "A.t.A. Projects",
@@ -56,6 +57,7 @@ var CONFIG = {
   <center><h1>Other Projects</h1></center><br><br>
   <a id="pkhexLink" href="#" target="_blank"></a><br><br>
 		 <a id="shsLink" href="#" target="_blank"></a><br><br>
+			<a id="phpLink" href="#" target="_blank"></a><br><br>
 </div>
 
 </main>
@@ -91,9 +93,9 @@ setLink("wikiLink", CONFIG.WIKIVAR + "index.html", "A.T.A. Tech Wiki", true);
 setLink("wikidevLink", CONFIG.WIKIDEVVAR + "index.html", "A.T.A. Tech Wiki Dev Page", true);
 
 
-setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version", true); // external GitHub Pages
+setLink("pkhexLink", CONFIG.PKHEXVAR + "index.html", "PKHEX Web Browser Version", true);
 setLink("shsLink", CONFIG.SHSVAR + "index.html", "Shay\'s Animal Shelter", true);
-
+setLink("phpLink", CONFIG.ALTDOMAINVAR + "index.php", "My Other Domain", true);
 
 
 const now = new Date();
