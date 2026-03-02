@@ -1,0 +1,98 @@
+[hideif [password]=EdKonys02]
+[authenticate]password=MyShitNotYours02[/authenticate]
+[/hideif]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favorite Thing Form</title>
+
+<style>
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: rgb(33, 33, 33); 
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+
+
+.form {
+  background: rgb(255, 255, 255);
+  padding: 30px;
+  border-radius: 12px;
+  width: 360px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+
+.radio {
+  margin-top: 8px;
+}
+
+.radio label {
+  font-weight: normal;
+  margin-right: 15px;
+}
+
+
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, magenta, #ff00ff); 
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 2s ease; 
+}
+
+
+button:hover {
+  background: linear-gradient(90deg, #a8ff00, #d0ff7a); 
+  transform: scale(1.05); 
+}
+</style>
+</head>
+
+<body>
+
+<div class="form">
+  <form>
+    <label>My favorite thing in the world:</label>
+    <div class="radio">
+      <label><input type="radio" name="favorite" value="Pizza"> Pizza</label>
+      <label><input type="radio" name="favorite" value="Bacon"> Bacon</label>
+      <label><input type="radio" name="favorite" value="Cats"> Cats</label>
+      <label><input type="radio" name="favorite" value="Dogs"> Dogs</label>
+    </div>
+
+    <button type="submit">Save</button>
+  </form>
+</div><br><br>
+<footer id="footerDate"></footer>
+<script>
+const now = new Date();
+document.getElementById("footerDate").innerHTML =
+  "&copy; A.t.A. Tech Wiki, " +
+  now.toLocaleDateString(undefined, { weekday:'long', year:'numeric', month:'long', day:'numeric' }) +
+  " - " +
+  now.toLocaleTimeString(undefined, { hour:'numeric', minute:'2-digit' });</script
+
+</body>
+</html>
