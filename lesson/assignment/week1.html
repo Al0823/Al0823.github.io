@@ -1,9 +1,5 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<!--[hideif [password]=EdKonys02]
-[authenticate]password=MyShitNotYours02[/authenticate]
-[/hideif]-->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,11 +18,11 @@ body {
 }
 
 
-.form-box {
+form {
   background-color: rgb(50, 50, 50);
   padding: 30px;
   border-radius: 12px;
-  width: 96%;
+  width: 360px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.5);
 }
 
@@ -71,10 +67,10 @@ label {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border: 3px solid rgb(128, 0, 128);
+  border: 3px solid rgb(128, 0, 128); 
   box-sizing: border-box;
+  background-color: transparent;
   transition: all 0.3s ease;
-  background-color: transparent; 
 }
 
 
@@ -86,7 +82,7 @@ label {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background-color: transparent; 
+  background-color: transparent;
   transition: all 0.3s ease;
 }
 
@@ -96,7 +92,7 @@ label {
 }
 
 .radio-group input[type="radio"]:checked + label::after {
-  background-color: rgb(168, 255, 0);
+  background-color: rgb(168, 255, 0); 
 }
 
 
@@ -106,16 +102,16 @@ button {
   padding: 10px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(90deg, rgb(255, 0, 255), rgb(255, 0, 255));
-  color: rgb(255, 255, 255);
+  background: linear-gradient(90deg, rgb(255,0,255), rgb(255,0,255)); 
+  color: rgb(255,255,255);
   font-size: 16px;
   cursor: pointer;
-  transition: all 2s ease; 
+  transition: all 2s ease;
 }
 
 
 button:hover {
-  background: linear-gradient(90deg, rgb(168, 255, 0), rgb(208, 255, 122));
+  background: linear-gradient(90deg, rgb(168,255,0), rgb(208,255,122)); 
   transform: scale(1.05);
 }
 </style>
@@ -123,28 +119,24 @@ button:hover {
 
 <body>
 
-<div class="form-box">
-	<center>
-  <form>
-    <label>My favorite thing in the world:</label>
-    <div class="radio-group">
-      <input type="radio" id="pizza" name="favorite" value="Pizza">
-      <label for="pizza">Pizza</label>
+<form>
+  <label>My favorite thing in the world:</label>
+  <div class="radio-group">
+    <input type="radio" id="pizza" name="favorite" value="Pizza">
+    <label for="pizza">Pizza</label>
 
-      <input type="radio" id="bacon" name="favorite" value="Bacon">
-      <label for="bacon">Bacon</label>
+    <input type="radio" id="bacon" name="favorite" value="Bacon">
+    <label for="bacon">Bacon</label>
 
-      <input type="radio" id="cats" name="favorite" value="Cats">
-      <label for="cats">Cats</label>
+    <input type="radio" id="cats" name="favorite" value="Cats">
+    <label for="cats">Cats</label>
 
-      <input type="radio" id="dogs" name="favorite" value="Dogs">
-      <label for="dogs">Dogs</label>
-    </div>
+    <input type="radio" id="dogs" name="favorite" value="Dogs">
+    <label for="dogs">Dogs</label>
+  </div>
 
-    <button type="submit">Save</button>
-  </form>
-		</center>
-</div>
+  <button type="submit">Save</button>
+</form>
 
 </body>
 </html>
