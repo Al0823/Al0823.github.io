@@ -25,66 +25,69 @@ form {
 }
 
 
-label {
+label.title {
   display: block;
-  margin-top: 12px;
+  margin-bottom: 12px;
   font-weight: bold;
   color: rgb(255, 255, 255);
 }
 
 
-.radio-group {
-  margin-top: 8px;
+.radio-outside {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.radio-group label {
+.radio-inside {
+  position: relative;
+  width: 350px;
+  height: 50px;
+  opacity: 0; 
+  transition: opacity 0.3s ease;
+  overflow: hidden;
+}
+
+
+.radio-inside:hover {
+  opacity: 1;
+  background-color: rgb(60, 60, 60); 
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
-  cursor: pointer;
-  position: relative;
-  padding: 10px 0 10px 40px;
-  user-select: none;
-  color: rgb(255, 255, 255);
-  font-weight: normal;
-  border-radius: 6px;
-  transition: background 0.3s ease;
+  padding-left: 10px;
 }
 
 
-.radio-group label:hover {
-  background-color: rgb(60, 60, 60);
-}
-
-
-.radio-group input[type="radio"] {
+.radio-inside input[type="radio"] {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
 
-.radio-group label::before {
+.radio-inside label::before {
   content: "";
   position: absolute;
-  left: 0;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border: 3px solid rgb(128, 0, 128); 
-  box-sizing: border-box;
+  border: 3px solid rgb(128, 0, 128);
   background-color: transparent;
   transition: all 0.3s ease;
 }
 
 
-.radio-group label::after {
+.radio-inside label::after {
   content: "";
   position: absolute;
-  left: 7px;
-  top: calc(50% - 5.5px); 
+  left: 17px; /* 10+7 */
+  top: calc(50% - 5.5px);
   width: 11px;
   height: 11px;
   border-radius: 50%;
@@ -93,12 +96,19 @@ label {
 }
 
 
-.radio-group input[type="radio"]:checked + label::before {
-  border-color: rgb(168, 255, 0); 
+.radio-inside input[type="radio"]:checked + label::before {
+  border-color: rgb(168, 255, 0);
 }
 
-.radio-group input[type="radio"]:checked + label::after {
-  background-color: rgb(168, 255, 0); 
+.radio-inside input[type="radio"]:checked + label::after {
+  background-color: rgb(168, 255, 0);
+}
+
+
+.radio-inside label span {
+  margin-left: 45px; 
+  color: rgb(255, 255, 255);
+  font-weight: normal;
 }
 
 
@@ -112,7 +122,7 @@ button {
   color: rgb(255,255,255);
   font-size: 16px;
   cursor: pointer;
-  transition: all 2s ease; 
+  transition: all 2s ease;
 }
 
 
@@ -126,19 +136,27 @@ button:hover {
 <body>
 
 <form>
-  <label>My favorite thing in the world:</label>
-  <div class="radio-group">
-    <input type="radio" id="pizza" name="favorite" value="Pizza">
-    <label for="pizza">Pizza</label>
+  <label class="title">My favorite thing in the world:</label>
+  <div class="radio-outside">
+    <div class="radio-inside">
+      <input type="radio" id="pizza" name="favorite" value="Pizza">
+      <label for="pizza"><span>Pizza</span></label>
+    </div>
 
-    <input type="radio" id="bacon" name="favorite" value="Bacon">
-    <label for="bacon">Bacon</label>
+    <div class="radio-inside">
+      <input type="radio" id="bacon" name="favorite" value="Bacon">
+      <label for="bacon"><span>Bacon</span></label>
+    </div>
 
-    <input type="radio" id="cats" name="favorite" value="Cats">
-    <label for="cats">Cats</label>
+    <div class="radio-inside">
+      <input type="radio" id="cats" name="favorite" value="Cats">
+      <label for="cats"><span>Cats</span></label>
+    </div>
 
-    <input type="radio" id="dogs" name="favorite" value="Dogs">
-    <label for="dogs">Dogs</label>
+    <div class="radio-inside">
+      <input type="radio" id="dogs" name="favorite" value="Dogs">
+      <label for="dogs"><span>Dogs</span></label>
+    </div>
   </div>
 
   <button type="submit">Save</button>
