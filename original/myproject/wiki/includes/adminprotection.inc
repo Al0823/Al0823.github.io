@@ -1,1 +1,0 @@
-[showif [thisurl]^26wiki26] [redirect [pathVAR]login/index.html][/showif]
