@@ -67,7 +67,7 @@ label.title {
 
 /* ===== RADIO BASE STRUCTURE ===== */
 
-.radio-wrapper label::before {
+.radio-inside label::before {
   content: "";
   position: absolute;
   left: 22px;
@@ -82,7 +82,7 @@ label.title {
   transition: border-color 0.3s ease;
 }
 
-.radio-wrapper label::after {
+.radio-inside label::after {
   content: "";
   position: absolute;
   left: 22px;
@@ -97,11 +97,11 @@ label.title {
 
 /* ===== CHECKED STATE (ONLY COLOR CHANGES) ===== */
 
-.radio-wrapper input[type="radio"]:checked + label::before {
+.radio-inside input[type="radio"]:checked + label::before {
   border-color: rgb(168, 255, 0); /* green */
 }
 
-.radio-wrapper input[type="radio"]:checked + label::after {
+.radio-inside input[type="radio"]:checked + label::after {
   background-color: rgb(168, 255, 0); /* green */
 }
 
