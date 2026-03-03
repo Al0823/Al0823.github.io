@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+				<meta http-equiv="refresh" content="0; url="https://al0823.github.io/notfound.html">
   <script>var PAGETITLE = "Contact Form";</script>
   <title id="pageTitle"></title>
   <script src="../js/vars.js"></script>
@@ -82,7 +83,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   const reason = document.getElementById('Reason').value;
   const comment = document.getElementById('comment').value;
 
-  // Encode the body to handle spaces and line breaks
+  
   const body = encodeURIComponent(
     `Name: ${fname} ${lname}
 Email: ${email}
@@ -94,10 +95,10 @@ Comment: ${comment}`
 
   const mailtoLink = `mailto:shaysanimalrescue@gmail.com?subject=Contact Form Submission&body=${body}`;
 
-  // Open mail in a new tab
+  
   window.open(mailtoLink, '_blank');
 
-  // Show thank you message
+  
   document.getElementById('contactForm').style.display = 'none';
   document.getElementById('thankyou').style.display = 'block';
 });
@@ -107,7 +108,7 @@ Comment: ${comment}`
 <footer id="footer"></footer>
 <script src="../js/includes.js"></script>
 <script>
-  // Set footer date after injection
+ 
   const dateSpan = document.getElementById("dateTime");
   if (dateSpan) {
     const currentYear = new Date().getFullYear();
