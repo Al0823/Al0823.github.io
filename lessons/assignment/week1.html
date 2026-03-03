@@ -65,7 +65,9 @@ label.title {
 
 
 
-.radio-inside label::before {
+/* ===== RADIO BASE STRUCTURE ===== */
+
+.radio-wrapper label::before {
   content: "";
   position: absolute;
   left: 22px;
@@ -74,13 +76,13 @@ label.title {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border: 3px solid rgb(128, 0, 128);
+  border: 3px solid rgb(128, 0, 128); /* purple default */
   background-color: transparent;
-  transition: all 0.3s ease;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
-
-.radio-inside label::after {
+.radio-wrapper label::after {
   content: "";
   position: absolute;
   left: 22px;
@@ -90,16 +92,17 @@ label.title {
   height: 11px;
   border-radius: 50%;
   background-color: transparent;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
+/* ===== CHECKED STATE (ONLY COLOR CHANGES) ===== */
 
-.radio-inside input[type="radio"]:checked + label::before {
-  border-color: rgb(168, 255, 0);
+.radio-wrapper input[type="radio"]:checked + label::before {
+  border-color: rgb(168, 255, 0); /* green */
 }
 
-.radio-inside input[type="radio"]:checked + label::after {
-  background-color: rgb(168, 255, 0);
+.radio-wrapper input[type="radio"]:checked + label::after {
+  background-color: rgb(168, 255, 0); /* green */
 }
 
 
