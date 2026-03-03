@@ -65,7 +65,7 @@ label.title {
 
 
 
-/* Outer ring */
+
 .radio-inside label::before {
   content: "";
   position: absolute;
@@ -80,7 +80,7 @@ label.title {
   transition: all 0.3s ease;
 }
 
-/* Inner circle — ALWAYS visible */
+
 .radio-inside label::after {
   content: "";
   position: absolute;
@@ -90,11 +90,11 @@ label.title {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background-color: rgb(128, 0, 128); /* purple by default */
+  background-color: rgb(128, 0, 128); 
   transition: all 0.3s ease;
 }
 
-/* Checked state — turn BOTH green */
+
 .radio-inside input[type="radio"]:checked + label::before {
   border-color: rgb(168, 255, 0);
 }
