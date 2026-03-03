@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Purple Form</title>
+<title>Week 1</title>
 
 <style>
 
@@ -22,14 +22,17 @@ form {
   width: 360px;
   display: flex;
   flex-direction: column;
+  position: relative;      
+  padding-bottom: 60px;    
 }
+
 
 
 label.title {
   display: block;
   margin-bottom: 12px;
   font-weight: bold;
-  color: rgb(255, 255, 255);
+  color: rgb(161, 161, 161);
 }
 
 
@@ -47,23 +50,20 @@ label.title {
   display: flex;
   align-items: center;
   padding-left: 10px;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
+  border-bottom: solid rgb(40, 40, 40) 1px;
 }
-
 
 .radio-inside:hover {
   background-color: rgb(60, 60, 60);
   cursor: pointer;
 }
 
-
 .radio-inside input[type="radio"] {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
-
-
 
 
 .radio-inside label::before {
@@ -75,7 +75,7 @@ label.title {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  border: 3px solid rgb(128, 0, 128);
+  border: 3px solid rgb(237, 1, 252); 
   background-color: transparent;
   transition: all 0.3s ease;
 }
@@ -90,46 +90,44 @@ label.title {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background-color: rgb(128, 0, 128); 
+  background-color: transparent; 
   transition: all 0.3s ease;
 }
 
 
 .radio-inside input[type="radio"]:checked + label::before {
-  border-color: rgb(168, 255, 0);
+  border-color: rgb(8, 254, 147); 
 }
 
 .radio-inside input[type="radio"]:checked + label::after {
-  background-color: rgb(168, 255, 0);
+  background-color: rgb(8, 254, 147);
 }
 
 
 .radio-inside label span {
   margin-left: 45px;
-  color: rgb(255, 255, 255);
+  color: rgb(161, 161, 161);
   font-weight: normal;
   position: relative; 
   z-index: 1;
 }
 
-
 button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 10px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
-  background: linear-gradient(90deg, rgb(255,0,255), rgb(255,0,255));
+  border-radius: 30px; 
+  background-color: rgb(255, 0, 255);
   color: rgb(255,255,255);
   font-size: 16px;
   cursor: pointer;
-  transition: all 2s ease;
+  transition: background-color 20s linear;
 }
 
-
 button:hover {
-  background: linear-gradient(90deg, rgb(168,255,0), rgb(208,255,122));
-  transform: scale(1.05);
+  background-color: rgb(8, 254, 147);
 }
 </style>
 </head>
@@ -137,7 +135,7 @@ button:hover {
 <body>
 
 <form>
-  <label class="title">My favorite thing in the world:</label>
+  <label class="title">Your favorite thing in the world:</label>
   <div class="radio-outside">
     <div class="radio-inside">
       <input type="radio" id="pizza" name="favorite" value="Pizza">
