@@ -1,3 +1,6 @@
+[hideif [password]=MyShitNotYours67]
+[authenticate]
+[/hideif]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -160,6 +163,19 @@ button:hover {
 background-color: rgb(13, 255, 146);
 transition: background-color 1s linear;
 }
+
+
+.radio-inside:hover label::before {
+  transform: translate(-50%, -50%) scale(1.1);
+  border-color: rgb(254, 254, 254);
+}
+
+
+.radio-inside:hover label::after {
+  transform: translate(-50%, -50%) scale(1.1);
+  background-color: rgb(254, 254, 254);
+}
+
 </style>
 </head>
 
