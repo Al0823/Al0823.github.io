@@ -164,6 +164,7 @@ DELETED RECORD #[SKUVAR]<br>
 </div>
 <div class="addadmin26" id="addadmin">
 <button type="button" onclick="Back()">Back</button>
+<table style="width:100%" border=1>
 <h2>Add Record</h2>
 [showif [action]=append]
 APPENDING to [dbname]
@@ -187,7 +188,7 @@ APPENDING to [dbname]
 [redirect index.html]
 [/showif]
 
-<form method="post" action="[thisurl]" style="display: table-cell;">
+<form method="post" action="[thisurl]">
   <input type="hidden" name="action" value="append">
 
 <tr>
@@ -262,7 +263,7 @@ APPENDING to [dbname]
 </form>
 
 [closedatabase db=[dbVAR][dbname]]
-
+</table>
 </div>
 </main>
 <footer>
