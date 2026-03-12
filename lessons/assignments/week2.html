@@ -185,7 +185,6 @@ APPENDING to [dbname]
 [/!]CHATALLOWED=[CHATALLOWED]&[!]
 [/!]DISTRICT=[DISTRICT]
 [/append]
-[redirect index.html]
 [/showif]
 
 <form method="post" action="[thisurl]">
@@ -220,22 +219,35 @@ APPENDING to [dbname]
 <TD>
 
 
-	[!]Add Version[/!]
+
+<select name="SESSION" id="SESSION">
+<option value="AM">Morning Class</option>
+<option value="PM">Afternoon Class</option>
+</select><br><br>
+
+
 <select name="SCHOOLYEAR" id="SCHOOLYEAR">
 [LOOP START=[Syear]&END=[Eyear]]
 <OPTION VALUE="[INDEX]" [SHOWIF [INDEX]=[curyear]]Selected[/SHOWIF]>[INDEX]</OPTION>
 [/LOOP]
 </SELECT>
 
-
-
-
-
-
+<select name="DISTRICT" id="DISTRICT">
+<option value="APW">Altmar-Parish-Williamstown</option>
+<option value="CSQ">Central Square</option>
+<option value="FUL">Fulton</option>
+<option value="HAN">Hannibal</option>
+<option value="MEX">Mexico</option>
+<option value="OSW">Oswego</option>
+<option value="PHX">Phoenix</option>
+<option value="PUL">Pulaski</option>
+<option value="SCR">Sandy Creek</option>
+</select><br><br>
 
 
 </TD>
 <TD>
+<input type="text" id="STUDENTDIR" name="STUDENTDIR" placeholder="Student Directory here" required><br>
 
 <select name="LEVEL" id="LEVEL">
 <option value="1">1st Year</option>
@@ -243,7 +255,12 @@ APPENDING to [dbname]
 <option value="3">Teacher</option>
 <option value="4">Administrator</option>
 <option value="5">Operator</option>
-</select><br><br>
+</select><br>
+
+<select name="CHATALLOWED" id="CHATALLOWED">
+<option value="1">Allowed</option>
+<option value="0">Not Allowed</option>
+</select><br>
 
 </TD>
 <TD>
