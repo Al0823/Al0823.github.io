@@ -1,0 +1,269 @@
+[hideif [password]=MyShitNotYours67]
+[authenticate]
+[/hideif]
+
+[text]curyear=[date %Y][/text]
+[text]Syear=[math][curyear]-5[/math][/text]
+[text]Eyear=[math][curyear]+4[/math][/text]
+[!]
+[!]Add Version[/!]
+<select name="SCHOOLYEAR" id="SCHOOLYEAR">
+[LOOP START=[Syear]&END=[Eyear]]
+<OPTION VALUE="[INDEX]" [SHOWIF [INDEX]=[curyear]]Selected[/SHOWIF]>[INDEX]</OPTION>
+[/LOOP]
+</SELECT>
+
+[!]EDIT VERSION[/!]
+<select name="SCHOOLYEAR" id="SCHOOLYEAR">
+[LOOP START=[Syear]&END=[Eyear]]
+<OPTION VALUE="[INDEX]" [SHOWIF [SCHOOLYEAR]=[INDEX]]Selected[/SHOWIF]>[INDEX]</OPTION>
+[/LOOP]
+</SELECT>
+[/!]
+[TEXT]DBVAR=/citi/coding/2026/2/ak/lessons/assignments/databases/[/TEXT]
+
+[hideif [password]=MyShitNotYours67]
+[authenticate]
+[/hideif]
+
+<!DOCTYPE HTML>
+<HTML LANG="EN">
+
+<HEAD>
+<META CHARSET="UTF-8">
+<TITLE>WEEK 2 ASSIGNMENT</TITLE>
+
+<STYLE>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+line-height:1.5;
+display:flex;
+flex-direction:column;
+min-height:100vh;
+}
+
+header{
+background-color:rgb(75,75,75);
+color:white;
+padding:1rem;
+text-align:center;
+font-size:2.5rem;
+border-bottom:0.125rem solid rgb(125,125,125);
+}
+
+main{
+flex:1;
+display:flex;
+background-color: rgb(33, 33, 33);
+}
+
+.standardadmin26{
+background-color: rgb(33, 33, 33);
+min-height:530px;
+width:99%;
+padding-top:30px;
+padding-left:10px;
+float:left;
+overflow:hidden;
+display:table-cell;
+border:solid rgb(150,150,150) 1px;
+color: rgb(161, 161, 161);
+font-size:30px;
+}
+
+.addadmin26{
+background-color: rgb(33, 33, 33);
+min-height: 530px;
+width: 99%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+border:solid rgb(150,150,150) 1px;
+color: rgb(161, 161, 161);
+font-size: 30px;
+display: none;
+}
+
+footer{
+flex-shrink: 0;
+font-size: 40px;
+background-color: rgb(75,75,75);
+color: rgb(255, 255, 255);
+text-align: center;
+padding:15px 10px;
+border-top:1px solid rgb(125,125,125);
+}
+</STYLE>
+</HEAD>
+<BODY>
+<header>
+WEEK 2 ASSIGNMENT
+</header>
+<main>
+<div class="standardadmin26" id="standardadmin">
+[text]dbname=roster.db[/text]
+[showif [action]=Delete]
+[Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
+[redirect [thisurl]]
+DELETED RECORD #[SKUVAR]<br>
+[/showif]
+<h2>[dbname]</h2><br>
+[search db=[dbVAR][dbname]&neSKUdatarq=fa&SORTORDERsort=1&SORTORDERtype=num]
+[numfound] records found<br>
+<button type="button" onclick="Change()">Add Record</button>
+<table style="width:100%" border=1>
+<tr>
+<th>FNAME<br>LNAME<BR>EMAIL</th>
+<th>KEY<br>USERNAME<br>PASSWORD</th>
+<th>SESSION<br>SCHOOL YEAR<br>STATUS</th>
+<th>STUDENT DIRECTORY<br>LEVEL<br>COMPUTER NUMBER</th>
+<th>CHAT ALLOWED<br>ADMIN ACCESS<br>DISTRICT</th>
+</tr>
+[founditems]
+<tr>
+<td>
+
+[FNAME]<br>
+[LNAME]<br>
+[EMAIL]
+</td>
+<td>
+[KEY]<br>
+[UNAME]<br>
+[PWORD]
+</td>
+<td>
+[SESSION]<br>
+[SCHOOLYEAR]<br>
+[STATUS]
+</td>
+<td>
+[STUDENTDIR]<br>
+[LEVEL]<br>
+[COMPUTERNUM]
+</td>
+<td>
+[CHATALLOWED]<br>
+[ADMINACCESS]<br>
+[DISTRICT]
+</td>
+<td><a href="#">Edit</a></td>
+<td><a href="#">Delete</a></td>
+</tr>
+[/founditems]
+</table>
+[/search]
+[closedatabase db=[dbVAR][dbname]]
+</div>
+<div class="addadmin26" id="addadmin">
+<button type="button" onclick="Back()">Back</button>
+<h2>Add Record</h2>
+[showif [action]=append]
+APPENDING to [dbname]
+[append db=[dbVAR][dbname]&autonumber=SKU][!]
+[/!]KEY=[cart]&[!]
+[/!]fname=[fname]&[!]
+[/!]lname=[lname]&[!]
+[/!]email=[email]&[!]
+[/!]uname=[uname]&[!]
+[/!]pword=[pword]&[!]
+[/!]ADMINACCESS=[ADMINACCESS]&[!]
+[/!]status=[status]&[!]
+[/!]SESSION=[SESSION]&[!]
+[/!]SCHOOLYEAR=[SCHOOLYEAR]&[!]
+[/!]STUDENTDIR=[STUDENTDIR]&[!]
+[/!]LEVEL=[LEVEL]&[!]
+[/!]COMPUTERNUM=[COMPUTERNUM]&[!]
+[/!]CHATALLOWED=[CHATALLOWED]&[!]
+[/!]DISTRICT=[DISTRICT]
+[/append]
+[redirect index.html]
+[/showif]
+
+<form method="post" action="[thisurl]">
+  <input type="hidden" name="action" value="append">
+
+<tr>
+<th>FNAME<br>LNAME<BR>EMAIL</th>
+<th>KEY<br>USERNAME<br>PASSWORD</th>
+<th>SESSION<br>SCHOOL YEAR<br>STATUS</th>
+<th>STUDENT DIRECTORY<br>LEVEL<br>COMPUTER NUMBER</th>
+<th>CHAT ALLOWED<br>ADMIN ACCESS<br>DISTRICT</th>
+</tr>
+<td>
+  <input type="text" id="fname" name="fname" placeholder="First Name here" required><br>
+
+
+  <input type="text" id="lname" name="lname" placeholder="Last Name here" required><br>
+
+
+  <input type="text" id="email" name="email" placeholder="Email here" required><br>
+</td>
+  <td>
+  <input type="text" id="uname" name="uname" placeholder="Username here" required><br>
+
+  Password<br>
+  <input type="text" id="pword" name="pword" placeholder="Password here" required><br>
+
+
+  <select name="LEVEL" id="LEVEL">
+    <option value="1">Yes</option>
+    <option value="0">No</option>
+  </select><br><br>
+</TD>
+  <TD>
+  <select name="ADMINACCESS" id="ADMINACCESS">
+    <option value="1">Yes</option>
+    <option value="0">No</option>
+  </select><br>
+
+  STATUS<br>
+  <select name="status" id="status">
+    <option value="1">Active</option>
+    <option value="0">Inactive</option>
+  </select><br><br>
+
+  Session<br>
+  <select name="session" id="session">
+    <option value="AM">Morning Student</option>
+    <option value="PM">Afternoon Student</option>
+  </select><br><br>
+  </TD>
+  <TD>
+[!]Add Version[/!]
+<select name="SCHOOLYEAR" id="SCHOOLYEAR">
+[LOOP START=[Syear]&END=[Eyear]]
+<OPTION VALUE="[INDEX]" [SHOWIF [INDEX]=[curyear]]Selected[/SHOWIF]>[INDEX]</OPTION>
+[/LOOP]
+</SELECT>
+
+  <input type="submit" value="Add Record"></TD>
+</form>
+
+[closedatabase db=[dbVAR][dbname]]
+
+</div>
+</main>
+<footer>
+&COPY; A.T.A. Tech Wiki [DATE %Y]
+</footer>
+<script>
+function Change(){
+document.getElementById("standardadmin").style.display="none";
+document.getElementById("addadmin").style.display="block";
+}
+function Back(){
+document.getElementById("addadmin").style.display="none";
+document.getElementById("standardadmin").style.display="table-cell";
+}
+</script>
+[closedatabase db=[dbVAR][dbname]]
+</BODY>
+</HTML>
