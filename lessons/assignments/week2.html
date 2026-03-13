@@ -130,38 +130,76 @@ DELETED RECORD #[SKUVAR]<br>
 </tr>
 
 [founditems]
-<tr>
-<td>
 
-[FNAME]<br>
-[LNAME]<br>
-[EMAIL]
-</td>
+<form method="post" action="[thisurl]">
+
+<tr>
+
 <td>
-<br>
-[UNAME]<br>
-[PWORD]<br>
-[COMPUTERNUM]
+<span class="display">[FNAME]</span>
+<input class="editbox" type="text" name="fname" value="[FNAME]" style="display:none"><br>
+
+<span class="display">[LNAME]</span>
+<input class="editbox" type="text" name="lname" value="[LNAME]" style="display:none"><br>
+
+<span class="display">[EMAIL]</span>
+<input class="editbox" type="text" name="email" value="[EMAIL]" style="display:none">
 </td>
+
 <td>
-[SESSION]<br>
-[SCHOOLYEAR]<br>
-[DISTRICT]
+<span class="display">[UNAME]</span>
+<input class="editbox" type="text" name="uname" value="[UNAME]" style="display:none"><br>
+
+<span class="display">[PWORD]</span>
+<input class="editbox" type="text" name="pword" value="[PWORD]" style="display:none"><br>
+
+<span class="display">[COMPUTERNUM]</span>
+<input class="editbox" type="text" name="COMPUTERNUM" value="[COMPUTERNUM]" style="display:none">
 </td>
+
 <td>
-[STUDENTDIR]<br>
-[LEVEL]<br>
-[CHATALLOWED]
+<span class="display">[SESSION]</span>
+<input class="editbox" type="text" name="SESSION" value="[SESSION]" style="display:none"><br>
+
+<span class="display">[SCHOOLYEAR]</span>
+<input class="editbox" type="text" name="SCHOOLYEAR" value="[SCHOOLYEAR]" style="display:none"><br>
+
+<span class="display">[DISTRICT]</span>
+<input class="editbox" type="text" name="DISTRICT" value="[DISTRICT]" style="display:none">
 </td>
+
 <td>
-[ADMINACCESS]<br>
-[STATUS]<br>
+<span class="display">[STUDENTDIR]</span>
+<input class="editbox" type="text" name="STUDENTDIR" value="[STUDENTDIR]" style="display:none"><br>
+
+<span class="display">[LEVEL]</span>
+<input class="editbox" type="text" name="LEVEL" value="[LEVEL]" style="display:none"><br>
+
+<span class="display">[CHATALLOWED]</span>
+<input class="editbox" type="text" name="CHATALLOWED" value="[CHATALLOWED]" style="display:none">
+</td>
+
+<td>
+<span class="display">[ADMINACCESS]</span>
+<input class="editbox" type="text" name="ADMINACCESS" value="[ADMINACCESS]" style="display:none"><br>
+
+<span class="display">[STATUS]</span>
+<input class="editbox" type="text" name="STATUS" value="[STATUS]" style="display:none"><br>
+
 [SKU]<br>
 [KEY]
 </td>
-<td><a href="#">Edit</a></td>
-<td><a href="#">Delete</a></td>
+<input type="hidden" name="SKUVAR" value="[SKU]">
+<input type="hidden" name="action" value="replace">
+<td>
+<button type="button" onclick="editRow(this)">Edit</button>
+</td>
+<td>
+<button type="submit" class="savebtn" style="display:none">Save</button>
+<button type="button" class="deletebtn">Delete</button>
+</td>
 </tr>
+</form>
 [/founditems]
 </table>
 [/search]
@@ -302,6 +340,24 @@ document.getElementById("addadmin").style.display="table-cell";
 function Back(){
 document.getElementById("addadmin").style.display="none";
 document.getElementById("standardadmin").style.display="table-cell";
+}
+
+function editRow(btn){
+
+let row = btn.closest("tr");
+
+let displays = row.querySelectorAll(".display");
+let edits = row.querySelectorAll(".editbox");
+
+displays.forEach(d => d.style.display="none");
+edits.forEach(e => e.style.display="inline");
+
+btn.innerText="Cancel";
+btn.onclick=function(){location.reload();};
+
+row.querySelector(".savebtn").style.display="inline";
+row.querySelector(".deletebtn").style.display="none";
+
 }
 </script>
 [closedatabase db=[dbVAR][dbname]]
