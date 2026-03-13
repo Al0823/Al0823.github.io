@@ -2,7 +2,7 @@
 [authenticate]
 [/hideif]
 
-[text]curyear=[date %Y][/text]
+[text]curyear=[DATE %Y][/text]
 [text]Syear=[math][curyear]-5[/math][/text]
 [text]Eyear=[math][curyear]+4[/math][/text]
 [!]
@@ -111,6 +111,17 @@ border:1px solid rgb(136, 136, 136);
 background-color:rgb(85, 85, 85);
 color:rgb(204, 204, 204);
 }
+
+#button {
+background-color: rgb(255, 255, 255);
+border: none; 
+color: rgb(0, 0, 0);  
+text-align: center; 
+text-decoration: none; 
+display: inline-block; 
+font-size: 12px; 
+cursor: pointer; 
+}
 </STYLE>
 </HEAD>
 <BODY>
@@ -118,8 +129,35 @@ color:rgb(204, 204, 204);
 WEEK 2 ASSIGNMENT
 </header>
 <main>
-<div class="standardadmin26" id="standardadmin">
 [text]dbname=roster.db[/text]
+[showif [action]=append]
+APPENDING to [dbname]
+[append db=[dbVAR][dbname]&autonumber=SKU][!]
+[/!]KEY=[cart]&[!]
+[/!]fname=[fname]&[!]
+[/!]lname=[lname]&[!]
+[/!]email=[email]&[!]
+[/!]uname=[uname]&[!]
+[/!]pword=[pword]&[!]
+[/!]ADMINACCESS=[ADMINACCESS]&[!]
+[/!]status=[status]&[!]
+[/!]SESSION=[SESSION]&[!]
+[/!]SCHOOLYEAR=[SCHOOLYEAR]&[!]
+[/!]STUDENTDIR=[STUDENTDIR]&[!]
+[/!]LEVEL=[LEVEL]&[!]
+[/!]COMPUTERNUM=[COMPUTERNUM]&[!]
+[/!]CHATALLOWED=[CHATALLOWED]&[!]
+[/!]DISTRICT=[DISTRICT]
+[/append]
+[redirect [thisurl]]
+[/showif]
+
+
+
+<div class="standardadmin26" id="standardadmin">
+
+
+
 [showif [action]=Delete]
 [Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
 DELETED RECORD #[SKUVAR]<br>
@@ -141,11 +179,11 @@ Replacing to [dbname]
 [/!]LEVEL=[LEVEL]&[!]
 [/!]COMPUTERNUM=[COMPUTERNUM]&[!]
 [/!]CHATALLOWED=[CHATALLOWED]&[!]
-[/!]DISTRICT=[DISTRICT]
-[/replace]
+[/!]DISTRICT=[DISTRICT][/replace]
+[redirect [thisurl]]
 [/SHOWIF]
 <h2>[dbname]</h2><br>
-[search db=[dbVAR][dbname]&neSKUdatarq=fa&SORTORDERsort=1&SORTORDERtype=num]
+[search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1]
 [numfound] records found<br>
 <button type="button" onclick="Change()">Add Record</button>
 <table style="width:100%" border=1>
@@ -157,6 +195,7 @@ Replacing to [dbname]
 <th>STUDENT DIRECTORY<br>LEVEL<br>CHAT ALLOWED</th>
 <th>ADMIN ACCESS<br>STATUS<br>SKU<br>KEY</th>
 <th></th>
+<TH></TH>
 </tr>
 
 [founditems]
@@ -191,8 +230,8 @@ Replacing to [dbname]
 
 
 <select class="editbox" name="SESSION" id="SESSION" value="[SESSION]" disabled required>
-<option value="AM">Morning Class</option>
-<option value="PM">Afternoon Class</option>
+<option value="AM" [SHOWIF [SESSION]=AM]Selected[/SHOWIF]>Morning Class</option>
+<option value="PM" [SHOWIF [SESSION]=PM]Selected[/SHOWIF]>Afternoon Class</option>
 </select><br>
 
 
@@ -203,47 +242,47 @@ Replacing to [dbname]
 </SELECT><br>
 
 <select class="editbox" name="DISTRICT" id="DISTRICT" value="[DISTRICT]" disabled required>
-<option value="APW">Altmar-Parish-Williamstown</option>
-<option value="CSQ">Central Square</option>
-<option value="FUL">Fulton</option>
-<option value="HAN">Hannibal</option>
-<option value="MEX">Mexico</option>
-<option value="OSW">Oswego</option>
-<option value="PHX">Phoenix</option>
-<option value="PUL">Pulaski</option>
-<option value="SCR">Sandy Creek</option>
+<option value="APW" [SHOWIF [DISTRICT]=APW]Selected[/SHOWIF]>Altmar-Parish-Williamstown</option>
+<option value="CS2" [SHOWIF [DISTRICT]=CS2]Selected[/SHOWIF]>Central Square</option>
+<option value="FUL" [SHOWIF [DISTRICT]=FUL]Selected[/SHOWIF]>Fulton</option>
+<option value="HAN" [SHOWIF [DISTRICT]=HAN]Selected[/SHOWIF]>Hannibal</option>
+<option value="MEX" [SHOWIF [DISTRICT]=MEX]Selected[/SHOWIF]>Mexico</option>
+<option value="OSW" [SHOWIF [DISTRICT]=OSW]Selected[/SHOWIF]>Oswego</option>
+<option value="PHX" [SHOWIF [DISTRICT]=PHX]Selected[/SHOWIF]>Phoenix</option>
+<option value="PUL" [SHOWIF [DISTRICT]=PUL]Selected[/SHOWIF]>Pulaski</option>
+<option value="SCD" [SHOWIF [DISTRICT]=SCD]Selected[/SHOWIF]>Sandy Creek</option>
 </select><br>
 
 
 </TD>
 
 <TD>
-<input class="editbox" type="text" id="STUDENTDIR" name="STUDENTDIR" value="[LEVEL]" readonly required><br>
+<input class="editbox" type="text" id="STUDENTDIR" name="STUDENTDIR" value="[STUDENTDIR]" readonly required><br>
 
 <select class="editbox" name="LEVEL" id="LEVEL" value="[LEVEL]" disabled required>
-<option value="1">1st Year</option>
-<option value="2">2nd Year</option>
-<option value="3">Teacher</option>
-<option value="4">Administrator</option>
-<option value="5">Operator</option>
+<option value="1" [SHOWIF [LEVEL]=1]Selected[/SHOWIF]>1st Year</option>
+<option value="2" [SHOWIF [LEVEL]=2]Selected[/SHOWIF]>2nd Year</option>
+<option value="3" [SHOWIF [LEVEL]=3]Selected[/SHOWIF]>Teacher</option>
+<option value="4" [SHOWIF [LEVEL]=4]Selected[/SHOWIF]>Administrator</option>
+<option value="5" [SHOWIF [LEVEL]=5]Selected[/SHOWIF]>Operator</option>
 </select><br>
 
 <select class="editbox" name="CHATALLOWED" id="CHATALLOWED" value="[CHATALLOWED]" disabled required>
-<option value="1">Allowed</option>
-<option value="0">Not Allowed</option>
+<option value="1" [SHOWIF [CHATALLOWED]=1]Selected[/SHOWIF]>Allowed</option>
+<option value="0 [SHOWIF [CHATALLOWED]=0]Selected[/SHOWIF]">Not Allowed</option>
 </select><br>
 
 </TD>
 
 <TD>
-<select class="editbox" name="ADMINACCESS" id="ADMINACCESS" disabled required>
-<option value="1">Yes</option>
-<option value="0">No</option>
+<select class="editbox" name="ADMINACCESS" id="ADMINACCESS" value="[ADMINACCESS]" disabled required>
+<option value="1" [SHOWIF [ADMINACCESS]=1]Selected[/SHOWIF]>Yes</option>
+<option value="0" [SHOWIF [ADMINACCESS]=0]Selected[/SHOWIF]>No</option>
 </select><br>
 
 <select class="editbox" name="status" id="status" value="[STATUS]" disabled required>
-<option value="1">Active</option>
-<option value="0">Inactive</option>
+<option value="1" [SHOWIF [STATUS]=1]Selected[/SHOWIF]>Active</option>
+<option value="0" [SHOWIF [STATUS]=0]Selected[/SHOWIF]>Inactive</option>
 </select><br>
 
 
@@ -255,8 +294,8 @@ Replacing to [dbname]
 <button type="button" onclick="editRow(this)">Edit</button>
 </td>
 <td>
-<button type="submit" class="savebtn" style="display:none">Save</button>
-<button type="button" class="deletebtn" onclick="deleteRow(this,'[SKU]')">Delete</button>
+<input type="submit" class="savebtn" value="Save" style="display:none">
+<a href="[thisurl]?action=Delete&SKUVAR=[SKU]" id="button" onclick="deleteRow(this,'[SKU]')">Delete</a>
 </td>
 </tr>
 </form>
@@ -269,29 +308,7 @@ Replacing to [dbname]
 <button type="button" onclick="Back()">Back</button>
 <table style="width:100%" border=1>
 <h2>Add Record</h2>
-[showif [action]=append]
-APPENDING to [dbname]
-[append db=[dbVAR][dbname]&autonumber=SKU][!]
-[/!]KEY=[cart]&[!]
-[/!]fname=[fname]&[!]
-[/!]lname=[lname]&[!]
-[/!]email=[email]&[!]
-[/!]uname=[uname]&[!]
-[/!]pword=[pword]&[!]
-[/!]ADMINACCESS=[ADMINACCESS]&[!]
-[/!]status=[status]&[!]
-[/!]SESSION=[SESSION]&[!]
-[/!]SCHOOLYEAR=[SCHOOLYEAR]&[!]
-[/!]STUDENTDIR=[STUDENTDIR]&[!]
-[/!]LEVEL=[LEVEL]&[!]
-[/!]COMPUTERNUM=[COMPUTERNUM]&[!]
-[/!]CHATALLOWED=[CHATALLOWED]&[!]
-[/!]DISTRICT=[DISTRICT]
-[/append]
-<script>
-Back();
-</script>
-[/showif]
+
 
 <form method="post" action="[thisurl]">
   <input type="hidden" name="action" value="append">
@@ -390,7 +407,10 @@ Back();
 </div>
 </main>
 <footer>
-&COPY; A.T.A. Tech Wiki [DATE %Y]
+&COPY; A.T.A. Tech Wiki [DATE %Y]<br><br>
+[formvariables]
+[index], <B>[name]</b> = [value]<br>
+[/formvariables]
 </footer>
 <script>
 function Change(){
