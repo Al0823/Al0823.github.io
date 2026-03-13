@@ -449,7 +449,13 @@ alert("Delete failed.");
 }
 
 function confirmEdit(){
-return confirm("Are you sure you want to save these changes?");
+
+if(!confirm("Are you sure you want to edit this record and save the changes?")){
+return false;
+}
+
+return true;
+
 }
 </script>
 [closedatabase db=[dbVAR][dbname]]
