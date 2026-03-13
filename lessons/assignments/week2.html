@@ -35,81 +35,119 @@
 
 <STYLE>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+
+body {
+margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: rgb(33, 33, 33);
+  color: rgb(161, 161, 161);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-body{
-line-height:1.5;
-display:flex;
-flex-direction:column;
-min-height:100vh;
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  transform: scale(1.05);
+  transform-origin: center;
 }
 
-header{
-background-color:rgb(75,75,75);
-color:rgb(255, 255, 255);
-padding:1rem;
-text-align:center;
-font-size:2.5rem;
-border-bottom:0.125rem solid rgb(125,125,125);
+th, td {
+  padding: 10px;
+  border: 1px solid rgb(60, 60, 60);
+  text-align: left;
+  vertical-align: middle;
 }
 
-main{
-flex:1;
-display:flex;
-background-color: rgb(33, 33, 33);
+
+.editbox {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 5px;
+  background-color: rgb(50, 50, 50);
+  color: rgb(161, 161, 161);
+  border: 2px solid rgb(85, 85, 85);
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
-.standardadmin26{
-background-color: rgb(33, 33, 33);
-min-height:530px;
-width:99%;
-padding-top:30px;
-padding-left:10px;
-float:left;
-overflow:hidden;
-display:table-cell;
-border:solid rgb(150,150,150) 1px;
-color: rgb(161, 161, 161);
-font-size:30px;
+
+.editbox:hover, .editbox:focus {
+  border-color: rgb(237, 1, 252);
+  box-shadow: 0 0 6px rgb(237, 1, 252, 0.5);
+  outline: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(36, 36, 36);
 }
 
-.addadmin26{
-background-color: rgb(33, 33, 33);
-min-height: 530px;
-width: 99%;
-padding-top: 30px;
-padding-left: 10px;
-float: left;
-overflow: hidden;
-border:solid rgb(150,150,150) 1px;
-color: rgb(161, 161, 161);
-font-size: 30px;
-display: none;
+
+.editbox[readonly], .editbox:disabled {
+  background-color: rgb(40, 40, 40);
+  color: rgb(120, 120, 120);
+  border: 2px solid rgb(70, 70, 70);
 }
 
-footer{
-flex-shrink: 0;
-font-size: 40px;
-background-color: rgb(75,75,75);
-color: rgb(255, 255, 255);
-text-align: center;
-padding:15px 10px;
-border-top:1px solid rgb(125,125,125);
+
+.savebtn, .deletebtn, button {
+  padding: 6px 12px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.5s ease, transform 0.2s ease;
 }
 
-.editbox[readonly]{
-background-color:rgb(85, 85, 85);
-color:rgb(204, 204, 204);
-border:1px solid rgb(136, 136, 136);
+
+.savebtn {
+  background-color: rgb(13, 255, 146);
+  color: rgb(0, 0, 0);
 }
 
-.editbox:disabled{
-background-color:rgb(85, 85, 85);
-color:rgb(204, 204, 204);
+
+.deletebtn {
+  background-color: rgb(237, 1, 252);
+  color: rgb(0, 0, 0);
+}
+
+.savebtn:hover {
+  background-color: rgb(237, 1, 252);
+  transform: scale(1.05);
+}
+
+.deletebtn:hover {
+  background-color: rgb(13, 255, 146);
+  transform: scale(1.05);
+}
+
+
+td button {
+  background-color: rgb(237, 1, 252);
+  color: rgb(0, 0, 0);
+}
+
+td button:hover {
+  background-color: rgb(13, 255, 146);
+  transition: background-color 0.5s linear;
+}
+
+
+select.editbox {
+  color: rgb(161, 161, 161);
+  background-color: rgb(50, 50, 50);
+  border: 2px solid rgb(85, 85, 85);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+select.editbox:hover, select.editbox:focus {
+  border-color: rgb(237, 1, 252);
+  box-shadow: 0 0 6px rgb(237, 1, 252, 0.5);
+  outline: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(36, 36, 36);
 }
 </STYLE>
 </HEAD>
