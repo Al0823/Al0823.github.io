@@ -405,24 +405,41 @@ document.getElementById("standardadmin").style.display="table-cell";
 function editRow(btn){
 
 let row = btn.closest("tr");
-
 let edits = row.querySelectorAll(".editbox");
+let saveBtn = row.querySelector(".savebtn");
+let deleteBtn = row.querySelector(".deletebtn");
+
+
+if(btn.innerText === "Edit"){
 
 edits.forEach(e => {
-
 if(e.tagName === "SELECT"){
 e.disabled = false;
 }else{
 e.readOnly = false;
 }
-
 });
 
-btn.innerText="Cancel";
-btn.onclick=function(){location.reload();};
+btn.innerText = "Cancel";
+saveBtn.style.display = "inline";
+deleteBtn.style.display = "none";
 
-row.querySelector(".savebtn").style.display="inline";
-row.querySelector(".deletebtn").style.display="none";
+}
+
+else if(btn.innerText === "Cancel"){
+
+edits.forEach(e => {
+if(e.tagName === "SELECT"){
+e.disabled = true;
+}else{
+e.readOnly = true;
+}
+});
+
+btn.innerText = "Edit";
+saveBtn.style.display = "none";
+deleteBtn.style.display = "inline";
+}
 
 }
 
