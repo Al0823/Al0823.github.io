@@ -156,42 +156,42 @@ Replacing to [dbname]
 <tr>
 
 <td>
-  <input class="editbox" type="text" id="fname" name="fname" value="[FNAME]" required><br>
+  <input class="editbox" type="text" id="fname" name="fname" value="[FNAME]" readonly required><br>
 
 
-  <input class="editbox" type="text" id="lname" name="lname" value="[LNAME]" required><br>
+  <input class="editbox" type="text" id="lname" name="lname" value="[LNAME]" readonly required><br>
 
 
-  <input class="editbox" type="text" id="email" name="email" value="[EMAIL]" required><br>
+  <input class="editbox" type="text" id="email" name="email" value="[EMAIL]" readonly required><br>
 </td>
 
 <td>
-<input class="editbox" type="text" name="uname" id="UNAME" value="[UNAME]"><br>
+<input class="editbox" type="text" name="uname" id="UNAME" value="[UNAME]" readonly required><br>
 
 
-<input class="editbox" type="text" name="pword" id="PWORD" value="[PWORD]"><br>
+<input class="editbox" type="text" name="pword" id="PWORD" value="[PWORD]" readonly required><br>
 
 
-<input class="editbox" type="text" name="COMPUTERNUM" id="COMPUTERNUM" value="[COMPUTERNUM]">
+<input class="editbox" type="text" name="COMPUTERNUM" id="COMPUTERNUM" value="[COMPUTERNUM]" readonly required>
 </td>
 
 <TD>
 
 
 
-<select class="editbox" name="SESSION" id="SESSION" value="[SESSION]">
+<select class="editbox" name="SESSION" id="SESSION" value="[SESSION]" disabled required>
 <option value="AM">Morning Class</option>
 <option value="PM">Afternoon Class</option>
 </select><br>
 
 
-<select class="editbox" name="SCHOOLYEAR" id="SCHOOLYEAR" value="[SCHOOLYEAR]">
+<select class="editbox" name="SCHOOLYEAR" id="SCHOOLYEAR" value="[SCHOOLYEAR]" disabled required>
 [LOOP START=[Syear]&END=[Eyear]]
 <OPTION VALUE="[INDEX]" [SHOWIF [SCHOOLYEAR]=[INDEX]]Selected[/SHOWIF]>[INDEX]</OPTION>
 [/LOOP]
 </SELECT><br>
 
-<select class="editbox" name="DISTRICT" id="DISTRICT" value="[DISTRICT]">
+<select class="editbox" name="DISTRICT" id="DISTRICT" value="[DISTRICT]" disabled required>
 <option value="APW">Altmar-Parish-Williamstown</option>
 <option value="CSQ">Central Square</option>
 <option value="FUL">Fulton</option>
@@ -207,9 +207,9 @@ Replacing to [dbname]
 </TD>
 
 <TD>
-<input class="editbox" type="text" id="STUDENTDIR" name="STUDENTDIR" value="[LEVEL]" required><br>
+<input class="editbox" type="text" id="STUDENTDIR" name="STUDENTDIR" value="[LEVEL]" readonly required><br>
 
-<select class="editbox" name="LEVEL" id="LEVEL" value="[LEVEL]">
+<select class="editbox" name="LEVEL" id="LEVEL" value="[LEVEL]" disabled required>
 <option value="1">1st Year</option>
 <option value="2">2nd Year</option>
 <option value="3">Teacher</option>
@@ -217,7 +217,7 @@ Replacing to [dbname]
 <option value="5">Operator</option>
 </select><br>
 
-<select class="editbox" name="CHATALLOWED" id="CHATALLOWED" value="[CHATALLOWED]">
+<select class="editbox" name="CHATALLOWED" id="CHATALLOWED" value="[CHATALLOWED]" disabled required>
 <option value="1">Allowed</option>
 <option value="0">Not Allowed</option>
 </select><br>
@@ -225,12 +225,12 @@ Replacing to [dbname]
 </TD>
 
 <TD>
-<select class="editbox" name="ADMINACCESS" id="ADMINACCESS">
+<select class="editbox" name="ADMINACCESS" id="ADMINACCESS" disabled required>
 <option value="1">Yes</option>
 <option value="0">No</option>
 </select><br>
 
-<select class="editbox" name="status" id="status" value="[STATUS]">
+<select class="editbox" name="status" id="status" value="[STATUS]" disabled required>
 <option value="1">Active</option>
 <option value="0">Inactive</option>
 </select><br>
