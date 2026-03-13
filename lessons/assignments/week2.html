@@ -402,21 +402,28 @@ document.getElementById("addadmin").style.display="none";
 document.getElementById("standardadmin").style.display="table-cell";
 }
 
-function editRow(btn){
-
+function editRow(btn) {
 let row = btn.closest("tr");
 let edits = row.querySelectorAll(".editbox");
 let saveBtn = row.querySelector(".savebtn");
 let deleteBtn = row.querySelector(".deletebtn");
 
 
-if(btn.innerText === "Edit"){
+if (btn.innerText === "Edit") {
+
 
 edits.forEach(e => {
-if(e.tagName === "SELECT"){
+if (!e.dataset.original) {
+if (e.tagName === "SELECT") {
+e.dataset.original = e.value;
 e.disabled = false;
-}else{
+} else {
+e.dataset.original = e.value;
 e.readOnly = false;
+}
+} else {
+if (e.tagName === "SELECT") e.disabled = false;
+else e.readOnly = false;
 }
 });
 
@@ -426,12 +433,14 @@ deleteBtn.style.display = "none";
 
 }
 
-else if(btn.innerText === "Cancel"){
+else if (btn.innerText === "Cancel") {
 
 edits.forEach(e => {
-if(e.tagName === "SELECT"){
+if (e.tagName === "SELECT") {
+e.value = e.dataset.original;
 e.disabled = true;
-}else{
+} else {
+e.value = e.dataset.original;
 e.readOnly = true;
 }
 });
@@ -440,7 +449,6 @@ btn.innerText = "Edit";
 saveBtn.style.display = "none";
 deleteBtn.style.display = "inline";
 }
-
 }
 
 function deleteRow(btn, sku){
