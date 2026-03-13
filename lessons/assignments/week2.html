@@ -50,7 +50,7 @@ min-height:100vh;
 
 header{
 background-color:rgb(75,75,75);
-color:white;
+color:rgb(255, 255, 255);
 padding:1rem;
 text-align:center;
 font-size:2.5rem;
@@ -99,6 +99,17 @@ color: rgb(255, 255, 255);
 text-align: center;
 padding:15px 10px;
 border-top:1px solid rgb(125,125,125);
+}
+
+.editbox[readonly]{
+background-color:rgb(85, 85, 85);
+color:rgb(204, 204, 204);
+border:1px solid rgb(136, 136, 136);
+}
+
+.editbox:disabled{
+background-color:rgb(85, 85, 85);
+color:rgb(204, 204, 204);
 }
 </STYLE>
 </HEAD>
@@ -395,11 +406,17 @@ function editRow(btn){
 
 let row = btn.closest("tr");
 
-let displays = row.querySelectorAll(".display");
 let edits = row.querySelectorAll(".editbox");
 
-displays.forEach(d => d.style.display="none");
-edits.forEach(e => e.style.display="inline");
+edits.forEach(e => {
+
+if(e.tagName === "SELECT"){
+e.disabled = false;
+}else{
+e.readOnly = false;
+}
+
+});
 
 btn.innerText="Cancel";
 btn.onclick=function(){location.reload();};
