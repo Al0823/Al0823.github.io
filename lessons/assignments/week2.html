@@ -114,6 +114,26 @@ WEEK 2 ASSIGNMENT
 [redirect [thisurl]]
 DELETED RECORD #[SKUVAR]<br>
 [/showif]
+[showif [action]=replace]
+Replacing to [dbname]
+[replace db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]][!]
+[/!]KEY=[cart]&[!]
+[/!]fname=[fname]&[!]
+[/!]lname=[lname]&[!]
+[/!]email=[email]&[!]
+[/!]uname=[uname]&[!]
+[/!]pword=[pword]&[!]
+[/!]ADMINACCESS=[ADMINACCESS]&[!]
+[/!]status=[status]&[!]
+[/!]SESSION=[SESSION]&[!]
+[/!]SCHOOLYEAR=[SCHOOLYEAR]&[!]
+[/!]STUDENTDIR=[STUDENTDIR]&[!]
+[/!]LEVEL=[LEVEL]&[!]
+[/!]COMPUTERNUM=[COMPUTERNUM]&[!]
+[/!]CHATALLOWED=[CHATALLOWED]&[!]
+[/!]DISTRICT=[DISTRICT]
+[/replace]
+[/SHOWIF]
 <h2>[dbname]</h2><br>
 [search db=[dbVAR][dbname]&neSKUdatarq=fa&SORTORDERsort=1&SORTORDERtype=num]
 [numfound] records found<br>
@@ -132,71 +152,101 @@ DELETED RECORD #[SKUVAR]<br>
 [founditems]
 
 <form method="post" action="[thisurl]">
-
+<input type="hidden" name="SKUVAR" value="[SKU]">
+<input type="hidden" name="action" value="replace">
 <tr>
 
 <td>
-<span class="display">[FNAME]</span>
-<input class="editbox" type="text" name="fname" value="[FNAME]" style="display:none"><br>
+  <input class="editbox" type="text" id="fname" name="fname" value="[FNAME]" required><br>
 
-<span class="display">[LNAME]</span>
-<input class="editbox" type="text" name="lname" value="[LNAME]" style="display:none"><br>
 
-<span class="display">[EMAIL]</span>
-<input class="editbox" type="text" name="email" value="[EMAIL]" style="display:none">
+  <input class="editbox" type="text" id="lname" name="lname" value="[LNAME]" required><br>
+
+
+  <input class="editbox" type="text" id="email" name="email" value="[EMAIL]" required><br>
 </td>
 
 <td>
-<span class="display">[UNAME]</span>
-<input class="editbox" type="text" name="uname" value="[UNAME]" style="display:none"><br>
+<input class="editbox" type="text" name="uname" id="UNAME" value="[UNAME]"><br>
 
-<span class="display">[PWORD]</span>
-<input class="editbox" type="text" name="pword" value="[PWORD]" style="display:none"><br>
 
-<span class="display">[COMPUTERNUM]</span>
-<input class="editbox" type="text" name="COMPUTERNUM" value="[COMPUTERNUM]" style="display:none">
+<input class="editbox" type="text" name="pword" id="PWORD" value="[PWORD]"><br>
+
+
+<input class="editbox" type="text" name="COMPUTERNUM" id="COMPUTERNUM" value="[COMPUTERNUM]">
 </td>
 
-<td>
-<span class="display">[SESSION]</span>
-<input class="editbox" type="text" name="SESSION" value="[SESSION]" style="display:none"><br>
+<TD>
 
-<span class="display">[SCHOOLYEAR]</span>
-<input class="editbox" type="text" name="SCHOOLYEAR" value="[SCHOOLYEAR]" style="display:none"><br>
 
-<span class="display">[DISTRICT]</span>
-<input class="editbox" type="text" name="DISTRICT" value="[DISTRICT]" style="display:none">
-</td>
 
-<td>
-<span class="display">[STUDENTDIR]</span>
-<input class="editbox" type="text" name="STUDENTDIR" value="[STUDENTDIR]" style="display:none"><br>
+<select class="editbox" name="SESSION" id="SESSION" value="[SESSION]">
+<option value="AM">Morning Class</option>
+<option value="PM">Afternoon Class</option>
+</select><br>
 
-<span class="display">[LEVEL]</span>
-<input class="editbox" type="text" name="LEVEL" value="[LEVEL]" style="display:none"><br>
 
-<span class="display">[CHATALLOWED]</span>
-<input class="editbox" type="text" name="CHATALLOWED" value="[CHATALLOWED]" style="display:none">
-</td>
+<select class="editbox" name="SCHOOLYEAR" id="SCHOOLYEAR" value="[SCHOOLYEAR]">
+[LOOP START=[Syear]&END=[Eyear]]
+<OPTION VALUE="[INDEX]" [SHOWIF [SCHOOLYEAR]=[INDEX]]Selected[/SHOWIF]>[INDEX]</OPTION>
+[/LOOP]
+</SELECT><br>
 
-<td>
-<span class="display">[ADMINACCESS]</span>
-<input class="editbox" type="text" name="ADMINACCESS" value="[ADMINACCESS]" style="display:none"><br>
+<select class="editbox" name="DISTRICT" id="DISTRICT" value="[DISTRICT]">
+<option value="APW">Altmar-Parish-Williamstown</option>
+<option value="CSQ">Central Square</option>
+<option value="FUL">Fulton</option>
+<option value="HAN">Hannibal</option>
+<option value="MEX">Mexico</option>
+<option value="OSW">Oswego</option>
+<option value="PHX">Phoenix</option>
+<option value="PUL">Pulaski</option>
+<option value="SCR">Sandy Creek</option>
+</select><br>
 
-<span class="display">[STATUS]</span>
-<input class="editbox" type="text" name="STATUS" value="[STATUS]" style="display:none"><br>
+
+</TD>
+
+<TD>
+<input class="editbox" type="text" id="STUDENTDIR" name="STUDENTDIR" value="[LEVEL]" required><br>
+
+<select class="editbox" name="LEVEL" id="LEVEL" value="[LEVEL]">
+<option value="1">1st Year</option>
+<option value="2">2nd Year</option>
+<option value="3">Teacher</option>
+<option value="4">Administrator</option>
+<option value="5">Operator</option>
+</select><br>
+
+<select class="editbox" name="CHATALLOWED" id="CHATALLOWED" value="[CHATALLOWED]">
+<option value="1">Allowed</option>
+<option value="0">Not Allowed</option>
+</select><br>
+
+</TD>
+
+<TD>
+<select class="editbox" name="ADMINACCESS" id="ADMINACCESS">
+<option value="1">Yes</option>
+<option value="0">No</option>
+</select><br>
+
+<select class="editbox" name="status" id="status" value="[STATUS]">
+<option value="1">Active</option>
+<option value="0">Inactive</option>
+</select><br>
+
 
 [SKU]<br>
 [KEY]
 </td>
-<input type="hidden" name="SKUVAR" value="[SKU]">
-<input type="hidden" name="action" value="replace">
+
 <td>
 <button type="button" onclick="editRow(this)">Edit</button>
 </td>
 <td>
 <button type="submit" class="savebtn" style="display:none">Save</button>
-<button type="button" class="deletebtn">Delete</button>
+<button type="button" class="deletebtn" onclick="deleteRow(this,'[SKU]')">Delete</button>
 </td>
 </tr>
 </form>
@@ -288,7 +338,7 @@ Back();
 <option value="PHX">Phoenix</option>
 <option value="PUL">Pulaski</option>
 <option value="SCR">Sandy Creek</option>
-</select><br><br>
+</select><br>
 
 
 </TD>
@@ -357,6 +407,28 @@ btn.onclick=function(){location.reload();};
 
 row.querySelector(".savebtn").style.display="inline";
 row.querySelector(".deletebtn").style.display="none";
+
+}
+
+function deleteRow(btn, sku){
+
+if(!confirm("Are you sure you want to delete this record?")){
+return;
+}
+
+let row = btn.closest("tr");
+
+fetch("[thisurl]?action=Delete&SKUVAR=" + sku)
+.then(response => response.text())
+.then(data => {
+
+row.remove();
+
+})
+.catch(error=>{
+console.error("Delete failed:", error);
+alert("Delete failed.");
+});
 
 }
 </script>
