@@ -1,130 +1,403 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<meta charset="UTF-8">
-<title id="fullTitle"></title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="description" content="A.t.A. Projects - My High School Web Projects Page">
+<meta name="keywords" content="projects, A.t.A., html, CSS, Javascript">
+<title>A.t.A. Projects - Landing Page</title>
 
-<style>
-@import url("/css/style.css");
+<style type="text/css">
+body {
+  background-color: rgb(175, 175, 175);
+  color: rgb(0, 0, 0);
+  font-family: "Comic Sans MS", "Courier New", cursive;
+  margin: 0;
+  padding: 0;
+}
+a:link    { color: rgb(75, 92, 1); text-decoration: underline; }
+a:visited { color: rgb(75, 92, 1); text-decoration: underline; }
+a:hover   { background-color: rgb(150, 150, 150); border-radius: 20px; }
+a:active  { color: rgb(0, 0, 0); }
+td { vertical-align: top; }
+
+.section-title {
+  background-color: rgb(75, 75, 75);
+  color: rgb(255, 255, 255);
+  border: 3px ridge rgb(125, 125, 125);
+  padding: 4px 8px;
+  font-size: 14pt;
+  font-weight: bold;
+}
+.link-box {
+  background-color: rgb(150, 150, 150);
+  border: 2px inset rgb(100, 100, 100);
+  padding: 6px;
+  margin-bottom: 4px;
+}
+.counter-box {
+  background-color: rgb(75, 75, 75);
+  border: 3px ridge rgb(125, 125, 125);
+  padding: 6px 12px;
+  color: rgb(255, 255, 255);
+  font-family: "Courier New", monospace;
+  font-size: 12pt;
+  letter-spacing: 3px;
+}
+.badge-box {
+  border: 2px solid rgb(100, 100, 100);
+  padding: 4px 8px;
+  text-align: center;
+  background-color: rgb(200, 200, 200);
+  margin-bottom: 8px;
+  color: rgb(0, 0, 0);
+  font-size: 10pt;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+.under-construction {
+  background-color: rgb(255, 243, 205);
+  color: rgb(199, 0, 57);
+  font-weight: bold;
+  font-size: 10pt;
+  padding: 2px 6px;
+  border: 2px dashed rgb(255, 87, 51);
+}
 </style>
-
-<script>
-
-var CONFIG = {
-  PROPOSALVAR: "/proposal/",
-  MYSITEVAR: "https://aloysiusprojects.kesug.com/mysite/",
-  AMPVAR: "/amp/",
-  TBGVAR: "https://www.citicoding.org/citi/coding/2025/tbgp7/",
-  JSWIKIVAR: "/javascript/frontend/",
-  WIKIVAR: "/myproject/wiki/",
-  WIKIDEVVAR: "/myproject/wikiinfo/",
-		WEEKVAR: "/lessons/assignments/",
-  PKHEXVAR: "https://Al0823.github.io/PKHEX-WEB/wwwroot/", 
-  SHSVAR: "/shaysanimalshelter/",
-		ALTDOMAINVAR: "https://aloysiusprojects.kesug.com/",
-  CSSVAR: "/css/",
-  DEBUGVAR: 0,
-  WEBSITETITLE: "A.t.A. Projects",
-  PAGETITLE: "Landing Page"
-};
-</script>
 </head>
 
-<body>
+<body bgcolor="#afafaf" text="#000000" link="#4b5c01" vlink="#4b5c01" alink="#000000">
 
-<header>
-  <div class="header">A.t.A. Projects<br></div>
-  <div id="debugNotice"></div>
-</header>
+<center>
+<table width="760" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td>
 
-<main>
+  <!-- TOP MARQUEE -->
+  <marquee behavior="scroll" direction="left" scrollamount="4"
+           style="background-color: rgb(75,75,75); color: rgb(255,255,255); font-weight:bold; font-size:12pt; padding:3px 0; border-bottom: 2px solid rgb(125,125,125);">
+    &nbsp;&nbsp;&nbsp;*** WELCOME TO A.t.A. PROJECTS ***&nbsp;&nbsp;&nbsp;*** BEST VIEWED IN NETSCAPE NAVIGATOR 4.0 OR INTERNET EXPLORER 5 ***&nbsp;&nbsp;&nbsp;*** 800x600 RESOLUTION RECOMMENDED ***&nbsp;&nbsp;&nbsp;
+  </marquee>
 
-<div class="fmwnavleft">
-  <center><h1>High School Projects</h1></center><br><br>
-
-  <div class="fs-15">1st year Projects</div><br><br>
-  <a id="proposalLink" href="#" target="_blank"></a><br><br>
-  <a id="mysiteLink" href="#" target="_blank"></a><br><br>
-  <a id="ampLink" href="#" target="_blank"></a><br><br>
-  <a id="tbgLink" href="#" target="_blank"></a><br><br>
-
-  <div class="fs-15">2nd year Projects</div><br><br>
-  <a id="jswikiLink" href="#" target="_blank"></a><br><br>
-  <a id="wikiLink" href="# target="_blank""></a><br><br>
-  <a id="wikidevLink" href="#" target="_blank"></a><br><br>
-		<a id="week1Link" href="#" target="_blank"></a><br><br>
-		<a id="week2Link" href="#" target="_blank"></a><br><br>
-</div><br><br>
-
-<div class="fmwnavright">
-  <center><h1>Other Projects</h1></center><br><br>
-		 <a id="shsLink" href="#" target="_blank"></a><br><br>
-			<a id="phpLink" href="#" target="_blank"></a><br><br>
-</div>
-
-</main>
-
-<footer id="footerDate"></footer>
-
-
-<div id="debugSection"></div>
-
-<script>
-
-document.getElementById("fullTitle").textContent =
-  CONFIG.WEBSITETITLE + " - " + CONFIG.PAGETITLE;
+  <!-- HEADER -->
+  <table width="100%" border="0" cellpadding="0" cellspacing="0"
+         style="background-color: rgb(75,75,75); border-bottom: 2px solid rgb(125,125,125); margin-top: 0;">
+  <tr>
+    <td width="80" align="center" valign="middle" style="padding:8px;">
+      <font size="6" color="rgb(255,255,255)">&#9733;</font><br>
+      <font size="2" color="rgb(200,200,200)">Est. 2024</font>
+    </td>
+    <td align="center" valign="middle" style="padding: 10px 0;">
+      <font face="Comic Sans MS, Arial Black" size="7" color="rgb(255,255,255)">
+        <b>A.t.A. Projects</b>
+      </font><br>
+      <font face="Courier New" size="3" color="rgb(200,200,200)">
+        <i>~ Your #1 Source For My School Projects ~</i>
+      </font><br><br>
+      <font size="2" color="rgb(255,255,255)">
+        <blink>&#9733; WELCOME TO MY HOMEPAGE &#9733;</blink>
+      </font>
+    </td>
+    <td width="80" align="center" valign="middle" style="padding:8px;">
+      <font size="6" color="rgb(255,255,255)">&#9733;</font><br>
+      <font size="2" color="rgb(200,200,200)">Est. 2024</font>
+    </td>
+  </tr>
+  </table>
 
 
-function setLink(id, url, text, newTab = false) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.href = url;
-  el.textContent = text;
-  if (newTab) el.target = "_blank";
-}
+  <table width="100%" border="0" cellpadding="4" cellspacing="0"
+         style="background-color: rgb(255,243,205); border: 4px dashed rgb(255,87,51); margin-top:4px;">
+  <tr>
+    <td align="center">
+      <font face="Arial, sans-serif" size="2">
+        <b><span class="under-construction">&#9888; THIS SITE IS UNDER CONSTRUCTION &#9888;</span>
+        &nbsp;&nbsp;Some links may be broken. Please check back often!</b>
+      </font>
+    </td>
+  </tr>
+  </table>
+
+</td>
+</tr>
+</table>
+</center>
+
+<br>
 
 
-setLink("proposalLink", CONFIG.PROPOSALVAR + "index.html", "Proposal Website", true);
-setLink("mysiteLink", CONFIG.MYSITEVAR + "index.html", "Murder Drones Fan Wiki (Mysite Project)", true);
-setLink("ampLink", CONFIG.AMPVAR + "index.html", "AMP Project", true);
-setLink("tbgLink", CONFIG.TBGVAR + "index.html", "One Wrong Choice (Text Based Game)", true);
+<center>
+<table width="760" border="0" cellpadding="6" cellspacing="4">
+<tr valign="top">
 
 
-setLink("jswikiLink", CONFIG.JSWIKIVAR + "index.html", "Javascript Wiki", true);
-setLink("wikiLink", CONFIG.WIKIVAR + "index.html", "A.T.A. Tech Wiki", true);
-setLink("wikidevLink", CONFIG.WIKIDEVVAR + "index.html", "A.T.A. Tech Wiki Dev Page", true);
-setLink("week1Link", CONFIG.WEEKVAR + "week1.html", "CSS Driven Form", true);
-setLink("week2Link", CONFIG.WEEKVAR + "week2.html", "Simple WebDNA Admin(Broken Because of WebDNA)", true);
+  <td width="370" style="background-color: rgb(200,200,200); border: 3px ridge rgb(100,100,100);">
+
+    <table width="100%" border="0" cellpadding="2" cellspacing="0">
+    <tr>
+      <td align="center" style="background-color: rgb(75,75,75); border-bottom: 2px solid rgb(125,125,125); padding:6px;">
+        <font face="Comic Sans MS, Arial Black" size="5" color="rgb(255,255,255)"><b>High School Projects</b></font>
+      </td>
+    </tr>
+    </table>
+    <br>
+
+    <div class="section-title">&#9658; 1st Year Projects</div>
+    <br>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/proposal/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>Proposal Website</b></font>
+      </a><br>
+      <font size="1" color="rgb(75,75,75)">&nbsp;&nbsp;&nbsp;My very first web project!</font>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="https://aloysiusprojects.kesug.com/mysite/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>Murder Drones Fan Wiki (Mysite Project)</b></font>
+      </a><br>
+      <font size="1" color="rgb(75,75,75)">&nbsp;&nbsp;&nbsp;Fan wiki for Murder Drones!</font>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/amp/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>AMP Project</b></font>
+      </a>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="https://www.citicoding.org/citi/coding/2025/tbgp7/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>One Wrong Choice (Text Based Game)</b></font>
+      </a><br>
+      <font size="1" color="rgb(199,0,57)">&nbsp;&nbsp;&nbsp;<blink>HOT!</blink> Play my text adventure game!</font>
+    </div>
+
+    <br>
+    <div class="section-title">&#9658; 2nd Year Projects</div>
+    <br>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/javascript/frontend/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>Javascript Wiki</b></font>
+      </a>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/myproject/wiki/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>A.T.A. Tech Wiki</b></font>
+      </a>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/myproject/wikiinfo/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>A.T.A. Tech Wiki Dev Page</b></font>
+      </a>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/lessons/assignments/week1.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>CSS Driven Form</b></font>
+      </a>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/lessons/assignments/week2.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>Simple WebDNA Admin</b></font>
+      </a><br>
+      <font size="1" color="rgb(255,0,0)">&nbsp;&nbsp;&nbsp;[Broken Because of WebDNA]</font>
+    </div>
+
+  </td>
 
 
-setLink("shsLink", CONFIG.SHSVAR + "index.html", "Shay\'s Animal Shelter", true);
-setLink("phpLink", CONFIG.ALTDOMAINVAR + "index.html", "My Other Domain", true);
+  <td width="120" align="center" valign="top">
+
+    <table border="3" cellpadding="6" cellspacing="0"
+           style="background-color: rgb(175,175,175); border: 3px ridge rgb(100,100,100); margin-bottom:8px; width:100%;">
+    <tr><td align="center">
+      <font size="1" color="rgb(75,75,75)" face="Courier New"><b>VISITOR COUNT</b></font><br>
+      <div class="counter-box" id="visitorCount">004273</div>
+      <font size="1" color="rgb(75,75,75)">since Jan 2024</font>
+    </td></tr>
+    </table>
+
+    <div class="badge-box">
+      &#9650; WEBRING &#9650;<br>
+      <a href="#"><font color="rgb(75,92,1)">Prev</font></a> |
+      <a href="#"><font color="rgb(75,92,1)">Next</font></a><br>
+      <a href="#"><font color="rgb(75,92,1)">Join!</font></a>
+    </div>
+
+    <div class="badge-box">
+      Made with<br>Notepad!!
+    </div>
+
+    <div class="badge-box">
+      Best Viewed<br>in Netscape<br>Navigator
+    </div>
+
+    <div class="badge-box" style="background-color: rgb(230,230,230);">
+      <font size="1" face="Arial">
+        <font color="rgb(255,0,0)">No</font> frames!<br>
+        <font color="rgb(75,92,1)">Pure HTML</font>
+      </font>
+    </div>
+
+  </td>
 
 
-const now = new Date();
+  <td width="230" style="background-color: rgb(200,200,200); border: 3px ridge rgb(100,100,100);">
+
+    <table width="100%" border="0" cellpadding="2" cellspacing="0">
+    <tr>
+      <td align="center" style="background-color: rgb(75,75,75); border-bottom: 2px solid rgb(125,125,125); padding:6px;">
+        <font face="Comic Sans MS, Arial Black" size="5" color="rgb(255,255,255)"><b>Other Projects</b></font>
+      </td>
+    </tr>
+    </table>
+    <br>
+
+    <div class="section-title">&#9658; Cool Stuff</div>
+    <br>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="/shaysanimalshelter/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>Shay's Animal Shelter</b></font>
+      </a><br>
+      <font size="1" color="rgb(75,75,75)">&nbsp;&nbsp;&nbsp;Help animals find homes!</font>
+    </div>
+
+    <div class="link-box">
+      <font size="2" color="rgb(75,75,75)">&#187;&nbsp;</font>
+      <a href="https://aloysiusprojects.kesug.com/index.html" target="_blank">
+        <font face="Comic Sans MS, Arial" size="3"><b>My Other Domain</b></font>
+      </a><br>
+      <font size="1" color="rgb(75,75,75)">&nbsp;&nbsp;&nbsp;Check out my other site!</font>
+    </div>
+
+    <br>
+
+
+    <table width="100%" border="3" cellpadding="6"
+           style="background-color: rgb(175,175,175); border: 3px ridge rgb(100,100,100); margin-bottom:8px;">
+    <tr>
+      <td align="center" style="background-color: rgb(75,75,75);">
+        <font face="Comic Sans MS" size="3" color="rgb(255,255,255)"><b>&#128221; Guestbook</b></font>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <font size="2" color="rgb(0,0,0)">
+          <a href="#"><font color="rgb(75,92,1)">Sign My Guestbook</font></a><br>
+          <a href="#"><font color="rgb(75,92,1)">Read My Guestbook</font></a>
+        </font>
+      </td>
+    </tr>
+    </table>
+
+
+    <table width="100%" border="2" cellpadding="4"
+           style="background-color: rgb(230,230,230); border: 2px solid rgb(100,100,100); margin-bottom:8px;">
+    <tr><td align="center">
+      <font size="2" color="rgb(0,0,0)" face="Arial">
+        <b>&#9993; Email Me!</b><br>
+        <a href="mailto:webmaster@example.com">
+          <font color="rgb(75,92,1)" size="1">webmaster@example.com</font>
+        </a>
+      </font>
+    </td></tr>
+    </table>
+
+    <!-- Stats -->
+    <table width="100%" border="2" cellpadding="4"
+           style="background-color: rgb(200,200,200); border: 2px dashed rgb(100,100,100);">
+    <tr><td>
+      <font size="1" color="rgb(0,0,0)" face="Comic Sans MS">
+        <b>&#9733; Site Stats &#9733;</b><br>
+        Pages: <b><font color="rgb(75,75,75)">12</font></b><br>
+        Projects: <b><font color="rgb(75,75,75)">9</font></b><br>
+      </font>
+    </td></tr>
+    </table>
+
+  </td>
+
+</tr>
+</table>
+</center>
+
+<br>
+
+
+<center>
+<table width="760" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td>
+  <marquee behavior="scroll" direction="right" scrollamount="3"
+           style="background-color: rgb(75,75,75); color: rgb(255,255,255); font-family:'Courier New'; font-size:11pt; padding:3px 0; border: 1px solid rgb(125,125,125);">
+    &nbsp;&nbsp;&nbsp;Thanks for visiting! &bull; Please sign my guestbook! &bull; Come back soon! &bull; This page looks best at 800x600 &bull; No hotlinking my images!!&nbsp;&nbsp;&nbsp;
+  </marquee>
+</td>
+</tr>
+</table>
+</center>
+
+<br>
+
+
+<center>
+<table width="760" border="0" cellpadding="8" cellspacing="0"
+       style="background-color: rgb(75,75,75); border-top: 1px solid rgb(125,125,125);">
+<tr>
+  <td align="center">
+    <font size="1" color="rgb(200,200,200)" face="Arial, sans-serif">
+      &#169; A.t.A. Tech Wiki &mdash;
+      <span id="footerDate"></span><br><br>
+      This page uses <b>HTML 4.01</b> &bull; Best viewed in
+      Netscape Navigator 4.x or Internet Explorer 5.x
+      at <b>800&times;600</b> resolution<br>
+      <font color="rgb(255,243,205)">No part of this site may be reproduced without permission.</font><br><br>
+      [<a href="#"><font color="rgb(200,200,200)">Home</font></a>]
+[<a href="#"><font color="rgb(200,200,200)">About</font></a>]
+[<a href="#"><font color="rgb(200,200,200)">Links</font></a>]
+[<a href="mailto:webmaster@example.com"><font color="rgb(200,200,200)">Contact</font></a>]
+</font>
+</td>
+</tr>
+</table>
+</center>
+
+<script type="text/javascript">
+var now = new Date();
+var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var months = ["January","February","March","April","May","June",
+"July","August","September","October","November","December"];
+var hours = now.getHours();
+var mins = now.getMinutes();
+var ampm = hours >= 12 ? "PM" : "AM";
+hours = hours % 12;
+if (hours == 0) hours = 12;
+if (mins < 10) mins = "0" + mins;
 document.getElementById("footerDate").innerHTML =
-  "&copy; A.t.A. Tech Wiki, " +
-  now.toLocaleDateString(undefined, { weekday:'long', year:'numeric', month:'long', day:'numeric' }) +
-  " - " +
-  now.toLocaleTimeString(undefined, { hour:'numeric', minute:'2-digit' });
+days[now.getDay()] + ", " + months[now.getMonth()] + " " + now.getDate() +
+", " + now.getFullYear() + " &mdash; " + hours + ":" + mins + " " + ampm;
 
-
-if (CONFIG.DEBUGVAR === 1) {
-  document.getElementById("debugNotice").textContent = "Dev stuff is showing";
-
-  const dbg = document.getElementById("debugSection");
-  dbg.innerHTML = `
-  <style>
-  .flex_container { display:flex; flex-wrap:nowrap; border:2px solid #555; background:#777; }
-  .flex { width:45%; margin:10px; border:2px solid #555; background:#aaa; }
-  .DEBUGTITLE { background:#444; color:#fff; border:2px solid #ccc; }
-  </style>
-  <div class="DEBUGTITLE"><h1>Debug Info</h1></div>
-  <div class="flex_container">
-    <div class="flex"><strong>Browser Info</strong><br>${navigator.userAgent}</div>
-    <div class="flex"><strong>URL Info</strong><br>${window.location.href}</div>
-  </div>`;
-}
+var base = 4273;
+var extra = Math.floor(Math.random() * 99);
+var total = base + extra;
+var padded = String(total);
+while (padded.length < 6) padded = "0" + padded;
+document.getElementById("visitorCount").textContent = padded;
 </script>
 
 </body>
