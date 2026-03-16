@@ -1,6 +1,4 @@
-[hideif [password]=MyShitNotYours67]
-[authenticate]
-[/hideif]
+<!--
 
 [text]curyear=[DATE %Y][/text]
 [text]Syear=[math][curyear]-5[/math][/text]
@@ -24,7 +22,7 @@
 
 [hideif [password]=MyShitNotYours67]
 [authenticate]
-[/hideif]
+[/hideif]-->
 
 <!DOCTYPE HTML>
 <HTML LANG="EN">
@@ -129,7 +127,7 @@ cursor: pointer;
 WEEK 2 ASSIGNMENT
 </header>
 <main>
-[text]dbname=roster.db[/text]
+<!--[text]dbname=roster.db[/text]
 [showif [action]=append]
 APPENDING to [dbname]
 [append db=[dbVAR][dbname]&autonumber=SKU][!]
@@ -150,7 +148,7 @@ APPENDING to [dbname]
 [/!]DISTRICT=[DISTRICT]
 [/append]
 [redirect [thisurl]]
-[/showif]
+[/showif]-->
 
 
 
@@ -158,7 +156,7 @@ APPENDING to [dbname]
 
 
 
-[showif [action]=Delete]
+<!--[showif [action]=Delete]
 [Delete db=[dbVAR][dbname]&EQSKUdatarq=[SKUVAR]]
 DELETED RECORD #[SKUVAR]<br>
 [/showif]
@@ -181,9 +179,9 @@ Replacing to [dbname]
 [/!]CHATALLOWED=[CHATALLOWED]&[!]
 [/!]DISTRICT=[DISTRICT][/replace]
 [redirect [thisurl]]
-[/SHOWIF]
+[/SHOWIF]-->
 <h2>[dbname]</h2><br>
-[search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1]
+<!--[search db=[dbVAR][dbname]&neSKUdatarq=fa&SKUsort=1]-->
 [numfound] records found<br>
 <button type="button" onclick="Change()">Add Record</button>
 <table style="width:100%" border=1>
@@ -198,7 +196,7 @@ Replacing to [dbname]
 <TH></TH>
 </tr>
 
-[founditems]
+<!--[founditems]-->
 
 <form method="post" action="[thisurl]" onsubmit="return confirmEdit();">
 <input type="hidden" name="SKUVAR" value="[SKU]">
@@ -298,11 +296,11 @@ Replacing to [dbname]
 <a href="[thisurl]?action=Delete&SKUVAR=[SKU]" id="button" onclick="deleteRow(this,'[SKU]')">Delete</a>
 </td>
 </tr>
-</form>
-[/founditems]
+</form><!--
+[/founditems]-->
 </table>
-[/search]
-[closedatabase db=[dbVAR][dbname]]
+<!--[/search]
+[closedatabase db=[dbVAR][dbname]]-->
 </div>
 <div class="addadmin26" id="addadmin">
 <button type="button" onclick="Back()">Back</button>
@@ -401,16 +399,16 @@ Replacing to [dbname]
 <td>
   <input type="submit" value="Add Record"></TD>
 </form>
-
-[closedatabase db=[dbVAR][dbname]]
+<!--
+[closedatabase db=[dbVAR][dbname]]-->
 </table>
 </div>
 </main>
 <footer>
 &COPY; A.T.A. Tech Wiki [DATE %Y]<br><br>
-[formvariables]
+<!--[formvariables]
 [index], <B>[name]</b> = [value]<br>
-[/formvariables]
+[/formvariables]-->
 </footer>
 <script>
 function Change(){
