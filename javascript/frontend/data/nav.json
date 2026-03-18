@@ -77,17 +77,6 @@
   { "SKU": "61", "WEEK": "2/27/2026", "SORTORDER": 2, "TITLE": "Errors" },
   { "SKU": "62", "WEEK": "2/27/2026", "SORTORDER": 3, "TITLE": "Scope" },
 
-{ "SKU": "63", "WEEK": "3/6/2026", "SORTORDER": 1, "TITLE": "Hoisting" },
-  { "SKU": "64", "WEEK": "3/6/2026", "SORTORDER": 2, "TITLE": "Strict Mode" },
-  { "SKU": "65", "WEEK": "3/6/2026", "SORTORDER": 3, "TITLE": "this Keyword" },
-
-{ "SKU": "66", "WEEK": "3/13/2026", "SORTORDER": 1, "TITLE": "Arrow Function" },
-  { "SKU": "67", "WEEK": "3/13/2026", "SORTORDER": 2, "TITLE": "Classes" },
-  { "SKU": "68", "WEEK": "3/13/2026", "SORTORDER": 3, "TITLE": "Modules" },
-
-{ "SKU": "69", "WEEK": "3/23/2026", "SORTORDER": 1, "TITLE": "JSON" },
-  { "SKU": "70", "WEEK": "3/23/2026", "SORTORDER": 2, "TITLE": "Debugging" },
-
 { "SKU": "71", "WEEK": "EXTRA", "SORTORDER": 4, "TITLE": "ECMAScript 1999" },
 { "SKU": "72", "WEEK": "EXTRA", "SORTORDER": 5, "TITLE": "ECMAScript 2009" },
   { "SKU": "73", "WEEK": "EXTRA", "SORTORDER": 6, "TITLE": "ECMAScript 2015" },
