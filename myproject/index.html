@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>let PAGETITLE="Main page";</script>
+<title id="pageTitle"></title>
+<script src="/myproject/includes/vars.js"></script>
+<script src="/js/includeEngine.js"></script>
+</head>
+<body>
+<header>
+<div id="header"></div>
+</header>
+<main>
+<div id="nav"></div>
+<article>
+This is the main page of my Wiki page. From here you can get to the different pages of the website, search for specific pages, and edit or add pages!
+</article>
+ </main> 
+<footer id="footer"></footer>
+
+
+<script>
+IncludeEngine.load([
+  { id: "header", file: vars.INCVAR + "header.html" },
+  { id: "nav", file: vars.INCVAR + "nav.html" },
+  { id: "footer", file: vars.INCVAR + "footer.html" }
+]);
+</script>
+</body>
+</html>
