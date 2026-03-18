@@ -52,7 +52,7 @@ if (done) done();
 
 try {
 if (typeof w.PAGETITLE !== "undefined" && typeof w.vars !== "undefined") {
-document.title = vars.WEBSITETITLE + " | " + PAGETITLE;
+document.title = vars.WEBSITETITLE + " - " + PAGETITLE;
 }
 } catch (e) {}
 return;
