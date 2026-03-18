@@ -59,11 +59,7 @@ function googleTranslateElementInit() {
         const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
         const fullTitle = (window.vars && window.vars.WEBSITETITLE ? window.vars.WEBSITETITLE : "") +
                           (pageTitle ? " - " + pageTitle : "");
-
-        // Set the browser tab
         document.title = fullTitle;
-
-        // Set <title> element if it exists
         const titleEl = document.getElementById("pageTitle");
         if (titleEl) {
           titleEl.textContent = fullTitle;
