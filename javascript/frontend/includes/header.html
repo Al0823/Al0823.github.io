@@ -1,19 +1,18 @@
 <header>
   <!-- Main stylesheet -->
   <link id="mainStylesheet" rel="stylesheet" href="/css/style.css">
-		<audio autoplay loop> <source src="/audio/latenight.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>
-<!--<audio autoplay loop> <source src="/audio/bgmusic.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>-->
+		<!--<audio autoplay loop> <source src="/audio/latenight.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>-->
+<audio autoplay loop> <source src="/audio/bgmusic.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>
   <!-- Header title -->
   <div class="header">
-    Javascript Wiki
+    A.t.A. Tech Wiki
   </div>
 
-  <!-- Dev notice -->
-  <div id="devNotice" style="display:none;">Dev stuff is showing</div>
+
 
   <script>
     // Global site title
-    window.vars.WEBSITETITLE = "Javascript Wiki";
+    window.vars.WEBSITETITLE = "A.t.A. Tech Wiki";
 
     // Function to update the page title after header is loaded
     function updatePageTitle() {
@@ -32,11 +31,6 @@
     if (window.vars.CSSVAR) {
       const mainLink = document.getElementById("mainStylesheet");
       mainLink.href = window.vars.CSSVAR + "style.css";
-    }
-
-    // Show dev notice if DEBUGVAR is true
-    if (window.vars.DEBUGVAR) {
-      document.getElementById("devNotice").style.display = "block";
     }
   </script>
 </header>
