@@ -1,9 +1,9 @@
 <header>
-  <!-- Main stylesheet -->
+
   <link id="mainStylesheet" rel="stylesheet" href="/css/style.css">
 		<!--<audio autoplay loop> <source src="/audio/latenight.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>-->
 <audio autoplay loop> <source src="/audio/bgmusic.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>
-  <!-- Header title -->
+
   <div class="header">
     A.t.A. Tech Wiki
   </div>
@@ -11,23 +11,17 @@
 
 
   <script>
-    // Global site title
-    window.vars.WEBSITETITLE = "A.t.A. Tech Wiki";
-
-    // Function to update the page title after header is loaded
+    window.vars.WEBSITETITLE = "Javascript Wiki";
     function updatePageTitle() {
       const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
       const fullTitle = window.vars.WEBSITETITLE + (pageTitle ? " - " + pageTitle : "");
 
-      // Set the browser tab
       document.title = fullTitle;
 
-      // Set <title> element if it exists
       const titleEl = document.getElementById("pageTitle");
       if (titleEl) titleEl.textContent = fullTitle;
     }
 
-    // Apply main stylesheet dynamically (if needed)
     if (window.vars.CSSVAR) {
       const mainLink = document.getElementById("mainStylesheet");
       mainLink.href = window.vars.CSSVAR + "style.css";
