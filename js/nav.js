@@ -1,44 +1,65 @@
-<script>
-(function loadNav() {
+(function navEngine() {
 
-  function init() {
-    const navContainer = document.getElementById("navList");
-    if (!navContainer) {
-      setTimeout(init, 50);
+  function waitForReady(callback) {
+
+    // wait for vars.js
+    if (!window.vars || !window.vars.DBVAR || !window.vars.PATHVAR) {
+      setTimeout(function() { waitForReady(callback); }, 50);
       return;
     }
 
-    fetch(window.vars.DBVAR + "nav.json")
-      .then(response => {
-        if (!response.ok) throw new Error("Nav JSON not found");
-        return response.json();
-      })
-      .then(data => {
-        // sort by sortOrder
-        data.sort((a, b) => a.sortOrder - b.sortOrder);
+    // wait for nav container
+    var nav = document.getElementById("navList");
+    if (!nav) {
+      setTimeout(function() { waitForReady(callback); }, 50);
+      return;
+    }
 
-        navContainer.innerHTML = buildNavHTML(data);
+    callback(nav);
+  }
+
+  function loadNav(navContainer) {
+    fetch(window.vars.DBVAR + "nav.json")
+      .then(function(res) {
+        if (!res.ok) throw new Error("nav.json not found");
+        return res.json();
       })
-      .catch(err => {
-        console.error("Nav load failed:", err);
+      .then(function(data) {
+
+        // sort by sortOrder
+        data.sort(function(a, b) {
+          return a.sortOrder - b.sortOrder;
+        });
+
+        navContainer.innerHTML = buildNav(data);
+      })
+      .catch(function(err) {
+        console.error("Nav error:", err);
         navContainer.innerHTML =
           '<a href="' + window.vars.PATHVAR + 'index.html">Homepage</a>';
       });
   }
-  function buildNavHTML(items) {
-    let html = "<ul>";
 
-    items.forEach(item => {
-      if (item.status !== 1) return;
+  function buildNav(items) {
+    var html = "<ul>";
 
-      html += `<li><a href="${window.vars.PATHVAR + item.url}">${item.title}</a></li>`;
-    });
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+
+      // only active items
+      if (item.status !== 1) continue;
+
+      html += '<li><a href="' +
+              window.vars.PATHVAR + item.url +
+              '">' + item.title +
+              '</a></li>';
+    }
 
     html += "</ul>";
     return html;
   }
 
-  init();
+  // start engine
+  waitForReady(loadNav);
 
 })();
-</script>
