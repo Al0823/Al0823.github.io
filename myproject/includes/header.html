@@ -15,39 +15,58 @@
   </audio>
 
   <script>
-    (function() {
-      if (window.vars && window.vars.CSSVAR) {
-        const mainLink = document.getElementById("mainStylesheet");
-        if (mainLink) mainLink.href = window.vars.CSSVAR + "style.css";
-      }
+    (function () {
 
+      function applyHeaderLogic() {
 
-      window.updatePageTitle = function() {
-        const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
-        const fullTitle = (window.vars && window.vars.WEBSITETITLE ? window.vars.WEBSITETITLE : "") +
-                          (pageTitle ? " - " + pageTitle : "");
-        document.title = fullTitle;
-        const titleEl = document.getElementById("pageTitle");
-        if (titleEl) titleEl.textContent = fullTitle;
-      };
-
-
-      var audioEl = document.getElementById("backgroundAudio");
-      if (audioEl && window.vars && window.vars.AUDIOVAR) {
-        var now = new Date();
-        var hour = now.getHours();
-
-        if (hour >= 8 && hour < 22) {
-          audioEl.src = window.vars.AUDIOVAR + "bgmusic.mp3";
-        } else {
-          audioEl.src = window.vars.AUDIOVAR + "latenight.mp3";
+        if (window.vars && window.vars.CSSVAR) {
+          const mainLink = document.getElementById("mainStylesheet");
+          if (mainLink) {
+            mainLink.href = window.vars.CSSVAR + "style.css";
+          }
         }
 
-        
-        audioEl.load();
-        audioEl.play().catch(function(e){ });
+        window.updatePageTitle = function () {
+          const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
+          const fullTitle =
+            (window.vars && window.vars.WEBSITETITLE ? window.vars.WEBSITETITLE : "") +
+            (pageTitle ? " - " + pageTitle : "");
+
+          document.title = fullTitle;
+
+          const titleEl = document.getElementById("pageTitle");
+          if (titleEl) titleEl.textContent = fullTitle;
+        };
+
+        if (window.updatePageTitle) {
+          window.updatePageTitle();
+        }
+
+        var audioEl = document.getElementById("backgroundAudio");
+
+        if (audioEl && window.vars && window.vars.AUDIOVAR) {
+          var now = new Date();
+          var hour = now.getHours();
+
+          if (hour >= 8 && hour < 22) {
+            audioEl.src = window.vars.AUDIOVAR + "bgmusic.mp3";
+          } else {
+            audioEl.src = window.vars.AUDIOVAR + "latenight.mp3";
+          }
+
+          audioEl.load();
+          audioEl.play().catch(function (e) { });
+        }
       }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", applyHeaderLogic);
+      } else {
+        applyHeaderLogic();
+      }
+
     })();
   </script>
 </header>
+
 <body>
