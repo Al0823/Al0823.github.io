@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--Get out of here you nosey thief-->
+<meta charset="UTF-8">
+
+<script>let PAGETITLE="Main Page";</script>
+<title id="pageTitle"></title>
+<script src="/myproject/js/vars.js"></script>
+<script src="/js/includeEngine.js"></script>
+</head>
+<body>
+<header>
+<div id="header"></div>
+</header>
+<main>
+<div id="nav"></div>
+<article>
+        <hr>
+<div class="fs-15">Language</div>
+<hr><br><br>
+
+<div class="fs-10">
+  <label for="languageSelect">Choose language:</label><br><br>
+  <select id="languageSelect">
+    <option value="en">English</option>
+    <option value="es">Spanish</option>
+    <option value="fr">French</option>
+    <option value="de">German</option>
+    <option value="it">Italian</option>
+    <option value="pt">Portuguese</option>
+    <option value="zh-CN">Chinese (Simplified)</option>
+    <option value="ja">Japanese</option>
+    <option value="ko">Korean</option>
+    <option value="ar">Arabic</option>
+    <option value="ru">Russian</option>
+  </select>
+</div>
+
+<script>
+(function() {
+  const select = document.getElementById("languageSelect");
+  const storageKey = "site-language";
+
+  // Load saved language
+  const saved = localStorage.getItem(storageKey);
+  if (saved) select.value = saved;
+
+  // Helper: set Google Translate cookie
+  function setGoogleTranslateCookie(lang) {
+    // googtrans cookie format: /source_lang/target_lang
+    document.cookie = "googtrans=/en/" + lang + ";path=/";
+  }
+
+  // Initialize cookie on load
+  setGoogleTranslateCookie(select.value);
+
+  // Save and apply whenever user changes
+  select.addEventListener("change", function() {
+    const lang = this.value;
+    localStorage.setItem(storageKey, lang);
+    setGoogleTranslateCookie(lang);
+    alert("Language saved! Refresh the page or go to another page to apply site-wide.");
+  });
+})();
+</script>
+
+    <hr>
+    <div class="fs-15">Website theme</div>
+    <hr><br><br>
+
+    <div class="fs-10">
+      <label for="themeSelect">Choose theme:</label><br><br>
+      <select id="themeSelect">
+        <option value="original">Original site colors</option>
+        <option value="light">Light mode</option>
+        <option value="dark">Dark mode</option>
+      </select>
+
+     <script>
+(function () {
+  const storageKey = "site-theme";
+
+  function applyTheme(theme) {
+    document.documentElement.classList.remove("theme-light", "theme-dark");
+    if (theme === "light") {
+      document.documentElement.classList.add("theme-light");
+    } else if (theme === "dark") {
+      document.documentElement.classList.add("theme-dark");
+    }
+   
+  }
+
+  
+  const savedTheme = localStorage.getItem(storageKey);
+
+  if (savedTheme) {
+   
+    applyTheme(savedTheme);
+  } else {
+    
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      applyTheme("dark");
+    } else {
+      applyTheme("original"); 
+    }
+  }
+
+
+  const select = document.getElementById("themeSelect");
+  if (select) {
+   
+    select.value = savedTheme || "original";
+
+
+    select.addEventListener("change", function () {
+      const theme = this.value;
+      localStorage.setItem(storageKey, theme); 
+      applyTheme(theme);
+    });
+  }
+})();
+</script>
+    </div>
+
+    <hr>
+</article>
+ </main> 
+<footer id="footer"></footer>
+
+
+<script>
+IncludeEngine.load([
+  { id: "header", file: "header.html" },
+  { id: "nav", file: "nav.html" },
+  { id: "footer", file: "footer.html" }
+]);
+</script>
+</body>
+</html>
