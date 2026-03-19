@@ -25,7 +25,6 @@
           '<a href="' + window.vars.PATHVAR + 'index.html">Homepage</a>';
       });
   }
-
   function buildNavHTML(items) {
     let html = "<ul>";
 
