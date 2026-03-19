@@ -74,13 +74,12 @@
             newScript.setAttribute(attr.name, attr.value);
           }
 
-          // Only external scripts are loaded
-          if (oldScript.src) {
-            newScript.src = oldScript.src;
-          } else {
-            // Inline scripts are skipped (CSP-safe approach)
-            console.warn("Inline script skipped for CSP safety:", url);
-          }
+if (oldScript.src) {
+  newScript.src = oldScript.src;
+} else {
+  newScript.textContent = oldScript.textContent;
+}
+(d.body || d.documentElement).appendChild(newScript);
 
           (d.body || d.documentElement).appendChild(newScript);
         });
