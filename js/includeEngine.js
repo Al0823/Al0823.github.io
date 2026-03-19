@@ -107,6 +107,7 @@
       if (i >= list.length) {
         if (done) done();
 
+        // Update title safely
         try {
           if (typeof w.PAGETITLE !== "undefined" && w.vars) {
             document.title = w.vars.WEBSITETITLE + " - " + w.PAGETITLE;
