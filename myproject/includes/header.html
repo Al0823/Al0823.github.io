@@ -17,9 +17,10 @@
   <script>
     (function () {
 
-      function applyHeaderLogic() {
+      function initHeader() {
+        if (!window.vars) return false;
 
-        if (window.vars && window.vars.CSSVAR) {
+        if (window.vars.CSSVAR) {
           const mainLink = document.getElementById("mainStylesheet");
           if (mainLink) {
             mainLink.href = window.vars.CSSVAR + "style.css";
@@ -28,8 +29,9 @@
 
         window.updatePageTitle = function () {
           const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
+
           const fullTitle =
-            (window.vars && window.vars.WEBSITETITLE ? window.vars.WEBSITETITLE : "") +
+            (window.vars.WEBSITETITLE || "") +
             (pageTitle ? " - " + pageTitle : "");
 
           document.title = fullTitle;
@@ -44,7 +46,7 @@
 
         var audioEl = document.getElementById("backgroundAudio");
 
-        if (audioEl && window.vars && window.vars.AUDIOVAR) {
+        if (audioEl && window.vars.AUDIOVAR) {
           var now = new Date();
           var hour = now.getHours();
 
@@ -55,14 +57,22 @@
           }
 
           audioEl.load();
-          audioEl.play().catch(function (e) { });
+          audioEl.play().catch(function () { });
+        }
+
+        return true;
+      }
+
+      function waitForVars() {
+        if (!initHeader()) {
+          setTimeout(waitForVars, 50);
         }
       }
 
       if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", applyHeaderLogic);
+        document.addEventListener("DOMContentLoaded", waitForVars);
       } else {
-        applyHeaderLogic();
+        waitForVars();
       }
 
     })();
