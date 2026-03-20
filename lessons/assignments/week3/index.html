@@ -11,30 +11,18 @@ height: 100%;
 width: 100%;
 }
 </style>
-
-[date] - [time]<br><br>
-
+<!--[date] - [time]<br><br>
+[include file=hangman.svg]-->
 <!-- SVG START -->
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<svg id="IH8XML" version="1.1"
-xmlns="http://www.w3.org/2000/svg"
-xmlns:xlink="http://www.w3.org/1999/xlink"
-x="0px" y="0px"
-width="800px"
-height="698.9px"
-viewBox="0 0 800 698.9"
-style="enable-background:new 0 0 800 698.9;"
-xml:space="preserve">
-
-<style type="text/css">
-
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 698.9">
+<style>
 svg {
 position: fixed;
 top: 0;
 left: 0;
 width: 100vw;
 height: 100vh;
-z-index: -1;
 }
 .background{fill:#2B2587;}
 .mountain{fill:#9A8F87;}
@@ -94,23 +82,12 @@ animation: twinkle 4s ease-in-out infinite;
 animation-delay: 2s;
 }
 </style>
-<script><![CDATA[
-document.addEventListener("DOMContentLoaded", function () {
-window.toggleDayNight = function () {
-var svg = document.getElementById("IH8XML");
-if (svg) {
-svg.classList.toggle("day");
-}
-};
-});
-]]></script>
 <g id="Layer_2">
 <rect id="background" x="-5.1" y="-7.3" class="background" width="805.1" height="704.7"/>
 </g>
 <g id="Layer_1">
-<path class="moon" onclick="toggleDayNight()"
+<path id="moon" class="moon" onclick="toggleDay()"
 d="M628.8,58.8c0-23.1,23-41.8,51.4-41.8s51.4,18.7,51.4,41.8s-23,41.8-51.4,41.8S628.8,81.9,628.8,58.8z"/>
-<circle class="sun" onclick="toggleDayNight()" cx="680" cy="90" r="40"/>
 <path id="Mountain_3" class="mountain" d="M342.8,471l178-120.6l178,120.6H342.8z"/>
 <path id="Mountain_2" class="mountain" d="M582.8,463.4l109.1-113l109.1,113H582.8z"/>
 <path id="Mountain_1" class="mountain" d="M21.9,453.4l178-120.6l178,120.6H21.9z"/>
@@ -126,6 +103,7 @@ d="M628.8,58.8c0-23.1,23-41.8,51.4-41.8s51.4,18.7,51.4,41.8s-23,41.8-51.4,41.8S6
 <path id="Plank_3" class="plank5" d="M424.1,645.2l108.6-0.9l-0.7-51.8l-121,1l0.5,38.4C411.6,639.3,417.2,645.2,424.1,645.2z"/>
 <path id="Plank_2" class="plank6" d="M658.3,698.9l142.7-1.6l-0.5-51.8l-159.1,1.7l0.4,38.4C641.9,693.1,649.4,699,658.3,698.9z"/>
 <path id="Plank_1" class="plank7" d="M566.7,645.6l233.3-2l-0.7-51.8L539.2,594l0.5,38.4C539.8,639.8,552,645.7,566.7,645.6z"/>
+<g id="stars">
 <path class="star" d="M129.1,70.2l-12.8-4.1l-13.1,3.7l2.9-8.2l-10.1-6l14.6-0.9l6.8-7.3l6.1,7.6l14.4,1.5L127.1,62L129.1,70.2z"/>
 <path class="star" d="M202.1,139.3l-12.8-4.1l-13.1,3.7l2.9-8.2l-10.1-6l14.6-0.9l6.8-7.3l6.1,7.6l14.4,1.5l-10.7,5.6L202.1,139.3z"/>
 <path class="star" d="M22,134.9l28.5-4.1l29.2,3.7l-6.4-8.2l22.6-6l-32.5-0.9L48.1,112l-13.5,7.6l-32.1,1.5l24,5.6L22,134.9z"/>
@@ -133,6 +111,7 @@ d="M628.8,58.8c0-23.1,23-41.8,51.4-41.8s51.4,18.7,51.4,41.8s-23,41.8-51.4,41.8S6
 <path class="star" d="M263.7,127.9l40.4-8.4l41.4,7.6l-9.1-16.8l32-12.3l-46.1-1.9l-21.5-15l-19.2,15.5l-45.4,3l34,11.4L263.7,127.9z"/>
 <path class="star" d="M212.7,70.2l18.7-2.1l19.2,1.8l-4.2-4.1l14.8-3l-21.3-0.5l-10-3.7l-8.9,3.8l-21,0.7l15.7,2.8L212.7,70.2z"/>
 <path class="star" d="M384.5,75.9l20.9-2.1l21.4,1.8l-4.7-4.1l16.5-3L414.7,68l-11.1-3.7l-9.9,3.8L370.2,69l17.6,2.8L384.5,75.9z"/>
+</g>
 <g id="clouds">
 <g class="cloud cloud1">
 <ellipse cx="200" cy="120" rx="60" ry="30"/>
@@ -154,7 +133,42 @@ d="M628.8,58.8c0-23.1,23-41.8,51.4-41.8s51.4,18.7,51.4,41.8s-23,41.8-51.4,41.8S6
 <ellipse cx="960" cy="230" rx="50" ry="25"/>
 </g>
 </g>
+<text x="550" y="200"
+text-anchor="middle"
+font-size="48"
+fill="white"
+font-family="Arial, sans-serif"
+font-weight="bold">
+HANGMAN
+</text>
 </g>
 </svg>
+<script type="text/javascript">
+var isDay = false;
+function toggleDay() {
+var bg = document.getElementById("background");
+var moon = document.getElementById("moon");
+var stars = document.getElementById("stars");
+if (!bg || !moon || !stars) return;
+if (!isDay) {
+moon.setAttribute("fill", "#FFD34D");
+bg.setAttribute("fill", "#87CEEB");
+stars.setAttribute("visibility", "hidden");
+if (moon.style) moon.style.fill = "#FFD34D";
+if (bg.style) bg.style.fill = "#87CEEB";
+if (stars.style) stars.style.visibility = "hidden";
+}
+else {
+moon.setAttribute("fill", "#FFFFFF");
+bg.setAttribute("fill", "#2B2587");
+stars.setAttribute("visibility", "visible");
+if (moon.style) moon.style.fill = "#FFFFFF";
+if (bg.style) bg.style.fill = "#2B2587";
+if (stars.style) stars.style.visibility = "visible";
+}
+isDay = !isDay;
+}
+</script>
 <!-- SVG END -->
+
 </HTML>
