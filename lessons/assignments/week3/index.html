@@ -94,14 +94,16 @@ animation: twinkle 4s ease-in-out infinite;
 animation-delay: 2s;
 }
 </style>
-<script><script><![CDATA[
-function toggleDayNight() {
+<script><![CDATA[
+document.addEventListener("DOMContentLoaded", function () {
+window.toggleDayNight = function () {
 var svg = document.getElementById("IH8XML");
 if (svg) {
 svg.classList.toggle("day");
 }
-}
-]]></script></script>
+};
+});
+]]></script>
 <g id="Layer_2">
 <rect id="background" x="-5.1" y="-7.3" class="background" width="805.1" height="704.7"/>
 </g>
