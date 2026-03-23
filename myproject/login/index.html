@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--Get out of here you nosey thief-->
+<meta charset="UTF-8">
+
+<script>let PAGETITLE="Main Page";</script>
+<title id="pageTitle"></title>
+<script src="/myproject/js/vars.js"></script>
+<script src="/js/includeEngine.js"></script>
+
+  <style>
+    .flex-container {
+      display: flex;
+      flex-wrap: nowrap;
+      background-color: #c8c8c8;
+    }
+
+    .flex-container > div {
+      background-color: #c8c8c8;
+      width: 50%;
+      margin: 10px;
+      text-align: center;
+      font-size: 18px;
+    }
+  </style>
+
+</head>
+<body>
+
+<div id="header"></div>
+
+<main>
+<div id="nav"></div>
+
+    <div class="flex-container">
+
+
+      <div>
+        <form id="loginForm">
+          <fieldset>
+            <legend>Already a member? - Log in</legend>
+
+            <label>Username:</label><br>
+            <input type="text" id="loginUser" required><br>
+
+            <label>Password:</label><br>
+            <input type="password" id="loginPass" required><br><br>
+
+            <input type="submit" value="Submit" style="width: 150px;">
+          </fieldset>
+        </form>
+      </div>
+
+      <!-- SIGNUP -->
+      <div>
+        <form id="signupForm">
+          <fieldset>
+            <legend>Become a Member - Sign Up</legend>
+
+            <label>First name:</label><br>
+            <input type="text" id="fname" required><br>
+
+            <label>Last name:</label><br>
+            <input type="text" id="lname" required><br>
+
+            <label>Email:</label><br>
+            <input type="email" id="email" required><br>
+
+            <label>Username:</label><br>
+            <input type="text" id="signupUser" required><br>
+
+            <label>Password:</label><br>
+            <input type="password" id="signupPass" required><br><br>
+
+            <input type="submit" value="Submit" style="width: 150px;">
+          </fieldset>
+        </form>
+      </div>
+
+    </div>
+
+  </article>
+</main>
+<footer id="footer"></footer>
+<script src="auth.js"></script>
+<script>
+IncludeEngine.load([
+  { id: "header", file: "header.html" },
+  { id: "nav", file: "nav.html" },
+  { id: "footer", file: "footer.html" }
+]);
+</script>
+</body>
+</html>
