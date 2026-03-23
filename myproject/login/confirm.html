@@ -1,110 +1,140 @@
-[include file=../includes/vars.inc]
-[text]pagetitle=Login[/text]
-[include file=[incVAR]/header.inc]
-[include file=[incVAR]/nav.inc]
-[text]dbname=members.db[/text]
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Processing...</title>
+</head>
+<body>
 
-<div class="bodycopy">
+<div id="output">Processing...</div>
 
+<script>
+function setCookie(name, value, days) {
+  const d = new Date();
+  d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/";
+}
 
-[showif [action]=login]
+function getParams() {
+  const params = new URLSearchParams(window.location.search);
+  return Object.fromEntries(params.entries());
+}
 
-[showif [uname]=][text]uname=[cart][/text][/showif]
-[showif [pword]=][text]pword=[cart][/text][/showif]
+// fallback for POST (if needed)
+async function getPostData() {
+  const formData = new FormData();
+  const params = new URLSearchParams(window.location.search);
+  return Object.fromEntries(params.entries());
+}
 
-[search db=[dbvar][dbname]&equnamedatarq=[uname]&eqworddatarq=[pword]&eqstatusdatarq=1]
-[showif [numfound]=0]
-No such Username/Password found.<br>
-You can try again, or <a href="login.html">sign up here</a> 
-<form method="post" action="confirm.html">
-<input type="hidden" name="action" value="login">
-<fieldset class="fsbody">
-<legend><div class="fs">Log in</div></legend>
-<label for="uname">Username:</label><br>
-<input type="text" id="uname" name="uname" class="text" placeholder="Username" required><br>
-<label for="pword">Password:</label><br>
-<input type="password" id="pword" name="pword" class="text" placeholder="Password:" required><br>
-<input type="submit" value="Submit" class="text" style="width: 150px">
-</fieldset>
-</form>
-[/showif]
-[founditems]
+(async function main() {
 
-[setcookie name=userV&value=[SKU]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+  const params = getParams();
+  const action = params.action;
 
-[setcookie name=keyV&value=[key]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+  // ---------------- LOGIN ----------------
+  if (action === "login") {
 
-[redirect [pathVAR]index.html]
+    const uname = params.uname;
+    const pword = params.pword;
 
-[/founditems]
-[/search]
-[/showif]
+    // Load admins XML
+    const res = await fetch("admins.xml");
+    const text = await res.text();
 
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, "text/xml");
 
+    const admins = xml.getElementsByTagName("admin");
 
+    let success = false;
 
+    // Check admin users
+    for (let i = 0; i < admins.length; i++) {
+      const u = admins[i].getElementsByTagName("username")[0].textContent;
+      const p = admins[i].getElementsByTagName("password")[0].textContent;
 
+      if (uname === u && pword === p) {
+        setCookie("loggedIn", "true", 1);
+        setCookie("user", uname, 1);
+        setCookie("role", "admin", 1);
+        success = true;
+        break;
+      }
+    }
 
+    if (!success) {
+      // Check localStorage users (signup users)
+      const stored = localStorage.getItem("user_" + uname);
 
+      if (stored) {
+        const user = JSON.parse(stored);
 
-[showif [action]=signup]
-[search db=[dbVAR][dbname]&eqUNAMEdatarq=[uname]]
-[showif [numfound]=0]
-An account was created with the following:<br>
-First name = [fname] <br>
-Last name = [lname] <br>
-Email = [email] <br>
-Username = [uname] <br>
-Password = [pword] <br>
+        if (user.password === pword) {
+          setCookie("loggedIn", "true", 1);
+          setCookie("user", uname, 1);
+          setCookie("role", "user", 1);
+          success = true;
+        }
+      }
+    }
 
-[append db=[dbVAR][dbname]&autonumber=SKU][!]
-[/!]KEY=[cart]&[!]
-[/!]fname=[fname]&[!]
-[/!]lname=[lname]&[!]
-[/!]email=[email]&[!]
-[/!]uname=[uname]&[!]
-[/!]pword=[pword]&[!]
-[/!]admin=0&[!]
-[/!]createdate=[date]&[!]
-[/!]status=1[/append]
+    if (success) {
+      window.location.href = "index.html";
+    } else {
+      document.getElementById("output").innerHTML = `
+        No such Username/Password found.<br><br>
+        <a href="index.html">Try again</a>
+      `;
+    }
+  }
 
+  // ---------------- SIGNUP ----------------
+  else if (action === "signup") {
 
-[setcookie name=userV&value=[lastautonumber]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+    const uname = params.uname;
+    const pword = params.pword;
+    const fname = params.fname;
+    const lname = params.lname;
+    const email = params.email;
 
-[setcookie name=keyV&value=[cart]&expires=[format days_to_date %A, %d-%b-%Y][math]{[date]}+7[/math][/format] [math time]{[time]}+{05:00:00}[/math] GMT&path=[pathVAR]&domain=[domainVAR]]
+    // Check if already exists in localStorage
+    if (localStorage.getItem("user_" + uname)) {
+      document.getElementById("output").innerHTML = `
+        Sorry ${uname} already taken <br><br>
+        <a href="index.html">Go back</a>
+      `;
+      return;
+    }
 
-[redirect [pathVAR]index.html?action=newaccount]
-[/showif]
+    // Save user locally
+    const user = {
+      fname,
+      lname,
+      email,
+      username: uname,
+      password: pword
+    };
 
+    localStorage.setItem("user_" + uname, JSON.stringify(user));
 
+    // Set cookies (auto login after signup)
+    setCookie("loggedIn", "true", 1);
+    setCookie("user", uname, 1);
+    setCookie("role", "user", 1);
 
-[showif [numfound]>0]
-Sorry [uname] already taken <br>
+    document.getElementById("output").innerHTML = `
+      Account created successfully.<br>
+      Redirecting...
+    `;
 
+    setTimeout(() => {
+      window.location.href = "index.html?action=newaccount";
+    }, 1000);
+  }
 
+})();
+</script>
 
-
-<form action="confirm.html" method="post">
-<fieldset>
-<input type="hidden" name="action" value="signup" >
-<legend><div>Sign Up</div></legend>
-<label for="fname">First name:</label><br>
-<input type="text" id="fname" name="fname" placeholder="First Name" class="text" value="[fname]" required><br>
-<label for="lname">Last name:</label><br>
-<input type="text" id="lname" name="lname" placeholder="Last Name" class="text" value="[lname]" required><br>
-<label for="email">Email:</label><br>
-<input type="email" id="email" name="email" placeholder="Email" class="text" value="[email]" required><br>
-<label for="uname">Username:</label><br>
-<input type="text" id="uname" name="uname" placeholder="Username taken, Please try another." required><br>
-<label for="pword">Password:</label><br>
-<input type="password" id="pword" name="pword" placeholder="Password" class="text" value="[pword]" required><br>
-<input type="submit" value="Submit" class="text" style="width: 150px;">
-</fieldset>
-</form>
-[/showif]
-[/search]
-[/showif]
-</div>
-</div>
-
-[include file=[incVAR]/footer.inc]
+</body>
+</html>
