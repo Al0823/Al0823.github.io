@@ -50,43 +50,42 @@ function initAuthUI() {
   }
 }
 
-// ---------------- LOGIN ----------------
-async function login(username, password) {
-  const res = await fetch("admins.xml");
+async function loginWithMembers(uname, pword) {
+  const res = await fetch("members.xml");
   const text = await res.text();
 
   const parser = new DOMParser();
   const xml = parser.parseFromString(text, "text/xml");
 
-  const admins = xml.getElementsByTagName("admin");
+  const members = xml.getElementsByTagName("member");
 
-  for (let i = 0; i < admins.length; i++) {
-    const u = admins[i].getElementsByTagName("username")[0].textContent;
-    const p = admins[i].getElementsByTagName("password")[0].textContent;
+  for (let i = 0; i < members.length; i++) {
+    const m = members[i];
 
-    if (username === u && password === p) {
+    const u = m.getElementsByTagName("UNAME")[0].textContent;
+    const p = m.getElementsByTagName("PWORD")[0].textContent;
+    const status = m.getElementsByTagName("STATUS")[0].textContent;
+    const admin = m.getElementsByTagName("ADMIN")[0].textContent;
+    const fname = m.getElementsByTagName("FNAME")[0].textContent;
+
+    if (uname === u && pword === p && status === "1") {
+
+      // Set session cookies
       setCookie("loggedIn", "true", 1);
-      setCookie("user", username, 1);
-      setCookie("role", "admin", 1);
-      return "admin";
+      setCookie("user", uname, 1);
+      setCookie("fname", fname, 1);
+
+      if (admin === "1") {
+        setCookie("role", "admin", 1);
+      } else {
+        setCookie("role", "user", 1);
+      }
+
+      return true;
     }
   }
 
-  // fallback = standard user
-  const storedUser = localStorage.getItem("user_" + username);
-
-  if (storedUser) {
-    const data = JSON.parse(storedUser);
-
-    if (data.password === password) {
-      setCookie("loggedIn", "true", 1);
-      setCookie("user", username, 1);
-      setCookie("role", "user", 1);
-      return "user";
-    }
-  }
-
-  return null;
+  return false;
 }
 
 // ---------------- LOGOUT ----------------
