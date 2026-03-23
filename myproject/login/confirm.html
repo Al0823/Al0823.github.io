@@ -33,61 +33,22 @@ async function getPostData() {
   const action = params.action;
 
   // ---------------- LOGIN ----------------
-  if (action === "login") {
+if (action === "login") {
 
-    const uname = params.uname;
-    const pword = params.pword;
+  const uname = params.uname;
+  const pword = params.pword;
 
-    // Load admins XML
-    const res = await fetch("admins.xml");
-    const text = await res.text();
+  const success = await loginWithMembers(uname, pword);
 
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, "text/xml");
-
-    const admins = xml.getElementsByTagName("admin");
-
-    let success = false;
-
-    // Check admin users
-    for (let i = 0; i < admins.length; i++) {
-      const u = admins[i].getElementsByTagName("username")[0].textContent;
-      const p = admins[i].getElementsByTagName("password")[0].textContent;
-
-      if (uname === u && pword === p) {
-        setCookie("loggedIn", "true", 1);
-        setCookie("user", uname, 1);
-        setCookie("role", "admin", 1);
-        success = true;
-        break;
-      }
-    }
-
-    if (!success) {
-      // Check localStorage users (signup users)
-      const stored = localStorage.getItem("user_" + uname);
-
-      if (stored) {
-        const user = JSON.parse(stored);
-
-        if (user.password === pword) {
-          setCookie("loggedIn", "true", 1);
-          setCookie("user", uname, 1);
-          setCookie("role", "user", 1);
-          success = true;
-        }
-      }
-    }
-
-    if (success) {
-      window.location.href = "index.html";
-    } else {
-      document.getElementById("output").innerHTML = `
-        No such Username/Password found.<br><br>
-        <a href="index.html">Try again</a>
-      `;
-    }
+  if (success) {
+    window.location.href = "index.html";
+  } else {
+    document.getElementById("output").innerHTML = `
+      No such Username/Password found.<br><br>
+      <a href="index.html">Try again</a>
+    `;
   }
+}
 
   // ---------------- SIGNUP ----------------
   else if (action === "signup") {
