@@ -1,8 +1,8 @@
-import { Reader } from "./parser/core.js";
-import { detectVersion } from "./parser/version.js";
-import { readChunks } from "./parser/chunks.js";
-import { exportJSON } from "./export/json.js";
-import { exportZip } from "./export/zip.js";
+import { Reader } from "/parser/core.js";
+import { detectVersion } from "/parser/version.js";
+import { readChunks } from "/parser/chunks.js";
+import { exportJSON } from "/export/json.js";
+import { exportZip } from "/export/zip.js";
 
 let gameData = null;
 
