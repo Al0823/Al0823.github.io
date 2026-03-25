@@ -410,15 +410,35 @@ function parseAUDO(dv, buffer) {
   const count = dv.getUint32(0, true);
   const audios = [];
   const fullDv = new DataView(buffer);
+  const chunkBase = dv.byteOffset; // absolute position of AUDO data in file
+
+  // Try to figure out pointer style from first entry
+  // Strategy: try both absolute and relative, pick whichever gives a valid audio header
+  let useAbsolute = true;
+  if (count > 0) {
+    const firstPtr = dv.getUint32(4, true);
+    // Check absolute: read 4 bytes at firstPtr as a length
+    const absLen = firstPtr + 4 <= buffer.byteLength ? fullDv.getUint32(firstPtr, true) : -1;
+    // Check relative: read 4 bytes at chunkBase+firstPtr as a length
+    const relOff = chunkBase + firstPtr;
+    const relLen = relOff + 4 <= buffer.byteLength ? fullDv.getUint32(relOff, true) : -1;
+    // A valid audio length is between 64 bytes and 50 MB
+    const absValid = absLen > 64 && absLen < 50 * 1024 * 1024 && firstPtr + 4 + absLen <= buffer.byteLength;
+    const relValid = relLen > 64 && relLen < 50 * 1024 * 1024 && relOff + 4 + relLen <= buffer.byteLength;
+    if (!absValid && relValid) useAbsolute = false;
+    // store debug info
+    audios._debug = { firstPtr, absLen, relLen, absValid, relValid, chunkBase, useAbsolute };
+  }
+
   for (let i = 0; i < count && i < 10000; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
     try {
-      // Pointers in GMS chunk lists are absolute file offsets
-      const absPtr = dv.getUint32(ptrOff, true);
+      const storedPtr = dv.getUint32(ptrOff, true);
+      const absPtr = useAbsolute ? storedPtr : chunkBase + storedPtr;
       if (absPtr + 4 > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
       const len = fullDv.getUint32(absPtr, true);
-      if (len === 0 || absPtr + 4 + len > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
+      if (len === 0 || len > 50 * 1024 * 1024 || absPtr + 4 + len > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
       const data = new Uint8Array(buffer, absPtr + 4, len);
       audios.push({ len, data });
     } catch(e) { audios.push({ len: 0, data: null }); }
@@ -897,7 +917,17 @@ function renderTXTRParsed(p) {
 }
 
 function renderAUDOParsed(p) {
-  let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td></tr>`;
+  let html = '';
+  if (p.audios._debug) {
+    const d = p.audios._debug;
+    html += `<div class="warn-box" style="font-family:var(--mono);font-size:.78rem;margin-bottom:12px">
+      <strong>Debug:</strong> chunkBase=0x${d.chunkBase.toString(16)} · firstPtr=0x${d.firstPtr.toString(16)}<br>
+      Absolute→len=${d.absLen} (${d.absValid?'✓ valid':'✗ invalid'}) · 
+      Relative→len=${d.relLen} (${d.relValid?'✓ valid':'✗ invalid'})<br>
+      Using: <strong>${d.useAbsolute ? 'ABSOLUTE' : 'RELATIVE'}</strong> pointers
+    </div>`;
+  }
+  html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td></tr>`;
   p.audios.slice(0,2000).forEach((a, i) => {
     const fmt2 = a.data ? detectAudioFormat(a.data) : 'empty';
     html += `<tr><td>${i}</td><td>${fmt(a.len)}</td><td>${fmt2}</td></tr>`;
