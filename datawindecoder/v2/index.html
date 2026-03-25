@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>data.win Decoder</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3250;
+    --accent: #5b6ef5;
+    --accent2: #9b5de5;
+    --green: #3dd68c;
+    --yellow: #f5c542;
+    --red: #f55b5b;
+    --text: #e2e4f0;
+    --muted: #7b80a0;
+    --mono: 'Fira Mono', 'Consolas', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 28px; display: flex; align-items: center; gap: 14px; }
+  header svg { flex-shrink: 0; }
+  header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: .5px; }
+  header span { font-size: .8rem; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; }
+
+  #drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 14px;
+    margin: 28px auto;
+    max-width: 680px;
+    width: calc(100% - 48px);
+    padding: 52px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    background: var(--surface);
+  }
+  #drop-zone.hover { border-color: var(--accent); background: #1d2140; }
+  #drop-zone p { color: var(--muted); margin-top: 10px; font-size: .9rem; }
+  #drop-zone strong { color: var(--text); }
+  #file-input { display: none; }
+  .btn {
+    display: inline-block; margin-top: 14px;
+    background: var(--accent); color: #fff; border: none;
+    border-radius: 8px; padding: 10px 22px; font-size: .9rem;
+    cursor: pointer; font-weight: 600; transition: opacity .15s;
+  }
+  .btn:hover { opacity: .85; }
+  .btn-sm { padding: 5px 14px; font-size: .8rem; border-radius: 6px; }
+  .btn-green { background: var(--green); color: #0a1a10; }
+  .btn-muted { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+
+  #main { display: none; flex: 1; flex-direction: column; padding: 0 24px 24px; max-width: 1400px; width: 100%; margin: 0 auto; }
+  #toolbar { display: flex; align-items: center; gap: 12px; padding: 14px 0; flex-wrap: wrap; }
+  #file-info { font-size: .85rem; color: var(--muted); }
+  #file-info strong { color: var(--green); }
+
+  #layout { display: grid; grid-template-columns: 220px 1fr; gap: 16px; flex: 1; min-height: 0; }
+
+  /* Sidebar */
+  #sidebar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow-y: auto; }
+  .chunk-item {
+    padding: 9px 14px; cursor: pointer; font-size: .85rem;
+    border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;
+    transition: background .15s;
+  }
+  .chunk-item:hover { background: var(--surface2); }
+  .chunk-item.active { background: #1d2140; border-left: 3px solid var(--accent); }
+  .chunk-name { font-family: var(--mono); font-weight: 700; font-size: .9rem; }
+  .chunk-size { font-size: .75rem; color: var(--muted); }
+  .sidebar-header { padding: 10px 14px; font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
+
+  /* Content area */
+  #content { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+  #content-header { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  #content-title { font-weight: 700; font-size: 1rem; font-family: var(--mono); }
+  #content-meta { font-size: .8rem; color: var(--muted); }
+  #content-body { flex: 1; overflow-y: auto; padding: 16px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; padding: 10px 16px 0; border-bottom: 1px solid var(--border); background: var(--surface2); }
+  .tab { padding: 7px 16px; font-size: .82rem; cursor: pointer; border-radius: 6px 6px 0 0; color: var(--muted); transition: background .15s, color .15s; }
+  .tab.active { background: var(--surface); color: var(--text); font-weight: 600; }
+  .tab-body { display: none; padding: 16px; overflow-y: auto; flex: 1; }
+  .tab-body.active { display: block; }
+
+  /* Hex view */
+  .hex-table { font-family: var(--mono); font-size: .78rem; border-collapse: collapse; width: 100%; }
+  .hex-table td { padding: 2px 6px; white-space: pre; }
+  .hex-offset { color: var(--accent2); }
+  .hex-bytes { color: var(--yellow); letter-spacing: 1px; }
+  .hex-ascii { color: var(--green); }
+  .hex-row:hover td { background: var(--surface2); }
+
+  /* JSON tree */
+  .json-tree { font-family: var(--mono); font-size: .82rem; line-height: 1.7; }
+  .jk { color: #79b8ff; }
+  .jv-str { color: var(--green); }
+  .jv-num { color: var(--yellow); }
+  .jv-bool { color: var(--accent); }
+  .jv-null { color: var(--muted); }
+  .collapsible { cursor: pointer; user-select: none; }
+  .collapsible::before { content: '▾ '; font-size: .7rem; }
+  .collapsible.collapsed::before { content: '▸ '; }
+  .collapsible.collapsed + .children { display: none; }
+  .children { margin-left: 18px; }
+
+  /* Sprites */
+  #sprites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+  .sprite-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; }
+  .sprite-card canvas { image-rendering: pixelated; max-width: 100%; }
+  .sprite-card p { font-size: .7rem; color: var(--muted); margin-top: 6px; word-break: break-all; }
+
+  /* Audio */
+  .audio-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .audio-item p { font-size: .85rem; flex: 1; font-family: var(--mono); min-width: 160px; }
+  .audio-item audio { height: 32px; flex: 2; min-width: 200px; }
+  .audio-badge { font-size: .7rem; padding: 2px 8px; border-radius: 4px; background: var(--accent); color: #fff; }
+
+  /* Summary table */
+  .info-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  .info-table tr:nth-child(even) td { background: var(--surface2); }
+  .info-table td { padding: 7px 12px; border-bottom: 1px solid var(--border); }
+  .info-table td:first-child { color: var(--muted); font-weight: 600; width: 180px; }
+  .info-table td:last-child { font-family: var(--mono); }
+
+  .tag { display: inline-block; font-size: .72rem; padding: 2px 8px; border-radius: 4px; margin: 2px; background: var(--surface2); border: 1px solid var(--border); font-family: var(--mono); }
+
+  .error-box { background: #2a1010; border: 1px solid var(--red); border-radius: 8px; padding: 14px 18px; color: var(--red); font-size: .87rem; }
+  .warn-box { background: #2a2010; border: 1px solid var(--yellow); border-radius: 8px; padding: 10px 14px; color: var(--yellow); font-size: .83rem; margin-bottom: 12px; }
+
+  #progress { display:none; text-align:center; padding: 40px; color: var(--muted); }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media(max-width:700px) { #layout { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <rect width="28" height="28" rx="7" fill="#5b6ef5"/>
+    <rect x="6" y="8" width="16" height="2.5" rx="1.2" fill="white" opacity=".9"/>
+    <rect x="6" y="12.75" width="12" height="2.5" rx="1.2" fill="white" opacity=".7"/>
+    <rect x="6" y="17.5" width="9" height="2.5" rx="1.2" fill="white" opacity=".5"/>
+  </svg>
+  <h1>data.win Decoder</h1>
+  <span>GMS 1.x / 2.x</span>
+</header>
+
+<div id="drop-zone" onclick="document.getElementById('file-input').click()">
+  <svg width="48" height="48" fill="none" viewBox="0 0 48 48" style="margin:0 auto">
+    <circle cx="24" cy="24" r="23" fill="#1a1d27" stroke="#2e3250" stroke-width="1.5"/>
+    <path d="M24 16v14M18 22l6-6 6 6" stroke="#5b6ef5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="13" y="33" width="22" height="3" rx="1.5" fill="#2e3250"/>
+  </svg>
+  <strong>Drop your data.win file here</strong>
+  <p>or click to browse — all parsing happens locally in your browser</p>
+  <button class="btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">Choose File</button>
+  <input type="file" id="file-input" accept=".win,.unx,.ios,.droid,*">
+</div>
+
+<div id="progress"><div class="spinner"></div><div id="progress-msg">Parsing…</div></div>
+
+<div id="main">
+  <div id="toolbar">
+    <div id="file-info"></div>
+    <button class="btn btn-sm btn-muted" onclick="reset()">↩ Load another file</button>
+    <button class="btn btn-sm btn-green" id="export-btn" onclick="exportJSON()">⬇ Export JSON</button>
+  </div>
+  <div id="layout">
+    <div id="sidebar">
+      <div class="sidebar-header">Chunks</div>
+      <div id="chunk-list"></div>
+    </div>
+    <div id="content">
+      <div class="tabs" id="tab-bar"></div>
+      <div id="tab-panels"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let parsedData = null;
+let activeChunk = null;
+
+// ─── Entry points ────────────────────────────────────────────────────────────
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('hover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('hover'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('hover'); handleFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+function handleFile(file) {
+  if (!file) return;
+  showProgress('Reading file…');
+  const reader = new FileReader();
+  reader.onload = e => {
+    showProgress('Parsing chunks…');
+    setTimeout(() => {
+      try {
+        parsedData = parseDataWin(new DataView(e.target.result), file.name, file.size);
+        render(file);
+      } catch(err) {
+        hideProgress();
+        showDrop();
+        alert('Failed to parse: ' + err.message);
+      }
+    }, 30);
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ─── Parser ──────────────────────────────────────────────────────────────────
+function parseDataWin(dv, filename, filesize) {
+  const dec = new TextDecoder();
+  const readStr = (offset) => {
+    let len = dv.getUint32(offset, true); offset += 4;
+    return dec.decode(new Uint8Array(dv.buffer, offset, len));
+  };
+  const readFourCC = (offset) => dec.decode(new Uint8Array(dv.buffer, offset, 4));
+
+  const magic = readFourCC(0);
+  if (magic !== 'FORM') throw new Error(`Not a valid data.win — expected FORM, got "${magic}"`);
+
+  const totalLen = dv.getUint32(4, true);
+  const chunks = {};
+  const chunkOrder = [];
+  let pos = 8;
+
+  while (pos < dv.byteLength - 8) {
+    const name = readFourCC(pos);
+    const size = dv.getUint32(pos + 4, true);
+    if (size === 0 || pos + 8 + size > dv.byteLength) break;
+    const data = new DataView(dv.buffer, pos + 8, size);
+    chunks[name] = { offset: pos, size, data, raw: new Uint8Array(dv.buffer, pos + 8, size) };
+    chunkOrder.push(name);
+    pos += 8 + size;
+    // align to 4 bytes
+    if (pos % 4 !== 0) pos += 4 - (pos % 4);
+  }
+
+  const result = {
+    filename, filesize, magic, totalLen,
+    chunkOrder, chunks,
+    parsed: {}
+  };
+
+  // Parse known chunks
+  try { if (chunks.GEN8) result.parsed.GEN8 = parseGEN8(chunks.GEN8.data, readStr); } catch(e) {}
+  try { if (chunks.STRG) result.parsed.STRG = parseSTRG(chunks.STRG.data); } catch(e) {}
+  try { if (chunks.TXTR) result.parsed.TXTR = parseTXTR(chunks.TXTR.data, dv.buffer); } catch(e) {}
+  try { if (chunks.SPRT) result.parsed.SPRT = parseSPRT(chunks.SPRT.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.AUDO) result.parsed.AUDO = parseAUDO(chunks.AUDO.data, dv.buffer); } catch(e) {}
+  try { if (chunks.SOND) result.parsed.SOND = parseSOND(chunks.SOND.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.ROOM) result.parsed.ROOM = parseROOM(chunks.ROOM.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.OBJT) result.parsed.OBJT = parseOBJT(chunks.OBJT.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.SCPT) result.parsed.SCPT = parseSCPT(chunks.SCPT.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.CODE) result.parsed.CODE = parseCODE(chunks.CODE.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.BGND) result.parsed.BGND = parseBGND(chunks.BGND.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.PATH) result.parsed.PATH = parsePATH(chunks.PATH.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.SHDR) result.parsed.SHDR = parseSHDR(chunks.SHDR.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.FONT) result.parsed.FONT = parseFONT(chunks.FONT.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.TMLN) result.parsed.TMLN = parseTMLN(chunks.TMLN.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.VARI) result.parsed.VARI = parseVARI(chunks.VARI.data, result.parsed.STRG); } catch(e) {}
+  try { if (chunks.FUNC) result.parsed.FUNC = parseFUNC(chunks.FUNC.data, result.parsed.STRG); } catch(e) {}
+
+  return result;
+}
+
+function readStringAt(dv, offset) {
+  // strings in GMS are stored as length-prefixed or as offsets into STRG
+  const dec = new TextDecoder();
+  const len = dv.getUint32(offset, true);
+  if (len > 65535 || len < 0) return '';
+  return dec.decode(new Uint8Array(dv.buffer, dv.byteOffset + offset + 4, len));
+}
+
+function parseGEN8(dv, readStr) {
+  const dec = new TextDecoder();
+  const readGstr = (off) => {
+    const len = dv.getUint32(off, true);
+    if (len === 0 || len > 4096) return '';
+    return dec.decode(new Uint8Array(dv.buffer, dv.byteOffset + off + 4, len));
+  };
+  return {
+    debug: dv.getUint32(0, true),
+    filename: readGstr(4),
+    config: readGstr(4 + 4 + dv.getUint32(4, true) + 4 + dv.getUint32(4 + 4 + dv.getUint32(4,true), true) + 4),
+    gameID: dv.getUint32(12, true),
+    version: `${dv.getUint32(16,true)}.${dv.getUint32(20,true)}.${dv.getUint32(24,true)}.${dv.getUint32(28,true)}`,
+    roomWidth: dv.getUint32(32, true),
+    roomHeight: dv.getUint32(36, true),
+    fps: dv.getUint32(40, true),
+    flags: '0x' + dv.getUint32(44, true).toString(16).padStart(8,'0'),
+  };
+}
+
+function parseSTRG(dv) {
+  const count = dv.getUint32(0, true);
+  const dec = new TextDecoder();
+  const strings = [];
+  // Each pointer in STRG is an absolute offset into the full file buffer
+  for (let i = 0; i < count && i < 100000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    const relPtr = dv.getUint32(ptrOff, true);
+    // pointers are relative to chunk data start in GMS format
+    const absPtr = dv.byteOffset + relPtr;
+    if (absPtr + 4 > dv.buffer.byteLength) { strings.push(''); continue; }
+    const len = new DataView(dv.buffer).getUint32(absPtr, true);
+    if (len > 65535 || absPtr + 4 + len > dv.buffer.byteLength) { strings.push(''); continue; }
+    strings.push(dec.decode(new Uint8Array(dv.buffer, absPtr + 4, len)));
+  }
+  return { count, strings };
+}
+
+function getStr(strg, idx) {
+  if (!strg || !strg.strings) return `<str#${idx}>`;
+  return strg.strings[idx] ?? `<str#${idx}>`;
+}
+
+function readPointerList(dv, off) {
+  const count = dv.getUint32(off, true);
+  const ptrs = [];
+  for (let i = 0; i < count; i++) ptrs.push(dv.getUint32(off + 4 + i * 4, true));
+  return ptrs;
+}
+
+// Helper: resolve a relative-to-chunk pointer to an absolute buffer offset
+function absOff(dv, relPtr) { return dv.byteOffset + relPtr; }
+
+function parseSPRT(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const sprites = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 48 > dv.buffer.byteLength) break;
+      const nameIdx   = fdv.getUint32(abs, true);
+      const w         = fdv.getUint32(abs + 4, true);
+      const h         = fdv.getUint32(abs + 8, true);
+      const frameCount = fdv.getUint32(abs + 44, true);
+      sprites.push({ name: getStr(strg, nameIdx), width: w, height: h, frameCount });
+    } catch(e) { break; }
+  }
+  return { count, sprites };
+}
+
+function parseTXTR(dv, buffer) {
+  const count = dv.getUint32(0, true);
+  const textures = [];
+  // dv.byteOffset is the absolute start of the TXTR chunk data within `buffer`
+  const chunkBase = dv.byteOffset;
+  const fullDv = new DataView(buffer);
+
+  for (let i = 0; i < count && i < 2048; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      // Each entry pointer is relative to chunk data start — convert to absolute
+      const relPtr = dv.getUint32(ptrOff, true);
+      const absPtr = chunkBase + relPtr;
+      if (absPtr + 8 > buffer.byteLength) break;
+
+      const scaled = fullDv.getUint32(absPtr, true);
+      // The inner data pointer is ALSO stored as an absolute file offset
+      const dataPtr = fullDv.getUint32(absPtr + 4, true);
+
+      if (dataPtr + 8 > buffer.byteLength) { textures.push({ scaled, dataPtr, isPng: false, pngData: null }); continue; }
+
+      // PNG magic: 89 50 4E 47 0D 0A 1A 0A
+      const b = new Uint8Array(buffer, dataPtr, Math.min(8, buffer.byteLength - dataPtr));
+      const isPng = b[0]===0x89 && b[1]===0x50 && b[2]===0x4e && b[3]===0x47 &&
+                    b[4]===0x0d && b[5]===0x0a && b[6]===0x1a && b[7]===0x0a;
+
+      let pngData = null;
+      if (isPng) {
+        // Walk PNG chunks to find IEND and compute exact length
+        let pos = dataPtr + 8; // skip PNG sig
+        let pngLen = 0;
+        const maxEnd = Math.min(dataPtr + 32 * 1024 * 1024, buffer.byteLength);
+        while (pos + 12 <= maxEnd) {
+          const chunkLen = fullDv.getUint32(pos, false); // big-endian
+          const typeBytes = new Uint8Array(buffer, pos + 4, 4);
+          const type = String.fromCharCode(...typeBytes);
+          pos += 12 + chunkLen; // 4 len + 4 type + data + 4 crc
+          if (type === 'IEND') { pngLen = pos - dataPtr; break; }
+          if (chunkLen > 16 * 1024 * 1024) break; // sanity guard
+        }
+        if (!pngLen && pos > dataPtr + 8) pngLen = pos - dataPtr;
+        if (!pngLen) pngLen = Math.min(8 * 1024 * 1024, buffer.byteLength - dataPtr);
+        pngData = new Uint8Array(buffer, dataPtr, pngLen);
+      }
+
+      textures.push({ scaled, dataPtr, isPng, pngData });
+    } catch(e) { textures.push({ scaled: 0, dataPtr: 0, isPng: false, pngData: null }); }
+  }
+  return { count, textures };
+}
+
+function parseAUDO(dv, buffer) {
+  const count = dv.getUint32(0, true);
+  const audios = [];
+  const chunkBase = dv.byteOffset;
+  const fullDv = new DataView(buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const relPtr = dv.getUint32(ptrOff, true);
+      const absPtr = chunkBase + relPtr;
+      if (absPtr + 4 > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
+      const len = fullDv.getUint32(absPtr, true);
+      if (len === 0 || absPtr + 4 + len > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
+      const data = new Uint8Array(buffer, absPtr + 4, len);
+      audios.push({ len, data });
+    } catch(e) { audios.push({ len: 0, data: null }); }
+  }
+  return { count, audios };
+}
+
+function parseSOND(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const sounds = [];
+  const chunkBase = dv.byteOffset;
+  const fullDv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const relPtr = dv.getUint32(ptrOff, true);
+      const absPtr = chunkBase + relPtr;
+      if (absPtr + 32 > dv.buffer.byteLength) break;
+      const nameIdx = fullDv.getUint32(absPtr, true);
+      const flags   = fullDv.getUint32(absPtr + 4, true);
+      const extIdx  = fullDv.getUint32(absPtr + 8, true);
+      const fileIdx = fullDv.getUint32(absPtr + 12, true);
+      const effects = fullDv.getUint32(absPtr + 16, true);
+      const vol     = fullDv.getFloat32(absPtr + 20, true);
+      const pan     = fullDv.getFloat32(absPtr + 24, true);
+      const audIdx  = fullDv.getInt32(absPtr + 28, true);
+      sounds.push({
+        name: getStr(strg, nameIdx),
+        ext:  getStr(strg, extIdx),
+        file: getStr(strg, fileIdx),
+        flags, effects, vol, pan, audIdx
+      });
+    } catch(e) { break; }
+  }
+  return { count, sounds };
+}
+
+function parseROOM(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const rooms = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 16 > dv.buffer.byteLength) break;
+      const nameIdx    = fdv.getUint32(abs, true);
+      const captionIdx = fdv.getUint32(abs + 4, true);
+      const w          = fdv.getUint32(abs + 8, true);
+      const h          = fdv.getUint32(abs + 12, true);
+      rooms.push({ name: getStr(strg, nameIdx), caption: getStr(strg, captionIdx), width: w, height: h });
+    } catch(e) { break; }
+  }
+  return { count, rooms };
+}
+
+function parseOBJT(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const objects = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 4 > dv.buffer.byteLength) break;
+      objects.push({ name: getStr(strg, fdv.getUint32(abs, true)) });
+    } catch(e) { break; }
+  }
+  return { count, objects };
+}
+
+function parseSCPT(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const scripts = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 8 > dv.buffer.byteLength) break;
+      const nameIdx = fdv.getUint32(abs, true);
+      const codeIdx = fdv.getInt32(abs + 4, true);
+      scripts.push({ name: getStr(strg, nameIdx), codeIdx });
+    } catch(e) { break; }
+  }
+  return { count, scripts };
+}
+
+function parseCODE(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const code = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 4 > dv.buffer.byteLength) break;
+      code.push({ name: getStr(strg, fdv.getUint32(abs, true)) });
+    } catch(e) { break; }
+  }
+  return { count, code };
+}
+
+function parseBGND(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const bgs = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 4 > dv.buffer.byteLength) break;
+      bgs.push({ name: getStr(strg, fdv.getUint32(abs, true)) });
+    } catch(e) { break; }
+  }
+  return { count, bgs };
+}
+
+function parsePATH(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const paths = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 4 > dv.buffer.byteLength) break;
+      paths.push({ name: getStr(strg, fdv.getUint32(abs, true)) });
+    } catch(e) { break; }
+  }
+  return { count, paths };
+}
+
+function parseSHDR(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const shaders = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 4 > dv.buffer.byteLength) break;
+      shaders.push({ name: getStr(strg, fdv.getUint32(abs, true)) });
+    } catch(e) { break; }
+  }
+  return { count, shaders };
+}
+
+function parseFONT(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const fonts = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 8 > dv.buffer.byteLength) break;
+      const nameIdx = fdv.getUint32(abs, true);
+      const dispIdx = fdv.getUint32(abs + 4, true);
+      fonts.push({ name: getStr(strg, nameIdx), displayName: getStr(strg, dispIdx) });
+    } catch(e) { break; }
+  }
+  return { count, fonts };
+}
+
+function parseTMLN(dv, strg) {
+  const count = dv.getUint32(0, true);
+  const timelines = [];
+  const fdv = new DataView(dv.buffer);
+  for (let i = 0; i < count && i < 10000; i++) {
+    const ptrOff = 4 + i * 4;
+    if (ptrOff + 4 > dv.byteLength) break;
+    try {
+      const abs = absOff(dv, dv.getUint32(ptrOff, true));
+      if (abs + 4 > dv.buffer.byteLength) break;
+      timelines.push({ name: getStr(strg, fdv.getUint32(abs, true)) });
+    } catch(e) { break; }
+  }
+  return { count, timelines };
+}
+
+function parseVARI(dv, strg) {
+  // GMS1 vs GMS2 differ — just grab count and names
+  try {
+    const varCount = dv.getUint32(0, true);
+    const localVarCount = dv.getUint32(4, true);
+    const argCount = dv.getUint32(8, true);
+    return { varCount, localVarCount, argCount };
+  } catch(e) { return {}; }
+}
+
+function parseFUNC(dv, strg) {
+  try {
+    const count = dv.getUint32(0, true);
+    const funcs = [];
+    const fdv = new DataView(dv.buffer);
+    // FUNC entries are stored inline (not pointer list), starting at offset 4
+    let off = dv.byteOffset + 4;
+    for (let i = 0; i < count && i < 10000; i++) {
+      if (off + 12 > dv.buffer.byteLength) break;
+      const nameIdx = fdv.getUint32(off, true);
+      const occurrences = fdv.getUint32(off + 4, true);
+      funcs.push({ name: getStr(strg, nameIdx), occurrences });
+      off += 12;
+    }
+    return { count, funcs };
+  } catch(e) { return {}; }
+}
+
+// ─── UI ──────────────────────────────────────────────────────────────────────
+function showProgress(msg) {
+  document.getElementById('drop-zone').style.display = 'none';
+  document.getElementById('progress').style.display = 'block';
+  document.getElementById('progress-msg').textContent = msg;
+  document.getElementById('main').style.display = 'none';
+}
+function hideProgress() { document.getElementById('progress').style.display = 'none'; }
+function showDrop() { document.getElementById('drop-zone').style.display = ''; }
+function reset() { parsedData = null; showDrop(); hideProgress(); document.getElementById('main').style.display = 'none'; fileInput.value = ''; }
+
+function fmt(n) {
+  if (n >= 1024*1024) return (n/1024/1024).toFixed(2) + ' MB';
+  if (n >= 1024) return (n/1024).toFixed(1) + ' KB';
+  return n + ' B';
+}
+
+function render(file) {
+  hideProgress();
+  document.getElementById('main').style.display = 'flex';
+  const d = parsedData;
+
+  document.getElementById('file-info').innerHTML =
+    `Loaded <strong>${d.filename}</strong> — ${fmt(d.filesize)} — <strong>${d.chunkOrder.length}</strong> chunks`;
+
+  // Sidebar
+  const list = document.getElementById('chunk-list');
+  list.innerHTML = '';
+  // Summary first
+  const summItem = document.createElement('div');
+  summItem.className = 'chunk-item active';
+  summItem.innerHTML = `<span class="chunk-name">★ Summary</span><span class="chunk-size">${d.chunkOrder.length} chunks</span>`;
+  summItem.onclick = () => selectChunk('__summary__', summItem);
+  list.appendChild(summItem);
+
+  d.chunkOrder.forEach(name => {
+    const c = d.chunks[name];
+    const item = document.createElement('div');
+    item.className = 'chunk-item';
+    item.dataset.chunk = name;
+    item.innerHTML = `<span class="chunk-name">${name}</span><span class="chunk-size">${fmt(c.size)}</span>`;
+    item.onclick = () => selectChunk(name, item);
+    list.appendChild(item);
+  });
+
+  renderChunk('__summary__');
+}
+
+function selectChunk(name, el) {
+  document.querySelectorAll('.chunk-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  renderChunk(name);
+}
+
+function renderChunk(name) {
+  activeChunk = name;
+  const d = parsedData;
+  const tabBar = document.getElementById('tab-bar');
+  const panels = document.getElementById('tab-panels');
+
+  if (name === '__summary__') {
+    tabBar.innerHTML = '<div class="tab active" onclick="switchTab(0,this)">Overview</div><div class="tab" onclick="switchTab(1,this)">Chunk Map</div>';
+    panels.innerHTML = `
+      <div class="tab-body active">${renderSummaryHTML()}</div>
+      <div class="tab-body">${renderChunkMapHTML()}</div>`;
+    return;
+  }
+
+  const c = d.chunks[name];
+  const tabs = ['Raw Hex', 'JSON'];
+  const hasSpecial = !!d.parsed[name];
+
+  let tabsHTML = '';
+  let panelsHTML = '';
+  let idx = 0;
+
+  if (hasSpecial) {
+    tabsHTML += `<div class="tab active" onclick="switchTab(${idx},this)">Parsed</div>`;
+    panelsHTML += `<div class="tab-body active">${renderParsedChunk(name)}</div>`;
+    idx++;
+  }
+
+  if (name === 'TXTR' && d.parsed.TXTR) {
+    tabsHTML += `<div class="tab" onclick="switchTab(${idx},this)">Sprites / Textures</div>`;
+    panelsHTML += `<div class="tab-body">${'<div id="txtr-sprites-lazy">Loading textures…</div>'}</div>`;
+    idx++;
+  }
+  if (name === 'AUDO' && d.parsed.AUDO) {
+    tabsHTML += `<div class="tab" onclick="switchTab(${idx},this)">Audio Player</div>`;
+    panelsHTML += `<div class="tab-body"><div id="audio-lazy">Loading audio…</div></div>`;
+    idx++;
+  }
+
+  tabsHTML += `<div class="tab${!hasSpecial?' active':''}" onclick="switchTab(${idx},this)">Raw Hex</div>`;
+  panelsHTML += `<div class="tab-body${!hasSpecial?' active':''}"><div id="hex-lazy-${name}">Generating hex…</div></div>`;
+  idx++;
+
+  tabsHTML += `<div class="tab" onclick="switchTab(${idx},this)">JSON</div>`;
+  panelsHTML += `<div class="tab-body"><div id="json-lazy-${name}">Generating JSON…</div></div>`;
+
+  tabBar.innerHTML = tabsHTML;
+  panels.innerHTML = panelsHTML;
+
+  setTimeout(() => {
+    const hexEl = document.getElementById(`hex-lazy-${name}`);
+    if (hexEl) hexEl.outerHTML = renderHex(c.raw);
+  }, 20);
+  setTimeout(() => {
+    const jsonEl = document.getElementById(`json-lazy-${name}`);
+    if (jsonEl) {
+      const obj = d.parsed[name] || { offset: c.offset, size: c.size };
+      jsonEl.outerHTML = renderJSONTree(obj);
+    }
+    const tEl = document.getElementById('txtr-sprites-lazy');
+    if (tEl) { tEl.outerHTML = renderTexturesHTML(); }
+    const aEl = document.getElementById('audio-lazy');
+    if (aEl) { aEl.outerHTML = renderAudioHTML(); }
+  }, 40);
+}
+
+function switchTab(idx, el) {
+  const panels = document.getElementById('tab-panels');
+  const tabs = document.getElementById('tab-bar');
+  tabs.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  panels.querySelectorAll('.tab-body').forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+function renderSummaryHTML() {
+  const d = parsedData;
+  const g = d.parsed.GEN8 || {};
+  const str = d.parsed.STRG || {};
+  const sprt = d.parsed.SPRT || {};
+  const sond = d.parsed.SOND || {};
+  const room = d.parsed.ROOM || {};
+  const objt = d.parsed.OBJT || {};
+  const scpt = d.parsed.SCPT || {};
+  const txtr = d.parsed.TXTR || {};
+  const audo = d.parsed.AUDO || {};
+  const font = d.parsed.FONT || {};
+  const bgnd = d.parsed.BGND || {};
+
+  return `
+  <table class="info-table">
+    <tr><td>File</td><td>${d.filename}</td></tr>
+    <tr><td>File Size</td><td>${fmt(d.filesize)}</td></tr>
+    <tr><td>Magic</td><td>${d.magic}</td></tr>
+    <tr><td>Total Data Length</td><td>${fmt(d.totalLen)}</td></tr>
+    <tr><td>Chunks Found</td><td>${d.chunkOrder.join(', ')}</td></tr>
+    ${g.version ? `<tr><td>GMS Version</td><td>${g.version}</td></tr>` : ''}
+    ${g.roomWidth ? `<tr><td>Room Size</td><td>${g.roomWidth} × ${g.roomHeight}</td></tr>` : ''}
+    ${g.fps ? `<tr><td>FPS</td><td>${g.fps}</td></tr>` : ''}
+    ${str.count !== undefined ? `<tr><td>Strings</td><td>${str.count}</td></tr>` : ''}
+    ${sprt.count !== undefined ? `<tr><td>Sprites</td><td>${sprt.count}</td></tr>` : ''}
+    ${txtr.count !== undefined ? `<tr><td>Textures</td><td>${txtr.count}</td></tr>` : ''}
+    ${audo.count !== undefined ? `<tr><td>Audio Assets</td><td>${audo.count}</td></tr>` : ''}
+    ${sond.count !== undefined ? `<tr><td>Sound Entries</td><td>${sond.count}</td></tr>` : ''}
+    ${room.count !== undefined ? `<tr><td>Rooms</td><td>${room.count}</td></tr>` : ''}
+    ${objt.count !== undefined ? `<tr><td>Objects</td><td>${objt.count}</td></tr>` : ''}
+    ${scpt.count !== undefined ? `<tr><td>Scripts</td><td>${scpt.count}</td></tr>` : ''}
+    ${font.count !== undefined ? `<tr><td>Fonts</td><td>${font.count}</td></tr>` : ''}
+    ${bgnd.count !== undefined ? `<tr><td>Backgrounds</td><td>${bgnd.count}</td></tr>` : ''}
+  </table>`;
+}
+
+function renderChunkMapHTML() {
+  const d = parsedData;
+  const total = d.chunks[d.chunkOrder[d.chunkOrder.length-1]];
+  const totalSize = total ? total.offset + 8 + total.size : d.filesize;
+
+  const colors = ['#5b6ef5','#9b5de5','#3dd68c','#f5c542','#f55b5b','#4ecdc4','#f7a94b','#e05ce0','#6bc5f8','#8fdb5c'];
+  let html = `<div style="margin-bottom:14px;font-size:.82rem;color:var(--muted)">Visual representation of chunk sizes in the file</div>`;
+  html += `<div style="display:flex;height:32px;border-radius:6px;overflow:hidden;margin-bottom:18px">`;
+  d.chunkOrder.forEach((name, i) => {
+    const c = d.chunks[name];
+    const pct = (c.size / totalSize * 100).toFixed(2);
+    const col = colors[i % colors.length];
+    html += `<div title="${name}: ${fmt(c.size)} (${pct}%)" style="background:${col};width:${pct}%;min-width:2px" ></div>`;
+  });
+  html += `</div><table class="info-table"><tr><td style="font-weight:700">Chunk</td><td style="font-weight:700">Offset</td><td style="font-weight:700">Size</td><td style="font-weight:700">%</td></tr>`;
+  d.chunkOrder.forEach((name, i) => {
+    const c = d.chunks[name];
+    const col = colors[i % colors.length];
+    html += `<tr><td><span style="color:${col};font-family:var(--mono);font-weight:700">${name}</span></td><td>0x${c.offset.toString(16).toUpperCase().padStart(8,'0')}</td><td>${fmt(c.size)}</td><td>${(c.size/totalSize*100).toFixed(1)}%</td></tr>`;
+  });
+  html += '</table>';
+  return html;
+}
+
+function renderParsedChunk(name) {
+  const d = parsedData;
+  const p = d.parsed[name];
+  if (!p) return '<em>No parsed data</em>';
+
+  switch(name) {
+    case 'GEN8': return renderGEN8(p);
+    case 'STRG': return renderSTRG(p);
+    case 'SPRT': return renderNameList(p.sprites || [], ['name','width','height','frameCount']);
+    case 'SOND': return renderNameList(p.sounds || [], ['name','ext','file','flags','vol','pan','audIdx']);
+    case 'ROOM': return renderNameList(p.rooms || [], ['name','caption','width','height']);
+    case 'OBJT': return renderNameList(p.objects || [], ['name']);
+    case 'SCPT': return renderNameList(p.scripts || [], ['name','codeIdx']);
+    case 'CODE': return renderNameList(p.code || [], ['name']);
+    case 'BGND': return renderNameList(p.bgs || [], ['name']);
+    case 'PATH': return renderNameList(p.paths || [], ['name']);
+    case 'SHDR': return renderNameList(p.shaders || [], ['name']);
+    case 'FONT': return renderNameList(p.fonts || [], ['name','displayName']);
+    case 'TMLN': return renderNameList(p.timelines || [], ['name']);
+    case 'FUNC': return renderNameList(p.funcs || [], ['name','occurrences']);
+    case 'VARI': return `<table class="info-table">
+      <tr><td>Variable Count</td><td>${p.varCount}</td></tr>
+      <tr><td>Local Var Count</td><td>${p.localVarCount}</td></tr>
+      <tr><td>Arg Count</td><td>${p.argCount}</td></tr></table>`;
+    case 'TXTR': return renderTXTRParsed(p);
+    case 'AUDO': return renderAUDOParsed(p);
+    default: return renderJSONTree(p);
+  }
+}
+
+function renderGEN8(g) {
+  const rows = Object.entries(g).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  return `<table class="info-table">${rows}</table>`;
+}
+
+function renderSTRG(p) {
+  const display = p.strings.slice(0, 500);
+  let html = `<div style="margin-bottom:10px;font-size:.82rem;color:var(--muted)">Showing ${display.length} of ${p.count} strings</div>`;
+  html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">String</td></tr>`;
+  display.forEach((s, i) => {
+    html += `<tr><td>${i}</td><td>${escHtml(s)}</td></tr>`;
+  });
+  if (p.count > 500) html += `<tr><td colspan="2" style="color:var(--muted)">(${p.count - 500} more strings truncated)</td></tr>`;
+  html += '</table>';
+  return html;
+}
+
+function renderNameList(arr, fields) {
+  if (!arr.length) return '<em style="color:var(--muted)">No entries</em>';
+  let html = `<table class="info-table"><tr>${fields.map(f=>`<td style="font-weight:700">${f}</td>`).join('')}</tr>`;
+  const show = arr.slice(0, 2000);
+  show.forEach(item => {
+    html += `<tr>${fields.map(f => `<td>${escHtml(String(item[f] ?? ''))}</td>`).join('')}</tr>`;
+  });
+  if (arr.length > 2000) html += `<tr><td colspan="${fields.length}" style="color:var(--muted)">(${arr.length-2000} more truncated)</td></tr>`;
+  html += '</table>';
+  return html;
+}
+
+function renderTXTRParsed(p) {
+  let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Offset</td><td style="font-weight:700">Type</td><td style="font-weight:700">Action</td></tr>`;
+  p.textures.slice(0, 2000).forEach((t, i) => {
+    const type = t.isPng ? '<span style="color:var(--green)">PNG</span>' : '<span style="color:var(--yellow)">unknown</span>';
+    const dlBtn = t.isPng && t.pngData ? `<button class="btn btn-sm btn-green" onclick="downloadTex(${i})">⬇ PNG</button>` : '';
+    html += `<tr><td>${i}</td><td>0x${(t.dataPtr||0).toString(16).toUpperCase().padStart(8,'0')}</td><td>${type}</td><td>${dlBtn}</td></tr>`;
+  });
+  html += '</table>';
+  return html;
+}
+
+function renderAUDOParsed(p) {
+  let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td></tr>`;
+  p.audios.slice(0,2000).forEach((a, i) => {
+    const fmt2 = a.data ? detectAudioFormat(a.data) : 'empty';
+    html += `<tr><td>${i}</td><td>${fmt(a.len)}</td><td>${fmt2}</td></tr>`;
+  });
+  html += '</table>';
+  return html;
+}
+
+function renderTexturesHTML() {
+  const txtr = parsedData.parsed.TXTR;
+  if (!txtr) return '<em>No texture data</em>';
+  const withPng = txtr.textures.filter(t => t.isPng && t.pngData);
+  const noData = txtr.textures.filter(t => !t.isPng).length;
+
+  if (!withPng.length) return `<div class="warn-box">No embedded PNG textures found. ${noData} texture entries have unrecognized or external data.</div>`;
+
+  const gameName = (parsedData.filename || 'texture').replace(/\.[^.]+$/, '');
+
+  let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+    <span style="font-size:.82rem;color:var(--muted)">${withPng.length} texture sheet(s) found${noData ? ` · ${noData} skipped (no embedded data)` : ''}</span>
+    <button class="btn btn-sm btn-green" onclick="downloadAllTextures()">⬇ Download All (${withPng.length})</button>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:14px">`;
+
+  withPng.slice(0, 128).forEach((t, i) => {
+    const idx = txtr.textures.indexOf(t);
+    const blob = new Blob([t.pngData], { type: 'image/png' });
+    const url = URL.createObjectURL(blob);
+
+    let w = '?', h = '?';
+    try {
+      const dv2 = new DataView(t.pngData.buffer, t.pngData.byteOffset, t.pngData.byteLength);
+      w = dv2.getUint32(16, false);
+      h = dv2.getUint32(20, false);
+    } catch(e) {}
+    html += `<div class="sprite-card" style="min-width:120px;max-width:160px">
+      <img src="${url}" style="max-width:140px;max-height:140px;image-rendering:pixelated;display:block;margin:0 auto;border-radius:4px;background:#111">
+      <p style="margin-top:6px">Tex #${idx}</p>
+      <p style="color:var(--muted)">${w}×${h} · ${fmt(t.pngData.length)}</p>
+      <button class="btn btn-sm btn-green" style="margin-top:6px;width:100%" onclick="downloadTex(${idx},'${gameName}')">⬇ PNG</button>
+    </div>`;
+  });
+
+  if (withPng.length > 128) html += `<div style="padding:20px;color:var(--muted);align-self:center">(${withPng.length-128} more — use Download All)</div>`;
+  html += '</div>';
+  return html;
+}
+
+function downloadAllTextures() {
+  const txtr = parsedData.parsed.TXTR;
+  if (!txtr) return;
+  const gameName = (parsedData.filename || 'texture').replace(/\.[^.]+$/, '');
+  txtr.textures.forEach((t, idx) => {
+    if (t.isPng && t.pngData) {
+      setTimeout(() => downloadTex(idx, gameName), idx * 80);
+    }
+  });
+}
+
+function renderAudioHTML() {
+  const sond = parsedData.parsed.SOND;
+  const audo = parsedData.parsed.AUDO;
+  if (!audo || !audo.audios.length) return '<em>No audio data</em>';
+
+  const playable = audo.audios.filter(a => a.data && a.len > 0);
+
+  let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+    <span style="font-size:.82rem;color:var(--muted)">${audo.count} audio asset(s) · ${playable.length} with embedded data</span>
+    <button class="btn btn-sm btn-green" onclick="downloadAllAudio()">⬇ Download All (${playable.length})</button>
+  </div>`;
+
+  audo.audios.slice(0, 300).forEach((a, i) => {
+    if (!a.data || !a.len) return;
+    const snd = sond?.sounds[i];
+    const originalFile = snd?.file || ''; 
+    const soundName = snd?.name || `audio_${i}`;
+    const detectedFmt = detectAudioFormat(a.data);
+    const mime = detectedFmt === 'OGG' ? 'audio/ogg' : detectedFmt === 'MP3' ? 'audio/mpeg' : detectedFmt === 'WAV' ? 'audio/wav' : 'audio/octet-stream';
+    const blob = new Blob([a.data], { type: mime });
+    const url = URL.createObjectURL(blob);
+
+    const dlName = buildAudioFilename(originalFile, soundName, detectedFmt);
+
+    html += `<div class="audio-item">
+      <div style="min-width:160px;flex:1">
+        <p style="font-weight:600">${escHtml(soundName)}</p>
+        <p style="font-size:.73rem;color:var(--muted)">Index ${i} · ${fmt(a.len)} · <span style="color:var(--yellow)">${detectedFmt}</span>${originalFile ? ` · ${escHtml(originalFile)}` : ''}</p>
+      </div>
+      <audio controls src="${url}" preload="none" style="flex:2;min-width:180px;height:32px"></audio>
+      <button class="btn btn-sm btn-green" onclick="downloadAudioByIdx(${i})">⬇ ${escHtml(dlName)}</button>
+    </div>`;
+  });
+  if (audo.audios.length > 300) html += `<div style="color:var(--muted);padding:12px">${audo.audios.length-300} more audio assets — use Download All</div>`;
+  return html;
+}
+
+function buildAudioFilename(originalFile, fallbackName, detectedFmt) {
+  const extMap = { OGG: '.ogg', MP3: '.mp3', WAV: '.wav', BIN: '.bin' };
+  const detectedExt = extMap[detectedFmt] || '.bin';
+
+  if (originalFile) {
+
+    const lower = originalFile.toLowerCase();
+    if (lower.endsWith('.ogg') || lower.endsWith('.mp3') || lower.endsWith('.wav')) return originalFile;
+
+    return originalFile + detectedExt;
+  }
+  return (fallbackName || 'audio') + detectedExt;
+}
+
+function downloadAllAudio() {
+  const audo = parsedData.parsed.AUDO;
+  const sond = parsedData.parsed.SOND;
+  if (!audo) return;
+  let delay = 0;
+  audo.audios.forEach((a, i) => {
+    if (!a.data || !a.len) return;
+    setTimeout(() => downloadAudioByIdx(i), delay);
+    delay += 80;
+  });
+}
+
+function downloadAudioByIdx(i) {
+  const audo = parsedData.parsed.AUDO;
+  const sond = parsedData.parsed.SOND;
+  const a = audo?.audios[i];
+  if (!a || !a.data) return;
+  const snd = sond?.sounds[i];
+  const originalFile = snd?.file || '';
+  const soundName = snd?.name || `audio_${i}`;
+  const detectedFmt = detectAudioFormat(a.data);
+  const mime = detectedFmt === 'OGG' ? 'audio/ogg' : detectedFmt === 'MP3' ? 'audio/mpeg' : detectedFmt === 'WAV' ? 'audio/wav' : 'application/octet-stream';
+  const blob = new Blob([a.data], { type: mime });
+  dl(blob, buildAudioFilename(originalFile, soundName, detectedFmt));
+}
+
+function detectAudioFormat(data) {
+  if (data[0]===0x4f && data[1]===0x67 && data[2]===0x67) return 'OGG';
+  if (data[0]===0x52 && data[1]===0x49 && data[2]===0x46 && data[3]===0x46) return 'WAV';
+  if (data[0]===0xff && (data[1]===0xfb||data[1]===0xf3||data[1]===0xf2)) return 'MP3';
+  if (data[0]===0x49 && data[1]===0x44 && data[2]===0x33) return 'MP3';
+  return 'BIN';
+}
+
+function downloadTex(idx, gameName) {
+  const t = parsedData.parsed.TXTR.textures[idx];
+  if (!t || !t.pngData) return;
+  const base = gameName || (parsedData.filename || 'texture').replace(/\.[^.]+$/, '');
+  const blob = new Blob([t.pngData], { type: 'image/png' });
+  dl(blob, `${base}_texture_${idx}.png`);
+}
+
+function dl(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+function renderHex(bytes) {
+  const limit = Math.min(bytes.length, 4096);
+  let html = `<table class="hex-table">`;
+  for (let i = 0; i < limit; i += 16) {
+    const row = bytes.slice(i, i + 16);
+    const offset = i.toString(16).toUpperCase().padStart(8, '0');
+    const hex = Array.from(row).map(b => b.toString(16).toUpperCase().padStart(2,'0')).join(' ');
+    const ascii = Array.from(row).map(b => (b >= 32 && b < 127) ? String.fromCharCode(b) : '.').join('');
+    html += `<tr class="hex-row"><td class="hex-offset">${offset}</td><td class="hex-bytes">${hex.padEnd(47)}</td><td class="hex-ascii">${escHtml(ascii)}</td></tr>`;
+  }
+  if (bytes.length > 4096) html += `<tr><td colspan="3" style="color:var(--muted);padding:8px">(showing first 4 KB of ${fmt(bytes.length)})</td></tr>`;
+  html += '</table>';
+  return html;
+}
+
+function renderJSONTree(obj, depth=0) {
+  if (obj === null) return `<span class="jv-null">null</span>`;
+  if (typeof obj === 'boolean') return `<span class="jv-bool">${obj}</span>`;
+  if (typeof obj === 'number') return `<span class="jv-num">${obj}</span>`;
+  if (typeof obj === 'string') return `<span class="jv-str">"${escHtml(obj.length > 200 ? obj.slice(0,200)+'…' : obj)}"</span>`;
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return '[]';
+    if (depth > 3) return `<span style="color:var(--muted)">[Array(${obj.length})]</span>`;
+    const items = obj.slice(0, 100).map(v => `<div class="children">${renderJSONTree(v, depth+1)}</div>`).join('');
+    const more = obj.length > 100 ? `<div class="children" style="color:var(--muted)">…${obj.length-100} more</div>` : '';
+    return `<span class="collapsible">[${obj.length}]</span>${items}${more}`;
+  }
+  if (typeof obj === 'object') {
+    const entries = Object.entries(obj);
+    if (entries.length === 0) return '{}';
+    const inner = entries.map(([k,v]) => `<div><span class="jk">"${escHtml(k)}"</span>: ${renderJSONTree(v, depth+1)}</div>`).join('');
+    return `<div class="json-tree">${inner}</div>`;
+  }
+  return String(obj);
+}
+
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('collapsible')) e.target.classList.toggle('collapsed');
+});
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function exportJSON() {
+  if (!parsedData) return;
+  const out = {
+    filename: parsedData.filename,
+    filesize: parsedData.filesize,
+    chunks: parsedData.chunkOrder.map(name => ({
+      name,
+      offset: parsedData.chunks[name].offset,
+      size: parsedData.chunks[name].size
+    })),
+    parsed: {}
+  };
+  for (const [k,v] of Object.entries(parsedData.parsed)) {
+    try {
+      if (k === 'TXTR') { out.parsed[k] = { count: v.count, textures: v.textures.map(t => ({ scaled: t.scaled, dataPtr: t.dataPtr, isPng: t.isPng })) }; }
+      else if (k === 'AUDO') { out.parsed[k] = { count: v.count, audios: v.audios.map((a,i) => ({ index: i, len: a.len, format: a.data ? detectAudioFormat(a.data) : 'empty' })) }; }
+      else { out.parsed[k] = v; }
+    } catch(e) { out.parsed[k] = String(v); }
+  }
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  dl(blob, parsedData.filename.replace(/\.[^.]+$/,'') + '_decoded.json');
+}
+</script>
+</body>
+</html>
