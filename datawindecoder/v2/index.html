@@ -308,15 +308,14 @@ function parseSTRG(dv) {
   const count = dv.getUint32(0, true);
   const dec = new TextDecoder();
   const strings = [];
-  // Each pointer in STRG is an absolute offset into the full file buffer
+  const fullDv = new DataView(dv.buffer);
   for (let i = 0; i < count && i < 100000; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
-    const relPtr = dv.getUint32(ptrOff, true);
-    // pointers are relative to chunk data start in GMS format
-    const absPtr = dv.byteOffset + relPtr;
+    // Pointers are absolute file offsets in GMS
+    const absPtr = dv.getUint32(ptrOff, true);
     if (absPtr + 4 > dv.buffer.byteLength) { strings.push(''); continue; }
-    const len = new DataView(dv.buffer).getUint32(absPtr, true);
+    const len = fullDv.getUint32(absPtr, true);
     if (len > 65535 || absPtr + 4 + len > dv.buffer.byteLength) { strings.push(''); continue; }
     strings.push(dec.decode(new Uint8Array(dv.buffer, absPtr + 4, len)));
   }
@@ -335,8 +334,8 @@ function readPointerList(dv, off) {
   return ptrs;
 }
 
-// Helper: resolve a relative-to-chunk pointer to an absolute buffer offset
-function absOff(dv, relPtr) { return dv.byteOffset + relPtr; }
+// GMS chunk pointer lists store ABSOLUTE file offsets — use them directly
+function absOff(dv, ptr) { return ptr; }
 
 function parseSPRT(dv, strg) {
   const count = dv.getUint32(0, true);
@@ -361,21 +360,18 @@ function parseSPRT(dv, strg) {
 function parseTXTR(dv, buffer) {
   const count = dv.getUint32(0, true);
   const textures = [];
-  // dv.byteOffset is the absolute start of the TXTR chunk data within `buffer`
-  const chunkBase = dv.byteOffset;
   const fullDv = new DataView(buffer);
 
   for (let i = 0; i < count && i < 2048; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
     try {
-      // Each entry pointer is relative to chunk data start — convert to absolute
-      const relPtr = dv.getUint32(ptrOff, true);
-      const absPtr = chunkBase + relPtr;
+      // Pointer list entries are absolute file offsets in GMS
+      const absPtr = dv.getUint32(ptrOff, true);
       if (absPtr + 8 > buffer.byteLength) break;
 
-      const scaled = fullDv.getUint32(absPtr, true);
-      // The inner data pointer is ALSO stored as an absolute file offset
+      const scaled  = fullDv.getUint32(absPtr, true);
+      // The inner PNG data pointer is also an absolute file offset
       const dataPtr = fullDv.getUint32(absPtr + 4, true);
 
       if (dataPtr + 8 > buffer.byteLength) { textures.push({ scaled, dataPtr, isPng: false, pngData: null }); continue; }
@@ -413,17 +409,36 @@ function parseTXTR(dv, buffer) {
 function parseAUDO(dv, buffer) {
   const count = dv.getUint32(0, true);
   const audios = [];
-  const chunkBase = dv.byteOffset;
   const fullDv = new DataView(buffer);
+  const chunkBase = dv.byteOffset; // absolute position of AUDO data in file
+
+  // Try to figure out pointer style from first entry
+  // Strategy: try both absolute and relative, pick whichever gives a valid audio header
+  let useAbsolute = true;
+  if (count > 0) {
+    const firstPtr = dv.getUint32(4, true);
+    // Check absolute: read 4 bytes at firstPtr as a length
+    const absLen = firstPtr + 4 <= buffer.byteLength ? fullDv.getUint32(firstPtr, true) : -1;
+    // Check relative: read 4 bytes at chunkBase+firstPtr as a length
+    const relOff = chunkBase + firstPtr;
+    const relLen = relOff + 4 <= buffer.byteLength ? fullDv.getUint32(relOff, true) : -1;
+    // A valid audio length is between 64 bytes and 50 MB
+    const absValid = absLen > 64 && absLen < 50 * 1024 * 1024 && firstPtr + 4 + absLen <= buffer.byteLength;
+    const relValid = relLen > 64 && relLen < 50 * 1024 * 1024 && relOff + 4 + relLen <= buffer.byteLength;
+    if (!absValid && relValid) useAbsolute = false;
+    // store debug info
+    audios._debug = { firstPtr, absLen, relLen, absValid, relValid, chunkBase, useAbsolute };
+  }
+
   for (let i = 0; i < count && i < 10000; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
     try {
-      const relPtr = dv.getUint32(ptrOff, true);
-      const absPtr = chunkBase + relPtr;
+      const storedPtr = dv.getUint32(ptrOff, true);
+      const absPtr = useAbsolute ? storedPtr : chunkBase + storedPtr;
       if (absPtr + 4 > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
       const len = fullDv.getUint32(absPtr, true);
-      if (len === 0 || absPtr + 4 + len > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
+      if (len === 0 || len > 50 * 1024 * 1024 || absPtr + 4 + len > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
       const data = new Uint8Array(buffer, absPtr + 4, len);
       audios.push({ len, data });
     } catch(e) { audios.push({ len: 0, data: null }); }
@@ -434,14 +449,12 @@ function parseAUDO(dv, buffer) {
 function parseSOND(dv, strg) {
   const count = dv.getUint32(0, true);
   const sounds = [];
-  const chunkBase = dv.byteOffset;
   const fullDv = new DataView(dv.buffer);
   for (let i = 0; i < count && i < 10000; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
     try {
-      const relPtr = dv.getUint32(ptrOff, true);
-      const absPtr = chunkBase + relPtr;
+      const absPtr = dv.getUint32(ptrOff, true);
       if (absPtr + 32 > dv.buffer.byteLength) break;
       const nameIdx = fullDv.getUint32(absPtr, true);
       const flags   = fullDv.getUint32(absPtr + 4, true);
@@ -745,6 +758,7 @@ function renderChunk(name) {
   tabBar.innerHTML = tabsHTML;
   panels.innerHTML = panelsHTML;
 
+  // Lazy render hex
   setTimeout(() => {
     const hexEl = document.getElementById(`hex-lazy-${name}`);
     if (hexEl) hexEl.outerHTML = renderHex(c.raw);
@@ -755,6 +769,7 @@ function renderChunk(name) {
       const obj = d.parsed[name] || { offset: c.offset, size: c.size };
       jsonEl.outerHTML = renderJSONTree(obj);
     }
+    // Textures
     const tEl = document.getElementById('txtr-sprites-lazy');
     if (tEl) { tEl.outerHTML = renderTexturesHTML(); }
     const aEl = document.getElementById('audio-lazy');
@@ -769,6 +784,7 @@ function switchTab(idx, el) {
   panels.querySelectorAll('.tab-body').forEach((p,i) => p.classList.toggle('active', i===idx));
 }
 
+// ─── Chunk renderers ─────────────────────────────────────────────────────────
 function renderSummaryHTML() {
   const d = parsedData;
   const g = d.parsed.GEN8 || {};
@@ -901,7 +917,17 @@ function renderTXTRParsed(p) {
 }
 
 function renderAUDOParsed(p) {
-  let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td></tr>`;
+  let html = '';
+  if (p.audios._debug) {
+    const d = p.audios._debug;
+    html += `<div class="warn-box" style="font-family:var(--mono);font-size:.78rem;margin-bottom:12px">
+      <strong>Debug:</strong> chunkBase=0x${d.chunkBase.toString(16)} · firstPtr=0x${d.firstPtr.toString(16)}<br>
+      Absolute→len=${d.absLen} (${d.absValid?'✓ valid':'✗ invalid'}) · 
+      Relative→len=${d.relLen} (${d.relValid?'✓ valid':'✗ invalid'})<br>
+      Using: <strong>${d.useAbsolute ? 'ABSOLUTE' : 'RELATIVE'}</strong> pointers
+    </div>`;
+  }
+  html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td></tr>`;
   p.audios.slice(0,2000).forEach((a, i) => {
     const fmt2 = a.data ? detectAudioFormat(a.data) : 'empty';
     html += `<tr><td>${i}</td><td>${fmt(a.len)}</td><td>${fmt2}</td></tr>`;
@@ -930,7 +956,7 @@ function renderTexturesHTML() {
     const idx = txtr.textures.indexOf(t);
     const blob = new Blob([t.pngData], { type: 'image/png' });
     const url = URL.createObjectURL(blob);
-
+    // Get PNG dimensions from IHDR (bytes 16-24 of PNG)
     let w = '?', h = '?';
     try {
       const dv2 = new DataView(t.pngData.buffer, t.pngData.byteOffset, t.pngData.byteLength);
@@ -976,13 +1002,15 @@ function renderAudioHTML() {
   audo.audios.slice(0, 300).forEach((a, i) => {
     if (!a.data || !a.len) return;
     const snd = sond?.sounds[i];
-    const originalFile = snd?.file || ''; 
+    // Use the original filename from SOND if available, else fall back to sound name
+    const originalFile = snd?.file || '';   // e.g. "explosion.ogg" or "hit"
     const soundName = snd?.name || `audio_${i}`;
     const detectedFmt = detectAudioFormat(a.data);
     const mime = detectedFmt === 'OGG' ? 'audio/ogg' : detectedFmt === 'MP3' ? 'audio/mpeg' : detectedFmt === 'WAV' ? 'audio/wav' : 'audio/octet-stream';
     const blob = new Blob([a.data], { type: mime });
     const url = URL.createObjectURL(blob);
 
+    // Build download filename: prefer original file field, ensure correct extension
     const dlName = buildAudioFilename(originalFile, soundName, detectedFmt);
 
     html += `<div class="audio-item">
@@ -1003,10 +1031,10 @@ function buildAudioFilename(originalFile, fallbackName, detectedFmt) {
   const detectedExt = extMap[detectedFmt] || '.bin';
 
   if (originalFile) {
-
+    // If original already has a matching extension, use as-is
     const lower = originalFile.toLowerCase();
     if (lower.endsWith('.ogg') || lower.endsWith('.mp3') || lower.endsWith('.wav')) return originalFile;
-
+    // Otherwise append the detected extension (some games store names without ext)
     return originalFile + detectedExt;
   }
   return (fallbackName || 'audio') + detectedExt;
@@ -1061,6 +1089,7 @@ function dl(blob, filename) {
   a.click();
 }
 
+// ─── Hex view ────────────────────────────────────────────────────────────────
 function renderHex(bytes) {
   const limit = Math.min(bytes.length, 4096);
   let html = `<table class="hex-table">`;
@@ -1076,6 +1105,7 @@ function renderHex(bytes) {
   return html;
 }
 
+// ─── JSON tree ───────────────────────────────────────────────────────────────
 function renderJSONTree(obj, depth=0) {
   if (obj === null) return `<span class="jv-null">null</span>`;
   if (typeof obj === 'boolean') return `<span class="jv-bool">${obj}</span>`;
@@ -1097,6 +1127,7 @@ function renderJSONTree(obj, depth=0) {
   return String(obj);
 }
 
+// click to collapse
 document.addEventListener('click', e => {
   if (e.target.classList.contains('collapsible')) e.target.classList.toggle('collapsed');
 });
@@ -1105,6 +1136,7 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ─── Export ──────────────────────────────────────────────────────────────────
 function exportJSON() {
   if (!parsedData) return;
   const out = {
@@ -1119,6 +1151,7 @@ function exportJSON() {
   };
   for (const [k,v] of Object.entries(parsedData.parsed)) {
     try {
+      // strip binary data for JSON
       if (k === 'TXTR') { out.parsed[k] = { count: v.count, textures: v.textures.map(t => ({ scaled: t.scaled, dataPtr: t.dataPtr, isPng: t.isPng })) }; }
       else if (k === 'AUDO') { out.parsed[k] = { count: v.count, audios: v.audios.map((a,i) => ({ index: i, len: a.len, format: a.data ? detectAudioFormat(a.data) : 'empty' })) }; }
       else { out.parsed[k] = v; }
