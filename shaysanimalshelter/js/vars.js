@@ -1,14 +1,18 @@
-window.vars = {
+(function () {
 
+  var w = window;
 
+  if (!w.vars) {
+    w.vars = {};
+  }
 
+  w.vars.PATHVAR = "/shaysanimalshelter/";
+  w.vars.INCVAR = "/shaysanimalshelter/includes/";
+  w.vars.DBVAR = "/shaysanimalshelter/data/";
+  w.vars.CSSVAR = "/shaysanimalshelter/css/";
 
-  PATHVAR: "/shaysanimalshelter/",
-  INCVAR: "/shaysanimalshelter/includes/",
-  DBVAR: "/shaysanimalshelter/data/",
-  CSSVAR: "/shaysanimalshelter/css/",
+  w.vars.DEBUGVAR = false;
 
-  DEBUGVAR: false,   // [text]DEBUGVAR=1
+  w.vars.WEBSITETITLE = "Shay's Animal Shelter";
 
-  WEBSITETITLE: "Shay\'s Animal Shelter"
-};
+})();
