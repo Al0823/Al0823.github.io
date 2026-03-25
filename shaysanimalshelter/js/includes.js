@@ -1,53 +1,76 @@
 (function () {
-  const win = window;
-  const doc = document;
 
-  // --- Load a single include ---
+  var win = window;
+  var doc = document;
+
   function loadInclude(targetId, url, callback) {
-    fetch(url)
-      .then(res => res.text())
-      .then(html => {
-        const el = doc.getElementById(targetId);
-        if (!el) return callback && callback();
 
-        el.innerHTML = html;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
 
-        // Run any scripts inside the included HTML
-        el.querySelectorAll("script").forEach(oldScript => {
-          const newScript = doc.createElement("script");
-          newScript.textContent = oldScript.textContent;
-          doc.body.appendChild(newScript);
-          oldScript.remove();
-        });
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
 
-        callback && callback();
-      })
-      .catch(() => callback && callback());
+        var el = doc.getElementById(targetId);
+        if (!el) {
+          if (callback) callback();
+          return;
+        }
+
+        if (xhr.status === 200) {
+          el.innerHTML = xhr.responseText;
+
+          // Execute scripts inside included HTML
+          var scripts = el.getElementsByTagName("script");
+
+          for (var i = 0; i < scripts.length; i++) {
+            var oldScript = scripts[i];
+            var newScript = doc.createElement("script");
+
+            if (oldScript.text) {
+              newScript.text = oldScript.text;
+            }
+
+            doc.body.appendChild(newScript);
+          }
+        }
+
+        if (callback) callback();
+      }
+    };
+
+    xhr.send(null);
   }
 
-  // --- Load all includes in order ---
   function loadIncludes() {
+
     if (!win.vars || !win.vars.INCVAR) return;
 
-    const base = win.vars.INCVAR;
-    const siteTitle = win.vars.WEBSITETITLE;
+    var base = win.vars.INCVAR;
+    var siteTitle = win.vars.WEBSITETITLE;
 
-    const includes = [
+    var includes = [
       ["header", base + "header.html"],
       ["nav", base + "nav.html"],
       ["footer", base + "footer.html"]
     ];
 
-    let i = 0;
+    var i = 0;
+
     function next() {
-      if (i >= includes.length) return;
-      const [id, url] = includes[i++];
-      loadInclude(id, url, next);
+      if (i >= includes.length) {
+        return;
+      }
+
+      var item = includes[i];
+      i++;
+
+      loadInclude(item[0], item[1], next);
     }
 
     next();
 
-    // --- Set page title dynamically: WEBSITETITLE - PAGETITLE ---
+    // Set page title safely
     if (window.PAGETITLE) {
       document.title = siteTitle + " - " + window.PAGETITLE;
     } else {
@@ -55,10 +78,16 @@
     }
   }
 
-  // --- Start loading after DOM is ready ---
+  // DOM ready (safe fallback)
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", loadIncludes);
+    if (document.addEventListener) {
+      document.addEventListener("DOMContentLoaded", loadIncludes);
+    } else {
+      // Very old fallback
+      window.onload = loadIncludes;
+    }
   } else {
     loadIncludes();
   }
+
 })();
