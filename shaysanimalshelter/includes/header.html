@@ -1,41 +1,51 @@
 <header>
 
   <link id="mainStylesheet" rel="stylesheet" href="/shaysanimalshelter/css/style.css?v=4.5">
-	
 
   <div class="header">
     Shay's Animal Shelter
   </div>
 
-
-
-
   <script>
+  (function () {
 
-    window.vars.WEBSITETITLE = "Shay&#39;s Animal Shelter";
+    if (!window.vars) return;
 
+    window.vars.WEBSITETITLE = "Shay's Animal Shelter";
 
     function updatePageTitle() {
-      const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
-      const fullTitle = window.vars.WEBSITETITLE + (pageTitle ? " - " + pageTitle : "");
+      var pageTitle = (typeof window.PAGETITLE !== "undefined") ? window.PAGETITLE : "";
+      var fullTitle = window.vars.WEBSITETITLE;
 
+      if (pageTitle) {
+        fullTitle = fullTitle + " - " + pageTitle;
+      }
 
       document.title = fullTitle;
 
-
-      const titleEl = document.getElementById("pageTitle");
-      if (titleEl) titleEl.textContent = fullTitle;
+      var titleEl = document.getElementById("pageTitle");
+      if (titleEl) {
+        titleEl.innerHTML = fullTitle;
+      }
     }
-
 
     if (window.vars.CSSVAR) {
-      const mainLink = document.getElementById("mainStylesheet");
-      mainLink.href = window.vars.CSSVAR + "style.css";
+      var mainLink = document.getElementById("mainStylesheet");
+      if (mainLink) {
+        mainLink.href = window.vars.CSSVAR + "style.css";
+      }
     }
-
 
     if (window.vars.DEBUGVAR) {
-      document.getElementById("devNotice").style.display = "block";
+      var devNotice = document.getElementById("devNotice");
+      if (devNotice) {
+        devNotice.style.display = "block";
+      }
     }
+
+    updatePageTitle();
+
+  })();
   </script>
+
 </header>
