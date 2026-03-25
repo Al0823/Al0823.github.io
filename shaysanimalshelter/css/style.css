@@ -96,7 +96,7 @@ hr {
 
 
 .grid-container {
-  background-color: #afafaf;
+  background-color: #52ace1;
   text-align: center;
 }
 
@@ -105,7 +105,7 @@ hr {
   width: 22%;
   margin: 1%;
   padding: 10px;
-  background-color: #afafaf;
+  background-color: #52ace1;
   border: 2px solid #4b4b4b;
   font-size: 20px;
 }
@@ -117,7 +117,7 @@ hr {
   border: 2px solid #646464;
   margin-left: 5px;
   padding: 10px;
-  background-color: #969696;
+  background-color: #52ace1;
 }
 
 .underconstruction {
@@ -140,7 +140,7 @@ form {
 }
 
 fieldset {
-  border: 1px solid black;
+  border: 1px solid #000000;
   margin-bottom: 15px;
   padding: 10px;
 }
