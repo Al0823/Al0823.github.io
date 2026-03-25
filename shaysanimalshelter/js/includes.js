@@ -20,7 +20,6 @@
         if (xhr.status === 200) {
           el.innerHTML = xhr.responseText;
 
-          // Execute scripts inside included HTML
           var scripts = el.getElementsByTagName("script");
 
           for (var i = 0; i < scripts.length; i++) {
@@ -70,7 +69,6 @@
 
     next();
 
-    // Set page title safely
     if (window.PAGETITLE) {
       document.title = siteTitle + " - " + window.PAGETITLE;
     } else {
@@ -78,12 +76,10 @@
     }
   }
 
-  // DOM ready (safe fallback)
   if (document.readyState === "loading") {
     if (document.addEventListener) {
       document.addEventListener("DOMContentLoaded", loadIncludes);
     } else {
-      // Very old fallback
       window.onload = loadIncludes;
     }
   } else {
