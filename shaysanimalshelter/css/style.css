@@ -1,304 +1,184 @@
 
-
-
-
-/* Apply to all elements */
-    * {
-      margin: 0;              /* Remove default outer spacing */
-      padding: 0;             /* Remove default inner spacing */
-      box-sizing: border-box; /* Include padding & borders in element’s total width/height */
-    }
-
-
-
-    body {
-      line-height: 1.5;               /* Improve readability with more space between lines */
-      display: flex;                  /* Use flexbox to arrange child elements */
-      flex-direction: column;        
-      min-height: 100vh;              /* Ensure body fills at least full viewport height */
-    }
-
-    header {
-      background-color: rgb(71, 151, 204);
-      color: rgb(107, 14, 156);
-      padding: 1rem;        /* Space inside header */
-      text-align: center;
-      font-size: 2.5rem;
-      border-bottom: 0.125rem solid rgb(71, 151, 204);
-    }
-
-				.header {
-      background-color: rgb(71, 151, 204);
-      color: rgb(107, 14, 156);
-      padding: 1rem;        /* Space inside header */
-      text-align: center;
-      font-size: 2.5rem;
-      border-bottom: 0.125rem solid rgb(71, 151, 204);
-    }
-
-    main {
-      flex: 1;              /* Expand to fill available vertical space */
-      display: flex!important;        /* Place nav and article side by side */
-      
-    }
-
-    left {
-      width: 300px!important;
-       background-color: rgb(61, 131, 184); /* Slightly darker than header/footer */
-    color: rgb(107, 14, 156);
-      padding: 1rem!important;              /* Space inside navigation area */
-      border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
-    }
-    
-    .left {
-      width: 300px!important;
-       background-color: rgb(61, 141, 194); /* Slightly darker than header/footer */
-    color: rgb(107, 14, 156);
-      padding: 1rem!important;              /* Space inside navigation area */
-      border-right: 1px solid rgb(100, 100, 100); /* Vertical divider line between nav and content */
-    }
-
-    nav ul {
-      list-style: none; /* Remove default list bullets */
-    }
-
-    nav ul li {
-      margin-bottom: 0.75rem; /* Space between navigation links */
-    }
-
-    nav a {
-      text-decoration: none;
-      color: rgb(75, 92, 1);      
-    }
-    
-    nav a:hover {
-background-color: rgb(225, 225, 225);
-border-radius: 20px;
+body, div, table, tr, td, ul, li, p, h1, h2, h3, a {
+  margin: 0;
+  padding: 0;
 }
 
-    article {
-      flex: 1;           /* Take up remaining horizontal space beside nav */
-      padding: 1.5rem;   /* Space around body text */
-						background-color: rgb(81, 171, 224); /* Slightly lighter than header/footer */
-						 color: rgb(107, 14, 156);
-    }
+
+body {
+  line-height: 1.5;
+  background-color: #afafaf;
+  font-family: Arial, sans-serif;
+}
+
+header, .header {
+  background-color: #4797cc;
+  color: #6b0e9c;
+  padding: 15px;
+  text-align: center;
+  font-size: 32px;
+  border-bottom: 2px solid #4797cc;
+}
+
+
+main {
+  width: 100%;
+  overflow: hidden;
+}
+
+
+.left {
+  width: 300px;
+  float: left;
+  background-color: #3d8dc2;
+  color: #6b0e9c;
+  padding: 15px;
+  border-right: 1px solid #646464;
+}
+
+
+article {
+  margin-left: 320px;
+  padding: 20px;
+  background-color: #51abe0;
+  color: #6b0e9c;
+}
+
 
 footer {
-  flex-shrink: 0;                 
-  font-size: 40px;                
-  background-color: rgb(71, 151, 204);
-  color: rgb(107, 14, 156);
+  clear: both;
+  font-size: 30px;
+  background-color: #4797cc;
+  color: #6b0e9c;
   text-align: center;
-  padding: 15px 10px;
-  border-top: 1px solid rgb(125, 125, 125);
+  padding: 15px;
+  border-top: 1px solid #7d7d7d;
 }
 
 
-    
-    hr {
-    height: 10px;
-     background-color: rgb(107, 14, 156);
-    }
+nav ul {
+  list-style: none;
+}
 
-    /* Responsive tweak: apply when screen width <= 768px */
-    @media (max-width: 768px) {
-      main {
-        flex-direction: column; /* Stack nav and article vertically instead of side by side */
-      }
-      nav {
-        width: 100%;             
-        border-right: none;      
-        border-bottom: 1px solid rgb(225, 225, 225) !important; /* Add horizontal divider instead */
-        color: rgb(0, 0, 0);
-      }
-    }
-    
-    .grid-container{
-    display: grid;
-float: center;
-    grid-template-columns: auto auto auto auto;
-padding: 10px;
-      background-color: rgb(175, 175, 175);
-    }
-    
-      .grid-container > div {
-      background-color: rgb(175, 175, 175);
-  color: rgb(0, 0, 0);
-  padding: 10px;
-  font-size: 30px;
-  text-align: center;
-  border: 2px rgb(75, 75, 75) solid;
-    }
-   
-   .big {
-float: left;
-width: 83%;
-border: 2px rgb(100, 100, 100) solid;
-border-radius: 10px;
+nav ul li {
+  margin-bottom: 10px;
+}
 
-margin-left: 4.5px;
-padding-left: 10px;
-background-color: rgb(150, 150, 150, .7);
-min-height: 1000px;
+nav a {
+  text-decoration: none;
+  color: #4b5c01;
+  display: block;
+  padding: 5px;
 }
 
 nav a:hover {
-  background-color: rgb(225, 225, 225);
-border-radius: 20px;
+  background-color: #e1e1e1;
 }
+
+
 .activenav {
-  background-color: rgb(225, 225, 225);
-border-radius: 20px;;
+  background-color: #e1e1e1;
 }
 
 
 a {
-text-decoration: none;
-color: rgb(0, 0, 0);
+  text-decoration: none;
+  color: #000000;
+}
+
+
+hr {
+  height: 5px;
+  background-color: #6b0e9c;
+  border: none;
+}
+
+
+.grid-container {
+  background-color: #afafaf;
+  text-align: center;
+}
+
+.grid-container div {
+  display: inline-block;
+  width: 22%;
+  margin: 1%;
+  padding: 10px;
+  background-color: #afafaf;
+  border: 2px solid #4b4b4b;
+  font-size: 20px;
+}
+
+
+.big {
+  float: left;
+  width: 80%;
+  border: 2px solid #646464;
+  margin-left: 5px;
+  padding: 10px;
+  background-color: #969696;
 }
 
 .underconstruction {
   width: 100%;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
-  background-color: rgb(255, 243, 205); 
-  border: 4px dashed rgb(255, 87, 51); 
-  border-radius: 12px;
-  color: rgb(199, 0, 57); 
-  font-size: 35px;
-  font-weight: bold;
-  box-sizing: border-box;
-  animation: pulseBorder 2s infinite, glow 2s infinite alternate;
-}
-
-.underconstruction::before {
-  content: " Under Construction ";
-  display: block;
-  font-size: 40px;
-  margin-bottom: 20px;
-  animation: bounce 1s infinite alternate;
-}
-
-.underconstruction p {
+  background-color: #fff3cd;
+  border: 4px dashed #ff5733;
+  color: #c70039;
   font-size: 28px;
-  line-height: 1.5;
+  font-weight: bold;
 }
 
 
-@keyframes bounce {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
+form {
+  background: #ffffff;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
 }
 
-
-@keyframes pulseBorder {
-  0% { border-color: rgb(255, 87, 51); }
-  50% { border-color: rgb(255, 189, 105) }
-  100% { border-color: rgb(255, 87, 51); }
+fieldset {
+  border: 1px solid black;
+  margin-bottom: 15px;
+  padding: 10px;
 }
 
-@keyframes glow {
-  0% { text-shadow: 0 0 5px rgb(199, 0, 57), 0 0 10px rgb(255, 87, 51); }
-  50% { text-shadow: 0 0 10px rgb(255, 189, 105), 0 0 20px rgb(255, 87, 51); }
-  100% { text-shadow: 0 0 5px rgb(199, 0, 57), 0 0 10px rgb(255, 87, 51); }
+legend {
+  font-weight: bold;
 }
 
-
-
-
-.theme-light {
-  background-color: #ffffff;
-  color: #000000;
+label {
+  display: block;
+  margin-top: 10px;
 }
 
-.theme-light a {
-  color: #0066cc;
+input, select, textarea {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
 }
 
-
-.theme-dark {
-  background-color: #121212;
-  color: #e5e5e5;
+input[type="submit"] {
+  width: 150px;
+  margin-top: 15px;
 }
 
-.theme-dark a {
-  color: #4ea3ff;
-}
-
-
-/* =========================
-   Mobile Responsive Overrides
-   ========================= */
-
-/* Tablets and smaller devices (≤1024px) */
-@media (max-width: 1024px) {
-  main { flex-direction: column !important; }
-  nav, .nav, .fmwnavleft, .fmwnavright {
-    width: 100% !important;
-    border-right: none !important;
-    border-bottom: 1px solid rgb(225, 225, 225) !important;
-    padding: 0.75rem !important;
-  }
-  article { padding: 1rem !important; }
-  .big { width: 100% !important; margin-left: 0 !important; padding-left: 0.5rem !important; }
-  .grid-container { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .grid-container > div { font-size: 20px !important; padding: 8px; }
-  .needs > div, .wants > div { width: 45% !important; font-size: 14px !important; margin: 5px !important; padding: 10px !important; }
-}
-
-/* Phones and small screens (≤768px) */
-@media (max-width: 768px) {
-  header { font-size: 2rem !important; padding: 0.75rem !important; }
-  nav a, .fmwnavleft a, .fmwnavright a { font-size: 16px !important; }
-  nav ul li, .fmwnavleft ul li, .fmwnavright ul li { margin-bottom: 0.5rem !important; }
-  .needs > div, .wants > div { width: 100% !important; font-size: 12px !important; }
-  .grid-container > div { font-size: 16px !important; }
-  .underconstruction { font-size: 28px !important; padding: 20px !important; }
-  .underconstruction::before { font-size: 30px !important; }
-}
-
-/* Very small phones (≤480px) */
-@media (max-width: 480px) {
-  header { font-size: 1.5rem !important; padding: 0.5rem !important; }
-  footer { font-size: 25px !important; padding: 10px !important; }
-  nav a, .fmwnavleft a, .fmwnavright a { font-size: 14px !important; padding: 10px 12px !important; }
-  .dropdown .dropbtn { font-size: 16px !important; padding: 10px 12px !important; }
-  .big { min-height: auto !important; }
-}
-
-
-  form { background: #fff; padding: 20px; border-radius: 5px; max-width: 600px; margin: auto; }
-  fieldset { border: 1px solid black; margin-bottom: 15px; padding: 10px; }
-  legend { font-weight: bold; }
-  label { display: block; margin-top: 10px; }
-  input, select, #comment { width: 100%; padding: 8px; margin-top: 5px; }
-  input[type="submit"] { width: 150px; margin-top: 15px; cursor: pointer; }
-  #thankyou { display: none; text-align: center; padding: 20px; background: #d4edda; color: #155724; border-radius: 5px; }
-
-	/* ==========================
-   Navbar Theme Colors
-   ========================== */
 
 .navbar {
-    background-color: rgb(31, 111, 164); /* Darker than left/nav for contrast */
-    min-height: 50px;
-    width: 100%;
-    overflow: hidden;
+  background-color: #1f6fa4;
+  height: 50px;
+  width: 100%;
 }
 
 .navbar a {
-    float: left;
-    font-size: 20px;
-    color: rgb(107, 14, 156); /* Same as header/footer text for consistency */
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+  float: left;
+  font-size: 18px;
+  color: #6b0e9c;
+  padding: 12px 15px;
+  text-decoration: none;
 }
 
-/* Hover effect to stand out */
 .navbar a:hover {
-    background-color: rgb(81, 171, 224); /* Lighter, matches article */
-    border-radius: 20px;
-    color: rgb(107, 14, 156); /* Keep text readable */
+  background-color: #51abe0;
 }
