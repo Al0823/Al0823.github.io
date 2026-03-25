@@ -21,12 +21,12 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
-
+ 
   header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 28px; display: flex; align-items: center; gap: 14px; }
   header svg { flex-shrink: 0; }
   header h1 { font-size: 1.2rem; font-weight: 700; letter-spacing: .5px; }
   header span { font-size: .8rem; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; }
-
+ 
   #drop-zone {
     border: 2px dashed var(--border);
     border-radius: 14px;
@@ -53,14 +53,14 @@
   .btn-sm { padding: 5px 14px; font-size: .8rem; border-radius: 6px; }
   .btn-green { background: var(--green); color: #0a1a10; }
   .btn-muted { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-
+ 
   #main { display: none; flex: 1; flex-direction: column; padding: 0 24px 24px; max-width: 1400px; width: 100%; margin: 0 auto; }
   #toolbar { display: flex; align-items: center; gap: 12px; padding: 14px 0; flex-wrap: wrap; }
   #file-info { font-size: .85rem; color: var(--muted); }
   #file-info strong { color: var(--green); }
-
+ 
   #layout { display: grid; grid-template-columns: 220px 1fr; gap: 16px; flex: 1; min-height: 0; }
-
+ 
   /* Sidebar */
   #sidebar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow-y: auto; }
   .chunk-item {
@@ -73,21 +73,21 @@
   .chunk-name { font-family: var(--mono); font-weight: 700; font-size: .9rem; }
   .chunk-size { font-size: .75rem; color: var(--muted); }
   .sidebar-header { padding: 10px 14px; font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); }
-
+ 
   /* Content area */
   #content { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
   #content-header { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   #content-title { font-weight: 700; font-size: 1rem; font-family: var(--mono); }
   #content-meta { font-size: .8rem; color: var(--muted); }
   #content-body { flex: 1; overflow-y: auto; padding: 16px; }
-
+ 
   /* Tabs */
   .tabs { display: flex; gap: 4px; padding: 10px 16px 0; border-bottom: 1px solid var(--border); background: var(--surface2); }
   .tab { padding: 7px 16px; font-size: .82rem; cursor: pointer; border-radius: 6px 6px 0 0; color: var(--muted); transition: background .15s, color .15s; }
   .tab.active { background: var(--surface); color: var(--text); font-weight: 600; }
   .tab-body { display: none; padding: 16px; overflow-y: auto; flex: 1; }
   .tab-body.active { display: block; }
-
+ 
   /* Hex view */
   .hex-table { font-family: var(--mono); font-size: .78rem; border-collapse: collapse; width: 100%; }
   .hex-table td { padding: 2px 6px; white-space: pre; }
@@ -95,7 +95,7 @@
   .hex-bytes { color: var(--yellow); letter-spacing: 1px; }
   .hex-ascii { color: var(--green); }
   .hex-row:hover td { background: var(--surface2); }
-
+ 
   /* JSON tree */
   .json-tree { font-family: var(--mono); font-size: .82rem; line-height: 1.7; }
   .jk { color: #79b8ff; }
@@ -108,40 +108,40 @@
   .collapsible.collapsed::before { content: '▸ '; }
   .collapsible.collapsed + .children { display: none; }
   .children { margin-left: 18px; }
-
+ 
   /* Sprites */
   #sprites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
   .sprite-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; }
   .sprite-card canvas { image-rendering: pixelated; max-width: 100%; }
   .sprite-card p { font-size: .7rem; color: var(--muted); margin-top: 6px; word-break: break-all; }
-
+ 
   /* Audio */
   .audio-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .audio-item p { font-size: .85rem; flex: 1; font-family: var(--mono); min-width: 160px; }
   .audio-item audio { height: 32px; flex: 2; min-width: 200px; }
   .audio-badge { font-size: .7rem; padding: 2px 8px; border-radius: 4px; background: var(--accent); color: #fff; }
-
+ 
   /* Summary table */
   .info-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
   .info-table tr:nth-child(even) td { background: var(--surface2); }
   .info-table td { padding: 7px 12px; border-bottom: 1px solid var(--border); }
   .info-table td:first-child { color: var(--muted); font-weight: 600; width: 180px; }
   .info-table td:last-child { font-family: var(--mono); }
-
+ 
   .tag { display: inline-block; font-size: .72rem; padding: 2px 8px; border-radius: 4px; margin: 2px; background: var(--surface2); border: 1px solid var(--border); font-family: var(--mono); }
-
+ 
   .error-box { background: #2a1010; border: 1px solid var(--red); border-radius: 8px; padding: 14px 18px; color: var(--red); font-size: .87rem; }
   .warn-box { background: #2a2010; border: 1px solid var(--yellow); border-radius: 8px; padding: 10px 14px; color: var(--yellow); font-size: .83rem; margin-bottom: 12px; }
-
+ 
   #progress { display:none; text-align:center; padding: 40px; color: var(--muted); }
   .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
+ 
   @media(max-width:700px) { #layout { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-
+ 
 <header>
   <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
     <rect width="28" height="28" rx="7" fill="#5b6ef5"/>
@@ -152,7 +152,7 @@
   <h1>data.win Decoder</h1>
   <span>GMS 1.x / 2.x</span>
 </header>
-
+ 
 <div id="drop-zone" onclick="document.getElementById('file-input').click()">
   <svg width="48" height="48" fill="none" viewBox="0 0 48 48" style="margin:0 auto">
     <circle cx="24" cy="24" r="23" fill="#1a1d27" stroke="#2e3250" stroke-width="1.5"/>
@@ -164,9 +164,9 @@
   <button class="btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">Choose File</button>
   <input type="file" id="file-input" accept=".win,.unx,.ios,.droid,*">
 </div>
-
+ 
 <div id="progress"><div class="spinner"></div><div id="progress-msg">Parsing…</div></div>
-
+ 
 <div id="main">
   <div id="toolbar">
     <div id="file-info"></div>
@@ -184,21 +184,21 @@
     </div>
   </div>
 </div>
-
+ 
 <script>
 // ─── State ───────────────────────────────────────────────────────────────────
 let parsedData = null;
 let activeChunk = null;
-
+ 
 // ─── Entry points ────────────────────────────────────────────────────────────
 const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
-
+ 
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('hover'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('hover'));
 dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('hover'); handleFile(e.dataTransfer.files[0]); });
 fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
-
+ 
 function handleFile(file) {
   if (!file) return;
   showProgress('Reading file…');
@@ -218,7 +218,7 @@ function handleFile(file) {
   };
   reader.readAsArrayBuffer(file);
 }
-
+ 
 // ─── Parser ──────────────────────────────────────────────────────────────────
 function parseDataWin(dv, filename, filesize) {
   const dec = new TextDecoder();
@@ -227,15 +227,15 @@ function parseDataWin(dv, filename, filesize) {
     return dec.decode(new Uint8Array(dv.buffer, offset, len));
   };
   const readFourCC = (offset) => dec.decode(new Uint8Array(dv.buffer, offset, 4));
-
+ 
   const magic = readFourCC(0);
   if (magic !== 'FORM') throw new Error(`Not a valid data.win — expected FORM, got "${magic}"`);
-
+ 
   const totalLen = dv.getUint32(4, true);
   const chunks = {};
   const chunkOrder = [];
   let pos = 8;
-
+ 
   while (pos < dv.byteLength - 8) {
     const name = readFourCC(pos);
     const size = dv.getUint32(pos + 4, true);
@@ -247,13 +247,13 @@ function parseDataWin(dv, filename, filesize) {
     // align to 4 bytes
     if (pos % 4 !== 0) pos += 4 - (pos % 4);
   }
-
+ 
   const result = {
     filename, filesize, magic, totalLen,
     chunkOrder, chunks,
     parsed: {}
   };
-
+ 
   // Parse known chunks
   try { if (chunks.GEN8) result.parsed.GEN8 = parseGEN8(chunks.GEN8.data, readStr); } catch(e) {}
   try { if (chunks.STRG) result.parsed.STRG = parseSTRG(chunks.STRG.data); } catch(e) {}
@@ -272,10 +272,10 @@ function parseDataWin(dv, filename, filesize) {
   try { if (chunks.TMLN) result.parsed.TMLN = parseTMLN(chunks.TMLN.data, result.parsed.STRG); } catch(e) {}
   try { if (chunks.VARI) result.parsed.VARI = parseVARI(chunks.VARI.data, result.parsed.STRG); } catch(e) {}
   try { if (chunks.FUNC) result.parsed.FUNC = parseFUNC(chunks.FUNC.data, result.parsed.STRG); } catch(e) {}
-
+ 
   return result;
 }
-
+ 
 function readStringAt(dv, offset) {
   // strings in GMS are stored as length-prefixed or as offsets into STRG
   const dec = new TextDecoder();
@@ -283,7 +283,7 @@ function readStringAt(dv, offset) {
   if (len > 65535 || len < 0) return '';
   return dec.decode(new Uint8Array(dv.buffer, dv.byteOffset + offset + 4, len));
 }
-
+ 
 function parseGEN8(dv, readStr) {
   const dec = new TextDecoder();
   const readGstr = (off) => {
@@ -303,7 +303,7 @@ function parseGEN8(dv, readStr) {
     flags: '0x' + dv.getUint32(44, true).toString(16).padStart(8,'0'),
   };
 }
-
+ 
 function parseSTRG(dv) {
   const count = dv.getUint32(0, true);
   const dec = new TextDecoder();
@@ -321,22 +321,22 @@ function parseSTRG(dv) {
   }
   return { count, strings };
 }
-
+ 
 function getStr(strg, idx) {
   if (!strg || !strg.strings) return `<str#${idx}>`;
   return strg.strings[idx] ?? `<str#${idx}>`;
 }
-
+ 
 function readPointerList(dv, off) {
   const count = dv.getUint32(off, true);
   const ptrs = [];
   for (let i = 0; i < count; i++) ptrs.push(dv.getUint32(off + 4 + i * 4, true));
   return ptrs;
 }
-
+ 
 // GMS chunk pointer lists store ABSOLUTE file offsets — use them directly
 function absOff(dv, ptr) { return ptr; }
-
+ 
 function parseSPRT(dv, strg) {
   const count = dv.getUint32(0, true);
   const sprites = [];
@@ -356,12 +356,12 @@ function parseSPRT(dv, strg) {
   }
   return { count, sprites };
 }
-
+ 
 function parseTXTR(dv, buffer) {
   const count = dv.getUint32(0, true);
   const textures = [];
   const fullDv = new DataView(buffer);
-
+ 
   for (let i = 0; i < count && i < 2048; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
@@ -369,18 +369,18 @@ function parseTXTR(dv, buffer) {
       // Pointer list entries are absolute file offsets in GMS
       const absPtr = dv.getUint32(ptrOff, true);
       if (absPtr + 8 > buffer.byteLength) break;
-
+ 
       const scaled  = fullDv.getUint32(absPtr, true);
       // The inner PNG data pointer is also an absolute file offset
       const dataPtr = fullDv.getUint32(absPtr + 4, true);
-
+ 
       if (dataPtr + 8 > buffer.byteLength) { textures.push({ scaled, dataPtr, isPng: false, pngData: null }); continue; }
-
+ 
       // PNG magic: 89 50 4E 47 0D 0A 1A 0A
       const b = new Uint8Array(buffer, dataPtr, Math.min(8, buffer.byteLength - dataPtr));
       const isPng = b[0]===0x89 && b[1]===0x50 && b[2]===0x4e && b[3]===0x47 &&
                     b[4]===0x0d && b[5]===0x0a && b[6]===0x1a && b[7]===0x0a;
-
+ 
       let pngData = null;
       if (isPng) {
         // Walk PNG chunks to find IEND and compute exact length
@@ -399,37 +399,36 @@ function parseTXTR(dv, buffer) {
         if (!pngLen) pngLen = Math.min(8 * 1024 * 1024, buffer.byteLength - dataPtr);
         pngData = new Uint8Array(buffer, dataPtr, pngLen);
       }
-
+ 
       textures.push({ scaled, dataPtr, isPng, pngData });
     } catch(e) { textures.push({ scaled: 0, dataPtr: 0, isPng: false, pngData: null }); }
   }
   return { count, textures };
 }
-
+ 
 function parseAUDO(dv, buffer) {
   const count = dv.getUint32(0, true);
   const audios = [];
   const fullDv = new DataView(buffer);
-  const chunkBase = dv.byteOffset; // absolute position of AUDO data in file
-
-  // Try to figure out pointer style from first entry
-  // Strategy: try both absolute and relative, pick whichever gives a valid audio header
+  const chunkBase = dv.byteOffset;
+ 
+  // Auto-detect pointer style: absolute (stored value = file offset) vs relative (stored value + chunkBase = file offset)
   let useAbsolute = true;
-  if (count > 0) {
-    const firstPtr = dv.getUint32(4, true);
-    // Check absolute: read 4 bytes at firstPtr as a length
-    const absLen = firstPtr + 4 <= buffer.byteLength ? fullDv.getUint32(firstPtr, true) : -1;
-    // Check relative: read 4 bytes at chunkBase+firstPtr as a length
-    const relOff = chunkBase + firstPtr;
-    const relLen = relOff + 4 <= buffer.byteLength ? fullDv.getUint32(relOff, true) : -1;
-    // A valid audio length is between 64 bytes and 50 MB
-    const absValid = absLen > 64 && absLen < 50 * 1024 * 1024 && firstPtr + 4 + absLen <= buffer.byteLength;
-    const relValid = relLen > 64 && relLen < 50 * 1024 * 1024 && relOff + 4 + relLen <= buffer.byteLength;
+  let debugInfo = null;
+  if (count > 0 && dv.byteLength >= 8) {
+    const firstStoredPtr = dv.getUint32(4, true);
+    const absOff2 = firstStoredPtr;
+    const relOff2 = chunkBase + firstStoredPtr;
+    const absLen = (absOff2 + 4 <= buffer.byteLength) ? fullDv.getUint32(absOff2, true) : -1;
+    const relLen = (relOff2 + 4 <= buffer.byteLength) ? fullDv.getUint32(relOff2, true) : -1;
+    const absValid = absLen > 0 && absLen < 50*1024*1024 && absOff2 + 4 + absLen <= buffer.byteLength;
+    const relValid = relLen > 0 && relLen < 50*1024*1024 && relOff2 + 4 + relLen <= buffer.byteLength;
     if (!absValid && relValid) useAbsolute = false;
-    // store debug info
-    audios._debug = { firstPtr, absLen, relLen, absValid, relValid, chunkBase, useAbsolute };
+    const absBytes = (absValid && absOff2 + 12 <= buffer.byteLength) ? Array.from(new Uint8Array(buffer, absOff2 + 4, 8)).map(b=>b.toString(16).padStart(2,'0')).join(' ') : 'N/A';
+    const relBytes = (relValid && relOff2 + 12 <= buffer.byteLength) ? Array.from(new Uint8Array(buffer, relOff2 + 4, 8)).map(b=>b.toString(16).padStart(2,'0')).join(' ') : 'N/A';
+    debugInfo = { chunkBase, firstStoredPtr, absOff: absOff2, absLen, absValid, absBytes, relOff: relOff2, relLen, relValid, relBytes, useAbsolute };
   }
-
+ 
   for (let i = 0; i < count && i < 10000; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
@@ -438,14 +437,13 @@ function parseAUDO(dv, buffer) {
       const absPtr = useAbsolute ? storedPtr : chunkBase + storedPtr;
       if (absPtr + 4 > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
       const len = fullDv.getUint32(absPtr, true);
-      if (len === 0 || len > 50 * 1024 * 1024 || absPtr + 4 + len > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
-      const data = new Uint8Array(buffer, absPtr + 4, len);
-      audios.push({ len, data });
+      if (len === 0 || len > 50*1024*1024 || absPtr + 4 + len > buffer.byteLength) { audios.push({ len: 0, data: null }); continue; }
+      audios.push({ len, data: new Uint8Array(buffer, absPtr + 4, len) });
     } catch(e) { audios.push({ len: 0, data: null }); }
   }
-  return { count, audios };
+  return { count, audios, debugInfo };
 }
-
+ 
 function parseSOND(dv, strg) {
   const count = dv.getUint32(0, true);
   const sounds = [];
@@ -474,7 +472,7 @@ function parseSOND(dv, strg) {
   }
   return { count, sounds };
 }
-
+ 
 function parseROOM(dv, strg) {
   const count = dv.getUint32(0, true);
   const rooms = [];
@@ -494,7 +492,7 @@ function parseROOM(dv, strg) {
   }
   return { count, rooms };
 }
-
+ 
 function parseOBJT(dv, strg) {
   const count = dv.getUint32(0, true);
   const objects = [];
@@ -510,7 +508,7 @@ function parseOBJT(dv, strg) {
   }
   return { count, objects };
 }
-
+ 
 function parseSCPT(dv, strg) {
   const count = dv.getUint32(0, true);
   const scripts = [];
@@ -528,7 +526,7 @@ function parseSCPT(dv, strg) {
   }
   return { count, scripts };
 }
-
+ 
 function parseCODE(dv, strg) {
   const count = dv.getUint32(0, true);
   const code = [];
@@ -544,7 +542,7 @@ function parseCODE(dv, strg) {
   }
   return { count, code };
 }
-
+ 
 function parseBGND(dv, strg) {
   const count = dv.getUint32(0, true);
   const bgs = [];
@@ -560,7 +558,7 @@ function parseBGND(dv, strg) {
   }
   return { count, bgs };
 }
-
+ 
 function parsePATH(dv, strg) {
   const count = dv.getUint32(0, true);
   const paths = [];
@@ -576,7 +574,7 @@ function parsePATH(dv, strg) {
   }
   return { count, paths };
 }
-
+ 
 function parseSHDR(dv, strg) {
   const count = dv.getUint32(0, true);
   const shaders = [];
@@ -592,7 +590,7 @@ function parseSHDR(dv, strg) {
   }
   return { count, shaders };
 }
-
+ 
 function parseFONT(dv, strg) {
   const count = dv.getUint32(0, true);
   const fonts = [];
@@ -610,7 +608,7 @@ function parseFONT(dv, strg) {
   }
   return { count, fonts };
 }
-
+ 
 function parseTMLN(dv, strg) {
   const count = dv.getUint32(0, true);
   const timelines = [];
@@ -626,7 +624,7 @@ function parseTMLN(dv, strg) {
   }
   return { count, timelines };
 }
-
+ 
 function parseVARI(dv, strg) {
   // GMS1 vs GMS2 differ — just grab count and names
   try {
@@ -636,7 +634,7 @@ function parseVARI(dv, strg) {
     return { varCount, localVarCount, argCount };
   } catch(e) { return {}; }
 }
-
+ 
 function parseFUNC(dv, strg) {
   try {
     const count = dv.getUint32(0, true);
@@ -654,7 +652,7 @@ function parseFUNC(dv, strg) {
     return { count, funcs };
   } catch(e) { return {}; }
 }
-
+ 
 // ─── UI ──────────────────────────────────────────────────────────────────────
 function showProgress(msg) {
   document.getElementById('drop-zone').style.display = 'none';
@@ -665,21 +663,21 @@ function showProgress(msg) {
 function hideProgress() { document.getElementById('progress').style.display = 'none'; }
 function showDrop() { document.getElementById('drop-zone').style.display = ''; }
 function reset() { parsedData = null; showDrop(); hideProgress(); document.getElementById('main').style.display = 'none'; fileInput.value = ''; }
-
+ 
 function fmt(n) {
   if (n >= 1024*1024) return (n/1024/1024).toFixed(2) + ' MB';
   if (n >= 1024) return (n/1024).toFixed(1) + ' KB';
   return n + ' B';
 }
-
+ 
 function render(file) {
   hideProgress();
   document.getElementById('main').style.display = 'flex';
   const d = parsedData;
-
+ 
   document.getElementById('file-info').innerHTML =
     `Loaded <strong>${d.filename}</strong> — ${fmt(d.filesize)} — <strong>${d.chunkOrder.length}</strong> chunks`;
-
+ 
   // Sidebar
   const list = document.getElementById('chunk-list');
   list.innerHTML = '';
@@ -689,7 +687,7 @@ function render(file) {
   summItem.innerHTML = `<span class="chunk-name">★ Summary</span><span class="chunk-size">${d.chunkOrder.length} chunks</span>`;
   summItem.onclick = () => selectChunk('__summary__', summItem);
   list.appendChild(summItem);
-
+ 
   d.chunkOrder.forEach(name => {
     const c = d.chunks[name];
     const item = document.createElement('div');
@@ -699,22 +697,22 @@ function render(file) {
     item.onclick = () => selectChunk(name, item);
     list.appendChild(item);
   });
-
+ 
   renderChunk('__summary__');
 }
-
+ 
 function selectChunk(name, el) {
   document.querySelectorAll('.chunk-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
   renderChunk(name);
 }
-
+ 
 function renderChunk(name) {
   activeChunk = name;
   const d = parsedData;
   const tabBar = document.getElementById('tab-bar');
   const panels = document.getElementById('tab-panels');
-
+ 
   if (name === '__summary__') {
     tabBar.innerHTML = '<div class="tab active" onclick="switchTab(0,this)">Overview</div><div class="tab" onclick="switchTab(1,this)">Chunk Map</div>';
     panels.innerHTML = `
@@ -722,21 +720,21 @@ function renderChunk(name) {
       <div class="tab-body">${renderChunkMapHTML()}</div>`;
     return;
   }
-
+ 
   const c = d.chunks[name];
   const tabs = ['Raw Hex', 'JSON'];
   const hasSpecial = !!d.parsed[name];
-
+ 
   let tabsHTML = '';
   let panelsHTML = '';
   let idx = 0;
-
+ 
   if (hasSpecial) {
     tabsHTML += `<div class="tab active" onclick="switchTab(${idx},this)">Parsed</div>`;
     panelsHTML += `<div class="tab-body active">${renderParsedChunk(name)}</div>`;
     idx++;
   }
-
+ 
   if (name === 'TXTR' && d.parsed.TXTR) {
     tabsHTML += `<div class="tab" onclick="switchTab(${idx},this)">Sprites / Textures</div>`;
     panelsHTML += `<div class="tab-body">${'<div id="txtr-sprites-lazy">Loading textures…</div>'}</div>`;
@@ -747,17 +745,17 @@ function renderChunk(name) {
     panelsHTML += `<div class="tab-body"><div id="audio-lazy">Loading audio…</div></div>`;
     idx++;
   }
-
+ 
   tabsHTML += `<div class="tab${!hasSpecial?' active':''}" onclick="switchTab(${idx},this)">Raw Hex</div>`;
   panelsHTML += `<div class="tab-body${!hasSpecial?' active':''}"><div id="hex-lazy-${name}">Generating hex…</div></div>`;
   idx++;
-
+ 
   tabsHTML += `<div class="tab" onclick="switchTab(${idx},this)">JSON</div>`;
   panelsHTML += `<div class="tab-body"><div id="json-lazy-${name}">Generating JSON…</div></div>`;
-
+ 
   tabBar.innerHTML = tabsHTML;
   panels.innerHTML = panelsHTML;
-
+ 
   // Lazy render hex
   setTimeout(() => {
     const hexEl = document.getElementById(`hex-lazy-${name}`);
@@ -776,14 +774,14 @@ function renderChunk(name) {
     if (aEl) { aEl.outerHTML = renderAudioHTML(); }
   }, 40);
 }
-
+ 
 function switchTab(idx, el) {
   const panels = document.getElementById('tab-panels');
   const tabs = document.getElementById('tab-bar');
   tabs.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', i===idx));
   panels.querySelectorAll('.tab-body').forEach((p,i) => p.classList.toggle('active', i===idx));
 }
-
+ 
 // ─── Chunk renderers ─────────────────────────────────────────────────────────
 function renderSummaryHTML() {
   const d = parsedData;
@@ -798,7 +796,7 @@ function renderSummaryHTML() {
   const audo = d.parsed.AUDO || {};
   const font = d.parsed.FONT || {};
   const bgnd = d.parsed.BGND || {};
-
+ 
   return `
   <table class="info-table">
     <tr><td>File</td><td>${d.filename}</td></tr>
@@ -821,12 +819,12 @@ function renderSummaryHTML() {
     ${bgnd.count !== undefined ? `<tr><td>Backgrounds</td><td>${bgnd.count}</td></tr>` : ''}
   </table>`;
 }
-
+ 
 function renderChunkMapHTML() {
   const d = parsedData;
   const total = d.chunks[d.chunkOrder[d.chunkOrder.length-1]];
   const totalSize = total ? total.offset + 8 + total.size : d.filesize;
-
+ 
   const colors = ['#5b6ef5','#9b5de5','#3dd68c','#f5c542','#f55b5b','#4ecdc4','#f7a94b','#e05ce0','#6bc5f8','#8fdb5c'];
   let html = `<div style="margin-bottom:14px;font-size:.82rem;color:var(--muted)">Visual representation of chunk sizes in the file</div>`;
   html += `<div style="display:flex;height:32px;border-radius:6px;overflow:hidden;margin-bottom:18px">`;
@@ -845,12 +843,12 @@ function renderChunkMapHTML() {
   html += '</table>';
   return html;
 }
-
+ 
 function renderParsedChunk(name) {
   const d = parsedData;
   const p = d.parsed[name];
   if (!p) return '<em>No parsed data</em>';
-
+ 
   switch(name) {
     case 'GEN8': return renderGEN8(p);
     case 'STRG': return renderSTRG(p);
@@ -875,12 +873,12 @@ function renderParsedChunk(name) {
     default: return renderJSONTree(p);
   }
 }
-
+ 
 function renderGEN8(g) {
   const rows = Object.entries(g).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
   return `<table class="info-table">${rows}</table>`;
 }
-
+ 
 function renderSTRG(p) {
   const display = p.strings.slice(0, 500);
   let html = `<div style="margin-bottom:10px;font-size:.82rem;color:var(--muted)">Showing ${display.length} of ${p.count} strings</div>`;
@@ -892,7 +890,7 @@ function renderSTRG(p) {
   html += '</table>';
   return html;
 }
-
+ 
 function renderNameList(arr, fields) {
   if (!arr.length) return '<em style="color:var(--muted)">No entries</em>';
   let html = `<table class="info-table"><tr>${fields.map(f=>`<td style="font-weight:700">${f}</td>`).join('')}</tr>`;
@@ -904,7 +902,7 @@ function renderNameList(arr, fields) {
   html += '</table>';
   return html;
 }
-
+ 
 function renderTXTRParsed(p) {
   let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Offset</td><td style="font-weight:700">Type</td><td style="font-weight:700">Action</td></tr>`;
   p.textures.slice(0, 2000).forEach((t, i) => {
@@ -915,43 +913,48 @@ function renderTXTRParsed(p) {
   html += '</table>';
   return html;
 }
-
+ 
 function renderAUDOParsed(p) {
   let html = '';
-  if (p.audios._debug) {
-    const d = p.audios._debug;
-    html += `<div class="warn-box" style="font-family:var(--mono);font-size:.78rem;margin-bottom:12px">
-      <strong>Debug:</strong> chunkBase=0x${d.chunkBase.toString(16)} · firstPtr=0x${d.firstPtr.toString(16)}<br>
-      Absolute→len=${d.absLen} (${d.absValid?'✓ valid':'✗ invalid'}) · 
-      Relative→len=${d.relLen} (${d.relValid?'✓ valid':'✗ invalid'})<br>
-      Using: <strong>${d.useAbsolute ? 'ABSOLUTE' : 'RELATIVE'}</strong> pointers
+  if (p.debugInfo) {
+    const d = p.debugInfo;
+    html += `<div class="warn-box" style="font-family:var(--mono);font-size:.76rem;line-height:1.8;margin-bottom:12px">
+      <strong>Pointer Debug</strong><br>
+      chunkBase = 0x${d.chunkBase.toString(16).toUpperCase()}<br>
+      firstStoredPtr = 0x${d.firstStoredPtr.toString(16).toUpperCase()}<br>
+      <br>
+      <strong>Absolute</strong> (ptr = file offset ${d.absOff}): len=${d.absLen} ${d.absValid?'✓ valid':'✗ invalid'} · bytes: ${d.absBytes}<br>
+      <strong>Relative</strong> (ptr + chunkBase = ${d.relOff}): len=${d.relLen} ${d.relValid?'✓ valid':'✗ invalid'} · bytes: ${d.relBytes}<br>
+      <br>
+      Using: <strong style="color:var(--green)">${d.useAbsolute ? 'ABSOLUTE' : 'RELATIVE'}</strong>
     </div>`;
   }
-  html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td></tr>`;
-  p.audios.slice(0,2000).forEach((a, i) => {
-    const fmt2 = a.data ? detectAudioFormat(a.data) : 'empty';
-    html += `<tr><td>${i}</td><td>${fmt(a.len)}</td><td>${fmt2}</td></tr>`;
+  html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td><td style="font-weight:700">First bytes</td></tr>`;
+  p.audios.slice(0, 2000).forEach((a, i) => {
+    const fmtStr = a.data ? detectAudioFormat(a.data) : 'empty';
+    const hexBytes = a.data ? Array.from(a.data.slice(0,8)).map(b=>b.toString(16).padStart(2,'0')).join(' ') : '—';
+    html += `<tr><td>${i}</td><td>${fmt(a.len)}</td><td>${fmtStr}</td><td style="font-family:var(--mono);font-size:.75rem;color:var(--muted)">${hexBytes}</td></tr>`;
   });
   html += '</table>';
   return html;
 }
-
+ 
 function renderTexturesHTML() {
   const txtr = parsedData.parsed.TXTR;
   if (!txtr) return '<em>No texture data</em>';
   const withPng = txtr.textures.filter(t => t.isPng && t.pngData);
   const noData = txtr.textures.filter(t => !t.isPng).length;
-
+ 
   if (!withPng.length) return `<div class="warn-box">No embedded PNG textures found. ${noData} texture entries have unrecognized or external data.</div>`;
-
+ 
   const gameName = (parsedData.filename || 'texture').replace(/\.[^.]+$/, '');
-
+ 
   let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
     <span style="font-size:.82rem;color:var(--muted)">${withPng.length} texture sheet(s) found${noData ? ` · ${noData} skipped (no embedded data)` : ''}</span>
     <button class="btn btn-sm btn-green" onclick="downloadAllTextures()">⬇ Download All (${withPng.length})</button>
   </div>
   <div style="display:flex;flex-wrap:wrap;gap:14px">`;
-
+ 
   withPng.slice(0, 128).forEach((t, i) => {
     const idx = txtr.textures.indexOf(t);
     const blob = new Blob([t.pngData], { type: 'image/png' });
@@ -970,12 +973,12 @@ function renderTexturesHTML() {
       <button class="btn btn-sm btn-green" style="margin-top:6px;width:100%" onclick="downloadTex(${idx},'${gameName}')">⬇ PNG</button>
     </div>`;
   });
-
+ 
   if (withPng.length > 128) html += `<div style="padding:20px;color:var(--muted);align-self:center">(${withPng.length-128} more — use Download All)</div>`;
   html += '</div>';
   return html;
 }
-
+ 
 function downloadAllTextures() {
   const txtr = parsedData.parsed.TXTR;
   if (!txtr) return;
@@ -986,50 +989,113 @@ function downloadAllTextures() {
     }
   });
 }
-
+ 
+// ── Audio player state ──────────────────────────────────────────────────────
+let _audioBlobUrls = []; // track for cleanup
+let _audioPage = 0;
+const AUDIO_PAGE_SIZE = 20;
+ 
 function renderAudioHTML() {
   const sond = parsedData.parsed.SOND;
   const audo = parsedData.parsed.AUDO;
   if (!audo || !audo.audios.length) return '<em>No audio data</em>';
-
+ 
+  // Clean up old blob URLs
+  _audioBlobUrls.forEach(u => URL.revokeObjectURL(u));
+  _audioBlobUrls = [];
+  _audioPage = 0;
+ 
   const playable = audo.audios.filter(a => a.data && a.len > 0);
-
-  let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
-    <span style="font-size:.82rem;color:var(--muted)">${audo.count} audio asset(s) · ${playable.length} with embedded data</span>
-    <button class="btn btn-sm btn-green" onclick="downloadAllAudio()">⬇ Download All (${playable.length})</button>
-  </div>`;
-
-  audo.audios.slice(0, 300).forEach((a, i) => {
-    if (!a.data || !a.len) return;
+ 
+  // Debug info from parseAUDO
+  let debugHtml = '';
+  if (audo.debugInfo) {
+    const d = audo.debugInfo;
+    debugHtml = `<div class="warn-box" style="font-family:var(--mono);font-size:.75rem;margin-bottom:10px">
+      <strong>Debug:</strong> chunkBase=0x${d.chunkBase.toString(16).toUpperCase()} · firstStoredPtr=0x${d.firstStoredPtr.toString(16).toUpperCase()}<br>
+      Abs offset ${d.absOff}: len=${d.absLen} (${d.absValid?'✓':'✗'}) bytes=[${d.absBytes}]<br>
+      Rel offset ${d.relOff}: len=${d.relLen} (${d.relValid?'✓':'✗'}) bytes=[${d.relBytes}]<br>
+      Using: <strong>${d.useAbsolute?'ABSOLUTE':'RELATIVE'}</strong>
+    </div>`;
+  }
+ 
+  // Show first-bytes of first valid audio for diagnosis
+  let firstBytesHtml = '';
+  const firstValid = audo.audios.find(a => a.data && a.len > 0);
+  if (firstValid) {
+    const hex = Array.from(firstValid.data.slice(0, 16)).map(b => b.toString(16).padStart(2,'0').toUpperCase()).join(' ');
+    firstBytesHtml = `<div style="font-family:var(--mono);font-size:.75rem;color:var(--muted);margin-bottom:10px">First audio bytes: <span style="color:var(--yellow)">${hex}</span></div>`;
+  }
+ 
+  const html = `
+    ${debugHtml}${firstBytesHtml}
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+      <span style="font-size:.82rem;color:var(--muted)">${audo.count} total · ${playable.length} with data</span>
+      <button class="btn btn-sm btn-green" onclick="downloadAllAudio()">⬇ Download All (${playable.length})</button>
+    </div>
+    <div id="audio-list-inner"></div>
+    <div id="audio-load-more" style="text-align:center;padding:12px;display:${playable.length > AUDIO_PAGE_SIZE ? 'block' : 'none'}">
+      <button class="btn btn-sm btn-muted" onclick="loadMoreAudio()">Load more…</button>
+      <span style="font-size:.8rem;color:var(--muted);margin-left:10px" id="audio-page-info">Showing ${Math.min(AUDIO_PAGE_SIZE, playable.length)} of ${playable.length}</span>
+    </div>`;
+ 
+  // Use setTimeout so HTML is in DOM before we render rows
+  setTimeout(() => renderAudioPage(), 0);
+  return html;
+}
+ 
+function renderAudioPage() {
+  const sond = parsedData.parsed.SOND;
+  const audo = parsedData.parsed.AUDO;
+  if (!audo) return;
+ 
+  const container = document.getElementById('audio-list-inner');
+  if (!container) return;
+ 
+  const playable = audo.audios.map((a, i) => ({ a, i })).filter(({ a }) => a.data && a.len > 0);
+  const start = _audioPage * AUDIO_PAGE_SIZE;
+  const slice = playable.slice(start, start + AUDIO_PAGE_SIZE);
+ 
+  slice.forEach(({ a, i }) => {
     const snd = sond?.sounds[i];
-    // Use the original filename from SOND if available, else fall back to sound name
-    const originalFile = snd?.file || '';   // e.g. "explosion.ogg" or "hit"
+    const originalFile = snd?.file || '';
     const soundName = snd?.name || `audio_${i}`;
     const detectedFmt = detectAudioFormat(a.data);
     const mime = detectedFmt === 'OGG' ? 'audio/ogg' : detectedFmt === 'MP3' ? 'audio/mpeg' : detectedFmt === 'WAV' ? 'audio/wav' : 'audio/octet-stream';
+ 
     const blob = new Blob([a.data], { type: mime });
     const url = URL.createObjectURL(blob);
-
-    // Build download filename: prefer original file field, ensure correct extension
+    _audioBlobUrls.push(url);
+ 
     const dlName = buildAudioFilename(originalFile, soundName, detectedFmt);
-
-    html += `<div class="audio-item">
+ 
+    const row = document.createElement('div');
+    row.className = 'audio-item';
+    row.innerHTML = `
       <div style="min-width:160px;flex:1">
         <p style="font-weight:600">${escHtml(soundName)}</p>
         <p style="font-size:.73rem;color:var(--muted)">Index ${i} · ${fmt(a.len)} · <span style="color:var(--yellow)">${detectedFmt}</span>${originalFile ? ` · ${escHtml(originalFile)}` : ''}</p>
       </div>
       <audio controls src="${url}" preload="none" style="flex:2;min-width:180px;height:32px"></audio>
-      <button class="btn btn-sm btn-green" onclick="downloadAudioByIdx(${i})">⬇ ${escHtml(dlName)}</button>
-    </div>`;
+      <button class="btn btn-sm btn-green" onclick="downloadAudioByIdx(${i})">⬇ ${escHtml(dlName)}</button>`;
+    container.appendChild(row);
   });
-  if (audo.audios.length > 300) html += `<div style="color:var(--muted);padding:12px">${audo.audios.length-300} more audio assets — use Download All</div>`;
-  return html;
+ 
+  _audioPage++;
+  const totalPlayable = playable.length;
+  const shown = Math.min(_audioPage * AUDIO_PAGE_SIZE, totalPlayable);
+  const infoEl = document.getElementById('audio-page-info');
+  const moreEl = document.getElementById('audio-load-more');
+  if (infoEl) infoEl.textContent = `Showing ${shown} of ${totalPlayable}`;
+  if (moreEl) moreEl.style.display = shown >= totalPlayable ? 'none' : 'block';
 }
-
+ 
+function loadMoreAudio() { renderAudioPage(); }
+ 
 function buildAudioFilename(originalFile, fallbackName, detectedFmt) {
   const extMap = { OGG: '.ogg', MP3: '.mp3', WAV: '.wav', BIN: '.bin' };
   const detectedExt = extMap[detectedFmt] || '.bin';
-
+ 
   if (originalFile) {
     // If original already has a matching extension, use as-is
     const lower = originalFile.toLowerCase();
@@ -1039,7 +1105,7 @@ function buildAudioFilename(originalFile, fallbackName, detectedFmt) {
   }
   return (fallbackName || 'audio') + detectedExt;
 }
-
+ 
 function downloadAllAudio() {
   const audo = parsedData.parsed.AUDO;
   const sond = parsedData.parsed.SOND;
@@ -1051,7 +1117,7 @@ function downloadAllAudio() {
     delay += 80;
   });
 }
-
+ 
 function downloadAudioByIdx(i) {
   const audo = parsedData.parsed.AUDO;
   const sond = parsedData.parsed.SOND;
@@ -1065,7 +1131,7 @@ function downloadAudioByIdx(i) {
   const blob = new Blob([a.data], { type: mime });
   dl(blob, buildAudioFilename(originalFile, soundName, detectedFmt));
 }
-
+ 
 function detectAudioFormat(data) {
   if (data[0]===0x4f && data[1]===0x67 && data[2]===0x67) return 'OGG';
   if (data[0]===0x52 && data[1]===0x49 && data[2]===0x46 && data[3]===0x46) return 'WAV';
@@ -1073,7 +1139,7 @@ function detectAudioFormat(data) {
   if (data[0]===0x49 && data[1]===0x44 && data[2]===0x33) return 'MP3';
   return 'BIN';
 }
-
+ 
 function downloadTex(idx, gameName) {
   const t = parsedData.parsed.TXTR.textures[idx];
   if (!t || !t.pngData) return;
@@ -1081,14 +1147,14 @@ function downloadTex(idx, gameName) {
   const blob = new Blob([t.pngData], { type: 'image/png' });
   dl(blob, `${base}_texture_${idx}.png`);
 }
-
+ 
 function dl(blob, filename) {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = filename;
   a.click();
 }
-
+ 
 // ─── Hex view ────────────────────────────────────────────────────────────────
 function renderHex(bytes) {
   const limit = Math.min(bytes.length, 4096);
@@ -1104,7 +1170,7 @@ function renderHex(bytes) {
   html += '</table>';
   return html;
 }
-
+ 
 // ─── JSON tree ───────────────────────────────────────────────────────────────
 function renderJSONTree(obj, depth=0) {
   if (obj === null) return `<span class="jv-null">null</span>`;
@@ -1126,16 +1192,16 @@ function renderJSONTree(obj, depth=0) {
   }
   return String(obj);
 }
-
+ 
 // click to collapse
 document.addEventListener('click', e => {
   if (e.target.classList.contains('collapsible')) e.target.classList.toggle('collapsed');
 });
-
+ 
 function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
+ 
 // ─── Export ──────────────────────────────────────────────────────────────────
 function exportJSON() {
   if (!parsedData) return;
@@ -1163,3 +1229,4 @@ function exportJSON() {
 </script>
 </body>
 </html>
+ 
