@@ -91,7 +91,7 @@ var PAGETITLE = "Contact Form";
 <script src="../js/includes.js"></script>
 
 <script>
-
+/* Retro-safe form handler (no addEventListener) */
 (function () {
 
   var form = document.getElementById("contactForm");
@@ -125,14 +125,14 @@ var PAGETITLE = "Contact Form";
     document.getElementById('contactForm').style.display = "none";
     document.getElementById('thankyou').style.display = "block";
 
-    return false; 
+    return false; // prevent submit
   };
 
 })();
 </script>
 
 <script>
-
+/* Safe date handling */
 (function () {
   var dateSpan = document.getElementById("dateTime");
   if (!dateSpan) return;
