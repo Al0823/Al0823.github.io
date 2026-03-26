@@ -1,0 +1,155 @@
+[text]DomPath=/citi/coding/2026/2/ds/lessons/assignments/hangman/[/text]
+[text]aloPath=/citi/coding/2026/2/ak/lessons/assignments/hangman/[/text]
+
+<html>
+<head>
+  <title>File Viewer</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Lato');
+
+    body, html {
+      height: 100%;
+      background: #222222;
+      font-family: 'Lato', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #ee00ff;
+      font-size: 1.35em;
+      margin: 40px auto 10px auto;
+      width: 90%;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+
+    .container {
+      display: block;
+      margin: 40px auto;
+      height: auto;
+      width: 90%;
+      padding: 20px;
+    }
+
+    .file-block {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 20px;
+      transition: background-color .15s linear;
+      -webkit-transition: background-color .15s linear;
+    }
+
+    .file-block:hover {
+      background-color: rgb(100, 100, 100, .05);
+    }
+
+    label {
+      display: block;
+      position: relative;
+      font-size: 1.35em;
+      padding: 15px 25px;
+      margin: 10px auto;
+      color: #AAAAAA;
+      cursor: default;
+      transition: all 0.25s linear;
+      -webkit-transition: all 0.25s linear;
+    }
+
+    .file-block:hover label {
+      color: #ee00ff;
+      font-size: 1.6em;
+    }
+
+    textarea {
+      width: 100%;
+      height: 300px;
+      background: #2d2d2d;
+      color: #0DFF92;
+      border: 1px solid #333;
+      padding: 15px;
+      font-size: 13px;
+      font-family: 'Lato', monospace;
+      box-sizing: border-box;
+      resize: vertical;
+      transition: border .25s linear;
+      -webkit-transition: border .25s linear;
+    }
+
+    .file-block:hover textarea {
+      border: 2px solid #ee00ff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+ <h1>[DomPath]</h1>
+  [listfiles path=[DomPath]]
+    [showif [isfile]=T]
+      [hideif [filename]=codeshare.html]
+        <div class="file-block">
+          <label>[filename]</label>
+          <textarea>[include file=[DomPath][filename]&raw=T]</textarea>
+        </div>
+
+      [/hideif]
+    [/showif]
+[showif [isfolder]=T]
+	[text show=t]folname1=[filename][/text]<br>
+		[listfiles path=[DOMPATH][folname1]]
+		        <div class="file-block">
+          <label>[filename]</label>
+		<textarea>[include file=[DOMPATH][folname1]/[filename]&RAW=T]</TEXTAREA>
+		 </div>
+
+		[/listfiles]
+		    [showif [isfolder]=T]
+	[text show=t]folname3=[filename][/text]<br>
+		[listfiles path=[aloPATH][folname3]]
+		        <div class="file-block">
+          <label>[filename]</label>
+		<textarea>[include file=[aloPATH][folname3]/[filename]&RAW=T]</TEXTAREA>
+		 </div>[/listfiles]
+[/showif]
+		
+	[/showif]
+  [/listfiles]
+
+  <h1>[aloPath]</h1>
+  [listfiles path=[aloPath]]
+    [showif [isfile]=T]
+      [hideif [filename]=codeshare.html]
+        <div class="file-block">
+          <label>[filename]</label>
+          <textarea>[include file=[aloPath][filename]&raw=T]</textarea>
+        </div>
+      [/hideif]
+    [/showif]
+    
+    [showif [isfolder]=T]
+	[text show=t]folname2=[filename][/text]<br>
+		[listfiles path=[aloPATH][folname2]]
+		        <div class="file-block">
+          <label>[filename]</label>
+		<textarea>[include file=[aloPATH][folname2]/[filename]&RAW=T]</TEXTAREA>
+		 </div>
+
+		[/listfiles]
+		    [showif [isfolder]=T]
+	[text show=t]folname4=[filename][/text]<br>
+		[listfiles path=[aloPATH][folname4]]
+		        <div class="file-block">
+          <label>[filename]</label>
+		<textarea>[include file=[aloPATH][folname4]/[filename]&RAW=T]</TEXTAREA>
+		 </div>[/listfiles]
+[/showif]
+		
+	[/showif]
+  [/listfiles]
+
+</div>
+
+</body>
+</html>
