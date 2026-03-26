@@ -1,0 +1,66 @@
+<style>
+[include file=[APATHVAR]style.css]
+</style>
+<header>[!]
+  <link id="mainStylesheet" rel="stylesheet" href="{APATHVAR}style.css?v=2.0">
+[/!]
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <div class="header">
+Hangman
+  </div>
+
+<script src="/myproject/js/settings.js"></script>
+
+  <script>
+    (function () {
+
+      function initHeader() {
+        if (!window.vars) return false;
+
+        if (window.vars.CSSVAR) {
+          const mainLink = document.getElementById("mainStylesheet");
+          if (mainLink) {
+            mainLink.href = window.vars.APATHVAR + "style.css?v=1.0";
+          }
+        }
+
+        window.updatePageTitle = function () {
+          const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
+
+          const fullTitle =
+            (window.vars.WEBSITETITLE || "") +
+            (pageTitle ? " - " + pageTitle : "");
+
+          document.title = fullTitle;
+
+          const titleEl = document.getElementById("pageTitle");
+          if (titleEl) titleEl.textContent = fullTitle;
+        };
+
+        if (window.updatePageTitle) {
+          window.updatePageTitle();
+        }
+
+        return true;
+      }
+
+      function waitForVars() {
+        if (!initHeader()) {
+          setTimeout(waitForVars, 50);
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", waitForVars);
+      } else {
+        waitForVars();
+      }
+
+    })();
+  </script>
+</header>
+
+<body>

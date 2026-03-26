@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+[include file=includes/vars.inc][!]
+<script src="/citi/coding/2026/2/ak/lessons/assignments/hangman/js/vars.js"></script>
+<script src="/citi/coding/2026/2/ak/lessons/assignments/hangman/js/includeengine.js"></script>
+<head>
+<meta charset="UTF-8">
+<script>let PAGETITLE="Splash Screen";</script>
+<title id="pageTitle"></title>
+</head>
+
+
+<div id="header"></div>[/!]
+[INCLUDE FILE=[AINCVAR]header.html]
+[include file=[AINCVAR]nav.inc]
+<main>
+<div id="left">AA</div>
+<article>
+[date] - [time]<br><br>
+
+
+[include file=hangman.svg]
+</article>
+ </main> 
+[hideif [thisurl]^/citi/coding/]
+<footer id="footer"></footer>
+<script>
+IncludeEngine.load([
+  { id: "header", file: "header.html" },
+  { id: "footer", file: "footer.html" }
+]);
+</script>
+[/hideif]
+[INCLUDE FILE=[AINCVAR]footer.html]
+</HTML>

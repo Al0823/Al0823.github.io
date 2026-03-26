@@ -1,0 +1,6 @@
+[text]apathvar=/citi/coding/2026/2/ak/lessons/assignments/hangman/[/text]
+[text]dpathvar=/citi/coding/2026/2/ds/lessons/assignments/hangman/[/text]
+[text]aincvar=/citi/coding/2026/2/ak/lessons/assignments/hangman/includes/[/text]
+[text]dincvar=/citi/coding/2026/2/ds/lessons/assignments/hangman/includes/[/text]
+[text]adbvar=/citi/coding/2026/2/ak/lessons/assignments/hangman/includes/[/text]
+[text]ddbvar=/citi/coding/2026/2/ds/lessons/assignments/hangman/includes/[/text]

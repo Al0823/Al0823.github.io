@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+[include file=includes/vars.inc][!]
+<script src="/citi/coding/2026/2/ak/lessons/assignments/hangman/js/vars.js"></script>
+<script src="/citi/coding/2026/2/ak/lessons/assignments/hangman/js/includeengine.js"></script>
+<head>
+<meta charset="UTF-8">
+<script>let PAGETITLE="Splash Screen";</script>
+<title id="pageTitle"></title>
+</head>
+
+
+<div id="header"></div>[/!]
+[INCLUDE FILE=[AINCVAR]header.html]
+[include file=[AINCVAR]nav.inc]
+<main>
+<div id="left"></div>
+<article>
+
+    <hr>
+    <div class="fs-15">Website theme</div>
+    <hr><br><br>
+
+    <div class="fs-10">
+      <label for="themeSelect">Choose theme:</label><br><br>
+      <select id="themeSelect">
+        <option value="original">Original site colors</option>
+        <option value="light">Light mode</option>
+        <option value="dark">Dark mode</option>
+      </select>
+
+     <script>
+(function () {
+  const storageKey = "site-theme";
+
+  function applyTheme(theme) {
+    document.documentElement.classList.remove("theme-light", "theme-dark");
+    if (theme === "light") {
+      document.documentElement.classList.add("theme-light");
+    } else if (theme === "dark") {
+      document.documentElement.classList.add("theme-dark");
+    }
+   
+  }
+
+  
+  const savedTheme = localStorage.getItem(storageKey);
+
+  if (savedTheme) {
+   
+    applyTheme(savedTheme);
+  } else {
+    
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      applyTheme("dark");
+    } else {
+      applyTheme("original"); 
+    }
+  }
+
+
+  const select = document.getElementById("themeSelect");
+  if (select) {
+   
+    select.value = savedTheme || "original";
+
+
+    select.addEventListener("change", function () {
+      const theme = this.value;
+      localStorage.setItem(storageKey, theme); 
+      applyTheme(theme);
+    });
+  }
+})();
+</script>
+    </div>
+
+    <hr>
+</article>
+ </main> 
+ [hideif [thisurl]^/citi/coding/]
+ <footer id="footer"></footer>
+
+<script>
+IncludeEngine.load([
+  { id: "header", file: "header.html" },
+  { id: "nav", file: "nav.html" },
+  { id: "footer", file: "footer.html" }
+]);
+</script>[/hideif]
+</body>
+</HTML>

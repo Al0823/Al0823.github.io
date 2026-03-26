@@ -1,0 +1,47 @@
+[include file=/citi/coding/2026/2/ds/lessons/assignments/hangman/includes/vars.inc]
+<!DOCTYPE HTML>
+<html lang="en">
+<style>
+.temp-container {display: flex; flex-wrap: nowrap; background-color: #fff;}
+.temp-container > div {background-color: #fff; width: 50%; margin: 10px; text-align: center; font-size: 30px;}
+</style>
+
+
+
+<div class="temp-container">
+	<div>
+		<form method="post" action="confirm.html">
+			<input type="hidden" name="action" value="login" >
+			<fieldset>
+				<legend><div>Already a member? - Log in</div></legend>
+				<label for="uname">Username:</label><br>
+				<input type="text" id="uname" name="uname" placeholder="Username" required><br>
+				<label for="pword">Password:</label><br>
+				<input type="text" id="pword" name="pword" placeholder="Password" required><br>
+				<input type="submit" value="Submit" style="width: 150px;">
+			</fieldset>
+		</form>
+	</div>
+
+	<div>
+		<form action="confirm.html" method="post">
+			<fieldset>
+				<input type="hidden" name="action" value="signup" >
+				<legend><div>Become a Member - Sign Up</div></legend>
+				<label for="fname">First name:</label><br>
+				<input type="text" id="fname" name="fname" placeholder="First Name" required><br>
+				<label for="lname">Last name:</label><br>
+				<input type="text" id="lname" name="lname" placeholder="Last Name" required><br>
+				<label for="email">Email:</label><br>
+				<input type="email" id="email" name="email" placeholder="Email" required><br>
+				<label for="uname">Username:</label><br>
+				<input type="text" id="uname" name="uname" placeholder="Username" required><br>
+				<label for="pword">Password:</label><br>
+				<input type="password" id="pword" name="pword" placeholder="Password" required><br>
+				<input type="submit" value="Submit" style="width: 150px;">
+			</fieldset>
+		</form>
+	</div>
+</div>
+</body>
+</html>
