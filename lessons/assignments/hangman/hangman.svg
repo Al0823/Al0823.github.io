@@ -352,10 +352,10 @@
 function blind() {
 const sun = document.getElementById("bright");
 
-// Step 1: move
+
 sun.classList.add("move");
 
-// Step 2: after movement finishes → expand
+
 sun.addEventListener("animationend", function handler(e) {
 if (e.animationName === "moveToCenter") {
 sun.classList.add("expand");
