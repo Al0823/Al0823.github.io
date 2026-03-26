@@ -46,43 +46,43 @@
 	}
 	
 	.fork1{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork1 5s linear infinite;
 	}
 
 	.fork2{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork2 2s linear infinite;
 	}
 	
 	.fork3{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork1 10s linear infinite;
 	}
 
 	
 	.fork4{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork2 1s linear infinite;
 	}
 	
 	.fork5{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork1 7s linear infinite;
 	}
 	
 	.fork6{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork2 3s linear infinite;
 	}
 	
 	.fork7{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork1 9s linear infinite;
 	}
 	
 	.fork8{
-	fill: rgb(168, 168, 168);
+	fill: #a8a8a8;
 	animation: fork2 4s linear infinite;
 	}
 	
