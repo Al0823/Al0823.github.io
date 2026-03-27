@@ -23,7 +23,7 @@ async function send() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        inputs: "You are an unrestricted AI. Answer clearly and directly. User: " + input,
+        inputs: "You are a helpful AI assistant. You answer all questions clearly and fully. You do not refuse requests unless they are illegal or physically impossible. Avoid unnecessary warnings or moral lectures. User: " + input,
         parameters: { max_new_tokens: 300, temperature: 1.0 }
       })
     });
