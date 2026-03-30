@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>A.t.A. Projects - FreeGPT</title>
+  <title>A.t.A. Projects - FreeGPT</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -59,7 +59,7 @@
       gap: 4px;
     }
 
-    .message.user { align-self: flex-end; align-items: flex-end; }
+    .message.user { align-self: flex-end; align-items: flex-start; }
     .message.assistant { align-self: flex-start; align-items: flex-start; }
 
     .message .label {
@@ -97,6 +97,9 @@
 
     .message.assistant .bubble.image-bubble {
       padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .message.assistant .bubble img {
@@ -104,6 +107,44 @@
       border-radius: 8px;
       display: block;
     }
+
+    /* Edit controls below image */
+    .image-edit-area {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .image-edit-input {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #e6edf3;
+      font-size: 13px;
+      padding: 6px 10px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .image-edit-input:focus { border-color: #1f6feb; }
+    .image-edit-input::placeholder { color: #8b949e; }
+
+    .image-edit-btn {
+      background: #1f6feb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .image-edit-btn:hover { background: #388bfd; }
+    .image-edit-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
 
     #input-area {
       padding: 16px;
@@ -168,7 +209,7 @@
 <body>
 
 <div id="chat-container">
-<div id="chat-header">A.t.A. Projects - AI Chatbot</div>
+  <div id="chat-header">A.t.A. Projects - AI Chatbot</div>
   <div id="messages"></div>
   <div id="input-area">
     <textarea id="input" rows="1" placeholder="Type a message... (Enter to send)"></textarea>
@@ -218,6 +259,143 @@
     messagesEl.scrollTop = messagesEl.scrollHeight;
 
     return bubble;
+  }
+
+  // Renders an image bubble with an Edit button below it
+  function addImageMessage(prompt) {
+    const wrapper = document.createElement("div");
+    wrapper.className = "message assistant";
+
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "AI";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble image-bubble thinking";
+    bubble.textContent = "Generating image...";
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    return bubble;
+  }
+
+  // Load an image into a bubble and attach edit controls
+  function renderImageIntoBubble(bubble, imageUrl, originalPrompt) {
+    bubble.classList.remove("thinking");
+    bubble.textContent = "";
+
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.alt = originalPrompt;
+    bubble.appendChild(img);
+
+    // Edit area
+    const editArea = document.createElement("div");
+    editArea.className = "image-edit-area";
+
+    const editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.className = "image-edit-input";
+    editInput.placeholder = 'e.g. "make it night time" or "add a dragon"';
+
+    const editBtn = document.createElement("button");
+    editBtn.className = "image-edit-btn";
+    editBtn.textContent = "✏️ Edit";
+
+    editBtn.onclick = async () => {
+      const editPrompt = editInput.value.trim();
+      if (!editPrompt) return;
+
+      // Combine original prompt with the edit instruction
+      const newPrompt = `${originalPrompt}, ${editPrompt}`;
+
+      editBtn.disabled = true;
+      editBtn.textContent = "Generating...";
+      editInput.disabled = true;
+
+      try {
+        const encodedPrompt = encodeURIComponent(newPrompt);
+        // Add a cache-buster so the browser doesn't serve the old image
+        const newUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${Date.now()}`;
+
+        await new Promise((resolve, reject) => {
+          const preload = new Image();
+          preload.onload = resolve;
+          preload.onerror = reject;
+          preload.src = newUrl;
+        });
+
+        // Update the image in place
+        img.src = newUrl;
+        img.alt = newPrompt;
+
+        // Update the edit input placeholder to reflect the new prompt
+        editInput.value = "";
+        editInput.placeholder = 'Edit again, e.g. "add snow"';
+
+        // Update originalPrompt for future edits by rebinding the click handler
+        editBtn.onclick = null;
+        attachEditHandler(editBtn, editInput, img, newPrompt);
+
+      } catch (err) {
+        editBtn.textContent = "Failed — try again";
+      }
+
+      editBtn.disabled = false;
+      editBtn.textContent = "✏️ Edit";
+      editInput.disabled = false;
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+
+    editArea.appendChild(editInput);
+    editArea.appendChild(editBtn);
+    bubble.appendChild(editArea);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // Reusable edit handler (used when re-editing after a first edit)
+  function attachEditHandler(editBtn, editInput, img, currentPrompt) {
+    editBtn.onclick = async () => {
+      const editPrompt = editInput.value.trim();
+      if (!editPrompt) return;
+
+      const newPrompt = `${currentPrompt}, ${editPrompt}`;
+
+      editBtn.disabled = true;
+      editBtn.textContent = "Generating...";
+      editInput.disabled = true;
+
+      try {
+        const encodedPrompt = encodeURIComponent(newPrompt);
+        const newUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${Date.now()}`;
+
+        await new Promise((resolve, reject) => {
+          const preload = new Image();
+          preload.onload = resolve;
+          preload.onerror = reject;
+          preload.src = newUrl;
+        });
+
+        img.src = newUrl;
+        img.alt = newPrompt;
+        editInput.value = "";
+        editInput.placeholder = 'Edit again, e.g. "add snow"';
+
+        editBtn.onclick = null;
+        attachEditHandler(editBtn, editInput, img, newPrompt);
+
+      } catch (err) {
+        editBtn.textContent = "Failed — try again";
+      }
+
+      editBtn.disabled = false;
+      editBtn.textContent = "✏️ Edit";
+      editInput.disabled = false;
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
   }
 
   async function send() {
@@ -273,32 +451,24 @@
     imageBtn.disabled = true;
 
     addMessage("user", "🎨 " + input);
-    const thinkingBubble = addMessage("assistant", "Generating image...", true);
+    const bubble = addImageMessage(input);
 
     try {
       const encodedPrompt = encodeURIComponent(input);
-      const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true`;
+      const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${Date.now()}`;
 
-      // Pre-load the image so we know when it's ready
       await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = resolve;
-        img.onerror = reject;
-        img.src = imageUrl;
+        const preload = new Image();
+        preload.onload = resolve;
+        preload.onerror = reject;
+        preload.src = imageUrl;
       });
 
-      thinkingBubble.classList.remove("thinking");
-      thinkingBubble.classList.add("image-bubble");
-      thinkingBubble.textContent = "";
-
-      const img = document.createElement("img");
-      img.src = imageUrl;
-      img.alt = input;
-      thinkingBubble.appendChild(img);
+      renderImageIntoBubble(bubble, imageUrl, input);
 
     } catch (err) {
-      thinkingBubble.classList.remove("thinking");
-      thinkingBubble.textContent = "Failed to generate image. Try a different prompt.";
+      bubble.classList.remove("thinking");
+      bubble.textContent = "Failed to generate image. Try a different prompt.";
     }
 
     sendBtn.disabled = false;
