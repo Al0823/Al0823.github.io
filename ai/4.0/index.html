@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>A.t.A. Projects - FreeGPT</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #chat-container {
+      width: 100%;
+      max-width: 720px;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    #chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #30363d;
+      font-weight: 600;
+      font-size: 15px;
+      color: #e6edf3;
+      background: #161b22;
+    }
+
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #messages::-webkit-scrollbar { width: 6px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+    #messages::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      max-width: 85%;
+      gap: 4px;
+    }
+
+    .message.user { align-self: flex-end; align-items: flex-end; }
+    .message.assistant { align-self: flex-start; align-items: flex-start; }
+
+    .message .label {
+      font-size: 11px;
+      color: #8b949e;
+      padding: 0 4px;
+    }
+
+    .message .bubble {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .message.user .bubble {
+      background: #238636;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .message.assistant .bubble {
+      background: #21262d;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-bottom-left-radius: 4px;
+    }
+
+    .message.assistant .bubble.thinking {
+      color: #8b949e;
+      font-style: italic;
+    }
+
+    .message.assistant .bubble.image-bubble {
+      padding: 8px;
+    }
+
+    .message.assistant .bubble img {
+      max-width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    #input-area {
+      padding: 16px;
+      border-top: 1px solid #30363d;
+      display: flex;
+      gap: 10px;
+      background: #161b22;
+    }
+
+    #input {
+      flex: 1;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #e6edf3;
+      font-size: 14px;
+      padding: 10px 14px;
+      resize: none;
+      outline: none;
+      font-family: inherit;
+      line-height: 1.5;
+      max-height: 120px;
+    }
+
+    #input:focus { border-color: #238636; }
+    #input::placeholder { color: #8b949e; }
+
+    #send-btn {
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      align-self: flex-end;
+    }
+
+    #send-btn:hover { background: #2ea043; }
+    #send-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+
+    #image-btn {
+      background: #1f6feb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      align-self: flex-end;
+      white-space: nowrap;
+    }
+
+    #image-btn:hover { background: #388bfd; }
+    #image-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+<div id="chat-container">
+<div id="chat-header">A.t.A. Projects - AI Chatbot</div>
+  <div id="messages"></div>
+  <div id="input-area">
+    <textarea id="input" rows="1" placeholder="Type a message... (Enter to send)"></textarea>
+    <button id="image-btn" onclick="generateImage()">🎨 Image</button>
+    <button id="send-btn" onclick="send()">Send</button>
+  </div>
+</div>
+
+<script>
+  const WORKER_URL = "https://githubai-relay.akonyswoodard.workers.dev";
+
+  const messagesEl = document.getElementById("messages");
+  const inputEl = document.getElementById("input");
+  const sendBtn = document.getElementById("send-btn");
+  const imageBtn = document.getElementById("image-btn");
+  const history = [];
+
+  // Auto-resize textarea
+  inputEl.addEventListener("input", () => {
+    inputEl.style.height = "auto";
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
+  });
+
+  // Send on Enter (Shift+Enter for newline)
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  });
+
+  function addMessage(role, text, isThinking = false) {
+    const wrapper = document.createElement("div");
+    wrapper.className = `message ${role}`;
+
+    const label = document.createElement("div");
+    label.className = "label";
+    label.textContent = role === "user" ? "You" : "AI";
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble" + (isThinking ? " thinking" : "");
+    bubble.textContent = text;
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    return bubble;
+  }
+
+  async function send() {
+    const input = inputEl.value.trim();
+    if (!input) return;
+
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    sendBtn.disabled = true;
+    imageBtn.disabled = true;
+
+    addMessage("user", input);
+    const thinkingBubble = addMessage("assistant", "Thinking...", true);
+
+    try {
+      history.push({ role: "user", content: input });
+
+      const response = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history })
+      });
+
+      const data = await response.json();
+      const text = data.reply || data.error || JSON.stringify(data);
+
+      history.push({ role: "assistant", content: text });
+
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = text || "(No response)";
+
+    } catch (err) {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Error: " + err.message;
+    }
+
+    sendBtn.disabled = false;
+    imageBtn.disabled = false;
+    inputEl.focus();
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  async function generateImage() {
+    const input = inputEl.value.trim();
+    if (!input) {
+      alert("Type an image description first.");
+      return;
+    }
+
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    sendBtn.disabled = true;
+    imageBtn.disabled = true;
+
+    addMessage("user", "🎨 " + input);
+    const thinkingBubble = addMessage("assistant", "Generating image...", true);
+
+    try {
+      const encodedPrompt = encodeURIComponent(input);
+      const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true`;
+
+      // Pre-load the image so we know when it's ready
+      await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = imageUrl;
+      });
+
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.classList.add("image-bubble");
+      thinkingBubble.textContent = "";
+
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = input;
+      thinkingBubble.appendChild(img);
+
+    } catch (err) {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Failed to generate image. Try a different prompt.";
+    }
+
+    sendBtn.disabled = false;
+    imageBtn.disabled = false;
+    inputEl.focus();
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+</script>
+</body>
+</html>
