@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>A.t.A. Projects - FreeGPT</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -108,7 +108,6 @@
       display: block;
     }
 
-    /* Edit controls below image */
     .image-edit-area {
       display: flex;
       gap: 6px;
@@ -213,7 +212,7 @@
   <div id="messages"></div>
   <div id="input-area">
     <textarea id="input" rows="1" placeholder="Type a message... (Enter to send)"></textarea>
-    <button id="image-btn" onclick="generateImage()">🎨 Image</button>
+<button id="image-btn" onclick="generateImage()">🎨 Image</button>
     <button id="send-btn" onclick="send()">Send</button>
   </div>
 </div>
@@ -227,13 +226,11 @@
   const imageBtn = document.getElementById("image-btn");
   const history = [];
 
-  // Auto-resize textarea
   inputEl.addEventListener("input", () => {
     inputEl.style.height = "auto";
     inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
   });
 
-  // Send on Enter (Shift+Enter for newline)
   inputEl.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -261,7 +258,6 @@
     return bubble;
   }
 
-  // Renders an image bubble with an Edit button below it
   function addImageMessage(prompt) {
     const wrapper = document.createElement("div");
     wrapper.className = "message assistant";
@@ -282,7 +278,6 @@
     return bubble;
   }
 
-  // Load an image into a bubble and attach edit controls
   function renderImageIntoBubble(bubble, imageUrl, originalPrompt) {
     bubble.classList.remove("thinking");
     bubble.textContent = "";
@@ -292,7 +287,6 @@
     img.alt = originalPrompt;
     bubble.appendChild(img);
 
-    // Edit area
     const editArea = document.createElement("div");
     editArea.className = "image-edit-area";
 
@@ -309,7 +303,6 @@
       const editPrompt = editInput.value.trim();
       if (!editPrompt) return;
 
-      // Combine original prompt with the edit instruction
       const newPrompt = `${originalPrompt}, ${editPrompt}`;
 
       editBtn.disabled = true;
@@ -318,7 +311,6 @@
 
       try {
         const encodedPrompt = encodeURIComponent(newPrompt);
-        // Add a cache-buster so the browser doesn't serve the old image
         const newUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${Date.now()}`;
 
         await new Promise((resolve, reject) => {
@@ -328,15 +320,12 @@
           preload.src = newUrl;
         });
 
-        // Update the image in place
         img.src = newUrl;
         img.alt = newPrompt;
 
-        // Update the edit input placeholder to reflect the new prompt
         editInput.value = "";
         editInput.placeholder = 'Edit again, e.g. "add snow"';
 
-        // Update originalPrompt for future edits by rebinding the click handler
         editBtn.onclick = null;
         attachEditHandler(editBtn, editInput, img, newPrompt);
 
@@ -356,7 +345,6 @@
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
-  // Reusable edit handler (used when re-editing after a first edit)
   function attachEditHandler(editBtn, editInput, img, currentPrompt) {
     editBtn.onclick = async () => {
       const editPrompt = editInput.value.trim();
