@@ -151,77 +151,81 @@
 
 <script>
   const WORKER_URL = "https://githubai-relay.akonyswoodard.workers.dev";
- 
+
   const messagesEl = document.getElementById("messages");
   const inputEl = document.getElementById("input");
   const sendBtn = document.getElementById("send-btn");
   const history = [];
 
+  // Auto-resize textarea
   inputEl.addEventListener("input", () => {
     inputEl.style.height = "auto";
     inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
   });
 
+  // Send on Enter (Shift+Enter for newline)
   inputEl.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       send();
     }
   });
- 
+
   function addMessage(role, text, isThinking = false) {
     const wrapper = document.createElement("div");
     wrapper.className = `message ${role}`;
- 
+
     const label = document.createElement("div");
     label.className = "label";
     label.textContent = role === "user" ? "You" : "AI";
- 
+
     const bubble = document.createElement("div");
     bubble.className = "bubble" + (isThinking ? " thinking" : "");
     bubble.textContent = text;
- 
+
     wrapper.appendChild(label);
     wrapper.appendChild(bubble);
     messagesEl.appendChild(wrapper);
     messagesEl.scrollTop = messagesEl.scrollHeight;
- 
-    return bubble;
+
+    return bubble; // return so we can update it
   }
- 
+
   async function send() {
     const input = inputEl.value.trim();
     if (!input) return;
- 
+
     inputEl.value = "";
     inputEl.style.height = "auto";
     sendBtn.disabled = true;
- 
+
     addMessage("user", input);
     const thinkingBubble = addMessage("assistant", "Thinking...", true);
- 
+
     try {
+      // Add user message to history
       history.push({ role: "user", content: input });
- 
+
       const response = await fetch(WORKER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: history })
       });
- 
+
       const data = await response.json();
       const text = data.reply || data.error || JSON.stringify(data);
 
+      // Add AI reply to history
       history.push({ role: "assistant", content: text });
- 
+
       thinkingBubble.classList.remove("thinking");
       thinkingBubble.textContent = text || "(No response)";
- 
+
     } catch (err) {
       thinkingBubble.classList.remove("thinking");
       thinkingBubble.textContent = "Error: " + err.message;
     }
- 
+
     sendBtn.disabled = false;
     inputEl.focus();
     messagesEl.scrollTop = messagesEl.scrollHeight;
