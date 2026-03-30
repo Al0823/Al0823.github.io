@@ -95,7 +95,6 @@
       font-style: italic;
     }
 
-    /* Image bubble */
     .bubble.image-bubble {
       padding: 10px;
       display: flex;
@@ -121,7 +120,6 @@
       display: block;
     }
 
-    /* Prompt label under image */
     .image-prompt-label {
       font-size: 11px;
       color: #8b949e;
@@ -130,7 +128,6 @@
       word-break: break-word;
     }
 
-    /* Loading spinner */
     .spinner-wrap {
       display: flex;
       flex-direction: column;
@@ -153,7 +150,6 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Image action bar: download + format + edit */
     .image-actions {
       display: flex;
       gap: 6px;
@@ -183,7 +179,7 @@
       cursor: pointer;
       transition: background 0.15s;
       white-space: nowrap;
-      color: #fff;
+      color: #ffffff;
     }
 
     .download-btn { background: #238636; }
@@ -192,7 +188,7 @@
     .edit-toggle-btn:hover { background: #8957e5; }
     .action-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
 
-    /* Edit area */
+
     .image-edit-area {
       display: flex;
       gap: 6px;
@@ -232,7 +228,6 @@
     .image-edit-btn:hover { background: #388bfd; }
     .image-edit-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
 
-    /* Input area */
     #input-area {
       padding: 16px;
       border-top: 1px solid #30363d;
@@ -280,7 +275,6 @@
     #upload-btn:hover { background: #8957e5; }
     .toolbar-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
 
-    /* Upload preview strip */
     #upload-preview-wrap {
       display: none;
       padding: 8px 16px 0;
@@ -629,7 +623,6 @@
         return function() { convertAndDownload(imgRef, selectRef.value, promptRef); };
       })(imgEl, formatSelect, newPrompt);
 
-      // Re-bind edit with new prompt
       editBtn.onclick = function() {
         var ep = editInput.value.trim();
         if (!ep) return;
