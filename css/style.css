@@ -11,14 +11,14 @@
 
 :root {
   --bg: rgb(175,175,175);
-  --bg-soft: rgb(200,200,200);
+  --bg-soft: #c8c8c8;
   --bg-softer: rgb(230,230,230);
   --panel: rgba(150,150,150,.7);
 
   --header-bg: rgb(75,75,75);
   --footer-bg: rgb(75,75,75);
 
-  --border: rgb(100,100,100);
+  --border: #646464;
   --divider: rgb(125,125,125);
 
   --text: rgb(0,0,0);
