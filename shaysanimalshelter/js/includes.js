@@ -1,9 +1,9 @@
 (function () {
 
-  var win = window;
-  var doc = document;
+var win = window;
+var doc = document;
 
-  function loadInclude(targetId, url, callback) {
+function loadInclude(targetId, url, callback) {
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
@@ -84,6 +84,6 @@
     }
   } else {
     loadIncludes();
-  }
+}
 
 })();
