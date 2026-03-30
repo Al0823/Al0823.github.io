@@ -743,16 +743,16 @@
         thinkingBubble.textContent = "Error parsing response.";
       }
       setButtons(false);
-      inputEl.focus();
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    };
-    xhr.onerror = function() {
-      thinkingBubble.classList.remove("thinking");
-      thinkingBubble.textContent = "Network error.";
-      setButtons(false);
-    };
-    xhr.send(JSON.stringify({ messages: history }));
-  }
+inputEl.focus();
+messagesEl.scrollTop = messagesEl.scrollHeight;
+};
+xhr.onerror = function() {
+thinkingBubble.classList.remove("thinking");
+thinkingBubble.textContent = "Network error.";
+setButtons(false);
+};
+xhr.send(JSON.stringify({ messages: history }));
+}
 </script>
 </body>
 </html>

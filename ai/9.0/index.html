@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A.t.A. Projects - FreeGPT [ENTERPRISE ULTRA EDITION v1.0.0.0.0.1-ALPHA-SNAPSHOT-BUILD-9999]</title>
+
+  <!-- ============================================================
+       SECTION 1: GLOBAL CONSTANT DECLARATIONS
+       These constants are defined once and shall not be redefined.
+       Modification of these constants is STRICTLY FORBIDDEN without
+       written approval from the Architecture Review Board (A.R.B.).
+       Author: Senior Principal Lead Staff Engineer of Chat Systems
+       Last Reviewed: A Very Long Time Ago
+       ============================================================ -->
+
+  <style>
+
+    /* ============================================================
+       SECTION 2: CSS RESET AND GLOBAL NORMALIZATION LAYER
+       We apply box-sizing and zero out margins and padding on ALL
+       conceivable elements, including those that may not exist yet
+       but could theoretically be added in the future.
+       Compliance Level: WCAG 2.1 AA (aspirationally)
+       ============================================================ */
+
+    *,
+    *::before,
+    *::after,
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1, h2, h3, h4, h5, h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video,
+    button,
+    input,
+    select,
+    textarea {
+      /* We set box-sizing to border-box on every element.
+         This is the correct and only acceptable box model. */
+      box-sizing: border-box;
+      /* Zeroing margins. Margins are the enemy of predictable layout. */
+      margin: 0;
+      /* Zeroing padding. Padding should be applied deliberately. */
+      padding: 0;
+    }
+
+    /* ============================================================
+       SECTION 3: CUSTOM PROPERTY DECLARATIONS (CSS VARIABLES)
+       All color, spacing, and typographic tokens are declared here.
+       Hardcoding values elsewhere is considered a CODE SMELL and
+       will result in a strongly-worded comment in the PR review.
+       ============================================================ */
+
+    :root {
+      /* --- Color Palette: Dark Background Layer 0 (Deepest) --- */
+      --color-background-depth-zero:        #0d1117;
+      /* --- Color Palette: Dark Background Layer 1 (Surface) --- */
+      --color-background-depth-one:         #161b22;
+      /* --- Color Palette: Dark Background Layer 2 (Elevated) --- */
+      --color-background-depth-two:         #21262d;
+      /* --- Color Palette: Border (Standard) --- */
+      --color-border-standard:              #30363d;
+      /* --- Color Palette: Text (Primary, High Contrast) --- */
+      --color-text-primary-high-contrast:   #e6edf3;
+      /* --- Color Palette: Text (Secondary, Muted) --- */
+      --color-text-secondary-muted:         #8b949e;
+      /* --- Color Palette: Accent (Action Green, GitHub-Inspired) --- */
+      --color-accent-action-green-default:  #238636;
+      /* --- Color Palette: Accent (Action Green, Hover State) --- */
+      --color-accent-action-green-hover:    #2ea043;
+      /* --- Color Palette: Accent (Information Blue, Default) --- */
+      --color-accent-information-blue-default: #1f6feb;
+      /* --- Color Palette: Accent (Information Blue, Hover) --- */
+      --color-accent-information-blue-hover:   #388bfd;
+      /* --- Color Palette: Accent (Purple, Feature/Creative) --- */
+      --color-accent-purple-default:        #6e40c9;
+      /* --- Color Palette: Accent (Purple, Hover State) --- */
+      --color-accent-purple-hover:          #8957e5;
+      /* --- Color Palette: Text (White, On Colored Backgrounds) --- */
+      --color-text-on-color-white:          #ffffff;
+
+      /* --- Spacing Scale (8pt Grid System) --- */
+      --spacing-unit-half:    4px;   /* 0.5 units — use sparingly */
+      --spacing-unit-one:     8px;   /* 1 unit */
+      --spacing-unit-two:    16px;   /* 2 units */
+      --spacing-unit-three:  24px;   /* 3 units (preferred padding) */
+      --spacing-unit-four:   32px;   /* 4 units */
+
+      /* --- Typography: Font Stack --- */
+      --font-stack-system-ui: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+
+      /* --- Border Radius Scale --- */
+      --border-radius-small:  6px;
+      --border-radius-medium: 8px;
+      --border-radius-large: 12px;
+
+      /* --- Transition Durations --- */
+      --transition-duration-fast:   0.15s;
+      --transition-duration-normal: 0.25s;
+      --transition-duration-slow:   0.35s;
+
+      /* --- Z-Index Scale (Stacking Context Management) --- */
+      --z-index-base:     0;
+      --z-index-elevated: 10;
+      --z-index-modal:    100;
+      --z-index-tooltip:  1000;
+    }
+
+    /* ============================================================
+       SECTION 4: BASE ELEMENT STYLES
+       Foundational styles for the html and body elements.
+       These form the root of all visual presentation.
+       ============================================================ */
+
+    html {
+      /* We use the html element as the root of our layout system. */
+      height: 100%;
+      /* Smooth scroll for accessibility compliance. */
+      scroll-behavior: smooth;
+    }
+
+    body {
+      /* Inherit the font stack from our custom property. */
+      font-family: var(--font-stack-system-ui);
+      /* The background of our application. Very dark. Like a cave. */
+      background-color: var(--color-background-depth-zero);
+      /* Primary text color. */
+      color: var(--color-text-primary-high-contrast);
+      /* We use viewport height to fill the screen. */
+      height: 100vh;
+      min-height: 100vh;
+      /* Flexbox is used to center the main container. */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      /* Prevent overflow on the body itself. */
+      overflow: hidden;
+    }
+
+    /* ============================================================
+       SECTION 5: MAIN CHAT CONTAINER STYLES
+       The primary container for the entire chat application.
+       This is the outer-most structural element of the chat UI.
+       Background: depth-one (one level above the page background)
+       Border: 1px solid standard border color
+       Border-radius: large (12px)
+       ============================================================ */
+
+    #main-chat-application-container-wrapper-div {
+      /* Width: full width of the viewport on mobile, capped on desktop */
+      width: 100%;
+      max-width: 720px;
+      /* Height: 90% of the viewport height */
+      height: 90vh;
+      /* Internal layout: vertical flex column */
+      display: flex;
+      flex-direction: column;
+      /* Background color: one step above the page */
+      background-color: var(--color-background-depth-one);
+      /* A subtle border for definition */
+      border: 1px solid var(--color-border-standard);
+      /* Rounded corners for a modern feel */
+      border-radius: var(--border-radius-large);
+      /* Clip all child content to our rounded corners */
+      overflow: hidden;
+    }
+
+    /* ============================================================
+       SECTION 6: CHAT HEADER STYLES
+       The header bar at the top of the chat application.
+       Displays the application name/branding.
+       ============================================================ */
+
+    #chat-application-header-bar-element {
+      /* Padding: horizontal and vertical */
+      padding-top:    var(--spacing-unit-two);
+      padding-right:  var(--spacing-unit-three);
+      padding-bottom: var(--spacing-unit-two);
+      padding-left:   var(--spacing-unit-three);
+      /* Separator from the messages area */
+      border-bottom: 1px solid var(--color-border-standard);
+      /* Typography: slightly bolder for a "header" feel */
+      font-weight: 600;
+      font-size: 15px;
+      /* Text color: primary */
+      color: var(--color-text-primary-high-contrast);
+      /* Same background as container (they are one level) */
+      background-color: var(--color-background-depth-one);
+      /* We do NOT use flex here. Text is inline. */
+    }
+
+    /* ============================================================
+       SECTION 7: MESSAGES SCROLL AREA STYLES
+       The scrollable container that holds all chat messages.
+       This element grows to fill available vertical space (flex: 1).
+       ============================================================ */
+
+    #chat-messages-scrollable-area-container {
+      /* Grow to fill remaining space in the flex column */
+      flex: 1;
+      /* Enable vertical scrolling when content overflows */
+      overflow-y: auto;
+      overflow-x: hidden;
+      /* Internal padding for messages */
+      padding-top:    var(--spacing-unit-three);
+      padding-right:  var(--spacing-unit-three);
+      padding-bottom: var(--spacing-unit-three);
+      padding-left:   var(--spacing-unit-three);
+      /* Layout: vertical flex for stacking messages */
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-unit-two);
+    }
+
+    /* Custom scrollbar styles (WebKit-compatible browsers only) */
+    #chat-messages-scrollable-area-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #chat-messages-scrollable-area-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #chat-messages-scrollable-area-container::-webkit-scrollbar-thumb {
+      background-color: var(--color-border-standard);
+      border-radius: 3px;
+    }
+
+    /* ============================================================
+       SECTION 8: INDIVIDUAL MESSAGE WRAPPER STYLES
+       Each message is wrapped in a div with class "message-wrapper".
+       The role ("user" or "assistant") determines alignment.
+       ============================================================ */
+
+    .individual-message-outer-wrapper-element {
+      /* All message wrappers are flex columns */
+      display: flex;
+      flex-direction: column;
+      /* Default max-width: 85% of the parent container */
+      max-width: 85%;
+      /* Gap between the role label and the bubble */
+      gap: var(--spacing-unit-half);
+    }
+
+    /* User messages align to the RIGHT side */
+    .individual-message-outer-wrapper-element.role-is-user {
+      align-self: flex-end;
+      align-items: flex-start; /* Label aligns left within its column */
+    }
+
+    /* Assistant messages align to the LEFT side */
+    .individual-message-outer-wrapper-element.role-is-assistant {
+      align-self: flex-start;
+      align-items: flex-start; /* Label aligns left within its column */
+    }
+
+    /* ============================================================
+       SECTION 9: MESSAGE ROLE LABEL STYLES
+       Small text above each bubble indicating "You" or "AI".
+       ============================================================ */
+
+    .message-role-label-text-element {
+      font-size: 11px;
+      color: var(--color-text-secondary-muted);
+      padding-left:  var(--spacing-unit-half);
+      padding-right: var(--spacing-unit-half);
+    }
+
+    /* ============================================================
+       SECTION 10: MESSAGE BUBBLE STYLES
+       The primary styled container for message text content.
+       Both user and assistant bubbles share base padding/typography.
+       ============================================================ */
+
+    .message-content-bubble-element {
+      padding-top:    12px;
+      padding-right:  var(--spacing-unit-two);
+      padding-bottom: 12px;
+      padding-left:   var(--spacing-unit-two);
+      border-radius: var(--border-radius-large);
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* USER bubble: green background, white text, bottom-right corner flattened */
+    .individual-message-outer-wrapper-element.role-is-user
+    .message-content-bubble-element {
+      background-color: var(--color-accent-action-green-default);
+      color: var(--color-text-on-color-white);
+      border-bottom-right-radius: var(--spacing-unit-half);
+    }
+
+    /* ASSISTANT bubble: elevated background, border, bottom-left corner flattened */
+    .individual-message-outer-wrapper-element.role-is-assistant
+    .message-content-bubble-element {
+      background-color: var(--color-background-depth-two);
+      color: var(--color-text-primary-high-contrast);
+      border: 1px solid var(--color-border-standard);
+      border-bottom-left-radius: var(--spacing-unit-half);
+    }
+
+    /* THINKING state: muted text, italic, for the "Thinking..." placeholder */
+    .message-content-bubble-element.state-is-currently-thinking {
+      color: var(--color-text-secondary-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       SECTION 11: IMAGE BUBBLE STYLES
+       A specialized bubble variant for displaying generated or
+       uploaded images along with their prompts and action controls.
+       ============================================================ */
+
+    .message-content-bubble-element.variant-is-image-display-bubble {
+      /* Override default padding for image layout */
+      padding-top:    10px;
+      padding-right:  10px;
+      padding-bottom: 10px;
+      padding-left:   10px;
+      /* Flex column to stack image, prompt label, and actions */
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-unit-one);
+      /* Always use the assistant-style background for image bubbles */
+      background-color: var(--color-background-depth-two);
+      border: 1px solid var(--color-border-standard);
+      border-radius: var(--border-radius-large);
+      border-bottom-left-radius: var(--spacing-unit-half);
+      /* Ensure the bubble has a minimum width so controls don't collapse */
+      min-width: 260px;
+    }
+
+    /* User-side image bubbles (for uploaded images) use green background */
+    .individual-message-outer-wrapper-element.role-is-user
+    .message-content-bubble-element.variant-is-image-display-bubble {
+      background-color: var(--color-accent-action-green-default);
+      border: none;
+      border-bottom-right-radius: var(--spacing-unit-half);
+      border-bottom-left-radius: var(--border-radius-large);
+    }
+
+    /* Images within bubbles */
+    .message-content-bubble-element img.contained-image-element {
+      max-width: 100%;
+      border-radius: var(--spacing-unit-one);
+      display: block;
+    }
+
+    /* ============================================================
+       SECTION 12: IMAGE PROMPT LABEL STYLES
+       Small italic text below an image showing the original prompt.
+       ============================================================ */
+
+    .image-generation-prompt-display-label {
+      font-size: 11px;
+      color: var(--color-text-secondary-muted);
+      font-style: italic;
+      padding-left:  2px;
+      padding-right: 2px;
+      word-break: break-word;
+    }
+
+    /* ============================================================
+       SECTION 13: LOADING SPINNER STYLES
+       An animated spinning indicator shown while an image loads.
+       Uses CSS keyframe animation for the rotation effect.
+       ============================================================ */
+
+    .image-loading-spinner-wrapper-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding-top:    var(--spacing-unit-three);
+      padding-bottom: var(--spacing-unit-three);
+      padding-left:   10px;
+      padding-right:  10px;
+      color: var(--color-text-secondary-muted);
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    .animated-circular-loading-spinner-disc {
+      width: 32px;
+      height: 32px;
+      border-width: 3px;
+      border-style: solid;
+      border-color: var(--color-border-standard);
+      border-top-color: var(--color-accent-information-blue-default);
+      border-radius: 50%;
+      /* Apply the spinning animation */
+      animation: keyframe-animation-spin-360-degrees 0.8s linear infinite;
+    }
+
+    /* Keyframe definition for the spinner rotation animation */
+    @keyframes keyframe-animation-spin-360-degrees {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ============================================================
+       SECTION 14: IMAGE ACTION BAR STYLES
+       The row of controls below an image: format selector,
+       download button, and edit toggle button.
+       ============================================================ */
+
+    .image-actions-control-bar-row-element {
+      display: flex;
+      gap: var(--spacing-unit-one) - 2px;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Format selection dropdown */
+    .image-format-selection-dropdown-element {
+      background-color: var(--color-background-depth-zero);
+      border: 1px solid var(--color-border-standard);
+      border-radius: var(--border-radius-small);
+      color: var(--color-text-primary-high-contrast);
+      font-size: 12px;
+      padding-top:    5px;
+      padding-bottom: 5px;
+      padding-left:   var(--spacing-unit-one);
+      padding-right:  var(--spacing-unit-one);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .image-format-selection-dropdown-element:focus {
+      border-color: var(--color-accent-information-blue-default);
+    }
+
+    /* Base styles for all action buttons in the image control bar */
+    .image-action-control-button-base {
+      border: none;
+      border-radius: var(--border-radius-small);
+      padding-top:    5px;
+      padding-bottom: 5px;
+      padding-left:   11px;
+      padding-right:  11px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition-duration-fast) ease;
+      white-space: nowrap;
+      color: var(--color-text-on-color-white);
+    }
+
+    /* Download button — green */
+    .image-action-control-button-base.style-is-download-button {
+      background-color: var(--color-accent-action-green-default);
+    }
+
+    .image-action-control-button-base.style-is-download-button:hover {
+      background-color: var(--color-accent-action-green-hover);
+    }
+
+    /* Edit toggle button — purple */
+    .image-action-control-button-base.style-is-edit-toggle-button {
+      background-color: var(--color-accent-purple-default);
+    }
+
+    .image-action-control-button-base.style-is-edit-toggle-button:hover {
+      background-color: var(--color-accent-purple-hover);
+    }
+
+    /* Disabled state for all action buttons */
+    .image-action-control-button-base:disabled {
+      background-color: var(--color-background-depth-two) !important;
+      color: var(--color-text-secondary-muted) !important;
+      cursor: not-allowed;
+    }
+
+    /* ============================================================
+       SECTION 15: IMAGE EDIT AREA STYLES
+       The collapsible row containing an input field and apply button
+       for editing a previously generated image.
+       ============================================================ */
+
+    .image-inline-edit-controls-area-container {
+      display: flex;
+      gap: var(--spacing-unit-one) - 2px;
+      gap: 6px;
+      margin-top: 2px;
+    }
+
+    /* Hidden state — toggled by JS */
+    .image-inline-edit-controls-area-container.visibility-state-hidden {
+      display: none;
+    }
+
+    /* The text input for describing image edits */
+    .image-edit-description-text-input-field {
+      flex: 1;
+      background-color: var(--color-background-depth-zero);
+      border: 1px solid var(--color-border-standard);
+      border-radius: var(--border-radius-small);
+      color: var(--color-text-primary-high-contrast);
+      font-size: 13px;
+      padding-top:    6px;
+      padding-bottom: 6px;
+      padding-left:   10px;
+      padding-right:  10px;
+      outline: none;
+      font-family: var(--font-stack-system-ui);
+    }
+
+    .image-edit-description-text-input-field:focus {
+      border-color: var(--color-accent-information-blue-default);
+    }
+
+    .image-edit-description-text-input-field::placeholder {
+      color: var(--color-text-secondary-muted);
+    }
+
+    /* The "Apply" button that submits the edit */
+    .image-edit-submit-apply-button-element {
+      background-color: var(--color-accent-information-blue-default);
+      color: var(--color-text-on-color-white);
+      border: none;
+      border-radius: var(--border-radius-small);
+      padding-top:    6px;
+      padding-bottom: 6px;
+      padding-left:   12px;
+      padding-right:  12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition-duration-fast) ease;
+      white-space: nowrap;
+      font-family: var(--font-stack-system-ui);
+    }
+
+    .image-edit-submit-apply-button-element:hover {
+      background-color: var(--color-accent-information-blue-hover);
+    }
+
+    .image-edit-submit-apply-button-element:disabled {
+      background-color: var(--color-background-depth-two);
+      color: var(--color-text-secondary-muted);
+      cursor: not-allowed;
+    }
+
+    /* ============================================================
+       SECTION 16: INPUT AREA STYLES
+       The footer area containing the text input, upload button,
+       image generation button, and the send button.
+       ============================================================ */
+
+    #chat-input-footer-area-containing-element {
+      padding-top:    var(--spacing-unit-two);
+      padding-bottom: var(--spacing-unit-two);
+      padding-left:   var(--spacing-unit-two);
+      padding-right:  var(--spacing-unit-two);
+      border-top: 1px solid var(--color-border-standard);
+      /* Row layout: input + buttons side by side */
+      display: flex;
+      gap: var(--spacing-unit-one);
+      background-color: var(--color-background-depth-one);
+      /* Vertically align items at the bottom (for multiline textarea) */
+      align-items: flex-end;
+    }
+
+    /* The main textarea element for composing messages */
+    #primary-message-composition-textarea-input {
+      flex: 1;
+      background-color: var(--color-background-depth-zero);
+      border: 1px solid var(--color-border-standard);
+      border-radius: var(--spacing-unit-one);
+      color: var(--color-text-primary-high-contrast);
+      font-size: 14px;
+      padding-top:    10px;
+      padding-bottom: 10px;
+      padding-left:   14px;
+      padding-right:  14px;
+      /* Allow vertical resize only (manual), but we also auto-resize via JS */
+      resize: none;
+      outline: none;
+      font-family: var(--font-stack-system-ui);
+      line-height: 1.5;
+      /* Max height before scrolling kicks in */
+      max-height: 120px;
+    }
+
+    #primary-message-composition-textarea-input:focus {
+      border-color: var(--color-accent-action-green-default);
+    }
+
+    #primary-message-composition-textarea-input::placeholder {
+      color: var(--color-text-secondary-muted);
+    }
+
+    /* ============================================================
+       SECTION 17: TOOLBAR BUTTON BASE STYLES
+       Shared styles for the three action buttons in the footer.
+       ============================================================ */
+
+    .footer-toolbar-action-button-base-style {
+      border: none;
+      border-radius: var(--spacing-unit-one);
+      padding-top:    10px;
+      padding-bottom: 10px;
+      padding-left:   14px;
+      padding-right:  14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--transition-duration-fast) ease;
+      white-space: nowrap;
+      color: var(--color-text-on-color-white);
+      font-family: var(--font-stack-system-ui);
+    }
+
+    /* Send button — green */
+    #message-send-action-button {
+      background-color: var(--color-accent-action-green-default);
+    }
+    #message-send-action-button:hover {
+      background-color: var(--color-accent-action-green-hover);
+    }
+
+    /* Image generation button — blue */
+    #image-generation-trigger-button {
+      background-color: var(--color-accent-information-blue-default);
+    }
+    #image-generation-trigger-button:hover {
+      background-color: var(--color-accent-information-blue-hover);
+    }
+
+    /* File upload button — purple */
+    #file-upload-trigger-button {
+      background-color: var(--color-accent-purple-default);
+    }
+    #file-upload-trigger-button:hover {
+      background-color: var(--color-accent-purple-hover);
+    }
+
+    /* Disabled state for all toolbar buttons */
+    .footer-toolbar-action-button-base-style:disabled {
+      background-color: var(--color-background-depth-two) !important;
+      color: var(--color-text-secondary-muted) !important;
+      cursor: not-allowed;
+    }
+
+    /* ============================================================
+       SECTION 18: IMAGE UPLOAD PREVIEW STRIP STYLES
+       A small strip that appears above the input area when a user
+       has selected an image file for upload/editing.
+       ============================================================ */
+
+    #image-upload-preview-strip-wrapper {
+      display: none; /* Hidden by default; shown when an image is pending */
+      padding-top:   var(--spacing-unit-one);
+      padding-left:  var(--spacing-unit-two);
+      padding-right: var(--spacing-unit-two);
+      padding-bottom: 0;
+      background-color: var(--color-background-depth-one);
+      align-items: center;
+      gap: 10px;
+    }
+
+    #image-upload-preview-strip-wrapper.visibility-class-is-visible {
+      display: flex;
+    }
+
+    /* The small thumbnail preview image */
+    #upload-thumbnail-preview-img-element {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: var(--border-radius-small);
+      border: 1px solid var(--color-border-standard);
+    }
+
+    /* Instructional text next to the thumbnail */
+    #upload-instructional-label-text-span {
+      font-size: 12px;
+      color: var(--color-text-secondary-muted);
+      flex: 1;
+    }
+
+    /* The X button to clear/cancel the pending upload */
+    #upload-cancellation-clear-button {
+      background: none;
+      border: none;
+      color: var(--color-text-secondary-muted);
+      font-size: 18px;
+      cursor: pointer;
+      line-height: 1;
+      padding-left:  var(--spacing-unit-half);
+      padding-right: var(--spacing-unit-half);
+    }
+
+    #upload-cancellation-clear-button:hover {
+      color: var(--color-text-primary-high-contrast);
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     SECTION 19: HTML MARKUP — MAIN APPLICATION SHELL
+     This is the outermost wrapper div for the entire chat
+     application. All UI elements are descendants of this element.
+     ============================================================ -->
+<div id="main-chat-application-container-wrapper-div">
+
+  <!-- ============================================================
+       SECTION 20: CHAT HEADER BAR
+       Displays the application title/branding to the user.
+       ============================================================ -->
+  <div id="chat-application-header-bar-element">
+    A.t.A. Projects - AI Chatbot
+  </div>
+
+  <!-- ============================================================
+       SECTION 21: MESSAGES SCROLLABLE AREA
+       All chat messages (user and assistant) are rendered here.
+       New messages are appended to the bottom via JavaScript.
+       ============================================================ -->
+  <div id="chat-messages-scrollable-area-container">
+    <!-- Messages will be injected here by JavaScript. -->
+    <!-- Please do not add static messages here manually.  -->
+    <!-- The JavaScript rendering pipeline manages this DOM. -->
+  </div>
+
+  <!-- ============================================================
+       SECTION 22: IMAGE UPLOAD PREVIEW STRIP
+       Shown above the input area when the user has selected an
+       image file. Allows them to review and cancel before sending.
+       ============================================================ -->
+  <div id="image-upload-preview-strip-wrapper">
+    <img id="upload-thumbnail-preview-img-element" src="" alt="pending upload preview" />
+    <span id="upload-instructional-label-text-span">
+      Image ready — type an edit prompt and click Send
+    </span>
+    <button
+      id="upload-cancellation-clear-button"
+      title="Remove pending image upload"
+      onclick="handleUserClickedClearUploadButton()">
+      ✕
+    </button>
+  </div>
+
+  <!-- ============================================================
+       SECTION 23: INPUT FOOTER AREA
+       Contains the message textarea, the hidden file input,
+       the upload button, the image generation button, and send.
+       ============================================================ -->
+  <div id="chat-input-footer-area-containing-element">
+
+    <!-- The primary text composition area -->
+    <textarea
+      id="primary-message-composition-textarea-input"
+      rows="1"
+      placeholder="Type a message... (Enter to send)"
+    ></textarea>
+
+    <!-- Hidden file input, triggered programmatically by the upload button -->
+    <input
+      type="file"
+      id="hidden-file-input-for-image-upload"
+      accept="image/*"
+      style="display:none"
+      onchange="handleUserSelectedImageFileForUpload(event)"
+    />
+
+    <!-- Upload Button -->
+    <button
+      id="file-upload-trigger-button"
+      class="footer-toolbar-action-button-base-style"
+      onclick="handleUserClickedUploadImageButton()"
+    >
+      📁 Upload
+    </button>
+
+    <!-- Image Generation Button -->
+    <button
+      id="image-generation-trigger-button"
+      class="footer-toolbar-action-button-base-style"
+      onclick="handleUserClickedGenerateImageButton()"
+    >
+      🎨 Image
+    </button>
+
+    <!-- Send Message Button -->
+    <button
+      id="message-send-action-button"
+      class="footer-toolbar-action-button-base-style"
+      onclick="handleUserClickedSendMessageButton()"
+    >
+      Send
+    </button>
+
+  </div>
+  <!-- END: #chat-input-footer-area-containing-element -->
+
+</div>
+<!-- END: #main-chat-application-container-wrapper-div -->
+
+
+<!-- ============================================================
+     SECTION 24: JAVASCRIPT APPLICATION LOGIC
+     All application state, DOM manipulation, API calls, and
+     event handling are defined below. This section is organized
+     into numbered subsections for maximum readability.
+
+     IMPORTANT: Do NOT move this script block above the HTML.
+     The DOM must be fully parsed before this script executes.
+     (We are not using defer or DOMContentLoaded for legacy compat)
+     ============================================================ -->
+<script>
+
+  /* =============================================================
+     SUBSECTION 24.1: GLOBAL CONFIGURATION CONSTANTS
+     These values configure the behavior of the application.
+     They are read-only after initialization.
+     ============================================================= */
+
+  /**
+   * WORKER_URL
+   * The base URL of the Cloudflare Worker that proxies requests
+   * to the language model API. This must be set to a valid
+   * endpoint before deployment. Do not commit API keys here.
+   * @type {string}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_WORKER_RELAY_URL = "https://githubai-relay.akonyswoodard.workers.dev";
+
+  /**
+   * IMAGE_API_BASE_URL
+   * The base URL for the Pollinations image generation API.
+   * Images are generated by constructing a URL from this base
+   * plus a URL-encoded prompt and various query parameters.
+   * @type {string}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_IMAGE_API_BASE_URL = "https://image.pollinations.ai/prompt/";
+
+  /**
+   * IMAGE_API_DEFAULT_WIDTH
+   * Default pixel width for generated images.
+   * @type {number}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_WIDTH = 1024;
+
+  /**
+   * IMAGE_API_DEFAULT_HEIGHT
+   * Default pixel height for generated images.
+   * @type {number}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_HEIGHT = 1024;
+
+  /**
+   * IMAGE_API_NOLOGO_PARAM
+   * Whether to suppress the Pollinations watermark.
+   * @type {boolean}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_IMAGE_API_NOLOGO_PARAM = true;
+
+  /**
+   * IMAGE_API_ENHANCE_PARAM
+   * Whether to request enhanced image quality from the API.
+   * @type {boolean}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_IMAGE_API_ENHANCE_PARAM = true;
+
+  /**
+   * SUPPORTED_DOWNLOAD_FORMATS
+   * An array of objects describing the supported image download formats.
+   * Each object has a `value` (the format identifier) and a `label`
+   * (the human-readable name displayed in the format selector).
+   * @type {Array<{value: string, label: string}>}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_SUPPORTED_DOWNLOAD_FORMATS_ARRAY = [
+    { value: "png",  label: "PNG"  },
+    { value: "jpeg", label: "JPEG" },
+    { value: "webp", label: "WebP" },
+    { value: "svg",  label: "SVG"  }
+  ];
+
+  /**
+   * FILENAME_MAX_LENGTH
+   * The maximum number of characters to use when constructing
+   * a filename from an image prompt for download purposes.
+   * @type {number}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_FILENAME_MAX_CHARACTER_LENGTH = 40;
+
+  /**
+   * MIME_TYPE_LOOKUP_TABLE
+   * Maps format value strings to their corresponding MIME types.
+   * Used by the download functionality.
+   * @type {Object.<string, string>}
+   * @constant
+   */
+  var GLOBAL_CONFIGURATION_MIME_TYPE_LOOKUP_TABLE = {
+    "png":  "image/png",
+    "jpeg": "image/jpeg",
+    "webp": "image/webp"
+    /* Note: SVG is handled separately and does not use canvas.toBlob() */
+  };
+
+  /* =============================================================
+     SUBSECTION 24.2: DOM ELEMENT REFERENCE CACHE
+     We cache references to frequently-accessed DOM elements here.
+     This avoids repeated getElementById/querySelector calls which
+     are considered expensive in hot code paths (message rendering).
+     =============================================================  */
+
+  /**
+   * A reference to the scrollable messages container element.
+   * Used for appending messages and scrolling to the bottom.
+   * @type {HTMLElement}
+   */
+  var domRef_messagesScrollableContainer = document.getElementById(
+    "chat-messages-scrollable-area-container"
+  );
+
+  /**
+   * A reference to the primary text input textarea.
+   * Used to read user input and clear/resize after submission.
+   * @type {HTMLTextAreaElement}
+   */
+  var domRef_primaryTextareaInput = document.getElementById(
+    "primary-message-composition-textarea-input"
+  );
+
+  /**
+   * A reference to the Send button.
+   * Disabled during async operations to prevent double-submission.
+   * @type {HTMLButtonElement}
+   */
+  var domRef_sendButton = document.getElementById(
+    "message-send-action-button"
+  );
+
+  /**
+   * A reference to the Image Generation button.
+   * Disabled during async operations.
+   * @type {HTMLButtonElement}
+   */
+  var domRef_imageGenerationButton = document.getElementById(
+    "image-generation-trigger-button"
+  );
+
+  /**
+   * A reference to the Upload Image button.
+   * Disabled during async operations.
+   * @type {HTMLButtonElement}
+   */
+  var domRef_uploadButton = document.getElementById(
+    "file-upload-trigger-button"
+  );
+
+  /**
+   * A reference to the upload preview strip wrapper div.
+   * Shown/hidden based on whether a pending upload exists.
+   * @type {HTMLElement}
+   */
+  var domRef_uploadPreviewStripWrapper = document.getElementById(
+    "image-upload-preview-strip-wrapper"
+  );
+
+  /**
+   * A reference to the thumbnail preview img element.
+   * Its src attribute is set to the pending upload data URL.
+   * @type {HTMLImageElement}
+   */
+  var domRef_uploadPreviewImg = document.getElementById(
+    "upload-thumbnail-preview-img-element"
+  );
+
+  /* =============================================================
+     SUBSECTION 24.3: APPLICATION STATE VARIABLES
+     Mutable state that changes during the application lifecycle.
+     All state mutations should be done through dedicated functions
+     where possible, to maintain traceability.
+     =============================================================  */
+
+  /**
+   * conversationHistory
+   * An array of message objects representing the full conversation.
+   * Each element is an object of shape: { role: string, content: string }
+   * where role is either "user" or "assistant".
+   * This array is sent with each API request to provide context.
+   * @type {Array<{role: string, content: string}>}
+   */
+  var applicationState_conversationHistoryArray = [];
+
+  /**
+   * pendingUploadDataUrl
+   * When the user selects an image file for upload, its base64
+   * data URL is stored here. When null, no upload is pending.
+   * @type {string|null}
+   */
+  var applicationState_pendingUploadDataUrlString = null;
+
+  /* =============================================================
+     SUBSECTION 24.4: TEXTAREA AUTO-RESIZE FUNCTIONALITY
+     Attaches an event listener to the textarea that automatically
+     adjusts its height based on the scroll height of its content,
+     clamped to a maximum of 120px.
+     =============================================================  */
+
+  /**
+   * Handles the 'input' event on the primary textarea.
+   * Resets the height to 'auto' first, then sets it to the
+   * scrollHeight (clamped to 120px maximum).
+   * @param {Event} eventObject - The input event object (unused)
+   * @returns {void}
+   */
+  function handleTextareaInputEventForAutoResize(eventObject) {
+    /* Step 1: Reset height to 'auto' so scrollHeight is recalculated */
+    domRef_primaryTextareaInput.style.height = "auto";
+    /* Step 2: Compute the new height, clamped to 120px maximum */
+    var computedNewHeightInPixels = Math.min(
+      domRef_primaryTextareaInput.scrollHeight,
+      120
+    );
+    /* Step 3: Apply the new height */
+    domRef_primaryTextareaInput.style.height = computedNewHeightInPixels + "px";
+  }
+
+  /* Register the auto-resize event listener on the textarea */
+  domRef_primaryTextareaInput.addEventListener(
+    "input",
+    handleTextareaInputEventForAutoResize
+  );
+
+  /* =============================================================
+     SUBSECTION 24.5: KEYBOARD EVENT HANDLING FOR TEXTAREA
+     Attaches a 'keydown' listener to the textarea that submits
+     the message when Enter is pressed (without Shift modifier).
+     Shift+Enter inserts a newline as expected.
+     =============================================================  */
+
+  /**
+   * Handles keydown events on the primary textarea.
+   * Submits the form when Enter is pressed without Shift.
+   * @param {KeyboardEvent} keyboardEventObject - The keydown event
+   * @returns {void}
+   */
+  function handleTextareaKeydownEventForEnterSubmit(keyboardEventObject) {
+    var pressedKey = keyboardEventObject.key;
+    var isShiftHeld = keyboardEventObject.shiftKey;
+
+    /* Check if Enter was pressed WITHOUT the Shift modifier */
+    if (pressedKey === "Enter" && isShiftHeld === false) {
+      /* Prevent the default behavior (inserting a newline) */
+      keyboardEventObject.preventDefault();
+      /* Trigger the send action as if the user clicked Send */
+      handleUserClickedSendMessageButton();
+    }
+    /* If Shift+Enter, we do nothing — the textarea handles it natively */
+  }
+
+  /* Register the keydown handler on the textarea */
+  domRef_primaryTextareaInput.addEventListener(
+    "keydown",
+    handleTextareaKeydownEventForEnterSubmit
+  );
+
+  /* =============================================================
+     SUBSECTION 24.6: FILE UPLOAD HANDLING
+     Functions for managing the image upload workflow:
+     - Opening the file picker
+     - Reading the selected file as a data URL
+     - Displaying the preview strip
+     - Clearing the pending upload
+     =============================================================  */
+
+  /**
+   * handleUserClickedUploadImageButton
+   * Called when the user clicks the "📁 Upload" button.
+   * Programmatically clicks the hidden file input element.
+   * @returns {void}
+   */
+  function handleUserClickedUploadImageButton() {
+    var hiddenFileInputElement = document.getElementById(
+      "hidden-file-input-for-image-upload"
+    );
+    /* Programmatically trigger the file picker dialog */
+    hiddenFileInputElement.click();
+  }
+
+  /**
+   * handleUserSelectedImageFileForUpload
+   * Called by the hidden file input's 'onchange' event.
+   * Reads the selected file as a data URL using FileReader,
+   * stores it in application state, and shows the preview strip.
+   * @param {Event} changeEventObject - The change event from the file input
+   * @returns {void}
+   */
+  function handleUserSelectedImageFileForUpload(changeEventObject) {
+    /* Extract the selected file from the event target's files list */
+    var selectedFileObject = changeEventObject.target.files[0];
+
+    /* If no file was selected (user cancelled), abort */
+    if (!selectedFileObject) {
+      return;
+    }
+
+    /* Create a FileReader to read the file as a data URL */
+    var fileReaderInstance = new FileReader();
+
+    /**
+     * onload callback: fired when the FileReader finishes reading.
+     * At this point, fileReaderInstance.result contains the data URL.
+     * @param {ProgressEvent} loadEventObject - The load event
+     */
+    fileReaderInstance.onload = function(loadEventObject) {
+      /* Store the data URL in application state */
+      applicationState_pendingUploadDataUrlString = loadEventObject.target.result;
+
+      /* Update the preview image src */
+      domRef_uploadPreviewImg.src = applicationState_pendingUploadDataUrlString;
+
+      /* Show the preview strip by adding the visible class */
+      domRef_uploadPreviewStripWrapper.classList.add(
+        "visibility-class-is-visible"
+      );
+
+      /* Update the textarea placeholder to guide the user */
+      domRef_primaryTextareaInput.placeholder =
+        'Describe your edit, e.g. "add a sunset sky"';
+
+      /* Focus the textarea so the user can type immediately */
+      domRef_primaryTextareaInput.focus();
+    };
+
+    /* Initiate the file reading operation */
+    fileReaderInstance.readAsDataURL(selectedFileObject);
+
+    /* Reset the file input value so the same file can be selected again */
+    changeEventObject.target.value = "";
+  }
+
+  /**
+   * handleUserClickedClearUploadButton
+   * Called when the user clicks the ✕ button in the upload preview strip.
+   * Clears the pending upload state and hides the preview strip.
+   * @returns {void}
+   */
+  function handleUserClickedClearUploadButton() {
+    /* Clear the pending upload data URL from state */
+    applicationState_pendingUploadDataUrlString = null;
+
+    /* Clear the preview image src */
+    domRef_uploadPreviewImg.src = "";
+
+    /* Hide the preview strip by removing the visible class */
+    domRef_uploadPreviewStripWrapper.classList.remove(
+      "visibility-class-is-visible"
+    );
+
+    /* Restore the default textarea placeholder */
+    domRef_primaryTextareaInput.placeholder =
+      "Type a message... (Enter to send)";
+  }
+
+  /* =============================================================
+     SUBSECTION 24.7: BUTTON STATE MANAGEMENT
+     A centralized function for enabling/disabling all interactive
+     buttons during async operations (API calls, image loading).
+     Preventing concurrent requests avoids race conditions.
+     =============================================================  */
+
+  /**
+   * setAllInteractiveButtonsDisabledState
+   * Enables or disables all action buttons in the UI simultaneously.
+   * Pass `true` to disable (during loading), `false` to enable.
+   * @param {boolean} shouldBeDisabled - Whether to disable the buttons
+   * @returns {void}
+   */
+  function setAllInteractiveButtonsDisabledState(shouldBeDisabled) {
+    domRef_sendButton.disabled           = shouldBeDisabled;
+    domRef_imageGenerationButton.disabled = shouldBeDisabled;
+    domRef_uploadButton.disabled          = shouldBeDisabled;
+  }
+
+  /* =============================================================
+     SUBSECTION 24.8: DOM CONSTRUCTION UTILITIES — TEXT MESSAGES
+     Functions that create and append text message elements to the
+     messages container. These are pure DOM manipulation functions
+     with no side effects beyond appending to the DOM.
+     =============================================================  */
+
+  /**
+   * createAndAppendTextMessageBubble
+   * Creates a complete message DOM structure (wrapper, label, bubble)
+   * for a text message and appends it to the messages container.
+   * Returns a reference to the bubble element so the caller can
+   * update its content later (e.g., replacing "Thinking..." with the reply).
+   *
+   * @param {string} roleString - Either "user" or "assistant"
+   * @param {string} messageTextContent - The text to display in the bubble
+   * @param {boolean} isThinkingPlaceholder - If true, apply thinking styles
+   * @returns {HTMLElement} - The bubble div element that was created
+   */
+  function createAndAppendTextMessageBubble(
+    roleString,
+    messageTextContent,
+    isThinkingPlaceholder
+  ) {
+    /* --- Step 1: Create the outer wrapper div --- */
+    var outerWrapperDivElement = document.createElement("div");
+    outerWrapperDivElement.className =
+      "individual-message-outer-wrapper-element role-is-" + roleString;
+
+    /* --- Step 2: Create the role label div --- */
+    var roleLabelDivElement = document.createElement("div");
+    roleLabelDivElement.className = "message-role-label-text-element";
+    roleLabelDivElement.textContent = (roleString === "user") ? "You" : "AI";
+
+    /* --- Step 3: Create the bubble div --- */
+    var bubbleDivElement = document.createElement("div");
+
+    /* Build the class string for the bubble based on role and thinking state */
+    var bubbleClassString = "message-content-bubble-element";
+    if (isThinkingPlaceholder === true) {
+      bubbleClassString = bubbleClassString + " state-is-currently-thinking";
+    }
+    bubbleDivElement.className = bubbleClassString;
+
+    /* Set the text content of the bubble */
+    bubbleDivElement.textContent = messageTextContent;
+
+    /* --- Step 4: Assemble the structure --- */
+    outerWrapperDivElement.appendChild(roleLabelDivElement);
+    outerWrapperDivElement.appendChild(bubbleDivElement);
+
+    /* --- Step 5: Append to the messages container --- */
+    domRef_messagesScrollableContainer.appendChild(outerWrapperDivElement);
+
+    /* --- Step 6: Scroll to the bottom --- */
+    scrollMessagesContainerToBottom();
+
+    /* --- Step 7: Return the bubble element for later mutation --- */
+    return bubbleDivElement;
+  }
+
+  /**
+   * createAndAppendUploadedImageUserMessage
+   * Creates and appends a user-side message displaying an uploaded image
+   * with an optional caption above it.
+   *
+   * @param {string} imageDataUrlString - The base64 data URL of the image
+   * @param {string} optionalCaptionText - Text to show above the image
+   * @returns {void}
+   */
+  function createAndAppendUploadedImageUserMessage(
+    imageDataUrlString,
+    optionalCaptionText
+  ) {
+    /* Create outer wrapper */
+    var outerWrapperDivElement = document.createElement("div");
+    outerWrapperDivElement.className =
+      "individual-message-outer-wrapper-element role-is-user";
+
+    /* Create role label */
+    var roleLabelDivElement = document.createElement("div");
+    roleLabelDivElement.className = "message-role-label-text-element";
+    roleLabelDivElement.textContent = "You";
+
+    /* Create image bubble */
+    var imageBubbleDivElement = document.createElement("div");
+    imageBubbleDivElement.className =
+      "message-content-bubble-element variant-is-image-display-bubble";
+
+    /* Optionally add caption text above the image */
+    if (optionalCaptionText) {
+      var captionDivElement = document.createElement("div");
+      captionDivElement.style.cssText =
+        "font-size:13px;color:#ffffff;padding:0 4px";
+      captionDivElement.textContent = optionalCaptionText;
+      imageBubbleDivElement.appendChild(captionDivElement);
+    }
+
+    /* Create the img element */
+    var imageElement = document.createElement("img");
+    imageElement.className = "contained-image-element";
+    imageElement.src = imageDataUrlString;
+    imageElement.alt = optionalCaptionText || "uploaded image";
+    imageBubbleDivElement.appendChild(imageElement);
+
+    outerWrapperDivElement.appendChild(roleLabelDivElement);
+    outerWrapperDivElement.appendChild(imageBubbleDivElement);
+    domRef_messagesScrollableContainer.appendChild(outerWrapperDivElement);
+    scrollMessagesContainerToBottom();
+  }
+
+  function createAndAppendSpinnerLoadingBubble() {
+    var outerWrapperDivElement = document.createElement("div");
+    outerWrapperDivElement.className =
+      "individual-message-outer-wrapper-element role-is-assistant";
+
+    var roleLabelDivElement = document.createElement("div");
+    roleLabelDivElement.className = "message-role-label-text-element";
+    roleLabelDivElement.textContent = "AI";
+
+    var spinnerBubbleDivElement = document.createElement("div");
+    spinnerBubbleDivElement.className =
+      "message-content-bubble-element variant-is-image-display-bubble";
+
+    var spinnerWrapperDivElement = document.createElement("div");
+    spinnerWrapperDivElement.className =
+      "image-loading-spinner-wrapper-container";
+
+    var spinnerDiscDivElement = document.createElement("div");
+    spinnerDiscDivElement.className =
+      "animated-circular-loading-spinner-disc";
+
+    var spinnerTextSpanElement = document.createElement("span");
+    spinnerTextSpanElement.textContent = "Generating image...";
+
+    spinnerWrapperDivElement.appendChild(spinnerDiscDivElement);
+    spinnerWrapperDivElement.appendChild(spinnerTextSpanElement);
+
+    spinnerBubbleDivElement.appendChild(spinnerWrapperDivElement);
+
+    outerWrapperDivElement.appendChild(roleLabelDivElement);
+    outerWrapperDivElement.appendChild(spinnerBubbleDivElement);
+
+    domRef_messagesScrollableContainer.appendChild(outerWrapperDivElement);
+    scrollMessagesContainerToBottom();
+
+    return spinnerBubbleDivElement;
+  }
+
+  function scrollMessagesContainerToBottom() {
+    domRef_messagesScrollableContainer.scrollTop =
+      domRef_messagesScrollableContainer.scrollHeight;
+  }
+
+  function buildPollinationsImageApiUrl(promptString, optionalUploadedImageDataUrl) {
+    var urlEncodedPromptString = encodeURIComponent(promptString);
+
+    var cacheBustingSeedValue = Date.now();
+
+    var constructedUrlString = GLOBAL_CONFIGURATION_IMAGE_API_BASE_URL
+      + urlEncodedPromptString
+      + "?width="   + GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_WIDTH
+      + "&height="  + GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_HEIGHT
+      + "&nologo="  + GLOBAL_CONFIGURATION_IMAGE_API_NOLOGO_PARAM
+      + "&enhance=" + GLOBAL_CONFIGURATION_IMAGE_API_ENHANCE_PARAM
+      + "&seed="    + cacheBustingSeedValue;
+
+    if (optionalUploadedImageDataUrl !== null &&
+        optionalUploadedImageDataUrl !== undefined) {
+      constructedUrlString = constructedUrlString
+        + "&image_url=" + encodeURIComponent(optionalUploadedImageDataUrl);
+    }
+
+    return constructedUrlString;
+  }
+
+  function buildSafeFilenameFromPrompt(promptString) {
+    var sanitizedString = (promptString || "image").replace(
+      /[^a-z0-9]/gi,
+      "_"
+    );
+    var truncatedString = sanitizedString.substring(
+      0,
+      GLOBAL_CONFIGURATION_FILENAME_MAX_CHARACTER_LENGTH
+    );
+    return truncatedString;
+  }
+
+  function triggerBrowserDownloadFromObjectUrl(objectUrlString, filenameString) {
+    var temporaryAnchorElement = document.createElement("a");
+    temporaryAnchorElement.href     = objectUrlString;
+    temporaryAnchorElement.download = filenameString;
+
+    document.body.appendChild(temporaryAnchorElement);
+
+    temporaryAnchorElement.click();
+
+    document.body.removeChild(temporaryAnchorElement);
+
+    URL.revokeObjectURL(objectUrlString);
+  }
+
+  function performImageDownloadConversionAndTrigger(
+    imageElementReference,
+    targetFormatString,
+    promptForFilenameString
+  ) {
+    var safeFilenameBase = buildSafeFilenameFromPrompt(promptForFilenameString);
+
+    var offscreenCanvasElement = document.createElement("canvas");
+    var naturalWidthValue  = imageElementReference.naturalWidth  || imageElementReference.width;
+    var naturalHeightValue = imageElementReference.naturalHeight || imageElementReference.height;
+    offscreenCanvasElement.width  = naturalWidthValue;
+    offscreenCanvasElement.height = naturalHeightValue;
+
+    var canvasRenderingContext2d = offscreenCanvasElement.getContext("2d");
+
+    canvasRenderingContext2d.drawImage(imageElementReference, 0, 0);
+
+    if (targetFormatString === "svg") {
+      var pngDataUrlForSvg = offscreenCanvasElement.toDataURL("image/png");
+      var svgXmlContent = '<svg xmlns="http://www.w3.org/2000/svg" '
+        + 'xmlns:xlink="http://www.w3.org/1999/xlink" '
+        + 'width="' + naturalWidthValue + '" '
+        + 'height="' + naturalHeightValue + '">'
+        + '<image href="' + pngDataUrlForSvg + '" '
+        + 'width="' + naturalWidthValue + '" '
+        + 'height="' + naturalHeightValue + '"/>'
+        + '</svg>';
+      var svgBlobObject = new Blob([svgXmlContent], { type: "image/svg+xml" });
+      var svgObjectUrl = URL.createObjectURL(svgBlobObject);
+      triggerBrowserDownloadFromObjectUrl(
+        svgObjectUrl,
+        safeFilenameBase + ".svg"
+      );
+      return;
+    }
+
+    var mimeTypeString = GLOBAL_CONFIGURATION_MIME_TYPE_LOOKUP_TABLE[targetFormatString]
+      || "image/png";
+
+    var fileExtensionString = (targetFormatString === "jpeg") ? "jpg" : targetFormatString;
+
+    var jpegQualityValue = (targetFormatString === "jpeg") ? 0.95 : undefined;
+
+    offscreenCanvasElement.toBlob(
+      function(blobObject) {
+        var rasterObjectUrl = URL.createObjectURL(blobObject);
+        triggerBrowserDownloadFromObjectUrl(
+          rasterObjectUrl,
+          safeFilenameBase + "." + fileExtensionString
+        );
+      },
+      mimeTypeString,
+      jpegQualityValue
+    );
+  }
+
+  function renderLoadedImageAndControlsIntoBubbleElement(
+    targetBubbleElement,
+    imageUrlString,
+    promptTextString
+  ) {
+
+    targetBubbleElement.textContent = "";
+
+    var displayImageElement = document.createElement("img");
+    displayImageElement.crossOrigin = "anonymous";
+    displayImageElement.src = imageUrlString;
+    displayImageElement.alt = promptTextString;
+    displayImageElement.className = "contained-image-element";
+    targetBubbleElement.appendChild(displayImageElement);
+
+    var promptLabelDivElement = document.createElement("div");
+    promptLabelDivElement.className = "image-generation-prompt-display-label";
+    promptLabelDivElement.textContent = "Prompt: " + promptTextString;
+    targetBubbleElement.appendChild(promptLabelDivElement);
+
+    var actionsRowDivElement = document.createElement("div");
+    actionsRowDivElement.className = "image-actions-control-bar-row-element";
+
+    var formatSelectorSelectElement = document.createElement("select");
+    formatSelectorSelectElement.className =
+      "image-format-selection-dropdown-element";
+    formatSelectorSelectElement.title = "Download format";
+
+    for (
+      var formatOptionIndex = 0;
+      formatOptionIndex < GLOBAL_CONFIGURATION_SUPPORTED_DOWNLOAD_FORMATS_ARRAY.length;
+      formatOptionIndex++
+    ) {
+      var currentFormatConfigObject =
+        GLOBAL_CONFIGURATION_SUPPORTED_DOWNLOAD_FORMATS_ARRAY[formatOptionIndex];
+      var optionElement = document.createElement("option");
+      optionElement.value       = currentFormatConfigObject.value;
+      optionElement.textContent = currentFormatConfigObject.label;
+      formatSelectorSelectElement.appendChild(optionElement);
+    }
+
+    var downloadButtonElement = document.createElement("button");
+    downloadButtonElement.className =
+      "image-action-control-button-base style-is-download-button";
+    downloadButtonElement.textContent = "⬇ Download";
+
+    downloadButtonElement.onclick = (function(
+      capturedImageElement,
+      capturedFormatSelector,
+      capturedPromptText
+    ) {
+      return function() {
+        performImageDownloadConversionAndTrigger(
+          capturedImageElement,
+          capturedFormatSelector.value,
+          capturedPromptText
+        );
+      };
+    })(displayImageElement, formatSelectorSelectElement, promptTextString);
+
+    var editToggleButtonElement = document.createElement("button");
+    editToggleButtonElement.className =
+      "image-action-control-button-base style-is-edit-toggle-button";
+    editToggleButtonElement.textContent = "✏️ Edit";
+
+    actionsRowDivElement.appendChild(formatSelectorSelectElement);
+    actionsRowDivElement.appendChild(downloadButtonElement);
+    actionsRowDivElement.appendChild(editToggleButtonElement);
+    targetBubbleElement.appendChild(actionsRowDivElement);
+
+    var editInputAreaDivElement = document.createElement("div");
+    editInputAreaDivElement.className =
+      "image-inline-edit-controls-area-container visibility-state-hidden";
+
+    var editTextInputElement = document.createElement("input");
+    editTextInputElement.type = "text";
+    editTextInputElement.className = "image-edit-description-text-input-field";
+    editTextInputElement.placeholder =
+      'e.g. "make it night time" or "add a dragon"';
+
+    var editApplyButtonElement = document.createElement("button");
+    editApplyButtonElement.className = "image-edit-submit-apply-button-element";
+    editApplyButtonElement.textContent = "Apply";
+
+    editInputAreaDivElement.appendChild(editTextInputElement);
+    editInputAreaDivElement.appendChild(editApplyButtonElement);
+    targetBubbleElement.appendChild(editInputAreaDivElement);
+
+    editToggleButtonElement.onclick = function() {
+      var isCurrentlyHidden = editInputAreaDivElement.classList.contains(
+        "visibility-state-hidden"
+      );
+      if (isCurrentlyHidden) {
+        editInputAreaDivElement.classList.remove("visibility-state-hidden");
+        editTextInputElement.focus();
+        editToggleButtonElement.textContent = "✕ Cancel";
+      } else {
+        editInputAreaDivElement.classList.add("visibility-state-hidden");
+        editToggleButtonElement.textContent = "✏️ Edit";
+      }
+    };
+
+    editApplyButtonElement.onclick = function() {
+      var editDescriptionText = editTextInputElement.value.trim();
+      if (!editDescriptionText) {
+      }
+      applyInlineImageEditWithNewPrompt(
+        targetBubbleElement,
+        displayImageElement,
+        promptTextString,
+        editDescriptionText,
+        editApplyButtonElement,
+        editTextInputElement,
+        editToggleButtonElement,
+        promptLabelDivElement,
+        formatSelectorSelectElement,
+        downloadButtonElement
+      );
+    };
+
+    editTextInputElement.addEventListener("keydown", function(keyEvent) {
+      if (keyEvent.key === "Enter") {
+        editApplyButtonElement.click();
+      }
+    });
+
+    scrollMessagesContainerToBottom();
+  }
+
+  function applyInlineImageEditWithNewPrompt(
+    bubbleElement,
+    currentImageElement,
+    existingPromptText,
+    editInstructionText,
+    applyButtonElement,
+    editInputElement,
+    toggleButtonElement,
+    promptLabelElement,
+    formatDropdownElement,
+    downloadButtonElement
+  ) {
+    var combinedNewPromptString = existingPromptText + ", " + editInstructionText;
+
+    applyButtonElement.disabled    = true;
+    applyButtonElement.textContent = "Generating...";
+    editInputElement.disabled      = true;
+    toggleButtonElement.disabled   = true;
+
+    var newImageUrlString = buildPollinationsImageApiUrl(
+      combinedNewPromptString,
+      null
+    );
+
+    var preloadImageElement = new Image();
+    preloadImageElement.crossOrigin = "anonymous";
+
+    preloadImageElement.onload = function() {
+      currentImageElement.src = newImageUrlString;
+      currentImageElement.alt = combinedNewPromptString;
+
+      promptLabelElement.textContent = "Prompt: " + combinedNewPromptString;
+
+      downloadButtonElement.onclick = (function(
+        capturedImg,
+        capturedSelect,
+        capturedPrompt
+      ) {
+        return function() {
+          performImageDownloadConversionAndTrigger(
+            capturedImg,
+            capturedSelect.value,
+            capturedPrompt
+          );
+        };
+      })(currentImageElement, formatDropdownElement, combinedNewPromptString);
+
+      applyButtonElement.onclick = function() {
+        var furtherEditText = editInputElement.value.trim();
+        if (!furtherEditText) { return; }
+        applyInlineImageEditWithNewPrompt(
+          bubbleElement,
+          currentImageElement,
+          combinedNewPromptString,
+          furtherEditText,
+          applyButtonElement,
+          editInputElement,
+          toggleButtonElement,
+          promptLabelElement,
+          formatDropdownElement,
+          downloadButtonElement
+        );
+      };
+
+      editInputElement.value = "";
+      editInputElement.placeholder = 'Edit again, e.g. "add snow"';
+
+      applyButtonElement.disabled    = false;
+      applyButtonElement.textContent = "Apply";
+      editInputElement.disabled      = false;
+      toggleButtonElement.disabled   = false;
+
+      scrollMessagesContainerToBottom();
+    };
+
+    preloadImageElement.onerror = function() {
+      applyButtonElement.disabled    = false;
+      applyButtonElement.textContent = "Failed — try again";
+      editInputElement.disabled      = false;
+      toggleButtonElement.disabled   = false;
+    };
+
+    preloadImageElement.src = newImageUrlString;
+  }
+
+  function handleUserClickedGenerateImageButton() {
+    var userPromptInputText = domRef_primaryTextareaInput.value.trim();
+
+    if (!userPromptInputText) {
+      alert("Type an image description first.");
+      return;
+    }
+
+    domRef_primaryTextareaInput.value = "";
+    domRef_primaryTextareaInput.style.height = "auto";
+
+    setAllInteractiveButtonsDisabledState(true);
+
+    createAndAppendTextMessageBubble(
+      "user",
+      "🎨 " + userPromptInputText,
+      false
+    );
+
+    var spinnerBubbleElementReference = createAndAppendSpinnerLoadingBubble();
+
+    var generatedImageUrlString = buildPollinationsImageApiUrl(
+      userPromptInputText,
+      null
+    );
+
+    var imagePreloaderElement = new Image();
+    imagePreloaderElement.crossOrigin = "anonymous";
+
+    imagePreloaderElement.onload = function() {
+      renderLoadedImageAndControlsIntoBubbleElement(
+        spinnerBubbleElementReference,
+        generatedImageUrlString,
+        userPromptInputText
+      );
+      setAllInteractiveButtonsDisabledState(false);
+      domRef_primaryTextareaInput.focus();
+      scrollMessagesContainerToBottom();
+    };
+
+    imagePreloaderElement.onerror = function() {
+      spinnerBubbleElementReference.textContent =
+        "Failed to generate image. Try a different prompt.";
+      setAllInteractiveButtonsDisabledState(false);
+    };
+
+    imagePreloaderElement.src = generatedImageUrlString;
+  }
+
+  function handleSendWithPendingUploadImageEdit() {
+    var editPromptText = domRef_primaryTextareaInput.value.trim();
+
+    if (!editPromptText) {
+      alert("Describe how you want to edit the image.");
+      return;
+    }
+
+    var capturedDataUrlString = applicationState_pendingUploadDataUrlString;
+    handleUserClickedClearUploadButton();
+
+    domRef_primaryTextareaInput.value = "";
+    domRef_primaryTextareaInput.style.height = "auto";
+
+    setAllInteractiveButtonsDisabledState(true);
+
+    createAndAppendUploadedImageUserMessage(
+      capturedDataUrlString,
+      "✏️ " + editPromptText
+    );
+
+    var spinnerBubbleElementReference = createAndAppendSpinnerLoadingBubble();
+
+    var editedImageApiUrlString = buildPollinationsImageApiUrl(
+      editPromptText,
+      capturedDataUrlString
+    );
+
+    var editPreloaderImageElement = new Image();
+    editPreloaderImageElement.crossOrigin = "anonymous";
+
+    editPreloaderImageElement.onload = function() {
+      renderLoadedImageAndControlsIntoBubbleElement(
+        spinnerBubbleElementReference,
+        editedImageApiUrlString,
+        editPromptText
+      );
+      setAllInteractiveButtonsDisabledState(false);
+      domRef_primaryTextareaInput.focus();
+      scrollMessagesContainerToBottom();
+    };
+
+    editPreloaderImageElement.onerror = function() {
+      spinnerBubbleElementReference.textContent =
+        "Failed to edit image. Try a different prompt.";
+      setAllInteractiveButtonsDisabledState(false);
+    };
+
+    editPreloaderImageElement.src = editedImageApiUrlString;
+  }
+
+  function handleUserClickedSendMessageButton() {
+    if (applicationState_pendingUploadDataUrlString !== null) {
+      handleSendWithPendingUploadImageEdit();
+      return;
+    }
+
+    var userMessageInputText = domRef_primaryTextareaInput.value.trim();
+
+    if (!userMessageInputText) {
+      return;
+    }
+
+    domRef_primaryTextareaInput.value = "";
+    domRef_primaryTextareaInput.style.height = "auto";
+
+    setAllInteractiveButtonsDisabledState(true);
+
+    createAndAppendTextMessageBubble("user", userMessageInputText, false);
+
+    var thinkingPlaceholderBubbleElement = createAndAppendTextMessageBubble(
+      "assistant",
+      "Thinking...",
+      true
+    );
+
+    applicationState_conversationHistoryArray.push({
+      role: "user",
+      content: userMessageInputText
+    });
+
+    var xmlHttpRequestObject = new XMLHttpRequest();
+
+    xmlHttpRequestObject.open(
+      "POST",
+      GLOBAL_CONFIGURATION_WORKER_RELAY_URL,
+      true
+    );
+
+    xmlHttpRequestObject.setRequestHeader(
+      "Content-Type",
+      "application/json"
+    );
+
+    xmlHttpRequestObject.onreadystatechange = function() {
+      if (xmlHttpRequestObject.readyState !== 4) {
+        return;
+      }
+
+      try {
+        var parsedResponseObject = JSON.parse(
+          xmlHttpRequestObject.responseText
+        );
+
+        var assistantReplyText = parsedResponseObject.reply
+          || parsedResponseObject.error
+          || xmlHttpRequestObject.responseText;
+
+        applicationState_conversationHistoryArray.push({
+          role: "assistant",
+          content: assistantReplyText
+        });
+
+        thinkingPlaceholderBubbleElement.classList.remove(
+          "state-is-currently-thinking"
+        );
+        thinkingPlaceholderBubbleElement.textContent =
+          assistantReplyText || "(No response)";
+
+      } catch (jsonParseException) {
+        thinkingPlaceholderBubbleElement.classList.remove(
+          "state-is-currently-thinking"
+        );
+        thinkingPlaceholderBubbleElement.textContent =
+          "Error parsing response.";
+      }
+
+      setAllInteractiveButtonsDisabledState(false);
+
+      domRef_primaryTextareaInput.focus();
+
+      scrollMessagesContainerToBottom();
+    };
+
+    xmlHttpRequestObject.onerror = function() {
+      thinkingPlaceholderBubbleElement.classList.remove(
+        "state-is-currently-thinking"
+      );
+      thinkingPlaceholderBubbleElement.textContent = "Network error.";
+      setAllInteractiveButtonsDisabledState(false);
+    };
+
+    var requestBodyJsonString = JSON.stringify({
+      messages: applicationState_conversationHistoryArray
+    });
+
+    xmlHttpRequestObject.send(requestBodyJsonString);
+  }
+
+
+</script>
+</body>
+</html>
