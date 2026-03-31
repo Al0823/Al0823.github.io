@@ -1,6 +1,6 @@
 window.vars = (function() {
 
-  var APATHVAR = "/citi/coding/2026/2/ak/lessons/assignments/hangman/";
+  var APATHVAR = "/lessons/assignments/hangman/";
   var DPATHVAR = "/citi/coding/2026/2/ds/lessons/assignments/hangman/";
 
   return {
