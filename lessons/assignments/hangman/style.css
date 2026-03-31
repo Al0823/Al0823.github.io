@@ -13,7 +13,7 @@
   --bg: rgb(175,175,175);
   --bg-soft: rgb(200,200,200);
   --bg-softer: rgb(230,230,230);
-  --panel: rgba(150,150,150,.7);
+  --panel: #969696b3;
 
   --header-bg: rgb(75,75,75);
   --footer-bg: rgb(75,75,75);
@@ -108,7 +108,7 @@ article svg {
 }
 
 .nav {
-    background-color: rgb(31, 111, 164); /* Darker than left/nav for contrast */
+  background: var(--bg-soft);
     min-height: 50px;
     width: 100%;
     overflow: hidden;
@@ -117,7 +117,7 @@ article svg {
 .nav a {
     float: left;
     font-size: 20px;
-    color: rgb(107, 14, 156); /* Same as header/footer text for consistency */
+color: var(--link);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -125,9 +125,9 @@ article svg {
 
 /* Hover effect to stand out */
 .nav a:hover {
-    background-color: rgb(81, 171, 224); /* Lighter, matches article */
+background: var(--hover);;
     border-radius: 20px;
-    color: rgb(107, 14, 156); /* Keep text readable */
+    color:  #; /* Keep text readable */
 }
 
 nav ul { list-style: none; }
@@ -248,8 +248,8 @@ footer {
 
 .left, #left {
   width: 300px !important;
-  background-color: #3d8dc2;
-  color: #6b0e9c;
+  background-color: var(--panel);;
+  color: #ffffff;
   padding: 15px;
   border-right: 1px solid #4d8ec3;
   align-self: stretch;
