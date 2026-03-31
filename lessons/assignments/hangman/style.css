@@ -100,7 +100,12 @@ article {
   padding: 1.5rem;
 }
 
-
+article svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
 
 .nav {
     background-color: rgb(31, 111, 164); /* Darker than left/nav for contrast */
@@ -242,14 +247,13 @@ footer {
     }
 
 .left, #left {
-  width: 300px!important;
-  float: left;
+  width: 300px !important;
   background-color: #3d8dc2;
   color: #6b0e9c;
   padding: 15px;
   border-right: 1px solid #4d8ec3;
-height: 100%;
- min-width: 300px!important;
+  align-self: stretch;
+  min-width: 300px !important;
 }
 
 @media (max-width:1024px){
@@ -269,7 +273,7 @@ height: 100%;
 
 
 
-
+/*
 [loop start=10&end=50&advance=.25]
 .fs-[index]{
 font-size: [math][index]/10[/math]rem!Important;
@@ -338,3 +342,4 @@ background-color: rgb([RGB1], [RGB2], [RGB3])[math][index]/10[/math]!Important;
 
 [/founditems]
 [/search]
+*/
