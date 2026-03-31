@@ -250,7 +250,7 @@ footer {
   background-color: var(--panel);
   color: #000000;
   padding: 15px;
-  border-right: 1px solid var(--bg-soft);
+  border-right: 1px solid var(--border);
   align-self: stretch;
   min-width: 300px !important;
 }
