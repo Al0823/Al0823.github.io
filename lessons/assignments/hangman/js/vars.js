@@ -13,8 +13,11 @@ window.vars = (function() {
     ADBVAR: APATHVAR + "includes/",
     DDBVAR: DPATHVAR + "includes/",
 
+    AJSVAR: APATHVAR + "js/",
+    DJSVAR: DPATHVAR + "js/",
+
     DEBUGVAR: false,
-    WEBSITETITLE: "Hangman"
+    WEBSITETITLE: "Hangman",
   };
 
 })();
