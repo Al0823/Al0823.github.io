@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A.t.A. Projects - FreeGPT</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── App shell ─────────────────────────────────────────────────────────── */
+    #app {
+      display: flex;
+      width: 96vw;
+      max-width: 1000px;
+      height: 90vh;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* ── Left nav ──────────────────────────────────────────────────────────── */
+    #nav {
+      width: 72px;
+      background: #0d1117;
+      border-right: 1px solid #30363d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    #nav .nav-logo {
+      font-size: 22px;
+      margin-bottom: 12px;
+      user-select: none;
+    }
+
+    .nav-btn {
+      width: 52px;
+      height: 52px;
+      border: none;
+      border-radius: 10px;
+      background: transparent;
+      color: #8b949e;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      transition: background 0.15s, color 0.15s;
+      padding: 0;
+      line-height: 1.1;
+      text-align: center;
+    }
+
+    .nav-btn .nav-icon { font-size: 20px; line-height: 1; }
+    .nav-btn:hover { background: #161b22; color: #e6edf3; }
+
+    .nav-btn.active { background: #161b22; color: #fff; }
+    .nav-btn.active.mode-sandbox  { border-left: 3px solid #238636; }
+    .nav-btn.active.mode-image    { border-left: 3px solid #1f6feb; }
+    .nav-btn.active.mode-code     { border-left: 3px solid #f78166; }
+
+    .nav-divider {
+      width: 36px;
+      height: 1px;
+      background: #30363d;
+      margin: 4px 0;
+    }
+
+    /* "More coming" placeholder slots */
+    .nav-btn.coming {
+      opacity: 0.35;
+      cursor: default;
+    }
+    .nav-btn.coming:hover { background: transparent; color: #8b949e; }
+
+    /* ── Main panel ────────────────────────────────────────────────────────── */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #161b22;
+      min-width: 0;
+    }
+
+    /* ── Header ────────────────────────────────────────────────────────────── */
+    #chat-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid #30363d;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #161b22;
+      flex-shrink: 0;
+    }
+
+    #header-icon { font-size: 18px; }
+    #header-title { font-weight: 700; font-size: 15px; }
+    #header-desc  { font-size: 12px; color: #8b949e; margin-left: auto; }
+
+    /* ── Messages ──────────────────────────────────────────────────────────── */
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #messages::-webkit-scrollbar { width: 6px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+    #messages::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+
+    .message { display: flex; flex-direction: column; max-width: 85%; gap: 4px; }
+    .message.user      { align-self: flex-end;  align-items: flex-start; }
+    .message.assistant { align-self: flex-start; align-items: flex-start; }
+
+    .message .label { font-size: 11px; color: #8b949e; padding: 0 4px; }
+
+    .message .bubble {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .message.user .bubble {
+      background: #238636;
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* Code mode: tint user bubble orange-ish */
+    body.mode-code .message.user .bubble { background: #b35900; }
+
+    .message.assistant .bubble {
+      background: #21262d;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-bottom-left-radius: 4px;
+    }
+
+    .message.assistant .bubble.thinking { color: #8b949e; font-style: italic; }
+
+    /* Image bubble */
+    .bubble.image-bubble {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      border-bottom-left-radius: 4px;
+      min-width: 260px;
+    }
+
+    .message.user .bubble.image-bubble {
+      background: #238636;
+      border: none;
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 12px;
+    }
+
+    .bubble img { max-width: 100%; border-radius: 8px; display: block; }
+
+    .image-prompt-label {
+      font-size: 11px; color: #8b949e; font-style: italic;
+      padding: 0 2px; word-break: break-word;
+    }
+
+    /* Spinner */
+    .spinner-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; padding: 20px 10px;
+      color: #8b949e; font-size: 13px; font-style: italic;
+    }
+
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid #30363d;
+      border-top-color: #1f6feb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Image action bar */
+    .image-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+    .format-select {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e6edf3; font-size: 12px; padding: 5px 8px; outline: none; cursor: pointer;
+    }
+
+    .action-btn {
+      border: none; border-radius: 6px; padding: 5px 11px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: background 0.15s; white-space: nowrap; color: #fff;
+    }
+
+    .download-btn   { background: #238636; }
+    .download-btn:hover { background: #2ea043; }
+    .edit-toggle-btn { background: #6e40c9; }
+    .edit-toggle-btn:hover { background: #8957e5; }
+    .action-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
+
+    /* Image edit area */
+    .image-edit-area { display: flex; gap: 6px; margin-top: 2px; }
+    .image-edit-area.hidden { display: none; }
+
+    .image-edit-input {
+      flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e6edf3; font-size: 13px; padding: 6px 10px; outline: none; font-family: inherit;
+    }
+
+    .image-edit-input:focus { border-color: #1f6feb; }
+    .image-edit-input::placeholder { color: #8b949e; }
+
+    .image-edit-btn {
+      background: #1f6feb; color: #fff; border: none; border-radius: 6px;
+      padding: 6px 12px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.15s; white-space: nowrap;
+    }
+
+    .image-edit-btn:hover { background: #388bfd; }
+    .image-edit-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+
+    /* ── Upload preview strip ──────────────────────────────────────────────── */
+    #upload-preview-wrap {
+      display: none; padding: 8px 16px 0; background: #161b22;
+      align-items: center; gap: 10px; flex-shrink: 0;
+    }
+
+    #upload-preview-wrap.visible { display: flex; }
+
+    #upload-preview {
+      width: 52px; height: 52px; object-fit: cover;
+      border-radius: 6px; border: 1px solid #30363d;
+    }
+
+    #upload-preview-label { font-size: 12px; color: #8b949e; flex: 1; }
+
+    #upload-clear-btn {
+      background: none; border: none; color: #8b949e;
+      font-size: 18px; cursor: pointer; line-height: 1; padding: 0 4px;
+    }
+
+    #upload-clear-btn:hover { color: #e6edf3; }
+
+    /* ── Input area ────────────────────────────────────────────────────────── */
+    #input-area {
+      padding: 14px 16px;
+      border-top: 1px solid #30363d;
+      display: flex; gap: 8px;
+      background: #161b22; align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    #input {
+      flex: 1; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 8px; color: #e6edf3; font-size: 14px;
+      padding: 10px 14px; resize: none; outline: none;
+      font-family: inherit; line-height: 1.5; max-height: 120px;
+    }
+
+    #input:focus { border-color: var(--mode-color, #238636); }
+    #input::placeholder { color: #8b949e; }
+
+    .toolbar-btn {
+      border: none; border-radius: 8px; padding: 10px 13px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: background 0.15s; white-space: nowrap; color: #fff;
+    }
+
+    .toolbar-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
+
+    #send-btn   { background: #238636; }
+    #send-btn:hover { background: #2ea043; }
+
+    /* Image mode toolbar */
+    #image-btn  { background: #1f6feb; }
+    #image-btn:hover  { background: #388bfd; }
+    #upload-btn { background: #6e40c9; }
+    #upload-btn:hover { background: #8957e5; }
+
+    /* Code mode toolbar */
+    #lang-select {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      color: #e6edf3; font-size: 13px; padding: 10px 10px;
+      outline: none; cursor: pointer; font-family: inherit;
+    }
+
+    #lang-select:focus { border-color: #f78166; }
+
+    /* Mode visibility helpers */
+    .img-only, .code-only { display: none !important; }
+
+    body.mode-image  .img-only  { display: flex !important; }
+    body.mode-code   .code-only { display: flex !important; }
+
+    /* send button color per mode */
+    body.mode-image  #send-btn { background: #1f6feb; }
+    body.mode-image  #send-btn:hover { background: #388bfd; }
+    body.mode-code   #send-btn { background: #b35900; }
+    body.mode-code   #send-btn:hover { background: #d4690a; }
+
+    /* Mode tip shown in empty chat */
+    #mode-tip {
+      margin: auto;
+      text-align: center;
+      color: #8b949e;
+      font-size: 14px;
+      line-height: 1.8;
+      padding: 20px;
+      pointer-events: none;
+    }
+
+    #mode-tip .tip-icon { font-size: 36px; margin-bottom: 8px; }
+    #mode-tip .tip-title { font-weight: 700; font-size: 16px; color: #e6edf3; margin-bottom: 6px; }
+  </style>
+</head>
+<body class="mode-sandbox">
+
+<div id="app">
+
+  <!-- ── Left nav ─────────────────────────────────────────────────────────── -->
+  <nav id="nav">
+    <div class="nav-logo">FreeGPT</div>
+
+    <button class="nav-btn mode-sandbox active" onclick="switchMode('sandbox')" title="Free / Sandbox">
+      <span class="nav-icon">🧪</span>
+      <span>Free</span>
+    </button>
+
+    <button class="nav-btn mode-image" onclick="switchMode('image')" title="Image / Art">
+      <span class="nav-icon">🎨</span>
+      <span>Art</span>
+    </button>
+
+    <button class="nav-btn mode-code" onclick="switchMode('code')" title="Code Mode">
+      <span class="nav-icon">💻</span>
+      <span>Code</span>
+    </button>
+
+    <div class="nav-divider"></div>
+
+    <button class="nav-btn coming" title="More modes coming soon">
+      <span class="nav-icon">➕</span>
+      <span>Soon</span>
+    </button>
+  </nav>
+
+  <!-- ── Main panel ───────────────────────────────────────────────────────── -->
+  <div id="main">
+
+    <div id="chat-header">
+      <span id="header-icon">🧪</span>
+      <span id="header-title">Free / Sandbox</span>
+      <span id="header-desc">Chat · Images · Code</span>
+    </div>
+
+    <div id="messages">
+      <div id="mode-tip">
+        <div class="tip-icon">🧪</div>
+        <div class="tip-title">Free / Sandbox Mode</div>
+        All features unlocked — chat, generate images, write code in any language.
+      </div>
+    </div>
+
+    <div id="upload-preview-wrap">
+      <img id="upload-preview" src="" alt="preview" />
+      <span id="upload-preview-label">Image ready — type an edit prompt and hit Send</span>
+      <button id="upload-clear-btn" onclick="clearUpload()">✕</button>
+    </div>
+
+    <div id="input-area">
+      <textarea id="input" rows="1" placeholder="Ask anything..."></textarea>
+
+      <!-- Image mode only -->
+      <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleUpload(event)" />
+      <button id="upload-btn" class="toolbar-btn img-only" onclick="document.getElementById('file-input').click()">📁 Upload</button>
+      <button id="image-btn" class="toolbar-btn img-only" onclick="generateImage()">🎨 Generate</button>
+
+      <!-- Code mode only -->
+      <select id="lang-select" class="code-only">
+        <option value="">Auto-detect</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="HTML">HTML</option>
+        <option value="CSS">CSS</option>
+        <option value="Python">Python</option>
+        <option value="Java">Java</option>
+        <option value="C">C</option>
+        <option value="C++">C++</option>
+        <option value="PHP">PHP</option>
+        <option value="SQL">SQL</option>
+        <option value="Perl">Perl</option>
+        <option value="Ruby">Ruby</option>
+        <option value="Shell">Shell/Bash</option>
+        <option value="Visual Basic">Visual Basic</option>
+        <option value="Assembly">Assembly</option>
+      </select>
+
+      <button id="send-btn" class="toolbar-btn" onclick="send()">Send</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  var WORKER_URL = "https://githubai-relay.akonyswoodard.workers.dev";
+
+  var messagesEl       = document.getElementById("messages");
+  var inputEl          = document.getElementById("input");
+  var sendBtn          = document.getElementById("send-btn");
+  var imageBtn         = document.getElementById("image-btn");
+  var uploadBtn        = document.getElementById("upload-btn");
+  var uploadPreviewWrap = document.getElementById("upload-preview-wrap");
+  var uploadPreviewImg  = document.getElementById("upload-preview");
+  var modeTipEl         = document.getElementById("mode-tip");
+  var headerIcon        = document.getElementById("header-icon");
+  var headerTitle       = document.getElementById("header-title");
+  var headerDesc        = document.getElementById("header-desc");
+
+  var chatHistory = [];
+  var pendingUploadDataUrl = null;
+  var currentMode = "sandbox";
+
+  var MODES = {
+    sandbox: {
+      icon: "🧪",
+      title: "Free / Sandbox",
+      desc: "Chat · Images · Code",
+      placeholder: "Ask anything...",
+      tipIcon: "🧪",
+      tipTitle: "Free / Sandbox Mode",
+      tipText: "All features unlocked — chat, generate images, write code in any language."
+    },
+    image: {
+      icon: "🎨",
+      title: "Image / Art",
+      desc: "Generate & edit images",
+      placeholder: "Describe an image to generate...",
+      tipIcon: "🎨",
+      tipTitle: "Image / Art Mode",
+      tipText: "Type a description and hit Generate, or upload an image to edit it."
+    },
+    code: {
+      icon: "💻",
+      title: "Code Mode",
+      desc: "Code in any language",
+      placeholder: "Describe the code you need...",
+      tipIcon: "💻",
+      tipTitle: "Code Mode",
+      tipText: "Ask for code in any language. Pick a language from the dropdown or let the AI decide.\nAll output uses classic 90s-style syntax."
+    }
+  };
+
+  // ── Mode switching ──────────────────────────────────────────────────────────
+  function switchMode(mode) {
+    currentMode = mode;
+
+    // Update body class
+    document.body.className = "mode-" + mode;
+
+    // Update nav buttons
+    var navBtns = document.querySelectorAll(".nav-btn");
+    for (var i = 0; i < navBtns.length; i++) {
+      navBtns[i].classList.remove("active");
+    }
+    var activeBtn = document.querySelector(".nav-btn.mode-" + mode);
+    if (activeBtn) activeBtn.classList.add("active");
+
+    // Update header
+    var m = MODES[mode];
+    headerIcon.textContent  = m.icon;
+    headerTitle.textContent = m.title;
+    headerDesc.textContent  = m.desc;
+    inputEl.placeholder     = m.placeholder;
+
+    // Clear messages and show mode tip
+    messagesEl.innerHTML = "";
+    var tip = document.createElement("div");
+    tip.id = "mode-tip";
+    tip.innerHTML = '<div class="tip-icon">' + m.tipIcon + '</div>'
+      + '<div class="tip-title">' + m.tipTitle + '</div>'
+      + m.tipText;
+    messagesEl.appendChild(tip);
+    modeTipEl = tip;
+
+    // Clear chat history and upload state for the new mode
+    chatHistory = [];
+    clearUpload();
+
+    inputEl.focus();
+  }
+
+  // Remove tip once the user starts chatting
+  function clearTip() {
+    if (modeTipEl && modeTipEl.parentNode) {
+      modeTipEl.parentNode.removeChild(modeTipEl);
+      modeTipEl = null;
+    }
+  }
+
+  // ── Textarea auto-resize ────────────────────────────────────────────────────
+  inputEl.addEventListener("input", function() {
+    inputEl.style.height = "auto";
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
+  });
+
+  inputEl.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      // In image mode Enter shouldn't send a chat — it generates/edits
+      if (currentMode === "image") {
+        if (pendingUploadDataUrl) { editUploadedImage(); } else { generateImage(); }
+      } else {
+        send();
+      }
+    }
+  });
+
+  // ── Upload handling ─────────────────────────────────────────────────────────
+  function handleUpload(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      pendingUploadDataUrl = e.target.result;
+      uploadPreviewImg.src = pendingUploadDataUrl;
+      uploadPreviewWrap.classList.add("visible");
+      inputEl.placeholder = 'Describe your edit, e.g. "add a sunset sky"';
+      inputEl.focus();
+    };
+    reader.readAsDataURL(file);
+    event.target.value = "";
+  }
+
+  function clearUpload() {
+    pendingUploadDataUrl = null;
+    uploadPreviewImg.src = "";
+    uploadPreviewWrap.classList.remove("visible");
+    inputEl.placeholder = MODES[currentMode].placeholder;
+  }
+
+  // ── Button lock/unlock ──────────────────────────────────────────────────────
+  function setButtons(disabled) {
+    sendBtn.disabled = disabled;
+    if (imageBtn) imageBtn.disabled = disabled;
+    if (uploadBtn) uploadBtn.disabled = disabled;
+  }
+
+  // ── Plain text message ──────────────────────────────────────────────────────
+  function addMessage(role, text, isThinking) {
+    clearTip();
+    var wrapper = document.createElement("div");
+    wrapper.className = "message " + role;
+
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = role === "user" ? "You" : "AI";
+
+    var bubble = document.createElement("div");
+    bubble.className = "bubble" + (isThinking ? " thinking" : "");
+    bubble.textContent = text;
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  // ── Uploaded image (user bubble) ────────────────────────────────────────────
+  function addUploadedImageMessage(dataUrl, caption) {
+    clearTip();
+    var wrapper = document.createElement("div");
+    wrapper.className = "message user";
+
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "You";
+
+    var bubble = document.createElement("div");
+    bubble.className = "bubble image-bubble";
+
+    if (caption) {
+      var cap = document.createElement("div");
+      cap.style.cssText = "font-size:13px;color:#fff;padding:0 4px";
+      cap.textContent = caption;
+      bubble.appendChild(cap);
+    }
+
+    var img = document.createElement("img");
+    img.src = dataUrl;
+    img.alt = caption || "uploaded image";
+    bubble.appendChild(img);
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // ── Spinner bubble ──────────────────────────────────────────────────────────
+  function addSpinnerBubble() {
+    clearTip();
+    var wrapper = document.createElement("div");
+    wrapper.className = "message assistant";
+
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "AI";
+
+    var bubble = document.createElement("div");
+    bubble.className = "bubble image-bubble";
+
+    var spinWrap = document.createElement("div");
+    spinWrap.className = "spinner-wrap";
+
+    var spinner = document.createElement("div");
+    spinner.className = "spinner";
+
+    var spinText = document.createElement("span");
+    spinText.textContent = "Generating image...";
+
+    spinWrap.appendChild(spinner);
+    spinWrap.appendChild(spinText);
+    bubble.appendChild(spinWrap);
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  // ── Canvas download helper ──────────────────────────────────────────────────
+  function convertAndDownload(imgEl, format, prompt) {
+    var canvas = document.createElement("canvas");
+    canvas.width  = imgEl.naturalWidth  || imgEl.width;
+    canvas.height = imgEl.naturalHeight || imgEl.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(imgEl, 0, 0);
+
+    var filename = (prompt || "image").replace(/[^a-z0-9]/gi, "_").substring(0, 40);
+
+    if (format === "svg") {
+      var dataUrl = canvas.toDataURL("image/png");
+      var svgContent = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"'
+        + ' width="' + canvas.width + '" height="' + canvas.height + '">'
+        + '<image href="' + dataUrl + '" width="' + canvas.width + '" height="' + canvas.height + '"/>'
+        + '</svg>';
+      var blob = new Blob([svgContent], { type: "image/svg+xml" });
+      var url = URL.createObjectURL(blob);
+      triggerDownload(url, filename + ".svg");
+      URL.revokeObjectURL(url);
+    } else {
+      var mimeMap = { png: "image/png", jpeg: "image/jpeg", webp: "image/webp" };
+      var mime = mimeMap[format] || "image/png";
+      var ext  = format === "jpeg" ? "jpg" : format;
+      canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        triggerDownload(url, filename + "." + ext);
+        URL.revokeObjectURL(url);
+      }, mime, format === "jpeg" ? 0.95 : undefined);
+    }
+  }
+
+  function triggerDownload(url, filename) {
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // ── Render image bubble ─────────────────────────────────────────────────────
+  function renderImageIntoBubble(bubble, imageUrl, prompt) {
+    bubble.textContent = "";
+
+    var img = document.createElement("img");
+    img.crossOrigin = "anonymous";
+    img.src = imageUrl;
+    img.alt = prompt;
+    bubble.appendChild(img);
+
+    var promptLabel = document.createElement("div");
+    promptLabel.className = "image-prompt-label";
+    promptLabel.textContent = "Prompt: " + prompt;
+    bubble.appendChild(promptLabel);
+
+    var actions = document.createElement("div");
+    actions.className = "image-actions";
+
+    var formatSelect = document.createElement("select");
+    formatSelect.className = "format-select";
+    formatSelect.title = "Download format";
+    var fmts = [
+      { value: "png",  label: "PNG"  },
+      { value: "jpeg", label: "JPEG" },
+      { value: "webp", label: "WebP" },
+      { value: "svg",  label: "SVG"  }
+    ];
+    for (var i = 0; i < fmts.length; i++) {
+      var opt = document.createElement("option");
+      opt.value = fmts[i].value;
+      opt.textContent = fmts[i].label;
+      formatSelect.appendChild(opt);
+    }
+
+    var downloadBtn = document.createElement("button");
+    downloadBtn.className = "action-btn download-btn";
+    downloadBtn.textContent = "⬇ Download";
+    downloadBtn.onclick = (function(iRef, sRef, pRef) {
+      return function() { convertAndDownload(iRef, sRef.value, pRef); };
+    })(img, formatSelect, prompt);
+
+    var editToggleBtn = document.createElement("button");
+    editToggleBtn.className = "action-btn edit-toggle-btn";
+    editToggleBtn.textContent = "✏️ Edit";
+
+    actions.appendChild(formatSelect);
+    actions.appendChild(downloadBtn);
+    actions.appendChild(editToggleBtn);
+    bubble.appendChild(actions);
+
+    var editArea = document.createElement("div");
+    editArea.className = "image-edit-area hidden";
+
+    var editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.className = "image-edit-input";
+    editInput.placeholder = 'e.g. "make it night time" or "add a dragon"';
+
+    var editBtn = document.createElement("button");
+    editBtn.className = "image-edit-btn";
+    editBtn.textContent = "Apply";
+
+    editArea.appendChild(editInput);
+    editArea.appendChild(editBtn);
+    bubble.appendChild(editArea);
+
+    editToggleBtn.onclick = function() {
+      if (editArea.classList.contains("hidden")) {
+        editArea.classList.remove("hidden");
+        editInput.focus();
+        editToggleBtn.textContent = "✕ Cancel";
+      } else {
+        editArea.classList.add("hidden");
+        editToggleBtn.textContent = "✏️ Edit";
+      }
+    };
+
+    editBtn.onclick = function() {
+      var ep = editInput.value.trim();
+      if (!ep) return;
+      applyEdit(bubble, img, prompt, ep, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn);
+    };
+
+    editInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") editBtn.click();
+    });
+
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // ── Apply image edit ────────────────────────────────────────────────────────
+  function applyEdit(bubble, imgEl, oldPrompt, editPrompt, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn) {
+    var newPrompt = oldPrompt + ", " + editPrompt;
+    editBtn.disabled = true;
+    editBtn.textContent = "Generating...";
+    editInput.disabled = true;
+    editToggleBtn.disabled = true;
+
+    var newUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(newPrompt)
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now();
+
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      imgEl.src = newUrl;
+      imgEl.alt = newPrompt;
+      promptLabel.textContent = "Prompt: " + newPrompt;
+
+      downloadBtn.onclick = (function(iRef, sRef, pRef) {
+        return function() { convertAndDownload(iRef, sRef.value, pRef); };
+      })(imgEl, formatSelect, newPrompt);
+
+      editBtn.onclick = function() {
+        var ep = editInput.value.trim();
+        if (!ep) return;
+        applyEdit(bubble, imgEl, newPrompt, ep, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn);
+      };
+
+      editInput.value = "";
+      editInput.placeholder = 'Edit again, e.g. "add snow"';
+      editBtn.disabled = false;
+      editBtn.textContent = "Apply";
+      editInput.disabled = false;
+      editToggleBtn.disabled = false;
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+
+    preload.onerror = function() {
+      editBtn.disabled = false;
+      editBtn.textContent = "Failed — try again";
+      editInput.disabled = false;
+      editToggleBtn.disabled = false;
+    };
+
+    preload.src = newUrl;
+  }
+
+  // ── Generate image ──────────────────────────────────────────────────────────
+  function generateImage() {
+    var input = inputEl.value.trim();
+    if (!input) { alert("Type an image description first."); return; }
+
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    setButtons(true);
+
+    addMessage("user", "🎨 " + input);
+    var bubble = addSpinnerBubble();
+
+    var imageUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(input)
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now();
+
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      renderImageIntoBubble(bubble, imageUrl, input);
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+    preload.onerror = function() {
+      bubble.textContent = "Failed to generate image. Try a different prompt.";
+      setButtons(false);
+    };
+    preload.src = imageUrl;
+  }
+
+  // ── Edit uploaded image ─────────────────────────────────────────────────────
+  function editUploadedImage() {
+    var prompt = inputEl.value.trim();
+    if (!prompt) { alert("Describe how you want to edit the image."); return; }
+
+    var dataUrl = pendingUploadDataUrl;
+    clearUpload();
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    setButtons(true);
+
+    addUploadedImageMessage(dataUrl, "✏️ " + prompt);
+    var bubble = addSpinnerBubble();
+
+    var imageUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now()
+      + "&image_url=" + encodeURIComponent(dataUrl);
+
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      renderImageIntoBubble(bubble, imageUrl, prompt);
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+    preload.onerror = function() {
+      bubble.textContent = "Failed to edit image. Try a different prompt.";
+      setButtons(false);
+    };
+    preload.src = imageUrl;
+  }
+
+  // ── Send chat message ───────────────────────────────────────────────────────
+  function send() {
+    // Image mode: route to image actions
+    if (currentMode === "image") {
+      if (pendingUploadDataUrl) { editUploadedImage(); } else { generateImage(); }
+      return;
+    }
+
+    if (pendingUploadDataUrl) { editUploadedImage(); return; }
+
+    var input = inputEl.value.trim();
+    if (!input) return;
+
+    // Code mode: prepend selected language to the message
+    var langSelect = document.getElementById("lang-select");
+    var lang = langSelect ? langSelect.value : "";
+    var fullInput = (lang && currentMode === "code")
+      ? "Write the following in " + lang + ": " + input
+      : input;
+
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    setButtons(true);
+
+    addMessage("user", lang ? "[" + lang + "] " + input : input);
+    var thinkingBubble = addMessage("assistant", "Thinking...", true);
+
+    chatHistory.push({ role: "user", content: fullInput });
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.timeout = 30000;
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
+      try {
+        var data = JSON.parse(xhr.responseText);
+        var text = data.reply || data.error || xhr.responseText;
+        chatHistory.push({ role: "assistant", content: text });
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = text || "(No response)";
+      } catch(e) {
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = "Error parsing response.";
+      }
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+    xhr.onerror = function() {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Network error — check your connection.";
+      setButtons(false);
+    };
+    xhr.ontimeout = function() {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Request timed out. Try again in a moment.";
+      setButtons(false);
+    };
+    xhr.send(JSON.stringify({ messages: chatHistory }));
+  }
+</script>
+</body>
+</html>
