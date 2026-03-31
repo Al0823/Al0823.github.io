@@ -107,14 +107,14 @@ article svg {
   overflow: visible;
 }
 
-.nav {
+nav, .nav, #nav {
   background: var(--bg-soft);
     min-height: 50px;
     width: 100%;
     overflow: hidden;
 }
 
-.nav a {
+nav a, .nav a, #nav a {
     float: left;
     font-size: 20px;
 color: var(--link);
@@ -124,13 +124,13 @@ color: var(--link);
 }
 
 /* Hover effect to stand out */
-.nav a:hover {
+nav, .nav a:hover, #nav a:hover {
 background: var(--hover);;
     border-radius: 20px;
 }
 
-nav ul { list-style: none; }
-nav ul li { margin-bottom: .75rem; }
+nav ul, .nav ul, #nav ul { list-style: none; }
+nav ul li, .nav ul li, #nav ul li { margin-bottom: .75rem; }
 
 a {
   text-decoration: none;
