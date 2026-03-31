@@ -3,1373 +3,784 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>A.t.A. Projects - FreeGPT</title>
-
+  <title>AI Chat</title>
   <style>
-
-    *,
-    *::before,
-    *::after,
-    html,
-    body,
-    div,
-    span,
-    applet,
-    object,
-    iframe,
-    h1, h2, h3, h4, h5, h6,
-    p,
-    blockquote,
-    pre,
-    a,
-    abbr,
-    acronym,
-    address,
-    big,
-    cite,
-    code,
-    del,
-    dfn,
-    em,
-    img,
-    ins,
-    kbd,
-    q,
-    s,
-    samp,
-    small,
-    strike,
-    strong,
-    sub,
-    sup,
-    tt,
-    var,
-    b,
-    u,
-    i,
-    center,
-    dl,
-    dt,
-    dd,
-    ol,
-    ul,
-    li,
-    fieldset,
-    form,
-    label,
-    legend,
-    table,
-    caption,
-    tbody,
-    tfoot,
-    thead,
-    tr,
-    th,
-    td,
-    article,
-    aside,
-    canvas,
-    details,
-    embed,
-    figure,
-    figcaption,
-    footer,
-    header,
-    hgroup,
-    menu,
-    nav,
-    output,
-    ruby,
-    section,
-    summary,
-    time,
-    mark,
-    audio,
-    video,
-    button,
-    input,
-    select,
-    textarea {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --color-background-depth-zero:        #0d1117;
-      --color-background-depth-one:         #161b22;
-      --color-background-depth-two:         #21262d;
-      --color-border-standard:              #30363d;
-      --color-text-primary-high-contrast:   #e6edf3;
-      --color-text-secondary-muted:         #8b949e;
-      --color-accent-action-green-default:  #238636;
-      --color-accent-action-green-hover:    #2ea043;
-      --color-accent-information-blue-default: #1f6feb;
-      --color-accent-information-blue-hover:   #388bfd;
-      --color-accent-purple-default:        #6e40c9;
-      --color-accent-purple-hover:          #8957e5;
-      --color-text-on-color-white:          #ffffff;
-
-      --spacing-unit-half:    4px;
-      --spacing-unit-one:     8px;
-      --spacing-unit-two:    16px;
-      --spacing-unit-three:  24px;
-      --spacing-unit-four:   32px;
-
-      --font-stack-system-ui: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-        sans-serif;
-
-      --border-radius-small:  6px;
-      --border-radius-medium: 8px;
-      --border-radius-large: 12px;
-
-      --transition-duration-fast:   0.15s;
-      --transition-duration-normal: 0.25s;
-      --transition-duration-slow:   0.35s;
-
-      --z-index-base:     0;
-      --z-index-elevated: 10;
-      --z-index-modal:    100;
-      --z-index-tooltip:  1000;
-    }
-
-    html {
-      height: 100%;
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: var(--font-stack-system-ui);
-      background-color: var(--color-background-depth-zero);
-      color: var(--color-text-primary-high-contrast);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
       height: 100vh;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
     }
 
-    #main-chat-application-container-wrapper-div {
+    #chat-container {
       width: 100%;
       max-width: 720px;
       height: 90vh;
       display: flex;
       flex-direction: column;
-      background-color: var(--color-background-depth-one);
-      border: 1px solid var(--color-border-standard);
-      border-radius: var(--border-radius-large);
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
       overflow: hidden;
     }
 
-    #chat-application-header-bar-element {
-      padding-top:    var(--spacing-unit-two);
-      padding-right:  var(--spacing-unit-three);
-      padding-bottom: var(--spacing-unit-two);
-      padding-left:   var(--spacing-unit-three);
-      border-bottom: 1px solid var(--color-border-standard);
+    #chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #30363d;
       font-weight: 600;
       font-size: 15px;
-      color: var(--color-text-primary-high-contrast);
-      background-color: var(--color-background-depth-one);
+      color: #e6edf3;
+      background: #161b22;
     }
 
-    #chat-messages-scrollable-area-container {
+    #messages {
       flex: 1;
       overflow-y: auto;
-      overflow-x: hidden;
-      padding-top:    var(--spacing-unit-three);
-      padding-right:  var(--spacing-unit-three);
-      padding-bottom: var(--spacing-unit-three);
-      padding-left:   var(--spacing-unit-three);
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: var(--spacing-unit-two);
+      gap: 16px;
     }
 
-    #chat-messages-scrollable-area-container::-webkit-scrollbar {
-      width: 6px;
-    }
+    #messages::-webkit-scrollbar { width: 6px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+    #messages::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
 
-    #chat-messages-scrollable-area-container::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    #chat-messages-scrollable-area-container::-webkit-scrollbar-thumb {
-      background-color: var(--color-border-standard);
-      border-radius: 3px;
-    }
-
-    .individual-message-outer-wrapper-element {
+    .message {
       display: flex;
       flex-direction: column;
       max-width: 85%;
-      gap: var(--spacing-unit-half);
+      gap: 4px;
     }
 
-    .individual-message-outer-wrapper-element.role-is-user {
-      align-self: flex-end;
-      align-items: flex-start;
-    }
+    .message.user { align-self: flex-end; align-items: flex-start; }
+    .message.assistant { align-self: flex-start; align-items: flex-start; }
 
-    .individual-message-outer-wrapper-element.role-is-assistant {
-      align-self: flex-start;
-      align-items: flex-start;
-    }
-
-    .message-role-label-text-element {
+    .message .label {
       font-size: 11px;
-      color: var(--color-text-secondary-muted);
-      padding-left:  var(--spacing-unit-half);
-      padding-right: var(--spacing-unit-half);
+      color: #8b949e;
+      padding: 0 4px;
     }
 
-    .message-content-bubble-element {
-      padding-top:    12px;
-      padding-right:  var(--spacing-unit-two);
-      padding-bottom: 12px;
-      padding-left:   var(--spacing-unit-two);
-      border-radius: var(--border-radius-large);
+    .message .bubble {
+      padding: 12px 16px;
+      border-radius: 12px;
       font-size: 14px;
       line-height: 1.6;
       white-space: pre-wrap;
       word-break: break-word;
     }
-    .individual-message-outer-wrapper-element.role-is-user
-    .message-content-bubble-element {
-      background-color: var(--color-accent-action-green-default);
-      color: var(--color-text-on-color-white);
-      border-bottom-right-radius: var(--spacing-unit-half);
+
+    .message.user .bubble {
+      background: #238636;
+      color: #fff;
+      border-bottom-right-radius: 4px;
     }
-    .individual-message-outer-wrapper-element.role-is-assistant
-    .message-content-bubble-element {
-      background-color: var(--color-background-depth-two);
-      color: var(--color-text-primary-high-contrast);
-      border: 1px solid var(--color-border-standard);
-      border-bottom-left-radius: var(--spacing-unit-half);
+
+    .message.assistant .bubble {
+      background: #21262d;
+      color: #e6edf3;
+      border: 1px solid #30363d;
+      border-bottom-left-radius: 4px;
     }
-    .message-content-bubble-element.state-is-currently-thinking {
-      color: var(--color-text-secondary-muted);
+
+    .message.assistant .bubble.thinking {
+      color: #8b949e;
       font-style: italic;
     }
 
-    .message-content-bubble-element.variant-is-image-display-bubble {
-      padding-top:    10px;
-      padding-right:  10px;
-      padding-bottom: 10px;
-      padding-left:   10px;
+    /* Image bubble */
+    .bubble.image-bubble {
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      gap: var(--spacing-unit-one);
-      background-color: var(--color-background-depth-two);
-      border: 1px solid var(--color-border-standard);
-      border-radius: var(--border-radius-large);
-      border-bottom-left-radius: var(--spacing-unit-half);
+      gap: 8px;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      border-bottom-left-radius: 4px;
       min-width: 260px;
     }
 
-    .individual-message-outer-wrapper-element.role-is-user
-    .message-content-bubble-element.variant-is-image-display-bubble {
-      background-color: var(--color-accent-action-green-default);
+    .message.user .bubble.image-bubble {
+      background: #238636;
       border: none;
-      border-bottom-right-radius: var(--spacing-unit-half);
-      border-bottom-left-radius: var(--border-radius-large);
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 12px;
     }
 
-    .message-content-bubble-element img.contained-image-element {
+    .bubble img {
       max-width: 100%;
-      border-radius: var(--spacing-unit-one);
+      border-radius: 8px;
       display: block;
     }
 
-    .image-generation-prompt-display-label {
+    /* Prompt label under image */
+    .image-prompt-label {
       font-size: 11px;
-      color: var(--color-text-secondary-muted);
+      color: #8b949e;
       font-style: italic;
-      padding-left:  2px;
-      padding-right: 2px;
+      padding: 0 2px;
       word-break: break-word;
     }
 
-    .image-loading-spinner-wrapper-container {
+    /* Loading spinner */
+    .spinner-wrap {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      padding-top:    var(--spacing-unit-three);
-      padding-bottom: var(--spacing-unit-three);
-      padding-left:   10px;
-      padding-right:  10px;
-      color: var(--color-text-secondary-muted);
+      padding: 20px 10px;
+      color: #8b949e;
       font-size: 13px;
       font-style: italic;
     }
 
-    .animated-circular-loading-spinner-disc {
+    .spinner {
       width: 32px;
       height: 32px;
-      border-width: 3px;
-      border-style: solid;
-      border-color: var(--color-border-standard);
-      border-top-color: var(--color-accent-information-blue-default);
+      border: 3px solid #30363d;
+      border-top-color: #1f6feb;
       border-radius: 50%;
-      animation: keyframe-animation-spin-360-degrees 0.8s linear infinite;
+      animation: spin 0.8s linear infinite;
     }
 
-    @keyframes keyframe-animation-spin-360-degrees {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .image-actions-control-bar-row-element {
+    /* Image action bar: download + format + edit */
+    .image-actions {
       display: flex;
-      gap: var(--spacing-unit-one) - 2px;
       gap: 6px;
       align-items: center;
       flex-wrap: wrap;
     }
 
-    .image-format-selection-dropdown-element {
-      background-color: var(--color-background-depth-zero);
-      border: 1px solid var(--color-border-standard);
-      border-radius: var(--border-radius-small);
-      color: var(--color-text-primary-high-contrast);
+    .format-select {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #e6edf3;
       font-size: 12px;
-      padding-top:    5px;
-      padding-bottom: 5px;
-      padding-left:   var(--spacing-unit-one);
-      padding-right:  var(--spacing-unit-one);
+      padding: 5px 8px;
       outline: none;
       cursor: pointer;
     }
 
-    .image-format-selection-dropdown-element:focus {
-      border-color: var(--color-accent-information-blue-default);
-    }
+    .format-select:focus { border-color: #1f6feb; }
 
-    .image-action-control-button-base {
+    .action-btn {
       border: none;
-      border-radius: var(--border-radius-small);
-      padding-top:    5px;
-      padding-bottom: 5px;
-      padding-left:   11px;
-      padding-right:  11px;
+      border-radius: 6px;
+      padding: 5px 11px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color var(--transition-duration-fast) ease;
+      transition: background 0.15s;
       white-space: nowrap;
-      color: var(--color-text-on-color-white);
+      color: #fff;
     }
 
-    .image-action-control-button-base.style-is-download-button {
-      background-color: var(--color-accent-action-green-default);
-    }
+    .download-btn { background: #238636; }
+    .download-btn:hover { background: #2ea043; }
+    .edit-toggle-btn { background: #6e40c9; }
+    .edit-toggle-btn:hover { background: #8957e5; }
+    .action-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
 
-    .image-action-control-button-base.style-is-download-button:hover {
-      background-color: var(--color-accent-action-green-hover);
-    }
-
-    .image-action-control-button-base.style-is-edit-toggle-button {
-      background-color: var(--color-accent-purple-default);
-    }
-
-    .image-action-control-button-base.style-is-edit-toggle-button:hover {
-      background-color: var(--color-accent-purple-hover);
-    }
-
-    .image-action-control-button-base:disabled {
-      background-color: var(--color-background-depth-two) !important;
-      color: var(--color-text-secondary-muted) !important;
-      cursor: not-allowed;
-    }
-
-    .image-inline-edit-controls-area-container {
+    /* Edit area */
+    .image-edit-area {
       display: flex;
-      gap: var(--spacing-unit-one) - 2px;
       gap: 6px;
       margin-top: 2px;
     }
 
-    .image-inline-edit-controls-area-container.visibility-state-hidden {
-      display: none;
-    }
+    .image-edit-area.hidden { display: none; }
 
-    .image-edit-description-text-input-field {
+    .image-edit-input {
       flex: 1;
-      background-color: var(--color-background-depth-zero);
-      border: 1px solid var(--color-border-standard);
-      border-radius: var(--border-radius-small);
-      color: var(--color-text-primary-high-contrast);
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #e6edf3;
       font-size: 13px;
-      padding-top:    6px;
-      padding-bottom: 6px;
-      padding-left:   10px;
-      padding-right:  10px;
+      padding: 6px 10px;
       outline: none;
-      font-family: var(--font-stack-system-ui);
+      font-family: inherit;
     }
 
-    .image-edit-description-text-input-field:focus {
-      border-color: var(--color-accent-information-blue-default);
-    }
+    .image-edit-input:focus { border-color: #1f6feb; }
+    .image-edit-input::placeholder { color: #8b949e; }
 
-    .image-edit-description-text-input-field::placeholder {
-      color: var(--color-text-secondary-muted);
-    }
-
-    .image-edit-submit-apply-button-element {
-      background-color: var(--color-accent-information-blue-default);
-      color: var(--color-text-on-color-white);
+    .image-edit-btn {
+      background: #1f6feb;
+      color: #fff;
       border: none;
-      border-radius: var(--border-radius-small);
-      padding-top:    6px;
-      padding-bottom: 6px;
-      padding-left:   12px;
-      padding-right:  12px;
+      border-radius: 6px;
+      padding: 6px 12px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color var(--transition-duration-fast) ease;
+      transition: background 0.15s;
       white-space: nowrap;
-      font-family: var(--font-stack-system-ui);
     }
 
-    .image-edit-submit-apply-button-element:hover {
-      background-color: var(--color-accent-information-blue-hover);
-    }
+    .image-edit-btn:hover { background: #388bfd; }
+    .image-edit-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
 
-    .image-edit-submit-apply-button-element:disabled {
-      background-color: var(--color-background-depth-two);
-      color: var(--color-text-secondary-muted);
-      cursor: not-allowed;
-    }
-
-    #chat-input-footer-area-containing-element {
-      padding-top:    var(--spacing-unit-two);
-      padding-bottom: var(--spacing-unit-two);
-      padding-left:   var(--spacing-unit-two);
-      padding-right:  var(--spacing-unit-two);
-      border-top: 1px solid var(--color-border-standard);
+    /* Input area */
+    #input-area {
+      padding: 16px;
+      border-top: 1px solid #30363d;
       display: flex;
-      gap: var(--spacing-unit-one);
-      background-color: var(--color-background-depth-one);
+      gap: 8px;
+      background: #161b22;
       align-items: flex-end;
     }
 
-    #primary-message-composition-textarea-input {
+    #input {
       flex: 1;
-      background-color: var(--color-background-depth-zero);
-      border: 1px solid var(--color-border-standard);
-      border-radius: var(--spacing-unit-one);
-      color: var(--color-text-primary-high-contrast);
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      color: #e6edf3;
       font-size: 14px;
-      padding-top:    10px;
-      padding-bottom: 10px;
-      padding-left:   14px;
-      padding-right:  14px;
+      padding: 10px 14px;
       resize: none;
       outline: none;
-      font-family: var(--font-stack-system-ui);
+      font-family: inherit;
       line-height: 1.5;
       max-height: 120px;
     }
 
-    #primary-message-composition-textarea-input:focus {
-      border-color: var(--color-accent-action-green-default);
-    }
+    #input:focus { border-color: #238636; }
+    #input::placeholder { color: #8b949e; }
 
-    #primary-message-composition-textarea-input::placeholder {
-      color: var(--color-text-secondary-muted);
-    }
-
-    .footer-toolbar-action-button-base-style {
+    .toolbar-btn {
       border: none;
-      border-radius: var(--spacing-unit-one);
-      padding-top:    10px;
-      padding-bottom: 10px;
-      padding-left:   14px;
-      padding-right:  14px;
+      border-radius: 8px;
+      padding: 10px 14px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color var(--transition-duration-fast) ease;
+      transition: background 0.15s;
       white-space: nowrap;
-      color: var(--color-text-on-color-white);
-      font-family: var(--font-stack-system-ui);
+      color: #fff;
     }
 
-    #message-send-action-button {
-      background-color: var(--color-accent-action-green-default);
-    }
-    #message-send-action-button:hover {
-      background-color: var(--color-accent-action-green-hover);
-    }
+    #send-btn { background: #238636; }
+    #send-btn:hover { background: #2ea043; }
+    #image-btn { background: #1f6feb; }
+    #image-btn:hover { background: #388bfd; }
+    #upload-btn { background: #6e40c9; }
+    #upload-btn:hover { background: #8957e5; }
+    .toolbar-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
 
-    #image-generation-trigger-button {
-      background-color: var(--color-accent-information-blue-default);
-    }
-    #image-generation-trigger-button:hover {
-      background-color: var(--color-accent-information-blue-hover);
-    }
-
-    #file-upload-trigger-button {
-      background-color: var(--color-accent-purple-default);
-    }
-    #file-upload-trigger-button:hover {
-      background-color: var(--color-accent-purple-hover);
-    }
-
-    .footer-toolbar-action-button-base-style:disabled {
-      background-color: var(--color-background-depth-two) !important;
-      color: var(--color-text-secondary-muted) !important;
-      cursor: not-allowed;
-    }
-
-    #image-upload-preview-strip-wrapper {
+    /* Upload preview strip */
+    #upload-preview-wrap {
       display: none;
-      padding-top:   var(--spacing-unit-one);
-      padding-left:  var(--spacing-unit-two);
-      padding-right: var(--spacing-unit-two);
-      padding-bottom: 0;
-      background-color: var(--color-background-depth-one);
+      padding: 8px 16px 0;
+      background: #161b22;
       align-items: center;
       gap: 10px;
     }
 
-    #image-upload-preview-strip-wrapper.visibility-class-is-visible {
-      display: flex;
-    }
+    #upload-preview-wrap.visible { display: flex; }
 
-    #upload-thumbnail-preview-img-element {
+    #upload-preview {
       width: 56px;
       height: 56px;
       object-fit: cover;
-      border-radius: var(--border-radius-small);
-      border: 1px solid var(--color-border-standard);
+      border-radius: 6px;
+      border: 1px solid #30363d;
     }
 
-    #upload-instructional-label-text-span {
+    #upload-preview-label {
       font-size: 12px;
-      color: var(--color-text-secondary-muted);
+      color: #8b949e;
       flex: 1;
     }
 
-    #upload-cancellation-clear-button {
+    #upload-clear-btn {
       background: none;
       border: none;
-      color: var(--color-text-secondary-muted);
+      color: #8b949e;
       font-size: 18px;
       cursor: pointer;
       line-height: 1;
-      padding-left:  var(--spacing-unit-half);
-      padding-right: var(--spacing-unit-half);
+      padding: 0 4px;
     }
 
-    #upload-cancellation-clear-button:hover {
-      color: var(--color-text-primary-high-contrast);
-    }
-
+    #upload-clear-btn:hover { color: #e6edf3; }
   </style>
 </head>
 <body>
-<div id="main-chat-application-container-wrapper-div">
-  <div id="chat-application-header-bar-element">A.t.A. Projects - AI Chatbot</div>
-  <div id="chat-messages-scrollable-area-container"></div>
-  <div id="image-upload-preview-strip-wrapper">
-    <img id="upload-thumbnail-preview-img-element" src="" alt="pending upload preview" />
-    <span id="upload-instructional-label-text-span"></span>
-    <button id="upload-cancellation-clear-button" title="Remove pending image upload" onclick="handleUserClickedClearUploadButton()">✕</button>
+
+<div id="chat-container">
+  <div id="chat-header">🤖 AI Chat</div>
+  <div id="messages"></div>
+
+  <div id="upload-preview-wrap">
+    <img id="upload-preview" src="" alt="preview" />
+    <span id="upload-preview-label">Image ready — type an edit prompt and click Send</span>
+    <button id="upload-clear-btn" title="Remove image" onclick="clearUpload()">✕</button>
   </div>
-  <div id="chat-input-footer-area-containing-element">
-    <textarea id="primary-message-composition-textarea-input" rows="1" placeholder="Type a message... (Enter to send)"></textarea>
-    <input type="file" id="hidden-file-input-for-image-upload" accept="image/*" style="display:none" onchange="handleUserSelectedImageFileForUpload(event)" />
-    <button id="file-upload-trigger-button" class="footer-toolbar-action-button-base-style" onclick="handleUserClickedUploadImageButton()">📁 Upload</button>
-<button id="image-generation-trigger-button" class="footer-toolbar-action-button-base-style" onclick="handleUserClickedGenerateImageButton()">🎨 Image</button>
-    <button id="message-send-action-button" class="footer-toolbar-action-button-base-style" onclick="handleUserClickedSendMessageButton()">Send</button>
+
+  <div id="input-area">
+    <textarea id="input" rows="1" placeholder="Type a message... (Enter to send)"></textarea>
+    <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleUpload(event)" />
+    <button id="upload-btn" class="toolbar-btn" onclick="document.getElementById('file-input').click()">📁 Upload</button>
+    <button id="image-btn" class="toolbar-btn" onclick="generateImage()">🎨 Image</button>
+    <button id="send-btn" class="toolbar-btn" onclick="send()">Send</button>
   </div>
 </div>
 
 <script>
-  var GLOBAL_CONFIGURATION_WORKER_RELAY_URL = "https://githubai-relay.akonyswoodard.workers.dev";
+  var WORKER_URL = "https://githubai-relay.akonyswoodard.workers.dev";
 
-  var GLOBAL_CONFIGURATION_IMAGE_API_BASE_URL = "https://image.pollinations.ai/prompt/";
+  var messagesEl = document.getElementById("messages");
+  var inputEl = document.getElementById("input");
+  var sendBtn = document.getElementById("send-btn");
+  var imageBtn = document.getElementById("image-btn");
+  var uploadBtn = document.getElementById("upload-btn");
+  var uploadPreviewWrap = document.getElementById("upload-preview-wrap");
+  var uploadPreviewImg = document.getElementById("upload-preview");
 
-  var GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_WIDTH = 1024;
+  var chatHistory = [];
+  var pendingUploadDataUrl = null;
 
-  var GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_HEIGHT = 1024;
+  // ── Textarea auto-resize ──────────────────────────────────────────────────
+  inputEl.addEventListener("input", function() {
+    inputEl.style.height = "auto";
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
+  });
 
-  var GLOBAL_CONFIGURATION_IMAGE_API_NOLOGO_PARAM = true;
-
-  var GLOBAL_CONFIGURATION_IMAGE_API_ENHANCE_PARAM = true;
-
-  var GLOBAL_CONFIGURATION_SUPPORTED_DOWNLOAD_FORMATS_ARRAY = [
-    { value: "png",  label: "PNG"  },
-    { value: "jpeg", label: "JPEG" },
-    { value: "webp", label: "WebP" },
-    { value: "svg",  label: "SVG"  }
-  ];
-
-  var GLOBAL_CONFIGURATION_FILENAME_MAX_CHARACTER_LENGTH = 40;
-
-  var GLOBAL_CONFIGURATION_MIME_TYPE_LOOKUP_TABLE = {
-    "png":  "image/png",
-    "jpeg": "image/jpeg",
-    "webp": "image/webp"
-  };
-
-  var domRef_messagesScrollableContainer = document.getElementById(
-    "chat-messages-scrollable-area-container"
-  );
-
-  var domRef_primaryTextareaInput = document.getElementById(
-    "primary-message-composition-textarea-input"
-  );
-
-  var domRef_sendButton = document.getElementById(
-    "message-send-action-button"
-  );
-
-  var domRef_imageGenerationButton = document.getElementById(
-    "image-generation-trigger-button"
-  );
-
-  var domRef_uploadButton = document.getElementById(
-    "file-upload-trigger-button"
-  );
-
-  var domRef_uploadPreviewStripWrapper = document.getElementById(
-    "image-upload-preview-strip-wrapper"
-  );
-
-  var domRef_uploadPreviewImg = document.getElementById(
-    "upload-thumbnail-preview-img-element"
-  );
-
-  var applicationState_conversationHistoryArray = [];
-
-  var applicationState_pendingUploadDataUrlString = null;
-
-  function handleTextareaInputEventForAutoResize(eventObject) {
-    domRef_primaryTextareaInput.style.height = "auto";
-    var computedNewHeightInPixels = Math.min(
-      domRef_primaryTextareaInput.scrollHeight,
-      120
-    );
-    domRef_primaryTextareaInput.style.height = computedNewHeightInPixels + "px";
-  }
-
-  domRef_primaryTextareaInput.addEventListener(
-    "input",
-    handleTextareaInputEventForAutoResize
-  );
-
-  function handleTextareaKeydownEventForEnterSubmit(keyboardEventObject) {
-    var pressedKey = keyboardEventObject.key;
-    var isShiftHeld = keyboardEventObject.shiftKey;
-
-    if (pressedKey === "Enter" && isShiftHeld === false) {
-      keyboardEventObject.preventDefault();
-      handleUserClickedSendMessageButton();
+  inputEl.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
     }
+  });
+
+  // ── Upload handling ───────────────────────────────────────────────────────
+  function handleUpload(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      pendingUploadDataUrl = e.target.result;
+      uploadPreviewImg.src = pendingUploadDataUrl;
+      uploadPreviewWrap.classList.add("visible");
+      inputEl.placeholder = 'Describe your edit, e.g. "add a sunset sky"';
+      inputEl.focus();
+    };
+    reader.readAsDataURL(file);
+    event.target.value = "";
   }
 
-  domRef_primaryTextareaInput.addEventListener(
-    "keydown",
-    handleTextareaKeydownEventForEnterSubmit
-  );
-
-  function handleUserClickedUploadImageButton() {
-    var hiddenFileInputElement = document.getElementById(
-      "hidden-file-input-for-image-upload"
-    );
-    hiddenFileInputElement.click();
+  function clearUpload() {
+    pendingUploadDataUrl = null;
+    uploadPreviewImg.src = "";
+    uploadPreviewWrap.classList.remove("visible");
+    inputEl.placeholder = "Type a message... (Enter to send)";
   }
 
-  function handleUserSelectedImageFileForUpload(changeEventObject) {
-    var selectedFileObject = changeEventObject.target.files[0];
+  // ── Button lock/unlock ────────────────────────────────────────────────────
+  function setButtons(disabled) {
+    sendBtn.disabled = disabled;
+    imageBtn.disabled = disabled;
+    uploadBtn.disabled = disabled;
+  }
 
-    if (!selectedFileObject) {
-      return;
+  // ── Plain text message ────────────────────────────────────────────────────
+  function addMessage(role, text, isThinking) {
+    var wrapper = document.createElement("div");
+    wrapper.className = "message " + role;
+
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = role === "user" ? "You" : "AI";
+
+    var bubble = document.createElement("div");
+    bubble.className = "bubble" + (isThinking ? " thinking" : "");
+    bubble.textContent = text;
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  // ── User uploaded image bubble ────────────────────────────────────────────
+  function addUploadedImageMessage(dataUrl, caption) {
+    var wrapper = document.createElement("div");
+    wrapper.className = "message user";
+
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "You";
+
+    var bubble = document.createElement("div");
+    bubble.className = "bubble image-bubble";
+
+    if (caption) {
+      var cap = document.createElement("div");
+      cap.style.cssText = "font-size:13px;color:#fff;padding:0 4px";
+      cap.textContent = caption;
+      bubble.appendChild(cap);
     }
 
-    var fileReaderInstance = new FileReader();
+    var img = document.createElement("img");
+    img.src = dataUrl;
+    img.alt = caption || "uploaded image";
+    bubble.appendChild(img);
 
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
 
-    fileReaderInstance.onload = function(loadEventObject) {
-      applicationState_pendingUploadDataUrlString = loadEventObject.target.result;
+  // ── Assistant spinner bubble ──────────────────────────────────────────────
+  function addSpinnerBubble() {
+    var wrapper = document.createElement("div");
+    wrapper.className = "message assistant";
 
-      domRef_uploadPreviewImg.src = applicationState_pendingUploadDataUrlString;
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "AI";
 
-      domRef_uploadPreviewStripWrapper.classList.add(
-        "visibility-class-is-visible"
-      );
+    var bubble = document.createElement("div");
+    bubble.className = "bubble image-bubble";
 
-      domRef_primaryTextareaInput.placeholder =
-        'Describe your edit, e.g. "add a sunset sky"';
+    var spinWrap = document.createElement("div");
+    spinWrap.className = "spinner-wrap";
 
-      domRef_primaryTextareaInput.focus();
+    var spinner = document.createElement("div");
+    spinner.className = "spinner";
+
+    var spinText = document.createElement("span");
+    spinText.textContent = "Generating image...";
+
+    spinWrap.appendChild(spinner);
+    spinWrap.appendChild(spinText);
+    bubble.appendChild(spinWrap);
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  // ── Convert image URL to target format via canvas ─────────────────────────
+  function convertAndDownload(imgEl, format, prompt) {
+    var canvas = document.createElement("canvas");
+    canvas.width = imgEl.naturalWidth || imgEl.width;
+    canvas.height = imgEl.naturalHeight || imgEl.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(imgEl, 0, 0);
+
+    var mimeMap = {
+      "png": "image/png",
+      "jpeg": "image/jpeg",
+      "webp": "image/webp"
     };
 
-    fileReaderInstance.readAsDataURL(selectedFileObject);
+    var filename = (prompt || "image").replace(/[^a-z0-9]/gi, "_").substring(0, 40);
 
-    changeEventObject.target.value = "";
-  }
-
-  function handleUserClickedClearUploadButton() {
-    applicationState_pendingUploadDataUrlString = null;
-
-    domRef_uploadPreviewImg.src = "";
-
-    domRef_uploadPreviewStripWrapper.classList.remove(
-      "visibility-class-is-visible"
-    );
-
-    domRef_primaryTextareaInput.placeholder =
-      "Type a message... (Enter to send)";
-  }
-
-  function setAllInteractiveButtonsDisabledState(shouldBeDisabled) {
-    domRef_sendButton.disabled           = shouldBeDisabled;
-    domRef_imageGenerationButton.disabled = shouldBeDisabled;
-    domRef_uploadButton.disabled          = shouldBeDisabled;
-  }
-
-  function createAndAppendTextMessageBubble(
-    roleString,
-    messageTextContent,
-    isThinkingPlaceholder
-  ) {
-    var outerWrapperDivElement = document.createElement("div");
-    outerWrapperDivElement.className =
-      "individual-message-outer-wrapper-element role-is-" + roleString;
-
-    var roleLabelDivElement = document.createElement("div");
-    roleLabelDivElement.className = "message-role-label-text-element";
-    roleLabelDivElement.textContent = (roleString === "user") ? "You" : "AI";
-
-    var bubbleDivElement = document.createElement("div");
-
-    var bubbleClassString = "message-content-bubble-element";
-    if (isThinkingPlaceholder === true) {
-      bubbleClassString = bubbleClassString + " state-is-currently-thinking";
-    }
-    bubbleDivElement.className = bubbleClassString;
-
-    bubbleDivElement.textContent = messageTextContent;
-
-    outerWrapperDivElement.appendChild(roleLabelDivElement);
-    outerWrapperDivElement.appendChild(bubbleDivElement);
-
-    domRef_messagesScrollableContainer.appendChild(outerWrapperDivElement);
-
-    scrollMessagesContainerToBottom();
-
-    return bubbleDivElement;
-  }
-
-  function createAndAppendUploadedImageUserMessage(
-    imageDataUrlString,
-    optionalCaptionText
-  ) {
-    var outerWrapperDivElement = document.createElement("div");
-    outerWrapperDivElement.className =
-      "individual-message-outer-wrapper-element role-is-user";
-
-    var roleLabelDivElement = document.createElement("div");
-    roleLabelDivElement.className = "message-role-label-text-element";
-    roleLabelDivElement.textContent = "You";
-
-    var imageBubbleDivElement = document.createElement("div");
-    imageBubbleDivElement.className =
-      "message-content-bubble-element variant-is-image-display-bubble";
-
-    if (optionalCaptionText) {
-      var captionDivElement = document.createElement("div");
-      captionDivElement.style.cssText =
-        "font-size:13px;color:#ffffff;padding:0 4px";
-      captionDivElement.textContent = optionalCaptionText;
-      imageBubbleDivElement.appendChild(captionDivElement);
-    }
-
-    var imageElement = document.createElement("img");
-    imageElement.className = "contained-image-element";
-    imageElement.src = imageDataUrlString;
-    imageElement.alt = optionalCaptionText || "uploaded image";
-    imageBubbleDivElement.appendChild(imageElement);
-
-    outerWrapperDivElement.appendChild(roleLabelDivElement);
-    outerWrapperDivElement.appendChild(imageBubbleDivElement);
-    domRef_messagesScrollableContainer.appendChild(outerWrapperDivElement);
-    scrollMessagesContainerToBottom();
-  }
-
-  function createAndAppendSpinnerLoadingBubble() {
-    var outerWrapperDivElement = document.createElement("div");
-    outerWrapperDivElement.className =
-      "individual-message-outer-wrapper-element role-is-assistant";
-
-    var roleLabelDivElement = document.createElement("div");
-    roleLabelDivElement.className = "message-role-label-text-element";
-    roleLabelDivElement.textContent = "AI";
-
-    var spinnerBubbleDivElement = document.createElement("div");
-    spinnerBubbleDivElement.className =
-      "message-content-bubble-element variant-is-image-display-bubble";
-
-    var spinnerWrapperDivElement = document.createElement("div");
-    spinnerWrapperDivElement.className =
-      "image-loading-spinner-wrapper-container";
-
-    var spinnerDiscDivElement = document.createElement("div");
-    spinnerDiscDivElement.className =
-      "animated-circular-loading-spinner-disc";
-
-    var spinnerTextSpanElement = document.createElement("span");
-    spinnerTextSpanElement.textContent = "Generating image...";
-
-    spinnerWrapperDivElement.appendChild(spinnerDiscDivElement);
-    spinnerWrapperDivElement.appendChild(spinnerTextSpanElement);
-
-    spinnerBubbleDivElement.appendChild(spinnerWrapperDivElement);
-
-    outerWrapperDivElement.appendChild(roleLabelDivElement);
-    outerWrapperDivElement.appendChild(spinnerBubbleDivElement);
-
-    domRef_messagesScrollableContainer.appendChild(outerWrapperDivElement);
-    scrollMessagesContainerToBottom();
-
-    return spinnerBubbleDivElement;
-  }
-
-  function scrollMessagesContainerToBottom() {
-    domRef_messagesScrollableContainer.scrollTop =
-      domRef_messagesScrollableContainer.scrollHeight;
-  }
-
-  function buildPollinationsImageApiUrl(promptString, optionalUploadedImageDataUrl) {
-    var urlEncodedPromptString = encodeURIComponent(promptString);
-
-    var cacheBustingSeedValue = Date.now();
-
-    var constructedUrlString = GLOBAL_CONFIGURATION_IMAGE_API_BASE_URL
-      + urlEncodedPromptString
-      + "?width="   + GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_WIDTH
-      + "&height="  + GLOBAL_CONFIGURATION_IMAGE_API_DEFAULT_HEIGHT
-      + "&nologo="  + GLOBAL_CONFIGURATION_IMAGE_API_NOLOGO_PARAM
-      + "&enhance=" + GLOBAL_CONFIGURATION_IMAGE_API_ENHANCE_PARAM
-      + "&seed="    + cacheBustingSeedValue;
-
-    if (optionalUploadedImageDataUrl !== null &&
-        optionalUploadedImageDataUrl !== undefined) {
-      constructedUrlString = constructedUrlString
-        + "&image_url=" + encodeURIComponent(optionalUploadedImageDataUrl);
-    }
-
-    return constructedUrlString;
-  }
-
-  function buildSafeFilenameFromPrompt(promptString) {
-    var sanitizedString = (promptString || "image").replace(
-      /[^a-z0-9]/gi,
-      "_"
-    );
-    var truncatedString = sanitizedString.substring(
-      0,
-      GLOBAL_CONFIGURATION_FILENAME_MAX_CHARACTER_LENGTH
-    );
-    return truncatedString;
-  }
-
-  function triggerBrowserDownloadFromObjectUrl(objectUrlString, filenameString) {
-    var temporaryAnchorElement = document.createElement("a");
-    temporaryAnchorElement.href     = objectUrlString;
-    temporaryAnchorElement.download = filenameString;
-
-    document.body.appendChild(temporaryAnchorElement);
-
-    temporaryAnchorElement.click();
-
-    document.body.removeChild(temporaryAnchorElement);
-
-    URL.revokeObjectURL(objectUrlString);
-  }
-
-  function performImageDownloadConversionAndTrigger(
-    imageElementReference,
-    targetFormatString,
-    promptForFilenameString
-  ) {
-    var safeFilenameBase = buildSafeFilenameFromPrompt(promptForFilenameString);
-
-    var offscreenCanvasElement = document.createElement("canvas");
-    var naturalWidthValue  = imageElementReference.naturalWidth  || imageElementReference.width;
-    var naturalHeightValue = imageElementReference.naturalHeight || imageElementReference.height;
-    offscreenCanvasElement.width  = naturalWidthValue;
-    offscreenCanvasElement.height = naturalHeightValue;
-
-    var canvasRenderingContext2d = offscreenCanvasElement.getContext("2d");
-
-    canvasRenderingContext2d.drawImage(imageElementReference, 0, 0);
-
-    if (targetFormatString === "svg") {
-      var pngDataUrlForSvg = offscreenCanvasElement.toDataURL("image/png");
-      var svgXmlContent = '<svg xmlns="http://www.w3.org/2000/svg" '
-        + 'xmlns:xlink="http://www.w3.org/1999/xlink" '
-        + 'width="' + naturalWidthValue + '" '
-        + 'height="' + naturalHeightValue + '">'
-        + '<image href="' + pngDataUrlForSvg + '" '
-        + 'width="' + naturalWidthValue + '" '
-        + 'height="' + naturalHeightValue + '"/>'
+    if (format === "svg") {
+      // Wrap as SVG image element
+      var dataUrl = canvas.toDataURL("image/png");
+      var svgContent = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="' + canvas.width + '" height="' + canvas.height + '">'
+        + '<image href="' + dataUrl + '" width="' + canvas.width + '" height="' + canvas.height + '"/>'
         + '</svg>';
-      var svgBlobObject = new Blob([svgXmlContent], { type: "image/svg+xml" });
-      var svgObjectUrl = URL.createObjectURL(svgBlobObject);
-      triggerBrowserDownloadFromObjectUrl(
-        svgObjectUrl,
-        safeFilenameBase + ".svg"
-      );
-      return;
+      var blob = new Blob([svgContent], { type: "image/svg+xml" });
+      var url = URL.createObjectURL(blob);
+      triggerDownload(url, filename + ".svg");
+      URL.revokeObjectURL(url);
+    } else {
+      var mime = mimeMap[format] || "image/png";
+      var ext = format === "jpeg" ? "jpg" : format;
+      canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        triggerDownload(url, filename + "." + ext);
+        URL.revokeObjectURL(url);
+      }, mime, format === "jpeg" ? 0.95 : undefined);
     }
-
-    var mimeTypeString = GLOBAL_CONFIGURATION_MIME_TYPE_LOOKUP_TABLE[targetFormatString]
-      || "image/png";
-
-    var fileExtensionString = (targetFormatString === "jpeg") ? "jpg" : targetFormatString;
-
-    var jpegQualityValue = (targetFormatString === "jpeg") ? 0.95 : undefined;
-
-    offscreenCanvasElement.toBlob(
-      function(blobObject) {
-        var rasterObjectUrl = URL.createObjectURL(blobObject);
-        triggerBrowserDownloadFromObjectUrl(
-          rasterObjectUrl,
-          safeFilenameBase + "." + fileExtensionString
-        );
-      },
-      mimeTypeString,
-      jpegQualityValue
-    );
   }
 
-  function renderLoadedImageAndControlsIntoBubbleElement(
-    targetBubbleElement,
-    imageUrlString,
-    promptTextString
-  ) {
+  function triggerDownload(url, filename) {
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 
-    targetBubbleElement.textContent = "";
+  // ── Render final image into bubble with prompt, actions, edit ─────────────
+  function renderImageIntoBubble(bubble, imageUrl, prompt) {
+    bubble.textContent = "";
 
-    var displayImageElement = document.createElement("img");
-    displayImageElement.crossOrigin = "anonymous";
-    displayImageElement.src = imageUrlString;
-    displayImageElement.alt = promptTextString;
-    displayImageElement.className = "contained-image-element";
-    targetBubbleElement.appendChild(displayImageElement);
+    // Image
+    var img = document.createElement("img");
+    img.crossOrigin = "anonymous";
+    img.src = imageUrl;
+    img.alt = prompt;
+    bubble.appendChild(img);
 
-    var promptLabelDivElement = document.createElement("div");
-    promptLabelDivElement.className = "image-generation-prompt-display-label";
-    promptLabelDivElement.textContent = "Prompt: " + promptTextString;
-    targetBubbleElement.appendChild(promptLabelDivElement);
+    // Prompt label
+    var promptLabel = document.createElement("div");
+    promptLabel.className = "image-prompt-label";
+    promptLabel.textContent = "Prompt: " + prompt;
+    bubble.appendChild(promptLabel);
 
-    var actionsRowDivElement = document.createElement("div");
-    actionsRowDivElement.className = "image-actions-control-bar-row-element";
+    // Action bar
+    var actions = document.createElement("div");
+    actions.className = "image-actions";
 
-    var formatSelectorSelectElement = document.createElement("select");
-    formatSelectorSelectElement.className =
-      "image-format-selection-dropdown-element";
-    formatSelectorSelectElement.title = "Download format";
-
-    for (
-      var formatOptionIndex = 0;
-      formatOptionIndex < GLOBAL_CONFIGURATION_SUPPORTED_DOWNLOAD_FORMATS_ARRAY.length;
-      formatOptionIndex++
-    ) {
-      var currentFormatConfigObject =
-        GLOBAL_CONFIGURATION_SUPPORTED_DOWNLOAD_FORMATS_ARRAY[formatOptionIndex];
-      var optionElement = document.createElement("option");
-      optionElement.value       = currentFormatConfigObject.value;
-      optionElement.textContent = currentFormatConfigObject.label;
-      formatSelectorSelectElement.appendChild(optionElement);
+    var formatSelect = document.createElement("select");
+    formatSelect.className = "format-select";
+    formatSelect.title = "Download format";
+    var formats = [
+      { value: "png",  label: "PNG"  },
+      { value: "jpeg", label: "JPEG" },
+      { value: "webp", label: "WebP" },
+      { value: "svg",  label: "SVG"  }
+    ];
+    for (var i = 0; i < formats.length; i++) {
+      var opt = document.createElement("option");
+      opt.value = formats[i].value;
+      opt.textContent = formats[i].label;
+      formatSelect.appendChild(opt);
     }
 
-    var downloadButtonElement = document.createElement("button");
-    downloadButtonElement.className =
-      "image-action-control-button-base style-is-download-button";
-    downloadButtonElement.textContent = "⬇ Download";
-
-    downloadButtonElement.onclick = (function(
-      capturedImageElement,
-      capturedFormatSelector,
-      capturedPromptText
-    ) {
+    var downloadBtn = document.createElement("button");
+    downloadBtn.className = "action-btn download-btn";
+    downloadBtn.textContent = "⬇ Download";
+    downloadBtn.onclick = (function(imgRef, selectRef, promptRef) {
       return function() {
-        performImageDownloadConversionAndTrigger(
-          capturedImageElement,
-          capturedFormatSelector.value,
-          capturedPromptText
-        );
+        convertAndDownload(imgRef, selectRef.value, promptRef);
       };
-    })(displayImageElement, formatSelectorSelectElement, promptTextString);
+    })(img, formatSelect, prompt);
 
-    var editToggleButtonElement = document.createElement("button");
-    editToggleButtonElement.className =
-      "image-action-control-button-base style-is-edit-toggle-button";
-    editToggleButtonElement.textContent = "✏️ Edit";
+    var editToggleBtn = document.createElement("button");
+    editToggleBtn.className = "action-btn edit-toggle-btn";
+    editToggleBtn.textContent = "✏️ Edit";
 
-    actionsRowDivElement.appendChild(formatSelectorSelectElement);
-    actionsRowDivElement.appendChild(downloadButtonElement);
-    actionsRowDivElement.appendChild(editToggleButtonElement);
-    targetBubbleElement.appendChild(actionsRowDivElement);
+    actions.appendChild(formatSelect);
+    actions.appendChild(downloadBtn);
+    actions.appendChild(editToggleBtn);
+    bubble.appendChild(actions);
 
-    var editInputAreaDivElement = document.createElement("div");
-    editInputAreaDivElement.className =
-      "image-inline-edit-controls-area-container visibility-state-hidden";
+    // Edit area (hidden by default)
+    var editArea = document.createElement("div");
+    editArea.className = "image-edit-area hidden";
 
-    var editTextInputElement = document.createElement("input");
-    editTextInputElement.type = "text";
-    editTextInputElement.className = "image-edit-description-text-input-field";
-    editTextInputElement.placeholder =
-      'e.g. "make it night time" or "add a dragon"';
+    var editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.className = "image-edit-input";
+    editInput.placeholder = 'e.g. "make it night time" or "add a dragon"';
 
-    var editApplyButtonElement = document.createElement("button");
-    editApplyButtonElement.className = "image-edit-submit-apply-button-element";
-    editApplyButtonElement.textContent = "Apply";
+    var editBtn = document.createElement("button");
+    editBtn.className = "image-edit-btn";
+    editBtn.textContent = "Apply";
 
-    editInputAreaDivElement.appendChild(editTextInputElement);
-    editInputAreaDivElement.appendChild(editApplyButtonElement);
-    targetBubbleElement.appendChild(editInputAreaDivElement);
+    editArea.appendChild(editInput);
+    editArea.appendChild(editBtn);
+    bubble.appendChild(editArea);
 
-    editToggleButtonElement.onclick = function() {
-      var isCurrentlyHidden = editInputAreaDivElement.classList.contains(
-        "visibility-state-hidden"
-      );
-      if (isCurrentlyHidden) {
-        editInputAreaDivElement.classList.remove("visibility-state-hidden");
-        editTextInputElement.focus();
-        editToggleButtonElement.textContent = "✕ Cancel";
+    // Toggle edit area
+    editToggleBtn.onclick = function() {
+      if (editArea.classList.contains("hidden")) {
+        editArea.classList.remove("hidden");
+        editInput.focus();
+        editToggleBtn.textContent = "✕ Cancel";
       } else {
-        editInputAreaDivElement.classList.add("visibility-state-hidden");
-        editToggleButtonElement.textContent = "✏️ Edit";
+        editArea.classList.add("hidden");
+        editToggleBtn.textContent = "✏️ Edit";
       }
     };
 
-    editApplyButtonElement.onclick = function() {
-      var editDescriptionText = editTextInputElement.value.trim();
-      if (!editDescriptionText) {
-      }
-      applyInlineImageEditWithNewPrompt(
-        targetBubbleElement,
-        displayImageElement,
-        promptTextString,
-        editDescriptionText,
-        editApplyButtonElement,
-        editTextInputElement,
-        editToggleButtonElement,
-        promptLabelDivElement,
-        formatSelectorSelectElement,
-        downloadButtonElement
-      );
+    // Apply edit
+    editBtn.onclick = function() {
+      var editPrompt = editInput.value.trim();
+      if (!editPrompt) return;
+      applyEdit(bubble, img, prompt, editPrompt, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn);
     };
 
-    editTextInputElement.addEventListener("keydown", function(keyEvent) {
-      if (keyEvent.key === "Enter") {
-        editApplyButtonElement.click();
-      }
+    editInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") editBtn.click();
     });
 
-    scrollMessagesContainerToBottom();
+    messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
-  function applyInlineImageEditWithNewPrompt(
-    bubbleElement,
-    currentImageElement,
-    existingPromptText,
-    editInstructionText,
-    applyButtonElement,
-    editInputElement,
-    toggleButtonElement,
-    promptLabelElement,
-    formatDropdownElement,
-    downloadButtonElement
-  ) {
-    var combinedNewPromptString = existingPromptText + ", " + editInstructionText;
+  // ── Apply an edit to an existing image bubble ─────────────────────────────
+  function applyEdit(bubble, imgEl, oldPrompt, editPrompt, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn) {
+    var newPrompt = oldPrompt + ", " + editPrompt;
 
-    applyButtonElement.disabled    = true;
-    applyButtonElement.textContent = "Generating...";
-    editInputElement.disabled      = true;
-    toggleButtonElement.disabled   = true;
+    editBtn.disabled = true;
+    editBtn.textContent = "Generating...";
+    editInput.disabled = true;
+    editToggleBtn.disabled = true;
 
-    var newImageUrlString = buildPollinationsImageApiUrl(
-      combinedNewPromptString,
-      null
-    );
+    var encodedPrompt = encodeURIComponent(newPrompt);
+    var newUrl = "https://image.pollinations.ai/prompt/" + encodedPrompt
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now();
 
-    var preloadImageElement = new Image();
-    preloadImageElement.crossOrigin = "anonymous";
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      imgEl.src = newUrl;
+      imgEl.alt = newPrompt;
+      promptLabel.textContent = "Prompt: " + newPrompt;
 
-    preloadImageElement.onload = function() {
-      currentImageElement.src = newImageUrlString;
-      currentImageElement.alt = combinedNewPromptString;
+      // Re-bind download with new prompt
+      downloadBtn.onclick = (function(imgRef, selectRef, promptRef) {
+        return function() { convertAndDownload(imgRef, selectRef.value, promptRef); };
+      })(imgEl, formatSelect, newPrompt);
 
-      promptLabelElement.textContent = "Prompt: " + combinedNewPromptString;
-
-      downloadButtonElement.onclick = (function(
-        capturedImg,
-        capturedSelect,
-        capturedPrompt
-      ) {
-        return function() {
-          performImageDownloadConversionAndTrigger(
-            capturedImg,
-            capturedSelect.value,
-            capturedPrompt
-          );
-        };
-      })(currentImageElement, formatDropdownElement, combinedNewPromptString);
-
-      applyButtonElement.onclick = function() {
-        var furtherEditText = editInputElement.value.trim();
-        if (!furtherEditText) { return; }
-        applyInlineImageEditWithNewPrompt(
-          bubbleElement,
-          currentImageElement,
-          combinedNewPromptString,
-          furtherEditText,
-          applyButtonElement,
-          editInputElement,
-          toggleButtonElement,
-          promptLabelElement,
-          formatDropdownElement,
-          downloadButtonElement
-        );
+      // Re-bind edit with new prompt
+      editBtn.onclick = function() {
+        var ep = editInput.value.trim();
+        if (!ep) return;
+        applyEdit(bubble, imgEl, newPrompt, ep, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn);
       };
 
-      editInputElement.value = "";
-      editInputElement.placeholder = 'Edit again, e.g. "add snow"';
-
-      applyButtonElement.disabled    = false;
-      applyButtonElement.textContent = "Apply";
-      editInputElement.disabled      = false;
-      toggleButtonElement.disabled   = false;
-
-      scrollMessagesContainerToBottom();
+      editInput.value = "";
+      editInput.placeholder = 'Edit again, e.g. "add snow"';
+      editBtn.disabled = false;
+      editBtn.textContent = "Apply";
+      editInput.disabled = false;
+      editToggleBtn.disabled = false;
+      messagesEl.scrollTop = messagesEl.scrollHeight;
     };
 
-    preloadImageElement.onerror = function() {
-      applyButtonElement.disabled    = false;
-      applyButtonElement.textContent = "Failed — try again";
-      editInputElement.disabled      = false;
-      toggleButtonElement.disabled   = false;
+    preload.onerror = function() {
+      editBtn.disabled = false;
+      editBtn.textContent = "Failed — try again";
+      editInput.disabled = false;
+      editToggleBtn.disabled = false;
     };
 
-    preloadImageElement.src = newImageUrlString;
+    preload.src = newUrl;
   }
 
-  function handleUserClickedGenerateImageButton() {
-    var userPromptInputText = domRef_primaryTextareaInput.value.trim();
+  // ── Generate image from scratch ───────────────────────────────────────────
+  function generateImage() {
+    var input = inputEl.value.trim();
+    if (!input) { alert("Type an image description first."); return; }
 
-    if (!userPromptInputText) {
-      alert("Type an image description first.");
-      return;
-    }
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    setButtons(true);
 
-    domRef_primaryTextareaInput.value = "";
-    domRef_primaryTextareaInput.style.height = "auto";
+    addMessage("user", "🎨 " + input);
+    var bubble = addSpinnerBubble();
 
-    setAllInteractiveButtonsDisabledState(true);
+    var encodedPrompt = encodeURIComponent(input);
+    // Use 1024x1024, enhance=true for sharper results, unique seed each time
+    var imageUrl = "https://image.pollinations.ai/prompt/" + encodedPrompt
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now();
 
-    createAndAppendTextMessageBubble(
-      "user",
-      "🎨 " + userPromptInputText,
-      false
-    );
-
-    var spinnerBubbleElementReference = createAndAppendSpinnerLoadingBubble();
-
-    var generatedImageUrlString = buildPollinationsImageApiUrl(
-      userPromptInputText,
-      null
-    );
-
-    var imagePreloaderElement = new Image();
-    imagePreloaderElement.crossOrigin = "anonymous";
-
-    imagePreloaderElement.onload = function() {
-      renderLoadedImageAndControlsIntoBubbleElement(
-        spinnerBubbleElementReference,
-        generatedImageUrlString,
-        userPromptInputText
-      );
-      setAllInteractiveButtonsDisabledState(false);
-      domRef_primaryTextareaInput.focus();
-      scrollMessagesContainerToBottom();
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      renderImageIntoBubble(bubble, imageUrl, input);
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
     };
-
-    imagePreloaderElement.onerror = function() {
-      spinnerBubbleElementReference.textContent =
-        "Failed to generate image. Try a different prompt.";
-      setAllInteractiveButtonsDisabledState(false);
+    preload.onerror = function() {
+      bubble.textContent = "Failed to generate image. Try a different prompt.";
+      setButtons(false);
     };
-
-    imagePreloaderElement.src = generatedImageUrlString;
+    preload.src = imageUrl;
   }
 
-  function handleSendWithPendingUploadImageEdit() {
-    var editPromptText = domRef_primaryTextareaInput.value.trim();
+  // ── Edit an uploaded image ────────────────────────────────────────────────
+  function editUploadedImage() {
+    var prompt = inputEl.value.trim();
+    if (!prompt) { alert("Describe how you want to edit the image."); return; }
 
-    if (!editPromptText) {
-      alert("Describe how you want to edit the image.");
-      return;
-    }
+    var dataUrl = pendingUploadDataUrl;
+    clearUpload();
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    setButtons(true);
 
-    var capturedDataUrlString = applicationState_pendingUploadDataUrlString;
-    handleUserClickedClearUploadButton();
+    addUploadedImageMessage(dataUrl, "✏️ " + prompt);
+    var bubble = addSpinnerBubble();
 
-    domRef_primaryTextareaInput.value = "";
-    domRef_primaryTextareaInput.style.height = "auto";
+    var encodedPrompt = encodeURIComponent(prompt);
+    var encodedImage = encodeURIComponent(dataUrl);
+    var imageUrl = "https://image.pollinations.ai/prompt/" + encodedPrompt
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now()
+      + "&image_url=" + encodedImage;
 
-    setAllInteractiveButtonsDisabledState(true);
-
-    createAndAppendUploadedImageUserMessage(
-      capturedDataUrlString,
-      "✏️ " + editPromptText
-    );
-
-    var spinnerBubbleElementReference = createAndAppendSpinnerLoadingBubble();
-
-    var editedImageApiUrlString = buildPollinationsImageApiUrl(
-      editPromptText,
-      capturedDataUrlString
-    );
-
-    var editPreloaderImageElement = new Image();
-    editPreloaderImageElement.crossOrigin = "anonymous";
-
-    editPreloaderImageElement.onload = function() {
-      renderLoadedImageAndControlsIntoBubbleElement(
-        spinnerBubbleElementReference,
-        editedImageApiUrlString,
-        editPromptText
-      );
-      setAllInteractiveButtonsDisabledState(false);
-      domRef_primaryTextareaInput.focus();
-      scrollMessagesContainerToBottom();
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      renderImageIntoBubble(bubble, imageUrl, prompt);
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
     };
-
-    editPreloaderImageElement.onerror = function() {
-      spinnerBubbleElementReference.textContent =
-        "Failed to edit image. Try a different prompt.";
-      setAllInteractiveButtonsDisabledState(false);
+    preload.onerror = function() {
+      bubble.textContent = "Failed to edit image. Try a different prompt.";
+      setButtons(false);
     };
-
-    editPreloaderImageElement.src = editedImageApiUrlString;
+    preload.src = imageUrl;
   }
 
-  function handleUserClickedSendMessageButton() {
-    if (applicationState_pendingUploadDataUrlString !== null) {
-      handleSendWithPendingUploadImageEdit();
-      return;
-    }
+  // ── Send chat message ─────────────────────────────────────────────────────
+  function send() {
+    if (pendingUploadDataUrl) { editUploadedImage(); return; }
 
-    var userMessageInputText = domRef_primaryTextareaInput.value.trim();
+    var input = inputEl.value.trim();
+    if (!input) return;
 
-    if (!userMessageInputText) {
-      return;
-    }
+    inputEl.value = "";
+    inputEl.style.height = "auto";
+    setButtons(true);
 
-    domRef_primaryTextareaInput.value = "";
-    domRef_primaryTextareaInput.style.height = "auto";
+    addMessage("user", input);
+    var thinkingBubble = addMessage("assistant", "Thinking...", true);
 
-    setAllInteractiveButtonsDisabledState(true);
+    chatHistory.push({ role: "user", content: input });
 
-    createAndAppendTextMessageBubble("user", userMessageInputText, false);
-
-    var thinkingPlaceholderBubbleElement = createAndAppendTextMessageBubble(
-      "assistant",
-      "Thinking...",
-      true
-    );
-
-    applicationState_conversationHistoryArray.push({
-      role: "user",
-      content: userMessageInputText
-    });
-
-    var xmlHttpRequestObject = new XMLHttpRequest();
-
-    xmlHttpRequestObject.open(
-      "POST",
-      GLOBAL_CONFIGURATION_WORKER_RELAY_URL,
-      true
-    );
-
-    xmlHttpRequestObject.setRequestHeader(
-      "Content-Type",
-      "application/json"
-    );
-
-    xmlHttpRequestObject.onreadystatechange = function() {
-      if (xmlHttpRequestObject.readyState !== 4) {
-        return;
-      }
-
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
       try {
-        var parsedResponseObject = JSON.parse(
-          xmlHttpRequestObject.responseText
-        );
-
-        var assistantReplyText = parsedResponseObject.reply
-          || parsedResponseObject.error
-          || xmlHttpRequestObject.responseText;
-
-        applicationState_conversationHistoryArray.push({
-          role: "assistant",
-          content: assistantReplyText
-        });
-
-        thinkingPlaceholderBubbleElement.classList.remove(
-          "state-is-currently-thinking"
-        );
-        thinkingPlaceholderBubbleElement.textContent =
-          assistantReplyText || "(No response)";
-
-      } catch (jsonParseException) {
-        thinkingPlaceholderBubbleElement.classList.remove(
-          "state-is-currently-thinking"
-        );
-        thinkingPlaceholderBubbleElement.textContent =
-          "Error parsing response.";
+        var data = JSON.parse(xhr.responseText);
+        var text = data.reply || data.error || xhr.responseText;
+        chatHistory.push({ role: "assistant", content: text });
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = text || "(No response)";
+      } catch(e) {
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = "Error parsing response.";
       }
-
-      setAllInteractiveButtonsDisabledState(false);
-
-      domRef_primaryTextareaInput.focus();
-
-      scrollMessagesContainerToBottom();
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
     };
-
-    xmlHttpRequestObject.onerror = function() {
-      thinkingPlaceholderBubbleElement.classList.remove(
-        "state-is-currently-thinking"
-      );
-      thinkingPlaceholderBubbleElement.textContent = "Network error.";
-      setAllInteractiveButtonsDisabledState(false);
+    xhr.onerror = function() {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Network error.";
+      setButtons(false);
     };
-
-    var requestBodyJsonString = JSON.stringify({
-      messages: applicationState_conversationHistoryArray
-    });
-
-    xmlHttpRequestObject.send(requestBodyJsonString);
+    xhr.send(JSON.stringify({ messages: chatHistory }));
   }
-
-
 </script>
 </body>
 </html>
