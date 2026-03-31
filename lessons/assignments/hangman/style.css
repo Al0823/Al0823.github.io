@@ -127,7 +127,6 @@ color: var(--link);
 .nav a:hover {
 background: var(--hover);;
     border-radius: 20px;
-    color:  #; /* Keep text readable */
 }
 
 nav ul { list-style: none; }
