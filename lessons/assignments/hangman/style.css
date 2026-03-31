@@ -247,10 +247,10 @@ footer {
 
 .left, #left {
   width: 300px !important;
-  background-color: var(--panel);;
-  color: #ffffff;
+  background-color: var(--panel);
+  color: #000000;
   padding: 15px;
-  border-right: 1px solid #4d8ec3;
+  border-right: 1px solid var(--bg-soft);
   align-self: stretch;
   min-width: 300px !important;
 }
