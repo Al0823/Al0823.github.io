@@ -1,41 +1,1019 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Chat</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+ 
+    /* ── App shell ─────────────────────────────────────────────────────────── */
+    #app {
+      display: flex;
+      width: 96vw;
+      max-width: 1000px;
+      height: 90vh;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+ 
+    /* ── Left nav ──────────────────────────────────────────────────────────── */
+    #nav {
+      width: 72px;
+      background: #0d1117;
+      border-right: 1px solid #30363d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+ 
+    #nav .nav-logo { font-size: 22px; margin-bottom: 12px; user-select: none; }
+ 
+    .nav-btn {
+      width: 52px; height: 52px;
+      border: none; border-radius: 10px;
+      background: transparent; color: #8b949e;
+      cursor: pointer;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 3px; font-size: 11px; font-weight: 600;
+      transition: background 0.15s, color 0.15s;
+      padding: 0; line-height: 1.1; text-align: center;
+    }
+ 
+    .nav-btn .nav-icon { font-size: 20px; line-height: 1; }
+    .nav-btn:hover { background: #161b22; color: #e6edf3; }
+    .nav-btn.active { background: #161b22; color: #fff; }
+    .nav-btn.active.mode-sandbox { border-left: 3px solid #238636; }
+    .nav-btn.active.mode-image   { border-left: 3px solid #1f6feb; }
+    .nav-btn.active.mode-code    { border-left: 3px solid #f78166; }
+    .nav-divider { width: 36px; height: 1px; background: #30363d; margin: 4px 0; }
+    .nav-btn.coming { opacity: 0.35; cursor: default; }
+    .nav-btn.coming:hover { background: transparent; color: #8b949e; }
+ 
+    /* ── Main panel ────────────────────────────────────────────────────────── */
+    #main { flex: 1; display: flex; flex-direction: column; background: #161b22; min-width: 0; }
+ 
+    /* ── Header ────────────────────────────────────────────────────────────── */
+    #chat-header {
+      padding: 14px 18px; border-bottom: 1px solid #30363d;
+      display: flex; align-items: center; gap: 10px;
+      background: #161b22; flex-shrink: 0;
+    }
+ 
+    #header-icon  { font-size: 18px; }
+    #header-title { font-weight: 700; font-size: 15px; }
+    #header-desc  { font-size: 12px; color: #8b949e; margin-left: auto; }
+ 
+    /* ── Messages ──────────────────────────────────────────────────────────── */
+    #messages {
+      flex: 1; overflow-y: auto; padding: 20px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+ 
+    #messages::-webkit-scrollbar { width: 6px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+    #messages::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+ 
+    .message { display: flex; flex-direction: column; max-width: 85%; gap: 4px; }
+    .message.user      { align-self: flex-end;  align-items: flex-start; }
+    .message.assistant { align-self: flex-start; align-items: flex-start; }
+    .message .label    { font-size: 11px; color: #8b949e; padding: 0 4px; }
+ 
+    .message .bubble {
+      padding: 12px 16px; border-radius: 12px;
+      font-size: 14px; line-height: 1.6;
+      white-space: pre-wrap; word-break: break-word;
+    }
+ 
+    .message.user .bubble {
+      background: #238636; color: #fff; border-bottom-right-radius: 4px;
+    }
+ 
+    body.mode-code .message.user .bubble { background: #b35900; }
+ 
+    .message.assistant .bubble {
+      background: #21262d; color: #e6edf3;
+      border: 1px solid #30363d; border-bottom-left-radius: 4px;
+    }
+ 
+    .message.assistant .bubble.thinking { color: #8b949e; font-style: italic; }
+ 
+    /* File badge in user bubble */
+    .file-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(0,0,0,0.25); border-radius: 6px;
+      padding: 5px 10px; font-size: 12px; margin-bottom: 6px;
+      max-width: 100%; overflow: hidden;
+    }
+ 
+    .file-badge .file-icon { font-size: 15px; flex-shrink: 0; }
+    .file-badge .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+ 
+    /* Code block inside AI reply */
+    .message.assistant .bubble code-block {
+      display: block;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      white-space: pre;
+      margin-top: 6px;
+    }
+ 
+    /* Image bubble */
+    .bubble.image-bubble {
+      padding: 10px; display: flex; flex-direction: column; gap: 8px;
+      background: #21262d; border: 1px solid #30363d;
+      border-radius: 12px; border-bottom-left-radius: 4px; min-width: 260px;
+    }
+ 
+    .message.user .bubble.image-bubble {
+      background: #238636; border: none;
+      border-bottom-right-radius: 4px; border-bottom-left-radius: 12px;
+    }
+ 
+    .bubble img { max-width: 100%; border-radius: 8px; display: block; }
+ 
+    .image-prompt-label {
+      font-size: 11px; color: #8b949e; font-style: italic;
+      padding: 0 2px; word-break: break-word;
+    }
+ 
+    /* Spinner */
+    .spinner-wrap {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; padding: 20px 10px;
+      color: #8b949e; font-size: 13px; font-style: italic;
+    }
+ 
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid #30363d; border-top-color: #1f6feb;
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+ 
+    @keyframes spin { to { transform: rotate(360deg); } }
+ 
+    /* Image action bar */
+    .image-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+ 
+    .format-select {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e6edf3; font-size: 12px; padding: 5px 8px; outline: none; cursor: pointer;
+    }
+ 
+    .action-btn {
+      border: none; border-radius: 6px; padding: 5px 11px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: background 0.15s; white-space: nowrap; color: #fff;
+    }
+ 
+    .download-btn    { background: #238636; }
+    .download-btn:hover { background: #2ea043; }
+    .edit-toggle-btn { background: #6e40c9; }
+    .edit-toggle-btn:hover { background: #8957e5; }
+    .action-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
+ 
+    .image-edit-area { display: flex; gap: 6px; margin-top: 2px; }
+    .image-edit-area.hidden { display: none; }
+ 
+    .image-edit-input {
+      flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px;
+      color: #e6edf3; font-size: 13px; padding: 6px 10px; outline: none; font-family: inherit;
+    }
+ 
+    .image-edit-input:focus { border-color: #1f6feb; }
+    .image-edit-input::placeholder { color: #8b949e; }
+ 
+    .image-edit-btn {
+      background: #1f6feb; color: #fff; border: none; border-radius: 6px;
+      padding: 6px 12px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.15s; white-space: nowrap;
+    }
+ 
+    .image-edit-btn:hover { background: #388bfd; }
+    .image-edit-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+ 
+    /* ── File preview strip ────────────────────────────────────────────────── */
+    #file-preview-wrap {
+      display: none; padding: 8px 16px 0; background: #161b22;
+      align-items: center; gap: 10px; flex-shrink: 0;
+    }
+ 
+    #file-preview-wrap.visible { display: flex; }
+ 
+    #file-preview-thumb {
+      width: 52px; height: 52px; object-fit: cover;
+      border-radius: 6px; border: 1px solid #30363d;
+      display: none;
+    }
+ 
+    #file-preview-thumb.visible { display: block; }
+ 
+    #file-preview-icon {
+      width: 52px; height: 52px;
+      background: #21262d; border: 1px solid #30363d;
+      border-radius: 6px; display: none;
+      align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+ 
+    #file-preview-icon.visible { display: flex; }
+ 
+    #file-preview-info { flex: 1; min-width: 0; }
+    #file-preview-name { font-size: 13px; font-weight: 600; color: #e6edf3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #file-preview-meta { font-size: 11px; color: #8b949e; margin-top: 2px; }
+ 
+    #file-clear-btn {
+      background: none; border: none; color: #8b949e;
+      font-size: 18px; cursor: pointer; line-height: 1; padding: 0 4px; flex-shrink: 0;
+    }
+ 
+    #file-clear-btn:hover { color: #e6edf3; }
+ 
+    /* ── Input area ────────────────────────────────────────────────────────── */
+    #input-area {
+      padding: 14px 16px; border-top: 1px solid #30363d;
+      display: flex; gap: 8px; background: #161b22;
+      align-items: flex-end; flex-shrink: 0;
+    }
+ 
+    #input {
+      flex: 1; background: #0d1117; border: 1px solid #30363d;
+      border-radius: 8px; color: #e6edf3; font-size: 14px;
+      padding: 10px 14px; resize: none; outline: none;
+      font-family: inherit; line-height: 1.5; max-height: 120px;
+    }
+ 
+    #input:focus { border-color: #238636; }
+    body.mode-image #input:focus { border-color: #1f6feb; }
+    body.mode-code  #input:focus { border-color: #f78166; }
+    #input::placeholder { color: #8b949e; }
+ 
+    .toolbar-btn {
+      border: none; border-radius: 8px; padding: 10px 13px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: background 0.15s; white-space: nowrap; color: #fff;
+    }
+ 
+    .toolbar-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
+ 
+    #attach-btn { background: #30363d; color: #8b949e; }
+    #attach-btn:hover { background: #3d444d; color: #e6edf3; }
+ 
+    #image-gen-btn { background: #1f6feb; }
+    #image-gen-btn:hover { background: #388bfd; }
+ 
+    #send-btn { background: #238636; }
+    #send-btn:hover { background: #2ea043; }
+    body.mode-image #send-btn { background: #1f6feb; }
+    body.mode-image #send-btn:hover { background: #388bfd; }
+    body.mode-code  #send-btn { background: #b35900; }
+    body.mode-code  #send-btn:hover { background: #d4690a; }
+ 
+    /* Code mode language select */
+    #lang-select {
+      background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+      color: #e6edf3; font-size: 13px; padding: 10px 10px;
+      outline: none; cursor: pointer; font-family: inherit;
+    }
+ 
+    #lang-select:focus { border-color: #f78166; }
+ 
+    /* Visibility per mode */
+    .img-only  { display: none !important; }
+    .no-code   { display: flex   !important; }
+    .code-only { display: none !important; }
+    body.mode-image .img-only  { display: flex !important; }
+    body.mode-code  .no-code   { display: none !important; }
+    body.mode-code  .code-only { display: flex !important; }
+ 
+    /* Mode tip */
+    #mode-tip {
+      margin: auto; text-align: center; color: #8b949e;
+      font-size: 14px; line-height: 1.8; padding: 20px; pointer-events: none;
+    }
+ 
+    #mode-tip .tip-icon  { font-size: 36px; margin-bottom: 8px; }
+    #mode-tip .tip-title { font-weight: 700; font-size: 16px; color: #e6edf3; margin-bottom: 6px; }
+  </style>
+</head>
+<body class="mode-sandbox">
+ 
+<div id="app">
+ 
+  <!-- ── Left nav ─────────────────────────────────────────────────────────── -->
+  <nav id="nav">
+    <div class="nav-logo">🤖</div>
+ 
+    <button class="nav-btn mode-sandbox active" onclick="switchMode('sandbox')" title="Free / Sandbox">
+      <span class="nav-icon">🧪</span><span>Free</span>
+    </button>
+ 
+    <button class="nav-btn mode-image" onclick="switchMode('image')" title="Image / Art">
+      <span class="nav-icon">🎨</span><span>Art</span>
+    </button>
+ 
+    <button class="nav-btn mode-code" onclick="switchMode('code')" title="Code Mode">
+      <span class="nav-icon">💻</span><span>Code</span>
+    </button>
+ 
+    <div class="nav-divider"></div>
+ 
+    <button class="nav-btn coming" title="More modes coming soon">
+      <span class="nav-icon">➕</span><span>Soon</span>
+    </button>
+  </nav>
+ 
+  <!-- ── Main panel ───────────────────────────────────────────────────────── -->
+  <div id="main">
+ 
+    <div id="chat-header">
+      <span id="header-icon">🧪</span>
+      <span id="header-title">Free / Sandbox</span>
+      <span id="header-desc">Chat · Images · Code · Files</span>
+    </div>
+ 
+    <div id="messages">
+      <div id="mode-tip">
+        <div class="tip-icon">🧪</div>
+        <div class="tip-title">Free / Sandbox Mode</div>
+        All features unlocked — chat, generate images, write code, and upload any file.
+      </div>
+    </div>
+ 
+    <!-- File preview strip -->
+    <div id="file-preview-wrap">
+      <img id="file-preview-thumb" src="" alt="preview" />
+      <div id="file-preview-icon"></div>
+      <div id="file-preview-info">
+        <div id="file-preview-name"></div>
+        <div id="file-preview-meta"></div>
+      </div>
+      <button id="file-clear-btn" onclick="clearFile()">✕</button>
+    </div>
+ 
+    <div id="input-area">
+      <textarea id="input" rows="1" placeholder="Ask anything..."></textarea>
+ 
+      <!-- Universal attach button (all modes) -->
+      <input type="file" id="file-input"
+        accept="image/*,.js,.ts,.jsx,.tsx,.html,.htm,.css,.py,.java,.c,.cpp,.cs,.php,.rb,.go,.rs,.swift,.sh,.bash,.sql,.json,.csv,.md,.txt,.xml,.yaml,.yml"
+        style="display:none" onchange="handleFileAttach(event)" />
+      <button id="attach-btn" class="toolbar-btn" onclick="document.getElementById('file-input').click()" title="Attach file">
+        📎
+      </button>
+ 
+      <!-- Image mode: generate button -->
+      <button id="image-gen-btn" class="toolbar-btn no-code" onclick="generateImage()">🎨 Generate</button>
+ 
+      <!-- Code mode: language picker -->
+      <select id="lang-select" class="code-only">
+        <option value="">Auto-detect</option>
+        <option value="JavaScript">JavaScript</option>
+        <option value="HTML">HTML</option>
+        <option value="CSS">CSS</option>
+        <option value="Python">Python</option>
+        <option value="Java">Java</option>
+        <option value="C">C</option>
+        <option value="C++">C++</option>
+        <option value="PHP">PHP</option>
+        <option value="SQL">SQL</option>
+        <option value="Perl">Perl</option>
+        <option value="Ruby">Ruby</option>
+        <option value="Shell">Shell/Bash</option>
+        <option value="Visual Basic">Visual Basic</option>
+        <option value="Assembly">Assembly</option>
+      </select>
+ 
+      <button id="send-btn" class="toolbar-btn" onclick="send()">Send</button>
+    </div>
+ 
+  </div>
+</div>
+ 
 <script>
-	var MODES = {
-  sandbox: {
-    icon: "🧪",
-    title: "Free / Sandbox",
-    desc: "Chat · Images · Code",
-    placeholder: "Ask anything...",
-    tipIcon: "🧪",
-    tipTitle: "Free / Sandbox Mode",
-    tipText: "All features unlocked — chat, generate images, write code in any language."
-  },
-  image: {
-    icon: "🎨",
-    title: "Image / Art",
-    desc: "Generate & edit images",
-    placeholder: "Describe an image to generate...",
-    tipIcon: "🎨",
-    tipTitle: "Image / Art Mode",
-    tipText: "Type a description and hit Generate, or upload an image to edit it."
-  },
-  code: {
-    icon: "💻",
-    title: "Code Mode",
-    desc: "Code in any language",
-    placeholder: "Describe the code you need...",
-    tipIcon: "💻",
-    tipTitle: "Code Mode",
-    tipText: "Ask for code in any language. Pick a language from the dropdown or let the AI decide.\nAll output uses classic 90s-style syntax."
-  },
-  companion: {
-    icon: "🤖",
-    title: "Companion Mode",
-    desc: "Chat with your AI companion",
-    placeholder: "Say something to your companion...",
-    tipIcon: "🤖",
-    tipTitle: "Companion Mode",
-    tipText: "Your AI companion remembers the conversation and responds naturally. Great for casual chat and brainstorming."
+  var WORKER_URL = "https://githubai-relay.akonyswoodard.workers.dev";
+ 
+  var messagesEl        = document.getElementById("messages");
+  var inputEl           = document.getElementById("input");
+  var sendBtn           = document.getElementById("send-btn");
+  var filePreviewWrap   = document.getElementById("file-preview-wrap");
+  var filePreviewThumb  = document.getElementById("file-preview-thumb");
+  var filePreviewIcon   = document.getElementById("file-preview-icon");
+  var filePreviewName   = document.getElementById("file-preview-name");
+  var filePreviewMeta   = document.getElementById("file-preview-meta");
+  var modeTipEl         = document.getElementById("mode-tip");
+  var headerIcon        = document.getElementById("header-icon");
+  var headerTitle       = document.getElementById("header-title");
+  var headerDesc        = document.getElementById("header-desc");
+ 
+  var chatHistory = [];
+  var currentMode = "sandbox";
+  var pendingFile = null;
+  // pendingFile = { type: "image"|"text", name, dataUrl, textContent, mimeType, ext }
+ 
+  var IMAGE_EXTS = ["png","jpg","jpeg","gif","webp","bmp","svg","ico","tiff","avif"];
+ 
+  var FILE_ICONS = {
+    js: "📜", ts: "📜", jsx: "📜", tsx: "📜",
+    html: "🌐", htm: "🌐", css: "🎨",
+    py: "🐍", java: "☕", c: "⚙️", cpp: "⚙️", cs: "⚙️",
+    php: "🐘", rb: "💎", go: "🐹", rs: "🦀", swift: "🍎",
+    sh: "🖥️", bash: "🖥️", sql: "🗄️",
+    json: "📋", csv: "📊", md: "📝", txt: "📄",
+    xml: "📋", yaml: "📋", yml: "📋",
+    default: "📄"
+  };
+ 
+  var MODES = {
+    sandbox: {
+      icon:"🧪", title:"Free / Sandbox", desc:"Chat · Images · Code · Files",
+      placeholder:"Ask anything...",
+      tipIcon:"🧪", tipTitle:"Free / Sandbox Mode",
+      tipText:"All features unlocked — chat, generate images, write code, and upload any file."
+    },
+    image: {
+      icon:"🎨", title:"Image / Art", desc:"Generate & edit images",
+      placeholder:"Describe an image to generate...",
+      tipIcon:"🎨", tipTitle:"Image / Art Mode",
+      tipText:"Type a description and hit Generate, or attach an image to edit it."
+    },
+    code: {
+      icon:"💻", title:"Code Mode", desc:"90s-style code in any language",
+      placeholder:"Describe the code you need, or attach a file to read/modify...",
+      tipIcon:"💻", tipTitle:"Code Mode",
+      tipText:"Ask for code in any language. Attach a code file to read, explain, or rewrite it.\nAll output uses classic 90s-style syntax."
+    }
+  };
+ 
+  // ── Mode switching ──────────────────────────────────────────────────────────
+  function switchMode(mode) {
+    currentMode = mode;
+    document.body.className = "mode-" + mode;
+ 
+    var navBtns = document.querySelectorAll(".nav-btn");
+    for (var i = 0; i < navBtns.length; i++) navBtns[i].classList.remove("active");
+    var activeBtn = document.querySelector(".nav-btn.mode-" + mode);
+    if (activeBtn) activeBtn.classList.add("active");
+ 
+    var m = MODES[mode];
+    headerIcon.textContent  = m.icon;
+    headerTitle.textContent = m.title;
+    headerDesc.textContent  = m.desc;
+    inputEl.placeholder     = m.placeholder;
+ 
+    messagesEl.innerHTML = "";
+    var tip = document.createElement("div");
+    tip.id = "mode-tip";
+    tip.innerHTML = '<div class="tip-icon">' + m.tipIcon + '</div>'
+      + '<div class="tip-title">' + m.tipTitle + '</div>' + m.tipText;
+    messagesEl.appendChild(tip);
+    modeTipEl = tip;
+ 
+    chatHistory = [];
+    clearFile();
+    inputEl.focus();
   }
-};
+ 
+  function clearTip() {
+    if (modeTipEl && modeTipEl.parentNode) {
+      modeTipEl.parentNode.removeChild(modeTipEl);
+      modeTipEl = null;
+    }
+  }
+ 
+  // ── Textarea auto-resize ────────────────────────────────────────────────────
+  inputEl.addEventListener("input", function() {
+    inputEl.style.height = "auto";
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
+  });
+ 
+  inputEl.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (currentMode === "image" && !pendingFile) { generateImage(); }
+      else { send(); }
+    }
+  });
+ 
+  // ── File attach ─────────────────────────────────────────────────────────────
+  function handleFileAttach(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    event.target.value = "";
+ 
+    var ext = file.name.split(".").pop().toLowerCase();
+    var isImage = IMAGE_EXTS.indexOf(ext) !== -1;
+ 
+    if (isImage) {
+      // Read as data URL for image preview + possible Pollinations edit
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        pendingFile = {
+          type: "image",
+          name: file.name,
+          ext: ext,
+          mimeType: file.type,
+          dataUrl: e.target.result,
+          textContent: null
+        };
+        showFilePreview();
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Read as plain text for code / text files
+      var reader2 = new FileReader();
+      reader2.onload = function(e) {
+        pendingFile = {
+          type: "text",
+          name: file.name,
+          ext: ext,
+          mimeType: file.type,
+          dataUrl: null,
+          textContent: e.target.result
+        };
+        showFilePreview();
+      };
+      reader2.onerror = function() {
+        alert("Could not read file. Make sure it is a plain text or code file.");
+      };
+      reader2.readAsText(file);
+    }
+  }
+ 
+  function showFilePreview() {
+    if (!pendingFile) return;
+ 
+    filePreviewName.textContent = pendingFile.name;
+ 
+    if (pendingFile.type === "image") {
+      filePreviewThumb.src = pendingFile.dataUrl;
+      filePreviewThumb.classList.add("visible");
+      filePreviewIcon.classList.remove("visible");
+      filePreviewMeta.textContent = "Image file — type a prompt to edit, or ask the AI about it";
+      inputEl.placeholder = 'Describe what you want to do with this image...';
+    } else {
+      var icon = FILE_ICONS[pendingFile.ext] || FILE_ICONS["default"];
+      filePreviewIcon.textContent = icon;
+      filePreviewIcon.classList.add("visible");
+      filePreviewThumb.classList.remove("visible");
+      var lines = pendingFile.textContent.split("\n").length;
+      var chars = pendingFile.textContent.length;
+      filePreviewMeta.textContent = lines + " lines · " + chars + " characters · Ask the AI to read, explain, or modify it";
+      inputEl.placeholder = 'e.g. "explain this file", "fix the bugs", "rewrite in Python"...';
+    }
+ 
+    filePreviewWrap.classList.add("visible");
+    inputEl.focus();
+  }
+ 
+  function clearFile() {
+    pendingFile = null;
+    filePreviewThumb.src = "";
+    filePreviewThumb.classList.remove("visible");
+    filePreviewIcon.classList.remove("visible");
+    filePreviewWrap.classList.remove("visible");
+    inputEl.placeholder = MODES[currentMode].placeholder;
+  }
+ 
+  // ── Button lock/unlock ──────────────────────────────────────────────────────
+  function setButtons(disabled) {
+    sendBtn.disabled = disabled;
+    document.getElementById("attach-btn").disabled = disabled;
+    var genBtn = document.getElementById("image-gen-btn");
+    if (genBtn) genBtn.disabled = disabled;
+  }
+ 
+  // ── Plain text message ──────────────────────────────────────────────────────
+  function addMessage(role, text, isThinking) {
+    clearTip();
+    var wrapper = document.createElement("div");
+    wrapper.className = "message " + role;
+ 
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = role === "user" ? "You" : "AI";
+ 
+    var bubble = document.createElement("div");
+    bubble.className = "bubble" + (isThinking ? " thinking" : "");
+    bubble.textContent = text;
+ 
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+ 
+  // User message with file badge + optional text
+  function addUserFileMessage(file, userText) {
+    clearTip();
+    var wrapper = document.createElement("div");
+    wrapper.className = "message user";
+ 
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "You";
+ 
+    var bubble = document.createElement("div");
+    bubble.className = "bubble";
+ 
+    // File badge
+    var badge = document.createElement("div");
+    badge.className = "file-badge";
+    var icon = file.type === "image"
+      ? "🖼️"
+      : (FILE_ICONS[file.ext] || FILE_ICONS["default"]);
+    badge.innerHTML = '<span class="file-icon">' + icon + '</span>'
+      + '<span class="file-name">' + file.name + '</span>';
+    bubble.appendChild(badge);
+ 
+    // If image, show thumbnail
+    if (file.type === "image") {
+      var img = document.createElement("img");
+      img.src = file.dataUrl;
+      img.alt = file.name;
+      img.style.cssText = "max-width:200px;border-radius:6px;display:block;margin-top:4px";
+      bubble.appendChild(img);
+    }
+ 
+    // User's instruction text
+    if (userText) {
+      var textNode = document.createElement("div");
+      textNode.style.marginTop = "6px";
+      textNode.textContent = userText;
+      bubble.appendChild(textNode);
+    }
+ 
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+ 
+  // ── Spinner bubble ──────────────────────────────────────────────────────────
+  function addSpinnerBubble() {
+    clearTip();
+    var wrapper = document.createElement("div");
+    wrapper.className = "message assistant";
+ 
+    var label = document.createElement("div");
+    label.className = "label";
+    label.textContent = "AI";
+ 
+    var bubble = document.createElement("div");
+    bubble.className = "bubble image-bubble";
+ 
+    var spinWrap = document.createElement("div");
+    spinWrap.className = "spinner-wrap";
+ 
+    var spinner = document.createElement("div");
+    spinner.className = "spinner";
+ 
+    var spinText = document.createElement("span");
+    spinText.textContent = "Generating image...";
+ 
+    spinWrap.appendChild(spinner);
+    spinWrap.appendChild(spinText);
+    bubble.appendChild(spinWrap);
+    wrapper.appendChild(label);
+    wrapper.appendChild(bubble);
+    messagesEl.appendChild(wrapper);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+ 
+  // ── Canvas download helper ──────────────────────────────────────────────────
+  function convertAndDownload(imgEl, format, prompt) {
+    var canvas = document.createElement("canvas");
+    canvas.width  = imgEl.naturalWidth  || imgEl.width;
+    canvas.height = imgEl.naturalHeight || imgEl.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(imgEl, 0, 0);
+ 
+    var filename = (prompt || "image").replace(/[^a-z0-9]/gi, "_").substring(0, 40);
+ 
+    if (format === "svg") {
+      var dataUrl = canvas.toDataURL("image/png");
+      var svgContent = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"'
+        + ' width="' + canvas.width + '" height="' + canvas.height + '">'
+        + '<image href="' + dataUrl + '" width="' + canvas.width + '" height="' + canvas.height + '"/>'
+        + '</svg>';
+      var blob = new Blob([svgContent], { type: "image/svg+xml" });
+      var url = URL.createObjectURL(blob);
+      triggerDownload(url, filename + ".svg");
+      URL.revokeObjectURL(url);
+    } else {
+      var mimeMap = { png:"image/png", jpeg:"image/jpeg", webp:"image/webp" };
+      var mime = mimeMap[format] || "image/png";
+      var ext  = format === "jpeg" ? "jpg" : format;
+      canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        triggerDownload(url, filename + "." + ext);
+        URL.revokeObjectURL(url);
+      }, mime, format === "jpeg" ? 0.95 : undefined);
+    }
+  }
+ 
+  function triggerDownload(url, filename) {
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+ 
+  // ── Render image result bubble ──────────────────────────────────────────────
+  function renderImageIntoBubble(bubble, imageUrl, prompt) {
+    bubble.textContent = "";
+ 
+    var img = document.createElement("img");
+    img.crossOrigin = "anonymous";
+    img.src = imageUrl;
+    img.alt = prompt;
+    bubble.appendChild(img);
+ 
+    var promptLabel = document.createElement("div");
+    promptLabel.className = "image-prompt-label";
+    promptLabel.textContent = "Prompt: " + prompt;
+    bubble.appendChild(promptLabel);
+ 
+    var actions = document.createElement("div");
+    actions.className = "image-actions";
+ 
+    var formatSelect = document.createElement("select");
+    formatSelect.className = "format-select";
+    var fmts = [
+      {value:"png",label:"PNG"},{value:"jpeg",label:"JPEG"},
+      {value:"webp",label:"WebP"},{value:"svg",label:"SVG"}
+    ];
+    for (var i = 0; i < fmts.length; i++) {
+      var opt = document.createElement("option");
+      opt.value = fmts[i].value; opt.textContent = fmts[i].label;
+      formatSelect.appendChild(opt);
+    }
+ 
+    var downloadBtn = document.createElement("button");
+    downloadBtn.className = "action-btn download-btn";
+    downloadBtn.textContent = "⬇ Download";
+    downloadBtn.onclick = (function(iRef, sRef, pRef) {
+      return function() { convertAndDownload(iRef, sRef.value, pRef); };
+    })(img, formatSelect, prompt);
+ 
+    var editToggleBtn = document.createElement("button");
+    editToggleBtn.className = "action-btn edit-toggle-btn";
+    editToggleBtn.textContent = "✏️ Edit";
+ 
+    actions.appendChild(formatSelect);
+    actions.appendChild(downloadBtn);
+    actions.appendChild(editToggleBtn);
+    bubble.appendChild(actions);
+ 
+    var editArea = document.createElement("div");
+    editArea.className = "image-edit-area hidden";
+ 
+    var editInput = document.createElement("input");
+    editInput.type = "text";
+    editInput.className = "image-edit-input";
+    editInput.placeholder = 'e.g. "make it night time" or "add a dragon"';
+ 
+    var editBtn = document.createElement("button");
+    editBtn.className = "image-edit-btn";
+    editBtn.textContent = "Apply";
+ 
+    editArea.appendChild(editInput);
+    editArea.appendChild(editBtn);
+    bubble.appendChild(editArea);
+ 
+    editToggleBtn.onclick = function() {
+      if (editArea.classList.contains("hidden")) {
+        editArea.classList.remove("hidden");
+        editInput.focus();
+        editToggleBtn.textContent = "✕ Cancel";
+      } else {
+        editArea.classList.add("hidden");
+        editToggleBtn.textContent = "✏️ Edit";
+      }
+    };
+ 
+    editBtn.onclick = function() {
+      var ep = editInput.value.trim();
+      if (!ep) return;
+      applyEdit(bubble, img, prompt, ep, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn);
+    };
+ 
+    editInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") editBtn.click();
+    });
+ 
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+ 
+  // ── Apply image edit ────────────────────────────────────────────────────────
+  function applyEdit(bubble, imgEl, oldPrompt, editPrompt, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn) {
+    var newPrompt = oldPrompt + ", " + editPrompt;
+    editBtn.disabled = true; editBtn.textContent = "Generating...";
+    editInput.disabled = true; editToggleBtn.disabled = true;
+ 
+    var newUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(newPrompt)
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now();
+ 
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      imgEl.src = newUrl; imgEl.alt = newPrompt;
+      promptLabel.textContent = "Prompt: " + newPrompt;
+      downloadBtn.onclick = (function(iRef, sRef, pRef) {
+        return function() { convertAndDownload(iRef, sRef.value, pRef); };
+      })(imgEl, formatSelect, newPrompt);
+      editBtn.onclick = function() {
+        var ep = editInput.value.trim();
+        if (!ep) return;
+        applyEdit(bubble, imgEl, newPrompt, ep, editBtn, editInput, editToggleBtn, promptLabel, formatSelect, downloadBtn);
+      };
+      editInput.value = ""; editInput.placeholder = 'Edit again...';
+      editBtn.disabled = false; editBtn.textContent = "Apply";
+      editInput.disabled = false; editToggleBtn.disabled = false;
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+    preload.onerror = function() {
+      editBtn.disabled = false; editBtn.textContent = "Failed — try again";
+      editInput.disabled = false; editToggleBtn.disabled = false;
+    };
+    preload.src = newUrl;
+  }
+ 
+  // ── Generate image from prompt ──────────────────────────────────────────────
+  function generateImage() {
+    var input = inputEl.value.trim();
+    if (!input) { alert("Type an image description first."); return; }
+ 
+    inputEl.value = ""; inputEl.style.height = "auto";
+    setButtons(true);
+ 
+    addMessage("user", "🎨 " + input);
+    var bubble = addSpinnerBubble();
+ 
+    var imageUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(input)
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now();
+ 
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      renderImageIntoBubble(bubble, imageUrl, input);
+      setButtons(false); inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+    preload.onerror = function() {
+      bubble.textContent = "Failed to generate image. Try a different prompt.";
+      setButtons(false);
+    };
+    preload.src = imageUrl;
+  }
+ 
+  // ── Edit image via Pollinations ─────────────────────────────────────────────
+  function editImageFile(file, prompt) {
+    var bubble = addSpinnerBubble();
+ 
+    var imageUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+      + "?width=1024&height=1024&nologo=true&enhance=true&seed=" + Date.now()
+      + "&image_url=" + encodeURIComponent(file.dataUrl);
+ 
+    var preload = new Image();
+    preload.crossOrigin = "anonymous";
+    preload.onload = function() {
+      renderImageIntoBubble(bubble, imageUrl, prompt);
+      setButtons(false); inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+    preload.onerror = function() {
+      bubble.textContent = "Failed to edit image. Try a different prompt.";
+      setButtons(false);
+    };
+    preload.src = imageUrl;
+  }
+ 
+  // ── Send ────────────────────────────────────────────────────────────────────
+  function send() {
+    var userText = inputEl.value.trim();
+ 
+    // Image mode with no file: generate
+    if (currentMode === "image" && !pendingFile) {
+      generateImage();
+      return;
+    }
+ 
+    // File attached
+    if (pendingFile) {
+      var file = pendingFile;
+ 
+      if (!userText) {
+        alert("Tell the AI what to do with this file.");
+        return;
+      }
+ 
+      // Show user message with file badge
+      addUserFileMessage(file, userText);
+      clearFile();
+      inputEl.value = ""; inputEl.style.height = "auto";
+      setButtons(true);
+ 
+      if (file.type === "image") {
+        // Route image to Pollinations edit
+        editImageFile(file, userText);
+        return;
+      }
+ 
+      // Text/code file: inject content into chat context
+      var MAX_CHARS = 12000; // keep context reasonable
+      var content = file.textContent;
+      if (content.length > MAX_CHARS) {
+        content = content.substring(0, MAX_CHARS) + "\n\n[...file truncated at " + MAX_CHARS + " characters...]";
+      }
+ 
+      var contextMsg = 'The user has uploaded a file named "' + file.name + '".\n'
+        + 'Here is its full content:\n\n```\n' + content + '\n```\n\n'
+        + 'The user says: ' + userText;
+ 
+      chatHistory.push({ role: "user", content: contextMsg });
+ 
+      var thinkingBubble = addMessage("assistant", "Reading file...", true);
+      doXHR(thinkingBubble);
+      return;
+    }
+ 
+    // Normal chat
+    if (!userText) return;
+ 
+    var langSelect = document.getElementById("lang-select");
+    var lang = langSelect ? langSelect.value : "";
+    var fullInput = (lang && currentMode === "code")
+      ? "Write the following in " + lang + ": " + userText
+      : userText;
+ 
+    inputEl.value = ""; inputEl.style.height = "auto";
+    setButtons(true);
+ 
+    addMessage("user", lang ? "[" + lang + "] " + userText : userText);
+    var thinkingBubble2 = addMessage("assistant", "Thinking...", true);
+ 
+    chatHistory.push({ role: "user", content: fullInput });
+    doXHR(thinkingBubble2);
+  }
+ 
+  // ── XHR to worker ───────────────────────────────────────────────────────────
+  function doXHR(thinkingBubble) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.timeout = 30000;
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
+      try {
+        var data = JSON.parse(xhr.responseText);
+        var text = data.reply || data.error || xhr.responseText;
+        chatHistory.push({ role: "assistant", content: text });
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = text || "(No response)";
+      } catch(e) {
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = "Error parsing response.";
+      }
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+    xhr.onerror = function() {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Network error — check your connection.";
+      setButtons(false);
+    };
+    xhr.ontimeout = function() {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Request timed out. Try again in a moment.";
+      setButtons(false);
+    };
+    xhr.send(JSON.stringify({ messages: chatHistory }));
+  }
 </script>
+</body>
+</html>
