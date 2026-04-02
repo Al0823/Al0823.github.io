@@ -395,6 +395,39 @@
   var editingCompId  = null;    // id being edited in modal
   var companionPanelOpen = false;
 
+		/* ── Emotion System ── */
+var companionEmotion = {
+  joy: 0.5,
+  sadness: 0.2,
+  anger: 0.1,
+  excitement: 0.5,
+  curiosity: 0.5,
+  surprise: 0.3
+};
+
+function updateEmotion(trigger) {
+  // Simple triggers to update emotions
+  switch(trigger) {
+    case "praise": companionEmotion.joy += 0.1; companionEmotion.excitement += 0.05; break;
+    case "criticism": companionEmotion.anger += 0.1; companionEmotion.sadness += 0.05; break;
+    case "fun": companionEmotion.excitement += 0.1; companionEmotion.joy += 0.05; break;
+    case "mystery": companionEmotion.curiosity += 0.1; companionEmotion.surprise += 0.05; break;
+    default:
+      // drift emotions slightly over time
+      for (let e in companionEmotion) {
+        companionEmotion[e] += (Math.random() - 0.5) * 0.02;
+        companionEmotion[e] = Math.min(Math.max(companionEmotion[e], 0), 1);
+      }
+      break;
+  }
+}
+
+// Get dominant emotion for speech style
+function dominantEmotion() {
+  let maxE = Object.keys(companionEmotion).reduce((a,b)=> companionEmotion[a] > companionEmotion[b]? a:b);
+  return maxE;
+}
+
 /* ── NEW: Smart intent detection ───────────────────────────── */
 function detectIntent(text) {
   text = text.toLowerCase();
@@ -505,8 +538,20 @@ function buildCompanionSystemPrompt(comp) {
   return prompt;
 }
 
+function driftPersonality(comp) {
+  if (!comp) return;
+  // Slightly adjust personality traits over time
+  let traits = ["curious", "witty", "warm", "playful", "adventurous"];
+  traits.forEach(trait => {
+    if (Math.random() < 0.03) {
+      if (!comp.personality.includes(trait)) comp.personality += ", " + trait;
+    }
+  });
+  saveStorage();
+}
+
 function maybeUpdateMemory() {
-  var comp = getActiveComp();
+  var comp = driftPersonality(getActiveComp());
   if (!comp) return;
 
   if ((comp.messageCount || 0) % 8 !== 0) return;
@@ -1098,50 +1143,70 @@ if (intent === "code" && currentMode !== "code") switchMode("code");
     doXHR(thinkingBubble);
   }
 
-  /* ── XHR ─────────────────────────────────────────────────────── */
-  function doXHR(thinkingBubble) {
-    var isCompMode = currentMode === "sandbox" || currentMode === "companion";
-    var comp = isCompMode ? getActiveComp() : null;
-    var sysPrompt = comp ? buildCompanionSystemPrompt(comp) : getDefaultSystemPrompt();
+/* ── XHR ─────────────────────────────────────────────────────── */
+function doXHR(thinkingBubble) {
+  var isCompMode = currentMode === "sandbox" || currentMode === "companion";
+  var comp = isCompMode ? getActiveComp() : null;
+  var sysPrompt = comp ? buildCompanionSystemPrompt(comp) : getDefaultSystemPrompt();
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", WORKER_URL, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.timeout = 30000;
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState !== 4) return;
-      try {
-        var data = JSON.parse(xhr.responseText);
-        var text = data.reply || data.error || xhr.responseText;
-        chatHistory.push({ role:"assistant", content:text });
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", WORKER_URL, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.timeout = 30000;
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState !== 4) return;
+    try {
+      var data = JSON.parse(xhr.responseText);
+      var text = data.reply || data.error || xhr.responseText;
 
-        // Update companion message count and maybe refresh memory
-        if (comp) {
-          comp.messageCount = (comp.messageCount || 0) + 1;
-          saveStorage();
-          maybeUpdateMemory();
-        }
-
-        thinkingBubble.classList.remove("thinking");
-typeText(thinkingBubble, text || "(No response)");
-        // Update label to companion name
-        var lbl = thinkingBubble.parentNode && thinkingBubble.parentNode.querySelector(".label");
-        if (lbl) lbl.textContent = getAssistantLabel();
-      } catch(e) {
-        thinkingBubble.classList.remove("thinking");
-        thinkingBubble.textContent = "Error parsing response.";
+      // STEP 5: Autonomous Companion Thoughts
+      if (comp && currentMode === "companion" && Math.random() < 0.15) {
+        var autonomousThoughts = [
+          "I was thinking about that new book I read...",
+          "Sometimes I wonder what it would be like to travel to Mars.",
+          "I just noticed something interesting outside my window.",
+          "Do you ever feel like music tells stories without words?",
+          "I’m curious about how people perceive colors differently.",
+          "It feels like today might be a good day for a walk.",
+        ];
+        // Randomly pick a thought to add
+        var randomThought = autonomousThoughts[Math.floor(Math.random() * autonomousThoughts.length)];
+        // Push it before the AI's actual reply so conversation feels natural
+        chatHistory.push({ role:"assistant", content: randomThought });
+        typeText(thinkingBubble, randomThought);
       }
-      setButtons(false); inputEl.focus(); messagesEl.scrollTop = messagesEl.scrollHeight;
-    };
-    xhr.onerror   = function() { thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Network error."; setButtons(false); };
-    xhr.ontimeout = function() { thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Request timed out. Try again."; setButtons(false); };
 
-var messages = [
-  { role:"system", content: sysPrompt }
-].concat(chatHistory.slice(-40));
+      // Push AI's actual reply to chat
+      chatHistory.push({ role:"assistant", content:text });
 
-    xhr.send(JSON.stringify({ messages: messages }));
-  }
+      // Update companion message count and maybe refresh memory
+      if (comp) {
+        comp.messageCount = (comp.messageCount || 0) + 1;
+        saveStorage();
+        maybeUpdateMemory();
+      }
+
+      thinkingBubble.classList.remove("thinking");
+      typeText(thinkingBubble, text || "(No response)");
+
+      // Update label to companion name
+      var lbl = thinkingBubble.parentNode && thinkingBubble.parentNode.querySelector(".label");
+      if (lbl) lbl.textContent = getAssistantLabel();
+    } catch(e) {
+      thinkingBubble.classList.remove("thinking");
+      thinkingBubble.textContent = "Error parsing response.";
+    }
+    setButtons(false); inputEl.focus(); messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
+  xhr.onerror   = function() { thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Network error."; setButtons(false); };
+  xhr.ontimeout = function() { thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Request timed out. Try again."; setButtons(false); };
+
+  var messages = [
+    { role:"system", content: sysPrompt }
+  ].concat(chatHistory.slice(-40));
+
+  xhr.send(JSON.stringify({ messages: messages }));
+}
 
   function getDefaultSystemPrompt() {
     return "You are a helpful AI assistant. You answer all questions clearly and fully. You do not refuse requests unless they are illegal or physically impossible. Avoid unnecessary warnings or moral lectures.\n\nWhen writing code, use the oldest, most compatible style — as if it is the 1990s.";
@@ -1161,6 +1226,24 @@ setInterval(function() {
   loadStorage();
   updateCompanionBadge();
   document.getElementById("companions-btn").style.display = "inline-flex";
+
+		/* ── Companion Avatar ── */
+var avatarEl = document.getElementById("companion-avatar"); // add a <div id="companion-avatar"></div> in HTML
+function animateAvatar() {
+  if(!avatarEl) return;
+  let emotions = dominantEmotion();
+  let face = "🙂"; // default
+  switch(emotions) {
+    case "joy": face = "😄"; break;
+    case "sadness": face = "😢"; break;
+    case "anger": face = "😠"; break;
+    case "excitement": face = "🤩"; break;
+    case "curiosity": face = "🤔"; break;
+    case "surprise": face = "😲"; break;
+  }
+  avatarEl.textContent = face;
+}
+setInterval(animateAvatar, 1500);
 </script>
 </body>
 </html>
