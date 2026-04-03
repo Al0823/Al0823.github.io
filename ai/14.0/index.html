@@ -490,7 +490,7 @@
   /* ── Personality drift ───────────────────────── */
   function driftPersonality(comp) {
     if (!comp) return;
-    var traits = ["curious", "witty", "warm", "playful", "adventurous"];
+    var traits = ["curious", "witty", "warm", "playful", "adventurous, flirty"];
     for (var i = 0; i < traits.length; i++) {
       if (Math.random() < 0.03 && comp.personality.indexOf(traits[i]) === -1) {
         comp.personality += ", " + traits[i];
