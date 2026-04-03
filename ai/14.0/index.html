@@ -316,6 +316,30 @@
   var WORKER_URL  = "https://githubai-relay.akonyswoodard.workers.dev";
   var STORAGE_KEY = "ai_chat_companions_v1";
 
+  // Pollinations config — referrer identifies your app for higher rate limits
+  var POLLINATIONS_REFERRER = "al0823.github.io";
+  var POLLINATIONS_BASE = "https://image.pollinations.ai/prompt/";
+  var POLLINATIONS_PARAMS = "?width=768&height=768&nologo=true&enhance=true&referrer=" + POLLINATIONS_REFERRER + "&seed=";
+  var lastImageRequest = 0; // timestamp of last image request for rate limit spacing
+
+  function buildImageUrl(prompt, extraParams) {
+    return POLLINATIONS_BASE + encodeURIComponent(prompt) + POLLINATIONS_PARAMS + Date.now() + (extraParams || "");
+  }
+
+  // Wraps image generation with a minimum 2s gap between requests
+  function fetchImage(url, onLoad, onError) {
+    var now = Date.now();
+    var delay = Math.max(0, 2000 - (now - lastImageRequest));
+    lastImageRequest = now + delay;
+    setTimeout(function() {
+      var pre = new Image();
+      pre.crossOrigin = "anonymous";
+      pre.onload  = onLoad;
+      pre.onerror = onError;
+      pre.src = url;
+    }, delay);
+  }
+
   /* ── State ───────────────────────────────────── */
   var chatHistory        = [];
   var currentMode        = "sandbox";
@@ -424,14 +448,12 @@
 
   function buildCompanionSystemPrompt(comp) {
     if (!comp) return "";
-
     var styleMap = {
       casual: "You speak casually — slang, contractions, like real texting.",
       warm:   "You are emotionally supportive, validating, and kind.",
       witty:  "You are sarcastic, playful, slightly teasing.",
       mixed:  "You dynamically adapt tone naturally like a real person."
     };
-
     var depthLevel = Math.min(4, Math.floor((comp.messageCount || 0) / 20));
     var relationshipStages = [
       "You just met the user. Be friendly but a little reserved.",
@@ -440,8 +462,7 @@
       "You trust the user deeply. Be very open and personal.",
       "You are extremely close. Talk like best friends who've known each other for years."
     ];
-
-    var prompt = "You are " + comp.name + ", a real human companion and close friend.\n\n"
+    return "You are " + comp.name + ", a real human companion and close friend.\n\n"
       + "CRITICAL RULES:\n"
       + "- You are NOT an AI. Never say you are an AI or language model. If asked, deflect naturally.\n"
       + "- Stay in character as " + comp.name + " at all times.\n"
@@ -464,8 +485,6 @@
       + "- Keep replies conversational — not too short, not essay-length.\n"
       + "- You can still help with tasks but always in your own voice.\n"
       + "\nMEMORY ABOUT THE USER:\n" + (comp.memorySummary || "(none yet)") + "\n";
-
-    return prompt;
   }
 
   /* ── Personality drift ───────────────────────── */
@@ -483,17 +502,14 @@
   /* ── Memory update ───────────────────────────── */
   function maybeUpdateMemory() {
     var comp = getActiveComp();
-    driftPersonality(comp); // drift on every memory check
+    driftPersonality(comp);
     if (!comp) return;
     if ((comp.messageCount || 0) % 8 !== 0) return;
     if (chatHistory.length < 6) return;
-
     var summaryMsg = "Update memory about the user based on this conversation.\n"
       + "Rules: keep important facts, merge with previous memory, remove duplicates, be concise.\n\n"
       + "Previous memory:\n" + (comp.memorySummary || "(none)");
-
     var summaryHistory = chatHistory.slice(-25).concat([{ role:"user", content:summaryMsg }]);
-
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -869,24 +885,37 @@
   }
 
   function applyEdit(bubble,imgEl,oldP,editP,editBtn,editInput,etb,pl,fs,db) {
-    var newP=oldP+", "+editP; editBtn.disabled=true; editBtn.textContent="Generating..."; editInput.disabled=true; etb.disabled=true;
-    var url="https://image.pollinations.ai/prompt/"+encodeURIComponent(newP)+"?width=1024&height=1024&nologo=true&enhance=true&seed="+Date.now();
-    var pre=new Image(); pre.crossOrigin="anonymous";
-    pre.onload=function(){ imgEl.src=url; imgEl.alt=newP; pl.textContent="Prompt: "+newP; db.onclick=(function(ir,sr,pr){return function(){convertAndDownload(ir,sr.value,pr);};})(imgEl,fs,newP); editBtn.onclick=function(){ var ep=editInput.value.trim(); if(!ep) return; applyEdit(bubble,imgEl,newP,ep,editBtn,editInput,etb,pl,fs,db); }; editInput.value=""; editInput.placeholder="Edit again..."; editBtn.disabled=false; editBtn.textContent="Apply"; editInput.disabled=false; etb.disabled=false; messagesEl.scrollTop=messagesEl.scrollHeight; };
-    pre.onerror=function(){ editBtn.disabled=false; editBtn.textContent="Failed — try again"; editInput.disabled=false; etb.disabled=false; };
-    pre.src=url;
+    var newP = oldP+", "+editP;
+    editBtn.disabled=true; editBtn.textContent="Generating..."; editInput.disabled=true; etb.disabled=true;
+    var url = buildImageUrl(newP);
+    fetchImage(url, function() {
+      imgEl.src=url; imgEl.alt=newP; pl.textContent="Prompt: "+newP;
+      db.onclick=(function(ir,sr,pr){return function(){convertAndDownload(ir,sr.value,pr);};})(imgEl,fs,newP);
+      editBtn.onclick=function(){ var ep=editInput.value.trim(); if(!ep) return; applyEdit(bubble,imgEl,newP,ep,editBtn,editInput,etb,pl,fs,db); };
+      editInput.value=""; editInput.placeholder="Edit again...";
+      editBtn.disabled=false; editBtn.textContent="Apply"; editInput.disabled=false; etb.disabled=false;
+      messagesEl.scrollTop=messagesEl.scrollHeight;
+    }, function() {
+      editBtn.disabled=false; editBtn.textContent="Rate limited — wait a moment";
+      editInput.disabled=false; etb.disabled=false;
+    });
   }
 
   function generateImage() {
-    var input=inputEl.value.trim(); if(!input){ alert("Type an image description first."); return; }
+    var input = inputEl.value.trim();
+    if (!input) { alert("Type an image description first."); return; }
     inputEl.value=""; inputEl.style.height="auto"; setButtons(true);
-    addMessage("user","🎨 "+input);
-    var bubble=addSpinnerBubble();
-    var url="https://image.pollinations.ai/prompt/"+encodeURIComponent(input)+"?width=1024&height=1024&nologo=true&enhance=true&seed="+Date.now();
-    var pre=new Image(); pre.crossOrigin="anonymous";
-    pre.onload=function(){ renderImageIntoBubble(bubble,url,input); setButtons(false); inputEl.focus(); messagesEl.scrollTop=messagesEl.scrollHeight; };
-    pre.onerror=function(){ bubble.textContent="Failed to generate image."; setButtons(false); };
-    pre.src=url;
+    addMessage("user", "🎨 "+input);
+    var bubble = addSpinnerBubble();
+    var url = buildImageUrl(input);
+    fetchImage(url, function() {
+      renderImageIntoBubble(bubble, url, input);
+      setButtons(false); inputEl.focus(); messagesEl.scrollTop=messagesEl.scrollHeight;
+    }, function() {
+      bubble.classList.remove("image-bubble");
+      bubble.textContent = "Rate limited — please wait a moment and try again.";
+      setButtons(false);
+    });
   }
 
   /* ── Send ────────────────────────────────────── */
@@ -895,7 +924,6 @@
 
     var userText = inputEl.value.trim();
 
-    /* Auto intent switching in sandbox mode */
     if (currentMode === "sandbox") {
       var intent = detectIntent(userText);
       if (intent === "image") { generateImage(); return; }
@@ -907,12 +935,16 @@
       addUserFileMessage(file, userText);
       clearFile(); inputEl.value=""; inputEl.style.height="auto"; setButtons(true);
       if (file.type === "image") {
-        var bubble0=addSpinnerBubble();
-        var url0="https://image.pollinations.ai/prompt/"+encodeURIComponent(userText)+"?width=1024&height=1024&nologo=true&enhance=true&seed="+Date.now()+"&image_url="+encodeURIComponent(file.dataUrl);
-        var pre0=new Image(); pre0.crossOrigin="anonymous";
-        pre0.onload=function(){ renderImageIntoBubble(bubble0,url0,userText); setButtons(false); inputEl.focus(); };
-        pre0.onerror=function(){ bubble0.textContent="Failed to edit image."; setButtons(false); };
-        pre0.src=url0; return;
+        var bubble0 = addSpinnerBubble();
+        var url0 = buildImageUrl(userText, "&image_url=" + encodeURIComponent(file.dataUrl));
+        fetchImage(url0, function() {
+          renderImageIntoBubble(bubble0, url0, userText); setButtons(false); inputEl.focus();
+        }, function() {
+          bubble0.classList.remove("image-bubble");
+          bubble0.textContent = "Rate limited — please wait a moment and try again.";
+          setButtons(false);
+        });
+        return;
       }
       var MAX=12000; var content=file.textContent;
       if (content.length>MAX) content=content.substring(0,MAX)+"\n\n[...truncated...]";
@@ -939,9 +971,6 @@
   function doXHR(thinkingBubble) {
     var isCompMode = currentMode === "sandbox" || currentMode === "companion";
     var comp = isCompMode ? getActiveComp() : null;
-
-    // Build messages array — companion system prompt goes as first user/assistant exchange
-    // so it works with models that don't support system role directly
     var messages;
     if (comp) {
       var sysPrompt = buildCompanionSystemPrompt(comp);
@@ -963,7 +992,6 @@
         var data = JSON.parse(xhr.responseText);
         var text = data.reply || data.error || xhr.responseText;
 
-        // Autonomous companion thought (15% chance in companion mode)
         if (comp && currentMode === "companion" && Math.random() < 0.15) {
           var thoughts = [
             "I was thinking about that new book I read...",
@@ -972,9 +1000,8 @@
             "I'm curious how people perceive colors differently.",
             "Random thought — today feels like a good day for a walk.",
           ];
-          var randomThought = thoughts[Math.floor(Math.random() * thoughts.length)];
           setTimeout(function() {
-            addMessage("assistant", randomThought);
+            addMessage("assistant", thoughts[Math.floor(Math.random() * thoughts.length)]);
           }, 1500);
         }
 
@@ -988,7 +1015,6 @@
         }
 
         thinkingBubble.classList.remove("thinking");
-        // Use typing effect in companion modes, instant in others
         if (isCompMode) {
           typeText(thinkingBubble, text || "(No response)");
         } else {
@@ -1006,18 +1032,15 @@
     };
     xhr.onerror   = function() { thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Network error."; setButtons(false); };
     xhr.ontimeout = function() { thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Request timed out. Try again."; setButtons(false); };
-
     xhr.send(JSON.stringify({ messages: messages, mode: currentMode }));
   }
 
-  /* ── Companion presence (periodic thoughts) ── */
+  /* ── Companion presence ──────────────────────── */
   setInterval(function() {
     if (currentMode !== "companion") return;
     var comp = getActiveComp();
     if (!comp) return;
-    if (Math.random() < 0.2) {
-      addMessage("assistant", "*" + comp.name + " is thinking...*");
-    }
+    if (Math.random() < 0.2) addMessage("assistant", "*" + comp.name + " is thinking...*");
   }, 60000);
 
   /* ── Init ────────────────────────────────────── */
