@@ -310,40 +310,69 @@
         <img id="face-photo" src="" alt="companion face" style="display:none" />
 
         <!-- SVG overlay for animated expressions -->
-        <!-- viewBox matches the displayed image dimensions (512x512 face photo) -->
-        <!-- Face in a headshot typically occupies y=60-380, centered x=256 -->
-        <svg id="face-svg-overlay" class="expr-idle" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="display:none;position:absolute;inset:0;width:100%;height:100%">
+        <!--
+          Calibrated for passport-style 512x512 portrait:
+          Face fills ~80% of frame. Measurements based on average face proportions:
+          - Top of head:   y ~30
+          - Eyebrows:      y ~190  (38% from top)
+          - Eyes center:   y ~215  (42% from top)
+          - Nose tip:      y ~290  (57% from top)
+          - Mouth center:  y ~340  (66% from top)
+          - Chin:          y ~400  (78% from top)
+          - Left eye cx:   x ~185  (36% from left)
+          - Right eye cx:  x ~327  (64% from left)
+          - Eye width:     ~55px each side
+        -->
+        <svg id="face-svg-overlay" class="expr-idle"
+          viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+          style="display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;">
 
-          <!-- ── Eyelid blink overlays ── -->
-          <!-- Left eye center ~(185, 210), right eye ~(327, 210) -->
-          <rect id="lid-left"  x="155" y="195" width="62" height="0" fill="#1a1a1a" rx="4" style="transition: height 0.07s ease;" />
-          <rect id="lid-right" x="295" y="195" width="62" height="0" fill="#1a1a1a" rx="4" style="transition: height 0.07s ease;" />
+          <!-- ── Left eyelid (blink) ── -->
+          <!-- Covers eye from top: starts at y=197, expands downward -->
+          <rect id="lid-left"
+            x="150" y="197" width="68" height="0"
+            fill="rgb(180,160,140)" rx="3"
+            style="transition: height 0.07s ease;" />
 
-          <!-- ── Eyebrow expression paths ── -->
-          <!-- These shift up/down and angle based on emotion -->
+          <!-- ── Right eyelid (blink) ── -->
+          <rect id="lid-right"
+            x="294" y="197" width="68" height="0"
+            fill="rgb(180,160,140)" rx="3"
+            style="transition: height 0.07s ease;" />
+
+          <!-- ── Left eyebrow ── -->
+          <!-- Base: flat arch from x155 to x225, apex at x190, y188 -->
           <path id="brow-left"
-            d="M152 185 Q186 175 220 183"
-            fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="6" stroke-linecap="round"
-            style="transition: d 0.35s ease, stroke 0.35s;" />
+            d="M155 194 Q190 182 225 192"
+            fill="none" stroke="rgba(30,20,10,0.45)" stroke-width="5"
+            stroke-linecap="round"
+            style="transition: d 0.3s ease;" />
+
+          <!-- ── Right eyebrow ── -->
+          <!-- Mirror: from x287 to x357, apex at x322 -->
           <path id="brow-right"
-            d="M292 183 Q326 175 360 185"
-            fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="6" stroke-linecap="round"
-            style="transition: d 0.35s ease, stroke 0.35s;" />
+            d="M287 192 Q322 182 357 194"
+            fill="none" stroke="rgba(30,20,10,0.45)" stroke-width="5"
+            stroke-linecap="round"
+            style="transition: d 0.3s ease;" />
 
-          <!-- ── Subtle eye shine dots ── -->
-          <circle cx="178" cy="208" r="4" fill="rgba(255,255,255,0.4)" />
-          <circle cx="334" cy="208" r="4" fill="rgba(255,255,255,0.4)" />
+          <!-- ── Eye shine dots (always on, subtle life) ── -->
+          <circle cx="175" cy="210" r="5" fill="rgba(255,255,255,0.55)" />
+          <circle cx="337" cy="210" r="5" fill="rgba(255,255,255,0.55)" />
 
-          <!-- ── Mouth expression overlay ── -->
-          <!-- Mouth sits around y=340 in a headshot -->
+          <!-- ── Mouth curve ── -->
+          <!-- Base neutral: slight upturn, centered at x256, y340 -->
           <path id="mouth-curve"
-            d="M210 338 Q256 346 302 338"
-            fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="5" stroke-linecap="round"
-            style="transition: d 0.4s ease;" />
+            d="M215 340 Q256 348 297 340"
+            fill="none" stroke="rgba(20,10,5,0.30)" stroke-width="5"
+            stroke-linecap="round"
+            style="transition: d 0.35s ease;" />
 
-          <!-- ── Emotion glow — subtle colored tint on face area ── -->
-          <ellipse id="emotion-glow" cx="256" cy="256" rx="130" ry="160"
-            fill="rgba(255,220,100,0)" style="transition: fill 0.6s ease; mix-blend-mode: overlay;" />
+          <!-- ── Emotion color wash over whole face ── -->
+          <ellipse id="emotion-glow"
+            cx="256" cy="260" rx="145" ry="180"
+            fill="rgba(0,0,0,0)"
+            style="transition: fill 0.5s ease; mix-blend-mode: soft-light;" />
         </svg>
       </div>
 
@@ -448,7 +477,7 @@
       <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="500" /></div>
     </div>
     <div class="form-row"><label>Base Personality</label><textarea id="f-personality" placeholder="e.g. Chill and funny, loves music, gets excited about tech"></textarea></div>
-    <div class="form-row"><label>Interests / Hobbies</label><input type="text" id="f-interests" placeholder="e.g. gaming, cooking, hip-hop, sci-fi" maxlength="200" /></div>
+    <div class="form-row"><label>Interests / Hobbies</label><input type="text" id="f-interests" placeholder="e.g. gaming, cooking, hip-hop, sci-fi" maxlength="500" /></div>
     <div class="form-row">
       <label>Speaking style</label>
       <select id="f-style">
@@ -542,16 +571,22 @@
   }
 
   function buildFacePrompt(comp) {
-    var gender = (comp.gender === "he/him") ? "man" : (comp.gender === "she/her") ? "woman" : "person";
-    var age    = comp.age ? comp.age + " year old " : "";
-    var looks  = sanitizePromptPart(comp.appearance);
-    var height = comp.height ? sanitizePromptPart(comp.height) + " tall, " : "";
-    var weight = comp.weight ? sanitizePromptPart(comp.weight) + ", "       : "";
-    var clothes = hasClothingDesc(comp.appearance) ? "" : "casual shirt, ";
+    var gender  = (comp.gender === "he/him") ? "man" : (comp.gender === "she/her") ? "woman" : "person";
+    var age     = comp.age ? comp.age + " year old " : "";
+    var looks   = sanitizePromptPart(comp.appearance);
+    var height  = comp.height ? sanitizePromptPart(comp.height) + " tall, " : "";
+    var weight  = comp.weight ? sanitizePromptPart(comp.weight) + ", "       : "";
+    var clothes = hasClothingDesc(comp.appearance) ? "" : "plain white t-shirt, ";
 
+    // Force passport/ID photo framing: face dead center, eyes at 40% from top,
+    // chin at 75%, equal margins left and right. This gives us a predictable
+    // face position so the SVG overlay can align reliably.
     return (age + gender + ", " + (looks ? looks + ", " : "") + height + weight + clothes
-      + "headshot portrait, face centered, studio lighting, white background, "
-      + "fully clothed, SFW, photorealistic, 4k").substring(0, 400);
+      + "passport photo style, face dead center frame, eyes one third from top, "
+      + "chin at bottom third, symmetrical framing, flat even lighting, "
+      + "plain light grey background, neutral expression, looking straight at camera, "
+      + "no tilt no angle, shoulders barely visible, tight crop around face, "
+      + "fully clothed, SFW, photorealistic").substring(0, 450);
   }
 
   function buildFullBodyPrompt(comp) {
@@ -701,37 +736,43 @@
 
     overlay.className = "expr-" + name;
 
-    // ── Eyebrows (positioned at y~175-185 in 512x512 headshot space) ──
+    // ── Eyebrows ──
+    // Base positions calibrated to passport portrait (512x512):
+    // Left brow:  M155,194 Q190,182 225,192
+    // Right brow: M287,192 Q322,182 357,194
     var bl = document.getElementById("brow-left");
     var br = document.getElementById("brow-right");
     if (bl && br) {
-      // base brow y = 183, shift up (negative) or down (positive)
-      var by = 183 + cfg.browY * 2.5;
-      var midBy = 175 + cfg.browY * 2.5;
-      var ang = cfg.browAngle * 0.4;
-      // left brow: M152,by Q186,midBy 220,(by+ang)
-      bl.setAttribute("d", "M152 " + (by + ang) + " Q186 " + midBy + " 220 " + (by - ang));
-      // right brow: M292,(by-ang) Q326,midBy 360,(by+ang)
-      br.setAttribute("d", "M292 " + (by - ang) + " Q326 " + midBy + " 360 " + (by + ang));
+      var baseY   = 194;
+      var baseApex = 182;
+      var by      = baseY    + cfg.browY * 2.2;
+      var apexY   = baseApex + cfg.browY * 2.2;
+      var ang     = cfg.browAngle * 0.35;
+      // Left brow: inner end raised for anger/sad, outer end for curiosity
+      bl.setAttribute("d",
+        "M155 " + (by + ang)  + " Q190 " + apexY + " 225 " + (by - ang));
+      br.setAttribute("d",
+        "M287 " + (by - ang)  + " Q322 " + apexY + " 357 " + (by + ang));
     }
 
-    // ── Mouth (positioned at y~338 in 512x512 space) ──
+    // ── Mouth ──
+    // Base: M215,340 Q256,348 297,340  (slight natural upturn)
     var mouth = document.getElementById("mouth-curve");
     if (mouth) {
-      var my = 338 + cfg.mouthY * 2;
-      var mc = cfg.mouthCurve * 2.2;
-      mouth.setAttribute("d", "M210 " + my + " Q256 " + (my + mc) + " 302 " + my);
+      var my = 340 + cfg.mouthY * 2.5;
+      var mc = cfg.mouthCurve * 2.5;
+      mouth.setAttribute("d", "M215 " + my + " Q256 " + (my + mc) + " 297 " + my);
     }
 
-    // ── Emotion glow ──
+    // ── Emotion glow wash ──
     var glow = document.getElementById("emotion-glow");
-    if (glow) glow.setAttribute("fill", EMOTION_GLOWS[name] || "rgba(255,255,255,0)");
+    if (glow) glow.setAttribute("fill", EMOTION_GLOWS[name] || "rgba(0,0,0,0)");
 
     // ── Label ──
     var lbl = document.getElementById("face-emotion-label");
     if (lbl) lbl.textContent = name;
 
-    // Auto return to idle
+    // Auto-return to idle
     if (exprTimeout) clearTimeout(exprTimeout);
     if (name !== "idle" && duration !== -1) {
       exprTimeout = setTimeout(function() { setExpression("idle"); }, duration || 2500);
@@ -743,16 +784,33 @@
     var ll = document.getElementById("lid-left");
     var rl = document.getElementById("lid-right");
     if (!ll || !rl || !faceLoaded) return;
-    // Close eyes — height covers the eye area (~30px in 512 space)
-    ll.setAttribute("height", "30"); rl.setAttribute("height", "30");
+
+    // Sample skin color from the photo to use as eyelid fill color
+    // so the lids blend naturally regardless of skin tone
+    var photo = document.getElementById("face-photo");
+    var skinColor = "rgb(200,175,155)"; // fallback neutral skin tone
+    try {
+      var canvas = document.createElement("canvas");
+      canvas.width = 1; canvas.height = 1;
+      var ctx = canvas.getContext("2d");
+      // Sample from forehead area (x:40%, y:25% of image)
+      ctx.drawImage(photo, Math.floor(photo.naturalWidth * 0.40), Math.floor(photo.naturalHeight * 0.25), 1, 1, 0, 0, 1, 1);
+      var px = ctx.getImageData(0, 0, 1, 1).data;
+      skinColor = "rgb(" + px[0] + "," + px[1] + "," + px[2] + ")";
+    } catch(e) {}
+
+    ll.setAttribute("fill", skinColor); rl.setAttribute("fill", skinColor);
+
+    // Phase 1: close
+    ll.setAttribute("height", "28"); rl.setAttribute("height", "28");
     setTimeout(function() {
-      // Half-open briefly (natural blink)
+      // Phase 2: half open
       ll.setAttribute("height", "10"); rl.setAttribute("height", "10");
       setTimeout(function() {
-        // Fully open
+        // Phase 3: fully open
         ll.setAttribute("height", "0"); rl.setAttribute("height", "0");
-      }, 60);
-    }, 100);
+      }, 65);
+    }, 105);
   }
 
   function startBlinkLoop() {
