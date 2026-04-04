@@ -470,7 +470,8 @@
   var STORAGE_KEY = "ai_chat_companions_v1";
   var POLLINATIONS_REFERRER = "al0823.github.io";
   var lastImageRequest = 0;
-  var IMAGE_GAP_MS = 3500;
+  var IMAGE_GAP_MS = 5000;
+  var faceUrlCache = {}; // keyed by comp.id + view, stores generated URL
 
   function buildImageUrl(prompt, extraParams) {
     return "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
@@ -616,25 +617,45 @@
     overlay.style.display = "none";
     loading.style.display = "flex";
 
-    var prompt = faceView === "fullbody" ? buildFullBodyPrompt(comp) : buildFacePrompt(comp);
-    var url = buildFaceUrl(prompt);
+    // Cache key: companion id + view + appearance (so changing appearance busts cache)
+    var cacheKey = comp.id + "_" + faceView + "_" + (comp.appearance || "");
+    var cachedUrl = faceUrlCache[cacheKey];
 
-    fetchImage(url, function() {
+    function renderFace(url) {
       photo.src = url;
       photo.className = faceView === "fullbody" ? "fullbody-mode loaded" : "portrait-mode loaded";
       photo.style.display = "block";
       loading.style.display = "none";
-      overlay.style.display = faceView === "portrait" ? "block" : "none"; // overlay only on portrait
+      overlay.style.display = faceView === "portrait" ? "block" : "none";
       faceLoaded = true;
       setExpression("idle");
-    }, function() {
-      loading.innerHTML = '<div style="color:#8b949e;font-size:12px;text-align:center">Could not generate face.<br><br><button onclick="regenFace()" style="background:#6e40c9;border:none;color:#fff;border-radius:6px;padding:5px 10px;cursor:pointer;font-size:11px">Retry</button></div>';
-    });
+    }
+
+    function onError() {
+      loading.innerHTML = '<div style="color:#8b949e;font-size:12px;text-align:center">Rate limited or error.<br>Wait a moment then<br><br><button onclick="regenFace()" style="background:#6e40c9;border:none;color:#fff;border-radius:6px;padding:5px 10px;cursor:pointer;font-size:11px">Retry</button></div>';
+    }
+
+    if (cachedUrl) {
+      // Use cached image — no new Pollinations request
+      renderFace(cachedUrl);
+      return;
+    }
+
+    var prompt = faceView === "fullbody" ? buildFullBodyPrompt(comp) : buildFacePrompt(comp);
+    var url = buildFaceUrl(prompt);
+
+    fetchImage(url, function() {
+      faceUrlCache[cacheKey] = url; // save to cache
+      renderFace(url);
+    }, onError);
   }
 
   function regenFace() {
     var comp = getActiveComp();
     if (!comp) return;
+    // Bust cache for this companion+view so a fresh image is fetched
+    var cacheKey = comp.id + "_" + faceView + "_" + (comp.appearance || "");
+    delete faceUrlCache[cacheKey];
     faceLoaded = false;
     loadFaceImage(comp);
   }
@@ -1047,6 +1068,12 @@
     // Regenerate face if appearance changed or new companion
     var appearanceChanged = !editingCompId || comp.appearance !== prevAppearance;
     if (appearanceChanged && faceView !== "hidden" && (currentMode === "sandbox" || currentMode === "companion")) {
+      // Bust all cached views for this companion so fresh image is generated
+      var views = ["portrait", "fullbody"];
+      for (var vi = 0; vi < views.length; vi++) {
+        delete faceUrlCache[comp.id + "_" + views[vi] + "_" + (comp.appearance || "")];
+        delete faceUrlCache[comp.id + "_" + views[vi] + "_" + (prevAppearance || "")];
+      }
       faceCurrentComp = null;
       showFacePanel(comp);
     }
