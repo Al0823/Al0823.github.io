@@ -535,54 +535,36 @@
     return false;
   }
 
+  function sanitizePromptPart(str) {
+    if (!str) return "";
+    // Remove special chars that can break Pollinations URLs, truncate to 80 chars
+    return str.replace(/[^\w\s,.\-']/g, "").substring(0, 80).trim();
+  }
+
   function buildFacePrompt(comp) {
-    var genderWord = "person";
-    if (comp.gender === "he/him") genderWord = "man";
-    else if (comp.gender === "she/her") genderWord = "woman";
+    var gender = (comp.gender === "he/him") ? "man" : (comp.gender === "she/her") ? "woman" : "person";
+    var age    = comp.age ? comp.age + " year old " : "";
+    var looks  = sanitizePromptPart(comp.appearance);
+    var height = comp.height ? sanitizePromptPart(comp.height) + " tall, " : "";
+    var weight = comp.weight ? sanitizePromptPart(comp.weight) + ", "       : "";
+    var clothes = hasClothingDesc(comp.appearance) ? "" : "casual shirt, ";
 
-    var age = comp.age ? comp.age + " year old " : "young adult ";
-    var appearance = comp.appearance ? comp.appearance + ", " : "";
-    var height = comp.height ? "height " + comp.height + ", " : "";
-    var weight = comp.weight ? "weight " + comp.weight + ", " : "";
-
-    // Only add default clothing if user didn't describe any
-    var clothingClause = hasClothingDesc(comp.appearance)
-      ? ""
-      : "wearing a casual shirt or top, fully clothed, ";
-
-    return "photorealistic headshot portrait photo of a " + age + genderWord
-      + ", " + appearance + height + weight
-      + clothingClause
-      + "face centered and fully visible, looking directly at camera, neutral friendly expression, "
-      + "soft even studio lighting, white or grey background, "
-      + "shoulders and face only, cropped at chest, "
-      + "ultra high detail, 8k, professional photography, "
-      + "safe for work, no nudity, fully dressed";
+    return (age + gender + ", " + (looks ? looks + ", " : "") + height + weight + clothes
+      + "headshot portrait, face centered, studio lighting, white background, "
+      + "fully clothed, SFW, photorealistic, 4k").substring(0, 400);
   }
 
   function buildFullBodyPrompt(comp) {
-    var genderWord = "person";
-    if (comp.gender === "he/him") genderWord = "man";
-    else if (comp.gender === "she/her") genderWord = "woman";
+    var gender  = (comp.gender === "he/him") ? "man" : (comp.gender === "she/her") ? "woman" : "person";
+    var age     = comp.age ? comp.age + " year old " : "";
+    var looks   = sanitizePromptPart(comp.appearance);
+    var height  = comp.height ? sanitizePromptPart(comp.height) + " tall, " : "";
+    var weight  = comp.weight ? sanitizePromptPart(comp.weight) + ", "       : "";
+    var clothes = hasClothingDesc(comp.appearance) ? "" : "jeans and casual shirt, ";
 
-    var age = comp.age ? comp.age + " year old " : "young adult ";
-    var appearance = comp.appearance ? comp.appearance + ", " : "";
-    var height = comp.height ? "height " + comp.height + ", " : "";
-    var weight = comp.weight ? "weight " + comp.weight + ", " : "";
-
-    // Only add default clothing if user didn't describe any
-    var clothingClause = hasClothingDesc(comp.appearance)
-      ? ""
-      : "wearing casual everyday clothing — jeans and a shirt, ";
-
-    return "full body photorealistic photo of a " + age + genderWord
-      + ", " + appearance + height + weight
-      + clothingClause
-      + "standing naturally, hands relaxed at sides, "
-      + "clean neutral background, soft studio lighting, "
-      + "entire body visible from head to feet, "
-      + "ultra high detail, 8k, professional photography, "
-      + "safe for work, no nudity, fully dressed";
+    return (age + gender + ", " + (looks ? looks + ", " : "") + height + weight + clothes
+      + "full body photo, standing, neutral background, studio lighting, "
+      + "fully clothed, SFW, photorealistic, 4k").substring(0, 400);
   }
 
   function showFacePanel(comp) {
