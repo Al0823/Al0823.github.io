@@ -310,21 +310,40 @@
         <img id="face-photo" src="" alt="companion face" style="display:none" />
 
         <!-- SVG overlay for animated expressions -->
-        <svg id="face-svg-overlay" class="expr-idle" viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg" style="display:none">
-          <!-- Blink left eye -->
-          <ellipse id="blink-left"  cx="88"  cy="130" rx="14" ry="7"  fill="none" stroke="none" />
-          <ellipse id="blink-right" cx="152" cy="130" rx="14" ry="7"  fill="none" stroke="none" />
-          <!-- Eyelid overlays for blinking -->
-          <rect id="lid-left"  x="72"  y="122" width="30" height="0"  fill="#111" rx="2" style="transition: height 0.06s;" />
-          <rect id="lid-right" x="136" y="122" width="30" height="0"  fill="#111" rx="2" style="transition: height 0.06s;" />
-          <!-- Eyebrow overlays -->
-          <path id="brow-left"  d="M70 108 Q88 102 106 108"  fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3.5" stroke-linecap="round" style="transition: all 0.3s;" />
-          <path id="brow-right" d="M134 108 Q152 102 170 108" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3.5" stroke-linecap="round" style="transition: all 0.3s;" />
-          <!-- Mouth overlay -->
-          <path id="mouth-curve" d="M100 195 Q120 200 140 195" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5" stroke-linecap="round" style="transition: all 0.35s;" />
-          <!-- Eye shine dots (always visible, subtle) -->
-          <circle cx="83"  cy="127" r="2.5" fill="rgba(255,255,255,0.5)" />
-          <circle cx="147" cy="127" r="2.5" fill="rgba(255,255,255,0.5)" />
+        <!-- viewBox matches the displayed image dimensions (512x512 face photo) -->
+        <!-- Face in a headshot typically occupies y=60-380, centered x=256 -->
+        <svg id="face-svg-overlay" class="expr-idle" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="display:none;position:absolute;inset:0;width:100%;height:100%">
+
+          <!-- ── Eyelid blink overlays ── -->
+          <!-- Left eye center ~(185, 210), right eye ~(327, 210) -->
+          <rect id="lid-left"  x="155" y="195" width="62" height="0" fill="#1a1a1a" rx="4" style="transition: height 0.07s ease;" />
+          <rect id="lid-right" x="295" y="195" width="62" height="0" fill="#1a1a1a" rx="4" style="transition: height 0.07s ease;" />
+
+          <!-- ── Eyebrow expression paths ── -->
+          <!-- These shift up/down and angle based on emotion -->
+          <path id="brow-left"
+            d="M152 185 Q186 175 220 183"
+            fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="6" stroke-linecap="round"
+            style="transition: d 0.35s ease, stroke 0.35s;" />
+          <path id="brow-right"
+            d="M292 183 Q326 175 360 185"
+            fill="none" stroke="rgba(0,0,0,0.28)" stroke-width="6" stroke-linecap="round"
+            style="transition: d 0.35s ease, stroke 0.35s;" />
+
+          <!-- ── Subtle eye shine dots ── -->
+          <circle cx="178" cy="208" r="4" fill="rgba(255,255,255,0.4)" />
+          <circle cx="334" cy="208" r="4" fill="rgba(255,255,255,0.4)" />
+
+          <!-- ── Mouth expression overlay ── -->
+          <!-- Mouth sits around y=340 in a headshot -->
+          <path id="mouth-curve"
+            d="M210 338 Q256 346 302 338"
+            fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="5" stroke-linecap="round"
+            style="transition: d 0.4s ease;" />
+
+          <!-- ── Emotion glow — subtle colored tint on face area ── -->
+          <ellipse id="emotion-glow" cx="256" cy="256" rx="130" ry="160"
+            fill="rgba(255,220,100,0)" style="transition: fill 0.6s ease; mix-blend-mode: overlay;" />
         </svg>
       </div>
 
@@ -503,17 +522,41 @@
     anger:      { browY: 5,   browAngle: 12,  eyeRY: 5,  mouthCurve: -4, mouthY: 1  }
   };
 
+  // Keywords that indicate the user described clothing in appearance
+  var CLOTHING_KEYWORDS = ["wearing", "shirt", "dress", "jacket", "hoodie", "coat", "jeans", "pants", "suit", "sweater", "top", "blouse", "uniform", "outfit", "clothes", "clothing", "skirt", "shorts", "vest", "cardigan", "leather", "hat", "cap", "glasses", "sunglasses", "scarf", "tie", "boots", "shoes"];
+
+  function hasClothingDesc(appearance) {
+    if (!appearance) return false;
+    var lower = appearance.toLowerCase();
+    for (var i = 0; i < CLOTHING_KEYWORDS.length; i++) {
+      if (lower.indexOf(CLOTHING_KEYWORDS[i]) !== -1) return true;
+    }
+    return false;
+  }
+
   function buildFacePrompt(comp) {
     var genderWord = "person";
     if (comp.gender === "he/him") genderWord = "man";
     else if (comp.gender === "she/her") genderWord = "woman";
 
     var age = comp.age ? comp.age + " year old " : "young adult ";
-    var appearance = comp.appearance || "with natural features";
+    var appearance = comp.appearance ? comp.appearance + ", " : "";
+    var height = comp.height ? "height " + comp.height + ", " : "";
+    var weight = comp.weight ? "weight " + comp.weight + ", " : "";
 
-    return "photorealistic portrait of a " + age + genderWord + ", " + appearance
-      + ", soft studio lighting, neutral expression, looking slightly toward camera, "
-      + "shallow depth of field, high detail, cinematic, 4k";
+    // Only add default clothing if user didn't describe any
+    var clothingClause = hasClothingDesc(comp.appearance)
+      ? ""
+      : "wearing a casual shirt or top, fully clothed, ";
+
+    return "photorealistic headshot portrait photo of a " + age + genderWord
+      + ", " + appearance + height + weight
+      + clothingClause
+      + "face centered and fully visible, looking directly at camera, neutral friendly expression, "
+      + "soft even studio lighting, white or grey background, "
+      + "shoulders and face only, cropped at chest, "
+      + "ultra high detail, 8k, professional photography, "
+      + "safe for work, no nudity, fully dressed";
   }
 
   function buildFullBodyPrompt(comp) {
@@ -522,11 +565,23 @@
     else if (comp.gender === "she/her") genderWord = "woman";
 
     var age = comp.age ? comp.age + " year old " : "young adult ";
-    var appearance = comp.appearance || "with natural features";
-    var height = comp.height ? ", height " + comp.height : "";
+    var appearance = comp.appearance ? comp.appearance + ", " : "";
+    var height = comp.height ? "height " + comp.height + ", " : "";
+    var weight = comp.weight ? "weight " + comp.weight + ", " : "";
 
-    return "full body photorealistic photo of a " + age + genderWord + ", " + appearance + height
-      + ", casual clothing, natural pose, clean background, soft lighting, high detail, 4k";
+    // Only add default clothing if user didn't describe any
+    var clothingClause = hasClothingDesc(comp.appearance)
+      ? ""
+      : "wearing casual everyday clothing — jeans and a shirt, ";
+
+    return "full body photorealistic photo of a " + age + genderWord
+      + ", " + appearance + height + weight
+      + clothingClause
+      + "standing naturally, hands relaxed at sides, "
+      + "clean neutral background, soft studio lighting, "
+      + "entire body visible from head to feet, "
+      + "ultra high detail, 8k, professional photography, "
+      + "safe for work, no nudity, fully dressed";
   }
 
   function showFacePanel(comp) {
@@ -625,6 +680,17 @@
   }
 
   /* ── Expression engine ── */
+  // Emotion glow colors per state
+  var EMOTION_GLOWS = {
+    idle:       "rgba(255,255,255,0)",
+    joy:        "rgba(255,220,80,0.10)",
+    excitement: "rgba(255,160,40,0.12)",
+    curiosity:  "rgba(100,180,255,0.10)",
+    surprise:   "rgba(200,100,255,0.10)",
+    sadness:    "rgba(80,120,200,0.10)",
+    anger:      "rgba(220,60,60,0.10)"
+  };
+
   function setExpression(name, duration) {
     var cfg = EXPR_CONFIGS[name] || EXPR_CONFIGS.idle;
     var overlay = document.getElementById("face-svg-overlay");
@@ -632,25 +698,35 @@
 
     overlay.className = "expr-" + name;
 
-    // Eyebrows
+    // ── Eyebrows (positioned at y~175-185 in 512x512 headshot space) ──
     var bl = document.getElementById("brow-left");
     var br = document.getElementById("brow-right");
     if (bl && br) {
-      var cy = 108 + cfg.browY;
-      var angle = cfg.browAngle;
-      bl.setAttribute("d", "M" + (70 - angle) + " " + (cy + angle/2) + " Q88 " + (cy - 4) + " " + (106 + angle) + " " + (cy + angle/2));
-      br.setAttribute("d", "M" + (134 - angle) + " " + (cy + angle/2) + " Q152 " + (cy - 4) + " " + (170 + angle) + " " + (cy + angle/2));
+      // base brow y = 183, shift up (negative) or down (positive)
+      var by = 183 + cfg.browY * 2.5;
+      var midBy = 175 + cfg.browY * 2.5;
+      var ang = cfg.browAngle * 0.4;
+      // left brow: M152,by Q186,midBy 220,(by+ang)
+      bl.setAttribute("d", "M152 " + (by + ang) + " Q186 " + midBy + " 220 " + (by - ang));
+      // right brow: M292,(by-ang) Q326,midBy 360,(by+ang)
+      br.setAttribute("d", "M292 " + (by - ang) + " Q326 " + midBy + " 360 " + (by + ang));
     }
 
-    // Mouth
+    // ── Mouth (positioned at y~338 in 512x512 space) ──
     var mouth = document.getElementById("mouth-curve");
     if (mouth) {
-      var my = 195 + cfg.mouthY;
-      var mc = cfg.mouthCurve;
-      mouth.setAttribute("d", "M100 " + my + " Q120 " + (my + mc) + " 140 " + my);
+      var my = 338 + cfg.mouthY * 2;
+      var mc = cfg.mouthCurve * 2.2;
+      mouth.setAttribute("d", "M210 " + my + " Q256 " + (my + mc) + " 302 " + my);
     }
 
-    document.getElementById("face-emotion-label").textContent = name;
+    // ── Emotion glow ──
+    var glow = document.getElementById("emotion-glow");
+    if (glow) glow.setAttribute("fill", EMOTION_GLOWS[name] || "rgba(255,255,255,0)");
+
+    // ── Label ──
+    var lbl = document.getElementById("face-emotion-label");
+    if (lbl) lbl.textContent = name;
 
     // Auto return to idle
     if (exprTimeout) clearTimeout(exprTimeout);
@@ -664,12 +740,16 @@
     var ll = document.getElementById("lid-left");
     var rl = document.getElementById("lid-right");
     if (!ll || !rl || !faceLoaded) return;
-    // Close
-    ll.setAttribute("height", "16"); rl.setAttribute("height", "16");
+    // Close eyes — height covers the eye area (~30px in 512 space)
+    ll.setAttribute("height", "30"); rl.setAttribute("height", "30");
     setTimeout(function() {
-      // Open
-      ll.setAttribute("height", "0"); rl.setAttribute("height", "0");
-    }, 120);
+      // Half-open briefly (natural blink)
+      ll.setAttribute("height", "10"); rl.setAttribute("height", "10");
+      setTimeout(function() {
+        // Fully open
+        ll.setAttribute("height", "0"); rl.setAttribute("height", "0");
+      }, 60);
+    }, 100);
   }
 
   function startBlinkLoop() {
