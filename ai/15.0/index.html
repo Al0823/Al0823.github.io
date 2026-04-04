@@ -426,7 +426,7 @@
       <div class="form-row"><label>Age</label><input type="number" id="f-age" placeholder="e.g. 22" min="1" max="999" /></div>
       <div class="form-row"><label>Height</label><input type="text" id="f-height" placeholder="e.g. 5'9&quot;" maxlength="20" /></div>
       <div class="form-row"><label>Weight</label><input type="text" id="f-weight" placeholder="e.g. 160 lbs" maxlength="20" /></div>
-      <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="300" /></div>
+      <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="120" /></div>
     </div>
     <div class="form-row"><label>Base Personality</label><textarea id="f-personality" placeholder="e.g. Chill and funny, loves music, gets excited about tech"></textarea></div>
     <div class="form-row"><label>Interests / Hobbies</label><input type="text" id="f-interests" placeholder="e.g. gaming, cooking, hip-hop, sci-fi" maxlength="120" /></div>
@@ -451,6 +451,7 @@
   var STORAGE_KEY = "ai_chat_companions_v1";
   var POLLINATIONS_REFERRER = "al0823.github.io";
   var lastImageRequest = 0;
+  var IMAGE_GAP_MS = 3500;
 
   function buildImageUrl(prompt, extraParams) {
     return "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
@@ -458,15 +459,26 @@
       + "&seed=" + Date.now() + (extraParams || "");
   }
 
-  function fetchImage(url, onLoad, onError) {
+  function buildFaceUrl(prompt) {
+    return "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+      + "?width=512&height=512&nologo=true&referrer=" + POLLINATIONS_REFERRER
+      + "&seed=" + Date.now();
+  }
+
+  function fetchImage(url, onLoad, onError, retries) {
+    retries = retries || 0;
     var now = Date.now();
-    var delay = Math.max(0, 2000 - (now - lastImageRequest));
+    var delay = Math.max(0, IMAGE_GAP_MS - (now - lastImageRequest));
     lastImageRequest = now + delay;
     setTimeout(function() {
       var pre = new Image();
       pre.crossOrigin = "anonymous";
-      pre.onload  = onLoad;
-      pre.onerror = onError;
+      pre.onload = onLoad;
+      pre.onerror = function() {
+        if (retries < 1) {
+          setTimeout(function() { fetchImage(url, onLoad, onError, retries + 1); }, 5000);
+        } else { onError(); }
+      };
       pre.src = url;
     }, delay);
   }
@@ -550,7 +562,7 @@
     loading.style.display = "flex";
 
     var prompt = faceView === "fullbody" ? buildFullBodyPrompt(comp) : buildFacePrompt(comp);
-    var url = buildImageUrl(prompt);
+    var url = buildFaceUrl(prompt);
 
     fetchImage(url, function() {
       photo.src = url;
@@ -1200,11 +1212,11 @@
   loadStorage(); updateCompanionBadge();
   document.getElementById("companions-btn").style.display="inline-flex";
 
-  // Init face panel for sandbox mode
+  // Init face panel — delayed 5s to avoid colliding with page load requests
   setTimeout(function(){
-    var comp=getActiveComp();
-    if(comp&&faceView!=="hidden") showFacePanel(comp);
-  },500);
+    var comp = getActiveComp();
+    if (comp && faceView !== "hidden") showFacePanel(comp);
+  }, 5000);
 </script>
 </body>
 </html>
