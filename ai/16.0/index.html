@@ -475,28 +475,25 @@
 
   function initAvatar(comp) {
     if (!comp) return;
-    var panel  = document.getElementById("face-panel");
-    var canvas = document.getElementById("face-canvas");
-    var wrap   = document.getElementById("face-canvas-wrap");
+    var panel    = document.getElementById("face-panel");
+    var canvas   = document.getElementById("face-canvas");
+    var wrap     = document.getElementById("face-canvas-wrap");
     var building = document.getElementById("face-building");
-    if (!canvas || !wrap) return;
+    if (!canvas || !wrap || !panel) return;
 
-    // Make sure panel is visible so wrap has real dimensions
+    // Show panel first
     panel.classList.add("visible");
 
-    // Force a layout flush so offsetWidth/offsetHeight are non-zero
-    var w = wrap.offsetWidth;
-    var h = wrap.offsetHeight;
+    // Determine dimensions — use CSS-computed size of the panel,
+    // NOT the canvas (which may be 0 before paint).
+    // face-panel is 260px wide; height is app height * 0.9 minus header.
+    var app = document.getElementById("app");
+    var panelW = 260;
+    var panelH = app ? Math.max(300, app.offsetHeight - 48) : 520;
 
-    // Fallback if still 0 (panel not yet painted)
-    if (w < 10 || h < 10) {
-      // Retry after browser has painted
-      setTimeout(function() { initAvatar(comp); }, 80);
-      return;
-    }
-
-    canvas.width  = w;
-    canvas.height = h;
+    // If the DOM has real values, prefer those
+    if (wrap.offsetWidth  > 10) panelW = wrap.offsetWidth;
+    if (wrap.offsetHeight > 10) panelH = wrap.offsetHeight;
 
     if (building) building.classList.remove("hidden");
 
@@ -508,26 +505,25 @@
 
     avatarInstance = new CompanionAvatar(canvas);
     avatarInstance.view = avatarView;
-    avatarInstance.init(comp);
+    // Pass explicit dimensions — avatar.js will NOT read offsetWidth internally
+    avatarInstance.init(comp, panelW, panelH);
 
     // Store base values for animation after first frame
     setTimeout(function() {
-      if (avatarInstance && avatarInstance.layers.head) {
+      if (!avatarInstance) return;
+      if (avatarInstance.layers.head) {
         var ch = avatarInstance._charHeight();
         avatarInstance.layers.head._baseY = -ch * 0.38;
       }
-      if (avatarInstance && avatarInstance.layers.root) {
+      if (avatarInstance.layers.root) {
         avatarInstance.layers.root._baseScaleY = avatarInstance.layers.root.scale.y;
         avatarInstance._applyViewScale();
       }
       if (building) building.classList.add("hidden");
     }, 150);
 
-    // Update label
     document.getElementById("face-comp-name").textContent = comp.name;
     document.getElementById("face-emotion-label").textContent = "idle";
-
-    // Store for resize
     window._activeComp = comp;
     avatarInitialized = true;
   }

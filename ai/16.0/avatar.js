@@ -144,8 +144,10 @@
     this._mouseMoveHandler = null;
   }
 
-  CompanionAvatar.prototype.init = function(comp) {
+  CompanionAvatar.prototype.init = function(comp, w, h) {
     var self = this;
+    this._initW = w || 260;
+    this._initH = h || 520;
     this.traits = this._parseTraits(comp);
 
     if (this.app) {
@@ -153,14 +155,22 @@
       this.app = null;
     }
 
+    // Use explicit dimensions passed in — never trust offsetWidth at init time
+    var w = this._initW || 260;
+    var h = this._initH || 520;
+    this.canvas.width  = w;
+    this.canvas.height = h;
+    this.canvas.style.width  = "100%";
+    this.canvas.style.height = "100%";
+
     this.app = new PIXI.Application({
       view: this.canvas,
-      width: this.canvas.offsetWidth || 280,
-      height: this.canvas.offsetHeight || 520,
+      width: w,
+      height: h,
       backgroundColor: 0x0d1117,
       antialias: true,
-      resolution: window.devicePixelRatio || 1,
-      autoDensity: true
+      resolution: 1,
+      autoDensity: false
     });
 
     this._build();
