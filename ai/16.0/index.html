@@ -475,27 +475,42 @@
 
   function initAvatar(comp) {
     if (!comp) return;
+    var panel  = document.getElementById("face-panel");
     var canvas = document.getElementById("face-canvas");
     var wrap   = document.getElementById("face-canvas-wrap");
     var building = document.getElementById("face-building");
     if (!canvas || !wrap) return;
 
-    // Size canvas to parent
-    canvas.width  = wrap.offsetWidth  || 260;
-    canvas.height = wrap.offsetHeight || 520;
+    // Make sure panel is visible so wrap has real dimensions
+    panel.classList.add("visible");
+
+    // Force a layout flush so offsetWidth/offsetHeight are non-zero
+    var w = wrap.offsetWidth;
+    var h = wrap.offsetHeight;
+
+    // Fallback if still 0 (panel not yet painted)
+    if (w < 10 || h < 10) {
+      // Retry after browser has painted
+      setTimeout(function() { initAvatar(comp); }, 80);
+      return;
+    }
+
+    canvas.width  = w;
+    canvas.height = h;
 
     if (building) building.classList.remove("hidden");
 
     if (avatarInstance) {
       avatarInstance.destroy();
       avatarInstance = null;
+      avatarInitialized = false;
     }
 
     avatarInstance = new CompanionAvatar(canvas);
     avatarInstance.view = avatarView;
     avatarInstance.init(comp);
 
-    // Store base values for animation
+    // Store base values for animation after first frame
     setTimeout(function() {
       if (avatarInstance && avatarInstance.layers.head) {
         var ch = avatarInstance._charHeight();
@@ -506,14 +521,14 @@
         avatarInstance._applyViewScale();
       }
       if (building) building.classList.add("hidden");
-    }, 100);
+    }, 150);
 
     // Update label
     document.getElementById("face-comp-name").textContent = comp.name;
     document.getElementById("face-emotion-label").textContent = "idle";
 
     // Store for resize
-    global._activeComp = comp;
+    window._activeComp = comp;
     avatarInitialized = true;
   }
 
@@ -554,7 +569,7 @@
     panel.classList.add("visible");
     document.getElementById("face-comp-name").textContent = comp.name;
 
-    if (!avatarInitialized || global._activeComp !== comp) {
+    if (!avatarInitialized || window._activeComp !== comp) {
       initAvatar(comp);
     }
   }

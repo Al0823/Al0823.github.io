@@ -1080,7 +1080,7 @@
   CompanionAvatar.prototype.setView = function(view) {
     this.view = view;
     if (!this.initialized) return;
-    var comp = global._activeComp;
+    var comp = window._activeComp;
     if (comp) {
       this.rebuild(comp);
     }
@@ -1139,6 +1139,6 @@
   };
 
   /* ── Export ────────────────────────────────────────────────────────────── */
-  global.CompanionAvatar = CompanionAvatar;
+  window.CompanionAvatar = CompanionAvatar;
 
 })(window);
