@@ -407,7 +407,7 @@
       <div class="form-row"><label>Age</label><input type="number" id="f-age" placeholder="e.g. 22" min="1" max="999" /></div>
       <div class="form-row"><label>Height</label><input type="text" id="f-height" placeholder="e.g. 5'9&quot;" maxlength="20" /></div>
       <div class="form-row"><label>Weight</label><input type="text" id="f-weight" placeholder="e.g. 160 lbs" maxlength="20" /></div>
-      <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="120" /></div>
+      <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="500" /></div>
     </div>
     <div class="form-row"><label>Base Personality</label><textarea id="f-personality" placeholder="e.g. Chill and funny, loves music, gets excited about tech"></textarea></div>
     <div class="form-row"><label>Interests / Hobbies</label><input type="text" id="f-interests" placeholder="e.g. gaming, cooking, hip-hop, sci-fi" maxlength="120" /></div>
@@ -566,7 +566,13 @@
     document.getElementById("face-comp-name").textContent = comp.name;
 
     if (!avatarInitialized || window._activeComp !== comp) {
-      initAvatar(comp);
+      // Always defer past two animation frames so the panel is fully painted
+      // before PixiJS tries to read canvas dimensions
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          initAvatar(comp);
+        });
+      });
     }
   }
 
@@ -771,15 +777,36 @@
     saveStorage();
   }
 
+  var _memoryUpdatePending = false;
+  var _memoryUpdateTimer   = null;
+
   function maybeUpdateMemory() {
     var comp = getActiveComp(); driftPersonality(comp);
-    if (!comp || (comp.messageCount || 0) % 8 !== 0 || chatHistory.length < 6) return;
-    var msg = "Update memory about the user based on this conversation.\nRules: keep important facts, merge with previous memory, remove duplicates, be concise.\n\nPrevious memory:\n" + (comp.memorySummary || "(none)");
-    var hist = chatHistory.slice(-25).concat([{ role:"user", content:msg }]);
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", WORKER_URL, true); xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function() { if (xhr.readyState !== 4) return; try { var d = JSON.parse(xhr.responseText); if (d.reply) { comp.memorySummary = d.reply; saveStorage(); } } catch(e) {} };
-    xhr.send(JSON.stringify({ messages: hist, mode: currentMode }));
+    // Only update every 20 messages, never while a request is in flight
+    if (!comp || (comp.messageCount || 0) % 20 !== 0 || chatHistory.length < 8) return;
+    if (_memoryUpdatePending) return;
+
+    // Delay by 4s so it never fires at the same time as the main chat request
+    if (_memoryUpdateTimer) clearTimeout(_memoryUpdateTimer);
+    _memoryUpdateTimer = setTimeout(function() {
+      _memoryUpdatePending = true;
+      var msg = "Summarize key facts about the user from this conversation in 3-5 bullet points. Be concise. Previous memory: " + (comp.memorySummary || "(none)");
+      var hist = chatHistory.slice(-20).concat([{ role:"user", content:msg }]);
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", WORKER_URL, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.timeout = 15000;
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+        _memoryUpdatePending = false;
+        try {
+          var d = JSON.parse(xhr.responseText);
+          if (d.reply) { comp.memorySummary = d.reply; saveStorage(); }
+        } catch(e) {}
+      };
+      xhr.onerror = xhr.ontimeout = function() { _memoryUpdatePending = false; };
+      xhr.send(JSON.stringify({ messages: hist, mode: currentMode }));
+    }, 4000);
   }
 
   /* ── Companion list ── */
@@ -1152,7 +1179,10 @@
   // Init face panel — delayed 5s to avoid colliding with page load requests
   setTimeout(function(){
     var comp = getActiveComp();
-    if (comp && avatarView !== "hidden") { showAvatarPanel(comp); setupAvatarResize(); }
+    if (comp && avatarView !== "hidden") {
+      // Defer until page is fully painted
+      setTimeout(function() { showAvatarPanel(comp); setupAvatarResize(); }, 200);
+    }
   }, 5000);
 </script>
 </body>
