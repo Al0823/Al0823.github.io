@@ -272,6 +272,9 @@
     #modal-cancel-btn { background: #21262d; color: #8b949e; } #modal-cancel-btn:hover { background: #30363d; color: #e6edf3; }
     .memory-badge { font-size: 11px; background: #1a1030; border: 1px solid #bc8cff44; border-radius: 20px; padding: 2px 9px; color: #bc8cff; }
   </style>
+  <!-- PixiJS v7 for avatar rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
+  <script src="avatar.js"></script>
 </head>
 <body class="mode-sandbox">
 
@@ -288,7 +291,7 @@
 
   <div id="main">
 
-    <!-- ── Face Panel ── -->
+    <!-- ── Face Panel (PixiJS avatar) ── -->
     <div id="face-panel">
       <div id="face-panel-header">
         <div>
@@ -296,88 +299,18 @@
           <div id="face-emotion-label">idle</div>
         </div>
         <div id="face-view-toggle">
-          <button class="face-view-btn active" id="btn-portrait"  onclick="setFaceView('portrait')">Portrait</button>
-          <button class="face-view-btn"         id="btn-fullbody" onclick="setFaceView('fullbody')">Full</button>
-          <button class="face-view-btn"         id="btn-hidden"   onclick="setFaceView('hidden')">Hide</button>
+          <button class="face-view-btn active" id="btn-bust"     onclick="setAvatarView('bust')">Bust</button>
+          <button class="face-view-btn"         id="btn-upper"   onclick="setAvatarView('upper')">Upper</button>
+          <button class="face-view-btn"         id="btn-full"    onclick="setAvatarView('full')">Full</button>
+          <button class="face-view-btn"         id="btn-hidden"  onclick="setAvatarView('hidden')">Hide</button>
         </div>
       </div>
-
-      <div id="face-image-wrap">
-        <div id="face-loading">
+      <div id="face-canvas-wrap">
+        <div id="face-building">
           <div class="face-spinner"></div>
-          <span>Generating face...</span>
+          <span>Building avatar...</span>
         </div>
-        <img id="face-photo" src="" alt="companion face" style="display:none" />
-
-        <!-- SVG overlay for animated expressions -->
-        <!--
-          Calibrated for passport-style 512x512 portrait:
-          Face fills ~80% of frame. Measurements based on average face proportions:
-          - Top of head:   y ~30
-          - Eyebrows:      y ~190  (38% from top)
-          - Eyes center:   y ~215  (42% from top)
-          - Nose tip:      y ~290  (57% from top)
-          - Mouth center:  y ~340  (66% from top)
-          - Chin:          y ~400  (78% from top)
-          - Left eye cx:   x ~185  (36% from left)
-          - Right eye cx:  x ~327  (64% from left)
-          - Eye width:     ~55px each side
-        -->
-        <svg id="face-svg-overlay" class="expr-idle"
-          viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
-          style="display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;">
-
-          <!-- ── Left eyelid (blink) ── -->
-          <!-- Covers eye from top: starts at y=197, expands downward -->
-          <rect id="lid-left"
-            x="150" y="197" width="68" height="0"
-            fill="rgb(180,160,140)" rx="3"
-            style="transition: height 0.07s ease;" />
-
-          <!-- ── Right eyelid (blink) ── -->
-          <rect id="lid-right"
-            x="294" y="197" width="68" height="0"
-            fill="rgb(180,160,140)" rx="3"
-            style="transition: height 0.07s ease;" />
-
-          <!-- ── Left eyebrow ── -->
-          <!-- Base: flat arch from x155 to x225, apex at x190, y188 -->
-          <path id="brow-left"
-            d="M155 194 Q190 182 225 192"
-            fill="none" stroke="rgba(30,20,10,0.45)" stroke-width="5"
-            stroke-linecap="round"
-            style="transition: d 0.3s ease;" />
-
-          <!-- ── Right eyebrow ── -->
-          <!-- Mirror: from x287 to x357, apex at x322 -->
-          <path id="brow-right"
-            d="M287 192 Q322 182 357 194"
-            fill="none" stroke="rgba(30,20,10,0.45)" stroke-width="5"
-            stroke-linecap="round"
-            style="transition: d 0.3s ease;" />
-
-          <!-- ── Eye shine dots (always on, subtle life) ── -->
-          <circle cx="175" cy="210" r="5" fill="rgba(255,255,255,0.55)" />
-          <circle cx="337" cy="210" r="5" fill="rgba(255,255,255,0.55)" />
-
-          <!-- ── Mouth curve ── -->
-          <!-- Base neutral: slight upturn, centered at x256, y340 -->
-          <path id="mouth-curve"
-            d="M215 340 Q256 348 297 340"
-            fill="none" stroke="rgba(20,10,5,0.30)" stroke-width="5"
-            stroke-linecap="round"
-            style="transition: d 0.35s ease;" />
-
-          <!-- ── Emotion color wash over whole face ── -->
-          <ellipse id="emotion-glow"
-            cx="256" cy="260" rx="145" ry="180"
-            fill="rgba(0,0,0,0)"
-            style="transition: fill 0.5s ease; mix-blend-mode: soft-light;" />
-        </svg>
-      </div>
-
-      <div id="face-footer">
-        <button id="face-regen-btn" onclick="regenFace()">🔄 Regenerate Face</button>
+        <canvas id="face-canvas"></canvas>
       </div>
     </div>
 
@@ -533,343 +466,127 @@
   }
 
   /* ══════════════════════════════════════════════
-     FACE SYSTEM
+     AVATAR SYSTEM (PixiJS)
   ══════════════════════════════════════════════ */
-  var faceView        = "portrait"; // portrait | fullbody | hidden
-  var faceLoaded      = false;
-  var faceCurrentComp = null; // companion id whose face is loaded
-  var blinkInterval   = null;
-  var idleInterval    = null;
-  var exprTimeout     = null;
 
-  var EXPR_CONFIGS = {
-    idle:       { browY: 0,   browAngle: 0,   eyeRY: 7,  mouthCurve: 2,  mouthY: 0  },
-    joy:        { browY: -3,  browAngle: -2,  eyeRY: 6,  mouthCurve: 10, mouthY: -2 },
-    excitement: { browY: -5,  browAngle: -3,  eyeRY: 8,  mouthCurve: 12, mouthY: -3 },
-    curiosity:  { browY: -6,  browAngle: -8,  eyeRY: 7,  mouthCurve: 3,  mouthY: 0  },
-    surprise:   { browY: -9,  browAngle: -4,  eyeRY: 10, mouthCurve: 0,  mouthY: 2  },
-    sadness:    { browY: 4,   browAngle: 8,   eyeRY: 5,  mouthCurve: -7, mouthY: 3  },
-    anger:      { browY: 5,   browAngle: 12,  eyeRY: 5,  mouthCurve: -4, mouthY: 1  }
-  };
+  var avatarInstance = null;
+  var avatarView = "bust";
+  var avatarInitialized = false;
 
-  // Keywords that indicate the user described clothing in appearance
-  var CLOTHING_KEYWORDS = ["wearing", "shirt", "dress", "jacket", "hoodie", "coat", "jeans", "pants", "suit", "sweater", "top", "blouse", "uniform", "outfit", "clothes", "clothing", "skirt", "shorts", "vest", "cardigan", "leather", "hat", "cap", "glasses", "sunglasses", "scarf", "tie", "boots", "shoes"];
+  function initAvatar(comp) {
+    if (!comp) return;
+    var canvas = document.getElementById("face-canvas");
+    var wrap   = document.getElementById("face-canvas-wrap");
+    var building = document.getElementById("face-building");
+    if (!canvas || !wrap) return;
 
-  function hasClothingDesc(appearance) {
-    if (!appearance) return false;
-    var lower = appearance.toLowerCase();
-    for (var i = 0; i < CLOTHING_KEYWORDS.length; i++) {
-      if (lower.indexOf(CLOTHING_KEYWORDS[i]) !== -1) return true;
+    // Size canvas to parent
+    canvas.width  = wrap.offsetWidth  || 260;
+    canvas.height = wrap.offsetHeight || 520;
+
+    if (building) building.classList.remove("hidden");
+
+    if (avatarInstance) {
+      avatarInstance.destroy();
+      avatarInstance = null;
     }
-    return false;
-  }
 
-  function sanitizePromptPart(str) {
-    if (!str) return "";
-    // Remove special chars that can break Pollinations URLs, truncate to 80 chars
-    return str.replace(/[^\w\s,.\-']/g, "").substring(0, 80).trim();
-  }
+    avatarInstance = new CompanionAvatar(canvas);
+    avatarInstance.view = avatarView;
+    avatarInstance.init(comp);
 
-  function buildFacePrompt(comp) {
-    var gender  = (comp.gender === "he/him") ? "man" : (comp.gender === "she/her") ? "woman" : "person";
-    var age     = comp.age ? comp.age + " year old " : "";
-    var looks   = sanitizePromptPart(comp.appearance);
-    var height  = comp.height ? sanitizePromptPart(comp.height) + " tall, " : "";
-    var weight  = comp.weight ? sanitizePromptPart(comp.weight) + ", "       : "";
-    var clothes = hasClothingDesc(comp.appearance) ? "" : "plain white t-shirt, ";
+    // Store base values for animation
+    setTimeout(function() {
+      if (avatarInstance && avatarInstance.layers.head) {
+        var ch = avatarInstance._charHeight();
+        avatarInstance.layers.head._baseY = -ch * 0.38;
+      }
+      if (avatarInstance && avatarInstance.layers.root) {
+        avatarInstance.layers.root._baseScaleY = avatarInstance.layers.root.scale.y;
+        avatarInstance._applyViewScale();
+      }
+      if (building) building.classList.add("hidden");
+    }, 100);
 
-    // Force passport/ID photo framing: face dead center, eyes at 40% from top,
-    // chin at 75%, equal margins left and right. This gives us a predictable
-    // face position so the SVG overlay can align reliably.
-    return (age + gender + ", " + (looks ? looks + ", " : "") + height + weight + clothes
-      + "passport photo style, face dead center frame, eyes one third from top, "
-      + "chin at bottom third, symmetrical framing, flat even lighting, "
-      + "plain light grey background, neutral expression, looking straight at camera, "
-      + "no tilt no angle, shoulders barely visible, tight crop around face, "
-      + "fully clothed, SFW, photorealistic").substring(0, 450);
-  }
-
-  function buildFullBodyPrompt(comp) {
-    var gender  = (comp.gender === "he/him") ? "man" : (comp.gender === "she/her") ? "woman" : "person";
-    var age     = comp.age ? comp.age + " year old " : "";
-    var looks   = sanitizePromptPart(comp.appearance);
-    var height  = comp.height ? sanitizePromptPart(comp.height) + " tall, " : "";
-    var weight  = comp.weight ? sanitizePromptPart(comp.weight) + ", "       : "";
-    var clothes = hasClothingDesc(comp.appearance) ? "" : "jeans and casual shirt, ";
-
-    return (age + gender + ", " + (looks ? looks + ", " : "") + height + weight + clothes
-      + "full body photo, standing, neutral background, studio lighting, "
-      + "fully clothed, SFW, photorealistic, 4k").substring(0, 400);
-  }
-
-  function showFacePanel(comp) {
-    if (!comp || faceView === "hidden") return;
-    var panel = document.getElementById("face-panel");
-    panel.classList.add("visible");
+    // Update label
     document.getElementById("face-comp-name").textContent = comp.name;
     document.getElementById("face-emotion-label").textContent = "idle";
 
-    // Only regenerate if companion changed or no face loaded
-    if (faceCurrentComp !== comp.id || !faceLoaded) {
-      faceCurrentComp = comp.id;
-      loadFaceImage(comp);
-    }
-
-    startBlinkLoop();
-    startIdleLoop();
+    // Store for resize
+    global._activeComp = comp;
+    avatarInitialized = true;
   }
 
-  function hideFacePanel() {
-    document.getElementById("face-panel").classList.remove("visible");
-    stopFaceLoops();
-  }
+  function setAvatarView(view) {
+    avatarView = view;
 
-  function loadFaceImage(comp) {
-    faceLoaded = false;
-    var photo   = document.getElementById("face-photo");
-    var loading = document.getElementById("face-loading");
-    var overlay = document.getElementById("face-svg-overlay");
-
-    photo.style.display = "none";
-    overlay.style.display = "none";
-    loading.style.display = "flex";
-
-    // Cache key: companion id + view + appearance (so changing appearance busts cache)
-    var cacheKey = comp.id + "_" + faceView + "_" + (comp.appearance || "");
-    var cachedUrl = faceUrlCache[cacheKey];
-
-    function renderFace(url) {
-      photo.src = url;
-      photo.className = faceView === "fullbody" ? "fullbody-mode loaded" : "portrait-mode loaded";
-      photo.style.display = "block";
-      loading.style.display = "none";
-      overlay.style.display = faceView === "portrait" ? "block" : "none";
-      faceLoaded = true;
-      setExpression("idle");
-    }
-
-    function onError() {
-      loading.innerHTML = '<div style="color:#8b949e;font-size:12px;text-align:center">Rate limited or error.<br>Wait a moment then<br><br><button onclick="regenFace()" style="background:#6e40c9;border:none;color:#fff;border-radius:6px;padding:5px 10px;cursor:pointer;font-size:11px">Retry</button></div>';
-    }
-
-    if (cachedUrl) {
-      // Use cached image — no new Pollinations request
-      renderFace(cachedUrl);
-      return;
-    }
-
-    var prompt = faceView === "fullbody" ? buildFullBodyPrompt(comp) : buildFacePrompt(comp);
-    var url = buildFaceUrl(prompt);
-
-    fetchImage(url, function() {
-      faceUrlCache[cacheKey] = url; // save to cache
-      renderFace(url);
-    }, onError);
-  }
-
-  function regenFace() {
-    var comp = getActiveComp();
-    if (!comp) return;
-    // Bust cache for this companion+view so a fresh image is fetched
-    var cacheKey = comp.id + "_" + faceView + "_" + (comp.appearance || "");
-    delete faceUrlCache[cacheKey];
-    faceLoaded = false;
-    loadFaceImage(comp);
-  }
-
-  function setFaceView(view) {
-    faceView = view;
-
-    // Update button states
-    document.getElementById("btn-portrait").classList.toggle("active",  view === "portrait");
-    document.getElementById("btn-fullbody").classList.toggle("active",  view === "fullbody");
-    document.getElementById("btn-hidden").classList.toggle("active",    view === "hidden");
+    // Update toggle buttons
+    ["btn-bust","btn-upper","btn-full","btn-hidden"].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.classList.remove("active");
+    });
+    var activeId = "btn-" + view;
+    var activeEl = document.getElementById(activeId);
+    if (activeEl) activeEl.classList.add("active");
 
     var panel = document.getElementById("face-panel");
-    var overlay = document.getElementById("face-svg-overlay");
-    var photo = document.getElementById("face-photo");
-
     if (view === "hidden") {
       panel.classList.remove("visible");
-      stopFaceLoops();
       return;
     }
 
-    var comp = getActiveComp();
     var isCompMode = currentMode === "sandbox" || currentMode === "companion";
-    if (!comp || !isCompMode) return;
+    if (!isCompMode) return;
 
     panel.classList.add("visible");
 
-    // Adjust photo object-position
-    if (photo.style.display !== "none") {
-      photo.className = view === "fullbody" ? "fullbody-mode loaded" : "portrait-mode loaded";
-      overlay.style.display = view === "portrait" ? "block" : "none";
-    }
-
-    // Reload if switching between portrait/fullbody (different prompts)
-    if (faceLoaded) {
-      faceLoaded = false;
-      loadFaceImage(comp);
-    }
-
-    startBlinkLoop();
-    startIdleLoop();
-  }
-
-  /* ── Expression engine ── */
-  // Emotion glow colors per state
-  var EMOTION_GLOWS = {
-    idle:       "rgba(255,255,255,0)",
-    joy:        "rgba(255,220,80,0.10)",
-    excitement: "rgba(255,160,40,0.12)",
-    curiosity:  "rgba(100,180,255,0.10)",
-    surprise:   "rgba(200,100,255,0.10)",
-    sadness:    "rgba(80,120,200,0.10)",
-    anger:      "rgba(220,60,60,0.10)"
-  };
-
-  function setExpression(name, duration) {
-    var cfg = EXPR_CONFIGS[name] || EXPR_CONFIGS.idle;
-    var overlay = document.getElementById("face-svg-overlay");
-    if (!overlay) return;
-
-    overlay.className = "expr-" + name;
-
-    // ── Eyebrows ──
-    // Base positions calibrated to passport portrait (512x512):
-    // Left brow:  M155,194 Q190,182 225,192
-    // Right brow: M287,192 Q322,182 357,194
-    var bl = document.getElementById("brow-left");
-    var br = document.getElementById("brow-right");
-    if (bl && br) {
-      var baseY   = 194;
-      var baseApex = 182;
-      var by      = baseY    + cfg.browY * 2.2;
-      var apexY   = baseApex + cfg.browY * 2.2;
-      var ang     = cfg.browAngle * 0.35;
-      // Left brow: inner end raised for anger/sad, outer end for curiosity
-      bl.setAttribute("d",
-        "M155 " + (by + ang)  + " Q190 " + apexY + " 225 " + (by - ang));
-      br.setAttribute("d",
-        "M287 " + (by - ang)  + " Q322 " + apexY + " 357 " + (by + ang));
-    }
-
-    // ── Mouth ──
-    // Base: M215,340 Q256,348 297,340  (slight natural upturn)
-    var mouth = document.getElementById("mouth-curve");
-    if (mouth) {
-      var my = 340 + cfg.mouthY * 2.5;
-      var mc = cfg.mouthCurve * 2.5;
-      mouth.setAttribute("d", "M215 " + my + " Q256 " + (my + mc) + " 297 " + my);
-    }
-
-    // ── Emotion glow wash ──
-    var glow = document.getElementById("emotion-glow");
-    if (glow) glow.setAttribute("fill", EMOTION_GLOWS[name] || "rgba(0,0,0,0)");
-
-    // ── Label ──
-    var lbl = document.getElementById("face-emotion-label");
-    if (lbl) lbl.textContent = name;
-
-    // Auto-return to idle
-    if (exprTimeout) clearTimeout(exprTimeout);
-    if (name !== "idle" && duration !== -1) {
-      exprTimeout = setTimeout(function() { setExpression("idle"); }, duration || 2500);
+    if (avatarInstance) {
+      avatarInstance.view = view;
+      var comp = getActiveComp();
+      if (comp) avatarInstance.rebuild(comp);
+      avatarInstance._applyViewScale();
     }
   }
 
-  /* ── Blink loop ── */
-  function doBlink() {
-    var ll = document.getElementById("lid-left");
-    var rl = document.getElementById("lid-right");
-    if (!ll || !rl || !faceLoaded) return;
+  function showAvatarPanel(comp) {
+    if (!comp || avatarView === "hidden") return;
+    var panel = document.getElementById("face-panel");
+    panel.classList.add("visible");
+    document.getElementById("face-comp-name").textContent = comp.name;
 
-    // Sample skin color from the photo to use as eyelid fill color
-    // so the lids blend naturally regardless of skin tone
-    var photo = document.getElementById("face-photo");
-    var skinColor = "rgb(200,175,155)"; // fallback neutral skin tone
-    try {
-      var canvas = document.createElement("canvas");
-      canvas.width = 1; canvas.height = 1;
-      var ctx = canvas.getContext("2d");
-      // Sample from forehead area (x:40%, y:25% of image)
-      ctx.drawImage(photo, Math.floor(photo.naturalWidth * 0.40), Math.floor(photo.naturalHeight * 0.25), 1, 1, 0, 0, 1, 1);
-      var px = ctx.getImageData(0, 0, 1, 1).data;
-      skinColor = "rgb(" + px[0] + "," + px[1] + "," + px[2] + ")";
-    } catch(e) {}
-
-    ll.setAttribute("fill", skinColor); rl.setAttribute("fill", skinColor);
-
-    // Phase 1: close
-    ll.setAttribute("height", "28"); rl.setAttribute("height", "28");
-    setTimeout(function() {
-      // Phase 2: half open
-      ll.setAttribute("height", "10"); rl.setAttribute("height", "10");
-      setTimeout(function() {
-        // Phase 3: fully open
-        ll.setAttribute("height", "0"); rl.setAttribute("height", "0");
-      }, 65);
-    }, 105);
-  }
-
-  function startBlinkLoop() {
-    stopBlinkLoop();
-    function scheduleNext() {
-      var delay = 2500 + Math.random() * 4000;
-      blinkInterval = setTimeout(function() {
-        doBlink();
-        scheduleNext();
-      }, delay);
+    if (!avatarInitialized || global._activeComp !== comp) {
+      initAvatar(comp);
     }
-    scheduleNext();
   }
 
-  function stopBlinkLoop() {
-    if (blinkInterval) { clearTimeout(blinkInterval); blinkInterval = null; }
+  function hideAvatarPanel() {
+    document.getElementById("face-panel").classList.remove("visible");
   }
 
-  /* ── Idle random glances ── */
-  var idleGlances = ["idle", "curiosity", "idle", "idle", "joy", "idle", "curiosity", "idle"];
-  var idleGlanceIdx = 0;
+  function triggerAvatarExpression(emotionName) {
+    if (!avatarInstance || avatarView === "hidden") return;
+    avatarInstance.setExpression(emotionName, 3000);
+  }
 
-  function startIdleLoop() {
-    stopIdleLoop();
-    function scheduleNext() {
-      var delay = 6000 + Math.random() * 8000;
-      idleInterval = setTimeout(function() {
-        if (faceLoaded) {
-          var expr = idleGlances[idleGlanceIdx % idleGlances.length];
-          idleGlanceIdx++;
-          setExpression(expr, 1800);
+  // Resize observer for the canvas
+  var _resizeObserver = null;
+  function setupAvatarResize() {
+    var wrap = document.getElementById("face-canvas-wrap");
+    if (!wrap || _resizeObserver) return;
+    _resizeObserver = new ResizeObserver(function() {
+      if (avatarInstance) {
+        var canvas = document.getElementById("face-canvas");
+        if (canvas && wrap.offsetWidth > 0 && wrap.offsetHeight > 0) {
+          canvas.width  = wrap.offsetWidth;
+          canvas.height = wrap.offsetHeight;
+          avatarInstance.resize();
         }
-        scheduleNext();
-      }, delay);
-    }
-    scheduleNext();
+      }
+    });
+    _resizeObserver.observe(wrap);
   }
 
-  function stopIdleLoop() {
-    if (idleInterval) { clearTimeout(idleInterval); idleInterval = null; }
-  }
-
-  function stopFaceLoops() { stopBlinkLoop(); stopIdleLoop(); }
-
-  /* ── Map emotion → expression and trigger face ── */
-  function triggerFaceEmotion(emotionName) {
-    if (faceView === "hidden" || !faceLoaded) return;
-    var exprMap = {
-      joy:       "joy",
-      sadness:   "sadness",
-      anger:     "anger",
-      excitement:"excitement",
-      curiosity: "curiosity",
-      surprise:  "surprise"
-    };
-    var expr = exprMap[emotionName] || "idle";
-    setExpression(expr, 3000);
-  }
-
+  /* ══════════════════════════════════════════════
   /* ══════════════════════════════════════════════
      STATE
   ══════════════════════════════════════════════ */
@@ -902,7 +619,7 @@
         }
     }
     // Trigger face expression for dominant emotion
-    triggerFaceEmotion(dominantEmotion());
+    triggerAvatarExpression(dominantEmotion());
   }
 
   function dominantEmotion() {
@@ -1085,9 +802,9 @@
     chatHistory = []; clearMessages();
     // Load new face
     var comp = getActiveComp();
-    if (comp && faceView !== "hidden" && (currentMode === "sandbox" || currentMode === "companion")) {
-      faceCurrentComp = null; // force reload
-      showFacePanel(comp);
+    if (comp && avatarView !== "hidden" && (currentMode === "sandbox" || currentMode === "companion")) {
+      showAvatarPanel(comp);
+      showAvatarPanel(comp);
     }
   }
 
@@ -1169,15 +886,15 @@
     saveStorage(); renderCompanionList(); updateCompanionBadge(); closeModal();
     // Regenerate face if appearance changed or new companion
     var appearanceChanged = !editingCompId || comp.appearance !== prevAppearance;
-    if (appearanceChanged && faceView !== "hidden" && (currentMode === "sandbox" || currentMode === "companion")) {
+    if (appearanceChanged && avatarView !== "hidden" && (currentMode === "sandbox" || currentMode === "companion")) {
       // Bust all cached views for this companion so fresh image is generated
       var views = ["portrait", "fullbody"];
       for (var vi = 0; vi < views.length; vi++) {
-        delete faceUrlCache[comp.id + "_" + views[vi] + "_" + (comp.appearance || "")];
-        delete faceUrlCache[comp.id + "_" + views[vi] + "_" + (prevAppearance || "")];
+        // cache busting no longer needed for avatar
+        // (avatar rebuilds from traits directly)
       }
-      faceCurrentComp = null;
-      showFacePanel(comp);
+      showAvatarPanel(comp);
+      showAvatarPanel(comp);
     }
   }
 
@@ -1235,11 +952,11 @@
     chatHistory = []; clearFile(); updateCompanionBadge();
 
     // Show/hide face panel
-    if (showComp && faceView !== "hidden") {
+    if (showComp && avatarView !== "hidden") {
       var comp = getActiveComp();
-      if (comp) showFacePanel(comp);
+      if (comp) showAvatarPanel(comp);
     } else {
-      hideFacePanel();
+      hideAvatarPanel();
     }
 
     inputEl.focus();
@@ -1424,7 +1141,7 @@
   // Init face panel — delayed 5s to avoid colliding with page load requests
   setTimeout(function(){
     var comp = getActiveComp();
-    if (comp && faceView !== "hidden") showFacePanel(comp);
+    if (comp && avatarView !== "hidden") { showAvatarPanel(comp); setupAvatarResize(); }
   }, 5000);
 </script>
 </body>
