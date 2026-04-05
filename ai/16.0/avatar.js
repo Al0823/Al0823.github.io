@@ -147,25 +147,21 @@
   CompanionAvatar.prototype.init = function(comp) {
     var self = this;
     this.traits = this._parseTraits(comp);
-this._activeComp = comp;
-globalThis._activeComp = comp;
+
     if (this.app) {
       this.app.destroy(true);
       this.app = null;
     }
 
-var w = this.canvas.clientWidth || 280;
-var h = this.canvas.clientHeight || 520;
-
-this.app = new PIXI.Application({
-  view: this.canvas,
-  width: Math.max(1, w),
-  height: Math.max(1, h),
-  backgroundColor: 0x0d1117,
-  antialias: true,
-  resolution: window.devicePixelRatio || 1,
-  autoDensity: true
-});
+    this.app = new PIXI.Application({
+      view: this.canvas,
+      width: this.canvas.offsetWidth || 280,
+      height: this.canvas.offsetHeight || 520,
+      backgroundColor: 0x0d1117,
+      antialias: true,
+      resolution: window.devicePixelRatio || 1,
+      autoDensity: true
+    });
 
     this._build();
     this._startLoop();
@@ -221,7 +217,7 @@ this.app = new PIXI.Application({
 
     // Scale character to fit view
     this._applyViewScale();
-this.layers.root._baseScaleY = this.layers.root.scale.y;
+
     // ── Body ──
     var body = new PIXI.Container();
     this.layers.body = body;
@@ -230,11 +226,10 @@ this.layers.root._baseScaleY = this.layers.root.scale.y;
     this._drawBody(body, t, W, H);
 
     // ── Head (separate for head bob) ──
- var head = new PIXI.Container();
-head.y = -this._charHeight() * 0.38;
-head._baseY = head.y; 
-this.layers.head = head;
-root.addChild(head);
+    var head = new PIXI.Container();
+    head.y = -this._charHeight() * 0.38;
+    this.layers.head = head;
+    root.addChild(head);
 
     this._drawHead(head, t, W, H);
 
@@ -497,19 +492,18 @@ root.addChild(head);
     this._drawEye(leftEyeCont, t, false, fw);
     this._drawEye(rightEyeCont, t, true, fw);
 
-var browL = new PIXI.Container();
-browL.x = -eyeSpacing;
-browL.y = eyeY - fw * 0.25;
-browL._baseY = browL.y; // ✅ ADD
-this.layers.browL = browL;
-container.addChild(browL);
+    // Eyebrows
+    var browL = new PIXI.Container();
+    browL.x = -eyeSpacing;
+    browL.y = eyeY - fw * 0.25;
+    this.layers.browL = browL;
+    container.addChild(browL);
 
-var browR = new PIXI.Container();
-browR.x = eyeSpacing;
-browR.y = eyeY - fw * 0.25;
-browR._baseY = browR.y; // ✅ ADD
-this.layers.browR = browR;
-container.addChild(browR);
+    var browR = new PIXI.Container();
+    browR.x = eyeSpacing;
+    browR.y = eyeY - fw * 0.25;
+    this.layers.browR = browR;
+    container.addChild(browR);
 
     this._drawBrow(browL, t, fw, false);
     this._drawBrow(browR, t, fw, true);
@@ -1086,7 +1080,7 @@ container.addChild(browR);
   CompanionAvatar.prototype.setView = function(view) {
     this.view = view;
     if (!this.initialized) return;
-    var comp = this._activeComp;
+    var comp = global._activeComp;
     if (comp) {
       this.rebuild(comp);
     }
@@ -1145,6 +1139,6 @@ container.addChild(browR);
   };
 
   /* ── Export ────────────────────────────────────────────────────────────── */
-  globalThis.CompanionAvatar = CompanionAvatar;
+  global.CompanionAvatar = CompanionAvatar;
 
 })(window);
