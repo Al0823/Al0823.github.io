@@ -273,7 +273,7 @@
     .memory-badge { font-size: 11px; background: #1a1030; border: 1px solid #bc8cff44; border-radius: 20px; padding: 2px 9px; color: #bc8cff; }
   </style>
   <!-- PixiJS v7 for avatar rendering -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.3.2/pixi.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.5.10/pixi.min.js"></script>
   <script src="avatar.js"></script>
 </head>
 <body class="mode-sandbox">
@@ -407,7 +407,7 @@
       <div class="form-row"><label>Age</label><input type="number" id="f-age" placeholder="e.g. 22" min="1" max="999" /></div>
       <div class="form-row"><label>Height</label><input type="text" id="f-height" placeholder="e.g. 5'9&quot;" maxlength="20" /></div>
       <div class="form-row"><label>Weight</label><input type="text" id="f-weight" placeholder="e.g. 160 lbs" maxlength="20" /></div>
-      <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="500" /></div>
+      <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="1000" /></div>
     </div>
     <div class="form-row"><label>Base Personality</label><textarea id="f-personality" placeholder="e.g. Chill and funny, loves music, gets excited about tech"></textarea></div>
     <div class="form-row"><label>Interests / Hobbies</label><input type="text" id="f-interests" placeholder="e.g. gaming, cooking, hip-hop, sci-fi" maxlength="120" /></div>
@@ -481,46 +481,54 @@
     var building = document.getElementById("face-building");
     if (!canvas || !wrap || !panel) return;
 
-    // Show panel first
+    // Ensure panel is visible
     panel.classList.add("visible");
-
-    // Determine dimensions — use CSS-computed size of the panel,
-    // NOT the canvas (which may be 0 before paint).
-    // face-panel is 260px wide; height is app height * 0.9 minus header.
-    var app = document.getElementById("app");
-    var panelW = 260;
-    var panelH = app ? Math.max(300, app.offsetHeight - 48) : 520;
-
-    // If the DOM has real values, prefer those
-    if (wrap.offsetWidth  > 10) panelW = wrap.offsetWidth;
-    if (wrap.offsetHeight > 10) panelH = wrap.offsetHeight;
-
     if (building) building.classList.remove("hidden");
 
+    // Destroy any previous instance cleanly
     if (avatarInstance) {
-      avatarInstance.destroy();
+      try { avatarInstance.destroy(); } catch(e) {}
       avatarInstance = null;
       avatarInitialized = false;
     }
 
-    avatarInstance = new CompanionAvatar(canvas);
-    avatarInstance.view = avatarView;
-    // Pass explicit dimensions — avatar.js will NOT read offsetWidth internally
-    avatarInstance.init(comp, panelW, panelH);
+    // Determine safe dimensions
+    var appEl = document.getElementById("app");
+    var panelW = Math.max(200, wrap.offsetWidth  || 260);
+    var panelH = Math.max(300, wrap.offsetHeight || (appEl ? appEl.offsetHeight - 48 : 520));
 
-    // Store base values for animation after first frame
+    // Hard-set canvas size before PixiJS touches it
+    canvas.style.display = "block";
+    canvas.style.width   = panelW + "px";
+    canvas.style.height  = panelH + "px";
+    canvas.width  = panelW;
+    canvas.height = panelH;
+
+    try {
+      avatarInstance = new CompanionAvatar(canvas);
+      avatarInstance.view = avatarView;
+      avatarInstance.init(comp, panelW, panelH);
+    } catch(e) {
+      console.error("Avatar init error:", e);
+      if (building) building.innerHTML = "<div style='color:#8b949e;font-size:12px;padding:12px;text-align:center'>Avatar failed to load.<br><small>" + e.message + "</small></div>";
+      return;
+    }
+
+    // Store base values and hide spinner after first render
     setTimeout(function() {
       if (!avatarInstance) return;
-      if (avatarInstance.layers.head) {
-        var ch = avatarInstance._charHeight();
-        avatarInstance.layers.head._baseY = -ch * 0.38;
-      }
-      if (avatarInstance.layers.root) {
-        avatarInstance.layers.root._baseScaleY = avatarInstance.layers.root.scale.y;
-        avatarInstance._applyViewScale();
-      }
+      try {
+        if (avatarInstance.layers.head) {
+          var ch = avatarInstance._charHeight();
+          avatarInstance.layers.head._baseY = -ch * 0.38;
+        }
+        if (avatarInstance.layers.root) {
+          avatarInstance.layers.root._baseScaleY = avatarInstance.layers.root.scale.y;
+          avatarInstance._applyViewScale();
+        }
+      } catch(e) { console.warn("Avatar post-init:", e); }
       if (building) building.classList.add("hidden");
-    }, 150);
+    }, 200);
 
     document.getElementById("face-comp-name").textContent = comp.name;
     document.getElementById("face-emotion-label").textContent = "idle";

@@ -155,15 +155,17 @@
       this.app = null;
     }
 
-    // Use explicit dimensions passed in — never trust offsetWidth at init time
     var w = this._initW || 260;
     var h = this._initH || 520;
+
+    // Hard set canvas dimensions
     this.canvas.width  = w;
     this.canvas.height = h;
-    this.canvas.style.width  = "100%";
-    this.canvas.style.height = "100%";
+    this.canvas.style.width  = w + "px";
+    this.canvas.style.height = h + "px";
 
-    this.app = new PIXI.Application({
+    // Try WebGL first, fall back to Canvas renderer if it fails
+    var appOptions = {
       view: this.canvas,
       width: w,
       height: h,
@@ -171,7 +173,33 @@
       antialias: true,
       resolution: 1,
       autoDensity: false
-    });
+    };
+
+    try {
+      // Force canvas renderer — more compatible across browsers and GitHub Pages
+      this.app = new PIXI.Application(Object.assign({}, appOptions, {
+        forceCanvas: true
+      }));
+    } catch(e1) {
+      try {
+        this.app = new PIXI.Application(appOptions);
+      } catch(e2) {
+        throw new Error("PixiJS failed to init: " + e2.message);
+      }
+    }
+
+    // Draw a basic 2D placeholder immediately so the spinner can hide
+    try {
+      var ctx2d = this.canvas.getContext("2d");
+      if (ctx2d) {
+        ctx2d.fillStyle = "#0d1117";
+        ctx2d.fillRect(0, 0, w, h);
+        ctx2d.fillStyle = "#bc8cff22";
+        ctx2d.beginPath();
+        ctx2d.ellipse(w/2, h*0.45, w*0.2, h*0.28, 0, 0, Math.PI*2);
+        ctx2d.fill();
+      }
+    } catch(e) {}
 
     this._build();
     this._startLoop();
