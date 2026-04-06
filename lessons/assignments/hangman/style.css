@@ -255,6 +255,63 @@ footer {
   min-width: 300px !important;
 }
 
+  .leaderboard-title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  /* TABLE STYLING */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1f1f30;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: center;
+  }
+
+  th {
+    background: #3a3a5a;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  tr:nth-child(even) {
+    background: #25253a;
+  }
+
+  tr:hover {
+    background: #3f3f66;
+    transition: 0.2s;
+  }
+
+  td {
+    font-size: 14px;
+  }
+
+  .wins {
+    color: #4caf50;
+    font-weight: bold;
+  }
+
+  .losses {
+    color: #f44336;
+    font-weight: bold;
+  }
+
+  /* RANK STYLE */
+  .rank {
+    font-weight: bold;
+    color: #ffd700;
+  }
+
 @media (max-width:1024px){
   main { flex-direction: column !important; }
   nav { width:100% !important; border-right:none !important; }
