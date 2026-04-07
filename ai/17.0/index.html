@@ -812,77 +812,65 @@
   var _memoryUpdatePending = false;
   var _memoryUpdateTimer   = null;
 
-  function maybeUpdateMemory() {
-    var comp = getActiveComp();
-    driftPersonality(comp);
-    if (!comp || (comp.messageCount || 0) % 15 !== 0 || chatHistory.length < 6) return;
-    if (_memoryUpdatePending) return;
+function maybeUpdateMemory() {
+  var comp = getActiveComp();
+  if (!comp || chatHistory.length < 8) return;
+  if (_memoryUpdatePending) return;
 
-    if (_memoryUpdateTimer) clearTimeout(_memoryUpdateTimer);
-    _memoryUpdateTimer = setTimeout(function() {
-      _memoryUpdatePending = true;
+  _memoryUpdatePending = true;
 
-      var mem = comp.memory || {};
-      var recentChat = chatHistory.slice(-20).map(function(m) {
-        return m.role.toUpperCase() + ": " + m.content;
-      }).join("\n");
+  setTimeout(function () {
+    var recentChat = chatHistory.slice(-15).map(function (m) {
+      return m.role.toUpperCase() + ": " + m.content;
+    }).join("\n");
 
-      // Build a structured extraction prompt — very explicit about what is
-      // the USER vs what is the COMPANION to prevent confusion
-      var extractionPrompt = "You are a memory extraction assistant. "
-        + "Read this conversation between " + comp.name + " (the companion/assistant) and their FRIEND (the user). "
-        + "Extract information ONLY about the FRIEND (the user), NOT about " + comp.name + ".\n\n"
-        + "CONVERSATION:\n" + recentChat + "\n\n"
-        + "Based on this conversation, update the following memory fields. "
-        + "Reply with ONLY a JSON object, no other text:\n"
-        + "{\n"
-        + '  "aboutUser": "bullet points of facts about the user (name, age, job, hobbies, personality, relationships, etc). Merge with previous: ' + (mem.aboutUser || "none") + '",\n'
-        + '  "currentSituation": "what is going on in the user\'s life right now (location, mood, what they\'re dealing with, plans). Previous: ' + (mem.currentSituation || "unknown") + '",\n'
-        + '  "sharedEvents": "things they have talked about or done together. Previous: ' + (mem.sharedEvents || "none") + '",\n'
-        + '  "insideJokes": "any recurring jokes, references, or running bits between them. Previous: ' + (mem.insideJokes || "none") + '"\n'
-        + "}\n\n"
-        + "Rules: Keep each field concise (2-5 bullet points max). "
-        + "Only include facts clearly stated in the conversation. "
-        + "Do NOT include anything about " + comp.name + " in these fields — only the user.";
+    var prompt = "Extract ONLY facts about the USER (not the assistant).\n\n"
+      + recentChat + "\n\n"
+      + "Return JSON:\n"
+      + '{ "aboutUser": "", "currentSituation": "", "sharedEvents": "", "insideJokes": "" }';
 
-      var hist = [{ role: "user", content: extractionPrompt }];
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.timeout = 15000;
 
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", WORKER_URL, true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.timeout = 20000;
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState !== 4) return;
-        _memoryUpdatePending = false;
-        try {
-          var d = JSON.parse(xhr.responseText);
-          if (d.reply) {
-            // Strip any markdown fences
-            var raw = d.reply.replace(/```json|```/g, "").trim();
-            // Find JSON object in response
-            var jsonStart = raw.indexOf("{");
-            var jsonEnd   = raw.lastIndexOf("}");
-            if (jsonStart !== -1 && jsonEnd !== -1) {
-              var parsed = JSON.parse(raw.substring(jsonStart, jsonEnd + 1));
-              comp.memory = {
-                aboutUser:          parsed.aboutUser          || mem.aboutUser          || "",
-                currentSituation:   parsed.currentSituation   || mem.currentSituation   || "",
-                sharedEvents:       parsed.sharedEvents       || mem.sharedEvents       || "",
-                insideJokes:        parsed.insideJokes        || mem.insideJokes        || ""
-              };
-              // Keep legacy field in sync for export compatibility
-              comp.memorySummary = comp.memory.aboutUser;
-              saveStorage();
-            }
-          }
-        } catch(e) {
-          console.warn("Memory update parse error:", e);
-        }
-      };
-      xhr.onerror = xhr.ontimeout = function() { _memoryUpdatePending = false; };
-      xhr.send(JSON.stringify({ messages: hist, mode: "code" })); // use Qwen for extraction — more precise
-    }, 5000);
-  }
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+      _memoryUpdatePending = false;
+
+      try {
+        var res = JSON.parse(xhr.responseText);
+        if (!res.reply) return;
+
+        var cleaned = res.reply.replace(/```json|```/g, "").trim();
+        var parsed = JSON.parse(cleaned);
+
+        comp.memory = {
+          aboutUser: parsed.aboutUser || comp.memory?.aboutUser || "",
+          currentSituation: parsed.currentSituation || comp.memory?.currentSituation || "",
+          sharedEvents: parsed.sharedEvents || comp.memory?.sharedEvents || "",
+          insideJokes: parsed.insideJokes || comp.memory?.insideJokes || ""
+        };
+
+        comp.memorySummary = comp.memory.aboutUser;
+        saveStorage();
+
+      } catch (e) {
+        console.warn("Memory parse failed:", e);
+      }
+    };
+
+    xhr.onerror = xhr.ontimeout = function () {
+      _memoryUpdatePending = false;
+    };
+
+    xhr.send(JSON.stringify({
+      messages: [{ role: "user", content: prompt }],
+      mode: "code"
+    }));
+
+  }, 1200);
+}
 
   /* ── Companion list ── */
   function renderCompanionList() {
@@ -1228,33 +1216,100 @@
   }
 
   function doXHR(thinkingBubble) {
-    var isCompMode = currentMode==="sandbox"||currentMode==="companion"; var comp=isCompMode?getActiveComp():null;
-    var messages;
-    if (comp) {
-      var sp=buildCompanionSystemPrompt(comp);
-      messages=[{ role:"user", content:"[Your character brief — stay in this role for the whole conversation]\n\n"+sp },{ role:"assistant", content:"Got it, I'm fully in character as "+comp.name+"." }].concat(chatHistory.slice(-30));
-    } else { messages=chatHistory.slice(-30); }
-    var xhr=new XMLHttpRequest(); xhr.open("POST",WORKER_URL,true); xhr.setRequestHeader("Content-Type","application/json"); xhr.timeout=30000;
-    xhr.onreadystatechange=function(){
-      if(xhr.readyState!==4) return;
-      try {
-        var data=JSON.parse(xhr.responseText); var text=data.reply||data.error||xhr.responseText;
-        if(comp&&currentMode==="companion"&&Math.random()<0.15){
-          var thoughts=["I was thinking about that new book I read...","Sometimes I wonder what it'd be like to travel to Mars.","Do you ever feel like music tells stories without words?","I'm curious how people perceive colors differently.","Random thought — today feels like a good day for a walk."];
-          setTimeout(function(){ addMessage("assistant",thoughts[Math.floor(Math.random()*thoughts.length)]); },1500);
-        }
-        chatHistory.push({role:"assistant",content:text});
-        if(comp){ comp.messageCount=(comp.messageCount||0)+1; saveStorage(); maybeUpdateMemory(); updateEmotion("drift"); }
-        thinkingBubble.classList.remove("thinking");
-        if(isCompMode){ typeText(thinkingBubble,text||"(No response)"); } else { thinkingBubble.textContent=text||"(No response)"; }
-        var lbl=thinkingBubble.parentNode&&thinkingBubble.parentNode.querySelector(".label"); if(lbl) lbl.textContent=getAssistantLabel();
-      } catch(e){ thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Error parsing response."; }
-      setButtons(false); inputEl.focus(); messagesEl.scrollTop=messagesEl.scrollHeight;
-    };
-    xhr.onerror=function(){ thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Network error."; setButtons(false); };
-    xhr.ontimeout=function(){ thinkingBubble.classList.remove("thinking"); thinkingBubble.textContent="Request timed out. Try again."; setButtons(false); };
-    xhr.send(JSON.stringify({messages:messages,mode:currentMode}));
+  var isCompMode = currentMode === "sandbox" || currentMode === "companion";
+  var comp = isCompMode ? getActiveComp() : null;
+
+  var messages;
+  if (comp) {
+    var sp = buildCompanionSystemPrompt(comp);
+    messages = [
+      { role: "user", content: "[Stay in character]\n\n" + sp },
+      { role: "assistant", content: "Understood." }
+    ].concat(chatHistory.slice(-30));
+  } else {
+    messages = chatHistory.slice(-30);
   }
+
+  var retries = 0;
+  var MAX_RETRIES = 2;
+
+  function sendRequest() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.timeout = 25000;
+
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+
+      try {
+        if (xhr.status !== 200) throw new Error("Bad status: " + xhr.status);
+
+        var data = JSON.parse(xhr.responseText);
+        var text = data.reply || data.error || "(No response)";
+
+        chatHistory.push({ role: "assistant", content: text });
+
+        if (comp) {
+          comp.messageCount = (comp.messageCount || 0) + 1;
+          saveStorage();
+          maybeUpdateMemory();
+          updateEmotion("drift");
+        }
+
+        thinkingBubble.classList.remove("thinking");
+
+        if (isCompMode) {
+          typeText(thinkingBubble, text);
+        } else {
+          thinkingBubble.textContent = text;
+        }
+
+      } catch (e) {
+        if (retries < MAX_RETRIES) {
+          retries++;
+          setTimeout(sendRequest, 1500);
+          return;
+        }
+
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = "⚠️ Error getting response.";
+        console.error("XHR error:", e, xhr.responseText);
+      }
+
+      setButtons(false);
+      inputEl.focus();
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+
+    xhr.onerror = function () {
+      if (retries < MAX_RETRIES) {
+        retries++;
+        setTimeout(sendRequest, 1500);
+      } else {
+        thinkingBubble.textContent = "⚠️ Network error.";
+        setButtons(false);
+      }
+    };
+
+    xhr.ontimeout = function () {
+      if (retries < MAX_RETRIES) {
+        retries++;
+        setTimeout(sendRequest, 1500);
+      } else {
+        thinkingBubble.textContent = "⚠️ Request timed out.";
+        setButtons(false);
+      }
+    };
+
+    xhr.send(JSON.stringify({
+      messages: messages,
+      mode: currentMode
+    }));
+  }
+
+  sendRequest();
+}
 
   setInterval(function(){
     if(currentMode!=="companion") return; var comp=getActiveComp(); if(!comp) return;
