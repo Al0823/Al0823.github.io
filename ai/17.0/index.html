@@ -1020,21 +1020,57 @@ function maybeUpdateMemory() {
     document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
   }
 
-  function importMemory(event) {
-    var file = event.target.files[0]; if (!file) return; event.target.value = "";
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      try {
-        var data = JSON.parse(e.target.result);
-        if (data.companions) {
-          companions = data.companions; activeCompId = data.activeCompId || (companions[0] && companions[0].id) || null;
-          saveStorage(); renderCompanionList(); updateCompanionBadge();
-          alert("Memory imported! " + companions.length + " companion(s) loaded.");
-        }
-      } catch(err) { alert("Could not read file."); }
-    };
-    reader.readAsText(file);
-  }
+function importMemory(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  event.target.value = "";
+
+  var reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+
+      if (!Array.isArray(data.companions)) {
+        alert("Invalid file format.");
+        return;
+      }
+
+      companions = data.companions.map(function(c) {
+        // 🔒 enforce structure
+        var mem = c.memory || {};
+
+        return {
+          ...c,
+          memory: {
+            aboutUser: mem.aboutUser || "",
+            currentSituation: mem.currentSituation || "",
+            sharedEvents: mem.sharedEvents || "",
+            insideJokes: mem.insideJokes || ""
+          },
+          memorySummary: (mem.aboutUser || c.memorySummary || "")
+        };
+      });
+
+      activeCompId =
+        data.activeCompId ||
+        (companions[0] && companions[0].id) ||
+        null;
+
+      saveStorage();
+      renderCompanionList();
+      updateCompanionBadge();
+
+      alert("Memory imported successfully! (" + companions.length + " companions)");
+
+    } catch (err) {
+      console.error(err);
+      alert("Could not read file.");
+    }
+  };
+
+  reader.readAsText(file);
+}
 
   function toggleCompanionPanel() {
     companionPanelOpen = !companionPanelOpen;
