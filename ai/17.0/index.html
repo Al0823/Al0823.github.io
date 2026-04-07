@@ -613,7 +613,6 @@
   }
 
   /* ══════════════════════════════════════════════
-  /* ══════════════════════════════════════════════
      STATE
   ══════════════════════════════════════════════ */
   var chatHistory        = [];
@@ -696,9 +695,32 @@
     if (companions.length === 0) setTimeout(function() { openModal(null); }, 400);
   }
 
-  function saveStorage() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ companions: companions, activeCompId: activeCompId })); } catch(e) {}
+function saveStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      companions: companions,
+      activeCompId: activeCompId
+    }));
+  } catch(e) {
+    console.error("❌ Storage failed:", e);
+
+    companions.forEach(c => {
+      if (c.memory && c.memory.sharedEvents) {
+        c.memory.sharedEvents =
+          c.memory.sharedEvents.split("\n").slice(-50).join("\n");
+      }
+    });
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        companions: companions,
+        activeCompId: activeCompId
+      }));
+    } catch(e2) {
+      console.error("❌ Storage retry failed:", e2);
+    }
   }
+}
 
   /* ── Companion helpers ── */
   function getActiveComp() {
@@ -726,9 +748,9 @@
       "Ride or die. You know each other inside out."
     ];
 
-    // Parse structured memory sections
     var mem = comp.memory || {};
     var aboutUser    = mem.aboutUser    || "(nothing yet — learn as you go)";
+				var aboutSelf = mem.aboutSelf || "(nothing yet)";
     var sharedEvents = mem.sharedEvents || "(none yet)";
     var currentSituation = mem.currentSituation || "(unknown — ask naturally if relevant)";
     var insideJokes  = mem.insideJokes  || "(none yet)";
@@ -757,6 +779,10 @@
       aboutUser,
       "╚══════════════════════════════════════════════════════════════════════════╝",
       "",
+"╔═ WHAT YOU KNOW ABOUT YOURSELF (learned over time) ═╗",
+aboutSelf,
+"╚═════════════════════════════════════════════════════╝",
+"",
       "╔═ YOUR FRIEND\'S CURRENT SITUATION ═╗",
       currentSituation,
       "╚═════════════════════════════════════╝",
@@ -813,22 +839,62 @@
   var _memoryUpdatePending = false;
   var _memoryUpdateTimer   = null;
 
+function mergeMemory(oldMem, newMem) {
+  function mergeText(oldText, newText) {
+    if (!newText) return oldText || "";
+    if (!oldText) return newText;
+
+    var combined = oldText + "\n" + newText;
+    var lines = combined.split("\n").map(l => l.trim()).filter(Boolean);
+    var unique = [...new Set(lines)];
+
+    return unique.join("\n");
+  }
+
+  return {
+    aboutUser: mergeText(oldMem.aboutUser, newMem.aboutUser),
+    aboutSelf: mergeText(oldMem.aboutSelf, newMem.aboutSelf), // include this now
+    currentSituation: newMem.currentSituation || oldMem.currentSituation || "",
+    sharedEvents: mergeText(oldMem.sharedEvents, newMem.sharedEvents),
+    insideJokes: mergeText(oldMem.insideJokes, newMem.insideJokes)
+  };
+}
+
 function maybeUpdateMemory() {
   var comp = getActiveComp();
-  if (!comp || chatHistory.length < 8) return;
+var userMsgs = chatHistory.filter(m => m.role === "user").length;
+if (!comp || userMsgs < 4) return;
   if (_memoryUpdatePending) return;
 
   _memoryUpdatePending = true;
+setTimeout(function() {
+  _memoryUpdatePending = false;
+}, 20000);
 
   setTimeout(function () {
     var recentChat = chatHistory.slice(-15).map(function (m) {
       return m.role.toUpperCase() + ": " + m.content;
     }).join("\n");
 
-    var prompt = "Extract ONLY facts about the USER (not the assistant).\n\n"
-      + recentChat + "\n\n"
-      + "Return JSON:\n"
-      + '{ "aboutUser": "", "currentSituation": "", "sharedEvents": "", "insideJokes": "" }';
+var prompt =
+"Extract structured memory from this conversation.\n\n" +
+recentChat + "\n\n" +
+
+"RULES:\n" +
+"- Return ONLY valid JSON\n" +
+"- No markdown, no code blocks, no explanations\n" +
+"- Separate USER facts from ASSISTANT facts\n" +
+"- Do NOT mix them\n\n" +
+
+"FIELD RULES:\n" +
+"- aboutUser = facts about the human user\n" +
+"- aboutSelf = facts about YOU (the companion)\n" +
+"- currentSituation = what is happening right now\n" +
+"- sharedEvents = things that happened together\n" +
+"- insideJokes = recurring jokes or phrases\n\n" +
+
+"FORMAT:\n" +
+'{"aboutUser":"","aboutSelf":"","currentSituation":"","sharedEvents":"","insideJokes":""}';
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
@@ -845,29 +911,31 @@ try {
 
   var raw = res.reply.replace(/```json|```/g, "").trim();
 
-  // 🔒 extract JSON safely
   var start = raw.indexOf("{");
   var end = raw.lastIndexOf("}");
 
   if (start === -1 || end === -1) throw new Error("No JSON found");
 
   var parsed = JSON.parse(raw.substring(start, end + 1));
+comp.memory = mergeMemory(comp.memory || {}, parsed);
 
-  // ✅ MERGE instead of overwrite
-  comp.memory = {
-    aboutUser: parsed.aboutUser || comp.memory?.aboutUser || "",
-    currentSituation: parsed.currentSituation || comp.memory?.currentSituation || "",
-    sharedEvents: parsed.sharedEvents || comp.memory?.sharedEvents || "",
-    insideJokes: parsed.insideJokes || comp.memory?.insideJokes || ""
-  };
-
-  comp.memorySummary = comp.memory.aboutUser;
+comp.memorySummary =
+(comp.memory.aboutUser || "").split("\n").slice(-5).join("\n");
   saveStorage();
 
-  console.log("✅ Memory updated:", comp.memory);
+  console.log(" Memory updated:", comp.memory);
 
 } catch (e) {
-  console.warn("❌ Memory parse failed:", e, xhr.responseText);
+  console.warn(" Memory parse failed:", e, xhr.responseText);
+
+  if (!comp.memory) comp.memory = {};
+
+  comp.memory.aboutUser =
+    (comp.memory.aboutUser || "") +
+    "\n[UNPARSED MEMORY]\n" +
+    xhr.responseText.substring(0, 300);
+
+  saveStorage();
 }
     };
 
@@ -883,7 +951,6 @@ try {
   }, 1200);
 }
 
-  /* ── Companion list ── */
   function renderCompanionList() {
     var list = document.getElementById("cp-list"); list.innerHTML = "";
     if (companions.length === 0) { list.innerHTML = '<div style="color:#8b949e;font-size:13px;padding:12px;text-align:center">No companions yet.<br>Create one below!</div>'; return; }
@@ -1048,18 +1115,21 @@ function importMemory(event) {
       }
 
       companions = data.companions.map(function(c) {
-        // 🔒 enforce structure
         var mem = c.memory || {};
 
         return {
           ...c,
-          memory: {
-            aboutUser: mem.aboutUser || "",
-            currentSituation: mem.currentSituation || "",
-            sharedEvents: mem.sharedEvents || "",
-            insideJokes: mem.insideJokes || ""
-          },
-          memorySummary: (mem.aboutUser || c.memorySummary || "")
+memory: {
+  aboutUser: mem.aboutUser || "",
+  aboutSelf: mem.aboutSelf || "",
+  currentSituation: mem.currentSituation || "",
+  sharedEvents: mem.sharedEvents || "",
+  insideJokes: mem.insideJokes || ""
+},
+memorySummary:
+  c.memorySummary ||
+  mem.aboutUser ||
+  ""
         };
       });
 
