@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-	<!-- Help -->
+	<!-- Help me -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -839,26 +839,36 @@ function maybeUpdateMemory() {
       if (xhr.readyState !== 4) return;
       _memoryUpdatePending = false;
 
-      try {
-        var res = JSON.parse(xhr.responseText);
-        if (!res.reply) return;
+try {
+  var res = JSON.parse(xhr.responseText);
+  if (!res.reply) return;
 
-        var cleaned = res.reply.replace(/```json|```/g, "").trim();
-        var parsed = JSON.parse(cleaned);
+  var raw = res.reply.replace(/```json|```/g, "").trim();
 
-        comp.memory = {
-          aboutUser: parsed.aboutUser || comp.memory?.aboutUser || "",
-          currentSituation: parsed.currentSituation || comp.memory?.currentSituation || "",
-          sharedEvents: parsed.sharedEvents || comp.memory?.sharedEvents || "",
-          insideJokes: parsed.insideJokes || comp.memory?.insideJokes || ""
-        };
+  // 🔒 extract JSON safely
+  var start = raw.indexOf("{");
+  var end = raw.lastIndexOf("}");
 
-        comp.memorySummary = comp.memory.aboutUser;
-        saveStorage();
+  if (start === -1 || end === -1) throw new Error("No JSON found");
 
-      } catch (e) {
-        console.warn("Memory parse failed:", e);
-      }
+  var parsed = JSON.parse(raw.substring(start, end + 1));
+
+  // ✅ MERGE instead of overwrite
+  comp.memory = {
+    aboutUser: parsed.aboutUser || comp.memory?.aboutUser || "",
+    currentSituation: parsed.currentSituation || comp.memory?.currentSituation || "",
+    sharedEvents: parsed.sharedEvents || comp.memory?.sharedEvents || "",
+    insideJokes: parsed.insideJokes || comp.memory?.insideJokes || ""
+  };
+
+  comp.memorySummary = comp.memory.aboutUser;
+  saveStorage();
+
+  console.log("✅ Memory updated:", comp.memory);
+
+} catch (e) {
+  console.warn("❌ Memory parse failed:", e, xhr.responseText);
+}
     };
 
     xhr.onerror = xhr.ontimeout = function () {
