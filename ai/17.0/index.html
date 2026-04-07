@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-	<!-- Help me please -->
+	<!-- Help me -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -951,6 +951,55 @@ comp.memorySummary =
   }, 1200);
 }
 
+function forceMemoryUpdate(comp) {
+  return new Promise((resolve, reject) => {
+    // Prepare a minimal prompt that triggers memory extraction
+    const prompt = "Extract all current memory for JSON update.";
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) return;
+
+      try {
+        var res = JSON.parse(xhr.responseText);
+        if (!res.reply) return resolve(); // nothing returned
+
+        var raw = res.reply.replace(/```json|```/g, "").trim();
+        var start = raw.indexOf("{");
+        var end = raw.lastIndexOf("}");
+        if (start === -1 || end === -1) return resolve();
+
+        var parsed = JSON.parse(raw.substring(start, end + 1));
+        comp.memory = mergeMemory(comp.memory || {}, parsed);
+        saveStorage();
+        resolve();
+      } catch (e) {
+        console.warn("Memory parse failed:", e);
+        resolve();
+      }
+    };
+    xhr.onerror = () => resolve();
+    xhr.send(JSON.stringify({ messages: [{ role: "user", content: prompt }], mode: "code" }));
+  });
+}
+
+async function exportMemory(comp) {
+  console.log("Updating memory before export...");
+  await forceMemoryUpdate(comp);
+  
+  const memoryJSON = JSON.stringify(comp.memory, null, 2);
+  console.log("Exporting memory:", memoryJSON);
+
+  const blob = new Blob([memoryJSON], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "memory.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
   function renderCompanionList() {
     var list = document.getElementById("cp-list"); list.innerHTML = "";
     if (companions.length === 0) { list.innerHTML = '<div style="color:#8b949e;font-size:13px;padding:12px;text-align:center">No companions yet.<br>Create one below!</div>'; return; }
@@ -1444,6 +1493,51 @@ memorySummary:
       setTimeout(function() { showAvatarPanel(comp); setupAvatarResize(); }, 200);
     }
   }, 5000);
+
+// Export companion memory as JSON, including latest updates
+document.getElementById("cp-export-btn").addEventListener("click", async () => {
+  const comp = getActiveComp();
+  if (!comp) {
+    alert("No active companion to export.");
+    return;
+  }
+
+  try {
+    // Ensure latest memory is saved
+    if (typeof maybeUpdateMemory === "function") maybeUpdateMemory(comp);
+    saveStorage(); // optional, ensures localStorage is fully synced
+
+    // Deep copy to prevent accidental mutation
+    const memoryCopy = JSON.parse(JSON.stringify(comp.memory || {}));
+
+    // Include other metadata
+    const exportData = {
+      name: comp.name,
+      messageCount: comp.messageCount || 0,
+      memory: memoryCopy,
+      lastUpdated: new Date().toISOString()
+    };
+
+    // Convert to JSON
+    const jsonStr = JSON.stringify(exportData, null, 2);
+
+    // Trigger download
+    const blob = new Blob([jsonStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${comp.name.replace(/[^a-z0-9]/gi, "_")}_memory.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    alert("Memory exported successfully!");
+  } catch (e) {
+    console.error("Error exporting memory:", e);
+    alert("Failed to export memory.");
+  }
+});
 </script>
 </body>
 </html>
