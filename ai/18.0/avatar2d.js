@@ -280,6 +280,25 @@ class Avatar2D {
     ctx.stroke();
   }
 
+  _drawEye(x, y, scale = 1) {
+    const ctx = this.ctx;
+
+    // blinking
+    const open = this.blinkState;
+
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.ellipse(x, y, 12 * scale, 8 * scale * open, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (open > 0.2) {
+      ctx.fillStyle = this.traits.eyes;
+      ctx.beginPath();
+      ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
   _roundRect(ctx, x, y, w, h, r) {
     ctx.moveTo(x + r, y);
     ctx.lineTo(x + w - r, y);
