@@ -1,11 +1,11 @@
 <html>
 <head>
-<title>A.t.A. Projects - Code Runner</title>
+<title>Single Textarea Runner</title>
 </head>
 
 <body bgcolor="#f0f0f0">
 
-<font size="+1"><b>Code Runner</b></font><br>
+<font size="+1"><b>Code (HTML + CSS + JS)</b></font><br>
 <textarea id="codeInput" rows="25" cols="100">
 <h2>Hello World</h2>
 
@@ -36,18 +36,34 @@ function escapeScriptEnd(str) {
 
 function onRun() {
   var code = document.getElementById("codeInput").value;
-  code = escapeScriptEnd(code);
-
   var iframe = document.getElementById("outputFrame");
   var doc = iframe.contentWindow.document;
 
   doc.open();
-  doc.write(code);
+  doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
   doc.close();
+
+  var container = doc.createElement('div');
+  container.innerHTML = code;
+
+  var scripts = container.querySelectorAll('script');
+  scripts.forEach(function(oldScript) {
+    var newScript = doc.createElement('script');
+    if (oldScript.src) {
+      newScript.src = oldScript.src;
+    } else {
+      newScript.textContent = oldScript.textContent;
+    }
+    oldScript.parentNode.replaceChild(newScript, oldScript);
+  });
+
+  Array.from(container.childNodes).forEach(function(node) {
+    doc.body.appendChild(node);
+  });
 }
 
 function onReset() {
-  document.getElementById("codeInput").value = 
+  document.getElementById("codeInput").value =
 '<h2>Hello World</h2>\n\n' +
 '<style>\n' +
 'h2 { color: blue; }\n' +
