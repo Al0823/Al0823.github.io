@@ -1,20 +1,14 @@
 <html>
 <head>
-<title>A.t.A. Projects - Code Runner</title>
+<title>Universal Code Runner</title>
 </head>
-
 <body bgcolor="#f0f0f0">
 
 <font size="+1"><b>Code (HTML + CSS + JS)</b></font><br>
 <textarea id="codeInput" rows="25" cols="100">
+<!-- Paste ANY code here -->
 <h2>Hello World</h2>
-
-<style>
-h2 {
-  color: #0000ff;
-}
-</style>
-
+<style>h2 { color: blue; }</style>
 <script>
 console.log("JS works!");
 alert("Hello from JS!");
@@ -30,52 +24,28 @@ alert("Hello from JS!");
 <iframe id="outputFrame" width="100%" height="500" frameborder="0"></iframe>
 
 <script>
-function escapeScriptEnd(str) {
-  return str.replace(/<\/script>/gi, '<\\/script>');
-}
-
 function onRun() {
   var code = document.getElementById("codeInput").value;
   var iframe = document.getElementById("outputFrame");
-  var doc = iframe.contentWindow.document;
 
-  doc.open();
-  doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
-  doc.close();
-
-  var container = doc.createElement('div');
-  container.innerHTML = code;
-
-  var scripts = container.querySelectorAll('script');
-  scripts.forEach(function(oldScript) {
-    var newScript = doc.createElement('script');
-    if (oldScript.src) {
-      newScript.src = oldScript.src;
-    } else {
-      newScript.textContent = oldScript.textContent;
-    }
-    oldScript.parentNode.replaceChild(newScript, oldScript);
-  });
-
-  Array.from(container.childNodes).forEach(function(node) {
-    doc.body.appendChild(node);
-  });
+  // Give the iframe a completely fresh document
+  iframe.srcdoc = code; 
 }
 
 function onReset() {
-  document.getElementById("codeInput").value =
-'<h2>Hello World</h2>\n\n' +
-'<style>\n' +
-'h2 { color: blue; }\n' +
-'</style>\n\n' +
-'<script>\n' +
-'console.log("JS works!");\n' +
-'alert("Hello from JS!");\n' +
-'<\/script>';
-
+  document.getElementById("codeInput").value = 
+`<h2>Hello World</h2>
+<style>
+h2 { color: blue; }
+</style>
+<script>
+console.log("JS works!");
+alert("Hello from JS!");
+<\/script>`;
   onRun();
 }
 
+// Run default code immediately
 onRun();
 </script>
 
