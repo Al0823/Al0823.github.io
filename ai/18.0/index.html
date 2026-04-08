@@ -750,6 +750,7 @@ function saveStorage() {
       "╔═ WHAT YOU KNOW ABOUT YOUR FRIEND (NOT you — the person talking to you) ═╗",
       aboutUser,
       "╚══════════════════════════════════════════════════════════════════════════╝",
+      "Always refer to the human you are talking to as 'you'. Do not call them 'the user'. If they tell you a name to call them, use that name instead.",
       "",
 "╔═ WHAT YOU KNOW ABOUT YOURSELF (learned over time) ═╗",
 aboutSelf,
@@ -859,7 +860,7 @@ recentChat + "\n\n" +
 "- Do NOT mix them\n\n" +
 
 "FIELD RULES:\n" +
-"- aboutUser = facts about the human user\n" +
+"- aboutUser = facts about the human you are talking to (call them you or their chosen name)\n" +
 "- aboutSelf = facts about YOU (the companion)\n" +
 "- currentSituation = what is happening right now\n" +
 "- sharedEvents = things that happened together\n" +
@@ -1350,7 +1351,7 @@ memorySummary:
         fetchImage(u0, function(){ renderImageIntoBubble(b0,u0,userText); setButtons(false); inputEl.focus(); }, function(){ b0.classList.remove("image-bubble"); b0.textContent="Rate limited — wait a moment."; setButtons(false); }); return;
       }
       var MAX=12000; var content=file.textContent; if (content.length>MAX) content=content.substring(0,MAX)+"\n\n[...truncated...]";
-      chatHistory.push({ role:"user", content:'The user uploaded "'+file.name+'".\n\nContent:\n```\n'+content+'\n```\n\nUser says: '+userText });
+      chatHistory.push({ role:"user", content:'I uploaded "'+file.name+'".\n\nContent:\n```\n'+content+'\n```\n\nI say: '+userText });
       var tb=addMessage("assistant","Reading file...",true); doXHR(tb); return;
     }
     if (!userText) return;
