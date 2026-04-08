@@ -645,15 +645,32 @@ avatarInstance.h = canvas.height;
   function loadStorage() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) { var s = JSON.parse(raw); companions = s.companions || []; activeCompId = s.activeCompId || null; }
+      if (raw) {
+        var s = JSON.parse(raw);
+        companions = (s.companions || []).map(normalizeCompanion);
+        activeCompId = s.activeCompId || null;
+      }
     } catch(e) {}
     if (companions.length === 0) setTimeout(function() { openModal(null); }, 400);
   }
 
+function normalizeCompanion(comp) {
+  var mem = comp.memory || {};
+  return Object.assign({}, comp, {
+    memory: {
+      aboutUser: mem.aboutUser || "",
+      aboutSelf: mem.aboutSelf || "",
+      currentSituation: mem.currentSituation || "",
+      sharedEvents: mem.sharedEvents || "",
+      insideJokes: mem.insideJokes || ""
+    }
+  });
+}
+
 function saveStorage() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      companions: companions,
+      companions: companions.map(normalizeCompanion),
       activeCompId: activeCompId
     }));
   } catch(e) {
@@ -668,7 +685,7 @@ function saveStorage() {
 
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        companions: companions,
+        companions: companions.map(normalizeCompanion),
         activeCompId: activeCompId
       }));
     } catch(e2) {
@@ -939,7 +956,7 @@ function forceMemoryUpdate(comp) {
   });
 }
 
-async function exportMemory(comp) {
+async function exportCompanionMemory(comp) {
   console.log("Updating memory before export...");
   await forceMemoryUpdate(comp);
   
@@ -1095,11 +1112,20 @@ async function exportMemory(comp) {
   }
 
   function exportMemory() {
-    var data = JSON.stringify({ companions: companions, activeCompId: activeCompId }, null, 2);
-    var blob = new Blob([data], { type: "application/json" });
-    var url = URL.createObjectURL(blob); var a = document.createElement("a");
-    a.href = url; a.download = "companion_memory.json";
-    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    var data = {
+      companions: companions.map(normalizeCompanion),
+      activeCompId: activeCompId
+    };
+
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "companion_memory.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
 
 function importMemory(event) {
