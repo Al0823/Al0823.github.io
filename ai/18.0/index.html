@@ -894,8 +894,14 @@ try {
   var parsed = JSON.parse(raw.substring(start, end + 1));
 comp.memory = mergeMemory(comp.memory || {}, parsed);
 
-comp.memorySummary =
-(comp.memory.aboutUser || "").split("\n").slice(-5).join("\n");
+var summaryParts = [
+  comp.memory.aboutUser,
+  comp.memory.aboutSelf,
+  comp.memory.currentSituation,
+  comp.memory.sharedEvents,
+  comp.memory.insideJokes
+].filter(Boolean).join("\n");
+comp.memorySummary = summaryParts.split("\n").slice(-5).join("\n");
   saveStorage();
 
   console.log(" Memory updated:", comp.memory);
@@ -963,6 +969,16 @@ function forceMemoryUpdate(comp) {
 
         var parsed = JSON.parse(raw.substring(start, end + 1));
         comp.memory = mergeMemory(comp.memory || {}, parsed);
+
+        var summaryParts = [
+          comp.memory.aboutUser,
+          comp.memory.aboutSelf,
+          comp.memory.currentSituation,
+          comp.memory.sharedEvents,
+          comp.memory.insideJokes
+        ].filter(Boolean).join("\n");
+        comp.memorySummary = summaryParts.split("\n").slice(-5).join("\n");
+
         saveStorage();
         resolve();
       } catch (e) {
