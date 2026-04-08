@@ -9,7 +9,7 @@ class Avatar2D {
     this.mouseX = this.w / 2;
     this.mouseY = this.h / 2;
 
-    this.traits = {};
+    this.traits = this._parseTraits(null); // default traits
     this.time = 0;
 
     this.blinkTimer = 0;
@@ -178,6 +178,12 @@ class Avatar2D {
     const breath = Math.sin(this.time * 2) * 2;
 
     const t = this.traits;
+
+    // Ensure colors are valid strings
+    if (typeof t.skin !== 'string' || !t.skin) t.skin = '#f1d3c2';
+    if (typeof t.hairColor !== 'string' || !t.hairColor) t.hairColor = '#2a1a12';
+    if (typeof t.eyes !== 'string' || !t.eyes) t.eyes = '#3b2f2f';
+
     const scale = this.scale || 1;
 
     // aura
