@@ -1,11 +1,11 @@
 <html>
 <head>
-<title>A.t.A. Projects - Single Textarea Runner</title>
+<title>A.t.A. Projects - Code Runner</title>
 </head>
 
 <body bgcolor="#f0f0f0">
 
-<font size="+1"><b>Code (HTML + CSS + JS)</b></font><br>
+<font size="+1"><b>Code Runner</b></font><br>
 <textarea id="codeInput" rows="25" cols="100">
 <h2>Hello World</h2>
 
@@ -16,6 +16,7 @@ h2 {
 </style>
 
 <script>
+console.log("JS works!");
 alert("Hello from JS!");
 </script>
 </textarea>
@@ -29,27 +30,37 @@ alert("Hello from JS!");
 <iframe id="outputFrame" width="100%" height="500" frameborder="0"></iframe>
 
 <script>
+function escapeScriptEnd(str) {
+  return str.replace(/<\/script>/gi, '<\\/script>');
+}
+
 function onRun() {
   var code = document.getElementById("codeInput").value;
+  code = escapeScriptEnd(code);
+
   var iframe = document.getElementById("outputFrame");
   var doc = iframe.contentWindow.document;
 
   doc.open();
+  doc.write(code);
   doc.close();
 }
 
 function onReset() {
-  document.getElementById("codeInput").value =
-    '<h2>Hello World</h2>\n\n' +
-    '<style>\n' +
-    'h2 { color: blue; }\n' +
-    '</style>\n\n' +
-    '<script>\n' +
-    'alert("Hello from JS!");\n' +
-    '<\/script>';
+  document.getElementById("codeInput").value = 
+'<h2>Hello World</h2>\n\n' +
+'<style>\n' +
+'h2 { color: blue; }\n' +
+'</style>\n\n' +
+'<script>\n' +
+'console.log("JS works!");\n' +
+'alert("Hello from JS!");\n' +
+'<\/script>';
 
   onRun();
 }
+
+onRun();
 </script>
 
 </body>
