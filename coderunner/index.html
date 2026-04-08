@@ -41,15 +41,21 @@ function onRun() {
   var js = document.getElementById("jsCode").value;
 
   var fullHTML =
-    '<html><head>' +
+    '<!DOCTYPE html>' +
+    '<html>' +
+    '<head>' +
     '<style>' + css + '</style>' +
-    '</head><body>' +
+    '</head>' +
+    '<body>' +
     html +
-    '<script>' + js + '<\/script>' +   // ✅ escaped closing tag
-    '</body></html>';
+    '<script>' +
+    'window.onload = function() {' + js + '}' +
+    '<\/script>' +
+    '</body>' +
+    '</html>';
 
   var iframe = document.getElementById("outputFrame");
-  var doc = iframe.contentWindow.document; // ✅ safer
+  var doc = iframe.contentWindow.document;
 
   doc.open();
   doc.write(fullHTML);
