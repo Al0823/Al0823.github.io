@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>A.t.A. Projects - Code Runner</title>
+</head>
+<body bgcolor="#f0f0f0">
+<table border="1" width="100%">
+<tr>
+<td width="25%" valign="top">
+  <font size="+1"><b>HTML</b></font><br>
+  <textarea id="htmlCode" rows="20" cols="40">
+    <h2>Hello World</h2>
+  </textarea>
+</td>
+<td width="25%" valign="top">
+  <font size="+1"><b>CSS</b></font><br>
+  <textarea id="cssCode" rows="20" cols="40">
+    h2 {
+      color: blue;
+    }
+  </textarea>
+</td>
+<td width="25%" valign="top">
+  <font size="+1"><b>JavaScript</b></font><br>
+  <textarea id="jsCode" rows="20" cols="40">
+    alert('Hello from JS!');
+  </textarea>
+</td>
+<td width="25%" valign="top">
+  <font size="+1"><b>Output</b></font><br>
+  <iframe id="outputFrame" width="100%" height="400" frameborder="0"></iframe>
+</table>
+
+<br>
+<input type="button" value="Run Code" onclick="onRun()">
+<input type="button" value="Reset" onclick="onReset()">
+
+<script>
+function onRun() {
+  var html = document.getElementById("htmlCode").value;
+  var css = document.getElementById("cssCode").value;
+  var js = document.getElementById("jsCode").value;
+  
+  var fullHTML = 
+    '<html><head>' +
+    '<style type="text/css">' + css + '</style>' +
+    '</head><body>' +
+    html +
+    '<script type="text/javascript">' + 
+    'document.write("<div id=\\'output\\'></div>");' +
+    js + 
+    '</script>' +
+    '</body></html>';
+  
+  var iframe = document.getElementById("outputFrame");
+  iframe.contentDocument.open();
+  iframe.contentDocument.write(fullHTML);
+  iframe.contentDocument.close();
+}
+
+function onReset() {
+  document.getElementById("htmlCode").value = 
+    '<h2>Hello World</h2>';
+  document.getElementById("cssCode").value = 
+    'h2 { color: blue; }';
+  document.getElementById("jsCode").value = 
+    'alert("Hello from JS!");';
+  onRun();
+}
+</script>
+
+</body>
+</html>
