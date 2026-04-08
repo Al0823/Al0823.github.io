@@ -1,71 +1,57 @@
 <html>
 <head>
-<title>A.t.A. Projects - Code Runner</title>
+<title>A.t.A. Projects - Single Textarea Runner</title>
 </head>
+
 <body bgcolor="#f0f0f0">
 
-<table border="1" width="100%">
-<tr>
+<font size="+1"><b>Code (HTML + CSS + JS)</b></font><br>
+<textarea id="codeInput" rows="25" cols="100">
+<h2>Hello World</h2>
 
-<td width="25%" valign="top">
-  <font size="+1"><b>HTML</b></font><br>
-  <textarea id="htmlCode" rows="20" cols="40"><h2>Hello World</h2></textarea>
-</td>
+<style>
+h2 {
+  color: blue;
+}
+</style>
 
-<td width="25%" valign="top">
-  <font size="+1"><b>CSS</b></font><br>
-  <textarea id="cssCode" rows="20" cols="40">h2 { color: blue; }</textarea>
-</td>
+<script>
+alert("Hello from JS!");
+</script>
+</textarea>
 
-<td width="25%" valign="top">
-  <font size="+1"><b>JavaScript</b></font><br>
-  <textarea id="jsCode" rows="20" cols="40">alert('Hello from JS!');</textarea>
-</td>
-
-<td width="25%" valign="top">
-  <font size="+1"><b>Output</b></font><br>
-  <iframe id="outputFrame" width="100%" height="400" frameborder="0"></iframe>
-</td>
-
-</tr>
-</table>
-
-<br>
+<br><br>
 <input type="button" value="Run Code" onclick="onRun()">
 <input type="button" value="Reset" onclick="onReset()">
 
+<br><br>
+<font size="+1"><b>Output</b></font><br>
+<iframe id="outputFrame" width="100%" height="500" frameborder="0"></iframe>
+
 <script>
 function onRun() {
-  var html = document.getElementById("htmlCode").value;
-  var css = document.getElementById("cssCode").value;
-  var js = document.getElementById("jsCode").value;
-
-  var fullHTML =
-    '<!DOCTYPE html>' +
-    '<html>' +
-    '<head>' +
-    '<style>' + css + '</style>' +
-    '</head>' +
-    '<body>' +
-    html +
-    '<script>' +
-    'window.onload = function() {' + js + '}' +
-    '<\/script>' +
-    '</body>' +
-    '</html>';
-
+  var code = document.getElementById("codeInput").value;
   var iframe = document.getElementById("outputFrame");
   var doc = iframe.contentWindow.document;
 
   doc.open();
-  doc.write(fullHTML);
+  doc.write(code); // directly inject everything
   doc.close();
 }
 
 function onReset() {
-  document.getElementById("htmlCode").value = '<h2>Hello World</h2>';
-  document.getElementById("cssCode").value = 'h2 { color: blue; }';
-  document.getElementById("jsCode").value = "alert('Hello from JS!');";
+  document.getElementById("codeInput").value =
+`<h2>Hello World</h2>
+
+<style>
+h2 {
+  color: blue;
+}
+</style>
+
+<script>
+alert("Hello from JS!");
+</script>`;
   onRun();
 }
 </script>
