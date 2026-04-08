@@ -67,7 +67,9 @@ class Avatar2D {
   }
 
   _parseTraits(comp) {
-    const a = (comp.appearance || "").toLowerCase();
+    if (!comp) return { skin: '#f1d3c2', hairColor: '#2a1a12', hairStyle: 'short', eyes: '#3b2f2f', glowingEyes: false, age: 20, height: 68, weight: 150, faceWidth: 60, faceHeight: 75, jawSoftness: 1, eyeSize: 1, shoulderWidth: 105 };
+
+    const a = String(comp.appearance || "").toLowerCase();
 
     const heightStr = comp.height || "5'8\"";
     let heightNum = 68; // default inches
@@ -83,7 +85,7 @@ class Avatar2D {
     const weightNum = parseFloat(weightStr) || 150;
     const age = parseInt(comp.age) || 20;
 
-    const genderRaw = (comp.gender || "").toLowerCase();
+    const genderRaw = String(comp.gender || "").toLowerCase();
 
     let genderType = "neutral";
     if (genderRaw.includes("she")) genderType = "feminine";
@@ -118,8 +120,8 @@ class Avatar2D {
       height: heightNum,
       weight: weightNum,
 
-      faceWidth: this._clamp(60 + (weightNum - 150) * 0.15, 50, 90),
-      faceHeight: this._clamp(75 + (heightNum - 66) * 0.2, 65, 110),
+      faceWidth: Math.max(50, Math.min(90, 60 + (weightNum - 150) * 0.15)),
+      faceHeight: Math.max(65, Math.min(110, 75 + (heightNum - 66) * 0.2)),
 
       jawSoftness: age < 18 ? 1.2 : age > 40 ? 0.85 : 1,
       eyeSize: age < 18 ? 1.2 : 1,
@@ -285,11 +287,15 @@ class Avatar2D {
   }
 
   _darken(hex, amt) {
+    if (!hex || typeof hex !== 'string') return '#000000';
     hex = hex.replace("#", "");
+    if (hex.length !== 6) return '#000000';
 
     let r = parseInt(hex.substring(0, 2), 16);
     let g = parseInt(hex.substring(2, 4), 16);
     let b = parseInt(hex.substring(4, 6), 16);
+
+    if (isNaN(r) || isNaN(g) || isNaN(b)) return '#000000';
 
     r *= (1 - amt);
     g *= (1 - amt);
