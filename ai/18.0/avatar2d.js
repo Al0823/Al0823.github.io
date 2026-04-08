@@ -15,6 +15,10 @@ class Avatar2D {
     this.blinkTimer = 0;
     this.blinkState = 1; // 1 = open, 0 = closed
 
+    this.expression = "idle";
+    this.expressionTimer = 0;
+    this.view = "bust"; // bust, upper, full
+
     this._bindMouse();
     this._loop();
   }
@@ -29,6 +33,33 @@ class Avatar2D {
 
   init(comp) {
     this.traits = this._parseTraits(comp);
+    this._applyViewScale();
+  }
+
+  setView(view) {
+    this.view = view;
+    this._applyViewScale();
+  }
+
+  _applyViewScale() {
+    // Adjust scale based on view
+    switch (this.view) {
+      case "bust":
+        this.scale = 1;
+        this.bodyOffset = 120;
+        break;
+      case "upper":
+        this.scale = 0.8;
+        this.bodyOffset = 100;
+        break;
+      case "full":
+        this.scale = 0.6;
+        this.bodyOffset = 80;
+        break;
+      default:
+        this.scale = 1;
+        this.bodyOffset = 120;
+    }
   }
 
   _clamp(val, min, max) {
@@ -38,8 +69,18 @@ class Avatar2D {
   _parseTraits(comp) {
     const a = (comp.appearance || "").toLowerCase();
 
-    const heightNum = parseFloat(comp.height) || 68;
-    const weightNum = parseFloat(comp.weight) || 150;
+    const heightStr = comp.height || "5'8\"";
+    let heightNum = 68; // default inches
+    const feetMatch = heightStr.match(/(\d+)\s*'\s*(\d+)/);
+    if (feetMatch) {
+      heightNum = parseInt(feetMatch[1]) * 12 + parseInt(feetMatch[2]);
+    } else {
+      const num = parseFloat(heightStr);
+      if (!isNaN(num)) heightNum = num;
+    }
+
+    const weightStr = comp.weight || "150 lbs";
+    const weightNum = parseFloat(weightStr) || 150;
     const age = parseInt(comp.age) || 20;
 
     const genderRaw = (comp.gender || "").toLowerCase();
@@ -116,6 +157,14 @@ class Avatar2D {
       }
     }
 
+    // expression timer
+    if (this.expressionTimer > 0) {
+      this.expressionTimer -= 0.016;
+      if (this.expressionTimer <= 0) {
+        this.expression = "idle";
+      }
+    }
+
     ctx.clearRect(0, 0, this.w, this.h);
 
     const cx = this.w / 2;
@@ -127,6 +176,7 @@ class Avatar2D {
     const breath = Math.sin(this.time * 2) * 2;
 
     const t = this.traits;
+    const scale = this.scale || 1;
 
     // aura
     const aura = ctx.createRadialGradient(cx, cy, 50, cx, cy, 350);
@@ -139,7 +189,12 @@ class Avatar2D {
     const ly = this.mouseY;
 
     // body
-    const bodyY = cy + 120 + breath;
+    const bodyY = cy + this.bodyOffset + breath;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+    ctx.translate(-cx, -cy);
+
     ctx.fillStyle = "#2a2a2a";
     ctx.beginPath();
     this._roundRect(ctx, cx - t.shoulderWidth / 2, bodyY, t.shoulderWidth, 140, 30);
@@ -175,29 +230,46 @@ class Avatar2D {
     this._drawEye(headX + eyeOffset + dx * 2, headY - 25 + dy * 2, t.eyeSize);
 
     // mouth
-    ctx.strokeStyle = "#3c1e1ecc";
-    ctx.beginPath();
-    ctx.quadraticCurveTo(headX - 15, headY + 30, headX + 15, headY + 30);
-    ctx.stroke();
+    this._drawMouth(headX, headY + 30);
+
+    ctx.restore();
   }
 
-  _drawEye(x, y, scale = 1) {
+  _drawMouth(x, y) {
     const ctx = this.ctx;
-
-    // blinking
-    const open = this.blinkState;
-
-    ctx.fillStyle = "#ffffff";
+    ctx.strokeStyle = "#3c1e1ecc";
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.ellipse(x, y, 12 * scale, 8 * scale * open, 0, 0, Math.PI * 2);
-    ctx.fill();
 
-    if (open > 0.2) {
-      ctx.fillStyle = this.traits.eyes;
-      ctx.beginPath();
-      ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
-      ctx.fill();
+    let curve = 0;
+    switch (this.expression) {
+      case "joy":
+        curve = 8;
+        break;
+      case "sadness":
+        curve = -6;
+        break;
+      case "anger":
+        curve = -3;
+        break;
+      case "excitement":
+        curve = 10;
+        break;
+      case "curiosity":
+        curve = 2;
+        break;
+      case "surprise":
+        curve = 0;
+        ctx.beginPath();
+        ctx.arc(x, y - 5, 3, 0, Math.PI * 2);
+        ctx.stroke();
+        return;
+      default: // idle
+        curve = 2;
     }
+
+    ctx.quadraticCurveTo(x - 15, y + curve, x + 15, y + curve);
+    ctx.stroke();
   }
 
   _roundRect(ctx, x, y, w, h, r) {

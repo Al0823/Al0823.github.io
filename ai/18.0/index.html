@@ -426,7 +426,6 @@
     </div>
   </div>
 </div>
- <script src="avatar2d.js"></script>
 <script>
   var WORKER_URL  = "https://githubai-relay.akonyswoodard.workers.dev";
   var STORAGE_KEY = "ai_chat_companions_v1";
@@ -517,12 +516,8 @@ avatarInstance.init(comp);
     setTimeout(function() {
       if (!avatarInstance) return;
       try {
-        if (avatarInstance.layers.head) {
-          var ch = avatarInstance._charHeight();
-          avatarInstance.layers.head._baseY = -ch * 0.38;
-        }
-        if (avatarInstance.layers.root) {
-          avatarInstance.layers.root._baseScaleY = avatarInstance.layers.root.scale.y;
+        // No layers in canvas version
+        if (avatarInstance._applyViewScale) {
           avatarInstance._applyViewScale();
         }
       } catch(e) { console.warn("Avatar post-init:", e); }
@@ -560,7 +555,7 @@ avatarInstance.init(comp);
 
 if (avatarInstance) {
   var comp = getActiveComp();
-  if (comp) avatarInstance.init(comp); // simple re-init
+  if (comp) avatarInstance.setView(view); // simple view change
 }
   }
 
