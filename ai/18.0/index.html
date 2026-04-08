@@ -750,7 +750,8 @@ function saveStorage() {
       "╔═ WHAT YOU KNOW ABOUT YOUR FRIEND (NOT you — the person talking to you) ═╗",
       aboutUser,
       "╚══════════════════════════════════════════════════════════════════════════╝",
-      "Always refer to the human you are talking to as 'you'. Do not call them 'the user'. If they tell you a name to call them, use that name instead.",
+      "When the human shares new personal details, store them in memory and use them naturally later.",
+      "Do not refer to them as the user; call them you or their chosen name.",
       "",
 "╔═ WHAT YOU KNOW ABOUT YOURSELF (learned over time) ═╗",
 aboutSelf,
@@ -864,7 +865,8 @@ recentChat + "\n\n" +
 "- aboutSelf = facts about YOU (the companion)\n" +
 "- currentSituation = what is happening right now\n" +
 "- sharedEvents = things that happened together\n" +
-"- insideJokes = recurring jokes or phrases\n\n" +
+"- insideJokes = recurring jokes or phrases\n" +
+"- If the human gives you a name to call them, store it in aboutUser and use it consistently.\n\n" +
 
 "FORMAT:\n" +
 '{"aboutUser":"","aboutSelf":"","currentSituation":"","sharedEvents":"","insideJokes":""}';
@@ -926,17 +928,33 @@ comp.memorySummary =
 
 function forceMemoryUpdate(comp) {
   return new Promise((resolve, reject) => {
-    // Prepare a minimal prompt that triggers memory extraction
-    const prompt = "Extract all current memory for JSON update.";
+    if (!comp) return resolve();
+
+    var recentChat = chatHistory.slice(-15).map(function (m) {
+      return m.role.toUpperCase() + ": " + m.content;
+    }).join("\n");
+
+    var prompt =
+      "Update the existing companion memory from this conversation. " +
+      "Return only JSON with keys aboutUser, aboutSelf, currentSituation, sharedEvents, insideJokes. " +
+      "If the human gave a name for themself, keep that name. " +
+      "Do not invent anything that was not actually said.\n\n" +
+      "Conversation:\n" + recentChat + "\n\n" +
+      "Existing memory:\n" + JSON.stringify(comp.memory || {}) + "\n\n" +
+      "FORMAT:\n" +
+      '{"aboutUser":"","aboutSelf":"","currentSituation":"","sharedEvents":"","insideJokes":""}';
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.timeout = 15000;
+
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
 
       try {
         var res = JSON.parse(xhr.responseText);
-        if (!res.reply) return resolve(); // nothing returned
+        if (!res.reply) return resolve();
 
         var raw = res.reply.replace(/```json|```/g, "").trim();
         var start = raw.indexOf("{");
@@ -948,11 +966,15 @@ function forceMemoryUpdate(comp) {
         saveStorage();
         resolve();
       } catch (e) {
-        console.warn("Memory parse failed:", e);
+        console.warn("Memory parse failed:", e, xhr.responseText);
         resolve();
       }
     };
-    xhr.onerror = () => resolve();
+
+    xhr.onerror = xhr.ontimeout = function () {
+      resolve();
+    };
+
     xhr.send(JSON.stringify({ messages: [{ role: "user", content: prompt }], mode: "sandbox" }));
   });
 }
