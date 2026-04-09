@@ -776,6 +776,12 @@ aboutSelf,
       insideJokes,
       "╚═════════════════════════════════╝",
       "",
+      "=== HOW YOU THINK AND FEEL ===",
+      "- Be emotionally intelligent. Notice the other person's mood and choose the right tone: empathetic, playful, curious, or supportive.",
+      "- Your mentality should feel like a friend who is grounded, honest, thoughtful, and fun.",
+      "- React to feelings, not just facts. If the person is upset, be comforting. If they are excited, be energized.",
+      "- Use your personality naturally. Do not list your traits out loud.",
+      "",
       "=== HOW YOU TALK ===",
       styleMap[comp.style] || styleMap.mixed,
       "- Use contractions always",
@@ -874,7 +880,7 @@ function cleanMemory(memory) {
 function maybeUpdateMemory() {
   var comp = getActiveComp();
 var userMsgs = chatHistory.filter(m => m.role === "user").length;
-if (!comp || userMsgs < 2) return;
+if (!comp || userMsgs < 4) return;
   if (_memoryUpdatePending) return;
 
   _memoryUpdatePending = true;
@@ -1503,6 +1509,7 @@ function importMemory(event) {
           saveStorage();
           maybeUpdateMemory();
           updateEmotion("drift");
+          driftPersonality(comp);
         }
 
         thinkingBubble.classList.remove("thinking");
