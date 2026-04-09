@@ -656,14 +656,9 @@ avatarInstance.h = canvas.height;
 
 function normalizeCompanion(comp) {
   var mem = comp.memory || {};
+  var cleanedMem = cleanMemory(mem);
   return Object.assign({}, comp, {
-    memory: {
-      aboutUser: mem.aboutUser || "",
-      aboutSelf: mem.aboutSelf || "",
-      currentSituation: mem.currentSituation || "",
-      sharedEvents: mem.sharedEvents || "",
-      insideJokes: mem.insideJokes || ""
-    }
+    memory: cleanedMem
   });
 }
 
@@ -834,6 +829,36 @@ function mergeMemory(oldMem, newMem) {
   };
 }
 
+function cleanMemory(memory) {
+  if (!memory || typeof memory !== 'object') return {
+    aboutUser: "",
+    aboutSelf: "",
+    currentSituation: "",
+    sharedEvents: "",
+    insideJokes: ""
+  };
+
+  var clean = function(text) {
+    if (!text || typeof text !== 'string') return "";
+    return text
+      .replace(/\[UNPARSED MEMORY\][\s\S]*?(?=\n(?:\[|$)|$)/g, '')
+      .replace(/\{"reply":[\s\S]*?\}[\s\n]*/g, '')
+      .replace(/\[object Object\]/g, '')
+      .split('\n')
+      .filter(line => line.trim())
+      .join('\n')
+      .trim();
+  };
+
+  return {
+    aboutUser: clean(memory.aboutUser),
+    aboutSelf: clean(memory.aboutSelf),
+    currentSituation: clean(memory.currentSituation),
+    sharedEvents: clean(memory.sharedEvents),
+    insideJokes: clean(memory.insideJokes)
+  };
+}
+
 function maybeUpdateMemory() {
   var comp = getActiveComp();
 var userMsgs = chatHistory.filter(m => m.role === "user").length;
@@ -892,7 +917,29 @@ try {
   if (start === -1 || end === -1) throw new Error("No JSON found");
 
   var parsed = JSON.parse(raw.substring(start, end + 1));
-comp.memory = mergeMemory(comp.memory || {}, parsed);
+  
+  // Validate parsed object has expected fields and is not corrupted
+  if (!parsed || typeof parsed !== 'object') throw new Error("Invalid parsed object");
+  
+  // Clean the parsed data to remove any nested JSON or corrupted fields
+  var cleanedParsed = {
+    aboutUser: String(parsed.aboutUser || "").substring(0, 5000),
+    aboutSelf: String(parsed.aboutSelf || "").substring(0, 5000),
+    currentSituation: String(parsed.currentSituation || "").substring(0, 2000),
+    sharedEvents: String(parsed.sharedEvents || "").substring(0, 5000),
+    insideJokes: String(parsed.insideJokes || "").substring(0, 3000)
+  };
+  
+  // Remove any remaining corrupted patterns from the cleaned data
+  Object.keys(cleanedParsed).forEach(function(key) {
+    cleanedParsed[key] = cleanedParsed[key]
+      .replace(/\{\"reply\":[^}]*\}/g, '')
+      .replace(/\[object Object\]/g, '')
+      .replace(/\[UNPARSED MEMORY\]/g, '')
+      .trim();
+  });
+
+comp.memory = mergeMemory(comp.memory || {}, cleanedParsed);
 
 var summaryParts = [
   comp.memory.aboutUser,
@@ -907,16 +954,8 @@ comp.memorySummary = summaryParts.split("\n").slice(-5).join("\n");
   console.log(" Memory updated:", comp.memory);
 
 } catch (e) {
-  console.warn(" Memory parse failed:", e, xhr.responseText);
-
-  if (!comp.memory) comp.memory = {};
-
-  comp.memory.aboutUser =
-    (comp.memory.aboutUser || "") +
-    "\n[UNPARSED MEMORY]\n" +
-    xhr.responseText.substring(0, 300);
-
-  saveStorage();
+  console.warn(" Memory parse failed:", e);
+  // Silently skip on parse error instead of corrupting memory
 }
     };
 
@@ -968,7 +1007,28 @@ function forceMemoryUpdate(comp) {
         if (start === -1 || end === -1) return resolve();
 
         var parsed = JSON.parse(raw.substring(start, end + 1));
-        comp.memory = mergeMemory(comp.memory || {}, parsed);
+        
+        // Validate and clean parsed data
+        if (!parsed || typeof parsed !== 'object') return resolve();
+        
+        var cleanedParsed = {
+          aboutUser: String(parsed.aboutUser || "").substring(0, 5000),
+          aboutSelf: String(parsed.aboutSelf || "").substring(0, 5000),
+          currentSituation: String(parsed.currentSituation || "").substring(0, 2000),
+          sharedEvents: String(parsed.sharedEvents || "").substring(0, 5000),
+          insideJokes: String(parsed.insideJokes || "").substring(0, 3000)
+        };
+        
+        // Remove any remaining corrupted patterns
+        Object.keys(cleanedParsed).forEach(function(key) {
+          cleanedParsed[key] = cleanedParsed[key]
+            .replace(/\{\"reply\":[^}]*\}/g, '')
+            .replace(/\[object Object\]/g, '')
+            .replace(/\[UNPARSED MEMORY\]/g, '')
+            .trim();
+        });
+        
+        comp.memory = mergeMemory(comp.memory || {}, cleanedParsed);
 
         var summaryParts = [
           comp.memory.aboutUser,
@@ -1185,19 +1245,14 @@ function importMemory(event) {
 
       companions = data.companions.map(function(c) {
         var mem = c.memory || {};
+        var cleanedMem = cleanMemory(mem);
 
         return {
           ...c,
-memory: {
-  aboutUser: mem.aboutUser || "",
-  aboutSelf: mem.aboutSelf || "",
-  currentSituation: mem.currentSituation || "",
-  sharedEvents: mem.sharedEvents || "",
-  insideJokes: mem.insideJokes || ""
-},
+memory: cleanedMem,
 memorySummary:
   c.memorySummary ||
-  mem.aboutUser ||
+  cleanedMem.aboutUser ||
   ""
         };
       });
