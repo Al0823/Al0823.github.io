@@ -655,10 +655,22 @@ avatarInstance.h = canvas.height;
   }
 
 function normalizeCompanion(comp) {
-  var mem = comp.memory || {};
-  var cleanedMem = cleanMemory(mem);
+  var mem = cleanMemory(comp.memory || {});
   return Object.assign({}, comp, {
-    memory: cleanedMem
+    id: comp.id || "",
+    name: comp.name || "",
+    avatar: comp.avatar || "",
+    gender: comp.gender || "",
+    age: comp.age || "",
+    height: comp.height || "",
+    weight: comp.weight || "",
+    appearance: comp.appearance || "",
+    personality: comp.personality || "",
+    interests: comp.interests || "",
+    style: comp.style || "",
+    memorySummary: comp.memorySummary || mem.aboutUser || "",
+    memory: mem,
+    messageCount: comp.messageCount || 0
   });
 }
 
@@ -1244,17 +1256,12 @@ function importMemory(event) {
       }
 
       companions = data.companions.map(function(c) {
-        var mem = c.memory || {};
-        var cleanedMem = cleanMemory(mem);
-
-        return {
-          ...c,
-memory: cleanedMem,
-memorySummary:
-  c.memorySummary ||
-  cleanedMem.aboutUser ||
-  ""
-        };
+        var mem = cleanMemory(c.memory || {});
+        return normalizeCompanion(Object.assign({}, c, {
+          memory: mem,
+          memorySummary: c.memorySummary || mem.aboutUser || "",
+          messageCount: c.messageCount || 0
+        }));
       });
 
       activeCompId =
