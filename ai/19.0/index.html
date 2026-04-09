@@ -939,7 +939,6 @@ try {
   // Validate parsed object has expected fields and is not corrupted
   if (!parsed || typeof parsed !== 'object') throw new Error("Invalid parsed object");
   
-  // Clean the parsed data to remove any nested JSON or corrupted fields
   var cleanedParsed = {
     aboutUser: String(parsed.aboutUser || "").substring(0, 5000),
     aboutSelf: String(parsed.aboutSelf || "").substring(0, 5000),
@@ -973,7 +972,6 @@ comp.memorySummary = summaryParts.split("\n").slice(-5).join("\n");
 
 } catch (e) {
   console.warn(" Memory parse failed:", e);
-  // Silently skip on parse error instead of corrupting memory
 }
     };
 
@@ -1542,7 +1540,7 @@ function importMemory(event) {
         retries++;
         setTimeout(sendRequest, 1500);
       } else {
-        thinkingBubble.textContent = "⚠️ Network error.";
+        thinkingBubble.textContent = " Network error.";
         setButtons(false);
       }
     };
@@ -1552,7 +1550,7 @@ function importMemory(event) {
         retries++;
         setTimeout(sendRequest, 1500);
       } else {
-        thinkingBubble.textContent = "⚠️ Request timed out.";
+        thinkingBubble.textContent = " Request timed out.";
         setButtons(false);
       }
     };
