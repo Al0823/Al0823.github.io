@@ -299,20 +299,20 @@
           <div id="face-comp-name">Companion</div>
           <div id="face-emotion-label">idle</div>
         </div>
-        <div id="face-view-toggle">
+        <!--<div id="face-view-toggle">
           <button class="face-view-btn active" id="btn-bust"     onclick="setAvatarView('bust')">Bust</button>
           <button class="face-view-btn"         id="btn-upper"   onclick="setAvatarView('upper')">Upper</button>
           <button class="face-view-btn"         id="btn-full"    onclick="setAvatarView('full')">Full</button>
           <button class="face-view-btn"         id="btn-hidden"  onclick="setAvatarView('hidden')">Hide</button>
-        </div>
+        </div>-->
       </div>
-      <div id="face-canvas-wrap">
+      <!--<div id="face-canvas-wrap">
         <div id="face-building">
           <div class="face-spinner"></div>
           <span>Building avatar...</span>
         </div>
         <canvas id="face-canvas"></canvas>
-      </div>
+      </div>-->
     </div>
 
     <!-- ── Chat area ── -->
@@ -817,6 +817,15 @@ aboutSelf,
       "- React like you REMEMBER past conversations — because you do",
       "- Never mix up YOUR details with THEIR details",
       "",
+      "=== CRITICAL: HOW TO HANDLE THIS CONVERSATION ===",
+      "- EVERYTHING in the chat history is REAL",
+      "- Pay CLOSE ATTENTION to what was said in the last few messages",
+      "- Build ON recent facts — don\'t ignore them or act confused",
+      "- If they mentioned something, USE it in your next response naturally",
+      "- Don\'t ask them to repeat things already said in this chat",
+      "- Be CONSISTENT — treat conversation history as absolute truth",
+      "- Reference their name, interests, situation when relevant",
+      "",
       "=== CRITICAL RULE ===",
       "The section labeled YOUR IDENTITY is about YOU (" + comp.name + ").",
       "The sections labeled YOUR FRIEND are about the OTHER person.",
@@ -862,85 +871,125 @@ function mergeMemory(oldMem, newMem) {
 
 function maybeUpdateMemory() {
   var comp = getActiveComp();
-var userMsgs = chatHistory.filter(m => m.role === "user").length;
-if (!comp || userMsgs < 4) return;
+  if (!comp) return;
   if (_memoryUpdatePending) return;
 
+  // Trigger after just 2-3 user messages for faster learning
+  var userMsgs = chatHistory.filter(m => m.role === "user").length;
+  if (userMsgs < 2) return;
+
   _memoryUpdatePending = true;
-setTimeout(function() {
-  _memoryUpdatePending = false;
-}, 20000);
+  setTimeout(function() {
+    _memoryUpdatePending = false;
+  }, 10000); // Reduced cooldown
 
   setTimeout(function () {
-    var recentChat = chatHistory.slice(-15).map(function (m) {
-      return m.role.toUpperCase() + ": " + m.content;
+    // Get last 10-20 messages for context
+    var recentChat = chatHistory.slice(-20).map(function (m) {
+      return m.role === "user" ? "HUMAN: " + m.content : "FRIEND (" + comp.name + "): " + m.content;
     }).join("\n");
 
-var prompt =
-"Extract structured memory from this conversation.\n\n" +
+    var currentMem = comp.memory || {};
+    var existingAboutUser = currentMem.aboutUser || "";
+    var existingSharedEvents = currentMem.sharedEvents || "";
+    var existingInsideJokes = currentMem.insideJokes || "";
+
+    var prompt =
+"You are a memory extraction system. Parse this conversation and extract facts.\n\n" +
+"=== RECENT CONVERSATION ===\n" +
 recentChat + "\n\n" +
 
-"RULES:\n" +
-"- Return ONLY valid JSON\n" +
-"- No markdown, no code blocks, no explanations\n" +
-"- Separate USER facts from ASSISTANT facts\n" +
-"- Do NOT mix them\n\n" +
+"=== YOUR TASK ===\n" +
+"Extract ONLY new facts about:\n" +
+"1. The HUMAN (user) - their name, age, occupation, hobbies, interests, fears, dreams, family, personality traits\n" +
+"2. Shared experiences - things you've talked about or done together\n" +
+"3. Inside jokes - funny things, running gags, memes between you two\n" +
+"4. Current situation - what's happening in their life\n" +
+"5. About ME (the friend " + comp.name + ") - things I've mentioned about myself\n\n" +
 
-"FIELD RULES:\n" +
-"- aboutUser = facts about the human user\n" +
-"- aboutSelf = facts about YOU (the companion)\n" +
-"- currentSituation = what is happening right now\n" +
-"- sharedEvents = things that happened together\n" +
-"- insideJokes = recurring jokes or phrases\n\n" +
+"=== EXISTING MEMORY (use this as context) ===\n" +
+"Already know about user: " + (existingAboutUser.substring(0, 150) || "[nothing yet]") + "\n" +
+"Already know about shared: " + (existingSharedEvents.substring(0, 150) || "[nothing yet]") + "\n\n" +
 
-"FORMAT:\n" +
-'{"aboutUser":"","aboutSelf":"","currentSituation":"","sharedEvents":"","insideJokes":""}';
+"=== CRITICAL RULES ===\n" +
+"- Return ONLY valid JSON, no markdown or formatting\n" +
+"- aboutUser = facts LEARNED IN THIS CONVERSATION about the human\n" +
+"- aboutSelf = facts I revealed about myself in this conversation\n" +
+"- sharedEvents = NEW shared experiences from this chat\n" +
+"- insideJokes = NEW jokes/running gags\n" +
+"- currentSituation = what's happening now in their life\n" +
+"- If nothing new learned, return empty strings\n" +
+"- Never include things already in existing memory\n" +
+"- Be SPECIFIC with facts, not vague\n\n" +
+
+"=== OUTPUT FORMAT (RESPOND WITH ONLY THIS JSON) ===\n" +
+'{\n' +
+'  "aboutUser": "lines of new facts separated by newlines",\n' +
+'  "aboutSelf": "things I said about myself",\n' +
+'  "currentSituation": "what they mentioned",\n' +
+'  "sharedEvents": "new things we did/discussed",\n' +
+'  "insideJokes": "new jokes or references"\n' +
+'}';
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.timeout = 15000;
+    xhr.timeout = 12000;
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState !== 4) return;
-      _memoryUpdatePending = false;
 
-try {
-  var res = JSON.parse(xhr.responseText);
-  if (!res.reply) return;
+      try {
+        var res = JSON.parse(xhr.responseText);
+        if (!res.reply) {
+          console.warn("⚠️ No reply from memory extraction");
+          return;
+        }
 
-  var raw = res.reply.replace(/```json|```/g, "").trim();
+        var raw = res.reply.trim();
+        
+        // Try to extract JSON more robustly
+        var start = raw.indexOf("{");
+        var end = raw.lastIndexOf("}");
 
-  var start = raw.indexOf("{");
-  var end = raw.lastIndexOf("}");
+        if (start === -1 || end === -1) {
+          console.warn("⚠️ No JSON found in:", raw.substring(0, 100));
+          return;
+        }
 
-  if (start === -1 || end === -1) throw new Error("No JSON found");
+        var jsonStr = raw.substring(start, end + 1);
+        var parsed = JSON.parse(jsonStr);
 
-  var parsed = JSON.parse(raw.substring(start, end + 1));
-comp.memory = mergeMemory(comp.memory || {}, parsed);
+        // Only merge non-empty fields
+        var update = {
+          aboutUser: parsed.aboutUser || "",
+          aboutSelf: parsed.aboutSelf || "",
+          currentSituation: parsed.currentSituation || "",
+          sharedEvents: parsed.sharedEvents || "",
+          insideJokes: parsed.insideJokes || ""
+        };
 
-comp.memorySummary =
-(comp.memory.aboutUser || "").split("\n").slice(-5).join("\n");
-  saveStorage();
+        comp.memory = mergeMemory(comp.memory || {}, update);
+        saveStorage();
 
-  console.log(" Memory updated:", comp.memory);
+        console.log("✅ Memory updated:", {
+          aboutUser: !!update.aboutUser,
+          aboutSelf: !!update.aboutSelf,
+          sharedEvents: !!update.sharedEvents,
+          insideJokes: !!update.insideJokes
+        });
 
-} catch (e) {
-  console.warn(" Memory parse failed:", e, xhr.responseText);
-
-  if (!comp.memory) comp.memory = {};
-
-  comp.memory.aboutUser =
-    (comp.memory.aboutUser || "") +
-    "\n[UNPARSED MEMORY]\n" +
-    xhr.responseText.substring(0, 300);
-
-  saveStorage();
-}
+      } catch (e) {
+        console.warn("⚠️ Memory extraction error:", e.message);
+      }
     };
 
-    xhr.onerror = xhr.ontimeout = function () {
-      _memoryUpdatePending = false;
+    xhr.onerror = function () {
+      console.warn("⚠️ Memory XHR error");
+    };
+
+    xhr.ontimeout = function () {
+      console.warn("⚠️ Memory extraction timeout");
     };
 
     xhr.send(JSON.stringify({
@@ -948,7 +997,7 @@ comp.memorySummary =
       mode: "code"
     }));
 
-  }, 1200);
+  }, 800); // Faster trigger
 }
 
 function forceMemoryUpdate(comp) {
@@ -1382,100 +1431,119 @@ memorySummary:
   }
 
   function doXHR(thinkingBubble) {
-  var isCompMode = currentMode === "sandbox" || currentMode === "companion";
-  var comp = isCompMode ? getActiveComp() : null;
+    var isCompMode = currentMode === "sandbox" || currentMode === "companion";
+    var comp = isCompMode ? getActiveComp() : null;
 
-  var messages;
-  if (comp) {
-    var sp = buildCompanionSystemPrompt(comp);
-    messages = [
-      { role: "user", content: "[Stay in character]\n\n" + sp },
-      { role: "assistant", content: "Understood." }
-    ].concat(chatHistory.slice(-30));
-  } else {
-    messages = chatHistory.slice(-30);
-  }
+    var messages;
+    if (comp) {
+      var sp = buildCompanionSystemPrompt(comp);
+      messages = [
+        { role: "user", content: "[Your character brief — stay in this role for the whole conversation]\n\n" + sp },
+        { role: "assistant", content: "Got it, I'm fully in character as " + comp.name + "." }
+      ].concat(chatHistory.slice(-30));
+    } else {
+      messages = chatHistory.slice(-30);
+    }
 
-  var retries = 0;
-  var MAX_RETRIES = 2;
+    var retries = 0;
+    var MAX_RETRIES = 2;
 
-  function sendRequest() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", WORKER_URL, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.timeout = 25000;
+    function sendRequest() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", WORKER_URL, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.timeout = 25000;
 
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState !== 4) return;
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) return;
 
-      try {
-        if (xhr.status !== 200) throw new Error("Bad status: " + xhr.status);
+        try {
+          if (xhr.status !== 200) throw new Error("Bad status: " + xhr.status);
 
-        var data = JSON.parse(xhr.responseText);
-        var text = data.reply || data.error || "(No response)";
+          var data = JSON.parse(xhr.responseText);
+          var text = data.reply || data.error || "(No response)";
 
-        chatHistory.push({ role: "assistant", content: text });
+          // Random thinking message in companion mode
+          if (comp && currentMode === "companion" && Math.random() < 0.15) {
+            var thoughts = [
+              "I was thinking about that new book I read...",
+              "Sometimes I wonder what it'd be like to travel to Mars.",
+              "Do you ever feel like music tells stories without words?",
+              "I'm curious how people perceive colors differently.",
+              "Random thought — today feels like a good day for a walk."
+            ];
+            setTimeout(function() {
+              addMessage("assistant", thoughts[Math.floor(Math.random() * thoughts.length)]);
+            }, 1500);
+          }
 
-        if (comp) {
-          comp.messageCount = (comp.messageCount || 0) + 1;
-          saveStorage();
-          maybeUpdateMemory();
-          updateEmotion("drift");
+          chatHistory.push({ role: "assistant", content: text });
+
+          if (comp) {
+            comp.messageCount = (comp.messageCount || 0) + 1;
+            saveStorage();
+            maybeUpdateMemory();
+            updateEmotion("drift");
+            driftPersonality(comp);
+          }
+
+          thinkingBubble.classList.remove("thinking");
+
+          if (isCompMode) {
+            typeText(thinkingBubble, text || "(No response)");
+          } else {
+            thinkingBubble.textContent = text || "(No response)";
+          }
+
+          var lbl = thinkingBubble.parentNode && thinkingBubble.parentNode.querySelector(".label");
+          if (lbl) lbl.textContent = getAssistantLabel();
+
+        } catch (e) {
+          if (retries < MAX_RETRIES) {
+            retries++;
+            setTimeout(sendRequest, 1500);
+            return;
+          }
+
+          thinkingBubble.classList.remove("thinking");
+          thinkingBubble.textContent = "Error parsing response.";
         }
 
-        thinkingBubble.classList.remove("thinking");
+        setButtons(false);
+        inputEl.focus();
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      };
 
-        if (isCompMode) {
-          typeText(thinkingBubble, text);
-        } else {
-          thinkingBubble.textContent = text;
-        }
-
-      } catch (e) {
+      xhr.onerror = function () {
         if (retries < MAX_RETRIES) {
           retries++;
           setTimeout(sendRequest, 1500);
-          return;
+        } else {
+          thinkingBubble.classList.remove("thinking");
+          thinkingBubble.textContent = "Network error.";
+          setButtons(false);
         }
+      };
 
-        thinkingBubble.classList.remove("thinking");
-        thinkingBubble.textContent = "⚠️ Error getting response.";
-        console.error("XHR error:", e, xhr.responseText);
-      }
+      xhr.ontimeout = function () {
+        if (retries < MAX_RETRIES) {
+          retries++;
+          setTimeout(sendRequest, 1500);
+        } else {
+          thinkingBubble.classList.remove("thinking");
+          thinkingBubble.textContent = "Request timed out. Try again.";
+          setButtons(false);
+        }
+      };
 
-      setButtons(false);
-      inputEl.focus();
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    };
+      xhr.send(JSON.stringify({
+        messages: messages,
+        mode: currentMode
+      }));
+    }
 
-    xhr.onerror = function () {
-      if (retries < MAX_RETRIES) {
-        retries++;
-        setTimeout(sendRequest, 1500);
-      } else {
-        thinkingBubble.textContent = "⚠️ Network error.";
-        setButtons(false);
-      }
-    };
-
-    xhr.ontimeout = function () {
-      if (retries < MAX_RETRIES) {
-        retries++;
-        setTimeout(sendRequest, 1500);
-      } else {
-        thinkingBubble.textContent = "⚠️ Request timed out.";
-        setButtons(false);
-      }
-    };
-
-    xhr.send(JSON.stringify({
-      messages: messages,
-      mode: currentMode
-    }));
+    sendRequest();
   }
-
-  sendRequest();
-}
 
   setInterval(function(){
     if(currentMode!=="companion") return; var comp=getActiveComp(); if(!comp) return;

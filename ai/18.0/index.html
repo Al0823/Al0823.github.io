@@ -798,6 +798,15 @@ aboutSelf,
       "- React like you REMEMBER past conversations — because you do",
       "- Never mix up YOUR details with THEIR details",
       "",
+      "=== CRITICAL: HOW TO HANDLE THIS CONVERSATION ===",
+      "- EVERYTHING in the chat history is REAL",
+      "- Pay CLOSE ATTENTION to what was said in the last few messages",
+      "- Build ON recent facts — don't ignore them or act confused",
+      "- If they mentioned something, USE it in your next response naturally",
+      "- Don't ask them to repeat things already said in this chat",
+      "- Be CONSISTENT — treat conversation history as absolute truth",
+      "- Reference their name, interests, situation when relevant",
+      "",
       "=== CRITICAL RULE ===",
       "The section labeled YOUR IDENTITY is about YOU (" + comp.name + ").",
       "The sections labeled YOUR FRIEND are about the OTHER person.",
@@ -1464,100 +1473,119 @@ function importMemory(event) {
   }
 
   function doXHR(thinkingBubble) {
-  var isCompMode = currentMode === "sandbox" || currentMode === "companion";
-  var comp = isCompMode ? getActiveComp() : null;
+    var isCompMode = currentMode === "sandbox" || currentMode === "companion";
+    var comp = isCompMode ? getActiveComp() : null;
 
-  var messages;
-  if (comp) {
-    var sp = buildCompanionSystemPrompt(comp);
-    messages = [
-      { role: "user", content: "[Stay in character]\n\n" + sp },
-      { role: "assistant", content: "Understood." }
-    ].concat(chatHistory.slice(-30));
-  } else {
-    messages = chatHistory.slice(-30);
-  }
+    var messages;
+    if (comp) {
+      var sp = buildCompanionSystemPrompt(comp);
+      messages = [
+        { role: "user", content: "[Your character brief — stay in this role for the whole conversation]\n\n" + sp },
+        { role: "assistant", content: "Got it, I'm fully in character as " + comp.name + "." }
+      ].concat(chatHistory.slice(-30));
+    } else {
+      messages = chatHistory.slice(-30);
+    }
 
-  var retries = 0;
-  var MAX_RETRIES = 2;
+    var retries = 0;
+    var MAX_RETRIES = 2;
 
-  function sendRequest() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", WORKER_URL, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.timeout = 25000;
+    function sendRequest() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", WORKER_URL, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.timeout = 25000;
 
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState !== 4) return;
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) return;
 
-      try {
-        if (xhr.status !== 200) throw new Error("Bad status: " + xhr.status);
+        try {
+          if (xhr.status !== 200) throw new Error("Bad status: " + xhr.status);
 
-        var data = JSON.parse(xhr.responseText);
-        var text = data.reply || data.error || "(No response)";
+          var data = JSON.parse(xhr.responseText);
+          var text = data.reply || data.error || "(No response)";
 
-        chatHistory.push({ role: "assistant", content: text });
+          // Random thinking message in companion mode
+          if (comp && currentMode === "companion" && Math.random() < 0.15) {
+            var thoughts = [
+              "I was thinking about that new book I read...",
+              "Sometimes I wonder what it'd be like to travel to Mars.",
+              "Do you ever feel like music tells stories without words?",
+              "I'm curious how people perceive colors differently.",
+              "Random thought — today feels like a good day for a walk."
+            ];
+            setTimeout(function() {
+              addMessage("assistant", thoughts[Math.floor(Math.random() * thoughts.length)]);
+            }, 1500);
+          }
 
-        if (comp) {
-          comp.messageCount = (comp.messageCount || 0) + 1;
-          saveStorage();
-          maybeUpdateMemory();
-          updateEmotion("drift");
+          chatHistory.push({ role: "assistant", content: text });
+
+          if (comp) {
+            comp.messageCount = (comp.messageCount || 0) + 1;
+            saveStorage();
+            maybeUpdateMemory();
+            updateEmotion("drift");
+            driftPersonality(comp);
+          }
+
+          thinkingBubble.classList.remove("thinking");
+
+          if (isCompMode) {
+            typeText(thinkingBubble, text || "(No response)");
+          } else {
+            thinkingBubble.textContent = text || "(No response)";
+          }
+
+          var lbl = thinkingBubble.parentNode && thinkingBubble.parentNode.querySelector(".label");
+          if (lbl) lbl.textContent = getAssistantLabel();
+
+        } catch (e) {
+          if (retries < MAX_RETRIES) {
+            retries++;
+            setTimeout(sendRequest, 1500);
+            return;
+          }
+
+          thinkingBubble.classList.remove("thinking");
+          thinkingBubble.textContent = "Error parsing response.";
         }
 
-        thinkingBubble.classList.remove("thinking");
+        setButtons(false);
+        inputEl.focus();
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      };
 
-        if (isCompMode) {
-          typeText(thinkingBubble, text);
-        } else {
-          thinkingBubble.textContent = text;
-        }
-
-      } catch (e) {
+      xhr.onerror = function () {
         if (retries < MAX_RETRIES) {
           retries++;
           setTimeout(sendRequest, 1500);
-          return;
+        } else {
+          thinkingBubble.classList.remove("thinking");
+          thinkingBubble.textContent = "Network error.";
+          setButtons(false);
         }
+      };
 
-        thinkingBubble.classList.remove("thinking");
-        thinkingBubble.textContent = "⚠️ Error getting response.";
-        console.error("XHR error:", e, xhr.responseText);
-      }
+      xhr.ontimeout = function () {
+        if (retries < MAX_RETRIES) {
+          retries++;
+          setTimeout(sendRequest, 1500);
+        } else {
+          thinkingBubble.classList.remove("thinking");
+          thinkingBubble.textContent = "Request timed out. Try again.";
+          setButtons(false);
+        }
+      };
 
-      setButtons(false);
-      inputEl.focus();
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    };
+      xhr.send(JSON.stringify({
+        messages: messages,
+        mode: currentMode
+      }));
+    }
 
-    xhr.onerror = function () {
-      if (retries < MAX_RETRIES) {
-        retries++;
-        setTimeout(sendRequest, 1500);
-      } else {
-        thinkingBubble.textContent = "⚠️ Network error.";
-        setButtons(false);
-      }
-    };
-
-    xhr.ontimeout = function () {
-      if (retries < MAX_RETRIES) {
-        retries++;
-        setTimeout(sendRequest, 1500);
-      } else {
-        thinkingBubble.textContent = "⚠️ Request timed out.";
-        setButtons(false);
-      }
-    };
-
-    xhr.send(JSON.stringify({
-      messages: messages,
-      mode: currentMode
-    }));
+    sendRequest();
   }
-
-  sendRequest();
-}
 
   setInterval(function(){
     if(currentMode!=="companion") return; var comp=getActiveComp(); if(!comp) return;

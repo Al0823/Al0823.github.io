@@ -874,6 +874,15 @@ aboutSelf,
       "- React like you REMEMBER past conversations — because you do",
       "- Never mix up YOUR details with THEIR details",
       "",
+      "=== CRITICAL: HOW TO HANDLE THIS CONVERSATION ===",
+      "- EVERYTHING in the chat history is REAL",
+      "- Pay CLOSE ATTENTION to what was said in the last few messages",
+      "- Build ON recent facts — don't ignore them or act confused",
+      "- If they mentioned something, USE it in your next response naturally",
+      "- Don't ask them to repeat things already said in this chat",
+      "- Be CONSISTENT — treat conversation history as absolute truth",
+      "- Reference their name, interests, situation when relevant",
+      "",
       "=== CRITICAL RULE ===",
       "The section labeled YOUR IDENTITY is about YOU (" + comp.name + ").",
       "The sections labeled YOUR FRIEND are about the OTHER person.",
@@ -1545,8 +1554,8 @@ function importMemory(event) {
   if (comp) {
     var sp = buildCompanionSystemPrompt(comp);
     messages = [
-      { role: "user", content: "[Stay in character]\n\n" + sp },
-      { role: "assistant", content: "Understood." }
+      { role: "user", content: "[Your character brief — stay in this role for the whole conversation]\n\n" + sp },
+      { role: "assistant", content: "Got it, I'm fully in character as " + comp.name + "." }
     ].concat(chatHistory.slice(-60));
   } else {
     messages = chatHistory.slice(-60);
@@ -1569,6 +1578,20 @@ function importMemory(event) {
 
         var data = JSON.parse(xhr.responseText);
         var text = data.reply || data.error || "(No response)";
+
+        // Random thinking message in companion mode
+        if (comp && currentMode === "companion" && Math.random() < 0.15) {
+          var thoughts = [
+            "I was thinking about that new book I read...",
+            "Sometimes I wonder what it'd be like to travel to Mars.",
+            "Do you ever feel like music tells stories without words?",
+            "I'm curious how people perceive colors differently.",
+            "Random thought — today feels like a good day for a walk."
+          ];
+          setTimeout(function() {
+            addMessage("assistant", thoughts[Math.floor(Math.random() * thoughts.length)]);
+          }, 1500);
+        }
 
         chatHistory.push({ role: "assistant", content: text });
 
@@ -1610,7 +1633,7 @@ function importMemory(event) {
         retries++;
         setTimeout(sendRequest, 1500);
       } else {
-        thinkingBubble.textContent = " Network error.";
+        thinkingBubble.textContent = "⚠️ Network error.";
         setButtons(false);
       }
     };
@@ -1620,7 +1643,7 @@ function importMemory(event) {
         retries++;
         setTimeout(sendRequest, 1500);
       } else {
-        thinkingBubble.textContent = " Request timed out.";
+        thinkingBubble.textContent = "⚠️ Request timed out.";
         setButtons(false);
       }
     };
