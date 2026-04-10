@@ -369,16 +369,22 @@
         overflow: hidden;
       }
 
-      /* ── Mobile Face Panel (hidden by default, shows as overlay) ── */
+      /* ── Mobile Face Panel (hidden, full-width modal like companions) ── */
       #face-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 60px;
         width: 100%;
-        height: 50%;
+        height: auto;
+        max-height: 100%;
         display: none;
         flex-direction: column;
-        flex-shrink: 1;
         border-right: none;
-        border-bottom: 1px solid #30363d;
-        position: relative;
+        border-bottom: none;
+        z-index: 40;
+        border-radius: 0;
       }
 
       #face-panel.visible {
@@ -387,6 +393,32 @@
 
       #face-panel-header {
         gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid #30363d;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      #face-panel-header > div:first-child {
+        flex: 1;
+      }
+
+      #face-close-btn {
+        background: none;
+        border: none;
+        color: #8b949e;
+        font-size: 18px;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      #face-close-btn:hover {
+        color: #e6edf3;
+      }
+
+      #face-canvas-wrap {
+        flex: 1;
       }
 
       #face-view-toggle {
@@ -429,6 +461,12 @@
       }
 
       .header-chip {
+        font-size: 10px;
+        padding: 2px 8px;
+      }
+
+      #avatar-toggle-btn {
+        display: inline-flex;
         font-size: 10px;
         padding: 2px 8px;
       }
@@ -800,6 +838,7 @@
           <button class="face-view-btn"         id="btn-full"    onclick="setAvatarView('full')">Full</button>
           <button class="face-view-btn"         id="btn-hidden"  onclick="setAvatarView('hidden')">Hide</button>
         </div>
+        <button id="face-close-btn" onclick="toggleAvatarPanel()">✕</button>
       </div>
       <div id="face-canvas-wrap">
         <div id="face-building">
@@ -820,6 +859,7 @@
         </div>
         <div id="header-right">
           <span id="companion-badge" class="memory-badge" style="display:none"></span>
+          <button class="header-chip" id="avatar-toggle-btn" onclick="toggleAvatarPanel()" style="display:none">🫂 Avatar</button>
           <button class="header-chip" id="companions-btn" onclick="toggleCompanionPanel()" style="display:none">🫂 Companions</button>
           <button class="header-chip" onclick="exportMemory()">💾 Export</button>
         </div>
@@ -1129,6 +1169,7 @@
   var companions         = [];
   var activeCompId       = null;
   var editingCompId      = null;
+  var avatarPanelOpen    = false;
   var companionPanelOpen = false;
 
   var inputEl    = document.getElementById("input");
@@ -1847,6 +1888,16 @@ function importMemory(event) {
   reader.readAsText(file);
 }
 
+  function toggleAvatarPanel() {
+    avatarPanelOpen = !avatarPanelOpen;
+    var panel = document.getElementById("face-panel");
+    if (avatarPanelOpen) { 
+      panel.classList.add("visible");
+    } else { 
+      panel.classList.remove("visible");
+    }
+  }
+
   function toggleCompanionPanel() {
     companionPanelOpen = !companionPanelOpen;
     var panel = document.getElementById("companion-panel");
@@ -1858,6 +1909,7 @@ function importMemory(event) {
   function switchMode(mode) {
     currentMode = mode;
     document.body.className = "mode-" + mode;
+    document.getElementById("avatar-toggle-btn").style.display = showComp ? "inline-flex" : "none";
     var navBtns = document.querySelectorAll(".nav-btn");
     for (var i = 0; i < navBtns.length; i++) navBtns[i].classList.remove("active");
     var ab = document.querySelector(".nav-btn.mode-" + mode); if (ab) ab.classList.add("active");
@@ -2143,6 +2195,7 @@ function importMemory(event) {
   },60000);
 
   loadStorage(); updateCompanionBadge();
+  document.getElementById("avatar-toggle-btn").style.display="inline-flex";
   document.getElementById("companions-btn").style.display="inline-flex";
 
   // Init face panel — delayed 5s to avoid colliding with page load requests
