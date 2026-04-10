@@ -281,6 +281,493 @@
     #modal-save-btn   { background: #6e40c9; } #modal-save-btn:hover { background: #8957e5; }
     #modal-cancel-btn { background: #21262d; color: #8b949e; } #modal-cancel-btn:hover { background: #30363d; color: #e6edf3; }
     .memory-badge { font-size: 11px; background: #1a1030; border: 1px solid #bc8cff44; border-radius: 20px; padding: 2px 9px; color: #bc8cff; }
+
+    /* ────────────────────────────────────────────────────────────────────── */
+    /* MOBILE LAYOUT (devices under 768px width)                             */
+    /* ────────────────────────────────────────────────────────────────────── */
+    @media (max-width: 767px) {
+      body {
+        height: 100dvh; /* Use dynamic viewport height on mobile */
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0;
+      }
+
+      #app {
+        width: 100vw;
+        max-width: 100%;
+        height: 100dvh;
+        border: none;
+        border-radius: 0;
+        flex-direction: column;
+      }
+
+      /* ── Mobile Navigation (Bottom bar) ── */
+      #nav {
+        width: 100%;
+        height: 60px;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid #30363d;
+        padding: 0;
+        gap: 0;
+        order: 2; /* Push nav to bottom */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: #0d1117;
+      }
+
+      #nav .nav-logo {
+        display: none; /* Hide logo on mobile */
+      }
+
+      .nav-btn {
+        flex: 1;
+        width: auto;
+        height: 60px;
+        border-radius: 0;
+        gap: 2px;
+        border-left: none;
+        border-top: 3px solid transparent;
+        border-bottom: none;
+        padding: 6px 0;
+        font-size: 10px;
+      }
+
+      .nav-btn .nav-icon {
+        font-size: 24px;
+      }
+
+      .nav-btn:hover {
+        background: #161b22;
+      }
+
+      .nav-btn.active {
+        background: transparent;
+        border-top-color: #238636;
+      }
+
+      .nav-btn.active.mode-sandbox   { border-top-color: #238636; }
+      .nav-btn.active.mode-image     { border-top-color: #1f6feb; }
+      .nav-btn.active.mode-code      { border-top-color: #f78166; }
+      .nav-btn.active.mode-companion { border-top-color: #bc8cff; }
+
+      .nav-divider {
+        display: none; /* Hide divider on mobile */
+      }
+
+      /* ── Main layout vertical stack ── */
+      #main {
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        min-width: 100%;
+        padding-bottom: 60px; /* Account for fixed bottom nav */
+        overflow: hidden;
+      }
+
+      /* ── Mobile Face Panel (hidden by default, shows as overlay) ── */
+      #face-panel {
+        width: 100%;
+        height: 50%;
+        display: none;
+        flex-direction: column;
+        flex-shrink: 1;
+        border-right: none;
+        border-bottom: 1px solid #30363d;
+        position: relative;
+      }
+
+      #face-panel.visible {
+        display: flex;
+      }
+
+      #face-panel-header {
+        gap: 10px;
+      }
+
+      #face-view-toggle {
+        gap: 3px;
+        flex-wrap: wrap;
+      }
+
+      .face-view-btn {
+        padding: 2px 6px;
+        font-size: 9px;
+      }
+
+      /* ── Chat area on mobile ── */
+      #chat-area {
+        flex: 1;
+        width: 100%;
+      }
+
+      #chat-header {
+        padding: 10px 12px;
+        gap: 6px;
+        font-size: smaller;
+      }
+
+      #header-icon {
+        font-size: 16px;
+      }
+
+      #header-title {
+        font-size: 13px;
+      }
+
+      #header-sub {
+        font-size: 10px;
+        display: none; /* Hide subtitle on small screens */
+      }
+
+      #header-right {
+        gap: 4px;
+      }
+
+      .header-chip {
+        font-size: 10px;
+        padding: 2px 8px;
+      }
+
+      #messages {
+        padding: 12px;
+        gap: 12px;
+      }
+
+      .message {
+        max-width: 95%;
+      }
+
+      .message .bubble {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .bubble.image-bubble {
+        min-width: auto;
+        width: 100%;
+      }
+
+      .bubble img {
+        max-height: 300px;
+      }
+
+      #file-preview-wrap {
+        padding: 6px 12px 0;
+        gap: 8px;
+      }
+
+      #file-preview-thumb {
+        width: 48px;
+        height: 48px;
+      }
+
+      #file-preview-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+      }
+
+      #file-preview-name {
+        font-size: 12px;
+      }
+
+      #file-preview-meta {
+        font-size: 10px;
+      }
+
+      #input-area {
+        padding: 10px 12px;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      #input {
+        font-size: 13px;
+        padding: 8px 10px;
+        min-height: 40px;
+      }
+
+      .toolbar-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+        min-height: 40px;
+        min-width: 40px;
+      }
+
+      #lang-select {
+        font-size: 12px;
+        padding: 8px;
+        min-height: 40px;
+      }
+
+      #mode-tip {
+        padding: 15px;
+        font-size: 13px;
+      }
+
+      #mode-tip .tip-icon {
+        font-size: 32px;
+        margin-bottom: 6px;
+      }
+
+      #mode-tip .tip-title {
+        font-size: 14px;
+      }
+
+      /* ── Companion panel on mobile (hidden, full-width modal) ── */
+      #companion-panel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 60px;
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        display: none;
+        border-left: none;
+        border-bottom: none;
+        z-index: 40;
+        border-radius: 0;
+      }
+
+      #companion-panel.visible {
+        display: flex;
+      }
+
+      /* ── Modal on mobile ── */
+      #modal {
+        width: 90vw;
+        max-width: 100%;
+        border-radius: 12px;
+        max-height: 85vh;
+        padding: 16px;
+      }
+
+      #modal h2 {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .form-row {
+        margin-bottom: 10px;
+      }
+
+      .form-row label {
+        font-size: 11px;
+      }
+
+      .form-row input,
+      .form-row select,
+      .form-row textarea {
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+
+      .trait-grid {
+        grid-template-columns: 1fr; /* Stack on mobile */
+      }
+
+      .modal-btn {
+        padding: 8px;
+        font-size: 13px;
+        min-height: 40px;
+      }
+    }
+
+    /* ────────────────────────────────────────────────────────────────────── */
+    /* TABLET LAYOUT (768px - 1024px width)                                  */
+    /* ────────────────────────────────────────────────────────────────────── */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      #app {
+        width: 98vw;
+        height: 95vh;
+        max-width: 100%;
+      }
+
+      #face-panel {
+        width: 180px;
+      }
+
+      #nav {
+        width: 60px;
+      }
+
+      .nav-btn {
+        width: 50px;
+        height: 50px;
+        gap: 2px;
+      }
+
+      .nav-btn .nav-icon {
+        font-size: 18px;
+      }
+
+      .nav-btn span {
+        font-size: 9px;
+      }
+
+      #face-panel-header {
+        padding: 8px 10px;
+      }
+
+      #face-view-toggle {
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .face-view-btn {
+        padding: 2px 5px;
+        font-size: 9px;
+        width: 100%;
+      }
+
+      #chat-header {
+        padding: 10px 14px;
+      }
+
+      #header-right {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .header-chip {
+        font-size: 10px;
+        padding: 2px 6px;
+      }
+
+      #messages {
+        padding: 14px;
+      }
+
+      .message {
+        max-width: 80%;
+      }
+
+      #input-area {
+        padding: 10px 14px;
+        gap: 6px;
+      }
+
+      #input {
+        font-size: 13px;
+        padding: 8px 12px;
+      }
+
+      .toolbar-btn {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      #companion-panel {
+        width: 200px;
+      }
+
+      #cp-header {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+
+      .cp-btn {
+        font-size: 10px;
+        padding: 4px;
+      }
+
+      .cp-footer-btn {
+        font-size: 12px;
+        padding: 8px;
+      }
+    }
+
+    /* ────────────────────────────────────────────────────────────────────── */
+    /* LANDSCAPE ORIENTATION (any device in landscape mode)                  */
+    /* ────────────────────────────────────────────────────────────────────── */
+    @media (orientation: landscape) and (max-height: 500px) {
+      body {
+        height: 100dvh;
+      }
+
+      #app {
+        height: 100dvh;
+        width: 100vw;
+        max-width: 100%;
+      }
+
+      #main {
+        padding-bottom: 50px; /* Smaller nav on landscape mobile */
+      }
+
+      #nav {
+        height: 50px;
+      }
+
+      .nav-btn {
+        height: 50px;
+      }
+
+      #face-panel {
+        height: auto;
+        max-height: 45vh;
+      }
+
+      #chat-header {
+        padding: 8px 12px;
+      }
+
+      #messages {
+        padding: 10px;
+      }
+
+      .message .bubble {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      #input-area {
+        padding: 8px 12px;
+      }
+
+      #input {
+        min-height: 32px;
+        font-size: 12px;
+      }
+
+      .toolbar-btn {
+        padding: 6px 8px;
+        font-size: 11px;
+        min-height: 32px;
+      }
+    }
+
+    /* ────────────────────────────────────────────────────────────────────── */
+    /* LARGE DESKTOP (1200px and above)                                       */
+    /* ────────────────────────────────────────────────────────────────────── */
+    @media (min-width: 1200px) {
+      #app {
+        max-width: 1400px;
+      }
+
+      #face-panel {
+        width: 280px;
+      }
+
+      #companion-panel {
+        width: 300px;
+      }
+
+      #messages {
+        padding: 24px;
+      }
+
+      #input-area {
+        padding: 16px 18px;
+      }
+    }
   </style>
 
   <script src="avatar2d.js"></script>
