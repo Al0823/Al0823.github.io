@@ -205,16 +205,25 @@ function handleFile(file) {
   const reader = new FileReader();
   reader.onload = e => {
     showProgress('Parsing chunks…');
-    setTimeout(() => {
-      try {
-        parsedData = parseDataWin(new DataView(e.target.result), file.name, file.size);
+    const worker = new Worker('parseWorker.js');
+    worker.postMessage({ buffer: e.target.result, filename: file.name, filesize: file.size }, [e.target.result]);
+    worker.onmessage = msg => {
+      worker.terminate();
+      if (msg.data.success) {
+        parsedData = msg.data.parsedData;
         render(file);
-      } catch(err) {
+      } else {
         hideProgress();
         showDrop();
-        alert('Failed to parse: ' + err.message);
+        alert('Failed to parse: ' + msg.data.error);
       }
-    }, 30);
+    };
+    worker.onerror = () => {
+      worker.terminate();
+      hideProgress();
+      showDrop();
+      alert('Parsing failed due to worker error');
+    };
   };
   reader.readAsArrayBuffer(file);
 }
