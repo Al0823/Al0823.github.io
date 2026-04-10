@@ -581,11 +581,11 @@
 
     panel.classList.add("visible");
 
-if (avatarInstance) {
-  var comp = getActiveComp();
-  avatarInstance.view = view;
-  if (comp) avatarInstance.rebuild(comp);
-}
+    if (avatarInstance) {
+      var comp = getActiveComp();
+      avatarInstance.view = view;
+      if (comp) avatarInstance.rebuild(comp);
+    }
   }
 
   function showAvatarPanel(comp) {
@@ -629,8 +629,8 @@ if (avatarInstance) {
         if (canvas && wrap.offsetWidth > 0 && wrap.offsetHeight > 0) {
           canvas.width  = wrap.offsetWidth;
           canvas.height = wrap.offsetHeight;
-avatarInstance.w = canvas.width;
-avatarInstance.h = canvas.height;
+          avatarInstance.W = canvas.width;
+          avatarInstance.H = canvas.height;
         }
       }
     });
@@ -1207,7 +1207,6 @@ async function exportCompanionMemory(comp) {
     var comp = getActiveComp();
     if (comp && avatarView !== "hidden" && (currentMode === "sandbox" || currentMode === "companion")) {
       showAvatarPanel(comp);
-      showAvatarPanel(comp);
     }
   }
 
@@ -1300,7 +1299,6 @@ async function exportCompanionMemory(comp) {
         // cache busting no longer needed for avatar
         // (avatar rebuilds from traits directly)
       }
-      showAvatarPanel(comp);
       showAvatarPanel(comp);
     }
   }
