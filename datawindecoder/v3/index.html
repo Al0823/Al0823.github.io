@@ -425,7 +425,7 @@ function parseTXTR(dv, buffer) {
     return null;
   };
 
-  const scanForImage = (base, maxScan = 4096) => {
+  const scanForImage = (base, maxScan = 512) => {
     const start = Math.max(0, Math.min(buffer.byteLength - 16, base));
     const end = Math.min(buffer.byteLength - 16, start + maxScan);
     for (let p = start; p <= end; p++) {
@@ -473,7 +473,7 @@ function parseTXTR(dv, buffer) {
         const scanBases = [rawDataPtr, rawDataPtr + 4, rawDataPtr + 8, absPtr, absPtr + rawDataPtr, absPtr + 4 + rawDataPtr];
         for (const base of scanBases) {
           if (base < 0 || base >= buffer.byteLength) continue;
-          const found = scanForImage(base, 8192);
+          const found = scanForImage(base, 1024);
           if (found >= 0) {
             const info = detectImageAt(found);
             if (info) {
@@ -1018,13 +1018,14 @@ function renderGEN8(g) {
 }
 
 function renderSTRG(p) {
-  const display = p.strings.slice(0, 500);
+  const limit = Math.min(200, p.count);
+  const display = p.strings.slice(0, limit);
   let html = `<div style="margin-bottom:10px;font-size:.82rem;color:var(--muted)">Showing ${display.length} of ${p.count} strings</div>`;
   html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">String</td></tr>`;
   display.forEach((s, i) => {
-    html += `<tr><td>${i}</td><td>${escHtml(s)}</td></tr>`;
+    html += `<tr><td>${i}</td><td>${escHtml(s.slice(0, 300))}</td></tr>`;
   });
-  if (p.count > 500) html += `<tr><td colspan="2" style="color:var(--muted)">(${p.count - 500} more strings truncated)</td></tr>`;
+  if (p.count > limit) html += `<tr><td colspan="2" style="color:var(--muted)">(${p.count - limit} more strings not shown)</td></tr>`;
   html += '</table>';
   return html;
 }
@@ -1032,22 +1033,25 @@ function renderSTRG(p) {
 function renderNameList(arr, fields) {
   if (!arr.length) return '<em style="color:var(--muted)">No entries</em>';
   let html = `<table class="info-table"><tr>${fields.map(f=>`<td style="font-weight:700">${f}</td>`).join('')}</tr>`;
-  const show = arr.slice(0, 2000);
+  const limit = Math.min(500, arr.length);
+  const show = arr.slice(0, limit);
   show.forEach(item => {
-    html += `<tr>${fields.map(f => `<td>${escHtml(String(item[f] ?? ''))}</td>`).join('')}</tr>`;
+    html += `<tr>${fields.map(f => `<td>${escHtml(String(item[f] ?? '').slice(0, 200))}</td>`).join('')}</tr>`;
   });
-  if (arr.length > 2000) html += `<tr><td colspan="${fields.length}" style="color:var(--muted)">(${arr.length-2000} more truncated)</td></tr>`;
+  if (arr.length > limit) html += `<tr><td colspan="${fields.length}" style="color:var(--muted)">(${arr.length-limit} more not shown)</td></tr>`;
   html += '</table>';
   return html;
 }
 
 function renderTXTRParsed(p) {
   let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">RawPtr</td><td style="font-weight:700">DataPtr</td><td style="font-weight:700">Mode</td><td style="font-weight:700">Type</td><td style="font-weight:700">Action</td></tr>`;
-  p.textures.slice(0, 2000).forEach((t, i) => {
+  const limit = Math.min(500, p.textures.length);
+  p.textures.slice(0, limit).forEach((t, i) => {
     const type = t.imageInfo ? `<span style="color:var(--green)">${escHtml(t.imageInfo.type)}</span>` : '<span style="color:var(--yellow)">unknown</span>';
     const dlBtn = t.imageInfo && t.imageData ? `<button class="btn btn-sm btn-green" onclick="downloadTex(${i})">⬇ ${escHtml(t.imageInfo.ext.slice(1).toUpperCase())}</button>` : '';
     html += `<tr><td>${i}</td><td>0x${(t.rawDataPtr||0).toString(16).toUpperCase().padStart(8,'0')}</td><td>0x${(t.dataPtr||-1).toString(16).toUpperCase().padStart(8,'0')}</td><td>${escHtml(t.dataPtrMode || '')}</td><td>${type}</td><td>${dlBtn}</td></tr>`;
   });
+  if (p.textures.length > limit) html += `<tr><td colspan="6" style="color:var(--muted)">(${p.textures.length - limit} more not shown)</td></tr>`;
   html += '</table>';
   return html;
 }
@@ -1069,11 +1073,13 @@ function renderAUDOParsed(p) {
     </div>`;
   }
   html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td><td style="font-weight:700">First bytes</td></tr>`;
-  p.audios.slice(0, 2000).forEach((a, i) => {
+  const limit = Math.min(500, p.audios.length);
+  p.audios.slice(0, limit).forEach((a, i) => {
     const fmtStr = a.data ? detectAudioFormat(a.data) : 'empty';
     const hexBytes = a.data ? Array.from(a.data.slice(0,8)).map(b=>b.toString(16).padStart(2,'0')).join(' ') : '—';
     html += `<tr><td>${i}</td><td>${fmt(a.len)}</td><td>${fmtStr}</td><td style="font-family:var(--mono);font-size:.75rem;color:var(--muted)">${hexBytes}</td></tr>`;
   });
+  if (p.audios.length > limit) html += `<tr><td colspan="4" style="color:var(--muted)">(${p.audios.length - limit} more not shown)</td></tr>`;
   html += '</table>';
   return html;
 }
@@ -1091,7 +1097,8 @@ function renderTexturesHTML() {
   </div>
   <div style="display:flex;flex-wrap:wrap;gap:14px">`;
 
-  withImages.slice(0, 128).forEach((t, i) => {
+  const textureLimit = Math.min(24, withImages.length);
+  withImages.slice(0, textureLimit).forEach((t, i) => {
     const idx = txtr.textures.indexOf(t);
     const blob = new Blob([t.imageData], { type: t.imageInfo.mime });
     const url = URL.createObjectURL(blob);
@@ -1112,7 +1119,7 @@ function renderTexturesHTML() {
     </div>`;
   });
 
-  if (withImages.length > 128) html += `<div style="padding:20px;color:var(--muted);align-self:center">(${withImages.length-128} more — use Download All)</div>`;
+  if (withImages.length > textureLimit) html += `<div style="padding:20px;color:var(--muted);align-self:center"><em>(${withImages.length-textureLimit} more textures — use Download All to retrieve them)</em></div>`;
   html += '</div>';
   return html;
 }
@@ -1299,7 +1306,7 @@ function dl(blob, filename) {
 
 // ─── Hex view ────────────────────────────────────────────────────────────────
 function renderHex(bytes) {
-  const limit = Math.min(bytes.length, 4096);
+  const limit = Math.min(bytes.length, 2048);
   let html = `<table class="hex-table">`;
   for (let i = 0; i < limit; i += 16) {
     const row = bytes.slice(i, i + 16);
@@ -1308,7 +1315,7 @@ function renderHex(bytes) {
     const ascii = Array.from(row).map(b => (b >= 32 && b < 127) ? String.fromCharCode(b) : '.').join('');
     html += `<tr class="hex-row"><td class="hex-offset">${offset}</td><td class="hex-bytes">${hex.padEnd(47)}</td><td class="hex-ascii">${escHtml(ascii)}</td></tr>`;
   }
-  if (bytes.length > 4096) html += `<tr><td colspan="3" style="color:var(--muted);padding:8px">(showing first 4 KB of ${fmt(bytes.length)})</td></tr>`;
+  if (bytes.length > 2048) html += `<tr><td colspan="3" style="color:var(--muted);padding:8px">(showing first 2 KB of ${fmt(bytes.length)})</td></tr>`;
   html += '</table>';
   return html;
 }
