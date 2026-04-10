@@ -361,18 +361,73 @@ function parseTXTR(dv, buffer) {
   const count = dv.getUint32(0, true);
   const textures = [];
   const fullDv = new DataView(buffer);
-  const pngSig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
 
-  const isPngAt = (ptr) => {
-    if (ptr < 0 || ptr + 8 > buffer.byteLength) return false;
-    const bytes = new Uint8Array(buffer, ptr, 8);
-    return pngSig.every((b, i) => bytes[i] === b);
+  const detectImageAt = (ptr) => {
+    if (ptr < 0 || ptr + 16 > buffer.byteLength) return null;
+    const bytes = new Uint8Array(buffer, ptr, Math.min(32, buffer.byteLength - ptr));
+    const isPng = bytes[0]===0x89 && bytes[1]===0x50 && bytes[2]===0x4e && bytes[3]===0x47 &&
+                  bytes[4]===0x0d && bytes[5]===0x0a && bytes[6]===0x1a && bytes[7]===0x0a;
+    if (isPng) {
+      let pos = ptr + 8;
+      let pngLen = 0;
+      const maxEnd = Math.min(ptr + 32 * 1024 * 1024, buffer.byteLength);
+      while (pos + 12 <= maxEnd) {
+        const chunkLen = fullDv.getUint32(pos, false);
+        const type = String.fromCharCode(...new Uint8Array(buffer, pos + 4, 4));
+        pos += 12 + chunkLen;
+        if (type === 'IEND') { pngLen = pos - ptr; break; }
+        if (chunkLen > 16 * 1024 * 1024) break;
+      }
+      if (!pngLen && pos > ptr + 8) pngLen = pos - ptr;
+      if (!pngLen) pngLen = Math.min(8 * 1024 * 1024, buffer.byteLength - ptr);
+      return { type: 'PNG', mime: 'image/png', ext: '.png', len: pngLen };
+    }
+
+    const isJpeg = bytes[0]===0xff && bytes[1]===0xd8 && bytes[2]===0xff;
+    if (isJpeg) {
+      let pos = ptr + 2;
+      const maxEnd = Math.min(ptr + 32 * 1024 * 1024, buffer.byteLength);
+      while (pos + 1 < maxEnd) {
+        if (buffer[pos] === 0xff && buffer[pos+1] === 0xd9) {
+          return { type: 'JPEG', mime: 'image/jpeg', ext: '.jpg', len: pos + 2 - ptr };
+        }
+        pos++;
+      }
+      return { type: 'JPEG', mime: 'image/jpeg', ext: '.jpg', len: Math.min(8 * 1024 * 1024, buffer.byteLength - ptr) };
+    }
+
+    const isGif = bytes[0]===0x47 && bytes[1]===0x49 && bytes[2]===0x46 && bytes[3]===0x38 && (bytes[4]===0x39 || bytes[4]===0x37) && bytes[5]===0x61;
+    if (isGif) {
+      let pos = ptr + 6;
+      const maxEnd = Math.min(ptr + 32 * 1024 * 1024, buffer.byteLength);
+      while (pos < maxEnd) {
+        if (buffer[pos] === 0x3b) return { type: 'GIF', mime: 'image/gif', ext: '.gif', len: pos + 1 - ptr };
+        pos++;
+      }
+      return { type: 'GIF', mime: 'image/gif', ext: '.gif', len: Math.min(8 * 1024 * 1024, buffer.byteLength - ptr) };
+    }
+
+    const isBmp = bytes[0]===0x42 && bytes[1]===0x4d;
+    if (isBmp && ptr + 6 <= buffer.byteLength) {
+      const size = fullDv.getUint32(ptr + 2, true);
+      if (size > 0 && ptr + size <= buffer.byteLength) return { type: 'BMP', mime: 'image/bmp', ext: '.bmp', len: size };
+    }
+
+    const isWebp = bytes[0]===0x52 && bytes[1]===0x49 && bytes[2]===0x46 && bytes[3]===0x46 &&
+                   bytes[8]===0x57 && bytes[9]===0x45 && bytes[10]===0x42 && bytes[11]===0x50;
+    if (isWebp && ptr + 12 <= buffer.byteLength) {
+      const size = fullDv.getUint32(ptr + 4, true);
+      if (size > 0 && ptr + 8 + size <= buffer.byteLength) return { type: 'WEBP', mime: 'image/webp', ext: '.webp', len: size + 8 };
+      return { type: 'WEBP', mime: 'image/webp', ext: '.webp', len: Math.min(8 * 1024 * 1024, buffer.byteLength - ptr) };
+    }
+
+    return null;
   };
 
-  const scanForPng = (base, maxScan = 512) => {
-    const end = Math.min(buffer.byteLength - 8, base + maxScan);
+  const scanForImage = (base, maxScan = 512) => {
+    const end = Math.min(buffer.byteLength - 16, base + maxScan);
     for (let p = Math.max(0, base); p <= end; p++) {
-      if (isPngAt(p)) return p;
+      if (detectImageAt(p)) return p;
     }
     return -1;
   };
@@ -392,54 +447,46 @@ function parseTXTR(dv, buffer) {
         absPtr + 4 + rawDataPtr,
         absPtr + 8 + rawDataPtr,
         rawDataPtr + 4,
-        rawDataPtr + 8,
-        fullDv.getUint32(absPtr + 8, true) || -1
+        rawDataPtr + 8
       ];
-
       let dataPtr = -1;
+      let imageInfo = null;
       let pointerMode = 'UNKNOWN';
+
       for (const candidate of candidates) {
-        if (isPngAt(candidate)) {
+        const info = detectImageAt(candidate);
+        if (info) {
           dataPtr = candidate;
+          imageInfo = info;
           pointerMode = 'FOUND_DIRECT';
           break;
         }
       }
-      if (dataPtr < 0) {
+      if (!imageInfo) {
         for (const candidate of candidates) {
           if (candidate >= 0 && candidate < buffer.byteLength) {
-            const found = scanForPng(candidate, 256);
+            const found = scanForImage(candidate, 256);
             if (found >= 0) {
-              dataPtr = found;
-              pointerMode = 'FOUND_SCAN';
-              break;
+              const info = detectImageAt(found);
+              if (info) {
+                dataPtr = found;
+                imageInfo = info;
+                pointerMode = 'FOUND_SCAN';
+                break;
+              }
             }
           }
         }
       }
 
-      let isPng = dataPtr >= 0 && isPngAt(dataPtr);
-      let pngData = null;
-      if (isPng) {
-        let pos = dataPtr + 8; // skip PNG sig
-        let pngLen = 0;
-        const maxEnd = Math.min(dataPtr + 32 * 1024 * 1024, buffer.byteLength);
-        while (pos + 12 <= maxEnd) {
-          const chunkLen = fullDv.getUint32(pos, false);
-          const typeBytes = new Uint8Array(buffer, pos + 4, 4);
-          const type = String.fromCharCode(...typeBytes);
-          pos += 12 + chunkLen;
-          if (type === 'IEND') { pngLen = pos - dataPtr; break; }
-          if (chunkLen > 16 * 1024 * 1024) break;
-        }
-        if (!pngLen && pos > dataPtr + 8) pngLen = pos - dataPtr;
-        if (!pngLen) pngLen = Math.min(8 * 1024 * 1024, buffer.byteLength - dataPtr);
-        pngData = new Uint8Array(buffer, dataPtr, pngLen);
+      let imageData = null;
+      if (imageInfo) {
+        imageData = new Uint8Array(buffer, dataPtr, imageInfo.len);
       }
 
-      textures.push({ scaled, dataPtr, dataPtrMode: pointerMode, rawDataPtr, isPng, pngData });
+      textures.push({ scaled, dataPtr, dataPtrMode: pointerMode, rawDataPtr, imageInfo, imageData });
     } catch(e) {
-      textures.push({ scaled: 0, dataPtr: -1, dataPtrMode: 'ERROR', rawDataPtr: 0, isPng: false, pngData: null });
+      textures.push({ scaled: 0, dataPtr: -1, dataPtrMode: 'ERROR', rawDataPtr: 0, imageInfo: null, imageData: null });
     }
   }
   return { count, textures };
@@ -992,8 +1039,8 @@ function renderNameList(arr, fields) {
 function renderTXTRParsed(p) {
   let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">RawPtr</td><td style="font-weight:700">DataPtr</td><td style="font-weight:700">Mode</td><td style="font-weight:700">Type</td><td style="font-weight:700">Action</td></tr>`;
   p.textures.slice(0, 2000).forEach((t, i) => {
-    const type = t.isPng ? '<span style="color:var(--green)">PNG</span>' : '<span style="color:var(--yellow)">unknown</span>';
-    const dlBtn = t.isPng && t.pngData ? `<button class="btn btn-sm btn-green" onclick="downloadTex(${i})">⬇ PNG</button>` : '';
+    const type = t.imageInfo ? `<span style="color:var(--green)">${escHtml(t.imageInfo.type)}</span>` : '<span style="color:var(--yellow)">unknown</span>';
+    const dlBtn = t.imageInfo && t.imageData ? `<button class="btn btn-sm btn-green" onclick="downloadTex(${i})">⬇ ${escHtml(t.imageInfo.ext.slice(1).toUpperCase())}</button>` : '';
     html += `<tr><td>${i}</td><td>0x${(t.rawDataPtr||0).toString(16).toUpperCase().padStart(8,'0')}</td><td>0x${(t.dataPtr||-1).toString(16).toUpperCase().padStart(8,'0')}</td><td>${escHtml(t.dataPtrMode || '')}</td><td>${type}</td><td>${dlBtn}</td></tr>`;
   });
   html += '</table>';
@@ -1029,36 +1076,38 @@ function renderAUDOParsed(p) {
 function renderTexturesHTML() {
   const txtr = parsedData.parsed.TXTR;
   if (!txtr) return '<em>No texture data</em>';
-  const withPng = txtr.textures.filter(t => t.isPng && t.pngData);
-  const noData = txtr.textures.filter(t => !t.isPng).length;
+  const withImages = txtr.textures.filter(t => t.imageInfo && t.imageData);
+  const noData = txtr.textures.filter(t => !t.imageInfo).length;
 
   const gameName = (parsedData.filename || 'texture').replace(/\.[^.]+$/, '');
   let html = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
-    <span style="font-size:.82rem;color:var(--muted)">${withPng.length} embedded texture sheet(s) found${noData ? ` · ${noData} other entries have unrecognized data` : ''}</span>
-    ${withPng.length ? `<button class="btn btn-sm btn-green" onclick="downloadAllTextures()">⬇ Download All (${withPng.length})</button>` : ''}
+    <span style="font-size:.82rem;color:var(--muted)">${withImages.length} embedded image(s) found${noData ? ` · ${noData} entries have unrecognized image data` : ''}</span>
+    ${withImages.length ? `<button class="btn btn-sm btn-green" onclick="downloadAllTextures()">⬇ Download All (${withImages.length})</button>` : ''}
   </div>
   <div style="display:flex;flex-wrap:wrap;gap:14px">`;
 
-  withPng.slice(0, 128).forEach((t, i) => {
+  withImages.slice(0, 128).forEach((t, i) => {
     const idx = txtr.textures.indexOf(t);
-    const blob = new Blob([t.pngData], { type: 'image/png' });
+    const blob = new Blob([t.imageData], { type: t.imageInfo.mime });
     const url = URL.createObjectURL(blob);
-    // Get PNG dimensions from IHDR (bytes 16-24 of PNG)
-    let w = '?', h = '?';
-    try {
-      const dv2 = new DataView(t.pngData.buffer, t.pngData.byteOffset, t.pngData.byteLength);
-      w = dv2.getUint32(16, false);
-      h = dv2.getUint32(20, false);
-    } catch(e) {}
+    let sizeText = fmt(t.imageData.length);
+    if (t.imageInfo.type === 'PNG') {
+      try {
+        const dv2 = new DataView(t.imageData.buffer, t.imageData.byteOffset, t.imageData.byteLength);
+        const w = dv2.getUint32(16, false);
+        const h = dv2.getUint32(20, false);
+        sizeText = `${w}×${h} · ${sizeText}`;
+      } catch(e) {}
+    }
     html += `<div class="sprite-card" style="min-width:120px;max-width:160px">
       <img src="${url}" style="max-width:140px;max-height:140px;image-rendering:pixelated;display:block;margin:0 auto;border-radius:4px;background:#111">
       <p style="margin-top:6px">Tex #${idx}</p>
-      <p style="color:var(--muted)">${w}×${h} · ${fmt(t.pngData.length)}</p>
-      <button class="btn btn-sm btn-green" style="margin-top:6px;width:100%" onclick="downloadTex(${idx},'${gameName}')">⬇ PNG</button>
+      <p style="color:var(--muted)">${escHtml(t.imageInfo.type)} · ${sizeText}</p>
+      <button class="btn btn-sm btn-green" style="margin-top:6px;width:100%" onclick="downloadTex(${idx},'${gameName}')">⬇ ${escHtml(t.imageInfo.type)}</button>
     </div>`;
   });
 
-  if (withPng.length > 128) html += `<div style="padding:20px;color:var(--muted);align-self:center">(${withPng.length-128} more — use Download All)</div>`;
+  if (withImages.length > 128) html += `<div style="padding:20px;color:var(--muted);align-self:center">(${withImages.length-128} more — use Download All)</div>`;
   html += '</div>';
   return html;
 }
@@ -1067,9 +1116,11 @@ function downloadAllTextures() {
   const txtr = parsedData.parsed.TXTR;
   if (!txtr) return;
   const gameName = (parsedData.filename || 'texture').replace(/\.[^.]+$/, '');
+  let delay = 0;
   txtr.textures.forEach((t, idx) => {
-    if (t.isPng && t.pngData) {
-      setTimeout(() => downloadTex(idx, gameName), idx * 80);
+    if (t.imageInfo && t.imageData) {
+      setTimeout(() => downloadTex(idx, gameName), delay);
+      delay += 80;
     }
   });
 }
@@ -1228,10 +1279,10 @@ function detectAudioFormat(data) {
 
 function downloadTex(idx, gameName) {
   const t = parsedData.parsed.TXTR.textures[idx];
-  if (!t || !t.pngData) return;
+  if (!t || !t.imageData || !t.imageInfo) return;
   const base = gameName || (parsedData.filename || 'texture').replace(/\.[^.]+$/, '');
-  const blob = new Blob([t.pngData], { type: 'image/png' });
-  dl(blob, `${base}_texture_${idx}.png`);
+  const blob = new Blob([t.imageData], { type: t.imageInfo.mime });
+  dl(blob, `${base}_texture_${idx}${t.imageInfo.ext}`);
 }
 
 function dl(blob, filename) {
