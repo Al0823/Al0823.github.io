@@ -363,7 +363,7 @@ function parseTXTR(dv, buffer) {
   const fullDv = new DataView(buffer);
 
   const detectImageAt = (ptr) => {
-    if (ptr < 0 || ptr + 16 > buffer.byteLength) return null;
+    if (ptr < 0 || ptr + 8 > buffer.byteLength) return null;
     const bytes = new Uint8Array(buffer, ptr, Math.min(32, buffer.byteLength - ptr));
     const isPng = bytes[0]===0x89 && bytes[1]===0x50 && bytes[2]===0x4e && bytes[3]===0x47 &&
                   bytes[4]===0x0d && bytes[5]===0x0a && bytes[6]===0x1a && bytes[7]===0x0a;
@@ -396,7 +396,8 @@ function parseTXTR(dv, buffer) {
       return { type: 'JPEG', mime: 'image/jpeg', ext: '.jpg', len: Math.min(8 * 1024 * 1024, buffer.byteLength - ptr) };
     }
 
-    const isGif = bytes[0]===0x47 && bytes[1]===0x49 && bytes[2]===0x46 && bytes[3]===0x38 && (bytes[4]===0x39 || bytes[4]===0x37) && bytes[5]===0x61;
+    const isGif = bytes[0]===0x47 && bytes[1]===0x49 && bytes[2]===0x46 && bytes[3]===0x38 &&
+                  (bytes[4]===0x39 || bytes[4]===0x37) && bytes[5]===0x61;
     if (isGif) {
       let pos = ptr + 6;
       const maxEnd = Math.min(ptr + 32 * 1024 * 1024, buffer.byteLength);
@@ -424,9 +425,10 @@ function parseTXTR(dv, buffer) {
     return null;
   };
 
-  const scanForImage = (base, maxScan = 512) => {
-    const end = Math.min(buffer.byteLength - 16, base + maxScan);
-    for (let p = Math.max(0, base); p <= end; p++) {
+  const scanForImage = (base, maxScan = 4096) => {
+    const start = Math.max(0, Math.min(buffer.byteLength - 16, base));
+    const end = Math.min(buffer.byteLength - 16, start + maxScan);
+    for (let p = start; p <= end; p++) {
       if (detectImageAt(p)) return p;
     }
     return -1;
@@ -437,23 +439,27 @@ function parseTXTR(dv, buffer) {
     if (ptrOff + 4 > dv.byteLength) break;
     try {
       const absPtr = dv.getUint32(ptrOff, true);
-      if (absPtr + 8 > buffer.byteLength) break;
+      if (absPtr + 8 > buffer.byteLength) { textures.push({ scaled: 0, dataPtr: -1, dataPtrMode: 'INVALID_ENTRY', rawDataPtr: 0, imageInfo: null, imageData: null }); continue; }
 
       const scaled = fullDv.getUint32(absPtr, true);
       const rawDataPtr = fullDv.getUint32(absPtr + 4, true);
       const candidates = [
         rawDataPtr,
-        absPtr + rawDataPtr,
-        absPtr + 4 + rawDataPtr,
-        absPtr + 8 + rawDataPtr,
         rawDataPtr + 4,
-        rawDataPtr + 8
+        rawDataPtr + 8,
+        absPtr + rawDataPtr,
+        absPtr + rawDataPtr + 4,
+        absPtr + rawDataPtr + 8,
+        absPtr + 4,
+        absPtr + 8
       ];
+
       let dataPtr = -1;
       let imageInfo = null;
       let pointerMode = 'UNKNOWN';
 
       for (const candidate of candidates) {
+        if (candidate < 0 || candidate >= buffer.byteLength) continue;
         const info = detectImageAt(candidate);
         if (info) {
           dataPtr = candidate;
@@ -462,28 +468,25 @@ function parseTXTR(dv, buffer) {
           break;
         }
       }
+
       if (!imageInfo) {
-        for (const candidate of candidates) {
-          if (candidate >= 0 && candidate < buffer.byteLength) {
-            const found = scanForImage(candidate, 256);
-            if (found >= 0) {
-              const info = detectImageAt(found);
-              if (info) {
-                dataPtr = found;
-                imageInfo = info;
-                pointerMode = 'FOUND_SCAN';
-                break;
-              }
+        const scanBases = [rawDataPtr, rawDataPtr + 4, rawDataPtr + 8, absPtr, absPtr + rawDataPtr, absPtr + 4 + rawDataPtr];
+        for (const base of scanBases) {
+          if (base < 0 || base >= buffer.byteLength) continue;
+          const found = scanForImage(base, 8192);
+          if (found >= 0) {
+            const info = detectImageAt(found);
+            if (info) {
+              dataPtr = found;
+              imageInfo = info;
+              pointerMode = 'FOUND_SCAN';
+              break;
             }
           }
         }
       }
 
-      let imageData = null;
-      if (imageInfo) {
-        imageData = new Uint8Array(buffer, dataPtr, imageInfo.len);
-      }
-
+      const imageData = imageInfo ? new Uint8Array(buffer, dataPtr, imageInfo.len) : null;
       textures.push({ scaled, dataPtr, dataPtrMode: pointerMode, rawDataPtr, imageInfo, imageData });
     } catch(e) {
       textures.push({ scaled: 0, dataPtr: -1, dataPtrMode: 'ERROR', rawDataPtr: 0, imageInfo: null, imageData: null });
@@ -499,7 +502,7 @@ function parseAUDO(dv, buffer) {
   const chunkBase = dv.byteOffset;
 
   const getLengthAt = (ptr) => {
-    if (ptr + 4 > buffer.byteLength) return { valid: false, len: -1 };
+    if (ptr < 0 || ptr + 4 > buffer.byteLength) return { valid: false, len: -1 };
     const len = fullDv.getUint32(ptr, true);
     return { valid: len > 0 && len < 50 * 1024 * 1024 && ptr + 4 + len <= buffer.byteLength, len };
   };
@@ -556,10 +559,12 @@ function parseAUDO(dv, buffer) {
       if (!result.valid) {
         const fallbackPtrs = [
           storedPtr,
+          storedPtr + 4,
+          storedPtr + 8,
           chunkBase + storedPtr,
-          chunkBase + 4 + storedPtr,
-          chunkBase + storedPtr - 4,
-          chunkBase + storedPtr + 4
+          chunkBase + storedPtr + 4,
+          chunkBase + storedPtr + 8,
+          chunkBase + storedPtr - 4
         ];
         for (const candidate of fallbackPtrs) {
           const candidateResult = getLengthAt(candidate);
