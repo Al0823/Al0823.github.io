@@ -361,52 +361,76 @@ function parseTXTR(dv, buffer) {
   const count = dv.getUint32(0, true);
   const textures = [];
   const fullDv = new DataView(buffer);
+  const pngSig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+
+  const isPngAt = (ptr) => {
+    if (ptr < 0 || ptr + 8 > buffer.byteLength) return false;
+    const bytes = new Uint8Array(buffer, ptr, 8);
+    return pngSig.every((b, i) => bytes[i] === b);
+  };
+
+  const scanForPng = (base, maxScan = 512) => {
+    const end = Math.min(buffer.byteLength - 8, base + maxScan);
+    for (let p = Math.max(0, base); p <= end; p++) {
+      if (isPngAt(p)) return p;
+    }
+    return -1;
+  };
 
   for (let i = 0; i < count && i < 2048; i++) {
     const ptrOff = 4 + i * 4;
     if (ptrOff + 4 > dv.byteLength) break;
     try {
-      // Pointer list entries are absolute file offsets in GMS
       const absPtr = dv.getUint32(ptrOff, true);
       if (absPtr + 8 > buffer.byteLength) break;
 
-      const scaled  = fullDv.getUint32(absPtr, true);
+      const scaled = fullDv.getUint32(absPtr, true);
       const rawDataPtr = fullDv.getUint32(absPtr + 4, true);
-      let dataPtr = rawDataPtr;
-      let pointerMode = 'ABSOLUTE';
-      const tryPtr = (ptr) => ptr + 8 <= buffer.byteLength &&
-        buffer.byteLength > ptr &&
-        new Uint8Array(buffer, ptr, 8)[0] === 0x89 &&
-        new Uint8Array(buffer, ptr, 8)[1] === 0x50 &&
-        new Uint8Array(buffer, ptr, 8)[2] === 0x4e &&
-        new Uint8Array(buffer, ptr, 8)[3] === 0x47 &&
-        new Uint8Array(buffer, ptr, 8)[4] === 0x0d &&
-        new Uint8Array(buffer, ptr, 8)[5] === 0x0a &&
-        new Uint8Array(buffer, ptr, 8)[6] === 0x1a &&
-        new Uint8Array(buffer, ptr, 8)[7] === 0x0a;
+      const candidates = [
+        rawDataPtr,
+        absPtr + rawDataPtr,
+        absPtr + 4 + rawDataPtr,
+        absPtr + 8 + rawDataPtr,
+        rawDataPtr + 4,
+        rawDataPtr + 8,
+        fullDv.getUint32(absPtr + 8, true) || -1
+      ];
 
-      if (rawDataPtr + 8 > buffer.byteLength || !tryPtr(rawDataPtr)) {
-        const relPtr = absPtr + rawDataPtr;
-        if (tryPtr(relPtr)) { dataPtr = relPtr; pointerMode = 'RELATIVE_ABS'; }
-        else if (tryPtr(absPtr + 4 + rawDataPtr)) { dataPtr = absPtr + 4 + rawDataPtr; pointerMode = 'RELATIVE_DATA'; }
+      let dataPtr = -1;
+      let pointerMode = 'UNKNOWN';
+      for (const candidate of candidates) {
+        if (isPngAt(candidate)) {
+          dataPtr = candidate;
+          pointerMode = 'FOUND_DIRECT';
+          break;
+        }
+      }
+      if (dataPtr < 0) {
+        for (const candidate of candidates) {
+          if (candidate >= 0 && candidate < buffer.byteLength) {
+            const found = scanForPng(candidate, 256);
+            if (found >= 0) {
+              dataPtr = found;
+              pointerMode = 'FOUND_SCAN';
+              break;
+            }
+          }
+        }
       }
 
-      const b = new Uint8Array(buffer, dataPtr, Math.min(8, buffer.byteLength - dataPtr));
-      const isPng = b[0]===0x89 && b[1]===0x50 && b[2]===0x4e && b[3]===0x47 &&
-                    b[4]===0x0d && b[5]===0x0a && b[6]===0x1a && b[7]===0x0a;
-
+      let isPng = dataPtr >= 0 && isPngAt(dataPtr);
       let pngData = null;
       if (isPng) {
         let pos = dataPtr + 8; // skip PNG sig
         let pngLen = 0;
         const maxEnd = Math.min(dataPtr + 32 * 1024 * 1024, buffer.byteLength);
         while (pos + 12 <= maxEnd) {
-          const chunkLen = fullDv.getUint32(pos, false); // big-endian
+          const chunkLen = fullDv.getUint32(pos, false);
           const typeBytes = new Uint8Array(buffer, pos + 4, 4);
           const type = String.fromCharCode(...typeBytes);
-          pos += 12 + chunkLen; // 4 len + 4 type + data + 4 crc
+          pos += 12 + chunkLen;
           if (type === 'IEND') { pngLen = pos - dataPtr; break; }
-          if (chunkLen > 16 * 1024 * 1024) break; // sanity guard
+          if (chunkLen > 16 * 1024 * 1024) break;
         }
         if (!pngLen && pos > dataPtr + 8) pngLen = pos - dataPtr;
         if (!pngLen) pngLen = Math.min(8 * 1024 * 1024, buffer.byteLength - dataPtr);
@@ -414,7 +438,9 @@ function parseTXTR(dv, buffer) {
       }
 
       textures.push({ scaled, dataPtr, dataPtrMode: pointerMode, rawDataPtr, isPng, pngData });
-    } catch(e) { textures.push({ scaled: 0, dataPtr: 0, isPng: false, pngData: null }); }
+    } catch(e) {
+      textures.push({ scaled: 0, dataPtr: -1, dataPtrMode: 'ERROR', rawDataPtr: 0, isPng: false, pngData: null });
+    }
   }
   return { count, textures };
 }
@@ -435,6 +461,7 @@ function parseAUDO(dv, buffer) {
     { name: 'ABSOLUTE', resolve: (stored) => stored },
     { name: 'RELATIVE_CHUNK', resolve: (stored) => chunkBase + stored },
     { name: 'RELATIVE_CHUNK_PLUS4', resolve: (stored) => chunkBase + 4 + stored },
+    { name: 'RELATIVE_CHUNK_MINUS4', resolve: (stored) => chunkBase + stored - 4 },
   ];
 
   let bestScheme = schemes[0];
@@ -477,10 +504,27 @@ function parseAUDO(dv, buffer) {
     if (ptrOff + 4 > dv.byteLength) break;
     try {
       const storedPtr = dv.getUint32(ptrOff, true);
-      const absPtr = bestScheme.resolve(storedPtr);
-      const { valid, len } = getLengthAt(absPtr);
-      if (!valid) { audios.push({ len: 0, data: null }); continue; }
-      audios.push({ len, data: new Uint8Array(buffer, absPtr + 4, len) });
+      let absPtr = bestScheme.resolve(storedPtr);
+      let result = getLengthAt(absPtr);
+      if (!result.valid) {
+        const fallbackPtrs = [
+          storedPtr,
+          chunkBase + storedPtr,
+          chunkBase + 4 + storedPtr,
+          chunkBase + storedPtr - 4,
+          chunkBase + storedPtr + 4
+        ];
+        for (const candidate of fallbackPtrs) {
+          const candidateResult = getLengthAt(candidate);
+          if (candidateResult.valid) {
+            absPtr = candidate;
+            result = candidateResult;
+            break;
+          }
+        }
+      }
+      if (!result.valid) { audios.push({ len: 0, data: null }); continue; }
+      audios.push({ len: result.len, data: new Uint8Array(buffer, absPtr + 4, result.len) });
     } catch(e) { audios.push({ len: 0, data: null }); }
   }
   return { count, audios, debugInfo };
@@ -946,11 +990,11 @@ function renderNameList(arr, fields) {
 }
 
 function renderTXTRParsed(p) {
-  let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Offset</td><td style="font-weight:700">Type</td><td style="font-weight:700">Action</td></tr>`;
+  let html = `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">RawPtr</td><td style="font-weight:700">DataPtr</td><td style="font-weight:700">Mode</td><td style="font-weight:700">Type</td><td style="font-weight:700">Action</td></tr>`;
   p.textures.slice(0, 2000).forEach((t, i) => {
     const type = t.isPng ? '<span style="color:var(--green)">PNG</span>' : '<span style="color:var(--yellow)">unknown</span>';
     const dlBtn = t.isPng && t.pngData ? `<button class="btn btn-sm btn-green" onclick="downloadTex(${i})">⬇ PNG</button>` : '';
-    html += `<tr><td>${i}</td><td>0x${(t.dataPtr||0).toString(16).toUpperCase().padStart(8,'0')}</td><td>${type}</td><td>${dlBtn}</td></tr>`;
+    html += `<tr><td>${i}</td><td>0x${(t.rawDataPtr||0).toString(16).toUpperCase().padStart(8,'0')}</td><td>0x${(t.dataPtr||-1).toString(16).toUpperCase().padStart(8,'0')}</td><td>${escHtml(t.dataPtrMode || '')}</td><td>${type}</td><td>${dlBtn}</td></tr>`;
   });
   html += '</table>';
   return html;
@@ -965,10 +1009,11 @@ function renderAUDOParsed(p) {
       chunkBase = 0x${d.chunkBase.toString(16).toUpperCase()}<br>
       firstStoredPtr = 0x${d.firstStoredPtr.toString(16).toUpperCase()}<br>
       <br>
-      <strong>Absolute</strong> (ptr = file offset ${d.absOff}): len=${d.absLen} ${d.absValid?'✓ valid':'✗ invalid'} · bytes: ${d.absBytes}<br>
-      <strong>Relative</strong> (ptr + chunkBase = ${d.relOff}): len=${d.relLen} ${d.relValid?'✓ valid':'✗ invalid'} · bytes: ${d.relBytes}<br>
+      <strong>Absolute</strong> (ptr = file offset ${d.abs.offset}): len=${d.abs.len} ${d.abs.valid?'✓ valid':'✗ invalid'} · bytes: ${d.abs.bytes}<br>
+      <strong>Relative</strong> (ptr + chunkBase = ${d.rel.offset}): len=${d.rel.len} ${d.rel.valid?'✓ valid':'✗ invalid'} · bytes: ${d.rel.bytes}<br>
+      <strong>Relative+4</strong> (ptr + chunkBase + 4 = ${d.relPlus4.offset}): len=${d.relPlus4.len} ${d.relPlus4.valid?'✓ valid':'✗ invalid'} · bytes: ${d.relPlus4.bytes}<br>
       <br>
-      Using: <strong style="color:var(--green)">${d.useAbsolute ? 'ABSOLUTE' : 'RELATIVE'}</strong>
+      Using: <strong style="color:var(--green)">${d.scheme}</strong>
     </div>`;
   }
   html += `<table class="info-table"><tr><td style="font-weight:700">#</td><td style="font-weight:700">Size</td><td style="font-weight:700">Format</td><td style="font-weight:700">First bytes</td></tr>`;
@@ -1052,9 +1097,10 @@ function renderAudioHTML() {
     const d = audo.debugInfo;
     debugHtml = `<div class="warn-box" style="font-family:var(--mono);font-size:.75rem;margin-bottom:10px">
       <strong>Debug:</strong> chunkBase=0x${d.chunkBase.toString(16).toUpperCase()} · firstStoredPtr=0x${d.firstStoredPtr.toString(16).toUpperCase()}<br>
-      Abs offset ${d.absOff}: len=${d.absLen} (${d.absValid?'✓':'✗'}) bytes=[${d.absBytes}]<br>
-      Rel offset ${d.relOff}: len=${d.relLen} (${d.relValid?'✓':'✗'}) bytes=[${d.relBytes}]<br>
-      Using: <strong>${d.useAbsolute?'ABSOLUTE':'RELATIVE'}</strong>
+      Abs offset ${d.abs.offset}: len=${d.abs.len} (${d.abs.valid?'✓':'✗'}) bytes=[${d.abs.bytes}]<br>
+      Rel offset ${d.rel.offset}: len=${d.rel.len} (${d.rel.valid?'✓':'✗'}) bytes=[${d.rel.bytes}]<br>
+      Rel+4 offset ${d.relPlus4.offset}: len=${d.relPlus4.len} (${d.relPlus4.valid?'✓':'✗'}) bytes=[${d.relPlus4.bytes}]<br>
+      Using: <strong>${d.scheme}</strong>
     </div>`;
   }
 
