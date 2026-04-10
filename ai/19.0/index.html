@@ -534,11 +534,6 @@
       if (building) building.innerHTML = "<div style='color:#8b949e;font-size:12px;padding:12px;text-align:center'>Avatar failed to load.<br><small>" + e.message + "</small></div>";
       return;
     }
-    } catch(e) {
-      console.error("Avatar init error:", e);
-      if (building) building.innerHTML = "<div style='color:#8b949e;font-size:12px;padding:12px;text-align:center'>Avatar failed to load.<br><small>" + e.message + "</small></div>";
-      return;
-    }
 
     // Store base values and hide spinner after first render
     setTimeout(function() {
