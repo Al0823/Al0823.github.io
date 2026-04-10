@@ -895,11 +895,11 @@ function renderChunk(name) {
   panels.innerHTML = panelsHTML;
 
   // Lazy render hex
-  setTimeout(() => {
+  requestAnimationFrame(() => {
     const hexEl = document.getElementById(`hex-lazy-${name}`);
     if (hexEl) hexEl.outerHTML = renderHex(c.raw);
-  }, 20);
-  setTimeout(() => {
+  });
+  requestAnimationFrame(() => {
     const jsonEl = document.getElementById(`json-lazy-${name}`);
     if (jsonEl) {
       const obj = d.parsed[name] || { offset: c.offset, size: c.size };
@@ -910,7 +910,7 @@ function renderChunk(name) {
     if (tEl) { tEl.outerHTML = renderTexturesHTML(); }
     const aEl = document.getElementById('audio-lazy');
     if (aEl) { aEl.outerHTML = renderAudioHTML(); }
-  }, 40);
+  });
 }
 
 function switchTab(idx, el) {
@@ -1085,6 +1085,10 @@ function renderAUDOParsed(p) {
 }
 
 function renderTexturesHTML() {
+  // Revoke old texture blob URLs to free memory
+  _textureBlobUrls.forEach(url => URL.revokeObjectURL(url));
+  _textureBlobUrls = [];
+
   const txtr = parsedData.parsed.TXTR;
   if (!txtr) return '<em>No texture data</em>';
   const withImages = txtr.textures.filter(t => t.imageInfo && t.imageData);
@@ -1102,6 +1106,7 @@ function renderTexturesHTML() {
     const idx = txtr.textures.indexOf(t);
     const blob = new Blob([t.imageData], { type: t.imageInfo.mime });
     const url = URL.createObjectURL(blob);
+    _textureBlobUrls.push(url); // track for cleanup
     let sizeText = fmt(t.imageData.length);
     if (t.imageInfo.type === 'PNG') {
       try {
@@ -1139,6 +1144,7 @@ function downloadAllTextures() {
 
 // ── Audio player state ──────────────────────────────────────────────────────
 let _audioBlobUrls = []; // track for cleanup
+let _textureBlobUrls = []; // track texture blob URLs for cleanup
 let _audioPage = 0;
 const AUDIO_PAGE_SIZE = 20;
 
