@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>game shell</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: #080808;
+  color: #c0c0c0;
+  font-family: 'Courier New', Courier, monospace;
+}
+#container {
+  width: 760px;
+  margin: 16px auto;
+  border: 4px solid #a0a0a0;
+  background: #101010;
+  padding: 12px;
+}
+#titlebar {
+  background: #202020;
+  color: #f8f8f8;
+  padding: 12px;
+  border: 2px inset #505050;
+  text-align: center;
+  letter-spacing: 0.18em;
+  font-size: 20px;
+}
+#titlebar .blink {
+  color: #ffcc00;
+}
+#main-frame {
+  margin-top: 12px;
+  border: 3px solid #505050;
+  background: linear-gradient(180deg, #111 0%, #1a1a1a 100%);
+  padding: 12px;
+}
+#story {
+  min-height: 260px;
+  background: #121212;
+  border: 2px inset #404040;
+  padding: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+#choices {
+  margin-top: 12px;
+}
+#choices button {
+  margin: 3px 4px 3px 0;
+  padding: 8px 12px;
+  border: 2px outset #808080;
+  background: #202020;
+  color: #f0f0f0;
+  cursor: pointer;
+  font-family: inherit;
+}
+#choices button:hover {
+  background: #303030;
+}
+#status-bar {
+  margin-top: 14px;
+  padding: 8px;
+  background: #181818;
+  border: 2px inset #404040;
+  font-size: 13px;
+}
+#menu {
+  margin-top: 10px;
+  border-top: 1px solid #404040;
+  padding-top: 10px;
+}
+#menu a {
+  text-decoration: none;
+  color: #c0c0c0;
+  margin-right: 16px;
+}
+#menu a:hover {
+  color: #ffcc00;
+}
+</style>
+<script>
+var passages = [
+  {
+    text: "WELCOME TO THE GAME\n\nThe game grounds are quiet, but you can sense movement in the distance. A flickering torch lights the corridor ahead.",
+    choices: [
+      { label: 'Enter the corridor', next: 1 },
+      { label: 'Read the notice board', next: 2 }
+    ]
+  },
+  {
+    text: "The corridor is lined with ancient tapestries. You hear faint footsteps and the soft scrape of leather. Something important waits at the end.",
+    choices: [
+      { label: 'Proceed carefully', next: 3 },
+      { label: 'Retreat to the entrance', next: 0 }
+    ]
+  },
+  {
+    text: "The notice board contains a hand-written warning:\n\n'Beginners should not wander alone. Seek the tutor before midnight.'\n\nA small note is pinned below: 'The library key is hidden in the altar.'",
+    choices: [
+      { label: 'Take the note and go inside', next: 1 },
+      { label: 'Leave the board', next: 0 }
+    ]
+  },
+  {
+    text: "At the end of the corridor, a heavy oak door stands half-open. Beyond it, the academy's secret training hall glows with candlelight.",
+    choices: [
+      { label: 'Step inside', next: 4 },
+      { label: 'Turn back', next: 0 }
+    ]
+  },
+  {
+    text: "You enter the hall and find an old mentor waiting. He nods and says, 'Welcome. Your training begins now.'\n\nThe adventure has only just begun.",
+    choices: [
+      { label: 'Restart story', next: 0 }
+    ]
+  }
+];
+var currentPassage = 0;
+function renderPassage() {
+  var passage = passages[currentPassage];
+  document.getElementById('story').textContent = passage.text;
+  var choices = document.getElementById('choices');
+  choices.innerHTML = '';
+  for (var i = 0; i < passage.choices.length; i++) {
+    var button = document.createElement('button');
+    button.textContent = passage.choices[i].label;
+    button.onclick = (function(index) {
+      return function() {
+        choose(index);
+      };
+    })(i);
+    choices.appendChild(button);
+  }
+  updateStatus('Location: ' + (currentPassage + 1) + ' / ' + passages.length);
+}
+function choose(index) {
+  currentPassage = passages[currentPassage].choices[index].next;
+  renderPassage();
+}
+function updateStatus(text) {
+  document.getElementById('status-bar').textContent = text;
+}
+function blinkTitle() {
+  var title = document.getElementById('title-text');
+  if (title.style.visibility === 'hidden') {
+    title.style.visibility = 'visible';
+  } else {
+    title.style.visibility = 'hidden';
+  }
+}
+window.onload = function() {
+  renderPassage();
+  setInterval(blinkTitle, 700);
+};
+</script>
+</head>
+<body>
+<div id="container">
+  <div id="titlebar">
+    <span id="title-text" class="blink">Game Shell</span>
+  </div>
+  <div id="main-frame">
+    <div id="story"></div>
+    <div id="choices"></div>
+    <div id="status-bar"></div>
+    <div id="menu">
+      <a href="#" onclick="currentPassage=0;renderPassage();return false;">Restart</a>
+      <a href="#" onclick="alert('This stripped UI is built with 1990s-style HTML, CSS, and JS.');return false;">About</a>
+      <a href="#" onclick="alert('No external saves in this stripped demo.');return false;">Help</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
