@@ -94,9 +94,9 @@ $DEBUGVAR     = 0;
 
 • <?php echo "<a href='".$ALTDOMAINVAR.$DECODERVAR."index.html' target='_blank'><b>Data.win Decoder (W.I.P.)</b></a>"; ?><br><br>
 
-• <?php echo "<a href='".$ALTDOMAINVAR.$AIVAR."index.html' target='_blank'><b>FreeGPT (W.I.P.)</b></a>"; ?><br>
+• <?php echo "<a href='".$ALTDOMAINVAR.$AIVAR."index.html' target='_blank'><b>FreeGPT (W.I.P.)</b></a>"; ?><br><br>
 
-• <?php echo "<a href='".$ALTDOMAINVAR.$RUNNERVAR."index.html' target='_blank'><b>Code Runner</b></a>"; ?><br>
+• <?php echo "<a href='".$ALTDOMAINVAR.$RUNNERVAR."index.html' target='_blank'><b>Code Runner</b></a>"; ?><br><br>
 
 • <?php echo "<a href='".$ALTDOMAINVAR.$GAMEVAR."index.html' target='_blank'><b>Unnamed Text-Based Game</b></a>"; ?><br><br>
 
