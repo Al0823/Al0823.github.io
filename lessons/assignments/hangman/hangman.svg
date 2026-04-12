@@ -76,7 +76,7 @@
 				s60.5,16.4,60.5,36.6s-27.1,36.6-60.5,36.6C1013.8,408.6,986.8,392.3,986.8,372.1L986.8,372.1z"/>
 			<path id="brace" class="wood" d="M626.8,317.6l-11.3-9.8L793.1,257l11.3,9.8L626.8,317.6z"/>
 <!-- HANGMAN BODY (modular parts) -->
-<g id="hangman" stroke="#111" stroke-width="6" stroke-linecap="round" fill="none">
+<g id="hangman" stroke="#111111" stroke-width="6" stroke-linecap="round" fill="none">
 
   <!-- Head -->
   <circle id="hm_head" cx="1047" cy="372" r="18" visibility="hidden"/>
@@ -304,4 +304,25 @@ window.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 });
+
+const hangmanParts = [
+  "hm_head",
+  "hm_body",
+  "hm_leftArm",
+  "hm_rightArm",
+  "hm_leftLeg",
+  "hm_rightLeg"
+];
+
+let hangmanStep = 0;
+
+function drawHangman() {
+  if (hangmanStep < hangmanParts.length) {
+    document.getElementById(hangmanParts[hangmanStep])
+      .setAttribute("visibility", "visible");
+    hangmanStep++;
+  }
+}
+
+drawHangman();
 </script>
