@@ -148,7 +148,6 @@ echo str_pad($count, 6, "0", STR_PAD_LEFT);
 <br>
 &#149; <?php echo "<a href='".$ALTDOMAINVAR.$AIVAR."index.html' target='_blank'><b>FreeGPT(W.I.P.)</b></a>"; ?><br>
 <br>
-<br>
 &#149; <?php echo "<a href='".$ALTDOMAINVAR.$RUNNERVAR."' target='_blank'><b>Static Code Runner(W.I.P.)</b></a>"; ?><br>
 <br>
 &#149; <?php echo "<a href='".$ALTDOMAINVAR.$GAMEVAR."' target='_blank'><b>Unnamed Text-Based Game(W.I.P.)</b></a>"; ?><br>
