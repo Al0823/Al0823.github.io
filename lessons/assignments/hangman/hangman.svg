@@ -75,7 +75,28 @@
 			<path id="noose_inner" class="grass" d="M986.8,372.1c0-20.2,27.1-36.6,60.5-36.6
 				s60.5,16.4,60.5,36.6s-27.1,36.6-60.5,36.6C1013.8,408.6,986.8,392.3,986.8,372.1L986.8,372.1z"/>
 			<path id="brace" class="wood" d="M626.8,317.6l-11.3-9.8L793.1,257l11.3,9.8L626.8,317.6z"/>
+<!-- HANGMAN BODY (modular parts) -->
+<g id="hangman" stroke="#111" stroke-width="6" stroke-linecap="round" fill="none">
 
+  <!-- Head -->
+  <circle id="hm_head" cx="1047" cy="372" r="18" visibility="hidden"/>
+
+  <!-- Body -->
+  <line id="hm_body" x1="1047" y1="390" x2="1047" y2="455" visibility="hidden"/>
+
+  <!-- Left Arm -->
+  <line id="hm_leftArm" x1="1047" y1="410" x2="1015" y2="440" visibility="hidden"/>
+
+  <!-- Right Arm -->
+  <line id="hm_rightArm" x1="1047" y1="410" x2="1080" y2="440" visibility="hidden"/>
+
+  <!-- Left Leg -->
+  <line id="hm_leftLeg" x1="1047" y1="455" x2="1015" y2="500" visibility="hidden"/>
+
+  <!-- Right Leg -->
+  <line id="hm_rightLeg" x1="1047" y1="455" x2="1080" y2="500" visibility="hidden"/>
+
+</g>
 			<!-- PLANKS: two staggered rows spanning full scene width (x=520 to x=2216 in layer1 space) -->
 <path id="Plank_B1" class="plank1" d="M520,652l424-3l-1-49l-424,3L520,652z"/>
 <path id="Plank_B2" class="plank4" d="M944,650l424-3l-1-49l-424,3L944,650z"/>
