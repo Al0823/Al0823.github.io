@@ -195,8 +195,8 @@ View Stats
 <script>
 var gameState = {
     currentPassage: 0,
-    familyTension: 25,
-    supernaturalAffinity: 10,
+    familyTension: 0,
+    supernaturalAffinity: 0,
     liraelBond: 0,
     theoResurrectionProgress: 0,
     hasKey: false,
@@ -207,7 +207,7 @@ var gameState = {
     gaveGranola: false,
     askedAboutEmily: false,
     askedAboutSelf: false,
-    firstVisitTo13: true,
+    firstVisitTo13: false,
     conversationOptionsUsed: 0,
     lirasPresent: false,
     usedChoices: {}
@@ -568,21 +568,21 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
             { label: "Ask Lirael to explain herself to Lira", next: 33 },
             { label: "Try to calm Lira down", next: 34 },
             { label: "Tell Lira to wait upstairs after all", next: 32 },
-            { label: "Continue talking to Lirael", next: 13 }
+            { label: "Continue talking to Lirael", next: 999 }
         ]
     },
 
     // 32 - NEW: Visiting Lirael ALONE - Fresh conversation
     {
-        text: "You descend the last few steps alone. The violet light of the containment circle bathes the basement in an eerie glow.\n\nLirael is lounging against the invisible barrier, her staggering twelve-foot frame relaxed. Her pale lavender skin (rgb(228, 168, 247)) glows softly as she slowly opens her golden eyes and smiles at you with lazy hunger.\n\n“Mmmhh~… There you are again,” she murmurs, voice low and velvety. “I was starting to wonder if you’d come back before your family noticed something was wrong. Come closer, little human. Tell me… what’s on your mind tonight?”",
+        text: "You descend the last few steps alone. The violet light of the containment circle bathes the basement in an eerie glow.\n\nLirael is lounging against the invisible barrier, her staggering twelve-foot frame relaxed. Her pale lavender skin glows softly as she slowly opens her golden eyes and smiles at you with lazy hunger.\n\n“Mmmhh~… There you are again,” she murmurs, voice low and velvety. “I was starting to wonder if you’d come back before your family noticed something was wrong. Come closer, little human. Tell me… what’s on your mind tonight?”",
         location: "Basement - Containment Circle",
         choices: [
-            { label: "Ask about her life in the Sloth District", next: 13 },
-            { label: "Talk more about Theo and what she might be able to do", next: 13 },
-            { label: "Ask how the two of you could become closer", next: 13 },
-            { label: "Offer to bring her something else from upstairs", next: 13 },
-            { label: "Just sit and spend quiet time with her", next: 13, effect: () => { gameState.liraelBond += 15; gameState.supernaturalAffinity += 10; }},
-            { label: "Say goodbye for now and head back upstairs", next: 22, condition: () => gameState.conversationOptionsUsed >= 3 }
+            { label: "Ask about her life in the Sloth District", next: 999 },
+            { label: "Talk more about Theo and what she might be able to do", next: 999 },
+            { label: "Ask how the two of you could become closer", next: 999 },
+            { label: "Offer to bring her something else from upstairs", next: 999 },
+            { label: "Just sit and spend quiet time with her", next: 999, effect: () => { gameState.liraelBond += 15; gameState.supernaturalAffinity += 10; }},
+            { label: "Say goodbye for now and head back upstairs", next: 999, condition: () => gameState.conversationOptionsUsed >= 3 }
         ]
     },
 
@@ -605,9 +605,79 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
             { label: "Ask Lira to wait upstairs", next: 32 }
         ]
     },
+// 35 - Continuing the blessing → scream fades into cry + door incident
+    {
+        text: "You continue through the upper floors with your father. The air grows thicker, heavier, almost suffocating. Your mother’s prayers become more desperate. Emily has gone completely quiet.\n\nAs you reach the hallway near the basement stairs, your father raises the cross and begins another loud invocation.\n\nSuddenly — from deep below — a loud, agonizing scream rips through the house.\n\nIt’s raw, guttural, and filled with rage and pain. The sound vibrates through the floorboards and makes the walls tremble.\n\nThe scream slowly fades into a long, heartbreaking cry — weak, exhausted, and clearly coming from the basement.\n\nAlmost instantly, the basement door explodes off its hinges with a deafening crack. The heavy wooden door flies upward and slams hard into your father’s chest, knocking him backward into the wall.\n\nHe grunts in pain but quickly pushes the door off himself. “I’m… okay,” he gasps, breathing heavily, clearly shaken but not seriously injured.\n\nYour mother cries out in fear. Emily’s eyes are wide with terror. Lira stands frozen, her synthetic face showing real alarm.\n\nThe cry from below fades into heavy silence.",
+        location: "Byrd Family Home - Hallway (Near Basement)",
+        choices: [
+            { label: "Check on your father and try to calm everyone", next: 36 },
+            { label: "Rush down to the basement immediately", next: 37 }
+        ]
+    },
+
+    // 36 - Check on father
+    {
+        text: "You rush to your father’s side. He’s bruised but standing. “What in God’s name was that?” he mutters, staring at the broken door.\n\nYour mother is pale. “This house is cursed…”\n\nBefore anyone can react further, Emily suddenly bolts toward the open basement stairs, her small feet pounding down the steps.\n\n“Emily, no!” your mother screams.",
+        location: "Byrd Family Home - Hallway",
+        choices: [
+            { label: "Chase after Emily", next: 39 }
+        ]
+    },
+
+    // 37 - Rushing down to the basement (updated with Lirael on the ground)
+    {
+        text: "While your family is still in shock, you slip past them and hurry down the now-open basement stairs.\n\nThe violet glow of the containment circle is dimmer than before. Inside the circle, Lirael is lying on the cold stone floor.\n\nHer massive twelve-foot body is curled up, pale lavender skin   looking dull. She’s breathing heavily, one arm draped over her soft stomach. Her golden eyes are half-closed in clear discomfort.\n\nShe slowly lifts her head as you approach and gives you a weak, tired smile.\n\n“…Your father’s prayers hurt,” she murmurs, voice softer than usual, almost vulnerable. “They burned like holy fire… I didn’t like it.”\n\nShe shifts slightly but doesn’t stand, still laying on the ground, looking exhausted and pained.",
+        location: "Basement - Containment Circle",
+        choices: [
+            { label: "Apologize to Lirael and ask if she’s okay", next: 999 },
+            { label: "Ask what happened and why she screamed", next: 999 },
+            { label: "Try to comfort her through the barrier", next: 999, effect: () => { gameState.liraelBond += 20; }},
+            { label: "Leave her to rest and sneak back upstairs", next: 999 }
+        ]
+    },
+
+    // 38 - Pretend it was nothing
+    {
+        text: "You force a shaky smile and suggest everyone go outside for fresh air. Your family is too shaken to argue much. As you step out, you can still feel the heavy presence of the house behind you… and the memory of that fading cry.",
+        location: "Byrd Family Home - Outside",
+        choices: [
+            { label: "Later sneak back inside alone", next: 999 }
+        ]
+    },
+
+// 36 - Check on father
+    {
+        text: "You rush to your father’s side. He’s bruised but standing. “What in God’s name was that?” he mutters, staring at the broken door.\n\nYour mother is pale. “This house is cursed…”\n\nBefore anyone can react further, Emily suddenly bolts toward the open basement stairs, her small feet pounding down the steps.\n\n“Emily, no!” your mother screams.",
+        location: "Byrd Family Home - Hallway",
+        choices: [
+            { label: "Chase after Emily", next: 39 }
+        ]
+    },
+
+    // 39 - NEW: Emily runs down + family chaos
+    {
+        text: "You sprint after your little sister, heart hammering in your chest. “Emily! Stop!”\n\nYour mother is right behind you, her robe flapping as she runs. “Isaac, wait! Emily!”\n\nBehind you, Lira has quickly moved to support your father. She helps him to his feet and begins guiding the still-shaken man down the stairs, one arm carefully around his waist.\n\nYou reach the bottom of the stairs just as Emily skids to a halt at the edge of the glowing containment circle.\n\nInside the circle, Lirael is lying on the cold stone floor.\n\nHer staggering twelve-foot frame is curled up, pale lavender skin   looking dull and slightly dim. She’s breathing heavily, one arm draped protectively over her soft stomach, golden eyes half-closed in clear discomfort and exhaustion.\n\nEmily stares wide-eyed at the massive she-demon. “Who… who is that…?”\n\nLirael slowly lifts her head, her voice weak but still carrying that lazy, sultry undertone. “Well… the whole family decided to visit…”",
+        location: "Basement - Containment Circle",
+        choices: [
+            { label: "Try to get Emily away from the circle", next: 40 },
+            { label: "Quickly explain to your family (or try to)", next: 40 },
+            { label: "Focus on checking on Lirael", next: 40 }
+        ]
+    },
+
+    // 40 - Everyone in the basement (with Lirael on the ground)
+    {
+        text: "The entire family (plus Lira) is now crowded at the bottom of the basement stairs. Your mother has gone deathly pale. Your father, still leaning on Lira for support, stares in horror at the towering demon lying on the floor.\n\nEmily is frozen in place, equal parts terrified and fascinated.\n\nLirael remains on the ground, breathing heavily, but she manages a weak, tired smile as she looks at the chaotic group.\n\n“…Quite the audience,” she murmurs softly. “Your prayers hurt me… but I’m still here.”",
+        location: "Basement - Containment Circle (Family Present)",
+        choices: [
+            { label: "Try to calm your family down", next: 41 },
+            { label: "Tell everyone to go back upstairs", next: 41 },
+            { label: "Stay and talk to Lirael despite the chaos", next: 13 }
+        ]
+    },
 
     // Morgana Placeholder
-    { text: "Morgana summoning scene coming soon...", location: "Basement", choices: [{ label: "Restart", next: 0 }] }
+    { text: "Morgana summoning scene coming soon...", location: "Basement", choices: [{ label: "Restart", next: 999 }] }
 ];
 
 // ================ RENDERING ================
