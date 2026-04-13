@@ -117,8 +117,6 @@ margin-right:16px;
 #menu a:hover {
 color:#ffcc00;
 }
-
-/* MODAL */
 #modal {
 position:fixed;
 top:0;
@@ -177,7 +175,6 @@ background:#303030;
 <div class="panel-button" onclick="openModal('options')">Options</div>
 </div>
 </div>
-
 <div id="main-content">
 <div id="titlebar">
 <span id="title-text" class="blink">Game Shell</span>
@@ -195,8 +192,6 @@ background:#303030;
 </div>
 </div>
 </div>
-
-<!-- MODAL -->
 <div id="modal">
 <div id="modal-box">
 <div id="modal-title"></div>
@@ -204,7 +199,6 @@ background:#303030;
 <div class="modal-button" onclick="closeModal()">Close</div>
 </div>
 </div>
-
 <script>
 var passages=[
 {text:"WELCOME TO THE GAME\n\nThe game grounds are quiet, but you can sense movement in the distance. A flickering torch lights the corridor ahead.",choices:[{label:'Enter the corridor',next:1},{label:'Read the notice board',next:2}]},
@@ -213,21 +207,16 @@ var passages=[
 {text:"At the end of the corridor, a heavy oak door stands half-open.",choices:[{label:'Step inside',next:4},{label:'Turn back',next:0}]},
 {text:"You enter the hall. Your training begins now.",choices:[{label:'Restart story',next:0}]}
 ];
-
 var currentPassage=0;
 var player={health:100,energy:50};
-
-/* MODAL SYSTEM */
 function openModal(type){
 var modal=document.getElementById('modal');
 var title=document.getElementById('modal-title');
 var content=document.getElementById('modal-content');
-
 if(type==='system'){
 title.textContent="SYSTEM";
 content.innerHTML='<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>';
 }
-
 if(type==='options'){
 title.textContent="OPTIONS";
 content.innerHTML='Text Speed: <input type="range"><br>Sound: <input type="checkbox">';
