@@ -136,6 +136,16 @@ background: #303030;
 <div class="panel-button" onclick="saveGame()">Save</div>
 <div class="panel-button" onclick="loadGame()">Load</div>
 </div>
+
+<!-- OPTIONS MENU -->
+<div class="panel-section">
+<div class="panel-title">OPTIONS</div>
+<div class="panel-button" onclick="toggleSound()">Sound: <span id="sound-status">ON</span></div>
+<div class="panel-button" onclick="toggleSpeed()">Text Speed: <span id="speed-status">NORMAL</span></div>
+<div class="panel-button" onclick="toggleBlink()">Blink: <span id="blink-status">ON</span></div>
+<div class="panel-button" onclick="resetSave()">Reset Save</div>
+</div>
+
 </div>
 <div id="main-content">
 <div id="titlebar">
@@ -163,8 +173,17 @@ var passages=[
 {text:"At the end of the corridor, a heavy oak door stands half-open. Beyond it, the academy's secret training hall glows with candlelight.",choices:[{label:'Step inside',next:4},{label:'Turn back',next:0}]},
 {text:"You enter the hall and find an old mentor waiting. He nods and says, 'Welcome. Your training begins now.'\n\nThe adventure has only just begun.",choices:[{label:'Restart story',next:0}]}
 ];
+
 var currentPassage=0;
 var player={health:100,energy:50};
+
+/* OPTIONS STATE */
+var options={
+sound:true,
+fastText:false,
+blink:true
+};
+
 function renderPassage(){
 var passage=passages[currentPassage];
 document.getElementById('story').textContent=passage.text;
@@ -178,38 +197,76 @@ choices.appendChild(button);
 }
 updateStatus();
 updateSidePanel();
+updateOptionsUI();
 }
+
 function choose(index){
 currentPassage=passages[currentPassage].choices[index].next;
 renderPassage();
 }
+
 function updateStatus(){
 document.getElementById('status-bar').textContent="Location: "+(currentPassage+1)+" / "+passages.length;
 }
+
 function updateSidePanel(){
 document.getElementById('location-display').textContent="Node "+(currentPassage+1);
 document.getElementById('stats-display').textContent="HP: "+player.health+"\nEN: "+player.energy;
 }
+
+/* OPTIONS FUNCTIONS */
+function toggleSound(){
+options.sound=!options.sound;
+updateOptionsUI();
+}
+
+function toggleSpeed(){
+options.fastText=!options.fastText;
+updateOptionsUI();
+}
+
+function toggleBlink(){
+options.blink=!options.blink;
+updateOptionsUI();
+}
+
+function updateOptionsUI(){
+document.getElementById('sound-status').textContent=options.sound?"ON":"OFF";
+document.getElementById('speed-status').textContent=options.fastText?"FAST":"NORMAL";
+document.getElementById('blink-status').textContent=options.blink?"ON":"OFF";
+}
+
+/* SAVE SYSTEM */
 function saveGame(){
-localStorage.setItem('gameSave',JSON.stringify({passage:currentPassage,player:player}));
+localStorage.setItem('gameSave',JSON.stringify({passage:currentPassage,player:player,options:options}));
 alert("Game Saved!");
 }
+
 function loadGame(){
 var save=localStorage.getItem('gameSave');
 if(save){
 var data=JSON.parse(save);
 currentPassage=data.passage;
 player=data.player;
+options=data.options||options;
 renderPassage();
 alert("Game Loaded!");
 }else{
 alert("No save found.");
 }
 }
+
+function resetSave(){
+localStorage.removeItem('gameSave');
+alert("Save Reset.");
+}
+
 function blinkTitle(){
+if(!options.blink)return;
 var title=document.getElementById('title-text');
 title.style.visibility=(title.style.visibility==='hidden')?'visible':'hidden';
 }
+
 window.onload=function(){
 renderPassage();
 setInterval(blinkTitle,700);
