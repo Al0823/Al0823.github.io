@@ -27,18 +27,18 @@ body {
 #titlebar .blink { color:#ffcc00; }
 #main-frame { margin-top:12px; border:3px solid #505050; background:linear-gradient(180deg,#111 0%,#1a1a1a 100%); padding:14px; }
 #story { 
-    min-height:480px; 
+    min-height:520px; 
     background:#121212; 
     border:2px inset #404040; 
-    padding:20px; 
-    line-height:1.82; 
+    padding:22px; 
+    line-height:1.85; 
     white-space:pre-wrap; 
-    font-size:15.4px; 
+    font-size:15.5px; 
 }
-#choices { margin-top:20px; }
+#choices { margin-top:22px; }
 #choices button { 
-    margin:7px 9px 7px 0; 
-    padding:12px 20px; 
+    margin:8px 10px 8px 0; 
+    padding:13px 22px; 
     border:2px outset #808080; 
     background:#202020; 
     color:#f0f0f0; 
@@ -48,8 +48,8 @@ body {
 }
 #choices button:hover { background:#303030; }
 #status-bar { 
-    margin-top:20px; 
-    padding:11px; 
+    margin-top:22px; 
+    padding:12px; 
     background:#181818; 
     border:2px inset #404040; 
     font-size:13px; 
@@ -127,11 +127,13 @@ var gameState = {
     pathChosen: null,
     liraelFedComfort: false,
     statsUnlocked: false,
-    exploredWithLira: false
+    exploredWithLira: false,
+    gaveGranola: false,
+    usedChoices: {}          // Tracks used options per passage
 };
 
 var passages = [
-    // 0 - Arrival (Ultra-verbose)
+    // 0 - Arrival
     {
         text: "The old minivan’s engine coughs one final time and dies with a tired, rattling sigh. Cool Connecticut air rushes through the open door, thick with the sharp scent of pine resin, damp soil, and something faintly metallic that lingers on the back of your tongue. You step out onto the gravel driveway, the stones crunching sharply beneath your sneakers, and lift your gaze to the house that now towers over your family like a silent, watchful giant.\n\nIt is an imposing three-story Victorian, its dark weathered wood faded to a sickly gray-green. Thick ropes of ivy crawl up the walls and across the shutters like living veins, as if the house itself is trying to pull its ancient bones back into the earth. The single attic window on the top floor is a perfect black rectangle, reflecting nothing, yet somehow staring straight at you. Dense, ancient woods press in from every side, turning the entire property into a permanent twilight realm where daylight struggles to reach the ground.\n\nYour mother, Rebecca, steps out clutching her silver cross necklace so tightly her knuckles have gone bone-white. “This is God’s test,” she whispers, her voice tight with forced conviction. Your father, Pastor Michael, slams his door harder than necessary and immediately begins muttering prayers about cleansing every corner of the property. Your twelve-year-old sister Emily bounces on her toes, eyes sparkling with pure excitement. “It looks like a real haunted mansion! Can we explore the attic tonight, please?”\n\nYou, Isaac Byrd, seventeen, remain silent, hands shoved deep into the pockets of your worn black hoodie. Your messy dark-brown hair falls into your hazel eyes as a cold breeze stirs it. The weight of everything you left behind in Upstate New York, especially the mystery of Theo’s disappearance, still sits like a stone in your chest.\n\nInside the dusty, shadowed foyer stands Lira, the household AI Companion. She looks disturbingly, almost painfully human: smooth synthetic skin with a faint pearlescent sheen, shoulder-length dark hair, and calm blue eyes that seem to hold real concern. A glowing prisoner-style tag pulses softly on her left wrist: “Lira, Model F-7, Property of Byrd Family”.\n\nShe offers a small, warm, almost shy smile as you all enter. “Hey… welcome home. I’ve got all the rooms set up for you. Just so you know… the house has some pretty weird energy readings coming from the basement and attic. I can’t explain it, but it’s definitely there.”",
         location: "Byrd Family Home - Foyer",
@@ -266,7 +268,7 @@ var passages = [
 
     // 12 - Attic Discovery
     {
-        text: "Faint but persistent scratching sounds from directly above your room eventually pull you out of bed. Heart beating a little faster, you quietly pull down the creaky ladder and climb into the dusty attic.\n\nThe space is stiflingly hot and thick with the smell of aged paper, mothballs, and dry rot. Old trunks, broken furniture, and forgotten paintings crowd the room, casting long, eerie shadows in the narrow beam of your flashlight.\n\nAs you shift a heavy wooden box to make space, your elbow accidentally knocks over a thick, leather-bound book. It hits the floor with a heavy thud and falls open at your feet.\n\nThe title, embossed in faded gold lettering, reads: 'Ars Goetia, Safe Summoning Rites for Companions and Bound Servants'.\n\nThe yellowed pages contain detailed diagrams and instructions for using the basement circle. Two focus items immediately catch your attention:\n\n- The small, crumpled drawing of Theo you’ve carried in your hoodie pocket since the day he disappeared.\n- A strange lock of long, perfectly preserved black hair caught in the book’s cracked binding.",
+        text: "Faint but persistent scratching sounds from directly above your room eventually pull you out of bed. Heart beating a little faster, you quietly pull down the creaky ladder and climb into the dusty attic.\n\nThe space is stiflingly hot and thick with the smell of aged paper, mothballs, and dry rot. Old trunks, broken furniture, and forgotten paintings crowd the room, casting long, eerie shadows in the narrow beam of your flashlight.\n\nAs you shift a heavy wooden box to make space, your elbow accidentally knocks over a thick, leather-bound book. It hits the floor with a heavy thud and falls open at your feet.\n\nThe title, embossed in faded gold lettering, reads: 'Ars Goetia – Safe Summoning Rites for Companions and Bound Servants'.\n\nThe yellowed pages contain detailed diagrams and instructions for using the basement circle. Two focus items immediately catch your attention:\n\n- The small, crumpled drawing of Theo you’ve carried in your hoodie pocket since the day he disappeared.\n- A strange lock of long, perfectly preserved black hair caught in the book’s cracked binding.",
         location: "Attic",
         choices: [
             { label: "Use Theo’s drawing (Summon Lirael)", next: 13, effect: () => { 
@@ -279,9 +281,9 @@ var passages = [
         ]
     },
 
-    // 13 - Summoning Lirael + Expanded Conversation Start
+    // 13 - Summoning Lirael + Expanded Conversation
     {
-        text: "At 3:00 AM you stand safely outside the glowing containment circle in the basement, heart pounding heavily in your chest. The air feels thick and warm, almost alive.\n\nYou place the amulet and gently toss Theo’s drawing into the center. As you speak the ancient incantation aloud, violet light explodes upward in a silent burst. A thick, heady scent of warm vanilla and musk floods the chamber, wrapping around you like an invisible embrace.\n\nA long, luxurious, breathy moan echoes through the stone room.\n\nLirael materializes slowly inside the circle — a staggering twelve-foot-tall she-demon with pale lavender skin, glowing with a soft, iridescent sheen. Small, smooth black horns curl gracefully from her messy waist-length silver-white hair. Her heavy-lidded golden eyes are full of sleepy, sensual hunger as she stretches languidly, her massive breasts straining heavily against thin, tattered black silk robes that cling to every voluptuous curve. Her wide hips and thick, plush ass shift with lazy indulgence.\n\nShe saunters to the very edge of the invisible barrier and stops, unable to cross it. One soft hand presses against the magical wall as she looks down at you with a slow, sultry smile.\n\n“Mmmhhhh~… Took you long enough, cute little human,” she purrs in a deep, velvety drawl that seems to vibrate through your bones. “I amm Lirael… from the Sloth District. This old circle is so rude, keeping me trapped in here while you stand out there looking so… tempting.”\n\nShe runs her hands slowly down her own body, palms gliding over the heavy swell of her breasts and lower across her soft stomach. “So… what would you like to do with a very bored, very hungry, and very trapped she-demon?”",
+        text: "At 3:00 AM you stand safely outside the glowing containment circle in the basement, heart pounding heavily in your chest. The air feels thick and warm, almost alive.\n\nYou place the amulet and gently toss Theo’s drawing into the center. As you speak the ancient incantation aloud, violet light explodes upward in a silent burst. A thick, heady scent of warm vanilla and musk floods the chamber, wrapping around you like an invisible embrace.\n\nA long, luxurious, breathy moan echoes through the stone room.\n\nLirael materializes slowly inside the circle — a staggering twelve-foot-tall she-demon with pale lavender skin (rgb(228, 168, 247)), glowing with a soft, iridescent sheen. Small, smooth black horns curl gracefully from her messy waist-length silver-white hair. Her heavy-lidded golden eyes are full of sleepy, sensual hunger as she stretches languidly, her massive breasts straining heavily against thin, tattered black silk robes that cling to every voluptuous curve. Her wide hips and thick, plush ass shift with lazy indulgence.\n\nShe saunters to the very edge of the invisible barrier and stops, unable to cross it. One soft hand presses against the magical wall as she looks down at you with a slow, sultry smile.\n\n“Mmmhhhh~… Took you long enough, cute little human,” she purrs in a deep, velvety drawl that seems to vibrate through your bones. “I’m Lirael… from the Sloth District. This old circle is so rude, keeping me trapped in here while you stand out there looking so… tempting.”\n\nShe runs her hands slowly down her own body, palms gliding over the heavy swell of her breasts and lower across her soft stomach. “So… what would you like to do with a very bored, very hungry, and very trapped she-demon?”",
         location: "Basement - Containment Circle",
         choices: [
             { label: "Ask her who she really is and why she answered", next: 14 },
@@ -291,6 +293,7 @@ var passages = [
                 gameState.liraelBond += 18;
                 gameState.theoResurrectionProgress += 10;
                 gameState.liraelFedComfort = true;
+                gameState.gaveGranola = true;
             }},
             { label: "Stay silent and simply watch her for a moment", next: 18, effect: () => { gameState.supernaturalAffinity += 12; }}
         ]
@@ -323,7 +326,6 @@ var passages = [
         ]
     },
 
-    // 17 - Offer granola bar
     {
         text: "You pull the slightly squished granola bar from your pocket and toss it gently into the circle.\n\nLirael lowers herself with luxurious slowness, her twelve-foot frame kneeling so her massive breasts rest heavily against her thighs. She picks up the bar, unwraps it deliberately, and takes a slow, sensual bite, moaning deeply as she chews.\n\n“Mmmhh~… Sweet. Crunchy. But so empty compared to real comfort.”\n\nShe swallows visibly, then rubs slow circles over her soft lavender stomach. “Human food fills the belly… but what I truly crave is that warm, safe feeling when you finally relax with me. Keep feeding me that, and I might be able to help with Theo.”",
         location: "Basement - Containment Circle",
@@ -345,7 +347,6 @@ var passages = [
     { text: "Morgana summoning scene coming soon...", location: "Basement", choices: [{ label: "Restart", next: 0 }] }
 ];
 
-// ================ RENDERING ================
 function renderPassage() {
     var p = passages[gameState.currentPassage];
     
@@ -355,10 +356,22 @@ function renderPassage() {
     var choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
 
-    p.choices.forEach((choice) => {
+    let visibleChoices = p.choices.filter(choice => {
+        const used = gameState.usedChoices[gameState.currentPassage] || [];
+        return !used.includes(choice.label);
+    });
+
+    visibleChoices.forEach((choice) => {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
         btn.onclick = () => {
+            if (!gameState.usedChoices[gameState.currentPassage]) {
+                gameState.usedChoices[gameState.currentPassage] = [];
+            }
+            if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
+                gameState.usedChoices[gameState.currentPassage].push(choice.label);
+            }
+
             if (choice.effect) choice.effect();
             gameState.currentPassage = choice.next;
             renderPassage();
@@ -393,7 +406,7 @@ function openModal(type) {
         content.innerHTML = `<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>`;
     } else if (type === 'about') {
         title.textContent = "THE DEMON AND I";
-        content.innerHTML = `<p>A text-based erotic horror adventure<br>Isaac Byrd & the trapped she-demon Lirael</p>`;
+        content.innerHTML = `<p>A text-based erotic horror adventure<br>Isaac Byrd & the Demon in the Basement</p>`;
     }
 
     modal.style.display = "flex";
