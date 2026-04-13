@@ -5,88 +5,165 @@
 <title>The Demon and I</title>
 <style>
 body { 
-margin:0;
-padding:0; 
-background-color:#080808; 
-color:#c0c0c0; 
-font-family:'Courier New', Courier, monospace; 
+margin: 0;
+padding: 0; 
+background-color: #080808; 
+color: #c0c0c0; 
+font-family: 'Courier New', Courier, monospace; 
 }
 #container { 
-    width:75%; margin:16px auto; 
-    border:4px solid #a0a0a0; 
-    background-color:#101010; 
-    padding:12px; 
+width: 75%; 
+margin: 16px auto; 
+border: 4px solid #a0a0a0; 
+background-color: #101010; 
+padding: 12px; 
 }
-#layout { display:flex; }
-#side-panel { width:240px; border:3px solid #505050; background:#111111; padding:12px; margin-right:12px; }
-.panel-section { margin-bottom:16px; border:2px inset #404040; padding:10px; background:#181818; }
-.panel-title { font-size:13px; color:#ffcc00; margin-bottom:8px; letter-spacing:0.1em; }
-.panel-button { display:block; margin:6px 0; padding:8px; border:2px outset #808080; background:#202020; color:#f0f0f0; cursor:pointer; text-align:center; }
-.panel-button:hover { background:#303030; }
-#main-content { flex:1; }
-#titlebar { background:#202020; color:#f8f8f8; padding:14px; border:2px inset #505050; text-align:center; letter-spacing:0.18em; font-size:21px; }
-#titlebar .blink { color:#ffcc00; }
-#main-frame { margin-top:12px; border:3px solid #505050; background:linear-gradient(180deg,#111 0%,#1a1a1a 100%); padding:14px; }
+#layout { 
+	display: flex; 
+}
+#side-panel { 
+width: 240px; 
+border: 3px solid #505050; 
+background-color: #111111; 
+padding: 12px; 
+margin-right: 12px; 
+}
+.panel-section { 
+	margin-bottom: 16px; 
+	border:2px inset #404040; 
+	padding: 10px; 
+	background-color: #181818; 
+}
+.panel-title { 
+font-size: 13px; 
+color: #ffcc00; 
+margin-bottom: 8px; 
+letter-spacing: 0.1em; 
+}
+.panel-button { 
+display: block; 
+margin: 6px 0; 
+padding: 8px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+color: #f0f0f0; 
+cursor: pointer; 
+text-align: center; 
+}
+.panel-button:hover 
+{ 
+background-color: #303030; 
+}
+#main-content { 
+flex: 1; 
+}
+#titlebar { 
+background-color: #202020; 
+color: #f8f8f8; 
+padding: 14px; 
+border: 2px inset #505050; 
+text-align: center; 
+letter-spacing: 0.18em; 
+font-size: 21px; 
+}
+#titlebar .blink { 
+color: #ffcc00; 
+}
+#main-frame { 
+margin-top: 12px; 
+border: 3px solid #505050; 
+background-color: linear-gradient(180deg,#111111 0%,#1a1a1a 100%); 
+padding: 14px; 
+}
 #story { 
-    min-height:520px; 
-    background:#121212; 
-    border:2px inset #404040; 
-    padding:22px; 
-    line-height:1.85; 
-    white-space:pre-wrap; 
-    font-size:15.5px; 
+min-height: 520px; 
+background: #121212; 
+border: 2px inset #404040; 
+padding: 22px; 
+line-height: 1.85; 
+white-space: pre-wrap; 
+font-size: 15.5px; 
 }
-#choices { margin-top:22px; }
+#choices { 
+margin-top: 22px; 
+}
 #choices button { 
-    margin:8px 10px 8px 0; 
-    padding:13px 22px; 
-    border:2px outset #808080; 
-    background:#202020; 
-    color:#f0f0f0; 
-    cursor:pointer; 
-    font-family:inherit; 
-    font-size:14.8px; 
+margin: 8px 10px 8px 0; 
+padding: 13px 22px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+color: #f0f0f0; 
+cursor: pointer; 
+font-family: inherit; 
+font-size: 14.8px; 
 }
-#choices button:hover { background:#303030; }
+#choices button:hover { 
+background-color: #303030; 
+}
 #status-bar { 
-    margin-top:22px; 
-    padding:12px; 
-    background:#181818; 
-    border:2px inset #404040; 
-    font-size:13px; 
-    text-align:center; 
+margin-top: 22px; 
+padding: 12px; 
+background-color: #181818; 
+border: 2px inset #404040; 
+font-size: 13px; 
+text-align: center; 
 }
 #modal { 
-    position:fixed; top:0; left:0; 
-    width:100%; height:100%; 
-    background:rgba(0,0,0,0.82); 
-    display:none; align-items:center; justify-content:center; 
+position: fixed; 
+top: 0; 
+left: 0; 
+width: 100%; 
+height: 100%; 
+background-color: #000000d1; 
+display: none; 
+align-items: center; 
+justify-content: center; 
 }
-#modal-box { width:380px; background:#101010; border:3px solid #505050; padding:18px; }
-#modal-title { color:#ffcc00; margin-bottom:16px; font-size:19px; }
+#modal-box { 
+width: 380px; 
+background-color: #101010; 
+border: 3px solid #505050; 
+padding: 18px; 
+}
+#modal-title { 
+	color: #ffcc00; 
+	margin-bottom: 16px; 
+	font-size: 19px; 
+}
 .modal-button { 
-    display:block; margin-top:12px; 
-    padding:10px; 
-    border:2px outset #808080; 
-    background:#202020; 
-    cursor:pointer; 
-    text-align:center; 
+display: block; 
+margin-top: 12px; 
+padding: 10px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+cursor :pointer; 
+text-align: center; 
 }
-.modal-button:hover { background:#303030; }
+.modal-button:hover { 
+background-color: #303030; 
+}
 </style>
 </head>
 <body>
 
 <div id="container">
-    <div id="layout">
-        <div id="side-panel">
-            <div class="panel-section">
-                <div class="panel-title">LOCATION</div>
-                <div id="location-display">Byrd Family Home - Hartford, CT</div>
-            </div>
-            <div class="panel-section">
-                <div class="panel-title">MENU</div>
-                <div class="panel-button" onclick="openModal('stats')">View Stats</div>
+<div id="layout">
+<div id="side-panel">
+<div class="panel-section">
+<div class="panel-title">
+LOCATION
+</div>
+<div id="location-display">
+Byrd Family Home - Hartford, CT
+</div>
+</div>
+<div class="panel-section">
+<div class="panel-title">
+MENU
+</div>
+<div class="panel-button" onclick="openModal('stats')">
+View Stats
+</div>
                 <div class="panel-button" onclick="openModal('options')">Options</div>
                 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
                 <div class="panel-button" onclick="restartGame()">Restart Game</div>
@@ -116,7 +193,6 @@ font-family:'Courier New', Courier, monospace;
 </div>
 
 <script>
-// ================ GAME STATE ================
 var gameState = {
     currentPassage: 0,
     familyTension: 25,
@@ -130,11 +206,10 @@ var gameState = {
     statsUnlocked: false,
     exploredWithLira: false,
     gaveGranola: false,
-    usedChoices: {}          // Tracks used options per passage
+    usedChoices: {}          // Tracks if an option has already been done per passage
 };
 
 var passages = [
-    // 0 - Arrival
     {
         text: "The old minivan’s engine coughs, sputters, and finally dies with a long, rattling sigh that seems to echo just a little too loudly in the stillness. For a moment, no one moves.\n\nThen you push the door open.\n\nCool Connecticut air spills in immediately, wrapping around you like something alive. It carries the sharp bite of pine resin, the damp richness of soil that hasn’t seen full sunlight in years, and underneath it all… something faintly metallic. It settles on the back of your tongue in a way you can’t quite explain.\n\nYou step out.\n\nGravel crunches sharply beneath your sneakers — loud, intrusive, unnatural against the heavy quiet pressing in from all sides. Even that small sound feels like it doesn’t belong here.\n\nAnd then you look up.\n\nThe house towers over you.\n\nThree stories tall. Victorian. Ancient.\n\nIts weathered wood has faded into a sickly gray-green, like something left to rot but never allowed to decay fully. Thick ropes of ivy crawl up its walls and wrap around the shutters like veins, clinging, digging in — as if the house is being pulled back into the earth… or refusing to let go.\n\nYour eyes drift upward.\n\nThe attic window.\n\nA perfect black rectangle.\n\nNo reflection. No light. Just emptiness.\n\nAnd yet… you can’t shake the feeling that something inside is looking directly at you.\n\nThe woods press in close on all sides — dense, towering, ancient. Their branches knit together overhead, choking out the sky and leaving the entire property trapped in a dim, unnatural twilight. Even though it’s still day, it doesn’t feel like it.\n\nIt feels like evening.\n\nOr something later.\n\nYour mother, Rebecca, steps out beside you, clutching her silver cross so tightly her knuckles go white. You hear the faint creak of the chain as it strains under the pressure.\n\n“This is God’s test,” she whispers. The words sound rehearsed. Forced. Like she’s trying to convince herself more than anyone else.\n\nYour father, Pastor Michael, slams his door harder than necessary. The sound cracks through the air.\n\n“Darkness has no place here,” he mutters immediately, already pacing, already scanning the house like it’s something that needs to be confronted. “We’ll cleanse every inch of this property if we have to.”\n\nEmily practically explodes out of the van, bouncing on her toes, completely oblivious.\n\n“It looks like a REAL haunted mansion!” she says, eyes shining. “Can we explore the attic tonight? Please? PLEASE?”\n\nYou don’t answer.\n\nYou just stand there.\n\nHands shoved deep into your hoodie pocket.\n\nYour messy dark-brown hair shifts slightly as a cold breeze slides past you. Your hazel eyes stay locked on the house.\n\nUpstate New York feels a million miles away now.\n\nAnd Theo…\n\nThat weight in your chest tightens again. Heavy. Unmoving. Unfinished.\n\nInside the foyer, standing perfectly still in the dim light, is Lira.\n\nShe looks… real.\n\nToo real.\n\nSmooth synthetic skin with a faint pearlescent sheen. Shoulder-length dark hair that falls naturally against her face. Calm blue eyes that track each of you as you enter — not mechanically, but attentively.\n\nConcerned.\n\nA soft glow pulses from the tag on her wrist.\n\n“Lira, Model F-7, Property of Byrd Family.”\n\nShe smiles.\n\nSmall. Warm. Almost shy.\n\n“Hey… welcome home,” she says gently.\n\nThere’s a pause.\n\nJust long enough to feel intentional.\n\n“I’ve got all the rooms set up for you.”\n\nAnother pause.\n\nThis one heavier.\n\n“…Just so you know…”\n\nHer eyes flick briefly toward the floor. Then back to you.\n\n“…the house has some pretty weird energy readings. Basement. Attic mostly.”\n\nA faint flicker of uncertainty crosses her face.\n\n“I can’t explain it.”\n\nShe hesitates.\n\n“…but it’s definitely there.”",
         location: "Byrd Family Home - Foyer",
@@ -411,42 +486,36 @@ function openModal(type) {
         title.textContent = "THE DEMON AND I";
         content.innerHTML = `<p>A text-based erotic horror adventure<br>Isaac Byrd & the trapped she-demon Lirael</p>`;
     }
-
-    modal.style.display = "flex";
+modal.style.display = "flex";
 }
-
 function closeModal() {
-    document.getElementById('modal').style.display = "none";
+document.getElementById('modal').style.display = "none";
 }
-
 function saveGame() {
-    localStorage.setItem('demonAndISave', JSON.stringify(gameState));
-    alert("Game Saved!");
+localStorage.setItem('demonAndISave', JSON.stringify(gameState));
+alert("Game Saved!");
 }
-
 function loadGame() {
-    var save = localStorage.getItem('demonAndISave');
-    if (save) {
-        Object.assign(gameState, JSON.parse(save));
-        renderPassage();
-        alert("Game Loaded!");
-    } else {
-        alert("No save file found.");
-    }
+var save = localStorage.getItem('demonAndISave');
+if (save) {
+Object.assign(gameState, JSON.parse(save));
+renderPassage();
+alert("Game Loaded!");
+} else {
+alert("No save file found.");
 }
-
+}
 function restartGame() {
-    if (confirm("Restart the entire story from the beginning?")) {
-        location.reload();
-    }
+if (confirm("Restart the entire story from the beginning?")) {
+location.reload();
 }
-
+}
 window.onload = function() {
-    renderPassage();
-    setInterval(() => {
-        var t = document.getElementById('title-text');
-        t.style.visibility = (t.style.visibility === 'hidden') ? 'visible' : 'hidden';
-    }, 700);
+renderPassage();
+setInterval(() => {
+var t = document.getElementById('title-text');
+t.style.visibility = (t.style.visibility === 'hidden') ? 'visible' : 'hidden';
+}, 700);
 };
 </script>
 </body>
