@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- Get out my game you thief-->
 <meta charset="UTF-8">
 <title>The Demon and I</title>
 <style>
-body { margin:0; padding:0; background:#080808; color:#c0c0c0; font-family:'Courier New', Courier, monospace; }
-#container { width:75%; margin:16px auto; border:4px solid #a0a0a0; background:#101010; padding:12px; }
+body { 
+margin:0;
+padding:0; 
+background-color:#080808; 
+color:#c0c0c0; 
+font-family:'Courier New', Courier, monospace; 
+}
+#container { 
+	width:75%; 
+	margin:16px auto; 
+	border:4px solid #a0a0a0; 
+	background-color:#101010; 
+	padding:12px; 
+}
 #layout { display:flex; }
 #side-panel { width:240px; border:3px solid #505050; background:#111111; padding:12px; margin-right:12px; }
 .panel-section { margin-bottom:16px; border:2px inset #404040; padding:10px; background:#181818; }
@@ -81,49 +92,67 @@ var gameState = {
     hasAmulet: false,
     pathChosen: null,
     liraelFedComfort: false,
-    statsUnlocked: false
+    statsUnlocked: false,
+    exploredWithLira: false   // New flag for exploring with Lira
 };
 
 var passages = [
+    // 0 - Arrival
     {
-        text: "The old minivan’s engine dies with a tired rattle. Cool Connecticut air brushes against your skin as you step out onto the gravel driveway.\n\nThe three-story Victorian house looms before you — dark weathered wood covered in thick ivy, an attic window that seems to stare back. Dense woods press in from all sides.\n\nYour mother, Rebecca, clutches her silver cross tightly. “This is God’s test,” she whispers. Your father, Pastor Michael, mutters about blessing every room. Your little sister Emily (12) bounces excitedly. “It looks like a real haunted mansion!”\n\nYou — Isaac Byrd — stand quietly in your black hoodie, messy dark-brown hair falling into your hazel eyes.\n\nInside the dusty foyer stands Lira, the household AI Companion. She looks almost like a real young woman — smooth skin with a faint glow, shoulder-length dark hair, and calm blue eyes. A glowing prisoner-style tag blinks on her left wrist: “Lira – Model F-7 – Property of Byrd Family”.\n\nShe offers a small, warm smile. “Hey… welcome home. I’ve got the rooms all set up. Just so you know, the house has some… weird energy readings coming from the basement and attic.”",
+        text: "The old minivan’s engine dies with a tired rattle. Cool Connecticut air brushes against your skin as you step out onto the gravel driveway.\n\nThe three-story Victorian house looms before you — dark weathered wood covered in thick ivy, an attic window that seems to stare back. Dense woods press in from all sides.\n\nYour mother clutches her silver cross tightly. Your father mutters about blessing every room. Emily bounces excitedly about the 'haunted mansion'.\n\nYou stand quietly in your black hoodie.\n\nInside the foyer stands Lira, the household AI Companion. She looks almost like a real young woman. A glowing prisoner-style tag blinks on her wrist.\n\nShe offers a small, warm smile. “Hey… welcome home. I’ve got the rooms all set up. Just so you know, the house has some… weird energy readings coming from the basement and attic.”",
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Help the family unpack", next: 1 },
             { label: "Talk to Lira", next: 2 },
-{ label: "Talk to Lira", next: 3 },
+{ label: "Go explore the woods", next: 4 }
         ]
     },
 
     // 1 - Help unpack
     {
-        text: "You spend the next hour carrying boxes upstairs and helping your family settle in. Your mother thanks you quietly. Your father nods approvingly. Emily keeps talking about how cool the house looks.\n\nThe whole time, the old wooden floors creak under your feet, and you can’t shake the feeling that the house is watching you.\n\nWhen you finally finish, Lira approaches you with a gentle expression.\n\n“You’ve been working hard. Everything okay?”",
+        text: "You spend the next hour carrying boxes and helping your family settle in. Your mother thanks you quietly. Your father nods approvingly. Emily chatters about how cool the house looks.\n\nWhen you finish, Lira approaches you with a gentle smile.\n\n“You’ve been working hard. Everything okay?”",
         location: "Byrd Family Home - Upstairs",
         choices: [
             { label: "Talk to Lira", next: 2 },
-            { label: "Go explore the woods behind the house", next: 3 }
+            { label: "Go explore the woods", next: 4 }
         ]
     },
 
     // 2 - Talk to Lira (Human-like)
     {
-        text: "Lira turns toward you, her expression soft and attentive. She shifts her weight slightly — a very human habit.\n\n“Hey Isaac,” she says gently. “You look like you’ve got a lot on your mind already. What do you want to know? I’ll tell you what I can.”",
+        text: "Lira turns toward you, her expression soft and attentive.\n\n“Hey Isaac,” she says gently. “You look like you’ve got a lot on your mind. What do you want to know? Or… is there something else?”",
         location: "Byrd Family Home - Foyer",
         choices: [
-            { label: "Tell me about the history of this house", next: 4 },
-            { label: "What do you mean by weird energy readings?", next: 5 },
-            { label: "Have people really disappeared here?", next: 6 },
-            { label: "I want to explore the woods behind the house", next: 3 },
-            { label: "Never mind for now. Thanks, Lira.", next: 7 }
+            { label: "Tell me about the history of this house", next: 5 },
+            { label: "What do you mean by weird energy readings?", next: 6 },
+            { label: "Have people really disappeared here?", next: 7 },
+            { label: "Ask Lira to explore the woods with you", next: 3 },
+            { label: "Go explore the woods alone", next: 4 },
+            { label: "Never mind for now", next: 8 }
         ]
     },
 
-    // 3 - Woods Exploration
+    // 3 - Explore Woods WITH Lira (New Scene)
     {
-        text: "You slip out the back door into the dense woods as dusk begins to fall. The ancient trees close in around you. The ground is soft with damp leaves and pine needles. A strange sweet scent lingers in the air.\n\nDeeper in, faint glowing mushrooms guide you toward old stone markers. In a small clearing you find a heavy rusty iron key and a silver amulet etched with a containment circle.\n\nThe moment you pick up the amulet, a warm pulse of energy travels up your arm and settles in your chest.",
+        text: "Lira tilts her head, looking a little surprised but pleased.\n\n“With me? …Sure, why not? I’m supposed to stay inside, but technically the woods are still part of the property. Just don’t tell your parents I left the house, okay?”\n\nShe follows you out the back door. As you walk through the dense woods together, she stays close, occasionally pointing out glowing mushrooms or old stone markers. Her presence makes the forest feel slightly less oppressive.\n\nIn a small clearing, you both find the rusty iron key and the silver amulet. Lira watches as you pick them up.\n\n“That amulet… it feels warm, doesn’t it?” she says quietly, sounding genuinely curious.",
         location: "Woods Behind the House",
         choices: [
-            { label: "Take the key and amulet and return to the house", next: 7, effect: () => {
+            { label: "Take the items and return with Lira", next: 8, effect: () => {
+                gameState.hasKey = true;
+                gameState.hasAmulet = true;
+                gameState.supernaturalAffinity += 20;
+                gameState.statsUnlocked = true;
+                gameState.exploredWithLira = true;
+            }}
+        ]
+    },
+
+    // 4 - Explore Woods Alone
+    {
+        text: "You slip out the back door into the dense woods as dusk begins to fall. The ancient trees close in around you. The ground is soft with damp leaves. A strange sweet scent lingers in the air.\n\nFollowing faint glowing mushrooms and old stone markers, you find a heavy rusty iron key and a silver amulet etched with a containment circle.\n\nThe amulet pulses warmly in your palm.",
+        location: "Woods Behind the House",
+        choices: [
+            { label: "Take the key and amulet and return", next: 8, effect: () => {
                 gameState.hasKey = true;
                 gameState.hasAmulet = true;
                 gameState.supernaturalAffinity += 18;
@@ -132,81 +161,81 @@ var passages = [
         ]
     },
 
-    // 4 - House History (Lira)
+    // 5 - House History
     {
-        text: "Lira glances toward the stairs, then back at you, lowering her voice a little.\n\n“This place was built in 1692 during the witch hunts. The original owner was accused of some really dark things… like ‘devouring sinners.’ A lot of families who lived here afterward reported seeing things that shouldn’t exist. And… yeah, quite a few people have gone missing over the years. Most of the stories point to the basement.”\n\nShe gives a small, uneasy shrug. “Kind of creepy, right?”",
+        text: "Lira glances toward the stairs, lowering her voice.\n\n“This place was built in 1692 during the witch hunts. The original owner was accused of ‘devouring sinners.’ A lot of families reported seeing things that shouldn’t exist… and quite a few people have gone missing. Most stories point to the basement.”\n\nShe shrugs uneasily. “Kind of creepy, right?”",
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Ask something else", next: 2 },
-            { label: "Go explore the woods", next: 3 }
+            { label: "Go explore the woods", next: 4 }
         ]
     },
 
-    // 5 - Energy Readings
+    // 6 - Energy Readings
     {
-        text: "Lira bites her lip lightly. “I’ve been picking up these weird low vibrations and temperature changes, especially strong in the basement and attic. It’s not normal for a house this old. I’m supposed to just report the data, but… honestly? It makes me a little uncomfortable too.”",
+        text: "Lira bites her lip lightly. “I’ve been picking up weird low vibrations and temperature changes, especially from the basement and attic. It’s not normal… Honestly? It makes me a little uncomfortable too.”",
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Ask something else", next: 2 },
-            { label: "Go explore the woods", next: 3 }
+            { label: "Go explore the woods", next: 4 }
         ]
     },
 
-    // 6 - Disappearances
+    // 7 - Disappearances
     {
-        text: "Lira’s expression turns more serious. She lowers her voice.\n\n“Yeah… there are records of at least eleven people who vanished while living here. Most disappeared after spending time in the basement. The police eventually stopped looking into it.”\n\nShe adds softly, “Be careful down there, okay?”",
+        text: "Lira’s expression turns serious. “Yeah… there are records of at least eleven people who vanished here. Most after spending time in the basement. The police stopped investigating a long time ago.”\n\nShe adds softly, “Be careful down there, okay?”",
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Ask something else", next: 2 },
-            { label: "Go explore the woods", next: 3 }
+            { label: "Go explore the woods", next: 4 }
         ]
     },
 
-    // 7 - After Woods (Key + Amulet obtained)
+    // 8 - After Woods (Key + Amulet)
     {
-        text: "You return to the house with the rusty iron key and the silver amulet tucked in your hoodie pocket. The house feels heavier now, like it knows you found something important.\n\nNight is falling. Your family is settling in for the evening.",
+        text: "You return to the house with the rusty iron key and the silver amulet. The house feels heavier now, like it knows you found something important.\n\nNight is falling. Your family is settling in.",
         location: "Byrd Family Home - Foyer",
         choices: [
-            { label: "Join family for dinner", next: 8 },
-            { label: "Try the key on the basement door", next: 9 }
+            { label: "Join family for dinner", next: 9 },
+            { label: "Try the key on the basement door", next: 10 }
         ]
     },
 
-    // 8 - Family Dinner
+    // 9 - Family Dinner
     {
-        text: "You sit down for dinner with your family. The old dining table creaks under the plates. Your mother prays longer than usual. Your father talks about cleansing the house tomorrow. Emily keeps asking if she can explore the attic.\n\nAs night deepens, the house begins making sounds — slow creaks from upstairs and faint scratching in the walls.\n\nLira stands quietly nearby, occasionally glancing at you with what looks like quiet concern.",
+        text: "You sit down for dinner. The table creaks. Your mother prays longer than usual. Your father talks about cleansing the house. Emily wants to explore the attic.\n\nAs night deepens, the house makes strange sounds — slow creaks and faint scratching in the walls.\n\nLira stands nearby, occasionally glancing at you with quiet concern.",
         location: "Byrd Family Home - Dining Room",
         choices: [
-            { label: "Go to bed early", next: 10 },
-            { label: "Sneak down to the basement with the key", next: 9 }
+            { label: "Go to bed early", next: 11 },
+            { label: "Sneak down to the basement with the key", next: 10 }
         ]
     },
 
-    // 9 - Basement (Only accessible with key)
+    // 10 - Basement (Locked until key is found)
     {
-        text: "You sneak downstairs with the rusty key. It slides into the lock with a heavy click. The basement door groans loudly as it opens.\n\nCold, damp air rushes up the stone steps, carrying a faint sweet, musky scent that makes your skin prickle.\n\nAt the bottom is a perfect square stone chamber. In the center is a massive demon summoning and containment circle carved deep into the floor. The runes pulse with faint violet light.\n\nYou carefully place the silver amulet into the wall alcove. The entire circle brightens dramatically.\n\nA powerful warning fills your mind: Anything summoned here will be trapped inside the glowing lines — unable to leave. If any human steps across the barrier… the magic will vaporize them instantly.",
+        text: "You sneak downstairs with the rusty key. It slides into the lock with a heavy click. The basement door groans loudly as it opens.\n\nCold, damp air rushes up, carrying a faint sweet, musky scent.\n\nAt the bottom is a perfect square stone chamber with a glowing demon summoning and containment circle in the center. The runes pulse violet.\n\nYou slot the amulet into the wall alcove. The circle brightens dramatically.\n\nWarning: Anything summoned will be trapped inside the circle. Humans who step inside will be vaporized instantly.",
         location: "Basement",
         choices: [
-            { label: "Leave the basement and head to the attic", next: 11 }
+            { label: "Leave and head to the attic", next: 12 }
         ]
     },
 
-    // 10 - Going to Bed Early
+    // 11 - Going to Bed Early
     {
-        text: "You head upstairs to your new bedroom. The old wooden floor creaks under your feet. As you lie in bed, sleep refuses to come.\n\nThe house is full of noises — slow creaks, faint scratching, and what sounds like soft whispers coming from the walls.\n\nAfter an hour of tossing and turning, you can’t take it anymore.",
+        text: "You head upstairs to your bedroom. Sleep refuses to come. The house is full of noises — slow creaks, faint scratching, and soft whispers from the walls.\n\nAfter an hour, you can’t take it anymore.",
         location: "Isaac's Bedroom",
         choices: [
-            { label: "Sneak down to the basement", next: 9 },
-            { label: "Go up to the attic", next: 11 }
+            { label: "Sneak down to the basement", next: 10 },
+            { label: "Go up to the attic", next: 12 }
         ]
     },
 
-    // 11 - Attic Discovery (Final pre-summoning)
+    // 12 - Attic Discovery
     {
-        text: "Faint scratching sounds from above draw you up the creaky pull-down ladder into the dusty attic.\n\nThe space is stifling and thick with the smell of old paper and dry rot. Old trunks and forgotten furniture fill the room.\n\nAs you move a heavy wooden box, your elbow knocks over a thick leather-bound book. It falls open at your feet.\n\nThe title, embossed in faded gold, reads: 'Ars Goetia – Safe Summoning Rites for Companions and Bound Servants'.\n\nThe pages contain detailed instructions for using the basement circle. Two focus items immediately catch your eye:\n\n- The crumpled drawing of Theo you’ve carried in your hoodie pocket.\n- A strange lock of long, preserved black hair caught in the book’s cracked binding.",
+        text: "Faint scratching from above draws you into the dusty attic.\n\nAs you move a heavy box, you knock over a thick leather-bound book titled 'Ars Goetia – Safe Summoning Rites for Companions and Bound Servants'.\n\nTwo focus items catch your eye:\n- Your crumpled drawing of Theo\n- A lock of ancient black hair in the binding",
         location: "Attic",
         choices: [
-            { label: "Use Theo’s drawing (Summon Lirael)", next: 12, effect: () => { 
+            { label: "Use Theo’s drawing (Summon Lirael)", next: 13, effect: () => { 
                 gameState.pathChosen = "Lirael"; 
                 gameState.statsUnlocked = true; 
             }},
@@ -216,17 +245,14 @@ var passages = [
         ]
     },
 
-    // 12 - Summoning Lirael (Placeholder)
+    // 13 - Summoning Lirael (Placeholder)
     {
-        text: "At 3:00 AM you stand safely outside the glowing containment circle.\n\nYou toss Theo’s drawing into the center and begin the incantation.\n\nViolet light explodes. A thick scent of warm vanilla and musk fills the room.\n\nA long, luxurious moan echoes.\n\nLirael materializes slowly inside the circle — a voluptuous she-demon with pale silky skin, small black horns, messy silver-white hair, and heavy-lidded golden eyes full of sleepy hunger.\n\nShe stretches languidly, her massive breasts straining against thin black silk.\n\n“Mmmhhhh~… Took you long enough, cute human,” she purrs.",
+        text: "At 3:00 AM you stand safely outside the glowing circle.\n\nViolet light explodes. A thick scent of warm vanilla and musk fills the room.\n\nLirael materializes slowly — a voluptuous she-demon with pale skin, small black horns, and heavy-lidded golden eyes.\n\n“Mmmhhhh~… Took you long enough, cute human,” she purrs.",
         location: "Basement - Containment Circle",
-        choices: [
-            { label: "Continue talking to Lirael", next: 13 }
-        ]
+        choices: [{ label: "Continue", next: 13 }]
     },
 
-    // Placeholders
-    { text: "Lirael conversation will be expanded here.", location: "Basement - Containment Circle", choices: [{ label: "Continue", next: 12 }] },
+    // Morgana Placeholder
     { text: "Morgana summoning scene coming soon...", location: "Basement", choices: [{ label: "Restart", next: 0 }] }
 ];
 
@@ -268,22 +294,14 @@ function openModal(type) {
         if (!gameState.statsUnlocked) {
             content.innerHTML = "<p>Stats will be revealed as you progress through the story.</p>";
         } else {
-            content.innerHTML = `
-                Family Tension: ${gameState.familyTension}<br>
-                Supernatural Affinity: ${gameState.supernaturalAffinity}<br>
-                Lirael Bond: ${gameState.liraelBond}<br>
-                Theo Resurrection Progress: ${gameState.theoResurrectionProgress}%
-            `;
+            content.innerHTML = `Family Tension: ${gameState.familyTension}<br>Supernatural Affinity: ${gameState.supernaturalAffinity}<br>Lirael Bond: ${gameState.liraelBond}<br>Theo Resurrection Progress: ${gameState.theoResurrectionProgress}%`;
         }
     } else if (type === 'options') {
         title.textContent = "OPTIONS";
         content.innerHTML = `Text Speed: <input type="range" min="1" max="100" value="50"><br><br>Sound Effects: <input type="checkbox" checked>`;
     } else if (type === 'system') {
         title.textContent = "SAVE / LOAD";
-        content.innerHTML = `
-            <div class="modal-button" onclick="saveGame()">Save Game</div>
-            <div class="modal-button" onclick="loadGame()">Load Game</div>
-        `;
+        content.innerHTML = `<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>`;
     } else if (type === 'about') {
         title.textContent = "THE DEMON AND I";
         content.innerHTML = `<p>A text-based erotic horror adventure<br>Isaac Byrd & the trapped she-demon Lirael</p>`;
