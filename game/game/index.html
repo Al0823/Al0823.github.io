@@ -5,117 +5,157 @@
 <title>game shell</title>
 <style>
 body {
-margin: 0;
-padding: 0;
-background: #080808;
-color: #c0c0c0;
-font-family: 'Courier New', Courier, monospace;
+margin:0;
+padding:0;
+background:#080808;
+color:#c0c0c0;
+font-family:'Courier New',Courier,monospace;
 }
 #container {
-width: 75%;
-margin: 16px auto;
-border: 4px solid #a0a0a0;
-background: #101010;
-padding: 12px;
+width:75%;
+margin:16px auto;
+border:4px solid #a0a0a0;
+background:#101010;
+padding:12px;
 }
 #layout {
-display: flex;
+display:flex;
 }
 #side-panel {
-width: 200px;
-border: 3px solid #505050;
-background: #111;
-padding: 10px;
-margin-right: 10px;
+width:200px;
+border:3px solid #505050;
+background:#111;
+padding:10px;
+margin-right:10px;
 }
 .panel-section {
-margin-bottom: 14px;
-border: 2px inset #404040;
-padding: 8px;
-background: #181818;
+margin-bottom:14px;
+border:2px inset #404040;
+padding:8px;
+background:#181818;
 }
 .panel-title {
-font-size: 13px;
-color: #ffcc00;
-margin-bottom: 6px;
-letter-spacing: 0.1em;
-}
-#main-content {
-flex: 1;
-}
-#titlebar {
-background: #202020;
-color: #f8f8f8;
-padding: 12px;
-border: 2px inset #505050;
-text-align: center;
-letter-spacing: 0.18em;
-font-size: 20px;
-}
-#titlebar .blink {
-color: #ffcc00;
-}
-#main-frame {
-margin-top: 12px;
-border: 3px solid #505050;
-background: linear-gradient(180deg, #111 0%, #1a1a1a 100%);
-padding: 12px;
-}
-#story {
-min-height: 260px;
-background: #121212;
-border: 2px inset #404040;
-padding: 12px;
-line-height: 1.6;
-white-space: pre-wrap;
-}
-#choices {
-margin-top: 12px;
-}
-#choices button {
-margin: 3px 4px 3px 0;
-padding: 8px 12px;
-border: 2px outset #808080;
-background: #202020;
-color: #f0f0f0;
-cursor: pointer;
-font-family: inherit;
-}
-#choices button:hover {
-background: #303030;
-}
-#status-bar {
-margin-top: 14px;
-padding: 8px;
-background: #181818;
-border: 2px inset #404040;
-font-size: 13px;
-}
-#menu {
-margin-top: 10px;
-border-top: 1px solid #404040;
-padding-top: 10px;
-}
-#menu a {
-text-decoration: none;
-color: #c0c0c0;
-margin-right: 16px;
-}
-#menu a:hover {
-color: #ffcc00;
+font-size:13px;
+color:#ffcc00;
+margin-bottom:6px;
+letter-spacing:0.1em;
 }
 .panel-button {
-display: block;
-margin-top: 6px;
-padding: 6px;
-border: 2px outset #808080;
-background: #202020;
-color: #f0f0f0;
-cursor: pointer;
-text-align: center;
+display:block;
+margin-top:6px;
+padding:6px;
+border:2px outset #808080;
+background:#202020;
+color:#f0f0f0;
+cursor:pointer;
+text-align:center;
 }
 .panel-button:hover {
-background: #303030;
+background:#303030;
+}
+#main-content {
+flex:1;
+}
+#titlebar {
+background:#202020;
+color:#f8f8f8;
+padding:12px;
+border:2px inset #505050;
+text-align:center;
+letter-spacing:0.18em;
+font-size:20px;
+}
+#titlebar .blink {
+color:#ffcc00;
+}
+#main-frame {
+margin-top:12px;
+border:3px solid #505050;
+background:linear-gradient(180deg,#111 0%,#1a1a1a 100%);
+padding:12px;
+}
+#story {
+min-height:260px;
+background:#121212;
+border:2px inset #404040;
+padding:12px;
+line-height:1.6;
+white-space:pre-wrap;
+}
+#choices {
+margin-top:12px;
+}
+#choices button {
+margin:3px 4px 3px 0;
+padding:8px 12px;
+border:2px outset #808080;
+background:#202020;
+color:#f0f0f0;
+cursor:pointer;
+font-family:inherit;
+}
+#choices button:hover {
+background:#303030;
+}
+#status-bar {
+margin-top:14px;
+padding:8px;
+background:#181818;
+border:2px inset #404040;
+font-size:13px;
+}
+#menu {
+margin-top:10px;
+border-top:1px solid #404040;
+padding-top:10px;
+}
+#menu a {
+text-decoration:none;
+color:#c0c0c0;
+margin-right:16px;
+}
+#menu a:hover {
+color:#ffcc00;
+}
+
+/* MODAL */
+#modal {
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+align-items:center;
+justify-content:center;
+}
+#modal-box {
+width:320px;
+background:#101010;
+border:3px solid #505050;
+padding:12px;
+}
+#modal-title {
+color:#ffcc00;
+margin-bottom:10px;
+}
+#close-modal {
+float:right;
+cursor:pointer;
+color:#ff4444;
+}
+.modal-button {
+display:block;
+margin-top:8px;
+padding:6px;
+border:2px outset #808080;
+background:#202020;
+cursor:pointer;
+text-align:center;
+}
+.modal-button:hover {
+background:#303030;
 }
 </style>
 </head>
@@ -129,24 +169,15 @@ background: #303030;
 </div>
 <div class="panel-section">
 <div class="panel-title">STATS</div>
-<div id="stats-display">---</div>
+<div class="panel-button" onclick="openModal('stats')">View Stats</div>
 </div>
 <div class="panel-section">
 <div class="panel-title">SYSTEM</div>
-<div class="panel-button" onclick="saveGame()">Save</div>
-<div class="panel-button" onclick="loadGame()">Load</div>
+<div class="panel-button" onclick="openModal('system')">Save / Load</div>
+<div class="panel-button" onclick="openModal('options')">Options</div>
+</div>
 </div>
 
-<!-- OPTIONS MENU -->
-<div class="panel-section">
-<div class="panel-title">OPTIONS</div>
-<div class="panel-button" onclick="toggleSound()">Sound: <span id="sound-status">ON</span></div>
-<div class="panel-button" onclick="toggleSpeed()">Text Speed: <span id="speed-status">NORMAL</span></div>
-<div class="panel-button" onclick="toggleBlink()">Blink: <span id="blink-status">ON</span></div>
-<div class="panel-button" onclick="resetSave()">Reset Save</div>
-</div>
-
-</div>
 <div id="main-content">
 <div id="titlebar">
 <span id="title-text" class="blink">Game Shell</span>
@@ -158,32 +189,63 @@ background: #303030;
 <div id="menu">
 <a href="#" onclick="currentPassage=0;renderPassage();return false;">Restart</a>
 <a href="#" onclick="alert('Retro text adventure shell');return false;">About</a>
-<a href="#" onclick="alert('Use side panel to save/load');return false;">Help</a>
+<a href="#" onclick="alert('Use sidebar for menus');return false;">Help</a>
 </div>
 </div>
 </div>
 </div>
 </div>
-</body>
+
+<!-- MODAL -->
+<div id="modal">
+<div id="modal-box">
+<div id="modal-title"></div>
+<div id="modal-content"></div>
+<div class="modal-button" onclick="closeModal()">Close</div>
+</div>
+</div>
+
 <script>
 var passages=[
 {text:"WELCOME TO THE GAME\n\nThe game grounds are quiet, but you can sense movement in the distance. A flickering torch lights the corridor ahead.",choices:[{label:'Enter the corridor',next:1},{label:'Read the notice board',next:2}]},
 {text:"The corridor is lined with ancient tapestries. You hear faint footsteps and the soft scrape of leather. Something important waits at the end.",choices:[{label:'Proceed carefully',next:3},{label:'Retreat to the entrance',next:0}]},
 {text:"The notice board contains a hand-written warning:\n\n'Beginners should not wander alone. Seek the tutor before midnight.'\n\nA small note is pinned below: 'The library key is hidden in the altar.'",choices:[{label:'Take the note and go inside',next:1},{label:'Leave the board',next:0}]},
-{text:"At the end of the corridor, a heavy oak door stands half-open. Beyond it, the academy's secret training hall glows with candlelight.",choices:[{label:'Step inside',next:4},{label:'Turn back',next:0}]},
-{text:"You enter the hall and find an old mentor waiting. He nods and says, 'Welcome. Your training begins now.'\n\nThe adventure has only just begun.",choices:[{label:'Restart story',next:0}]}
+{text:"At the end of the corridor, a heavy oak door stands half-open.",choices:[{label:'Step inside',next:4},{label:'Turn back',next:0}]},
+{text:"You enter the hall. Your training begins now.",choices:[{label:'Restart story',next:0}]}
 ];
 
 var currentPassage=0;
 var player={health:100,energy:50};
 
-/* OPTIONS STATE */
-var options={
-sound:true,
-fastText:false,
-blink:true
-};
+/* MODAL SYSTEM */
+function openModal(type){
+var modal=document.getElementById('modal');
+var title=document.getElementById('modal-title');
+var content=document.getElementById('modal-content');
 
+if(type==='system'){
+title.textContent="SYSTEM";
+content.innerHTML='<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>';
+}
+
+if(type==='options'){
+title.textContent="OPTIONS";
+content.innerHTML='Text Speed: <input type="range"><br>Sound: <input type="checkbox">';
+}
+
+if(type==='stats'){
+title.textContent="PLAYER STATS";
+content.innerHTML="HP: "+player.health+"<br>Energy: "+player.energy;
+}
+
+modal.style.display="flex";
+}
+
+function closeModal(){
+document.getElementById('modal').style.display="none";
+}
+
+/* GAME */
 function renderPassage(){
 var passage=passages[currentPassage];
 document.getElementById('story').textContent=passage.text;
@@ -197,7 +259,6 @@ choices.appendChild(button);
 }
 updateStatus();
 updateSidePanel();
-updateOptionsUI();
 }
 
 function choose(index){
@@ -211,35 +272,12 @@ document.getElementById('status-bar').textContent="Location: "+(currentPassage+1
 
 function updateSidePanel(){
 document.getElementById('location-display').textContent="Node "+(currentPassage+1);
-document.getElementById('stats-display').textContent="HP: "+player.health+"\nEN: "+player.energy;
-}
-
-/* OPTIONS FUNCTIONS */
-function toggleSound(){
-options.sound=!options.sound;
-updateOptionsUI();
-}
-
-function toggleSpeed(){
-options.fastText=!options.fastText;
-updateOptionsUI();
-}
-
-function toggleBlink(){
-options.blink=!options.blink;
-updateOptionsUI();
-}
-
-function updateOptionsUI(){
-document.getElementById('sound-status').textContent=options.sound?"ON":"OFF";
-document.getElementById('speed-status').textContent=options.fastText?"FAST":"NORMAL";
-document.getElementById('blink-status').textContent=options.blink?"ON":"OFF";
 }
 
 /* SAVE SYSTEM */
 function saveGame(){
-localStorage.setItem('gameSave',JSON.stringify({passage:currentPassage,player:player,options:options}));
-alert("Game Saved!");
+localStorage.setItem('gameSave',JSON.stringify({passage:currentPassage,player:player}));
+alert("Saved!");
 }
 
 function loadGame(){
@@ -248,23 +286,16 @@ if(save){
 var data=JSON.parse(save);
 currentPassage=data.passage;
 player=data.player;
-options=data.options||options;
 renderPassage();
-alert("Game Loaded!");
+alert("Loaded!");
 }else{
 alert("No save found.");
 }
 }
 
-function resetSave(){
-localStorage.removeItem('gameSave');
-alert("Save Reset.");
-}
-
 function blinkTitle(){
-if(!options.blink)return;
-var title=document.getElementById('title-text');
-title.style.visibility=(title.style.visibility==='hidden')?'visible':'hidden';
+var t=document.getElementById('title-text');
+t.style.visibility=(t.style.visibility==='hidden')?'visible':'hidden';
 }
 
 window.onload=function(){
@@ -272,4 +303,5 @@ renderPassage();
 setInterval(blinkTitle,700);
 };
 </script>
+</body>
 </html>
