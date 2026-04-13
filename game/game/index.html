@@ -326,6 +326,7 @@ var passages = [
         ]
     },
 
+    // 17 - Offer granola bar
     {
         text: "You pull the slightly squished granola bar from your pocket and toss it gently into the circle.\n\nLirael lowers herself with luxurious slowness, her twelve-foot frame kneeling so her massive breasts rest heavily against her thighs. She picks up the bar, unwraps it deliberately, and takes a slow, sensual bite, moaning deeply as she chews.\n\n“Mmmhh~… Sweet. Crunchy. But so empty compared to real comfort.”\n\nShe swallows visibly, then rubs slow circles over her soft lavender stomach. “Human food fills the belly… but what I truly crave is that warm, safe feeling when you finally relax with me. Keep feeding me that, and I might be able to help with Theo.”",
         location: "Basement - Containment Circle",
@@ -347,6 +348,7 @@ var passages = [
     { text: "Morgana summoning scene coming soon...", location: "Basement", choices: [{ label: "Restart", next: 0 }] }
 ];
 
+// ================ RENDERING ================
 function renderPassage() {
     var p = passages[gameState.currentPassage];
     
@@ -365,6 +367,7 @@ function renderPassage() {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
         btn.onclick = () => {
+            // Mark this choice as used
             if (!gameState.usedChoices[gameState.currentPassage]) {
                 gameState.usedChoices[gameState.currentPassage] = [];
             }
@@ -406,7 +409,7 @@ function openModal(type) {
         content.innerHTML = `<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>`;
     } else if (type === 'about') {
         title.textContent = "THE DEMON AND I";
-        content.innerHTML = `<p>A text-based erotic horror adventure<br>Isaac Byrd & the Demon in the Basement</p>`;
+        content.innerHTML = `<p>A text-based erotic horror adventure<br>Isaac Byrd & the trapped she-demon Lirael</p>`;
     }
 
     modal.style.display = "flex";
