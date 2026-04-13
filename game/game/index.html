@@ -2,196 +2,69 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>game shell</title>
+<title>The Demon and I</title>
 <style>
-body {
-margin:0;
-padding:0;
-background:#080808;
-color:#c0c0c0;
-font-family:'Courier New',Courier,monospace;
-}
-#container {
-width:75%;
-margin:16px auto;
-border:4px solid #a0a0a0;
-background:#101010;
-padding:12px;
-}
-#layout {
-display:flex;
-}
-#side-panel {
-width:200px;
-border:3px solid #505050;
-background:#111;
-padding:10px;
-margin-right:10px;
-}
-.panel-section {
-margin-bottom:14px;
-border:2px inset #404040;
-padding:8px;
-background:#181818;
-}
-.panel-title {
-font-size:13px;
-color:#ffcc00;
-margin-bottom:6px;
-letter-spacing:0.1em;
-}
-.panel-button {
-display:block;
-margin-top:6px;
-padding:6px;
-border:2px outset #808080;
-background:#202020;
-color:#f0f0f0;
-cursor:pointer;
-text-align:center;
-}
-.panel-button:hover {
-background:#303030;
-}
-#main-content {
-flex:1;
-}
-#titlebar {
-background:#202020;
-color:#f8f8f8;
-padding:12px;
-border:2px inset #505050;
-text-align:center;
-letter-spacing:0.18em;
-font-size:20px;
-}
-#titlebar .blink {
-color:#ffcc00;
-}
-#main-frame {
-margin-top:12px;
-border:3px solid #505050;
-background:linear-gradient(180deg,#111 0%,#1a1a1a 100%);
-padding:12px;
-}
-#story {
-min-height:260px;
-background:#121212;
-border:2px inset #404040;
-padding:12px;
-line-height:1.6;
-white-space:pre-wrap;
-}
-#choices {
-margin-top:12px;
-}
-#choices button {
-margin:3px 4px 3px 0;
-padding:8px 12px;
-border:2px outset #808080;
-background:#202020;
-color:#f0f0f0;
-cursor:pointer;
-font-family:inherit;
-}
-#choices button:hover {
-background:#303030;
-}
-#status-bar {
-margin-top:14px;
-padding:8px;
-background:#181818;
-border:2px inset #404040;
-font-size:13px;
-}
-#menu {
-margin-top:10px;
-border-top:1px solid #404040;
-padding-top:10px;
-}
-#menu a {
-text-decoration:none;
-color:#c0c0c0;
-margin-right:16px;
-}
-#menu a:hover {
-color:#ffcc00;
-}
-#modal {
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-align-items:center;
-justify-content:center;
-}
-#modal-box {
-width:320px;
-background:#101010;
-border:3px solid #505050;
-padding:12px;
-}
-#modal-title {
-color:#ffcc00;
-margin-bottom:10px;
-}
-#close-modal {
-float:right;
-cursor:pointer;
-color:#ff4444;
-}
-.modal-button {
-display:block;
-margin-top:8px;
-padding:6px;
-border:2px outset #808080;
-background:#202020;
-cursor:pointer;
-text-align:center;
-}
-.modal-button:hover {
-background:#303030;
-}
+body { margin:0; padding:0; background:#080808; color:#c0c0c0; font-family:'Courier New', Courier, monospace; }
+#container { width:75%; margin:16px auto; border:4px solid #a0a0a0; background:#101010; padding:12px; }
+#layout { display:flex; }
+#side-panel { width:220px; border:3px solid #505050; background:#111111; padding:10px; margin-right:10px; }
+.panel-section { margin-bottom:14px; border:2px inset #404040; padding:8px; background:#181818; }
+.panel-title { font-size:13px; color:#ffcc00; margin-bottom:6px; letter-spacing:0.1em; }
+.panel-button { display:block; margin-top:6px; padding:6px; border:2px outset #808080; background:#202020; color:#f0f0f0; cursor:pointer; text-align:center; }
+.panel-button:hover { background:#303030; }
+#main-content { flex:1; }
+#titlebar { background:#202020; color:#f8f8f8; padding:12px; border:2px inset #505050; text-align:center; letter-spacing:0.18em; font-size:20px; }
+#titlebar .blink { color:#ffcc00; }
+#main-frame { margin-top:12px; border:3px solid #505050; background:linear-gradient(180deg,#111 0%,#1a1a1a 100%); padding:12px; }
+#story { min-height:340px; background:#121212; border:2px inset #404040; padding:14px; line-height:1.65; white-space:pre-wrap; font-size:15px; }
+#choices { margin-top:12px; }
+#choices button { margin:4px 6px 4px 0; padding:9px 14px; border:2px outset #808080; background:#202020; color:#f0f0f0; cursor:pointer; font-family:inherit; font-size:14px; }
+#choices button:hover { background:#303030; }
+#status-bar { margin-top:14px; padding:8px; background:#181818; border:2px inset #404040; font-size:13px; }
+#menu { margin-top:10px; border-top:1px solid #404040; padding-top:10px; }
+#menu a { text-decoration:none; color:#c0c0c0; margin-right:16px; }
+#menu a:hover { color:#ffcc00; }
+#modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); display:none; align-items:center; justify-content:center; }
+#modal-box { width:340px; background:#101010; border:3px solid #505050; padding:14px; }
+#modal-title { color:#ffcc00; margin-bottom:12px; }
+.modal-button { display:block; margin-top:8px; padding:8px; border:2px outset #808080; background:#202020; cursor:pointer; text-align:center; }
+.modal-button:hover { background:#303030; }
 </style>
 </head>
 <body>
+
 <div id="container">
 <div id="layout">
 <div id="side-panel">
 <div class="panel-section">
 <div class="panel-title">LOCATION</div>
-<div id="location-display">---</div>
+<div id="location-display">Byrd Family Home - Hartford, CT</div>
 </div>
 <div class="panel-section">
 <div class="panel-title">STATS</div>
-<div class="panel-button" onclick="openModal('stats')">View Stats</div>
-</div>
-<div class="panel-section">
-<div class="panel-title">SYSTEM</div>
-<div class="panel-button" onclick="openModal('system')">Save / Load</div>
-<div class="panel-button" onclick="openModal('options')">Options</div>
+<div id="stats-display"></div>
 </div>
 </div>
+
 <div id="main-content">
 <div id="titlebar">
-<span id="title-text" class="blink">Game Shell</span>
+<span id="title-text" class="blink">THE HOUSE IN HARTFORD</span>
 </div>
 <div id="main-frame">
 <div id="story"></div>
 <div id="choices"></div>
 <div id="status-bar"></div>
 <div id="menu">
-<a href="#" onclick="currentPassage=0;renderPassage();return false;">Restart</a>
-<a href="#" onclick="alert('Retro text adventure shell');return false;">About</a>
-<a href="#" onclick="alert('Use sidebar for menus');return false;">Help</a>
+<a href="#" onclick="restartGame(); return false;">Restart</a>
+<a href="#" onclick="openModal('stats'); return false;">Stats</a>
+<a href="#" onclick="openModal('system'); return false;">Save/Load</a>
+<a href="#" onclick="alert('Text-based erotic horror adventure'); return false;">About</a>
 </div>
 </div>
 </div>
 </div>
 </div>
+
 <div id="modal">
 <div id="modal-box">
 <div id="modal-title"></div>
@@ -199,95 +72,218 @@ background:#303030;
 <div class="modal-button" onclick="closeModal()">Close</div>
 </div>
 </div>
+
 <script>
-var passages=[
-{text:"WELCOME TO THE GAME\n\nThe game grounds are quiet, but you can sense movement in the distance. A flickering torch lights the corridor ahead.",choices:[{label:'Enter the corridor',next:1},{label:'Read the notice board',next:2}]},
-{text:"The corridor is lined with ancient tapestries. You hear faint footsteps and the soft scrape of leather. Something important waits at the end.",choices:[{label:'Proceed carefully',next:3},{label:'Retreat to the entrance',next:0}]},
-{text:"The notice board contains a hand-written warning:\n\n'Beginners should not wander alone. Seek the tutor before midnight.'\n\nA small note is pinned below: 'The library key is hidden in the altar.'",choices:[{label:'Take the note and go inside',next:1},{label:'Leave the board',next:0}]},
-{text:"At the end of the corridor, a heavy oak door stands half-open.",choices:[{label:'Step inside',next:4},{label:'Turn back',next:0}]},
-{text:"You enter the hall. Your training begins now.",choices:[{label:'Restart story',next:0}]}
+// ================ GAME STATE ================
+var gameState = {
+currentPassage: 0,
+familyTension: 25,
+supernaturalAffinity: 10,
+liraelBond: 0,
+theoResurrectionProgress: 0,
+hasKey: false,
+hasAmulet: false,
+pathChosen: null,
+liraelFedComfort: false
+};
+
+var passages = [
+{
+text: "The old minivan’s engine dies with a tired rattle. Cool Connecticut air rushes in as you step out.\n\nThe three-story Victorian house looms before you — dark weathered wood, thick ivy crawling up the walls, and an attic window that seems to stare back. Dense woods press close on all sides.\n\nYour mother clutches her cross. Your father talks about purification prayers. Your sister Emily is excited about the 'haunted mansion'.\n\nInside the foyer stands Lira — the household AI Companion. Her prisoner-style tag glows softly on her wrist: “Lira – Model F-7 – Property of Byrd Family”.\n\n“Welcome home,” she says in a calm, perfectly modulated voice. “I have prepared the rooms. There are… anomalous energy signatures coming from the basement and attic.”",
+location: "Byrd Family Home - Foyer",
+choices: [{ label: "Talk to Lira (the AI)", next: 1 }]
+},
+{
+text: "You turn to Lira. She stands perfectly still, blue eyes focused on you with polite attentiveness.\n\nHer synthetic skin has a faint pearlescent sheen, and her gray dress fits her figure neatly. The glowing tag on her wrist pulses steadily.\n\n“What would you like to know?” she asks calmly.",
+location: "Byrd Family Home - Foyer",
+isConversation: true,
+speaker: "Lira",
+choices: [
+{ label: "Tell me about this house and its history", next: 2 },
+{ label: "What do you mean by 'anomalous energy signatures'?", next: 3 },
+{ label: "Have there been any previous owners who disappeared?", next: 4 },
+{ label: "I'm going to explore the woods behind the house", next: 5 },
+{ label: "Never mind. I'll go help unpack.", next: 5 }
+]
+},
+{
+text: "Lira tilts her head slightly. “This property was built in 1692 during the Connecticut witch hunts. Multiple owners have reported sightings of figures that should not exist. Several individuals have gone missing over the centuries. The basement has remained locked for decades. The realtor advised against purchasing, but your parents insisted.”\n\nShe pauses. “Would you like to know more?”",
+location: "Byrd Family Home - Foyer",
+isConversation: true,
+speaker: "Lira",
+choices: [
+{ label: "Ask another question", next: 1 },
+{ label: "Go explore the woods", next: 5 }
+]
+},
+{
+text: "Lira’s eyes flicker for a moment. “There are consistent low-frequency vibrations and temperature fluctuations originating from the basement and attic. I am not programmed to speculate on supernatural causes, but the readings are… unusual for a residential property.”",
+location: "Byrd Family Home - Foyer",
+isConversation: true,
+speaker: "Lira",
+choices: [
+{ label: "Ask another question", next: 1 },
+{ label: "Go explore the woods", next: 5 }
+]
+},
+{
+text: "Lira replies without hesitation. “Historical records show at least eleven documented disappearances linked to this property since 1784. Most occurred inside or near the basement. Local authorities eventually stopped investigating.”\n\nHer voice remains perfectly neutral. “Is there anything else?”",
+location: "Byrd Family Home - Foyer",
+isConversation: true,
+speaker: "Lira",
+choices: [
+{ label: "Ask another question", next: 1 },
+{ label: "Go explore the woods", next: 5 }
+]
+},
+{
+text: "You slip out the back door into the dense woods. Ancient trees tower overhead. The ground is soft with damp leaves and pine needles.\n\nFollowing faint glowing mushrooms and old stone markers, you discover a rusty iron key and a silver amulet etched with a containment circle.\n\nThe amulet feels warm in your hand, sending a strange pulse of energy up your arm.",
+location: "Woods Behind the House",
+choices: [
+{ label: "Take the items and return to the house", next: 6, effect: () => {
+gameState.hasKey = true;
+gameState.hasAmulet = true;
+gameState.supernaturalAffinity += 15;
+}}
+]
+},
+{
+text: "Later that night, you use the rusty key to open the basement door. Cold, damp air rises from below, carrying a faint sweet musk.\n\nIn the center of the stone chamber is a glowing demon summoning and containment circle. The runes pulse with violet light.\n\nYou slot the amulet into the wall alcove. The circle brightens significantly.\n\nA clear warning echoes in your mind: Anything summoned will be trapped inside the circle. Humans who step inside will be vaporized instantly.",
+location: "Basement",
+choices: [
+{ label: "Leave the basement and head to the attic", next: 7 }
+]
+},
+{
+text: "That night you hear scratching from above. You climb into the dusty attic.\n\nWhile moving an old box, you knock over a thick leather-bound book titled 'Ars Goetia – Safe Summoning Rites'.\n\nIt contains instructions for the basement circle. Two focus items stand out:\n- Your crumpled drawing of Theo\n- A lock of ancient black hair in the binding",
+location: "Attic",
+choices: [
+{ label: "Use Theo’s drawing (Summon Lirael)", next: 8, effect: () => { gameState.pathChosen = "Lirael"; } },
+{ label: "Use the ancient hair (Summon Morgana)", next: 99, effect: () => { gameState.pathChosen = "Morgana"; } }
+]
+},
+{
+text: "At 3 AM you stand safely outside the glowing containment circle.\n\nYou place the amulet and toss Theo’s drawing into the center.\n\nAs you speak the incantation, violet light erupts. A thick scent of warm vanilla and musk fills the air.\n\nA long, luxurious moan echoes.\n\nLirael materializes slowly — a voluptuous she-demon with pale silky skin, small black horns, messy silver-white hair, and heavy-lidded golden eyes full of sleepy hunger.\n\nShe approaches the edge of the barrier but cannot cross it.\n\n“Mmmhhhh~… Took you long enough, cute human,” she purrs.",
+location: "Basement - Containment Circle",
+choices: [
+{ label: "Ask her who she is", next: 9 },
+{ label: "Tell her about Theo", next: 9 },
+{ label: "Ask if she can bring Theo back", next: 9 },
+{ label: "Offer her food", next: 10 },
+{ label: "Stay silent", next: 9 }
+]
+},
+{
+text: "Lirael leans against the invisible barrier.\n\n“I crave comfort, Isaac… Every time you feel comfortable with me… I feed.”",
+location: "Basement - Containment Circle",
+choices: [
+{ label: "Keep talking", next: 9 },
+{ label: "Return upstairs", next: 11 }
+]
+},
+{
+text: "Lirael kneels slowly and takes the food.\n\n“Keep feeding me that warm feeling… and I might be able to pull Theo back.”",
+location: "Basement - Containment Circle",
+choices: [
+{ label: "Keep talking", next: 9 },
+{ label: "Return upstairs", next: 11 }
+]
+},
+{
+text: "You leave the basement as dawn breaks. The house feels subtly calmer.",
+location: "Kitchen",
+choices: [
+{ label: "Act normal", next: 11 },
+{ label: "Sneak back down", next: 8 }
+]
+},
+{
+text: "Morgana path coming soon.",
+location: "Basement",
+choices: [{ label: "Return", next: 0 }]
+}
 ];
-var currentPassage=0;
-var player={health:100,energy:50};
-function openModal(type){
-var modal=document.getElementById('modal');
-var title=document.getElementById('modal-title');
-var content=document.getElementById('modal-content');
-if(type==='system'){
-title.textContent="SYSTEM";
-content.innerHTML='<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>';
-}
-if(type==='options'){
-title.textContent="OPTIONS";
-content.innerHTML='Text Speed: <input type="range"><br>Sound: <input type="checkbox">';
-}
 
-if(type==='stats'){
-title.textContent="PLAYER STATS";
-content.innerHTML="HP: "+player.health+"<br>Energy: "+player.energy;
-}
-
-modal.style.display="flex";
-}
-
-function closeModal(){
-document.getElementById('modal').style.display="none";
-}
-function renderPassage(){
-var passage=passages[currentPassage];
-document.getElementById('story').textContent=passage.text;
-var choices=document.getElementById('choices');
-choices.innerHTML='';
-for(var i=0;i<passage.choices.length;i++){
-var button=document.createElement('button');
-button.textContent=passage.choices[i].label;
-button.onclick=(function(index){return function(){choose(index);};})(i);
-choices.appendChild(button);
-}
+// ================ RENDER FUNCTION ================
+function renderPassage() {
+var p = passages[gameState.currentPassage];
+document.getElementById('story').textContent = p.text;
+document.getElementById('location-display').textContent = p.location;
+var choicesDiv = document.getElementById('choices');
+choicesDiv.innerHTML = '';
+p.choices.forEach((choice) => {
+var btn = document.createElement('button');
+btn.textContent = choice.label;
+btn.onclick = () => {
+if (choice.effect) choice.effect();
+gameState.currentPassage = choice.next;
+renderPassage();
+};
+choicesDiv.appendChild(btn);
+});
 updateStatus();
-updateSidePanel();
+updateStatsPanel();
 }
 
-function choose(index){
-currentPassage=passages[currentPassage].choices[index].next;
+function updateStatus() {
+document.getElementById('status-bar').innerHTML =
+`Family Tension: ${gameState.familyTension} | Supernatural Affinity: ${gameState.supernaturalAffinity} | Lirael Bond: ${gameState.liraelBond}`;
+}
+
+function updateStatsPanel() {
+document.getElementById('stats-display').innerHTML = `
+Family Tension: ${gameState.familyTension}<br>
+Supernatural Affinity: ${gameState.supernaturalAffinity}<br>
+Lirael Bond: ${gameState.liraelBond}<br>
+Theo Progress: ${gameState.theoResurrectionProgress}%
+`;
+}
+
+function openModal(type) {
+var modal = document.getElementById('modal');
+var title = document.getElementById('modal-title');
+var content = document.getElementById('modal-content');
+if (type === 'stats') {
+title.textContent = "STATS";
+content.innerHTML = `Family Tension: ${gameState.familyTension}<br>Supernatural Affinity: ${gameState.supernaturalAffinity}<br>Lirael Bond: ${gameState.liraelBond}<br>Theo Progress: ${gameState.theoResurrectionProgress}%`;
+} else if (type === 'system') {
+title.textContent = "SYSTEM";
+content.innerHTML = `
+<div class="modal-button" onclick="saveGame()">Save Game</div>
+<div class="modal-button" onclick="loadGame()">Load Game</div>
+`;
+}
+modal.style.display = "flex";
+}
+
+function closeModal() { document.getElementById('modal').style.display = "none"; }
+
+function saveGame() {
+localStorage.setItem('hartfordSave', JSON.stringify(gameState));
+alert("Game Saved!");
+}
+
+function loadGame() {
+var save = localStorage.getItem('hartfordSave');
+if (save) {
+Object.assign(gameState, JSON.parse(save));
 renderPassage();
+alert("Game Loaded!");
+} else alert("No save found.");
 }
 
-function updateStatus(){
-document.getElementById('status-bar').textContent="Location: "+(currentPassage+1)+" / "+passages.length;
+function restartGame() {
+if (confirm("Restart the story from the beginning?")) {
+location.reload();
+}
 }
 
-function updateSidePanel(){
-document.getElementById('location-display').textContent="Node "+(currentPassage+1);
-}
-
-/* SAVE SYSTEM */
-function saveGame(){
-localStorage.setItem('gameSave',JSON.stringify({passage:currentPassage,player:player}));
-alert("Saved!");
-}
-
-function loadGame(){
-var save=localStorage.getItem('gameSave');
-if(save){
-var data=JSON.parse(save);
-currentPassage=data.passage;
-player=data.player;
+window.onload = function() {
 renderPassage();
-alert("Loaded!");
-}else{
-alert("No save found.");
-}
-}
-
-function blinkTitle(){
-var t=document.getElementById('title-text');
-t.style.visibility=(t.style.visibility==='hidden')?'visible':'hidden';
-}
-
-window.onload=function(){
-renderPassage();
-setInterval(blinkTitle,700);
+setInterval(() => {
+var t = document.getElementById('title-text');
+t.style.visibility = (t.style.visibility === 'hidden') ? 'visible' : 'hidden';
+}, 700);
 };
 </script>
 </body>
