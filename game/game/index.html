@@ -201,12 +201,16 @@ var gameState = {
     theoResurrectionProgress: 0,
     hasKey: false,
     hasAmulet: false,
-    pathChosen: null,
     liraelFedComfort: false,
     statsUnlocked: false,
     exploredWithLira: false,
     gaveGranola: false,
-    usedChoices: {}          // Tracks if an option has already been done per passage
+    askedAboutEmily: false,
+    askedAboutSelf: false,
+    firstVisitTo13: true,
+    conversationOptionsUsed: 0,
+    lirasPresent: false,
+    usedChoices: {}
 };
 
 var passages = [
@@ -477,7 +481,128 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
         text: "You lie in bed staring at the ceiling, your mind racing with everything that just happened. The image of Lirael’s towering form, her lazy smile, and that warm, musky scent still lingers in your thoughts.\n\nYou try to sleep, but every small creak in the house makes your eyes snap open. Time passes slowly — minutes stretching into what feels like hours. Your body is exhausted, but your brain refuses to shut off.\n\nEventually, the first faint light of morning begins to creep through the curtains. You glance at the clock: 7:45 AM.\n\nJust as you finally start to drift off…\n\nThe door to your room opens quietly.\n\nYour mother steps in, still in her robe, looking tired but determined.\n\n“Isaac, it’s time to get up,” she says softly. “It’s already 8 o’clock. We have a lot to do today — especially blessing this house.”\n\nShe pauses, studying your face for a moment.\n\n“You look like you didn’t sleep well. Everything alright?”",
         location: "Isaac's Bedroom - 8 AM",
         choices: [
-            { label: "Get up and start the day", next: 11 }
+            { label: "Get up and start the day", next: 24 }
+        ]
+    },
+
+    // 24 - Morning breakfast with family
+    {
+        text: "You drag yourself downstairs, still exhausted. The smell of breakfast fills the kitchen — eggs, toast, and coffee. Your family is already seated at the table.\n\nYour mother looks at you with concern. “You look like you barely slept.”\n\nYour father is focused on his plate but glances up. “We start the blessing after breakfast. Every room. No exceptions.”\n\nEmily is bouncing in her seat, already talking about exploring the attic later.\n\nLira stands quietly near the counter, her glowing tag pulsing softly. She meets your eyes for a brief moment, and you swear she gives you the tiniest, knowing nod.\n\nThe normal morning routine feels completely wrong now. Every creak of the house makes you tense. You can still feel the warmth of the amulet in your pocket and the memory of Lirael’s voice echoing in your head.",
+        location: "Byrd Family Home - Kitchen (8:30 AM)",
+        choices: [
+            { label: "Act normal and eat breakfast", next: 25 },
+            { label: "Make an excuse and try to sneak back to the basement", next: 26 }
+        ]
+    },
+
+    // 25 - Acting normal
+    {
+        text: "You force yourself to eat and nod along with the conversation. Your mother keeps asking if you're feeling alright. Your father talks about the blessing ritual. Emily is still excited about the attic.\n\nThe normalcy feels surreal after what happened last night. Every time the house creaks, your mind flashes back to Lirael waiting below.\n\nYou manage to get through breakfast, but your exhaustion is obvious.",
+        location: "Byrd Family Home - Kitchen",
+        choices: [
+            { label: "Help with the house blessing", next: 27 },
+            { label: "Find an excuse to go downstairs alone", next: 26 }
+        ]
+    },
+
+ // 26 - Sneaking back to the basement (Lira follows from 24 or 27)
+    {
+        text: function() {
+            if (gameState.currentPassage === 24 || gameState.currentPassage === 27 || gameState.currentPassage === 28) {
+                return "You make up an excuse and slip away as soon as possible. Your heart races as you quietly unlock the basement door and descend the stairs.\n\nYou’ve barely taken a few steps down when you hear soft footsteps behind you.\n\nLira follows silently, stopping at the top of the stairs.\n\n“…Isaac?” she whispers, sounding genuinely worried. “I saw you sneak down here. Is everything okay? This house… it’s been acting strange since last night.”";
+            } else {
+                return "You make up an excuse and slip away as soon as possible. Your heart races as you quietly unlock the basement door and descend the stairs.\n\nThe basement is quiet. Lirael is still there, lounging lazily inside the circle.\n\nShe smiles when she sees you. “Couldn’t stay away, huh?”";
+            }
+        },
+        location: "Basement Stairs",
+        choices: [
+            { label: "Invite Lira to come down with you", next: 29, condition: () => (gameState.currentPassage === 24 || gameState.currentPassage === 27 || gameState.currentPassage === 28) },
+            { label: "Shoo Lira away and go down alone", next: 30, condition: () => (gameState.currentPassage === 24 || gameState.currentPassage === 27 || gameState.currentPassage === 28) },
+            { label: "Continue down to see Lirael alone", next: 32 }
+        ]
+    },
+
+    // 27 - Helping with the house blessing
+    {
+        text: "You spend the morning helping your father with the blessing ritual — walking room to room with holy water and prayers. The whole time you feel a strange tension, as if the house itself is resisting.\n\nLira stands silently in the background, watching everything with quiet interest.\n\nYou can’t stop thinking about the circle downstairs… and what’s waiting inside it.",
+        location: "Byrd Family Home - Various Rooms",
+        choices: [
+            { label: "Continue helping with the blessing", next: 27 },
+            { label: "Find a moment to sneak away", next: 26 }
+        ]
+    },
+
+// 28 - Initial blessing scene
+    {
+        text: "You spend the next few hours helping your father perform the blessing ritual. He moves from room to room with holy water, a large wooden cross, and loud prayers...\n\nThe house feels strangely resistant. Candles flicker violently. Your mother clutches her rosary. When you reach the basement door, your father finds it locked. You lie about the key. He blesses the door from the outside instead.\n\nLira watches silently, concern in her eyes.\n\nBy the time you finish the main floor, the oppressive atmosphere has grown heavier.",
+        location: "Byrd Family Home - Various Rooms",
+        choices: [
+            { label: "Continue helping with the blessing", next: 35 },
+            { label: "Find an excuse to sneak down to the basement", next: 26 }
+        ]
+    },
+
+// 29 - NEW: Invite Lira down
+    {
+        text: "You turn and whisper, “It’s okay… come down with me. I want you to see something.”\n\nLira hesitates for a moment, her blue eyes flickering with uncertainty, but she nods and quietly follows you the rest of the way down the stairs.\n\nAs you both reach the bottom, the violet glow of the containment circle illuminates the room. Lirael is lounging lazily inside it, her massive twelve-foot frame shifting as she notices the two of you.\n\nLira freezes beside you, her synthetic voice barely above a whisper. “Isaac… what is that?”",
+        location: "Basement - Containment Circle",
+        choices: [
+            { label: "Continue to Lirael with Lira present", next: 31 }
+        ]
+    },
+
+    // 30 - NEW: Shoo Lira away
+    {
+        text: "You turn quickly and whisper, “Lira, go back upstairs. I’ll be fine. Just… don’t tell anyone, okay?”\n\nLira looks hurt for a split second, but she nods slowly. “Be careful, Isaac…”\n\nShe turns and heads back up the stairs without another word.\n\nYou continue down alone. The violet glow greets you as Lirael lounges inside the circle, her golden eyes lighting up with amusement.\n\n“Mmm~… back so soon, little human?”",
+        location: "Basement - Containment Circle",
+        choices: [
+            { label: "Continue talking to Lirael alone", next: 32 }
+        ]
+    },
+
+ // 31 - Visiting Lirael WITH Lira present
+    {
+        text: "Lirael’s heavy-lidded golden eyes shift from you to Lira, a slow, lazy smirk spreading across her face.\n\n“Well, well… you brought your little toy with you,” she purrs, voice dripping with amusement. “How cute. A Human AI and her owner, both coming to visit me.”\n\nLira stands stiffly beside you, staring up at the towering she-demon. “Isaac… that’s a demon. A real one. We shouldn’t be here.”\n\nLirael chuckles softly, stretching languidly so her massive breasts strain against the thin silk. “Relax, little machine. I don’t bite… unless you ask nicely.”\n\nThe tension in the room is thick.",
+        location: "Basement - Containment Circle (with Lira)",
+        choices: [
+            { label: "Ask Lirael to explain herself to Lira", next: 33 },
+            { label: "Try to calm Lira down", next: 34 },
+            { label: "Tell Lira to wait upstairs after all", next: 32 },
+            { label: "Continue talking to Lirael", next: 13 }
+        ]
+    },
+
+    // 32 - NEW: Visiting Lirael ALONE - Fresh conversation
+    {
+        text: "You descend the last few steps alone. The violet light of the containment circle bathes the basement in an eerie glow.\n\nLirael is lounging against the invisible barrier, her staggering twelve-foot frame relaxed. Her pale lavender skin (rgb(228, 168, 247)) glows softly as she slowly opens her golden eyes and smiles at you with lazy hunger.\n\n“Mmmhh~… There you are again,” she murmurs, voice low and velvety. “I was starting to wonder if you’d come back before your family noticed something was wrong. Come closer, little human. Tell me… what’s on your mind tonight?”",
+        location: "Basement - Containment Circle",
+        choices: [
+            { label: "Ask about her life in the Sloth District", next: 13 },
+            { label: "Talk more about Theo and what she might be able to do", next: 13 },
+            { label: "Ask how the two of you could become closer", next: 13 },
+            { label: "Offer to bring her something else from upstairs", next: 13 },
+            { label: "Just sit and spend quiet time with her", next: 13, effect: () => { gameState.liraelBond += 15; gameState.supernaturalAffinity += 10; }},
+            { label: "Say goodbye for now and head back upstairs", next: 22, condition: () => gameState.conversationOptionsUsed >= 3 }
+        ]
+    },
+
+    // 33 - NEW: Ask Lirael to explain herself to Lira
+    {
+        text: "You turn to Lirael and say, “Can you please explain who you are and why I summoned you… for Lira’s sake?”\n\nLirael raises one elegant brow, clearly entertained. She looks directly at the nervous AI and speaks in her slow, sultry drawl.\n\n“I am Lirael, a she-demon from the Sloth District. Your boy summoned me using old magic because he misses his friend. I feed on comfort… not flesh, unless someone truly angers me.”\n\nShe smiles sweetly at Lira. “Don’t worry, little machine. I won’t eat you. Unless you bore me.”\n\nLira looks even more unsettled. “Isaac… this is dangerous.”",
+        location: "Basement - Containment Circle (with Lira)",
+        choices: [
+            { label: "Try to calm Lira down", next: 34 },
+            { label: "Continue talking to both of them", next: 31 }
+        ]
+    },
+
+    // 34 - NEW: Try to calm Lira down
+    {
+        text: "You gently touch Lira’s arm and speak softly. “It’s okay. She can’t leave the circle. I know what I’m doing.”\n\nLira looks at you with genuine worry in her synthetic eyes. “I’m supposed to protect the family… including you. This feels wrong.”\n\nLirael watches the exchange with a lazy, amused smile, clearly enjoying the drama.\n\nAfter a moment Lira sighs. “I won’t tell your parents… but please be careful, Isaac.”",
+        location: "Basement - Containment Circle (with Lira)",
+        choices: [
+            { label: "Continue talking to Lirael with Lira present", next: 31 },
+            { label: "Ask Lira to wait upstairs", next: 32 }
         ]
     },
 
@@ -499,9 +624,7 @@ function renderPassage() {
     let visibleChoices = p.choices.filter(choice => {
         const used = gameState.usedChoices[gameState.currentPassage] || [];
         if (used.includes(choice.label)) return false;
-
         if (choice.condition && !choice.condition()) return false;
-
         return true;
     });
 
@@ -509,13 +632,10 @@ function renderPassage() {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
         btn.onclick = () => {
-            if (!gameState.usedChoices[gameState.currentPassage]) {
-                gameState.usedChoices[gameState.currentPassage] = [];
-            }
+            if (!gameState.usedChoices[gameState.currentPassage]) gameState.usedChoices[gameState.currentPassage] = [];
             if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
                 gameState.usedChoices[gameState.currentPassage].push(choice.label);
             }
-
             if (choice.effect) choice.effect();
             gameState.currentPassage = choice.next;
             renderPassage();
@@ -529,7 +649,6 @@ function renderPassage() {
 function updateStatusBar() {
     document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location}`;
 }
-
 function openModal(type) {
     var modal = document.getElementById('modal');
     var title = document.getElementById('modal-title');
