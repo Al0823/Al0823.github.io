@@ -357,8 +357,7 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
         ]
     },
 
-// 13 - Summoning Lirael (Smart first-visit logic)
-    {
+{
         text: function() {
             if (gameState.firstVisitTo13) {
                 gameState.firstVisitTo13 = false;
@@ -369,17 +368,22 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
         },
         location: "Basement - Containment Circle",
         choices: [
-            { label: "Ask her who she really is and why she answered", next: 14 },
-            { label: "Tell her about Theo and why you summoned her", next: 15 },
-            { label: "Ask if she can actually bring Theo back", next: 16 },
+            { label: "Ask her who she really is and why she answered", next: 14, effect: () => { gameState.conversationOptionsUsed++; }},
+            { label: "Tell her about Theo and why you summoned her", next: 15, effect: () => { gameState.conversationOptionsUsed++; }},
+            { label: "Ask if she can actually bring Theo back", next: 16, effect: () => { gameState.conversationOptionsUsed++; }},
             { label: "Offer her the granola bar from your pocket", next: 17, effect: () => {
                 gameState.liraelBond += 18;
                 gameState.theoResurrectionProgress += 10;
                 gameState.liraelFedComfort = true;
                 gameState.gaveGranola = true;
+                gameState.conversationOptionsUsed++;
             }},
-            { label: "Stay silent and simply watch her for a moment", next: 18, effect: () => { gameState.supernaturalAffinity += 12; }},
-            { label: "Ask Lirael how you could safely enter the containment circle", next: 19 }
+            { label: "Stay silent and simply watch her for a moment", next: 18, effect: () => { 
+                gameState.supernaturalAffinity += 12; 
+                gameState.conversationOptionsUsed++;
+            }},
+            { label: "Ask Lirael how you could safely enter the containment circle", next: 19 },
+            { label: "Say goodbye to Lirael for now and sneak back upstairs", next: 22, condition: () => gameState.conversationOptionsUsed >= 3 }
         ]
     },
 
@@ -428,7 +432,7 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
         ]
     },
 
-// 19 - Lirael explains the containment rules
+// 19 - Lirael explains the containment rules (unchanged)
     {
         text: "Lirael’s golden eyes gleam with lazy amusement as you ask the question. She leans forward slightly, her twelve-foot frame towering over you, the pale lavender skin catching the violet light of the circle.\n\n“Oh? You want to come inside with me?” she purrs, voice low and teasing. “Most humans who step across that line get vaporized in an instant — the magic burns them to ash. But there are exceptions.”\n\nShe yawns luxuriously, showing the glistening pink length of her tongue. “Younger people whose bodies are still going through radical changes — teenagers like you, whose hormones, growth, and life force are in constant flux — sometimes resonate with the circle instead of being rejected by it. Your energy is unstable enough that the barrier might let you through without turning you into dust.”\n\nHer smile turns a little mischievous. “The containment can also be lifted entirely… but that requires a powerful ritual or a very strong bond with whatever is summoned inside. It’s not easy, and it’s not safe. But if you really want to step in here with me… you might be able to.”\n\nShe presses her soft hand against the invisible wall. “So… are you feeling brave, little human?”",
         location: "Basement - Containment Circle",
@@ -439,7 +443,7 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
         ]
     },
 
-    // 20 - Testing the circle with your hand + conditional question
+    // 20 - Testing the circle with your hand
     {
         text: "Curiosity wins over caution. You slowly extend your hand toward the glowing violet line. Your fingers hover just above the barrier for a moment, then you push forward.\n\nThe instant your fingertips cross the carved line, a sharp, searing burning sensation explodes across your skin — like plunging your hand into molten metal. White-hot pain shoots up your arm. You yank your hand back with a gasp, stumbling away from the circle.\n\nYour fingers are bright red and throbbing, but the skin is intact. The circle had only given you a warning burn, not full vaporization.\n\nLirael watches with half-lidded amusement. “See? Even for someone like you it’s not completely safe yet. The circle doesn’t like being tested.”",
         location: "Basement - Containment Circle",
@@ -449,7 +453,7 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
         ]
     },
 
-    // 21 - Asking about Emily and Lira the AI + conditional question
+    // 21 - Asking about Emily and Lira the AI
     {
         text: "Lirael’s golden eyes sparkle with lazy interest as you ask about your sister and the AI.\n\n“Your little sister Emily is only twelve,” she says, her voice a slow, velvety drawl. “She’s definitely young enough. Her body is still changing rapidly — that makes the circle far more likely to accept her without burning her. She could probably walk right in.”\n\nShe tilts her head, looking almost amused. “As for Lira, the Human AI… she’s not fully human. Her synthetic body and energy signature are different. Most containment circles treat AIs like objects or tools, so she could probably enter without being vaporized — but she’d still be bound by the same rules once inside. She couldn’t leave unless the circle is lifted.”\n\nLirael smiles sleepily. “So… thinking about bringing someone else in here with me?”",
         location: "Basement - Containment Circle",
@@ -459,14 +463,32 @@ text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratch
         ]
     },
 
+// 22 - Say goodbye and sneak back upstairs
+    {
+        text: "You take a deep breath and look up at the towering she-demon.\n\n“I… should head back upstairs before anyone wakes up,” you say quietly. “It’s getting late.”\n\nLirael tilts her head, a lazy, almost disappointed smile on her lips.\n\n“Aww… already? Fine. Go rest, little human. I’ll be right here… waiting for you.”\n\nShe gives you one last slow, sultry wink before you turn away.\n\nYou carefully make your way back up the basement stairs, heart still racing. The house is completely silent except for the occasional creak of old wood. You lock the basement door behind you with the rusty key, then quietly sneak back to your bedroom.\n\nBy the time you slip under the covers, the clock reads 5:07 AM.\n\nExhaustion finally hits you, but your mind is still spinning with everything that just happened.",
+        location: "Isaac's Bedroom - 5 AM",
+        choices: [
+            { label: "Try to get some sleep", next: 23 }
+        ]
+    },
+
+// 23 - Lying in bed until 8 AM
+    {
+        text: "You lie in bed staring at the ceiling, your mind racing with everything that just happened. The image of Lirael’s towering form, her lazy smile, and that warm, musky scent still lingers in your thoughts.\n\nYou try to sleep, but every small creak in the house makes your eyes snap open. Time passes slowly — minutes stretching into what feels like hours. Your body is exhausted, but your brain refuses to shut off.\n\nEventually, the first faint light of morning begins to creep through the curtains. You glance at the clock: 7:45 AM.\n\nJust as you finally start to drift off…\n\nThe door to your room opens quietly.\n\nYour mother steps in, still in her robe, looking tired but determined.\n\n“Isaac, it’s time to get up,” she says softly. “It’s already 8 o’clock. We have a lot to do today — especially blessing this house.”\n\nShe pauses, studying your face for a moment.\n\n“You look like you didn’t sleep well. Everything alright?”",
+        location: "Isaac's Bedroom - 8 AM",
+        choices: [
+            { label: "Get up and start the day", next: 11 }
+        ]
+    },
+
     // Morgana Placeholder
     { text: "Morgana summoning scene coming soon...", location: "Basement", choices: [{ label: "Restart", next: 0 }] }
 ];
 
+// ================ RENDERING ================
 function renderPassage() {
     var p = passages[gameState.currentPassage];
     
-    // Handle dynamic text for passage 13
     let displayText = typeof p.text === 'function' ? p.text() : p.text;
     document.getElementById('story').textContent = displayText;
     document.getElementById('location-display').textContent = p.location;
@@ -475,11 +497,9 @@ function renderPassage() {
     choicesDiv.innerHTML = '';
 
     let visibleChoices = p.choices.filter(choice => {
-        // Filter used choices
         const used = gameState.usedChoices[gameState.currentPassage] || [];
         if (used.includes(choice.label)) return false;
 
-        // Filter conditional choices
         if (choice.condition && !choice.condition()) return false;
 
         return true;
@@ -489,17 +509,12 @@ function renderPassage() {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
         btn.onclick = () => {
-            // Mark as used
             if (!gameState.usedChoices[gameState.currentPassage]) {
                 gameState.usedChoices[gameState.currentPassage] = [];
             }
             if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
                 gameState.usedChoices[gameState.currentPassage].push(choice.label);
             }
-
-            // Set flags for conditional questions
-            if (choice.label.includes("sister Emily")) gameState.askedAboutEmily = true;
-            if (choice.label.includes("you could safely enter")) gameState.askedAboutSelf = true;
 
             if (choice.effect) choice.effect();
             gameState.currentPassage = choice.next;
