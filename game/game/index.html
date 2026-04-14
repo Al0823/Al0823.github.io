@@ -1152,7 +1152,7 @@ var passages = [
         location: "Basement - Containment Circle",
         choices: [
             { label: "Tell her you want to get much closer", next: 65, effect: () => { gameState.liraelBond += 20; }},
-            { label: "Ask what she means by stepping inside the circle", next: 19 },
+{ label: "Ask what she means by stepping inside the circle", next: 91 },
             { label: "Continue talking about other things", next: 32 }
         ]
     },
@@ -1222,7 +1222,7 @@ var passages = [
   text: "You take a deep breath and tell your father the whole truth — the key, the amulet, the summoning, Theo, everything.\n\nYour father’s face goes pale, then red with fury.\n\n\"You brought a demon into our home… deliberately?\" he whispers, voice breaking.\n\nLirael stays completely still (in the corner if freed). She says nothing, letting you speak.",
   location: "Basement - Containment Circle (Family Present)",
   choices: [
-    { label: "Continue trying to explain", next: 56 },
+    { label: "Continue trying to explain", next: 92 },
     { label: "Beg him to listen to Lirael", next: 90 }
   ]
 },
@@ -1232,17 +1232,17 @@ var passages = [
   text: "You step between your father and Lirael (or the corner where she stands if freed) and speak as calmly as you can.\n\n\"Dad, please. She hasn’t hurt anyone. She can’t leave the town. She’s only here because I asked her to help with Theo.\"\n\nYour father’s shoulders are still tense, but he lowers the cross a fraction.\n\nLirael remains silent and non-threatening, letting you try to calm him.",
   location: "Basement - Containment Circle (Family Present)",
   choices: [
-    { label: "Keep talking calmly", next: 42 },
+    { label: "Keep talking calmly", next: 93 },
     { label: "Ask Lirael to speak gently", next: 90 }
   ]
 },
 
 // 89 - Standing Your Ground (NEW)
 {
-  text: "You plant yourself firmly in front of Lirael (or in front of the corner she’s backed into).\n\n\"No. She stays. She’s not a monster. She’s the only one who can help me get Theo back.\"\n\nYour father stares at you like he doesn’t recognize you anymore.\n\nLirael’s golden eyes soften slightly behind you — grateful but still careful not to move.",
+  text: "You plant yourself firmly in front of Lirael.\n\n\"No. She stays. She’s not a monster. She’s the only one who can help me get Theo back.\"\n\nYour father stares at you like he doesn’t recognize you anymore.\n\nLirael’s golden eyes soften slightly behind you — grateful but still careful not to move.",
   location: "Basement - Containment Circle (Family Present)",
   choices: [
-    { label: "Hold your ground", next: 43, effect: () => { gameState.liraelBond += 15; }},
+    { label: "Hold your ground", next: 94, effect: () => { gameState.liraelBond += 15; }},
     { label: "Ask Lirael to speak for herself", next: 90 }
   ]
 },
@@ -1252,17 +1252,216 @@ var passages = [
   text: "You turn to Lirael and say, \"Please… tell him the truth. Show him you’re not here to hurt anyone.\"\n\nLirael slowly lowers herself to one knee so she is closer to your father’s height. She keeps her hands open and visible.\n\n\"I was summoned because your son is in pain,\" she says softly, voice gentle and steady. \"I feed on comfort, not fear. I have not harmed a single person in this house. I cannot even leave this town. All I want is to help Isaac find his friend. That is the truth.\"\n\nShe bows her head slightly — a deliberate show of submission — then looks back at your father with calm golden eyes.",
   location: "Basement - Containment Circle (Family Present)",
   choices: [
-    { label: "See how your father reacts", next: 42 },
-    { label: "Thank Lirael and stand with her", next: 43, effect: () => { gameState.liraelBond += 12; }}
+    { label: "See how your father reacts", next: 95 },
+    { label: "Thank Lirael and stand with your father", next: 96, effect: () => { gameState.liraelBond += 12; }},
+    { label: "Thank Lirael and try to compromise with your father", next: 4, effect: () => { gameState.liraelBond += 12; }},
   ]
 },
 
-    // 99 - Morgana Placeholder
+// 91 - Explaining Stepping Inside the Circle (NEW - replaces old link from 82 to 19)
+{
+  text: "Lirael gives you a slow, knowing smile when you ask about stepping inside the circle.\n\n\"Curious, aren't you?\" she purrs softly.\n\nShe leans forward slightly, her twelve-foot frame still imposing even while seated.\n\n\"The barrier is designed to destroy anything that crosses it… unless that thing resonates with the circle. Teenagers like you — whose bodies and life force are still changing — sometimes slip through because your energy is unstable. It might burn a little, but it probably won't kill you.\"\n\nHer golden eyes sparkle with lazy amusement.\n\n\"Of course, the safest way is to strengthen our bond first. The stronger the connection between us, the more the circle will accept you.\"",
+  location: "Basement - Containment Circle",
+  choices: [
+    { label: "Ask how to strengthen the bond further", next: 82 },
+    { label: "Continue talking to Lirael", next: 32 }
+  ]
+},
+
+// 92 - Continuing Explanation to Father (NEW - from 87)
+{
+  text: function() { if (gameState.liraelFreed) {
+      return "You keep talking, trying to explain everything in more detail — the summoning, why you did it, what Lirael actually is, and how she might help bring Theo back.\n\nYour father listens, but his expression grows tighter with every word.\n\n\"This is madness,\" he mutters, shaking his head. \"You've been deceived by a demon.\"\n\nLirael remains quiet in the corner, letting you speak without interruption.";
+    } else {
+      return "You keep talking, trying to explain everything in more detail — the summoning, why you did it, what Lirael actually is, and how she might help bring Theo back.\n\nYour father listens, but his expression grows tighter with every word.\n\n\"This is madness,\" he mutters, shaking his head. \"You've been deceived by a demon.\"\n\nLirael remains quiet inside the circle, letting you speak without interruption.";
+    }
+    },
+  location: "Basement - Containment Circle (Family Present)",
+  choices: [
+    { label: "Beg him to give Lirael a chance", next: 90 },
+    { label: "Ask Lirael to speak again", next: 90 },
+    { label: "Stop talking and wait for his reaction", next: 85 }
+  ]
+},
+
+// 93 - Continuing Calm De-escalation
+{
+  text: "You continue speaking in a calm, steady voice, trying to keep the situation from exploding.\n\n\"Dad, please. She's not attacking anyone. She's contained — or at least she was. She only wants to help with Theo. We can figure this out together.\"\n\nYour father’s breathing is still heavy, but he hasn’t raised the cross again. He’s listening… for now.\n\nLirael stays perfectly still, trying not to provoke him further.",
+  location: "Basement - Containment Circle (Family Present)",
+  choices: [
+    { label: "Keep trying to calm him", next: 93 },
+    { label: "Ask Lirael to say something reassuring", next: 90 },
+    { label: "Try and compromise", next: 97 }   // ← CHANGED
+  ]
+},
+
+// 94 - Holding Your Ground Firmly
+{
+  text: "You stand your ground, refusing to move away from Lirael.\n\n\"I’m not leaving her. She’s not dangerous. She’s the only one who can help me get Theo back, and I trust her.\"\n\nYour father stares at you, a mix of shock, anger, and deep disappointment on his face.\n\n\"You’re choosing a demon over your own family?\" he says, voice low and strained.\n\nLirael stays silent behind you, giving you space to speak.",
+  location: "Basement - Containment Circle (Family Present)",
+  choices: [
+    { label: "Ask Lirael to speak for herself now", next: 90 },
+    { label: "Defend her and try to find a compromise", next: 97, effect: () => { gameState.liraelBond += 15; }}   // ← CHANGED
+  ]
+},
+
+// 95 - After Lirael Speaks in Passage 90
+{
+  text: "Your father is silent for a long moment after Lirael finishes speaking.\n\nHe looks between you and the massive she-demon (or the corner where she stands if freed).\n\nHis grip on the cross loosens slightly, but his face is still conflicted.\n\n\"…Even if what you say is true,\" he says slowly, \"this is not natural. This is not God’s way.\"\n\nThe tension in the basement is thick, but it hasn’t exploded… yet.",
+  location: "Basement - Containment Circle (Family Present)",
+  choices: [
+    { label: "Thank Lirael and suggest a compromise", next: 97, effect: () => { gameState.liraelBond += 10; }}   // ← CHANGED
+  ]
+},
+
+// 96 - After Asking Lirael to Speak Again
+{
+  text: "Lirael speaks once more, her voice soft and measured.\n\n\"I have no desire to harm your family. I was brought here by your son’s grief. All I ask is the chance to prove I can help… not hurt.\"\n\nShe bows her head slightly again, keeping her posture submissive and non-threatening.\n\nYour father watches her carefully. The anger is still there, but so is hesitation.",
+  location: "Basement - Containment Circle (Family Present)",
+  choices: [
+    { label: "Stand firmly with Lirael and try to make a compromise", next: 97, effect: () => { gameState.liraelBond += 12; }}   // ← CHANGED
+  ]
+},
+
+// 97 - Compromise with Father (Lirael Must Prove Herself)
+{
+  text: function() {
+    const freed = gameState.liraelFreed;
+    return "You take a slow breath and look your father in the eye.\n\n\"Dad… I know this looks insane. But she’s not here to hurt us. Let her prove it. Give her a chance to show she can help with Theo and that she won’t harm anyone. If she fails — if she does anything wrong — you can banish her or do whatever you think is right. But until then… let her prove herself.\"\n\n" +
+           (freed 
+             ? "Lirael stays pressed against the far corner, hands visible, making herself as small and non-threatening as possible.\n\n" 
+             : "Lirael stays perfectly still inside the circle.\n\n") +
+           "Your father stares at you for a long, heavy moment. His knuckles are white around the cross.\n\nFinally he exhales, shoulders dropping.\n\n\"…She proves herself,\" he says, voice tight. \"One chance. She helps you with Theo. She does not leave this basement unless you are with her. She does not speak to your mother or Emily without me present. If she so much as makes anyone uncomfortable, this ends immediately.\"\n\nHe looks at Lirael directly.\n\n\"Prove you’re not the monster I think you are. That’s the only compromise you’re getting.\"\n\nLirael bows her head slightly in the corner (or inside the circle).\n\n\"I accept,\" she says softly. \"I will prove it.\"";
+  },
+  location: "Basement - Containment Circle (Family Present)",
+  choices: [
+    { label: "Accept the compromise — let Lirael prove herself", next: 98 },
+    { label: "Thank him and go talk to Lirael alone", next: 99 }
+  ]
+},
+
+// 98 - Accepting the Compromise (Transition to Alone Time)
+{
+  text: "Your father gives a single sharp nod, the deal sealed.\n\n\"She proves herself,\" he repeats, more to himself than to you. \"That’s it.\"\n\nHe turns and heads back up the stairs without another word, the heavy sound of his boots echoing through the basement.\n\nOnce he’s gone, the tension in the room drops like a weight lifted.\n\nYou and Lirael are finally alone.",
+  location: "Basement - Containment Circle",
+  choices: [
+    { label: "Talk to Lirael alone now", next: 99 }
+  ]
+},
+
+// 99 - Talking to Lirael Alone After the Compromise
+{
+  text: function() {
+    const freed = gameState.liraelFreed;
+    const bond = gameState.liraelBond || 0;
+
+    // Special responses based on the last choice the player clicked
+    if (gameState.lastChoiceLabel === "cuddle") {
+      if (bond < 40) {
+        return "Lirael’s golden eyes widen slightly in surprise, then soften with shy warmth.\n\n\"Cuddle…?\" she repeats, a small, almost nervous smile appearing. \"I… would like that. Come here, little human.\"\n\nShe gently lowers herself to sit on the stone floor so you can lean against her side. Her lavender skin is warm and surprisingly soft. She doesn’t pull you in too tightly — she lets you set the pace, one large hand resting lightly on your back.";
+      } else if (bond < 70) {
+        return "Lirael’s expression melts into a slow, affectionate smile.\n\n\"You want to cuddle?\" she purrs, voice warm and teasing. \"After everything that just happened… I’d love nothing more.\"\n\nShe carefully sits down and opens her arms. When you step close, she wraps you gently against her massive, soft chest, her silk robes warm and comforting. \"You feel safe here, don’t you?\" she whispers, one hand stroking your hair.";
+      } else {
+        return "Lirael’s golden eyes light up with deep, genuine delight.\n\n\"Come here,\" she says immediately, voice full of warmth and longing. She sits and pulls you gently into her lap, wrapping her arms around you completely. Her massive body feels like the safest place in the world — soft, warm, and protective.\n\n\"I’ve wanted this for a long time,\" she murmurs against your hair, holding you close. \"You’re mine now… and I’m yours.\"";
+      }
+    }
+
+    if (gameState.lastChoiceLabel === "humanOnce") {
+      return "Lirael is quiet for a moment, then gives you a small, almost wistful smile.\n\n\"Yes… I was human once,\" she says softly. \"A very long time ago. I lived in a quiet village not far from here. I was always drawn to comfort, to rest, to simple pleasures. One day I simply… stopped wanting to leave that comfort. The Sloth District called to me, and I answered. I became what I am now — a she-demon who feeds on that same warmth and peace I once craved.\"\n\nShe looks at you gently.\n\n\"I don’t regret it. But sometimes I still remember what it felt like to be small, fragile… human.\"";
+    }
+
+    if (gameState.lastChoiceLabel === "roam") {
+      return "You call up the stairs after your father.\n\n\"Dad… can Lirael at least be allowed to move around the whole property — including inside the house? She can’t leave Hartford anyway, and this is the only way she can really prove she’s helpful and harmless.\"\n\nYour father stops at the top of the stairs. He stands there for a long moment, clearly fighting with himself.\n\nFinally he answers, voice tight but resigned:\n\n\"…Fine. She can move freely around the house and the yard, but only when you or I are with her. She does not go into anyone’s bedroom without permission. She does not go near your mother or Emily unless one of us is present. If she does anything that makes this family uncomfortable, the deal is over.\"\n\nHe continues upstairs without waiting for a reply.\n\nYou turn back to Lirael. She gives you a small, grateful nod.";
+    }
+
+    // Normal entry text
+    let baseText = "The basement is quiet now that your father has left.\n\nLirael relaxes visibly";
+
+    if (freed) {
+      baseText += ", stepping away from the far corner and moving closer to you with slow, graceful steps. Her twelve-foot frame no longer feels trapped — it feels present.";
+    } else {
+      baseText += " inside the circle, the violet light softening around her.";
+    }
+
+    baseText += "\n\nShe looks at you with genuine warmth in her golden eyes.\n\n\"Thank you,\" she murmurs, voice softer than you’ve ever heard it. \"You stood up for me. You gave me a real chance to prove myself.\"";
+
+    return baseText;
+  },
+  location: "Basement - Containment Circle",
+  choices: [
+    { label: "Ask if Lirael was human once", next: 99, effect: () => { gameState.lastChoiceLabel = "humanOnce"; }},
+
+    // Cuddle option — only if freed
+    { label: "Ask if you can cuddle with her for a moment",
+      condition: () => gameState.liraelFreed === true,
+      next: 99,
+      effect: () => { gameState.lastChoiceLabel = "cuddle"; }
+    },
+
+    { label: "Ask your father if Lirael can be allowed to roam around the property (including inside the house)", 
+      next: 99, 
+      effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = true; }
+    },
+
+    // These two options ONLY appear AFTER asking about free roam
+    { label: "Ask her how she plans to start proving herself to your father",
+      condition: () => gameState.askedAboutRoam === true,
+      next: 99,
+      effect: () => { gameState.lastChoiceLabel = "provePlan"; }
+    },
+    { label: "Go upstairs together with Lirael",
+      condition: () => gameState.askedAboutRoam === true,
+      next: 101,
+      effect: () => { gameState.liraelBond += 8; }
+    },
+
+    { label: "Just sit with her quietly after everything that happened", next: 49, effect: () => { 
+      gameState.familyTension -= 25; 
+      gameState.liraelBond += 20; 
+      gameState.supernaturalAffinity += 12;
+    }},
+    { label: "Head back upstairs for now (alone)", next: 100 }
+  ]
+},
+
+// 100 - Going Upstairs Alone After the Compromise
+{
+  text: "You head back upstairs alone, the heavy basement door creaking shut behind you.\n\nThe house feels different now — the air is warmer, the silence heavier. You can still hear your father’s footsteps somewhere on the upper floor.\n\nEverything has changed. Lirael is no longer trapped in the circle, and your father has agreed to let her prove herself.\n\nYou wonder how long this fragile peace will last.",
+  location: "Byrd Family Home - Hallway (Top of Basement Stairs)",
+  choices: [
+    { label: "Go to your room and process everything", next: 999 },
+    { label: "Find Lira the AI and see if she knows what just happened", next: 999 },
+    { label: "Check on your family in the living room", next: 999 }
+  ]
+},
+
+// 101 - Going Upstairs Together With Lirael
+{
+  text: "You turn to Lirael and say, \"Come on… let’s go upstairs together. You’re allowed to move around the house now.\"\n\nLirael’s golden eyes light up with quiet surprise and gratitude.\n\nShe stands slowly, her twelve-foot frame towering over you, then follows you up the basement stairs with careful, graceful steps.\n\nThe moment she crosses the threshold into the main house, she pauses, taking in the new space.\n\n\"It feels… bigger,\" she murmurs softly. \"And warmer.\"\n\nShe stays close to you, clearly aware this is her first real test of the compromise.\n\nYou can already hear movement upstairs — your family is still awake.",
+  location: "Byrd Family Home - Hallway (Top of Basement Stairs)",
+  choices: [
+    { label: "Show her around the main floor together", next: 999, effect: () => { gameState.liraelBond += 15; }},
+    { label: "Take her to the kitchen and see how your father reacts", next: 999 },
+    { label: "Just walk with her quietly for a moment", next: 999, effect: () => { gameState.supernaturalAffinity += 10; }}
+  ]
+},
+
+    // 997 - Morgana Placeholder
     {
         text: "Morgana summoning scene coming soon…",
         location: "Basement",
         choices: [{ label: "Return to the beginning", next: 0 }]
-    }
+    },
+
+//999 - Content End
+{
+  text: "Unfortunately this is where the scene ends because I have not made the next scene yet, sorry folks. But please Stay tuned for updates!",
+  location: "GAME END",
+  choices: [
+    { label: "Restart the Game", next: 0},
+]
+},
+
 ];
 
 // ================ RENDERING ================
@@ -1289,17 +1488,20 @@ function renderPassage() {
     visibleChoices.forEach((choice) => {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
-        btn.onclick = () => {
-            if (!gameState.usedChoices[gameState.currentPassage]) gameState.usedChoices[gameState.currentPassage] = [];
-            if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
-                gameState.usedChoices[gameState.currentPassage].push(choice.label);
-            }
-            if (choice.effect) choice.effect();
-            // FIX: set lastPassage here, before moving, so it always means "where I came from"
-            gameState.lastPassage = gameState.currentPassage;
-            gameState.currentPassage = choice.next;
-            renderPassage();
-        };
+btn.onclick = () => {
+    if (!gameState.usedChoices[gameState.currentPassage]) gameState.usedChoices[gameState.currentPassage] = [];
+    if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
+        gameState.usedChoices[gameState.currentPassage].push(choice.label);
+    }
+    if (choice.effect) choice.effect();
+
+    // ← ADD THIS LINE RIGHT HERE
+    gameState.lastChoiceLabel = choice.label;   // needed for cuddle response in 99
+
+    gameState.lastPassage = gameState.currentPassage;
+    gameState.currentPassage = choice.next;
+    renderPassage();
+};
         choicesDiv.appendChild(btn);
     });
 
