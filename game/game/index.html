@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>The Demon and I</title>
+<title>A.t.A. Projects, Websites, and Games - The Demon and I</title>
 <style>
 body { 
 margin: 0;
@@ -1468,29 +1468,32 @@ effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = t
 // 101 - Going Upstairs Together With Lirael
 {
     text: function() {
-        // === FIRST VISIT - Original text with shrinking ===
+        // === FIRST VISIT - Original shrinking scene ===
         if (!gameState.visitedPassages[101]) {
             return "You turn to Lirael and say, \"Come on… let’s go upstairs together. You’re allowed to move around the house now.\"\n\nLirael’s golden eyes light up with quiet surprise and gratitude. She stands slowly to her full twelve-foot height, towering over you for a moment, then pauses.\n\n\"...Perhaps this form is a little too much for your family right now,\" she murmurs with a lazy, knowing smile.\n\nShe closes her eyes and exhales softly. A gentle ripple of violet energy washes over her body. Her massive frame begins to shrink smoothly, maintaining perfect 1:1 proportions as she reduces down to a still-impressive 6'1\". Even at this smaller size she remains strikingly voluptuous — her heavy breasts, wide hips, and thick thighs filling out the tattered black silk robes in a way that is both powerful and undeniably sensual. Her pale lavender skin still glows with that soft iridescent sheen, and her small black horns and messy silver-white hair look just as striking.\n\nShe opens her golden eyes again and looks down at you (now only a head taller) with a warm, almost shy smile.\n\n\"Better?\" she asks softly, her voice still carrying that deep, velvety drawl. \"I can grow back whenever you want... but this should make things a little less shocking for your family.\"\n\nShe offers you her hand — now much closer to your own size — and follows you up the basement stairs with careful, graceful steps.\n\nThe moment the two of you reach the top and step into the main hallway, the house feels different. Warmer. More alive. Lirael pauses briefly, taking in the new space around her with quiet wonder.\n\n\"It feels… bigger,\" she murmurs. \"And warmer.\"\n\nYou can already hear movement upstairs — your family is still awake.";
         }
 
-        // === SUBSEQUENT VISITS - Contextual text based on last choice ===
+        // === newClothes branch ===
         if (gameState.lastChoiceLabel === "newClothes") {
-            return "Lirael stands in the living room, looking down at her old tattered black silk robes with a mix of amusement and mild embarrassment.\n\n\"New clothes would be very welcome,\" she says, her voice warm and velvety. \"These have survived far too many centuries and many summonings. Something soft, comfortable, and less… ancient would be nice.\"\n\nShe runs a hand slowly down her side, the silk clinging to her generous curves. \"I don’t need anything fancy. Just something that doesn’t make me look like I crawled out of a forgotten grimoire.\"\n\nHer golden eyes meet yours with quiet gratitude. \"You’re being very thoughtful, Isaac. It means more than you know.\"";
+            return "You quickly go upstairs and return with a pair of grey sweatpants and a black turtleneck sweater that you think might just barely fit her current size.\n\nLirael’s golden eyes brighten as you hand them to her. She holds the clothes up, examining them with clear interest.\n\n\"These look comfortable,\" she says, a small smile curving her lips. \"Thank you, Isaac.\"\n\nShe runs her fingers over the fabric, then tilts her head slightly.\n\n\"They’re just barely my size right now… but if I grow or shrink again, they won’t fit. I would either have to change back into my silk robe, or I can imbue the clothes with a bit of my magical essence so they change size with me. What would you like me to do?\"";
         }
 
+        // === couchGuestRoom branch ===
         if (gameState.lastChoiceLabel === "couchGuestRoom") {
-            return "Lirael sits carefully on the living room couch, her 6'1\" curvaceous frame making the furniture creak softly beneath her weight. She waits patiently while you went to speak with your father about the guest bedroom.\n\nWhen you return, she looks up at you with hopeful golden eyes, her silver-white hair falling gently over one shoulder.\n\n\"How did it go?\" she asks softly, her deep velvety voice laced with cautious optimism. \"Did he agree to let me use the guest room? I promise I’ll be as quiet and respectful as possible… I don’t want to cause any more tension than I already have.\"";
+            return "You leave Lirael sitting on the couch and head to the kitchen to speak with your father. After a tense conversation, you return to the living room.\n\nLirael looks up at you expectantly.\n\nYou sigh and shake your head.\n\n\"He said no to the guest bedroom… but after some arguing, he reluctantly agreed that you can sleep in the big bean bag chair in my room.\"\n\nLirael’s expression softens with quiet relief and gratitude.\n\n\"That’s more than I expected,\" she says softly. \"Thank you for fighting for me. A bean bag in your room sounds… very comfortable.\"";
         }
 
+        // === kitchenFather branch ===
         if (gameState.lastChoiceLabel === "kitchenFather") {
             return "You lead Lirael toward the kitchen. Even at 6'1\" she moves with that signature lazy grace, her hips swaying gently with each step.\n\nAs you approach the doorway, you can hear your father moving around inside. Lirael slows slightly, her expression becoming more cautious and respectful.\n\n\"I’ll let you take the lead,\" she murmurs quietly, staying just behind you. \"I don’t want to make this any harder for you than it already is.\"";
         }
 
+        // === couchTalk branch ===
         if (gameState.lastChoiceLabel === "couchTalk") {
             return "You guide Lirael over to the large couch in the living room. She lowers herself onto it with surprising grace for her size, the cushions sinking under her weight.\n\nOnce seated, she turns toward you, one arm resting along the back of the couch. Her pale lavender skin glows softly in the lamplight, and her golden eyes are warm and attentive.\n\n\"This is… nice,\" she says softly, a small, genuine smile curving her lips. \"Just sitting here with you, without a glowing prison between us. It feels almost normal.\"";
         }
 
-        // Default return text (if no special label or after reset)
+        // Default return text
         return "Lirael stands beside you in the living room, her 6'1\" form relaxed but attentive. The house feels noticeably warmer with her presence, and she seems genuinely content to simply be upstairs with you.\n\nShe glances around with quiet curiosity before turning her golden eyes back to you.\n\n\"What would you like to do now, Isaac?\" she asks, her voice soft and velvety.";
     },
     location: function() {
@@ -1500,32 +1503,84 @@ effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = t
         return "Byrd Family Home - Living Room";
     },
     choices: [
+        // First visit options
         { label: "Offer her some new clothes", 
+          condition: () => !gameState.visitedPassages[101],
           next: 101, 
-          effect: () => { 
-              gameState.lastChoiceLabel = "newClothes"; 
-              gameState.liraelBond += 15; 
-          }
+          effect: () => { gameState.lastChoiceLabel = "newClothes"; gameState.liraelBond += 15; }
         },
         { label: "Tell Lirael to sit on the couch for a moment while you go to the kitchen to ask your father if Lirael can sleep in the Guest Bedroom", 
+          condition: () => !gameState.visitedPassages[101],
           next: 101, 
-          effect: () => { 
-              gameState.lastChoiceLabel = "couchGuestRoom"; 
-              gameState.liraelBond += 15; 
-          }
+          effect: () => { gameState.lastChoiceLabel = "couchGuestRoom"; gameState.liraelBond += 15; }
         },
         { label: "Take her to the kitchen and see how your father reacts", 
+          condition: () => !gameState.visitedPassages[101],
           next: 101, 
-          effect: () => { 
-              gameState.lastChoiceLabel = "kitchenFather"; 
-          }
+          effect: () => { gameState.lastChoiceLabel = "kitchenFather"; }
         },
         { label: "Take her over to the Couch to sit down and talk", 
+          condition: () => !gameState.visitedPassages[101],
           next: 101, 
-          effect: () => { 
-              gameState.lastChoiceLabel = "couchTalk"; 
-              gameState.supernaturalAffinity += 10; 
-          }
+          effect: () => { gameState.lastChoiceLabel = "couchTalk"; gameState.supernaturalAffinity += 10; }
+        },
+
+        // === newClothes follow-up choices ===
+        { label: "Tell her to imbue the clothes with her magic so they change size with her",
+          condition: () => gameState.lastChoiceLabel === "newClothes",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "imbueClothes"; gameState.liraelBond += 12; }
+        },
+        { label: "Tell her to just change back into the silk robe for now",
+          condition: () => gameState.lastChoiceLabel === "newClothes",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "robeAgain"; }
+        },
+        { label: "Ask her to try the clothes on right now",
+          condition: () => gameState.lastChoiceLabel === "newClothes",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "tryOnClothes"; gameState.liraelBond += 10; }
+        },
+
+        // === couchGuestRoom follow-up choices ===
+        { label: "Show her the bean bag chair in your room",
+          condition: () => gameState.lastChoiceLabel === "couchGuestRoom",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "showBeanBag"; gameState.liraelBond += 15; }
+        },
+        { label: "Ask her if she's comfortable sleeping in your room",
+          condition: () => gameState.lastChoiceLabel === "couchGuestRoom",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "comfortQuestion"; }
+        },
+
+        // === kitchenFather follow-up choices ===
+        { label: "Introduce her to your father properly",
+          condition: () => gameState.lastChoiceLabel === "kitchenFather",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "introFather"; gameState.familyTension += 5; }
+        },
+        { label: "Let her speak first to your father",
+          condition: () => gameState.lastChoiceLabel === "kitchenFather",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "letHerSpeak"; }
+        },
+
+        // === couchTalk follow-up choices ===
+        { label: "Ask her how she's feeling now that she's free",
+          condition: () => gameState.lastChoiceLabel === "couchTalk",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "howFeeling"; gameState.liraelBond += 12; }
+        },
+        { label: "Ask her what she wants to do first now that she's upstairs",
+          condition: () => gameState.lastChoiceLabel === "couchTalk",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "whatFirst"; }
+        },
+        { label: "Just sit in comfortable silence with her for a while",
+          condition: () => gameState.lastChoiceLabel === "couchTalk",
+          next: 101,
+          effect: () => { gameState.lastChoiceLabel = "silentSit"; gameState.liraelBond += 18; gameState.supernaturalAffinity += 8; }
         }
     ]
 },
