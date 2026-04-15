@@ -254,7 +254,8 @@ var gameState = {
     askedLiraelAbout: {},
     liraelFreed: false,
     lastChoiceLabel: "",
-    askedAboutRoam: false
+    askedAboutRoam: false,
+justConfessedToFather: false,
 };
 
 var passages = [
@@ -1038,7 +1039,7 @@ var passages = [
           next: 85, 
           effect: () => { 
               gameState.familyTension += 20; 
-              gameState.justConfessedToFather = true;   // <-- NEW FLAG
+              gameState.justConfessedToFather = true;  
           }
         },
         { label: "Stay silent and look at Lirael", next: 85 },
@@ -1234,12 +1235,11 @@ var passages = [
   ]
 },
 
-     // 85 - Father Confronts Lirael (Using dedicated flag)
+    // 85 - Father Confronts Lirael (Fixed with dedicated flag)
     {
         text: function() {
-            // Use the dedicated flag instead of lastPassage for reliability
             if (gameState.justConfessedToFather) {
-                // Reset the flag after using it
+                // Reset the flag so it doesn't stick
                 gameState.justConfessedToFather = false;
 
                 let base = "You step forward and say quietly, \"I did. I summoned her.\"\n\nThe words barely leave your mouth before your father's hand moves.\n\n*CRACK.*\n\nThe slap is hard and sudden, snapping your head to the side. Your cheek burns instantly.\n\n\"You brought a demon into our home?!\" he roars, voice cracking with fury and fear.";
@@ -1256,7 +1256,7 @@ var passages = [
                 return base;
             } 
             else {
-                // Normal version (not coming from the confession)
+                // Normal version (not from the confession)
                 if (gameState.liraelFreed) {
                     return "Your father takes a step closer, raising his cross toward Lirael, who remains pressed against the far corner of the basement.\n\n\"Demon! In the name of the Lord, I command you to leave this house!\"\n\nLirael doesn’t move. She keeps her hands visible and her voice soft.\n\n\"Your prayers still burn, priest,\" she says quietly. \"But I am no longer trapped. Your son freed me because he trusts me. I have not harmed anyone in this house.\"";
                 } else {
@@ -1266,7 +1266,7 @@ var passages = [
         },
         location: "Basement - Containment Circle (Family Present)",
         choices: function() {
-            if (gameState.justConfessedToFather || gameState.lastPassage === 68) {
+            if (gameState.justConfessedToFather) {
                 return [
                     { label: "Try to calm Lirael down before she does something drastic", next: 86, effect: () => { gameState.liraelBond += 15; } },
                     { label: "Tell your father to back off — she’s protecting you", next: 86, effect: () => { gameState.familyTension += 25; } },
