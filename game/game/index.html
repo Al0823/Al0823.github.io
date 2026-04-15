@@ -1572,7 +1572,7 @@ effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = t
         },
 
         // === newClothes follow-up choices ===
-        { label: "Tell her to imbue the clothes with her magic so they change size with her",
+        { label: "Ask her to imbue the clothes with her magic so they change size with her",
           condition: () => gameState.lastChoiceLabel === "newClothes",
           next: 101,
           effect: () => { gameState.lastChoiceLabel = "imbueClothes"; gameState.liraelBond += 12; }
