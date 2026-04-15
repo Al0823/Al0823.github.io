@@ -23,26 +23,25 @@ header, .header {
 
 .main-wrapper {
   width: 100%;
-  overflow: hidden;
+display: flex;
+align-items: stretch;
 }
 
 
 .left {
-  width: 300px;
-  float: left;
-  background-color: #3d8dc2;
-  color: #6b0e9c;
-  padding: 15px;
-  border-right: 1px solid #4d8ec3;
-height: 100%;
+width: 300px;
+background-color: #3d8dc2;
+color: #6b0e9c;
+padding: 15px;
+border-right: 1px solid #4d8ec3;
 }
 
 
 article {
-  margin-left: 320px;
-  padding: 20px;
-  background-color: #51abe0;
-  color: #6b0e9c;
+padding: 20px;
+background-color: #51abe0;
+color: #6b0e9c;
+flex: 1;
 }
 
 
