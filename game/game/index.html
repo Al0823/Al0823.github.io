@@ -1467,13 +1467,57 @@ effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = t
 
 // 101 - Going Upstairs Together With Lirael
 {
-    text: "You turn to Lirael and say, \"Come on… let’s go upstairs together. You’re allowed to move around the house now.\"\n\nLirael’s golden eyes light up with quiet surprise and gratitude. She stands slowly to her full twelve-foot height, towering over you for a moment, then pauses.\n\n\"...Perhaps this form is a little too much for your family right now,\" she murmurs with a lazy, knowing smile.\n\nShe closes her eyes and exhales softly. A gentle ripple of violet energy washes over her body. Her massive frame begins to shrink smoothly, maintaining perfect 1:1 proportions as she reduces down to a still-impressive 6'1\". Even at this smaller size she remains strikingly voluptuous — her heavy breasts, wide hips, and thick thighs filling out the tattered black silk robes in a way that is both powerful and undeniably sensual. Her pale lavender skin still glows with that soft iridescent sheen, and her small black horns and messy silver-white hair look just as striking.\n\nShe opens her golden eyes again and looks down at you (now only a head taller) with a warm, almost shy smile.\n\n\"Better?\" she asks softly, her voice still carrying that deep, velvety drawl. \"I can grow back whenever you want... but this should make things a little less shocking for your family.\"\n\nShe offers you her hand — now much closer to your own size — and follows you up the basement stairs with careful, graceful steps.\n\nThe moment the two of you reach the top and step into the main hallway, the house feels different. Warmer. More alive. Lirael pauses briefly, taking in the new space around her with quiet wonder.\n\n\"It feels… bigger,\" she murmurs. \"And warmer.\"\n\nYou can already hear movement upstairs — your family is still awake.",
-    location: "Byrd Family Home - Hallway (Top of Basement Stairs)",
+    text: function() {
+        // First visit - original text with shrinking
+        if (!gameState.visitedPassages[101]) {
+            return "You turn to Lirael and say, \"Come on… let’s go upstairs together. You’re allowed to move around the house now.\"\n\nLirael’s golden eyes light up with quiet surprise and gratitude. She stands slowly to her full twelve-foot height, towering over you for a moment, then pauses.\n\n\"...Perhaps this form is a little too much for your family right now,\" she murmurs with a lazy, knowing smile.\n\nShe closes her eyes and exhales softly. A gentle ripple of violet energy washes over her body. Her massive frame begins to shrink smoothly, maintaining perfect 1:1 proportions as she reduces down to a still-impressive 6'1\". Even at this smaller size she remains strikingly voluptuous — her heavy breasts, wide hips, and thick thighs filling out the tattered black silk robes in a way that is both powerful and undeniably sensual. Her pale lavender skin still glows with that soft iridescent sheen, and her small black horns and messy silver-white hair look just as striking.\n\nShe opens her golden eyes again and looks down at you (now only a head taller) with a warm, almost shy smile.\n\n\"Better?\" she asks softly, her voice still carrying that deep, velvety drawl. \"I can grow back whenever you want... but this should make things a little less shocking for your family.\"\n\nShe offers you her hand — now much closer to your own size — and follows you up the basement stairs with careful, graceful steps.\n\nThe moment the two of you reach the top and step into the main hallway, the house feels different. Warmer. More alive. Lirael pauses briefly, taking in the new space around her with quiet wonder.\n\n\"It feels… bigger,\" she murmurs. \"And warmer.\"\n\nYou can already hear movement upstairs — your family is still awake.";
+        }
+
+        // Subsequent visits - new text and new location
+        if (gameState.lastChoiceLabel === "newClothes") {
+            return "Lirael stands in the living room, looking down at her tattered black silk robes with mild amusement.\n\n\"New clothes would be wonderful,\" she says softly, her 6'1\" frame shifting with lazy grace. \"Something soft and comfortable. These have seen far too many centuries.\"\n\nShe gives you a warm, appreciative smile. \"You're being very kind to me, Isaac.\"";
+        }
+
+        if (gameState.lastChoiceLabel === "couchGuestRoom") {
+            return "Lirael sits carefully on the living room couch, her curvaceous 6'1\" body making the furniture look smaller than it is.\n\nShe waits patiently while you went to speak with your father about the guest bedroom. When you return, she looks up with hopeful golden eyes.\n\n\"How did it go?\" she asks gently. \"Did he agree?\"";
+        }
+
+        // Default return text for other visits
+        return "Lirael stands beside you in the living room, her 6'1\" form relaxed but attentive. The house feels warmer with her presence, and she seems genuinely happy to be upstairs with you.\n\nShe glances around with quiet curiosity before turning her golden eyes back to you.\n\n\"What would you like to do now?\" she asks softly.";
+    },
+    location: function() {
+        // First visit uses the hallway location
+        if (!gameState.visitedPassages[101]) {
+            return "Byrd Family Home - Hallway (Top of Basement Stairs)";
+        }
+        // All later visits use the living room
+        return "Byrd Family Home - Living Room";
+    },
     choices: [
-        { label: "Offer her some new clothes", next: 999, effect: () => { gameState.liraelBond += 15; }},
-{ label: "Tell Lirael to sit on the couch for a moment while you go to the kitchen to ask your father if Lirael can sleep in the Guest Bedroom", next: 999, effect: () => { gameState.liraelBond += 15; }},
-        { label: "Take her to the kitchen and see how your father reacts", next: 999 },
-        { label: "Take her over to the Couch to sit down and talk", next: 999, effect: () => { gameState.supernaturalAffinity += 10; }}
+        { label: "Offer her some new clothes", 
+          next: 101, 
+          effect: () => { 
+              gameState.lastChoiceLabel = "newClothes"; 
+              gameState.liraelBond += 15; 
+          }
+        },
+        { label: "Tell Lirael to sit on the couch for a moment while you go to the kitchen to ask your father if Lirael can sleep in the Guest Bedroom", 
+          next: 101, 
+          effect: () => { 
+              gameState.lastChoiceLabel = "couchGuestRoom"; 
+              gameState.liraelBond += 15; 
+          }
+        },
+        { label: "Take her to the kitchen and see how your father reacts", 
+          next: 999 
+        },
+        { label: "Take her over to the Couch to sit down and talk", 
+          next: 101, 
+          effect: () => { 
+              gameState.supernaturalAffinity += 10; 
+              gameState.lastChoiceLabel = ""; 
+          }
+        }
     ]
 },
 
