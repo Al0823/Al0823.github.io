@@ -1229,7 +1229,6 @@ var passages = [
      // 85 - Father Confronts Lirael
     {
         text: function() {
-            // Force check for coming from 68
             if (gameState.lastPassage === 68) {
                 let base = "You step forward and say quietly, \"I did. I summoned her.\"\n\nThe words barely leave your mouth before your father's hand moves.\n\n*CRACK.*\n\nThe slap is hard and sudden, snapping your head to the side. Your cheek burns instantly.\n\n\"You brought a demon into our home?!\" he roars, voice cracking with fury and fear.";
 
@@ -1245,7 +1244,6 @@ var passages = [
                 return base;
             } 
             else {
-                // Original non-68 version
                 if (gameState.liraelFreed) {
                     return "Your father takes a step closer, raising his cross toward Lirael, who remains pressed against the far corner of the basement.\n\n\"Demon! In the name of the Lord, I command you to leave this house!\"\n\nLirael doesn’t move. She keeps her hands visible and her voice soft.\n\n\"Your prayers still burn, priest,\" she says quietly. \"But I am no longer trapped. Your son freed me because he trusts me. I have not harmed anyone in this house.\"";
                 } else {
@@ -1650,11 +1648,12 @@ effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = t
 
 // ================ RENDERING ================
 function renderPassage() {
+    // Mark current passage as visited
     gameState.visitedPassages[gameState.currentPassage] = true;
-    gameState.lastPassage = gameState.currentPassage;   // Ensure lastPassage is always updated
 
     var p = passages[gameState.currentPassage];
     let displayText = typeof p.text === 'function' ? p.text() : p.text;
+
     document.getElementById('story').textContent = displayText;
     document.getElementById('location-display').textContent = p.location + " — " + gameState.currentDate;
 
@@ -1672,14 +1671,19 @@ function renderPassage() {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
         btn.onclick = () => {
-            if (!gameState.usedChoices[gameState.currentPassage]) gameState.usedChoices[gameState.currentPassage] = [];
+            if (!gameState.usedChoices[gameState.currentPassage]) 
+                gameState.usedChoices[gameState.currentPassage] = [];
+            
             if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
                 gameState.usedChoices[gameState.currentPassage].push(choice.label);
             }
+            
             if (choice.effect) choice.effect();
 
+            // CRITICAL: Update lastPassage BEFORE changing currentPassage
             gameState.lastPassage = gameState.currentPassage;
             gameState.currentPassage = choice.next;
+
             renderPassage();
         };
         choicesDiv.appendChild(btn);
