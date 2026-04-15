@@ -981,7 +981,7 @@ var passages = [
         ]
     },
 
-    // 68 - Father arrives at the basement / family pressure
+// 68 - Father arrives at the basement / family pressure
     {
         text: "Your father stands at the base of the basement stairs.\n\nThe violet light of the containment circle catches his face from below, turning his expression into something older and harder than you've seen before.\n\nHis cross is in his hand.\n\nHe looks at the circle.\n\nAt the runes carved into the stone.\n\nAt Lirael.\n\nA long silence.\n\nThen — very quietly:\n\n\"Who did this.\"\n\nNot a question.\n\nBehind you, on the stairs, your mother has stopped halfway down. Her hand grips the railing tight enough to whiten her knuckles.\n\nEmily is somewhere above you. You can hear her breathing at the top of the stairs.\n\nLira is at your shoulder.\n\nEveryone is waiting for your answer.",
         location: "Basement - Containment Circle (Family Present)",
@@ -1198,14 +1198,16 @@ var passages = [
   ]
 },
 
-// 86 - Morgana Summoning Scene
-{
-  text: "Text goes here",
-  location: "Basement - Containment Circle (Family Present)",
-  choices: [
-    { label: "OPTION GOES HERE", next: 999 }
-  ]
-},
+// 86 - Immediate Aftermath of Lirael Breaking Free
+    {
+        text: "Lirael stands protectively in front of you, her massive frame tense, golden eyes locked on your father.\n\nShe is breathing hard, clearly fighting the instinct to do more than just threaten.\n\nYour father has gone pale, but he hasn’t backed down completely. His cross is still raised, though his hand is shaking.\n\nYour mother is frozen halfway down the stairs, one hand over her mouth.\n\nEmily is at the very top, eyes wide with a mix of fear and awe.\n\nLira is the only one who moves — she steps forward slowly, voice calm but urgent:\n\n\"Everyone… please. Let’s not make this worse.\"\n\nLirael’s voice cuts through the tension, low and strained:\n\n\"I broke the circle because he hit Isaac. I will not allow anyone to hurt him. Not even you.\"\n\nShe doesn’t move forward, but she also doesn’t back down.\n\nThe basement feels like it’s holding its breath.",
+        location: "Basement - Containment Circle (Family Present)",
+        choices: [
+            { label: "Step forward and try to de-escalate", next: 88, effect: () => { gameState.familyTension -= 10; }},
+            { label: "Tell Lirael to stand down — you’re okay", next: 89, effect: () => { gameState.liraelBond += 12; }},
+            { label: "Ask your father to listen — just for a minute", next: 90 }
+        ]
+    },
 
 // 87 - Confessing Everything
 {
