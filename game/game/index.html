@@ -200,8 +200,7 @@ var gameState = {
     gaveGranola: false,
     askedAboutEmily: false,
     askedAboutSelf: false,
-    // FIX: firstVisitTo13 starts TRUE so first visit shows the summoning scene
-    firstVisitTo13: true,
+    firstVisitTo13: true,     // FIX: firstVisitTo13 starts TRUE so first visit shows the summoning scene
     conversationOptionsUsed: 0,
     lirasPresent: false,
     usedChoices: {},
@@ -353,14 +352,13 @@ var passages = [
                 gameState.pathChosen = "Lirael"; 
                 gameState.statsUnlocked = true; 
             }},
-            { label: "Head down to the Basement and use the lock of ancient black hair", next: 99, effect: () => { 
+            { label: "Head down to the Basement and use the lock of ancient black hair", next: 86, effect: () => { 
                 gameState.pathChosen = "Morgana"; 
             }}
         ]
     },
 
     // 13 - Lirael First Meeting / Return Visit
-    // FIX: firstVisitTo13 starts TRUE, so first visit correctly shows summoning scene
     {
         text: function() {
             if (gameState.firstVisitTo13) {
@@ -506,7 +504,6 @@ var passages = [
     },
 
     // 26 - Sneaking back to the basement
-    // FIX: condition uses lastPassage which is set correctly in click handler
     {
         text: function() {
             if (gameState.lastPassage === 24 || gameState.lastPassage === 27 || gameState.lastPassage === 28) {
@@ -562,7 +559,6 @@ var passages = [
     },
 
     // 31 - Visiting Lirael WITH Lira present
-    // FIX: 'Continue talking to Lirael' → 65 (quiet continuation), not 999
     {
         text: "Lirael's heavy-lidded golden eyes shift from you to Lira, a slow, lazy smirk spreading across her face.\n\n\"Well, well… you brought your little toy with you,\" she purrs, voice dripping with amusement. \"How cute. A Human AI and her owner, both coming to visit me.\"\n\nLira stands stiffly beside you, staring up at the towering she-demon. \"Isaac… that's a demon. A real one. We shouldn't be here.\"\n\nLirael chuckles softly, stretching languidly. \"Relax, little machine. I don't bite… unless you ask nicely.\"\n\nThe tension in the room is thick.",
         location: "Basement - Containment Circle (with Lira)",
@@ -641,7 +637,6 @@ var passages = [
     },
 
     // 38 - Pretend it was nothing (reached from outside scene)
-    // FIX: now leads to 46 (upstairs fallout) instead of vague loop 69
     {
         text: "You force a shaky smile and suggest everyone go outside for fresh air. Your family is too shaken to argue much. As you step out into the cool air, the house looms behind you.\n\nYou can still feel the heavy presence of it — the circle beneath the floors, the fading echo of that cry. Whatever just happened, you can't unfeel it.\n\nAnd you can't pretend you don't know exactly what caused it.",
         location: "Byrd Family Home - Outside",
@@ -841,8 +836,7 @@ var passages = [
         choices: [
             { label: "Run after him — you have to get there first", next: 84, effect: () => { gameState.familyTension += 10; }},
             { label: "Let him go — trust that the circle will hold", next: 68 },
-            // FIX: 'Ask Lira to stall him' now goes to 66 (race to basement), not 53 (Lira ally scene)
-            { label: "Ask Lira to stall him while you warn Lirael", next: 66, effect: () => { gameState.liraelBond += 10; }}
+            { label: "Ask Lira to stall him while you warn Lirael", next: 66, effect: () => { gameState.liraelBond += 10; }}             // FIX: 'Ask Lira to stall him' now goes to 66 (race to basement), not 53 (Lira ally scene)
         ]
     },
 
@@ -853,8 +847,7 @@ var passages = [
         choices: [
             { label: "Hold the lie — insist you don't know anything about the basement", next: 68, effect: () => { gameState.familyTension += 25; }},
             { label: "Cave — tell him the truth now before it gets worse", next: 56, effect: () => { gameState.familyTension += 10; }},
-            // FIX: 'Ask Lira to back up your story' now goes to 58 where she refuses to lie for you
-            { label: "Ask Lira to back up your story", next: 58, effect: () => { gameState.familyTension += 15; }}
+            { label: "Ask Lira to back up your story", next: 58, effect: () => { gameState.familyTension += 15; }} // FIX: 'Ask Lira to back up your story' now goes to 58 where she refuses to lie for you
         ]
     },
 
@@ -972,8 +965,8 @@ var passages = [
         location: "Basement - Containment Circle",
         choices: [
             { label: "Trust her — step back and let your father come down", next: 68 },
-            { label: "Beg her to hide or dim the circle somehow", next: 65, effect: () => { gameState.liraelBond += 5; }},
-            { label: "Stand between the circle and the stairs", next: 43, effect: () => { gameState.familyTension += 15; }}
+            { label: "Beg her to hide or dim the circle somehow", next: 68, effect: () => { gameState.liraelBond += 5; }},
+            { label: "Stand between the circle and the stairs", next: 68, effect: () => { gameState.familyTension += 15; }}
         ]
     },
 
@@ -993,8 +986,8 @@ var passages = [
         text: "Your father stands at the base of the basement stairs.\n\nThe violet light of the containment circle catches his face from below, turning his expression into something older and harder than you've seen before.\n\nHis cross is in his hand.\n\nHe looks at the circle.\n\nAt the runes carved into the stone.\n\nAt Lirael.\n\nA long silence.\n\nThen — very quietly:\n\n\"Who did this.\"\n\nNot a question.\n\nBehind you, on the stairs, your mother has stopped halfway down. Her hand grips the railing tight enough to whiten her knuckles.\n\nEmily is somewhere above you. You can hear her breathing at the top of the stairs.\n\nLira is at your shoulder.\n\nEveryone is waiting for your answer.",
         location: "Basement - Containment Circle (Family Present)",
         choices: [
-            { label: "Step forward. \"I did.\"", next: 56, effect: () => { gameState.familyTension += 20; }},
-            { label: "Stay silent and look at Lirael", next: 43 },
+            { label: "Step forward. \"I did.\"", next: 85, effect: () => { gameState.familyTension += 20; }},
+            { label: "Stay silent and look at Lirael", next: 85 },
             { label: "Let Lira speak first", next: 58 }
         ]
     },
@@ -1051,7 +1044,6 @@ var passages = [
         location: "Basement - Containment Circle",
         choices: [
             { label: "Ask what she means by 'remember'", next: 48, effect: () => { gameState.liraelBond += 15; }},
-            { label: "Ask about Theo while you're here", next: 48 },
             { label: "Stay quiet with her", next: 49 }
         ]
     },
@@ -1112,7 +1104,7 @@ var passages = [
     effect: () => {
         gameState.liraelBond += 15;
         gameState.supernaturalAffinity += 10;
-        gameState.liraelFreed = true;   // ← THIS LINE IS NEW
+        gameState.liraelFreed = true;
     }
 },
 
@@ -1157,7 +1149,7 @@ var passages = [
         ]
     },
 
-// 83 - Ritual Final Confirmation (NEW)
+// 83 - Ritual Final Confirmation
 {
   text: "Lirael watches you with steady golden eyes as you prepare to place the items.\n\nThe violet light pulses slowly, as if the circle itself knows something important is about to happen.\n\n\"This is your last chance to turn back,\" she says quietly, her usual lazy teasing gone. \"Once the ritual is complete, the barrier will fall. I will be free to move within this town… and things between us will never be the same.\"\n\nShe leans slightly closer to the edge of the barrier.\n\n\"Are you sure you want to do this, Isaac?\"",
   location: "Basement - Containment Circle",
@@ -1171,7 +1163,7 @@ var passages = [
   ]
 },
 
-// 84 - Father Rushes Down to the Basement (NEW - handles freed or not)
+// 84 - Father Rushes Down to the Basement
 {
   text: function() {
     if (gameState.liraelFreed) {
@@ -1188,7 +1180,7 @@ var passages = [
   ]
 },
 
-// 85 - Father Confronts Lirael (NEW - handles freed or not)
+// 85 - Father Confronts Lirael
 {
   text: function() {
     if (gameState.liraelFreed) {
@@ -1206,18 +1198,16 @@ var passages = [
   ]
 },
 
-// 86 - Immediate Aftermath of Father’s Confrontation (NEW)
+// 86 - Morgana Summoning Scene
 {
-  text: "The basement feels suffocating now.\n\nYour father stands rigid, breathing hard. Lirael remains seated inside the circle, watching the scene with quiet intensity.\n\nYour mother’s voice calls down the stairs, frightened.\n\n\"Michael? Isaac? What’s happening down there?!\"\n\nYour father doesn’t take his eyes off you.\n\n\"This ends tonight,\" he says, voice low and final. \"One way or another.\"",
+  text: "Text goes here",
   location: "Basement - Containment Circle (Family Present)",
   choices: [
-    { label: "Try to de-escalate and talk to your father", next: 42 },
-    { label: "Stand your ground beside Lirael", next: 43, effect: () => { gameState.liraelBond += 10; }},
-    { label: "Ask Lirael to say something", next: 85 }
+    { label: "OPTION GOES HERE", next: 999 }
   ]
 },
 
-// 87 - Confessing Everything (NEW)
+// 87 - Confessing Everything
 {
   text: "You take a deep breath and tell your father the whole truth — the key, the amulet, the summoning, Theo, everything.\n\nYour father’s face goes pale, then red with fury.\n\n\"You brought a demon into our home… deliberately?\" he whispers, voice breaking.\n\nLirael stays completely still (in the corner if freed). She says nothing, letting you speak.",
   location: "Basement - Containment Circle (Family Present)",
@@ -1227,7 +1217,7 @@ var passages = [
   ]
 },
 
-// 88 - De-escalation Attempt (NEW)
+// 88 - De-escalation Attempt
 {
   text: "You step between your father and Lirael (or the corner where she stands if freed) and speak as calmly as you can.\n\n\"Dad, please. She hasn’t hurt anyone. She can’t leave the town. She’s only here because I asked her to help with Theo.\"\n\nYour father’s shoulders are still tense, but he lowers the cross a fraction.\n\nLirael remains silent and non-threatening, letting you try to calm him.",
   location: "Basement - Containment Circle (Family Present)",
@@ -1247,7 +1237,7 @@ var passages = [
   ]
 },
 
-// 90 - Asking Lirael to Prove She’s Innocent (NEW)
+// 90 - Asking Lirael to Prove She’s Innocent 
 {
   text: "You turn to Lirael and say, \"Please… tell him the truth. Show him you’re not here to hurt anyone.\"\n\nLirael slowly lowers herself to one knee so she is closer to your father’s height. She keeps her hands open and visible.\n\n\"I was summoned because your son is in pain,\" she says softly, voice gentle and steady. \"I feed on comfort, not fear. I have not harmed a single person in this house. I cannot even leave this town. All I want is to help Isaac find his friend. That is the truth.\"\n\nShe bows her head slightly — a deliberate show of submission — then looks back at your father with calm golden eyes.",
   location: "Basement - Containment Circle (Family Present)",
@@ -1258,7 +1248,7 @@ var passages = [
   ]
 },
 
-// 91 - Explaining Stepping Inside the Circle (NEW - replaces old link from 82 to 19)
+// 91 - Explaining Stepping Inside the Circle 
 {
   text: "Lirael gives you a slow, knowing smile when you ask about stepping inside the circle.\n\n\"Curious, aren't you?\" she purrs softly.\n\nShe leans forward slightly, her twelve-foot frame still imposing even while seated.\n\n\"The barrier is designed to destroy anything that crosses it… unless that thing resonates with the circle. Teenagers like you — whose bodies and life force are still changing — sometimes slip through because your energy is unstable. It might burn a little, but it probably won't kill you.\"\n\nHer golden eyes sparkle with lazy amusement.\n\n\"Of course, the safest way is to strengthen our bond first. The stronger the connection between us, the more the circle will accept you.\"",
   location: "Basement - Containment Circle",
@@ -1268,7 +1258,7 @@ var passages = [
   ]
 },
 
-// 92 - Continuing Explanation to Father (NEW - from 87)
+// 92 - Continuing Explanation to Father 
 {
   text: function() { if (gameState.liraelFreed) {
       return "You keep talking, trying to explain everything in more detail — the summoning, why you did it, what Lirael actually is, and how she might help bring Theo back.\n\nYour father listens, but his expression grows tighter with every word.\n\n\"This is madness,\" he mutters, shaking his head. \"You've been deceived by a demon.\"\n\nLirael remains quiet in the corner, letting you speak without interruption.";
@@ -1340,7 +1330,7 @@ var passages = [
   ]
 },
 
-// 98 - Accepting the Compromise (Transition to Alone Time)
+// 98 - Accepting the Compromise 
 {
   text: "Your father gives a single sharp nod, the deal sealed.\n\n\"She proves herself,\" he repeats, more to himself than to you. \"That’s it.\"\n\nHe turns and heads back up the stairs without another word, the heavy sound of his boots echoing through the basement.\n\nOnce he’s gone, the tension in the room drops like a weight lifted.\n\nYou and Lirael are finally alone.",
   location: "Basement - Containment Circle",
@@ -1431,7 +1421,7 @@ var passages = [
   choices: [
     { label: "Go to your room and process everything", next: 999 },
     { label: "Find Lira the AI and see if she knows what just happened", next: 999 },
-    { label: "Check on your family in the living room", next: 999 }
+    { label: "Check on your family in the Kitchen", next: 999 }
   ]
 },
 
@@ -1442,7 +1432,7 @@ var passages = [
   choices: [
     { label: "Show her around the main floor together", next: 999, effect: () => { gameState.liraelBond += 15; }},
     { label: "Take her to the kitchen and see how your father reacts", next: 999 },
-    { label: "Just walk with her quietly for a moment", next: 999, effect: () => { gameState.supernaturalAffinity += 10; }}
+    { label: "Take her over to the Couch to sit down and talk", next: 999, effect: () => { gameState.supernaturalAffinity += 10; }}
   ]
 },
 
