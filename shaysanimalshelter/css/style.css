@@ -21,26 +21,29 @@ header, .header {
 
 
 .main-wrapper {
+  display: flex;
   width: 100%;
-display: flex;
-align-items: stretch;
+  align-items: stretch;
+  flex-wrap: wrap; /* allows stacking on small screens */
 }
-
 
 .left {
-width: 300px;
-background-color: #3d8dc2;
-color: #6b0e9c;
-padding: 15px;
-border-right: 1px solid #4d8ec3;
+  width: 300px;
+  max-width: 100%;
+  background-color: #3d8dc2;
+  color: #6b0e9c;
+  padding: 15px;
+  border-right: 1px solid #4d8ec3;
+  box-sizing: border-box;
 }
 
-
 article {
-padding: 20px;
-background-color: #51abe0;
-color: #6b0e9c;
-flex: 1;
+  flex: 1;
+  min-width: 250px;
+  padding: 20px;
+  background-color: #51abe0;
+  color: #6b0e9c;
+  box-sizing: border-box;
 }
 
 
