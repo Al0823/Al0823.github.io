@@ -1030,13 +1030,21 @@ var passages = [
     },
 
 // 68 - Father arrives at the basement / family pressure
-    {
-        text: "Your father stands at the base of the basement stairs.\n\nThe violet light of the containment circle catches his face from below, turning his expression into something older and harder than you've seen before.\n\nHis cross is in his hand.\n\nHe looks at the circle.\n\nAt the runes carved into the stone.\n\nAt Lirael.\n\nA long silence.\n\nThen — very quietly:\n\n\"Who did this.\"\n\nNot a question.\n\nBehind you, on the stairs, your mother has stopped halfway down. Her hand grips the railing tight enough to whiten her knuckles.\n\nEmily is somewhere above you. You can hear her breathing at the top of the stairs.\n\nLira is at your shoulder.\n\nEveryone is waiting for your answer.",
-        location: "Basement - Containment Circle (Family Present)",
-        choices: [
-            { label: "Step forward. \"I did.\"", next: 85, effect: () => { gameState.familyTension += 20; }},
-        ]
-    },
+{
+    text: "Your father stands at the base of the basement stairs.\n\nThe violet light of the containment circle catches his face from below, turning his expression into something older and harder than you've seen before.\n\nHis cross is in his hand.\n\nHe looks at the circle.\n\nAt the runes carved into the stone.\n\nAt Lirael.\n\nA long silence.\n\nThen — very quietly:\n\n\"Who did this.\"\n\nNot a question.\n\nBehind you, on the stairs, your mother has stopped halfway down. Her hand grips the railing tight enough to whiten her knuckles.\n\nEmily is somewhere above you. You can hear her breathing at the top of the stairs.\n\nLira is at your shoulder.\n\nEveryone is waiting for your answer.",
+    location: "Basement - Containment Circle (Family Present)",
+    choices: [
+        { label: "Step forward. \"I did.\"", 
+          next: 85, 
+          effect: () => { 
+              gameState.familyTension += 20; 
+              gameState.justConfessedToFather = true;   // <-- NEW FLAG
+          }
+        },
+        { label: "Stay silent and look at Lirael", next: 85 },
+        { label: "Let Lira speak first", next: 58 }
+    ]
+},
 
     // 69 - Gentle basement re-entry (no longer a vague stub)
     {
@@ -1226,14 +1234,14 @@ var passages = [
   ]
 },
 
- // 85 - Father Confronts Lirael (Extra Safe Version)
+     // 85 - Father Confronts Lirael (Using dedicated flag)
     {
         text: function() {
-            // Extra safety check - also check visited history if lastPassage is unreliable
-            const cameFrom68 = (gameState.lastPassage === 68) || 
-                              (gameState.visitedPassages[68] && gameState.currentPassage === 85);
+            // Use the dedicated flag instead of lastPassage for reliability
+            if (gameState.justConfessedToFather) {
+                // Reset the flag after using it
+                gameState.justConfessedToFather = false;
 
-            if (cameFrom68) {
                 let base = "You step forward and say quietly, \"I did. I summoned her.\"\n\nThe words barely leave your mouth before your father's hand moves.\n\n*CRACK.*\n\nThe slap is hard and sudden, snapping your head to the side. Your cheek burns instantly.\n\n\"You brought a demon into our home?!\" he roars, voice cracking with fury and fear.";
 
                 if (gameState.liraelFreed) {
@@ -1248,7 +1256,7 @@ var passages = [
                 return base;
             } 
             else {
-                // Original version
+                // Normal version (not coming from the confession)
                 if (gameState.liraelFreed) {
                     return "Your father takes a step closer, raising his cross toward Lirael, who remains pressed against the far corner of the basement.\n\n\"Demon! In the name of the Lord, I command you to leave this house!\"\n\nLirael doesn’t move. She keeps her hands visible and her voice soft.\n\n\"Your prayers still burn, priest,\" she says quietly. \"But I am no longer trapped. Your son freed me because he trusts me. I have not harmed anyone in this house.\"";
                 } else {
@@ -1258,10 +1266,7 @@ var passages = [
         },
         location: "Basement - Containment Circle (Family Present)",
         choices: function() {
-            // Force check again inside choices
-            const cameFrom68 = (gameState.lastPassage === 68);
-
-            if (cameFrom68) {
+            if (gameState.justConfessedToFather || gameState.lastPassage === 68) {
                 return [
                     { label: "Try to calm Lirael down before she does something drastic", next: 86, effect: () => { gameState.liraelBond += 15; } },
                     { label: "Tell your father to back off — she’s protecting you", next: 86, effect: () => { gameState.familyTension += 25; } },
