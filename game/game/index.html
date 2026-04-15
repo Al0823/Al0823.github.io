@@ -1226,10 +1226,14 @@ var passages = [
   ]
 },
 
-     // 85 - Father Confronts Lirael
+ // 85 - Father Confronts Lirael (Extra Safe Version)
     {
         text: function() {
-            if (gameState.lastPassage === 68) {
+            // Extra safety check - also check visited history if lastPassage is unreliable
+            const cameFrom68 = (gameState.lastPassage === 68) || 
+                              (gameState.visitedPassages[68] && gameState.currentPassage === 85);
+
+            if (cameFrom68) {
                 let base = "You step forward and say quietly, \"I did. I summoned her.\"\n\nThe words barely leave your mouth before your father's hand moves.\n\n*CRACK.*\n\nThe slap is hard and sudden, snapping your head to the side. Your cheek burns instantly.\n\n\"You brought a demon into our home?!\" he roars, voice cracking with fury and fear.";
 
                 if (gameState.liraelFreed) {
@@ -1244,6 +1248,7 @@ var passages = [
                 return base;
             } 
             else {
+                // Original version
                 if (gameState.liraelFreed) {
                     return "Your father takes a step closer, raising his cross toward Lirael, who remains pressed against the far corner of the basement.\n\n\"Demon! In the name of the Lord, I command you to leave this house!\"\n\nLirael doesn’t move. She keeps her hands visible and her voice soft.\n\n\"Your prayers still burn, priest,\" she says quietly. \"But I am no longer trapped. Your son freed me because he trusts me. I have not harmed anyone in this house.\"";
                 } else {
@@ -1253,7 +1258,10 @@ var passages = [
         },
         location: "Basement - Containment Circle (Family Present)",
         choices: function() {
-            if (gameState.lastPassage === 68) {
+            // Force check again inside choices
+            const cameFrom68 = (gameState.lastPassage === 68);
+
+            if (cameFrom68) {
                 return [
                     { label: "Try to calm Lirael down before she does something drastic", next: 86, effect: () => { gameState.liraelBond += 15; } },
                     { label: "Tell your father to back off — she’s protecting you", next: 86, effect: () => { gameState.familyTension += 25; } },
@@ -1646,9 +1654,8 @@ effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = t
 
 ];
 
-// ================ RENDERING ================
 function renderPassage() {
-    // Mark current passage as visited
+    // Mark visited
     gameState.visitedPassages[gameState.currentPassage] = true;
 
     var p = passages[gameState.currentPassage];
@@ -1680,7 +1687,7 @@ function renderPassage() {
             
             if (choice.effect) choice.effect();
 
-            // CRITICAL: Update lastPassage BEFORE changing currentPassage
+            // CRITICAL: Force lastPassage update BEFORE navigation
             gameState.lastPassage = gameState.currentPassage;
             gameState.currentPassage = choice.next;
 
@@ -1691,7 +1698,6 @@ function renderPassage() {
 
     updateStatusBar();
 }
-
 function updateStatusBar() {
     document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location} — ${gameState.currentDate}`;
 }
