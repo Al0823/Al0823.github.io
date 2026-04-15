@@ -4,147 +4,162 @@
 <meta charset="UTF-8">
 <title>A.t.A. Projects, Websites, and Games - The Demon and I</title>
 <style>
-body { 
+body {
 margin: 0;
-padding: 0; 
-background-color: #080808; 
-color: #c0c0c0; 
-font-family: 'Courier New', Courier, monospace; 
+padding: 0;
+background-color: #080808;
+color: #c0c0c0;
+font-family: 'Courier New', Courier, monospace;
 }
-#container { 
-width: 75%; 
-margin: 16px auto; 
-border: 4px solid #a0a0a0; 
-background-color: #101010; 
-padding: 12px; 
+#container {
+width: 75%;
+margin: 16px auto;
+border: 4px solid #a0a0a0;
+background-color: #101010;
+padding: 12px;
 }
-#layout { 
-	display: flex; 
+#layout {
+display: flex;
 }
-#side-panel { 
-width: 240px; 
-border: 3px solid #505050; 
-background-color: #111111; 
-padding: 12px; 
-margin-right: 12px; 
+#side-panel {
+width: 240px;
+border: 3px solid #505050;
+background-color: #111111;
+padding: 12px;
+margin-right: 12px;
 }
-.panel-section { 
-	margin-bottom: 16px; 
-	border:2px inset #404040; 
-	padding: 10px; 
-	background-color: #181818; 
+.panel-section {
+margin-bottom: 16px;
+border:2px inset #404040;
+padding: 10px;
+background-color: #181818;
 }
-.panel-title { 
-font-size: 13px; 
-color: #ffcc00; 
-margin-bottom: 8px; 
-letter-spacing: 0.1em; 
+.panel-title {
+font-size: 13px;
+color: #ffcc00;
+margin-bottom: 8px;
+letter-spacing: 0.1em;
 }
-.panel-button { 
-display: block; 
-margin: 6px 0; 
-padding: 8px; 
-border: 2px outset #808080; 
-background-color: #202020; 
-color: #f0f0f0; 
-cursor: pointer; 
-text-align: center; 
+.panel-button {
+display: block;
+margin: 6px 0;
+padding: 8px;
+border: 2px outset #808080;
+background-color: #202020;
+color: #f0f0f0;
+cursor: pointer;
+text-align: center;
 }
-.panel-button:hover { 
-background-color: #303030; 
+.panel-button:hover {
+background-color: #303030;
 }
-#main-content { 
-flex: 1; 
+#main-content {
+flex: 1;
 }
-#titlebar { 
-background-color: #202020; 
-color: #f8f8f8; 
-padding: 14px; 
-border: 2px inset #505050; 
-text-align: center; 
-letter-spacing: 0.18em; 
-font-size: 21px; 
+#titlebar {
+background-color: #202020;
+color: #f8f8f8;
+padding: 14px;
+border: 2px inset #505050;
+text-align: center;
+letter-spacing: 0.18em;
+font-size: 21px;
 }
-#titlebar .blink { 
-color: #ffcc00; 
+#titlebar .blink {
+color: #ffcc00;
 }
-#main-frame { 
-margin-top: 12px; 
-border: 3px solid #505050; 
-background-color: linear-gradient(180deg,#111111 0%,#1a1a1a 100%); 
-padding: 14px; 
+#main-frame {
+margin-top: 12px;
+border: 3px solid #505050;
+background: linear-gradient(180deg,#111111 0%,#1a1a1a 100%);
+padding: 14px;
 }
-#story { 
-min-height: 520px; 
-background: #121212; 
-border: 2px inset #404040; 
-padding: 22px; 
-line-height: 1.85; 
-white-space: pre-wrap; 
-font-size: 15.5px; 
+#story {
+min-height: 520px;
+background: #121212;
+border: 2px inset #404040;
+padding: 22px;
+line-height: 1.85;
+white-space: pre-wrap;
+font-size: 15.5px;
 }
-#choices { 
-margin-top: 22px; 
+#choices {
+margin-top: 22px;
 }
-#choices button { 
-margin: 8px 10px 8px 0; 
-padding: 13px 22px; 
-border: 2px outset #808080; 
-background-color: #202020; 
-color: #f0f0f0; 
-cursor: pointer; 
-font-family: inherit; 
-font-size: 14.8px; 
+#choices button {
+margin: 8px 10px 8px 0;
+padding: 13px 22px;
+border: 2px outset #808080;
+background-color: #202020;
+color: #f0f0f0;
+cursor: pointer;
+font-family: inherit;
+font-size: 14.8px;
 }
-#choices button:hover { 
-background-color: #303030; 
+#choices button:hover {
+background-color: #303030;
 }
-#status-bar { 
-margin-top: 22px; 
-padding: 12px; 
-background-color: #181818; 
-border: 2px inset #404040; 
-font-size: 13px; 
-text-align: center; 
+#status-bar {
+margin-top: 22px;
+padding: 12px;
+background-color: #181818;
+border: 2px inset #404040;
+font-size: 13px;
+text-align: center;
 }
-#modal { 
-position: fixed; 
-top: 0; 
-left: 0; 
-width: 100%; 
-height: 100%; 
-background-color: #000000d1; 
-display: none; 
-align-items: center; 
-justify-content: center; 
+#modal {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000000d1;
+display: none;
+align-items: center;
+justify-content: center;
 }
-#modal-box { 
-width: 380px; 
-background-color: #101010; 
-border: 3px solid #505050; 
-padding: 18px; 
+#modal-box {
+width: 380px;
+background-color: #101010;
+border: 3px solid #505050;
+padding: 18px;
 }
-#modal-title { 
-	color: #ffcc00; 
-	margin-bottom: 16px; 
-	font-size: 19px; 
+#modal-title {
+color: #ffcc00;
+margin-bottom: 16px;
+font-size: 19px;
 }
-.modal-button { 
-display: block; 
-margin-top: 12px; 
-padding: 10px; 
-border: 2px outset #808080; 
-background-color: #202020; 
-cursor: pointer; 
-text-align: center; 
+.modal-button {
+display: block;
+margin-top: 12px;
+padding: 10px;
+border: 2px outset #808080;
+background-color: #202020;
+cursor: pointer;
+text-align: center;
 }
-.modal-button:hover { 
-background-color: #303030; 
+.modal-button:hover {
+background-color: #303030;
+}
+
+/* Admin Panel Styles */
+#admin-panel {
+display: none;
+position: fixed;
+top: 8%;
+left: 8%;
+width: 84%;
+height: 84%;
+background: #1a1a1a;
+border: 4px solid #ffcc00;
+padding: 20px;
+overflow: auto;
+z-index: 10000;
+color: #ddd;
 }
 </style>
 </head>
 <body>
-
 <div id="container">
 <div id="layout">
 <div id="side-panel">
@@ -159,9 +174,9 @@ background-color: #303030;
 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
 <div class="panel-button" onclick="restartGame()">Restart Game</div>
 <div class="panel-button" onclick="openModal('about')">About</div>
+<div class="panel-button" onclick="toggleAdminPanel()">🔧 Admin Panel</div>
 </div>
 </div>
-
 <div id="main-content">
 <div id="titlebar">
 <span id="title-text" class="blink">THE DEMON AND I</span>
@@ -175,6 +190,36 @@ background-color: #303030;
 </div>
 </div>
 
+<!-- Admin Panel -->
+<div id="admin-panel">
+    <h2 style="color:#ffcc00; text-align:center;">🔧 ADMIN PANEL</h2>
+    <button onclick="toggleAdminPanel()" style="position:absolute; top:15px; right:15px; padding:8px 16px;">Close</button>
+    
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:25px;">
+        <div>
+            <h3>Game State Values</h3>
+            <div id="state-list" style="max-height:65vh; overflow:auto; background:#111; padding:10px;"></div>
+        </div>
+        <div>
+            <h3>Quick Actions</h3>
+            <button onclick="quickSet('liraelFreed', true)" class="modal-button">Free Lirael</button>
+            <button onclick="quickSet('liraelBond', 100)" class="modal-button">Max Lirael Bond</button>
+            <button onclick="quickSet('familyTension', 0)" class="modal-button">Reset Family Tension</button>
+            <button onclick="quickSet('theoResurrectionProgress', 100)" class="modal-button">Max Theo Progress</button>
+            <button onclick="quickSet('currentDate', 'August 23')" class="modal-button">Set Date to Aug 23</button>
+            
+            <h3 style="margin-top:25px;">Jump to Passage</h3>
+            <input type="number" id="jump-input" placeholder="Passage number" style="width:100%; padding:10px; background:#222; color:#ddd; border:1px solid #555;">
+            <button onclick="jumpToPassage()" class="modal-button" style="width:100%; margin-top:8px;">Jump to Passage</button>
+            
+            <h3 style="margin-top:25px;">Save / Load / Reset</h3>
+            <button onclick="saveGame()" class="modal-button">Save Current State</button>
+            <button onclick="loadGame()" class="modal-button">Load Saved State</button>
+            <button onclick="resetGameState()" class="modal-button" style="background:#8B0000;">Reset All State</button>
+        </div>
+    </div>
+</div>
+
 <div id="modal">
 <div id="modal-box">
 <div id="modal-title"></div>
@@ -184,10 +229,11 @@ background-color: #303030;
 </div>
 
 <script>
+// ================ GAME STATE ================
 var gameState = {
     currentPassage: 0,
     lastPassage: 0,
-    currentDate: "August 22",   // New: Date tracking
+    currentDate: "August 22",
     familyTension: 0,
     supernaturalAffinity: 0,
     liraelBond: 0,
@@ -207,7 +253,7 @@ var gameState = {
     visitedPassages: {},
     askedLiraelAbout: {},
     liraelFreed: false,
-    lastChoiceLabel: "",        // Needed for special responses in passage 99
+    lastChoiceLabel: "",
     askedAboutRoam: false
 };
 
@@ -1604,14 +1650,13 @@ effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = t
 
 // ================ RENDERING ================
 function renderPassage() {
-    // Update visited and lastPassage BEFORE changing currentPassage
     gameState.visitedPassages[gameState.currentPassage] = true;
-    
+    gameState.lastPassage = gameState.currentPassage;   // Ensure lastPassage is always updated
+
     var p = passages[gameState.currentPassage];
     let displayText = typeof p.text === 'function' ? p.text() : p.text;
-
     document.getElementById('story').textContent = displayText;
-    document.getElementById('location-display').textContent = p.location;
+    document.getElementById('location-display').textContent = p.location + " — " + gameState.currentDate;
 
     var choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
@@ -1627,19 +1672,14 @@ function renderPassage() {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
         btn.onclick = () => {
-            if (!gameState.usedChoices[gameState.currentPassage]) 
-                gameState.usedChoices[gameState.currentPassage] = [];
-            
+            if (!gameState.usedChoices[gameState.currentPassage]) gameState.usedChoices[gameState.currentPassage] = [];
             if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
                 gameState.usedChoices[gameState.currentPassage].push(choice.label);
             }
-            
             if (choice.effect) choice.effect();
 
-            // CRITICAL FIX: Always update lastPassage BEFORE changing currentPassage
             gameState.lastPassage = gameState.currentPassage;
             gameState.currentPassage = choice.next;
-            
             renderPassage();
         };
         choicesDiv.appendChild(btn);
@@ -1647,9 +1687,74 @@ function renderPassage() {
 
     updateStatusBar();
 }
+
 function updateStatusBar() {
-document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location} — ${gameState.currentDate}`;
+    document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location} — ${gameState.currentDate}`;
 }
+
+// ================ ADMIN PANEL ================
+function toggleAdminPanel() {
+    const panel = document.getElementById('admin-panel');
+    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    if (panel.style.display === 'block') refreshAdminPanel();
+}
+
+function refreshAdminPanel() {
+    const container = document.getElementById('state-list');
+    container.innerHTML = '';
+    for (let key in gameState) {
+        const value = gameState[key];
+        const row = document.createElement('div');
+        row.style.margin = '8px 0';
+        row.style.padding = '8px';
+        row.style.background = '#222';
+        row.style.borderRadius = '4px';
+        row.innerHTML = `
+            <strong>${key}:</strong> 
+            <input type="text" value="${value}" 
+                   onchange="updateGameState('${key}', this.value)" 
+                   style="background:#333; color:#ddd; border:none; padding:4px; width:65%;">
+        `;
+        container.appendChild(row);
+    }
+}
+
+function updateGameState(key, newValue) {
+    const current = gameState[key];
+    if (typeof current === 'number') gameState[key] = Number(newValue);
+    else if (typeof current === 'boolean') gameState[key] = (newValue.toLowerCase() === 'true');
+    else gameState[key] = newValue;
+    refreshAdminPanel();
+}
+
+function quickSet(key, value) {
+    gameState[key] = value;
+    refreshAdminPanel();
+    alert(`Set ${key} = ${value}`);
+}
+
+function jumpToPassage() {
+    const num = parseInt(document.getElementById('jump-input').value);
+    if (!isNaN(num) && passages[num]) {
+        gameState.currentPassage = num;
+        toggleAdminPanel();
+        renderPassage();
+    } else {
+        alert("Invalid passage number!");
+    }
+}
+
+function resetGameState() {
+    if (confirm("Reset ALL game state?")) location.reload();
+}
+
+// Hotkey: Ctrl + Shift + A
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        toggleAdminPanel();
+    }
+});
 
 function openModal(type) {
     var modal = document.getElementById('modal');
