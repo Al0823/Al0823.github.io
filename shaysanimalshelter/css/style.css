@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 body, div, table, tr, td, ul, li, p, h1, h2, h3, a {
   margin: 0;
   padding: 0;
@@ -183,4 +186,29 @@ input[type="submit"] {
 
 .navbar a:hover {
   background-color: #51abe0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .main-wrapper {
+    flex-direction: column;
+  }
+
+  .left {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #4d8ec3;
+  }
+
+  article {
+    width: 100%;
+  }
+
+  header {
+    font-size: 24px;
+  }
 }
