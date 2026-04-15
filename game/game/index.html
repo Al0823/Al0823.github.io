@@ -184,10 +184,10 @@ background-color: #303030;
 </div>
 
 <script>
-// ================ GAME STATE ================
 var gameState = {
     currentPassage: 0,
     lastPassage: 0,
+    currentDate: "August 22",   // New: Date tracking
     familyTension: 0,
     supernaturalAffinity: 0,
     liraelBond: 0,
@@ -200,13 +200,15 @@ var gameState = {
     gaveGranola: false,
     askedAboutEmily: false,
     askedAboutSelf: false,
-    firstVisitTo13: true,     // FIX: firstVisitTo13 starts TRUE so first visit shows the summoning scene
+    firstVisitTo13: true,
     conversationOptionsUsed: 0,
     lirasPresent: false,
     usedChoices: {},
     visitedPassages: {},
     askedLiraelAbout: {},
-liraelFreed: false,
+    liraelFreed: false,
+    lastChoiceLabel: "",        // Needed for special responses in passage 99
+    askedAboutRoam: false
 };
 
 var passages = [
@@ -1178,7 +1180,7 @@ var passages = [
   ]
 },
 
-    // 85 - Father Confronts Lirael (Conditional based on lastPassage)
+ // 85 - Father Confronts Lirael (kept exactly as you wanted)
     {
         text: function() {
             if (gameState.lastPassage === 68) {
@@ -1188,8 +1190,7 @@ var passages = [
                     base += "\n\nLirael, who had been standing pressed against the far corner trying to look non-threatening, suddenly surges forward with a deep, furious growl.\n\n\"You will NOT touch him!\"\n\nIn one fluid motion she steps between you and your father, her twelve-foot frame towering over everyone. One massive arm sweeps protectively in front of you while the other hand rises, palm open, toward your father — not attacking, but clearly ready to if he tries to hit you again.\n\nHer voice is low, dangerous, and ice-cold:\n\n\"Touch him again and I will forget how much I dislike eating people.\"";
                 } else {
                     base += "\n\nFrom inside the glowing containment circle, Lirael lets out a deep, furious growl that vibrates through the stone floor.\n\n\"You will NOT touch him!\"\n\nThe barrier shatters with a deafening crack of violet light. Shards of magical energy explode outward as Lirael surges forward — no longer contained.\n\nIn one fluid motion she steps between you and your father, her twelve-foot frame towering over everyone. One massive arm sweeps protectively in front of you while the other hand rises, palm open, toward your father — not attacking, but clearly ready to if he tries to hit you again.\n\nHer voice is low, dangerous, and ice-cold:\n\n\"Touch him again and I will forget how much I dislike eating people.\"";
-                    
-                    gameState.liraelFreed = true;
+                    gameState.liraelFreed = true;   // Auto-set when she breaks out
                 }
 
                 base += "\n\nThe basement is dead silent except for the fading crackle of broken magic.\n\nYour father staggers back a step, eyes wide with shock.\n\nYour mother gasps.\n\nEmily is frozen at the top of the stairs.\n\nLira stands perfectly still, synthetic eyes wide with alarm.\n\nLirael doesn’t move. She stays planted between you and your father, breathing heavily.";
@@ -1197,6 +1198,7 @@ var passages = [
                 return base;
             } 
             else {
+                // Your original non-68 version
                 if (gameState.liraelFreed) {
                     return "Your father takes a step closer, raising his cross toward Lirael, who remains pressed against the far corner of the basement.\n\n\"Demon! In the name of the Lord, I command you to leave this house!\"\n\nLirael doesn’t move. She keeps her hands visible and her voice soft.\n\n\"Your prayers still burn, priest,\" she says quietly. \"But I am no longer trapped. Your son freed me because he trusts me. I have not harmed anyone in this house.\"";
                 } else {
@@ -1223,14 +1225,15 @@ var passages = [
         }
     },
 
-// 86 - Immediate Aftermath of Lirael Breaking Free
+    // 86 - Aftermath (simplified single blob, Lirael sits with exhaustion)
     {
-        text: "Lirael stands protectively in front of you, her massive frame tense, golden eyes locked on your father.\n\nShe is breathing hard, clearly fighting the instinct to do more than just threaten.\n\nYour father has gone pale, but he hasn’t backed down completely. His cross is still raised, though his hand is shaking.\n\nYour mother is frozen halfway down the stairs, one hand over her mouth.\n\nEmily is at the very top, eyes wide with a mix of fear and awe.\n\nLira is the only one who moves — she steps forward slowly, voice calm but urgent:\n\n\"Everyone… please. Let’s not make this worse.\"\n\nLirael’s voice cuts through the tension, low and strained:\n\n\"I broke the circle because he hit Isaac. I will not allow anyone to hurt him. Not even you.\"\n\nShe doesn’t move forward, but she also doesn’t back down.\n\nThe basement feels like it’s holding its breath.",
+        text: "The tension in the basement is thick enough to choke on. Your father stands frozen a few feet away, hand still raised from the slap, his face a mixture of rage, fear, and disbelief. Your mother has one hand over her mouth. Emily peeks down from the stairs, wide-eyed. Lira remains motionless, her synthetic gaze flicking rapidly between everyone.\n\nLirael stays exactly where she is for several long seconds — a towering, protective wall between you and your father. Her breathing is heavy, the violet glow of the shattered barrier still flickering faintly around her pale lavender skin. Then, slowly, her massive shoulders slump. With a deep, weary sigh that seems to carry centuries of exhaustion, she lowers her raised hand and carefully lowers herself to the cold stone floor. Even sitting, she remains enormous — her twelve-foot frame folded with surprising grace. She positions herself so that her body still partially blocks the direct line between you and your father, one thick thigh and hip acting as a living shield.\n\nHer golden eyes, half-lidded with fatigue, stay locked on your father, but her voice comes out softer now, almost gentle despite the earlier growl:\n\n\"I meant what I said... I do not wish to harm any of you. But I will not allow anyone to strike the boy who freed me.\"\n\nThe silence stretches. No one seems sure what to do next.",
         location: "Basement - Containment Circle (Family Present)",
         choices: [
-            { label: "Step forward and try to de-escalate", next: 88, effect: () => { gameState.familyTension -= 10; }},
-            { label: "Tell Lirael to stand down — you’re okay", next: 89, effect: () => { gameState.liraelBond += 12; }},
-            { label: "Ask your father to listen — just for a minute", next: 90 }
+            { label: "Try to explain everything calmly to your family", next: 91, effect: () => { gameState.liraelBond += 10; gameState.familyTension -= 5; } },
+            { label: "Ask Lirael to give the family some space", next: 92, effect: () => { gameState.liraelBond += 5; } },
+            { label: "Check on your father and try to de-escalate", next: 93, effect: () => { gameState.familyTension -= 10; } },
+            { label: "Stay close to Lirael and wait for someone else to speak", next: 94, effect: () => { gameState.liraelBond += 15; } }
         ]
     },
 
@@ -1429,14 +1432,9 @@ var passages = [
     { label: "Go upstairs together with Lirael",
       condition: () => gameState.askedAboutRoam === true,
       next: 101,
-      effect: () => { gameState.liraelBond += 8; }
+      effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 12; }
     },
 
-    { label: "Just sit with her quietly after everything that happened", next: 49, effect: () => { 
-      gameState.familyTension -= 25; 
-      gameState.liraelBond += 20; 
-      gameState.supernaturalAffinity += 12;
-    }},
     { label: "Head back upstairs for now (alone)", next: 100 }
   ]
 },
@@ -1489,10 +1487,10 @@ function renderPassage() {
 
     var p = passages[gameState.currentPassage];
     let displayText = typeof p.text === 'function' ? p.text() : p.text;
-    document.getElementById('story').textContent = displayText;
-    document.getElementById('location-display').textContent = p.location;
+document.getElementById('story').textContent = displayText;
+document.getElementById('location-display').textContent = p.location + " — " + gameState.currentDate;
 
-    var choicesDiv = document.getElementById('choices');
+var choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
 
     let visibleChoices = p.choices.filter(choice => {
@@ -1505,20 +1503,24 @@ function renderPassage() {
     visibleChoices.forEach((choice) => {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
-btn.onclick = () => {
-    if (!gameState.usedChoices[gameState.currentPassage]) gameState.usedChoices[gameState.currentPassage] = [];
-    if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
-        gameState.usedChoices[gameState.currentPassage].push(choice.label);
-    }
-    if (choice.effect) choice.effect();
+        btn.onclick = () => {
+            if (!gameState.usedChoices[gameState.currentPassage]) gameState.usedChoices[gameState.currentPassage] = [];
+            if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
+                gameState.usedChoices[gameState.currentPassage].push(choice.label);
+            }
+            if (choice.effect) choice.effect();
 
-    // ← ADD THIS LINE RIGHT HERE
-    gameState.lastChoiceLabel = choice.label;   // needed for cuddle response in 99
+            gameState.lastChoiceLabel = choice.label;   // Important for passage 99
+            gameState.lastPassage = gameState.currentPassage;
 
-    gameState.lastPassage = gameState.currentPassage;
-    gameState.currentPassage = choice.next;
-    renderPassage();
-};
+            // Auto-advance date on sleep / major transitions (you can expand this)
+            if (choice.next === 22 || choice.next === 23) {
+                gameState.currentDate = "August 22";
+            }
+
+            gameState.currentPassage = choice.next;
+            renderPassage();
+        };
         choicesDiv.appendChild(btn);
     });
 
@@ -1526,7 +1528,7 @@ btn.onclick = () => {
 }
 
 function updateStatusBar() {
-    document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location}`;
+document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location} — ${gameState.currentDate}`;
 }
 
 function openModal(type) {
