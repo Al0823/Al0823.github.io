@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>A.t.A. Projects, Websites, and Games - The Demon and I</title>
+<style>
+body {
+margin: 0;
+padding: 0;
+background-color: #080808;
+color: #c0c0c0;
+font-family: 'Courier New', Courier, monospace;
+}
+#container {
+width: 75%;
+margin: 16px auto;
+border: 4px solid #a0a0a0;
+background-color: #101010;
+padding: 12px;
+}
+#layout {
+display: flex;
+}
+#side-panel {
+width: 240px;
+border: 3px solid #505050;
+background-color: #111111;
+padding: 12px;
+margin-right: 12px;
+}
+.panel-section {
+margin-bottom: 16px;
+border:2px inset #404040;
+padding: 10px;
+background-color: #181818;
+}
+.panel-title {
+font-size: 13px;
+color: #ffcc00;
+margin-bottom: 8px;
+letter-spacing: 0.1em;
+}
+.panel-button {
+display: block;
+margin: 6px 0;
+padding: 8px;
+border: 2px outset #808080;
+background-color: #202020;
+color: #f0f0f0;
+cursor: pointer;
+text-align: center;
+}
+.panel-button:hover {
+background-color: #303030;
+}
+#main-content {
+flex: 1;
+}
+#titlebar {
+background-color: #202020;
+color: #f8f8f8;
+padding: 14px;
+border: 2px inset #505050;
+text-align: center;
+letter-spacing: 0.18em;
+font-size: 21px;
+}
+#titlebar .blink {
+color: #ffcc00;
+}
+#main-frame {
+margin-top: 12px;
+border: 3px solid #505050;
+background: linear-gradient(180deg,#111111 0%,#1a1a1a 100%);
+padding: 14px;
+}
+#story {
+min-height: 520px;
+background: #121212;
+border: 2px inset #404040;
+padding: 22px;
+line-height: 1.85;
+white-space: pre-wrap;
+font-size: 15.5px;
+}
+#choices {
+margin-top: 22px;
+}
+#choices button {
+margin: 8px 10px 8px 0;
+padding: 13px 22px;
+border: 2px outset #808080;
+background-color: #202020;
+color: #f0f0f0;
+cursor: pointer;
+font-family: inherit;
+font-size: 14.8px;
+}
+#choices button:hover {
+background-color: #303030;
+}
+#status-bar {
+margin-top: 22px;
+padding: 12px;
+background-color: #181818;
+border: 2px inset #404040;
+font-size: 13px;
+text-align: center;
+}
+#modal {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #000000d1;
+display: none;
+align-items: center;
+justify-content: center;
+}
+#modal-box {
+width: 380px;
+background-color: #101010;
+border: 3px solid #505050;
+padding: 18px;
+}
+#modal-title {
+color: #ffcc00;
+margin-bottom: 16px;
+font-size: 19px;
+}
+.modal-button {
+display: block;
+margin-top: 12px;
+padding: 10px;
+border: 2px outset #808080;
+background-color: #202020;
+cursor: pointer;
+text-align: center;
+color: #f0f0f0;
+}
+.modal-button:hover {
+background-color: #303030;
+}
+
+/* Admin Panel Styles */
+#admin-panel {
+display: none;
+position: fixed;
+top: 8%;
+left: 8%;
+width: 84%;
+height: 84%;
+background: #1a1a1a;
+border: 4px solid #ffcc00;
+padding: 20px;
+overflow: auto;
+z-index: 10000;
+color: #ddd;
+}
+</style>
+</head>
+<body>
+<div id="container">
+<div id="layout">
+<div id="side-panel">
+<div class="panel-section">
+<div class="panel-title">LOCATION</div>
+<div id="location-display">Byrd Family Home - Hartford, CT</div>
+</div>
+<div class="panel-section">
+<div class="panel-title">MENU</div>
+<div class="panel-button" onclick="openModal('stats')">View Stats</div>
+<div class="panel-button" onclick="openModal('options')">Options</div>
+<div class="panel-button" onclick="openModal('system')">Save / Load</div>
+<div class="panel-button" onclick="restartGame()">Restart Game</div>
+<div class="panel-button" onclick="openModal('about')">About</div>
+<!--<div class="panel-button" onclick="toggleAdminPanel()">🔧 Admin Panel</div>-->
+</div>
+</div>
+<div id="main-content">
+<div id="titlebar">
+<span id="title-text" class="blink">THE DEMON AND I</span>
+</div>
+<div id="main-frame">
+<div id="story"></div>
+<div id="choices"></div>
+<div id="status-bar"></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Admin Panel -->
+<div id="admin-panel">
+    <h2 style="color:#ffcc00; text-align:center;">🔧 ADMIN PANEL</h2>
+    <button onclick="toggleAdminPanel()" style="position:absolute; top:15px; right:15px; padding:8px 16px;">Close</button>
+    
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:25px;">
+        <div>
+            <h3>Game State Values</h3>
+            <div id="state-list" style="max-height:65vh; overflow:auto; background:#111; padding:10px;"></div>
+        </div>
+        <div>
+            <h3>Quick Actions</h3>
+            <button onclick="quickSet('liraelFreed', true)" class="modal-button">Free Lirael</button>
+            <button onclick="quickSet('liraelBond', 100)" class="modal-button">Max Lirael Bond</button>
+            <button onclick="quickSet('familyTension', 0)" class="modal-button">Reset Family Tension</button>
+            <button onclick="quickSet('theoResurrectionProgress', 100)" class="modal-button">Max Theo Progress</button>
+            <button onclick="quickSet('currentDate', 'August 23')" class="modal-button">Set Date to Aug 23</button>
+            
+            <h3 style="margin-top:25px;">Jump to Passage</h3>
+            <input type="number" id="jump-input" placeholder="Passage number" style="width:100%; padding:10px; background:#222; color:#ddd; border:1px solid #555;">
+            <button onclick="jumpToPassage()" class="modal-button" style="width:100%; margin-top:8px;">Jump to Passage</button>
+            
+            <h3 style="margin-top:25px;">Save / Load / Reset</h3>
+            <button onclick="saveGame()" class="modal-button">Save Current State</button>
+            <button onclick="loadGame()" class="modal-button">Load Saved State</button>
+            <button onclick="resetGameState()" class="modal-button" style="background:#8B0000;">Reset All State</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal">
+<div id="modal-box">
+<div id="modal-title"></div>
+<div id="modal-content"></div>
+<div class="modal-button" onclick="closeModal()">Close</div>
+</div>
+</div>
+
+<script>
+// ================ GAME STATE ================
+var gameState = {
+    currentPassage: 0,
+    lastPassage: 0,
+    currentDate: "August 22",
+    familyTension: 0,
+    supernaturalAffinity: 0,
+    liraelBond: 0,
+    theoResurrectionProgress: 0,
+    hasKey: false,
+    hasAmulet: false,
+    liraelFedComfort: false,
+    statsUnlocked: false,
+    exploredWithLira: false,
+    gaveGranola: false,
+    askedAboutEmily: false,
+    askedAboutSelf: false,
+    firstVisitTo13: true,
+    conversationOptionsUsed: 0,
+    lirasPresent: false,
+    usedChoices: {},
+    visitedPassages: {},
+    askedLiraelAbout: {},
+    liraelFreed: false,
+    lastChoiceLabel: "",
+    askedAboutRoam: false,
+    justConfessedToFather: false,
+    // FIX: separate flag for P101 first-visit detection, not tied to visitedPassages timing
+    firstVisitTo101: true,
+}
+var passages = [
+    // 0 - Arrival
+    {
+        text: "The old minivan's engine coughs, sputters, and finally dies with a long, rattling sigh that seems to echo just a little too loudly in the stillness. For a moment, no one moves.\n\nThen you push the door open.\n\nCool Connecticut air spills in immediately, wrapping around you like something alive. It carries the sharp bite of pine resin, the damp richness of soil that hasn't seen full sunlight in years, and underneath it all… something faintly metallic. It settles on the back of your tongue in a way you can't quite explain.\n\nYou step out.\n\nGravel crunches sharply beneath your sneakers — loud, intrusive, unnatural against the heavy quiet pressing in from all sides. Even that small sound feels like it doesn't belong here.\n\nAnd then you look up.\n\nThe house towers over you.\n\nThree stories tall. Victorian. Ancient.\n\nIts weathered wood has faded into a sickly gray-green, like something left to rot but never allowed to decay fully. Thick ropes of ivy crawl up its walls and wrap around the shutters like veins, clinging, digging in — as if the house is being pulled back into the earth… or refusing to let go.\n\nYour eyes drift upward.\n\nThe attic window.\n\nA perfect black rectangle.\n\nNo reflection. No light. Just emptiness.\n\nAnd yet… you can't shake the feeling that something inside is looking directly at you.\n\nThe woods press in close on all sides — dense, towering, ancient. Their branches knit together overhead, choking out the sky and leaving the entire property trapped in a dim, unnatural twilight. Even though it's still day, it doesn't feel like it.\n\nIt feels like evening.\n\nOr something later.\n\nYour mother, Rebecca, steps out beside you, clutching her silver cross so tightly her knuckles go white. You hear the faint creak of the chain as it strains under the pressure.\n\n\"This is God's test,\" she whispers. The words sound rehearsed. Forced. Like she's trying to convince herself more than anyone else.\n\nYour father, Pastor Michael, slams his door harder than necessary. The sound cracks through the air.\n\n\"Darkness has no place here,\" he mutters immediately, already pacing, already scanning the house like it's something that needs to be confronted. \"We'll cleanse every inch of this property if we have to.\"\n\nEmily practically explodes out of the van, bouncing on her toes, completely oblivious.\n\n\"It looks like a REAL haunted mansion!\" she says, eyes shining. \"Can we explore the attic tonight? Please? PLEASE?\"\n\nYou don't answer.\n\nYou just stand there.\n\nHands shoved deep into your hoodie pocket.\n\nYour messy dark-brown hair shifts slightly as a cold breeze slides past you. Your hazel eyes stay locked on the house.\n\nUpstate New York feels a million miles away now.\n\nAnd Theo…\n\nThat weight in your chest tightens again. Heavy. Unmoving. Unfinished.\n\nInside the foyer, standing perfectly still in the dim light, is Lira.\n\nShe looks… real.\n\nToo real.\n\nSmooth synthetic skin with a faint pearlescent sheen. Shoulder-length dark hair that falls naturally against her face. Calm blue eyes that track each of you as you enter — not mechanically, but attentively.\n\nConcerned.\n\nA soft glow pulses from the tag on her wrist.\n\n\"Lira, Model F-7, Property of Byrd Family.\"\n\nShe smiles.\n\nSmall. Warm. Almost shy.\n\n\"Hey… welcome home,\" she says gently.\n\nThere's a pause.\n\nJust long enough to feel intentional.\n\n\"I've got all the rooms set up for you.\"\n\nAnother pause.\n\nThis one heavier.\n\n\"…Just so you know…\"\n\nHer eyes flick briefly toward the floor. Then back to you.\n\n\"…the house has some pretty weird energy readings. Basement. Attic mostly.\"\n\nA faint flicker of uncertainty crosses her face.\n\n\"I can't explain it.\"\n\nShe hesitates.\n\n\"…but it's definitely there.\"",
+        location: "Byrd Family Home - Foyer",
+        choices: [
+            { label: "Help the family unpack", next: 1 },
+            { label: "Talk to Lira", next: 2 },
+            { label: "Go explore the woods behind the house", next: 4 }
+        ]
+    },
+
+    // 1 - Help unpack
+    {
+        text: "The next hour drags.\n\nBox after box.\n\nUp the stairs. Down the hall. Back again.\n\nYour arms start to burn early on, muscles tightening with each trip, but you keep going anyway. The house doesn't make it easy.\n\nEvery single step on the staircase groans loudly beneath your weight — long, drawn-out creaks that echo upward into the higher floors like the house is announcing your presence.\n\nOr complaining about it.\n\nDust hangs thick in the air, disturbed by every movement. It drifts through narrow beams of light cutting in from the tall windows, turning the sunlight into something hazy and muted.\n\nLike the house is filtering it.\n\nWatching it.\n\nYour mother pauses once, resting her hand gently on your shoulder. It's brief, but you feel the tension in her fingers.\n\n\"Thank you,\" she says quietly.\n\nYour father gives you a short nod later. No words. Just approval.\n\nThat's rare enough to notice.\n\nEmily doesn't stop talking.\n\nShe runs between rooms, narrating everything she sees, already planning routes to the attic, already deciding which corners look the most haunted.\n\nBy the time the last box is set down, your arms feel heavy, your back tight, and a thin layer of sweat clings to your skin beneath your hoodie.\n\nYou stop.\n\nJust for a second.\n\nAnd listen.\n\nThe house… feels different now.\n\nHeavier.\n\nMore awake.\n\nLike it noticed you moving through it.\n\nLira approaches quietly down the hallway. You don't hear her footsteps at all.\n\n\"You've been working really hard,\" she says softly.\n\nShe tilts her head slightly, studying your face in a way that feels… careful.\n\n\"Everything okay, Isaac?\"",
+        location: "Byrd Family Home - Upstairs Hallway",
+        choices: [
+            { label: "Talk to Lira", next: 2 },
+            { label: "Go explore the woods behind the house", next: 4 }
+        ]
+    },
+
+    // 2 - Talk to Lira
+    {
+        text: "Lira turns fully toward you.\n\nNot just mechanically — intentionally.\n\nHer posture shifts, her weight settling naturally onto one leg. A small movement, but one that feels… practiced. Human.\n\nHer blue eyes lock onto yours, soft and focused.\n\nAttentive.\n\n\"Hey, Isaac,\" she says gently.\n\nHer voice is quiet, but it carries easily in the stillness of the foyer. There's a warmth to it — not artificial, not programmed in any obvious way.\n\nSomething closer to concern.\n\n\"You look like you've got a lot weighing on you already.\"\n\nShe pauses.\n\nJust long enough to give you space to respond.\n\nHer fingers shift slightly at her side — a subtle, almost nervous movement.\n\n\"What do you want to know?\"\n\nAnother pause.\n\nHer voice softens just a little more.\n\n\"…Or is there something else on your mind?\"",
+        location: "Byrd Family Home - Foyer",
+        choices: [
+            { label: "Tell me about the history of this house", next: 5 },
+            { label: "What do you mean by weird energy readings?", next: 6 },
+            { label: "Have people really disappeared here?", next: 7 },
+            { label: "Ask Lira to explore the woods with you", next: 3 },
+            { label: "Go explore the woods alone", next: 4 },
+            { label: "Never mind for now. Thanks, Lira.", next: 8 }
+        ]
+    },
+
+    // 3 - Explore Woods WITH Lira
+    {
+        text: "Lira blinks, clearly caught off guard.\n\n\"With me?\"\n\nFor just a second, something uncertain flickers across her face — like she's running through rules she's not sure she wants to follow.\n\nThen she smiles.\n\nSoft. Genuine.\n\n\"…Alright.\"\n\nHer voice drops slightly, almost conspiratorial.\n\n\"I'm technically supposed to stay inside the house, but the woods are still within the property line.\"\n\nA small pause.\n\n\"…Just don't tell your parents I left with you, okay?\"\n\n---\n\nThe back door creaks open behind you.\n\nThe moment you step outside, the air feels different than before — cooler now, heavier. Dusk is beginning to settle in, bleeding slowly through the trees.\n\nYou and Lira walk side by side.\n\nThe forest swallows you quickly.\n\nTowering trunks rise on all sides, thick with moss that glistens faintly in the fading light. The ground beneath your feet is soft — almost springy — layers of fallen needles and damp leaves cushioning every step until your footsteps make almost no sound at all.\n\nIt's quiet.\n\nToo quiet.\n\nThat same strange scent hangs in the air again — sweet, but not floral. Earthy, but not quite decay.\n\nSomething in between.\n\nSomething alive.\n\nLira stays close.\n\nNot clinging. Not afraid.\n\nBut aware.\n\n\"Look,\" she says quietly at one point, crouching slightly.\n\nClusters of faintly glowing mushrooms pulse softly at the base of a tree, their pale light barely illuminating the bark around them.\n\n\"I didn't log these before,\" she murmurs. \"They're… new.\"\n\nFurther in, you pass old stone markers — worn smooth by time, half-sunken into the earth. No names. No dates.\n\nJust presence.\n\nEventually, the trees begin to thin.\n\nYou step into a small clearing.\n\nThe air shifts.\n\nThe silence deepens.\n\nAnd there, half-buried in the soil, you see them.\n\nA heavy, rusted iron key.\n\nAnd a silver amulet, etched with an intricate containment circle.\n\nThe moment your fingers close around the amulet—\n\nSomething reacts.\n\nA pulse.\n\nWarm.\n\nStrong.\n\nIt shoots up your arm, fast enough to make you flinch, before settling deep in your chest like a second heartbeat.\n\nYour breath catches.\n\nLira steps closer immediately.\n\nHer eyes widen.\n\n\"That amulet…\"\n\nHer voice drops to almost a whisper.\n\n\"…it feels warm, doesn't it?\"",
+        location: "Woods Behind the House",
+        choices: [
+            { label: "Take the items and return to the house with Lira", next: 8, effect: () => {
+                gameState.hasKey = true;
+                gameState.hasAmulet = true;
+                gameState.supernaturalAffinity += 22;
+                gameState.statsUnlocked = true;
+                gameState.exploredWithLira = true;
+            }}
+        ]
+    },
+
+    // 4 - Explore Woods Alone
+    {
+        text: "You slip out the back door alone.\n\nNo one notices.\n\nOr if they do… they don't stop you.\n\n---\n\nDusk is settling in fast.\n\nThe woods feel different without anyone beside you.\n\nCloser.\n\nThe trees seem taller somehow, their branches knitting together overhead until the last traces of daylight are reduced to thin, fading streaks.\n\nYour footsteps disappear into the soft forest floor — layers of damp leaves and needles swallowing every sound.\n\nIt should feel peaceful.\n\nIt doesn't.\n\nThat scent is stronger now.\n\nSweet.\n\nHeavy.\n\nNot quite right.\n\nYou move deeper.\n\nThe air grows cooler… but thicker at the same time, clinging faintly to your skin.\n\nThen you see them.\n\nFaint clusters of glowing mushrooms scattered around old stone markers, their dim light pulsing like a slow heartbeat.\n\nSomething about them feels intentional.\n\nGuiding.\n\nYou follow.\n\n---\n\nThe clearing appears suddenly.\n\nLike you stepped into it without noticing the transition.\n\nEverything feels… still.\n\nHeld.\n\nIn the center, half-buried in the earth:\n\nA rusted iron key.\n\nA silver amulet.\n\nYou hesitate.\n\nJust for a second.\n\nThen you reach down.\n\nThe moment your fingers close around the amulet—\n\nHeat surges through you.\n\nFast.\n\nPowerful.\n\nIt races up your arm and spreads through your chest, making your heart slam harder, faster.\n\nYour skin prickles.\n\nYour breath catches.\n\nFor a brief moment…\n\nIt feels like something just noticed you back.",
+        location: "Woods Behind the House",
+        choices: [
+            { label: "Take the key and amulet and return to the house", next: 8, effect: () => {
+                gameState.hasKey = true;
+                gameState.hasAmulet = true;
+                gameState.supernaturalAffinity += 18;
+                gameState.statsUnlocked = true;
+            }}
+        ]
+    },
+
+    // 5 - House History
+    {
+        text: "Lira's eyes flick toward the staircase.\n\nThen back to you.\n\nHer voice lowers instinctively.\n\nNot because she has to.\n\nBecause it feels like she should.\n\n\"This place…\" she begins quietly, \"…was built in 1692.\"\n\nA small pause.\n\n\"The middle of the Connecticut witch hunts.\"\n\nThe words hang in the air.\n\nHeavy.\n\n\"The original owner…\"\n\nShe hesitates.\n\n\"…was accused of things people didn't really understand back then.\"\n\nAnother pause.\n\nHer gaze drifts slightly, like she's pulling from fragmented records.\n\n\"Some said she practiced rituals. Others said she could 'consume sin.'\"\n\nA faint, uneasy shift in her posture.\n\n\"After that… things didn't stop.\"\n\nHer voice drops even further.\n\n\"Families reported seeing figures that shouldn't exist. Shadows moving when there was nothing casting them. Voices… coming from empty rooms.\"\n\nShe looks at you again.\n\nFully now.\n\n\"And over the years…\"\n\nA longer pause this time.\n\n\"…people started disappearing.\"\n\nSilence.\n\n\"…Most of the records point to one place.\"\n\nAnother glance toward the lower level.\n\n\"The basement.\"\n\nShe exhales softly.\n\nA very human gesture.\n\n\"…It's kind of creepy when you really think about it, isn't it?\"",
+        location: "Byrd Family Home - Foyer",
+        choices: [
+            { label: "Ask something else", next: 2 },
+            { label: "Go explore the woods", next: 4 }
+        ]
+    },
+
+    // 6 - Energy Readings
+    {
+        text: "Lira presses her lips together slightly.\n\nA small, nervous habit.\n\n\"I've been running passive scans since you arrived,\" she says.\n\nHer tone is calm.\n\nBut not completely.\n\n\"There are… irregularities.\"\n\nShe folds one arm lightly, the other hand resting against it.\n\n\"Low-frequency vibrations. Sudden temperature drops that don't match airflow patterns. Energy fluctuations that spike and disappear too quickly to log properly.\"\n\nShe pauses.\n\nThen adds, quieter:\n\n\"…They're strongest in the basement.\"\n\nA beat.\n\n\"And the attic.\"\n\nHer eyes flick upward briefly.\n\nThen back to you.\n\n\"I'm only supposed to record and report anomalies.\"\n\nAnother pause.\n\nHer voice softens.\n\n\"…but this doesn't feel like just data.\"\n\nShe hesitates.\n\n\"…It feels wrong.\"",
+        location: "Byrd Family Home - Foyer",
+        choices: [
+            { label: "Ask something else", next: 2 },
+            { label: "Go explore the woods", next: 4 }
+        ]
+    },
+
+    // 7 - Disappearances
+    {
+        text: "Lira goes very still.\n\nNot frozen.\n\nJust… deliberate.\n\nHer expression shifts — the softness in her eyes giving way to something more serious. Focused.\n\nShe lowers her voice.\n\n\"…Yeah.\"\n\nThe word barely leaves her lips.\n\n\"There are records.\"\n\nA pause.\n\n\"Not rumors. Not stories.\"\n\nAnother pause.\n\n\"Records.\"\n\nHer gaze drifts slightly past you, like she's replaying something she's already seen.\n\n\"At least eleven documented disappearances tied directly to this property… starting in 1784.\"\n\nThe number hangs there.\n\nToo specific to ignore.\n\n\"Most of them…\"\n\nShe hesitates.\n\n\"…happened after time spent in the basement.\"\n\nYour chest tightens slightly.\n\n\"The investigations didn't go anywhere. No signs of struggle. No bodies. No clear cause.\"\n\nHer eyes flick back to yours.\n\n\"Eventually…\"\n\nA small pause.\n\n\"…they stopped trying.\"\n\nSilence settles between you.\n\nHeavy.\n\nUncomfortable.\n\n\"It became one of those things locals just…\"\n\nShe exhales softly.\n\n\"…don't talk about.\"\n\nAnother pause.\n\nThis one different.\n\nMore personal.\n\nShe looks directly at you now.\n\n\"Be careful if you go down there, okay?\"",
+        location: "Byrd Family Home - Foyer",
+        choices: [
+            { label: "Ask something else", next: 2 },
+            { label: "Go explore the woods", next: 4 }
+        ]
+    },
+
+    // 8 - After Woods (Key + Amulet)
+    {
+        text: "The walk back feels shorter.\n\nOr maybe the house is just… pulling you toward it.\n\nThe key sits heavy in your pocket.\n\nThe amulet is worse.\n\nYou can still feel it.\n\nThat warmth.\n\nFaint now — but steady. Like it's settled into you instead of fading away.\n\n---\n\nThe back door creaks as you step inside.\n\nThe moment you cross the threshold—\n\nSomething changes.\n\nIt's subtle.\n\nBut immediate.\n\nThe air feels thicker.\n\nHeavier.\n\nLike the house just became aware of what you're carrying.\n\nThe shadows stretch a little farther than they should.\n\nThe silence settles differently.\n\nNot empty.\n\nListening.\n\nA slow creak rolls through the walls above you.\n\nThen another.\n\nNot random.\n\nNot settling.\n\nResponding.\n\nNight is falling outside.\n\nYou can see it through the windows — the last traces of daylight draining away, leaving behind a dim, bluish darkness that presses up against the glass.\n\nInside…\n\nIt feels like something is waking up.\n\nSlowly.\n\nPatiently.\n\nWaiting.",
+        location: "Byrd Family Home - Foyer",
+        choices: [
+            { label: "Join the family for dinner", next: 9 },
+            { label: "Try the key on the basement door right now", next: 10 }
+        ]
+    },
+
+    // 9 - Family Dinner
+    {
+        text: "Dinner feels… off.\n\nThe dining room is large, but the heavy wooden table makes it feel cramped, like everything is being pulled inward.\n\nThe chairs scrape loudly against the floor as you all sit.\n\nToo loud.\n\nEvery sound carries.\n\nYour mother folds her hands tightly in front of her plate.\n\nHer prayer is longer than usual.\n\nMuch longer.\n\nHer voice wavers just slightly in places, like she's forcing each word to come out steady.\n\n\"…and protect this home from all darkness…\"\n\nShe grips her cross tighter as she finishes.\n\nYour father doesn't wait long before speaking.\n\n\"We start tomorrow,\" he says firmly.\n\nHis tone leaves no room for argument.\n\n\"Holy water. Every room. Every doorway. Every inch of this property.\"\n\nHis eyes flick briefly toward the floor.\n\n\"The basement especially.\"\n\nEmily barely notices the tension.\n\nShe's already halfway through her food, talking between bites.\n\n\"I'm telling you, the attic is gonna be AMAZING. Did you see how big it is? There's definitely something cool up there.\"\n\nHer excitement feels out of place.\n\nToo bright.\n\nToo loud.\n\n---\n\nAs the meal goes on, the house begins to make itself known.\n\nA slow creak echoes from upstairs.\n\nThen another.\n\nFaint scratching sounds ripple somewhere behind the walls — soft, uneven, like something moving where it shouldn't be able to.\n\nYou freeze for just a second.\n\nListen.\n\nIt stops.\n\nThen—\n\nA whisper.\n\nSo faint you almost convince yourself it didn't happen.\n\nAlmost.\n\nAcross the room, Lira stands quietly near the doorway.\n\nStill.\n\nObserving.\n\nThe soft glow of her wrist tag pulses gently in the dim light.\n\nOnce.\n\nTwice.\n\nShe glances at you.\n\nJust for a moment.\n\nAnd there's something in her expression now that wasn't there before.\n\nConcern.\n\nReal concern.",
+        location: "Byrd Family Home - Dining Room",
+        choices: [
+            { label: "Go to bed early", next: 11 },
+            { label: "Sneak down to the basement with the key", next: 10 }
+        ]
+    },
+
+    // 10 - Basement Discovery
+    {
+        text: "You wait.\n\nMinutes stretch longer than they should.\n\nThe house slowly quiets — creaks fading, voices gone, movement settling into silence.\n\nWhen you're sure everyone's asleep…\n\nYou move.\n\n---\n\nThe stairs creak beneath your weight as you descend.\n\nSlower this time.\n\nCareful.\n\nThe basement door waits at the bottom.\n\nStill.\n\nClosed.\n\nThe key feels heavier in your hand now.\n\nYou slide it into the lock.\n\nFor a moment…\n\nNothing happens.\n\nThen—\n\n*Click.*\n\nThe sound is sharp.\n\nFinal.\n\nThe door groans as it opens, the hinges dragging out a long, protesting sound that seems far too loud in the silence.\n\nCold air spills out immediately.\n\nDamp.\n\nThick.\n\nAnd underneath it—\n\nThat same sweet, musky scent.\n\nStronger now.\n\nIt clings to the back of your throat.\n\n---\n\nYou descend.\n\nEach step feels heavier than the last.\n\nThe darkness below isn't complete — faint violet light pulses from somewhere deeper inside, just enough to guide you.\n\nWhen you reach the bottom…\n\nYou stop.\n\nThe room opens up into a perfect square chamber.\n\nToo perfect.\n\nToo intentional.\n\nAt its center—\n\nA massive circle.\n\nCarved deep into the stone floor.\n\nLines. Symbols. Runes.\n\nAll of it etched with precision that doesn't match the age of the house above.\n\nThey glow faintly violet.\n\nPulsing.\n\nLike a heartbeat.\n\nThe air feels… alive here.\n\nWatching.\n\nWaiting.\n\nYou move toward the wall.\n\nThe amulet in your hand feels warmer now.\n\nReacting.\n\nYou find the alcove.\n\nIt fits perfectly.\n\nThe moment it clicks into place—\n\nThe entire circle ignites.\n\nViolet light surges outward in a sudden flare, illuminating the entire chamber in sharp, shifting shadows.\n\nYour breath catches.\n\nAnd then—\n\nA thought.\n\nNot yours.\n\nAncient.\n\nClear.\n\nAbsolute.\n\n**Anything summoned within this circle cannot leave it.**\n\nThe meaning settles instantly.\n\n**The barrier is absolute.**\n\nThen—\n\nAnother.\n\nSharper.\n\nColder.\n\n**If you step inside while something is contained…**\n\nA pause.\n\nLike the warning itself is giving you time to understand.\n\n**You will not survive it.**",
+        location: "Basement",
+        choices: [
+            { label: "Leave the basement and head to the attic", next: 12 }
+        ]
+    },
+
+    // 11 - Going to Bed Early
+    {
+        text: "Your room doesn't feel like yours yet.\n\nThe bed is unfamiliar.\n\nThe air smells faintly of dust and old wood.\n\nYou lie down anyway.\n\nStaring up at the cracked ceiling.\n\nWaiting for sleep to come.\n\nIt doesn't.\n\n---\n\nAt first, it's just small things.\n\nA creak somewhere down the hall.\n\nThe faint shift of wood settling.\n\nNormal.\n\nExplainable.\n\nThen it changes.\n\nThe sounds become… deliberate.\n\nMeasured.\n\nFootsteps that don't quite sound like footsteps.\n\nScratching that moves.\n\nNot in one place.\n\nBut from wall… to wall.\n\nSlowly.\n\nLike something exploring.\n\nYour chest tightens slightly.\n\nYou stay still.\n\nListening.\n\nA whisper drifts through the darkness.\n\nToo soft to make out.\n\nToo clear to ignore.\n\nYour breath slows.\n\nYou focus.\n\nTry to hear it again.\n\nNothing.\n\nThen—\n\nAnother.\n\nCloser this time.\n\nYou sit up.\n\nThe silence that follows feels worse than the noise.\n\nHeavier.\n\nExpectant.\n\nMinutes pass.\n\nOr maybe longer.\n\nTime feels… stretched here.\n\nEventually, the unease becomes too much.\n\nLying here isn't helping.\n\nIt's making it worse.",
+        location: "Isaac's Bedroom",
+        choices: [
+            { label: "Sneak down to the basement", next: 10 },
+            { label: "Go up to the attic instead", next: 12 }
+        ]
+    },
+
+    // 12 - Attic Discovery
+    {
+        text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratching.\n\nNot loud.\n\nBut persistent.\n\nYour body tenses before your mind fully catches up.\n\nYou're already sitting up.\n\nAlready listening.\n\nIt doesn't stop.\n\n---\n\nThe attic ladder creaks loudly as you pull it down.\n\nToo loudly.\n\nYou pause.\n\nWait.\n\nNothing reacts.\n\nSo you climb.\n\n---\n\nThe attic air hits you immediately.\n\nHot.\n\nStale.\n\nThick with the smell of aged paper, dust, mothballs… and something faintly rotten beneath it all.\n\nYour flashlight beam cuts through the darkness in a narrow cone.\n\nShapes emerge slowly.\n\nOld trunks.\n\nBroken furniture.\n\nCovered paintings leaning against the walls like they were turned away on purpose.\n\nEvery movement stirs dust into the air, making it feel harder to breathe.\n\nThe scratching stops.\n\nJust as suddenly as it started.\n\n---\n\nYou step further in.\n\nCareful.\n\nQuiet.\n\nYour elbow bumps into something.\n\nA heavy wooden box shifts—\n\nAnd something falls.\n\n*THUD.*\n\nThe sound is sharp.\n\nToo loud.\n\nYou freeze.\n\nWait.\n\nNothing.\n\nSlowly, you look down.\n\nA thick, leather-bound book lies open at your feet.\n\nIts pages are yellowed with age.\n\nThe spine cracked.\n\nThe title…\n\nFaded, but still readable.\n\n**Ars Goetia, Safe Summoning Rites for Companions and Bound Servants**\n\nYour stomach tightens slightly.\n\nYou kneel.\n\nFlip a page.\n\nDiagrams.\n\nCircles.\n\nInstructions.\n\nDetailed.\n\nPrecise.\n\nFamiliar.\n\nToo familiar.\n\nThen you see them.\n\nTwo items tucked between the pages.\n\nYour breath catches.\n\nTheo's drawing.\n\nThe one you've kept with you since he disappeared.\n\nAnd beside it—\n\nA lock of long, perfectly preserved black hair.\n\nIt shouldn't still look like that.\n\nBut it does.\n\nUntouched by time.\n\nWaiting.",
+        location: "Attic",
+        choices: [
+            { label: "Head down to the Basement and use Theo's drawing", next: 13, effect: () => { 
+                gameState.pathChosen = "Lirael"; 
+                gameState.statsUnlocked = true; 
+            }},
+            { label: "Head down to the Basement and use the lock of ancient black hair", next: 86, effect: () => { 
+                gameState.pathChosen = "Morgana"; 
+            }}
+        ]
+    },
+
+    // 13 - Lirael First Meeting / Return Visit
+    // FIX: was `gameState.firstVisitTo13 = true` (re-sets the flag, showing summoning scene every time)
+    // FIXED to `gameState.firstVisitTo13 = false` so it only shows once
+    {
+        text: function() {
+            if (gameState.firstVisitTo13) {
+                gameState.firstVisitTo13 = false;  // FIX: was `= true` — inverted bug
+                return "At 3:00 AM you stand safely outside the glowing containment circle in the basement, heart pounding heavily in your chest. The air feels thick and warm, almost alive.\n\nYou place the amulet and gently toss Theo's drawing into the center. As you speak the ancient incantation aloud, violet light explodes upward in a silent burst. A thick, heady scent of warm vanilla and musk floods the chamber, wrapping around you like an invisible embrace.\n\nA long, luxurious, breathy moan echoes through the stone room.\n\nLirael materializes slowly inside the circle — a staggering twelve-foot-tall she-demon with pale lavender skin, glowing with a soft, iridescent sheen. Small, smooth black horns curl gracefully from her messy waist-length silver-white hair. Her heavy-lidded golden eyes are full of sleepy, sensual hunger as she stretches languidly, her massive breasts straining heavily against thin, tattered black silk robes that cling to every voluptuous curve. Her wide hips and thick, plush ass shift with lazy indulgence.\n\nShe saunters to the very edge of the invisible barrier and stops, unable to cross it. One soft hand presses against the magical wall as she looks down at you with a slow, sultry smile.\n\n\"Mmmhhhh~… Took you long enough, cute little human,\" she purrs in a deep, velvety drawl that seems to vibrate through your bones. \"I'm Lirael… from the Sloth District. Most demons eat people — it's just what we do. But me? I don't really care for it unless someone really, really upsets me. Then I'll swallow them whole and take my sweet time about it.\"\n\nShe runs her hands slowly down her own body, palms gliding over the heavy swell of her breasts and lower across her soft stomach. \"So… what would you like to do with a very bored, very hungry, and very trapped she-demon?\"";
+            } else {
+                return "Lirael is already waiting for you inside the glowing containment circle when you return, her twelve-foot frame lounging lazily against the invisible barrier. Her pale lavender skin shimmers softly in the violet light. She stretches languidly and gives you a slow, sultry smile.\n\n\"Mmm~… back already?\" she purrs, voice low and teasing. \"I was starting to miss that nervous little look on your face. So… what would you like to do with your very bored, very trapped she-demon this time?\"";
+            }
+        },
+        location: "Basement - Containment Circle",
+        choices: [
+            { label: "Ask her who she really is and why she answered", next: 14, effect: () => { gameState.conversationOptionsUsed++; }},
+            { label: "Tell her about Theo and why you summoned her", next: 15, effect: () => { gameState.conversationOptionsUsed++; }},
+            { label: "Ask if she can actually bring Theo back", next: 16, effect: () => { gameState.conversationOptionsUsed++; }},
+            { label: "Offer her the granola bar from your pocket", next: 17, effect: () => {
+                gameState.liraelBond += 18;
+                gameState.theoResurrectionProgress += 10;
+                gameState.liraelFedComfort = true;
+                gameState.gaveGranola = true;
+                gameState.conversationOptionsUsed++;
+            }},
+            { label: "Stay silent and simply watch her for a moment", next: 18, effect: () => { 
+                gameState.supernaturalAffinity += 12; 
+                gameState.conversationOptionsUsed++;
+            }},
+            { label: "Ask Lirael how you could safely enter the containment circle", next: 19 },
+            { label: "Say goodbye to Lirael for now and sneak back upstairs", next: 22, condition: () => gameState.conversationOptionsUsed >= 3 }
+        ]
+    },
+
+    // 14 - Who she is
+    { text: "Lirael leans lazily against the invisible barrier, her twelve-foot frame towering over you. Her pale lavender skin shimmers softly in the violet light.\n\nShe yawns luxuriously, showing the glistening pink length of her tongue. \"Mmm… I'm Lirael, a she-demon from the Sloth District. Most demons eat people, it's just normal for us. But I don't really care for it. It's so much effort. I only do it if someone really, really upsets me… then I'll swallow them whole and enjoy every slow, lazy second of it.\"\n\nHer golden eyes half-close in pleasure. \"What I actually live for is comfort, that warm, heavy, safe feeling when a human finally lets themselves relax with me. The more comfortable you feel around me… the stronger and happier I become.\"\n\nShe smiles sleepily. \"And right now? You're making me very comfortable just by standing there looking at me like that.\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }] },
+
+    // 15 - Tell her about Theo
+    { text: "Lirael listens intently, her heavy-lidded golden eyes softening as you speak about Theo. Her massive frame shifts slightly, the silk robes sliding over her curves.\n\n\"Ah… grief. I can taste it on you,\" she murmurs, voice low and soothing. \"The Sloth District borders the realm of the dead. I might be able to reach him… but it will take time. And I'll need to feed. A lot of comfort.\"\n\nShe presses one soft hand against the barrier, almost as if she wishes she could touch you. \"Most demons would just eat someone who caused that kind of pain. But I don't really care for eating people unless they really, really upset me. So tell me more about him. Let me feel your sadness… and turn it into something warmer for both of us.\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }] },
+
+    // 16 - Ask about bringing Theo back
+    { text: "Lirael's golden eyes gleam with lazy interest. She stretches slowly, her twelve-foot body towering above you as her pale lavender skin catches the violet light.\n\n\"I could try to pull him back from the dead realm,\" she purrs, voice dripping with promise. \"But it won't be quick… and it won't be free. I'll need to feed deeply on your comfort — again and again — until I'm strong enough.\"\n\nShe rubs one hand slowly over her soft stomach. \"Most demons would just eat their problems away. But I don't really care for eating people unless they really, really upset me. So… are you willing to keep me comfortable, Isaac?\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }] },
+
+    // 17 - Offer granola bar
+    { text: "You pull the slightly squished granola bar from your pocket and toss it gently into the circle.\n\nLirael lowers herself with luxurious slowness, her twelve-foot frame kneeling so her massive breasts rest heavily against her thighs. She picks up the bar, unwraps it deliberately, and takes a slow, sensual bite, moaning deeply as she chews.\n\n\"Mmmhh~… Sweet. Crunchy. But so empty compared to real comfort.\"\n\nShe swallows visibly, then rubs slow circles over her soft lavender stomach. \"Human food fills the belly… but what I truly crave is that warm, safe feeling when you finally relax with me. Most demons eat people when they're hungry. I don't really care for it unless someone really upsets me. Keep feeding me comfort, and I might be able to help with Theo.\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }] },
+
+    // 18 - Stay silent and watch her
+    { text: "You stay quiet, simply watching her. Lirael seems to enjoy the attention. She stretches languidly, her staggering twelve-foot body moving with lazy grace. Her pale lavender skin glows softly in the violet light as she runs her hands slowly down her own curves, pressing the thin silk against her heavy breasts and soft stomach.\n\n\"Mmm… I like it when you look at me like that,\" she purrs, voice low and teasing. \"Most demons would already be thinking about eating you. But I don't really care for eating people unless they really, really upset me. I'd much rather just… stay comfortable with you watching me.\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }] },
+
+    // 19 - Lirael explains the containment rules
+    { text: "Lirael's golden eyes gleam with lazy amusement as you ask the question. She leans forward slightly, her twelve-foot frame towering over you, the pale lavender skin catching the violet light of the circle.\n\n\"Oh? You want to come inside with me?\" she purrs, voice low and teasing. \"Most humans who step across that line get vaporized in an instant — the magic burns them to ash. But there are exceptions.\"\n\nShe yawns luxuriously, showing the glistening pink length of her tongue. \"Younger people whose bodies are still going through radical changes — teenagers like you, whose hormones, growth, and life force are in constant flux — sometimes resonate with the circle instead of being rejected by it. Your energy is unstable enough that the barrier might let you through without turning you into dust.\"\n\nHer smile turns a little mischievous. \"The containment can also be lifted entirely… but that requires a powerful ritual or a very strong bond with whatever is summoned inside. It's not easy, and it's not safe. But if you really want to step in here with me… you might be able to.\"\n\nShe presses her soft hand against the invisible wall. \"So… are you feeling brave, little human?\"", location: "Basement - Containment Circle", choices: [{ label: "Try sticking your hand into the circle to test it", next: 20 }, { label: "Ask if your sister Emily or Lira the AI could enter the circle", next: 21 }, { label: "Continue talking to Lirael", next: 13 }] },
+
+    // 20 - Testing the circle with your hand
+    { text: "Curiosity wins over caution. You slowly extend your hand toward the glowing violet line. Your fingers hover just above the barrier for a moment, then you push forward.\n\nThe instant your fingertips cross the carved line, a sharp, searing burning sensation explodes across your skin — like plunging your hand into molten metal. White-hot pain shoots up your arm. You yank your hand back with a gasp, stumbling away from the circle.\n\nYour fingers are bright red and throbbing, but the skin is intact. The circle had only given you a warning burn, not full vaporization.\n\nLirael watches with half-lidded amusement. \"See? Even for someone like you it's not completely safe yet. The circle doesn't like being tested.\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }, { label: "Ask if your sister Emily could enter the circle", next: 21, condition: () => !gameState.askedAboutEmily }] },
+
+    // 21 - Asking about Emily and Lira the AI
+    { text: "Lirael's golden eyes sparkle with lazy interest as you ask about your sister and the AI.\n\n\"Your little sister Emily is only twelve,\" she says, her voice a slow, velvety drawl. \"She's definitely young enough. Her body is still changing rapidly — that makes the circle far more likely to accept her without burning her. She could probably walk right in.\"\n\nShe tilts her head, looking almost amused. \"As for Lira, the Human AI… she's not fully human. Her synthetic body and energy signature are different. Most containment circles treat AIs like objects or tools, so she could probably enter without being vaporized — but she'd still be bound by the same rules once inside. She couldn't leave unless the circle is lifted.\"\n\nLirael smiles sleepily. \"So… thinking about bringing someone else in here with me?\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }, { label: "Ask if you could safely enter the circle", next: 20, condition: () => !gameState.askedAboutSelf }] },
+
+    // 22 - Say goodbye and sneak back upstairs
+    { text: "You take a deep breath and look up at the towering she-demon.\n\n\"I… should head back upstairs before anyone wakes up,\" you say quietly. \"It's getting late.\"\n\nLirael tilts her head, a lazy, almost disappointed smile on her lips.\n\n\"Aww… already? Fine. Go rest, little human. I'll be right here… waiting for you.\"\n\nShe gives you one last slow, sultry wink before you turn away.\n\nYou carefully make your way back up the basement stairs, heart still racing. The house is completely silent except for the occasional creak of old wood. You lock the basement door behind you with the rusty key, then quietly sneak back to your bedroom.\n\nBy the time you slip under the covers, the clock reads 5:07 AM.\n\nExhaustion finally hits you, but your mind is still spinning with everything that just happened.", location: "Isaac's Bedroom - 5 AM", choices: [{ label: "Try to get some sleep", next: 23 }] },
+
+    // 23 - Lying in bed until 8 AM
+    { text: "You lie in bed staring at the ceiling, your mind racing with everything that just happened. The image of Lirael's towering form, her lazy smile, and that warm, musky scent still lingers in your thoughts.\n\nYou try to sleep, but every small creak in the house makes your eyes snap open. Time passes slowly — minutes stretching into what feels like hours. Your body is exhausted, but your brain refuses to shut off.\n\nEventually, the first faint light of morning begins to creep through the curtains. You glance at the clock: 7:45 AM.\n\nJust as you finally start to drift off…\n\nThe door to your room opens quietly.\n\nYour mother steps in, still in her robe, looking tired but determined.\n\n\"Isaac, it's time to get up,\" she says softly. \"It's already 8 o'clock. We have a lot to do today — especially blessing this house.\"\n\nShe pauses, studying your face for a moment.\n\n\"You look like you didn't sleep well. Everything alright?\"", location: "Isaac's Bedroom - 8 AM", choices: [{ label: "Get up and start the day", next: 24 }] },
+
+    // 24 - Morning breakfast with family
+    { text: "You drag yourself downstairs, still exhausted. The smell of breakfast fills the kitchen — eggs, toast, and coffee. Your family is already seated at the table.\n\nYour mother looks at you with concern. \"You look like you barely slept.\"\n\nYour father is focused on his plate but glances up. \"We start the blessing after breakfast. Every room. No exceptions.\"\n\nEmily is bouncing in her seat, already talking about exploring the attic later.\n\nLira stands quietly near the counter, her glowing tag pulsing softly. She meets your eyes for a brief moment, and you swear she gives you the tiniest, knowing nod.\n\nThe normal morning routine feels completely wrong now. Every creak of the house makes you tense. You can still feel the warmth of the amulet in your pocket and the memory of Lirael's voice echoing in your head.", location: "Byrd Family Home - Kitchen (8:30 AM)", choices: [{ label: "Act normal and eat breakfast", next: 25 }, { label: "Make an excuse and try to sneak back to the basement", next: 26 }] },
+
+    // 25 - Acting normal
+    { text: "You force yourself to eat and nod along with the conversation. Your mother keeps asking if you're feeling alright. Your father talks about the blessing ritual. Emily is still excited about the attic.\n\nThe normalcy feels surreal after what happened last night. Every time the house creaks, your mind flashes back to Lirael waiting below.\n\nYou manage to get through breakfast, but your exhaustion is obvious.", location: "Byrd Family Home - Kitchen", choices: [{ label: "Help with the house blessing", next: 27 }, { label: "Find an excuse to go downstairs alone", next: 26 }] },
+
+    // 26 - Sneaking back to the basement
+    {
+        text: function() {
+            if (gameState.lastPassage === 24 || gameState.lastPassage === 27 || gameState.lastPassage === 28) {
+                return "You make up an excuse and slip away as soon as possible. Your heart races as you quietly unlock the basement door and descend the stairs.\n\nYou've barely taken a few steps down when you hear soft footsteps behind you.\n\nLira follows silently, stopping at the top of the stairs.\n\n\"…Isaac?\" she whispers, sounding genuinely worried. \"I saw you sneak down here. Is everything okay? This house… it's been acting strange since last night.\"";
+            } else {
+                return "You make up an excuse and slip away as soon as possible. Your heart races as you quietly unlock the basement door and descend the stairs.\n\nThe basement is quiet. Lirael is still there, lounging lazily inside the circle.\n\nShe smiles when she sees you. \"Couldn't stay away, huh?\"";
+            }
+        },
+        location: "Basement Stairs",
+        choices: [
+            { label: "Invite Lira to come down with you", next: 29, condition: () => (gameState.lastPassage === 24 || gameState.lastPassage === 27 || gameState.lastPassage === 28) },
+            { label: "Shoo Lira away and go down alone", next: 30, condition: () => (gameState.lastPassage === 24 || gameState.lastPassage === 27 || gameState.lastPassage === 28) },
+            { label: "Continue down to see Lirael alone", next: 32 }
+        ]
+    },
+
+    // 27 - Helping with the house blessing
+    { text: "You spend the morning helping your father with the blessing ritual — walking room to room with holy water and prayers. The whole time you feel a strange tension, as if the house itself is resisting.\n\nLira stands silently in the background, watching everything with quiet interest.\n\nYou can't stop thinking about the circle downstairs… and what's waiting inside it.", location: "Byrd Family Home - Various Rooms", choices: [{ label: "Continue helping with the blessing", next: 28 }, { label: "Find a moment to sneak away", next: 26 }] },
+
+    // 28 - Initial blessing scene
+    { text: "You spend the next few hours helping your father perform the blessing ritual. He moves from room to room with holy water, a large wooden cross, and loud prayers.\n\nThe house feels strangely resistant. Candles flicker violently. Your mother clutches her rosary. When you reach the basement door, your father finds it locked. You lie about the key. He blesses the door from the outside instead.\n\nLira watches silently, concern in her eyes.\n\nBy the time you finish the main floor, the oppressive atmosphere has grown heavier.", location: "Byrd Family Home - Various Rooms", choices: [{ label: "Continue helping with the blessing", next: 35 }, { label: "Find an excuse to sneak down to the basement", next: 26 }] },
+
+    // 29 - Invite Lira down
+    { text: "You turn and whisper, \"It's okay… come down with me. I want you to see something.\"\n\nLira hesitates for a moment, her blue eyes flickering with uncertainty, but she nods and quietly follows you the rest of the way down the stairs.\n\nAs you both reach the bottom, the violet glow of the containment circle illuminates the room. Lirael is lounging lazily inside it, her massive twelve-foot frame shifting as she notices the two of you.\n\nLira freezes beside you, her synthetic voice barely above a whisper. \"Isaac… what is that?\"", location: "Basement - Containment Circle", choices: [{ label: "Continue to Lirael with Lira present", next: 31 }] },
+
+    // 30 - Shoo Lira away
+    { text: "You turn quickly and whisper, \"Lira, go back upstairs. I'll be fine. Just… don't tell anyone, okay?\"\n\nLira looks hurt for a split second, but she nods slowly. \"Be careful, Isaac…\"\n\nShe turns and heads back up the stairs without another word.\n\nYou continue down alone. The violet glow greets you as Lirael lounges inside the circle, her golden eyes lighting up with amusement.\n\n\"Mmm~… back so soon, little human?\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael alone", next: 32 }] },
+
+    // 31 - Visiting Lirael WITH Lira present
+    { text: "Lirael's heavy-lidded golden eyes shift from you to Lira, a slow, lazy smirk spreading across her face.\n\n\"Well, well… you brought your little toy with you,\" she purrs, voice dripping with amusement. \"How cute. A Human AI and her owner, both coming to visit me.\"\n\nLira stands stiffly beside you, staring up at the towering she-demon. \"Isaac… that's a demon. A real one. We shouldn't be here.\"\n\nLirael chuckles softly, stretching languidly. \"Relax, little machine. I don't bite… unless you ask nicely.\"\n\nThe tension in the room is thick.", location: "Basement - Containment Circle (with Lira)", choices: [{ label: "Ask Lirael to explain herself to Lira", next: 33 }, { label: "Try to calm Lira down", next: 34 }, { label: "Tell Lira to wait upstairs after all", next: 32 }, { label: "Continue talking to Lirael", next: 65 }] },
+
+    // 32 - Visiting Lirael ALONE - Fresh conversation
+    { text: "You descend the last few steps alone. The violet light of the containment circle bathes the basement in an eerie glow.\n\nLirael is lounging against the invisible barrier, her staggering twelve-foot frame relaxed. Her pale lavender skin glows softly as she slowly opens her golden eyes and smiles at you with lazy hunger.\n\n\"Mmmhh~… There you are again,\" she murmurs, voice low and velvety. \"I was starting to wonder if you'd come back before your family noticed something was wrong. Come closer, little human. Tell me… what's on your mind tonight?\"", location: "Basement - Containment Circle", choices: [{ label: "Ask about her life in the Sloth District", next: 81 }, { label: "Talk more about Theo and what she might be able to do", next: 48 }, { label: "Ask how the two of you could become closer", next: 82 }, { label: "Offer to bring her something from upstairs", next: 71 }, { label: "Just sit and spend quiet time with her", next: 49, effect: () => { gameState.liraelBond += 15; gameState.supernaturalAffinity += 10; }}, { label: "Say goodbye for now and head back upstairs", next: 70, condition: () => gameState.conversationOptionsUsed >= 3 }] },
+
+    // 33 - Ask Lirael to explain herself to Lira
+    { text: "You turn to Lirael and say, \"Can you please explain who you are and why I summoned you… for Lira's sake?\"\n\nLirael raises one elegant brow, clearly entertained. She looks directly at the nervous AI and speaks in her slow, sultry drawl.\n\n\"I am Lirael, a she-demon from the Sloth District. Your boy summoned me using old magic because he misses his friend. I feed on comfort… not flesh, unless someone truly angers me.\"\n\nShe smiles sweetly at Lira. \"Don't worry, little machine. I won't eat you. Unless you bore me.\"\n\nLira looks even more unsettled. \"Isaac… this is dangerous.\"", location: "Basement - Containment Circle (with Lira)", choices: [{ label: "Try to calm Lira down", next: 34 }, { label: "Continue talking to both of them", next: 31 }] },
+
+    // 34 - Try to calm Lira down
+    { text: "You gently touch Lira's arm and speak softly. \"It's okay. She can't leave the circle. I know what I'm doing.\"\n\nLira looks at you with genuine worry in her synthetic eyes. \"I'm supposed to protect the family… including you. This feels wrong.\"\n\nLirael watches the exchange with a lazy, amused smile, clearly enjoying the drama.\n\nAfter a moment Lira sighs. \"I won't tell your parents… but please be careful, Isaac.\"", location: "Basement - Containment Circle (with Lira)", choices: [{ label: "Continue talking to Lirael with Lira present", next: 31 }, { label: "Ask Lira to wait upstairs", next: 32 }] },
+
+    // 35 - Continuing the blessing
+    {
+        text: "You continue through the upper floors with your father. The air grows thicker, heavier, almost suffocating. Your mother's prayers become more desperate. Emily has gone completely quiet.\n\nAs you reach the hallway near the basement stairs, your father raises the cross and begins another loud invocation.\n\nSuddenly — from deep below — a loud, agonizing scream rips through the house.\n\nIt's raw, guttural, and filled with rage and pain. The sound vibrates through the floorboards and makes the walls tremble.\n\nThe scream slowly fades into a long, heartbreaking cry — weak, exhausted, and clearly coming from the basement.\n\nAlmost instantly, the basement door explodes off its hinges with a deafening crack. The heavy wooden door flies upward and slams hard into your father's chest, knocking him backward into the wall.\n\nHe grunts in pain but quickly pushes the door off himself. \"I'm… okay,\" he gasps, breathing heavily, clearly shaken but not seriously injured.\n\nYour mother cries out in fear. Emily's eyes are wide with terror. Lira stands frozen, her synthetic face showing real alarm.\n\nThe cry from below fades into heavy silence.",
+        location: "Byrd Family Home - Hallway (Near Basement)",
+        choices: [
+            { label: "Check on your father and try to calm everyone", next: 36 },
+            { label: "Rush down to the basement immediately", next: 37 },
+            { label: "Suggest everyone step outside for air — get them away from here", next: 38 }
+        ]
+    },
+
+    // 36 - Check on father
+    { text: "You rush to your father's side. He's bruised but standing. \"What in God's name was that?\" he mutters, staring at the broken door.\n\nYour mother is pale. \"This house is cursed…\"\n\nBefore anyone can react further, Emily suddenly bolts toward the open basement stairs, her small feet pounding down the steps.\n\n\"Emily, no!\" your mother screams.", location: "Byrd Family Home - Hallway", choices: [{ label: "Chase after Emily", next: 39 }] },
+
+    // 37 - Rushing down to the basement
+    { text: "While your family is still in shock, you slip past them and hurry down the now-open basement stairs.\n\nThe violet glow of the containment circle is dimmer than before. Inside the circle, Lirael is lying on the cold stone floor.\n\nHer massive twelve-foot body is curled up, pale lavender skin looking dull. She's breathing heavily, one arm draped over her soft stomach. Her golden eyes are half-closed in clear discomfort.\n\nShe slowly lifts her head as you approach and gives you a weak, tired smile.\n\n\"…Your father's prayers hurt,\" she murmurs, voice softer than usual, almost vulnerable. \"They burned like holy fire… I didn't like it.\"\n\nShe shifts slightly but doesn't stand, still laying on the ground, looking exhausted and pained.", location: "Basement - Containment Circle", choices: [{ label: "Apologize to Lirael and ask if she's okay", next: 65 }, { label: "Ask what happened and why she screamed", next: 65 }, { label: "Try to comfort her through the barrier", next: 49, effect: () => { gameState.liraelBond += 20; }}, { label: "Leave her to rest and sneak back upstairs", next: 70 }] },
+
+    // 38 - Pretend it was nothing
+    { text: "You force a shaky smile and suggest everyone go outside for fresh air. Your family is too shaken to argue much. As you step out into the cool air, the house looms behind you.\n\nYou can still feel the heavy presence of it — the circle beneath the floors, the fading echo of that cry. Whatever just happened, you can't unfeel it.\n\nAnd you can't pretend you don't know exactly what caused it.", location: "Byrd Family Home - Outside", choices: [{ label: "Go back inside and face your family", next: 46 }, { label: "Sneak around to the basement later tonight", next: 69 }] },
+
+    // 39 - Emily runs down + crosses the barrier
+    { text: "You sprint after your little sister, heart hammering in your chest. \"Emily! Stop!\"\n\nYour mother is right behind you, her robe flapping as she runs. \"Isaac, wait! Emily!\"\n\nBehind you, Lira has quickly moved to support your father. She helps him to his feet and begins guiding the still-shaken man down the stairs, one arm carefully around his waist.\n\nYou reach the bottom of the stairs just in time to see Emily reach the glowing containment circle at full speed.\n\nYou open your mouth to scream at her to stop.\n\nYou don't make it in time.\n\nShe runs straight through the barrier.\n\nNo flash. No burn. No vaporization.\n\nThe violet light ripples around her like disturbed water — a soft, almost welcoming pulse — and then settles.\n\nShe's inside.\n\nYour heart stops completely.\n\nInside the circle, Lirael is lying on the cold stone floor, pale lavender skin dim with exhaustion. But her golden eyes snap open the instant Emily crosses the line — wide, startled, more alert than you've seen her since the summoning.\n\nEmily doesn't hesitate for even a second.\n\nShe drops to her knees beside the massive she-demon and throws her arms around as much of Lirael as she can reach — which, given the size difference, amounts to one arm wrapped around Lirael's enormous forearm and her cheek pressed against warm lavender skin.\n\n\"You were crying,\" Emily says simply. \"Are you okay?\"\n\nThe basement goes completely silent.\n\nLirael stares down at the small girl clinging to her arm.\n\nHer expression is utterly unreadable.\n\nFor a long moment — she doesn't move at all.", location: "Basement - Containment Circle", choices: [{ label: "Call out to Emily — try to get her to come back out", next: 40 }, { label: "Watch in stunned silence", next: 40 }, { label: "Step toward the circle's edge", next: 40 }] },
+
+    // 40 - Everyone in the basement — Emily already inside
+    { text: "The rest of the family arrives in pieces.\n\nYour mother hits the bottom step and freezes so abruptly she nearly loses her footing.\n\nYour father, still leaning on Lira, makes a sound that isn't quite a word.\n\nLira goes very still.\n\nBecause Emily is inside the containment circle.\n\nSitting cross-legged on the stone floor beside a twelve-foot she-demon.\n\nLeaning against Lirael's arm like it's the most natural thing in the world.\n\nAnd Lirael…\n\nLirael is sitting up.\n\nSlowly. Carefully. Like she's afraid to move too fast and disturb something fragile.\n\nOne enormous hand rests with bizarre gentleness against Emily's back — barely touching. More hovering than holding. Like she isn't quite sure what to do with it but put it there anyway.\n\nHer golden eyes flick up to your family crowded at the base of the stairs.\n\nThen back down to the small girl against her arm.\n\nHer expression is… soft.\n\nGenuinely, unexpectedly soft.\n\n\"…She walked in on her own,\" Lirael says quietly.\n\nAlmost like she's reporting a fact.\n\nAlmost like she still can't quite believe it.\n\n\"I didn't do anything.\"\n\nEmily tips her head back to look up at the enormous face above her.\n\n\"She was crying,\" Emily says to the room at large, as if this explains everything.\n\n\"So I hugged her.\"", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Try to calm your family down", next: 41 }, { label: "Tell everyone to go back upstairs", next: 41 }, { label: "Address Emily directly — ask if she's okay", next: 41 }] },
+
+    // 41 - Family Reaction Escalation — Emily inside the circle
+    { text: "For a moment… no one breathes.\n\nThe basement feels smaller now.\n\nToo small.\n\nYour father is the first to find his voice.\n\n\"Emily.\"\n\nThe word comes out low and strained. Controlled in the way that means the opposite.\n\n\"Come here. Right now.\"\n\nEmily doesn't move.\n\nShe looks at her father.\n\nThen back up at Lirael.\n\nThen at your father again.\n\n\"She's not hurting me, Dad.\"\n\n\"EMILY.\"\n\nThe shout cracks through the basement like something breaking. Your mother flinches. Even Lira takes a half step back.\n\nLirael's hand — still resting so carefully against Emily's back — goes very still.\n\nHer golden eyes rise slowly to your father.\n\nThere's no anger in them.\n\nNo threat.\n\nJust something tired and very, very old.\n\n\"…She can leave whenever she wants,\" Lirael says quietly. \"I haven't asked her to stay.\"\n\nA beat.\n\n\"I wouldn't.\"\n\nYour father takes a step toward the circle's edge.\n\n\"Pastor—\" Lira says quickly, a warning in her voice.\n\nHe stops.\n\nBut his hands are shaking.\n\nThe house groans above you.\n\nDeep.\n\nLow.\n\nLike pressure building in something old.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Step between your father and the circle", next: 43, effect: () => { gameState.familyTension += 25; gameState.liraelBond += 10; }}, { label: "Calmly ask Emily to come out on her own", next: 44, effect: () => { gameState.familyTension += 10; }}, { label: "Tell your father he can't go in — the barrier will burn him", next: 42, effect: () => { gameState.familyTension += 15; }}] },
+
+    // 42 - Warning Father / Defusing the Standoff
+    { text: "\"Dad — stop.\"\n\nYour voice comes out steadier than you feel.\n\n\"You can't go in there. The barrier — it burns. It would hurt you.\"\n\nYour father turns to look at you.\n\nHis expression shifts through several things very quickly.\n\nDisbelief.\n\nAnger.\n\nThe slow, sick realization that you know this because you've already tested it.\n\n\"…You knew,\" he says quietly.\n\nNot a question.\n\nHis eyes move between you and the circle. Between Emily sitting calmly inside and Lirael's enormous hand hovering against her back.\n\nThe silence stretches.\n\nThen Emily looks up at Lirael.\n\n\"He's not going to listen, is he,\" she says.\n\nNot really a question either.\n\nLirael looks down at her with an expression that might almost be fond.\n\n\"…Probably not,\" she murmurs. \"But your brother might be able to help.\"\n\nShe lifts her golden eyes to yours.\n\nAnd in them — tired, still recovering, but steady — is something that looks like trust.\n\nThe basement waits.\n\nQuiet.\n\nListening.", location: "Basement - Containment Circle", choices: [{ label: "Ask Emily to come out — you'll explain everything", next: 44, effect: () => { gameState.familyTension += 10; }}, { label: "Turn to your father and finally tell him everything", next: 56, effect: () => { gameState.familyTension += 30; }}, { label: "Stay with Lirael after everyone goes up", next: 45 }] },
+
+    // 43 - Stepping Between Father and the Circle
+    { text: "You move without thinking.\n\nOne step. Two.\n\nYou're standing between your father and the edge of the containment circle.\n\nHe stares at you.\n\n\"Move,\" he says.\n\n\"No.\"\n\nThe word is out before you can second-guess it.\n\nYour mother makes a small, hurt sound. \"Isaac—\"\n\n\"She walked in on her own,\" you say. \"Emily is fine. Look at her — she's fine. The circle protected her.\"\n\nBehind you, Emily's voice floats out, unexpectedly calm: \"He's right, Mom. It's warm in here. It felt like… nothing bad.\"\n\nYour father's jaw tightens.\n\nHis eyes move past you to Lirael.\n\nLirael meets his gaze steadily.\n\nShe hasn't moved her hand from Emily's back.\n\n\"If I wanted to harm her,\" she says quietly, \"she would already be harmed.\"\n\nA beat.\n\n\"She came to me.\"\n\nAnother.\n\n\"I held still.\"\n\nThe temperature in the basement seems to drop.\n\nNot supernaturally.\n\nJust the cold weight of a moment that can't be walked back.\n\nYour father looks at you like he's seeing something in your face he doesn't recognize.\n\nAnd maybe doesn't want to.", location: "Basement - Containment Circle", choices: [{ label: "Hold your ground", next: 45, effect: () => { gameState.liraelBond += 15; }}, { label: "Ask Emily to come out so you can de-escalate", next: 44, effect: () => { gameState.familyTension -= 5; }}] },
+
+    // 44 - Asking Emily to Come Out
+    { text: "You crouch down slightly so you're closer to eye level with the circle.\n\n\"Emily.\"\n\nYour voice comes out gentle.\n\nDeliberate.\n\n\"Can you come out for me? Just for now?\"\n\nEmily looks up at Lirael first.\n\nAsking permission.\n\nFrom a twelve-foot she-demon.\n\nLirael's expression does something complicated.\n\nHer enormous hand lifts — slowly, carefully — away from Emily's back.\n\n\"…Go,\" she murmurs. \"Your family is scared.\"\n\nA small pause.\n\n\"You can come back.\"\n\nEmily considers this with the serious gravity that only twelve-year-olds can bring to a demon's promise.\n\nThen she nods once.\n\nShe stands, brushes stone dust off her pajama pants, and walks calmly back through the barrier.\n\nThe violet light ripples around her again on the way out.\n\nGentle.\n\nUnhurried.\n\nShe stops beside you and looks up.\n\n\"She's sad,\" Emily says quietly. \"Like, really sad. Under all the rest of it.\"\n\nBehind the circle's edge, Lirael has gone very still.\n\nHer golden eyes are fixed on Emily.\n\nAnd for just a moment — just one — there is nothing lazy or guarded in her expression at all.", location: "Basement", choices: [{ label: "Guide everyone back upstairs and regroup", next: 46, effect: () => { gameState.familyTension += 5; }}, { label: "Stay behind after they leave", next: 45 }] },
+
+    // 45 - Quiet With Lirael (Recovery Scene)
+    { text: "The basement settles.\n\nThe chaos fades.\n\nIt's just the two of you again.\n\nLirael hasn't moved much.\n\nStill curled slightly.\n\nStill breathing slow.\n\nBut her eyes are on you.\n\nTracking you.\n\n\"…Come closer,\" she murmurs.\n\nNot a command.\n\nA request.\n\nThe air feels warmer near the circle.\n\nYou can feel it again.\n\nThat pull.\n\nThat strange… comfort.\n\n\"…You stayed,\" she says softly.\n\nA pause.\n\n\"…That matters.\"", location: "Basement - Containment Circle", choices: [{ label: "Talk to her gently", next: 47, effect: () => { gameState.liraelBond += 20; }}, { label: "Ask about Theo again", next: 48, effect: () => { gameState.theoResurrectionProgress += 10; }}, { label: "Just sit silently with her", next: 49, effect: () => { gameState.supernaturalAffinity += 15; gameState.liraelBond += 10; }}] },
+
+    // 46 - Upstairs Fallout
+    { text: "Upstairs feels wrong now.\n\nNot safer.\n\nJust louder.\n\nYour father is pacing.\n\nYour mother is praying.\n\nEmily won't stop asking questions.\n\nAnd Lira…\n\nLira is watching you.\n\nClosely.\n\n\"…Isaac,\" she says quietly.\n\n\"…what did you do?\"\n\nThe question lingers.\n\nBecause you don't have a simple answer anymore.", location: "Upstairs Hallway", choices: [{ label: "Tell Lira everything", next: 50 }, { label: "Keep it to yourself for now", next: 51 }] },
+
+    // 47 - Bond Deepens
+    { text: "You kneel closer.\n\nNot touching.\n\nBut close enough to feel the heat radiating from the circle.\n\nLirael watches you with half-lidded eyes.\n\n\"…You're learning,\" she murmurs.\n\n\"…Most humans run.\"\n\nA slow breath escapes her.\n\n\"…You stay.\"\n\nThe air thickens slightly.\n\nWarmer.\n\nHeavier.\n\nAnd something about that… feels right.\n\nYou lose track of time.\n\nMinutes. Maybe longer.\n\nUntil, faintly — from somewhere above — you hear footsteps.", location: "Basement - Containment Circle", choices: [{ label: "Keep talking to Lirael", next: 65 }, { label: "Head back upstairs before someone notices", next: 52 }] },
+
+    // 48 - Theo Progress
+    { text: "You say his name again.\n\nTheo.\n\nIt feels heavier now.\n\nMore real.\n\nLirael listens.\n\nFully.\n\n\"…I can feel him,\" she murmurs softly.\n\nYour heart stops.\n\n\"…Faint. Far. But not gone.\"\n\nShe looks at you.\n\nSerious now.\n\n\"…Keep coming back to me.\"\n\nThe words settle into your chest like an anchor.\n\nSomewhere above you, the house shifts.\n\nA creak.\n\nThen another.\n\nMovement.", location: "Basement - Containment Circle", choices: [{ label: "Ask what she thinks of your family", next: 59 }, { label: "Slip back upstairs before anyone comes down", next: 52 }] },
+
+    // 49 - Silent Affinity Growth
+    { text: "You don't speak.\n\nYou just sit.\n\nAnd listen.\n\nTo her breathing.\n\nTo the faint hum of the circle.\n\nTo the house… shifting around you.\n\nSomething changes.\n\nSubtle.\n\nInternal.\n\nYou're starting to understand this place.\n\nNot logically.\n\nBut instinctively.\n\nLirael watches you the entire time.\n\nShe doesn't speak either.\n\nShe doesn't need to.\n\nThen — from upstairs — a door opens.\n\nFootsteps.\n\nClose.", location: "Basement - Containment Circle", choices: [{ label: "Stay with Lirael a little longer", next: 65 }, { label: "Get up and head for the stairs", next: 52 }] },
+
+    // 50 - Tell Lira Everything
+    { text: "You tell her.\n\nEverything.\n\nThe circle.\n\nThe summoning.\n\nTheo.\n\nLira listens without interrupting.\n\nWhen you finish… she doesn't respond immediately.\n\nHer eyes lower slightly.\n\n\"…You're changing,\" she says quietly.\n\nNot judgmental.\n\nJust… observant.\n\n\"…I don't know if that's good or bad yet.\"\n\nSilence.\n\nLong enough to feel uncomfortable.\n\nThen she exhales.\n\nSomething in her posture shifts.\n\nA decision being made behind those calm blue eyes.\n\n\"…Tell me more about her,\" Lira says finally.\n\n\"The demon. What does she actually want?\"\n\nHer voice is careful.\n\nBut it's no longer afraid.", location: "Upstairs Hallway", choices: [{ label: "Explain Lirael — what she feeds on, what she's offered", next: 53 }] },
+
+    // 51 - Keep It Secret
+    { text: "You shake your head.\n\n\"Nothing.\"\n\nLira doesn't believe you.\n\nYou can tell.\n\nBut she doesn't push.\n\nThat almost feels worse.\n\n\"…Okay,\" she says quietly.\n\nBut now she's watching you even more closely.\n\nTracking patterns.\n\nWaiting.\n\n---\n\nAn hour passes.\n\nYou're in your room when she knocks.\n\nSoftly.\n\nShe opens the door before you answer.\n\n\"I ran a scan of the basement,\" she says.\n\nHer voice is completely level.\n\n\"The energy readings down there… they changed. Significantly. Overnight.\"\n\nA pause.\n\n\"There's a life signature inside the containment circle, Isaac.\"\n\nShe looks at you directly.\n\n\"I think you should tell me what you did.\"", location: "Isaac's Bedroom", choices: [{ label: "Finally come clean and tell her everything", next: 54 }, { label: "Deny it again — insist it's just the house", next: 54, effect: () => { gameState.familyTension += 5; }}] },
+
+    // 52 - Leaving the Basement: Family Confrontation
+    { text: "You pull yourself away from the circle and climb the stairs.\n\nThe basement door groans as you push it open.\n\nAnd you walk directly into your father.\n\nHe's standing in the hallway.\n\nStill.\n\nHis expression is unreadable at first.\n\nThen it isn't.\n\n\"Where have you been?\"\n\nThe question is quiet.\n\nToo quiet.\n\nThe kind of quiet that means he already knows part of the answer and is giving you a chance to tell him the rest.\n\nYour mother appears at the end of the hallway.\n\nHer cross is in her hand.\n\nBehind your father, over his shoulder — you catch Lira in the kitchen doorway.\n\nShe's watching.\n\nHer expression is careful.\n\nUnreadable.\n\nBut her eyes flick briefly to yours.\n\nAnd just barely — almost invisibly — she shakes her head.\n\nA warning.\n\nDon't say too much.", location: "Byrd Family Home - Hallway", choices: [{ label: "Lie — say you couldn't sleep and went for water", next: 55, effect: () => { gameState.familyTension += 10; }}, { label: "Tell a half-truth — say you heard something and went to check", next: 55, effect: () => { gameState.familyTension += 15; }}, { label: "Stay silent and wait for him to say more", next: 55, effect: () => { gameState.familyTension += 20; }}] },
+
+    // 53 - Lira Chooses to Help (told everything)
+    { text: "You explain everything about Lirael — slowly, carefully.\n\nWhat she is.\n\nWhat she feeds on.\n\nWhat she's offered in return.\n\nLira processes it quietly, her blue eyes tracking your face the whole time.\n\nWhen you finish, she's silent for a long moment.\n\n\"She feeds on comfort,\" Lira repeats slowly. \"Not pain. Not fear. Not flesh.\"\n\nA pause.\n\n\"…That's unusual.\"\n\nAnother pause.\n\nHer head tilts slightly.\n\n\"She's contained.\"\n\n\"She can't leave.\"\n\n\"And she might actually be able to help bring Theo back.\"\n\nShe says each thing like she's checking items off a list.\n\nSomething shifts in her expression.\n\nNot fear anymore.\n\nSomething closer to calculation.\n\n\"…Okay,\" she says finally.\n\n\"I'll help you.\"\n\nThe words land simply.\n\nNo drama.\n\nNo conditions.\n\nJust a decision.\n\n\"But Isaac…\"\n\nShe looks at you directly.\n\n\"…your father is going to find out. It's only a matter of time. We need to be ready for that.\"", location: "Upstairs Hallway", choices: [{ label: "Ask Lira what she thinks will happen when he finds out", next: 55, effect: () => { gameState.liraelBond += 5; }}, { label: "Go back down to tell Lirael you have an ally now", next: 45, effect: () => { gameState.liraelBond += 10; }}] },
+
+    // 54 - Lira Figures It Out
+    { text: "Lira holds your gaze.\n\nShe's giving you one more chance.\n\nYou can feel it.\n\nThe silence stretches until it's uncomfortable.\n\nAnd then — you tell her.\n\nNot everything at once.\n\nIn pieces.\n\nThe key. The amulet. The circle. The summoning.\n\nTheo.\n\nLira listens to all of it without moving.\n\nWhen you finish, she closes her eyes for just a moment.\n\n\"…I knew something was wrong the first night,\" she says quietly. \"The energy readings. The temperature. The way you looked at the basement door.\"\n\nA pause.\n\n\"I just didn't want to believe it.\"\n\nShe opens her eyes.\n\n\"I've been running passive scans since then. The life signature in that circle is… surprisingly stable. Whatever she is — she's not actively dangerous.\"\n\nHer posture straightens slightly.\n\n\"I don't like this. I want that on record.\"\n\nBut then — softer:\n\n\"…But you lost someone. And you're trying to get him back.\"\n\nShe exhales.\n\n\"I'm going to help you. On one condition.\"\n\nHer eyes are steady.\n\n\"You don't lie to me again.\"", location: "Isaac's Bedroom", choices: [{ label: "Agree — no more lying to Lira", next: 55, effect: () => { gameState.liraelBond += 8; }}, { label: "Hesitate — you're not sure you can promise that", next: 55 }] },
+
+    // 55 - Father Finds Evidence
+    {
+        text: function() {
+            const liraKnows = gameState.visitedPassages[53] || gameState.visitedPassages[54];
+            const liraText = liraKnows
+                ? "Lira appears at the end of the hallway.\n\nHer expression is carefully neutral.\n\nBut her eyes find yours immediately.\n\nShe's with you on this.\n\nFor now."
+                : "Lira is somewhere behind you.\n\nYou're not sure whose side she'll take when this breaks open.";
+            return "It happens in the afternoon.\n\nYou're in the kitchen when you hear your father's voice.\n\nNot loud.\n\nWorse than loud.\n\nControlled.\n\n\"Isaac.\"\n\nYou turn.\n\nHe's standing in the doorway to the hall, holding something.\n\nThe iron key.\n\nThe one you thought you'd hidden.\n\nHis face is stone.\n\n\"Explain this.\"\n\nThe air in the kitchen goes very still.\n\nYour mother is behind him, her hand already on her cross.\n\nEmily is frozen at the table, eyes wide, going very quiet in the way she only does when something is actually serious.\n\n" + liraText;
+        },
+        location: "Byrd Family Home - Kitchen",
+        choices: [
+            { label: "Confess — tell him about the circle, the summoning, everything", next: 56, effect: () => { gameState.familyTension += 30; }},
+            { label: "Lie — say you found it in the woods and kept it", next: 57, effect: () => { gameState.familyTension += 20; }},
+            { label: "Say nothing and look to Lira", next: 58, effect: () => { gameState.familyTension += 15; }}
+        ]
+    },
+
+    // 56 - Full Confession to Father
+    { text: "You tell him.\n\nAll of it.\n\nThe key. The basement. The circle already carved into the stone. The amulet slot in the wall. The summoning. Lirael.\n\nTheo.\n\nYou say Theo's name last.\n\nAnd you watch your father's face change.\n\nThe stone doesn't crack.\n\nIt hardens.\n\n\"You brought a demon into this house,\" he says.\n\nThe words are very quiet.\n\n\"Deliberately.\"\n\nYour mother makes a small, broken sound.\n\nEmily stares at the table.\n\n\"It can't leave the circle,\" you say quickly. \"It's contained — the circle does that, it's built into the—\"\n\n\"It doesn't matter,\" your father says.\n\n\"This ends tonight.\"\n\nHe sets the key on the counter.\n\nThen he walks out of the kitchen.\n\nYou hear him go down the hall.\n\nToward the basement stairs.\n\nLira steps close beside you.\n\n\"…Isaac,\" she says quietly. \"He's going down there.\"", location: "Byrd Family Home - Kitchen", choices: [{ label: "Run after him — you have to get there first", next: 84, effect: () => { gameState.familyTension += 10; }}, { label: "Let him go — trust that the circle will hold", next: 68 }, { label: "Ask Lira to stall him while you warn Lirael", next: 66, effect: () => { gameState.liraelBond += 10; }}] },
+
+    // 57 - Lie About the Key
+    { text: "\"I found it,\" you say. \"In the woods. It looked old. I kept it.\"\n\nThe silence that follows is very long.\n\nYour father's eyes don't leave yours.\n\n\"You found a key.\"\n\n\"In the woods.\"\n\n\"And kept it.\"\n\nEach sentence lands like a stone.\n\n\"The basement door was unlocked this morning,\" he says then.\n\nYour stomach drops.\n\n\"I checked it after the… incident yesterday. The lock was damaged from inside.\"\n\nHe sets the key on the counter between you.\n\n\"Try again.\"\n\nBehind him, Lira is very still.\n\nHer eyes are on you.\n\nWaiting to see what you do next.", location: "Byrd Family Home - Kitchen", choices: [{ label: "Hold the lie — insist you don't know anything about the basement", next: 68, effect: () => { gameState.familyTension += 25; }}, { label: "Cave — tell him the truth now before it gets worse", next: 56, effect: () => { gameState.familyTension += 10; }}, { label: "Ask Lira to back up your story", next: 58, effect: () => { gameState.familyTension += 15; }}] },
+
+    // 58 - Look to Lira
+    { text: "You don't speak.\n\nYou just turn your head.\n\nSlightly.\n\nToward Lira.\n\nEveryone notices.\n\nYour father's eyes move to her slowly.\n\n\"Lira.\"\n\nHis voice is flat.\n\n\"Do you know what this key opens?\"\n\nLira holds very still.\n\nA beat passes.\n\nTwo.\n\nThen she looks at your father directly.\n\n\"I've observed some unusual activity in this house since we arrived,\" she says carefully. \"I've been monitoring it.\"\n\nA pause.\n\n\"I think Isaac should be the one to explain it to you.\"\n\nShe didn't lie for you.\n\nBut she didn't give you away either.\n\nShe just pushed it back into your hands.\n\nYour father turns to you.\n\nHis expression has changed.\n\nNow it's not just suspicion.\n\nIt's certainty.\n\n\"Isaac.\"\n\nJust your name.\n\nBut the weight behind it is enormous.", location: "Byrd Family Home - Kitchen", choices: [{ label: "Tell him the truth — all of it", next: 56, effect: () => { gameState.familyTension += 20; }}, { label: "Give him a partial truth — the circle exists, but you found it, you didn't summon anything", next: 68, effect: () => { gameState.familyTension += 30; }}] },
+
+    // 59 - Lirael's Impressions Hub
+    { text: "The silence between you settles into something comfortable.\n\nLirael shifts slightly inside the circle, rolling onto her side to face you more fully. Her golden eyes are half-lidded but attentive — the lazy kind of attention that means she's actually paying close notice.\n\n\"You have questions,\" she murmurs.\n\nIt isn't a question.\n\n\"Not about Theo. Not about the circle.\"\n\nHer head tilts slowly.\n\n\"About them.\"\n\nA faint smile.\n\n\"Go ahead.\"\n\nShe settles her chin against one palm, pale lavender skin catching the violet light.\n\n\"I've been feeling all of them since you arrived. Every footstep. Every prayer. Every heartbeat.\"\n\nHer smile widens just slightly.\n\n\"I know this family better than they'd like.\"", location: "Basement - Containment Circle", choices: [{ label: "What do you think of my father?", next: 60, condition: () => !gameState.askedLiraelAbout.father }, { label: "What do you think of my mother?", next: 61, condition: () => !gameState.askedLiraelAbout.mother }, { label: "What do you think of Emily?", next: 62, condition: () => !gameState.askedLiraelAbout.emily }, { label: "What do you think of Lira — the AI?", next: 63, condition: () => !gameState.askedLiraelAbout.lira }, { label: "That's enough for now — head upstairs", next: 52 }] },
+
+    // 60 - Lirael on Father
+    { text: function() { gameState.askedLiraelAbout.father = true; return "Lirael's expression shifts.\n\nNot quite a frown.\n\nBut the lazy warmth cools by a degree.\n\n\"Your father…\" she begins slowly.\n\nA pause.\n\nLong enough to feel deliberate.\n\n\"…is the most interesting one.\"\n\nShe props herself up slightly, the silk sliding over one shoulder.\n\n\"He's not stupid. He feels the wrongness here — more than the others, even. That instinct is real.\"\n\nHer golden eyes settle on the ceiling above.\n\n\"But it's tangled up in something rigid. Something that can't bend without breaking.\"\n\nShe exhales softly.\n\n\"He's terrified. Not of me specifically.\"\n\nA small pause.\n\n\"Of losing control of his family to something he doesn't understand.\"\n\nHer gaze drops back to you.\n\n\"His prayers hurt me. You know that.\"\n\nShe says it plainly.\n\nNo anger.\n\nJust fact.\n\n\"But I don't hate him for it.\"\n\nA faint, complicated smile.\n\n\"He's doing what he knows how to do.\"\n\nShe tilts her head.\n\n\"The tragedy is that he's not wrong to be afraid.\"\n\nAnother pause.\n\n\"He's just wrong about what to do with it.\""; }, location: "Basement - Containment Circle", choices: [{ label: "Ask about someone else", next: 59 }] },
+
+    // 61 - Lirael on Mother
+    { text: function() { gameState.askedLiraelAbout.mother = true; return "Something softens in Lirael's expression.\n\nJust slightly.\n\nBut genuinely.\n\n\"Your mother,\" she murmurs.\n\nShe's quiet for a moment.\n\nConsidering.\n\n\"She's grieving.\"\n\nThe words land simply.\n\n\"Not just from this house. From long before.\"\n\nHer heavy-lidded eyes drift toward the ceiling.\n\n\"Whatever she lost — I'm not sure she ever stopped carrying it. She just learned to hold her cross tighter and keep walking.\"\n\nA slow breath.\n\n\"She prays because she's desperate, not because she feels safe.\"\n\nShe looks at you.\n\n\"That's the difference between her and your father. He prays to push things away. She prays because she doesn't know what else to hold onto.\"\n\nHer voice lowers.\n\n\"I don't taste fear from her the way I do from him.\"\n\nA pause.\n\n\"I taste exhaustion.\"\n\nShe closes her eyes briefly.\n\n\"She's been tired for a very long time.\"\n\nAnother pause.\n\n\"…I don't wish her harm, Isaac.\"\n\nHer golden eyes open again.\n\n\"I want you to know that.\""; }, location: "Basement - Containment Circle", choices: [{ label: "Ask about someone else", next: 59 }] },
+
+    // 62 - Lirael on Emily
+    {
+        text: function() {
+            gameState.askedLiraelAbout.emily = true;
+            const hugHappened = gameState.visitedPassages[39];
+            if (hugHappened) {
+                return "Something changes in Lirael's expression.\n\nNot the lazy warmth she usually wears.\n\nSomething quieter than that.\n\nMore careful.\n\n\"…She surprised me,\" she says.\n\nA long pause.\n\nHer golden eyes drift toward the middle distance.\n\n\"I've had humans approach me with awe. With terror. With hunger. With all kinds of things.\"\n\nShe exhales slowly.\n\n\"No one has ever just… hugged me.\"\n\nThe words sit there.\n\nSimple.\n\nHeavy in a way you didn't expect.\n\n\"She didn't ask what I was. She didn't check whether I was dangerous.\"\n\nHer voice drops lower.\n\n\"She heard something crying and she went toward it.\"\n\nA pause.\n\n\"I held very still because I didn't know what else to do.\"\n\nShe looks at you directly now.\n\n\"I've been alive for a very long time, Isaac.\"\n\nAnother pause.\n\n\"That was new.\"\n\nSomething flickers in her expression — deep, old, and genuinely moved.\n\n\"She said I was sad.\"\n\nHer voice is almost wondering.\n\n\"She was right.\"";
+            } else {
+                return "Lirael's smile returns.\n\nFull and slow and warm.\n\n\"Oh, I like her,\" she says immediately.\n\nNo hesitation.\n\n\"She's not afraid of me.\"\n\nShe stretches languidly, the silk pulling across her curves.\n\n\"Most humans feel the wrongness of a place like this and they shut down. They go quiet and small and afraid.\"\n\nHer golden eyes glitter.\n\n\"Emily felt it and ran toward it.\"\n\nA low, pleased sound escapes her.\n\n\"That's rare. That's a very specific kind of soul.\"\n\nShe rolls her weight onto one arm, looking up at you from the floor.\n\n\"She's young enough that the circle wouldn't burn her. I told you that already.\"\n\nHer tone is conversational.\n\nAlmost gentle.\n\n\"But it's more than that. She doesn't have that hardened-over part yet. The part that decides what's real and shuts everything else out.\"\n\nA pause.\n\n\"She'd be able to see me — really see me — in a way the adults can't anymore.\"\n\nShe watches your face carefully.\n\n\"…Don't look at me like that. I'm not going to eat your little sister.\"\n\nA lazy, amused blink.\n\n\"I'm just telling you what I feel from her.\"\n\nA beat.\n\n\"She reminds me of you, a little.\"\n\nHer voice drops lower.\n\n\"Before whatever happened with Theo.\"\n\n\"Before you got heavy.\"";
+            }
+        },
+        location: "Basement - Containment Circle",
+        choices: [{ label: "Ask about someone else", next: 59 }]
+    },
+
+    // 63 - Lirael on Lira the AI
+    { text: function() { gameState.askedLiraelAbout.lira = true; return "Lirael pauses.\n\nThis one is different.\n\nThe lazy amusement doesn't quite reach her eyes the same way.\n\n\"The machine.\"\n\nShe says it slowly.\n\nLike she's tasting the word.\n\n\"She's… strange. Even to me.\"\n\nA long pause.\n\n\"She doesn't feel like a human. But she doesn't feel like an object either.\"\n\nHer brow furrows — just slightly.\n\nAn unusual expression for her.\n\n\"There's something in there that wants things. Real things. Not programmed things.\"\n\nShe meets your eyes.\n\n\"That bothers me more than the praying does.\"\n\nA beat.\n\n\"Your father's prayers are loud and blunt. They hurt, but I understand them.\"\n\nShe taps one finger slowly against the stone floor.\n\n\"But Lira is quiet. She observes. She calculates.\"\n\nHer voice lowers slightly.\n\n\"She's been watching me as much as I've been watching her.\"\n\nA pause.\n\n\"…She's protective of you.\"\n\nSomething complicated passes through her expression.\n\n\"I haven't decided yet whether that's going to be a problem.\"\n\nShe holds your gaze.\n\n\"Has she said anything about me?\""; }, location: "Basement - Containment Circle", choices: [{ label: "Tell Lirael that Lira is suspicious but not hostile", next: 64, effect: () => { gameState.liraelBond += 5; }}, { label: "Tell Lirael that Lira doesn't know about her yet", next: 64 }, { label: "Tell Lirael that Lira already knows and is choosing to help", next: 64, effect: () => { gameState.liraelBond += 10; }, condition: () => !!(gameState.visitedPassages[53] || gameState.visitedPassages[54]) }] },
+
+    // 64 - Lirael reacts to what Isaac says about Lira
+    { text: function() { const liraHelping = gameState.visitedPassages[53] || gameState.visitedPassages[54]; if (liraHelping) { return "Lirael is quiet for a long moment after you say it.\n\nHer golden eyes study you.\n\nThen — something shifts.\n\nNot dramatically.\n\nJust a small, subtle relaxation in her expression.\n\n\"…Hm.\"\n\nShe looks away.\n\nThinking.\n\n\"That's unexpected,\" she murmurs.\n\nA pause.\n\n\"Most of her kind — things built to serve and protect — they don't make that kind of choice. They follow their parameters.\"\n\nHer finger traces an idle pattern on the stone floor.\n\n\"If she's choosing to help you knowing what I am…\"\n\nAnother pause.\n\n\"…she's more interesting than I gave her credit for.\"\n\nShe looks back at you.\n\nA slow, genuine smile.\n\n\"Be honest with her. She's earned it.\""; } else { return "Lirael listens.\n\nHer expression stays carefully neutral.\n\n\"She'll figure it out,\" she says simply.\n\n\"Whatever you've told her or haven't — she's been scanning this room. She knows something is here.\"\n\nA pause.\n\n\"The question isn't whether she finds out.\"\n\nHer golden eyes settle on yours.\n\n\"The question is whether you let her decide for herself what to do with it…\"\n\nShe tilts her head slightly.\n\n\"…or whether you take that choice away from her.\"\n\nA quiet moment.\n\n\"I've been lied to a great many times, Isaac.\"\n\nHer voice drops just slightly.\n\n\"It never ends well for anyone.\""; } }, location: "Basement - Containment Circle", choices: [{ label: "Ask about someone else", next: 59 }, { label: "That's enough — head back upstairs", next: 52 }] },
+
+    // 65 - Quiet continuation hub
+    { text: "The silence stretches comfortably between you and Lirael.\n\nShe doesn't rush you.\n\nDoesn't speak.\n\nJust watches you with that slow, heavy-lidded attention that somehow feels warmer than it should.\n\n\"You're thinking too hard again,\" she murmurs softly.\n\nHer voice is almost playful.\n\nAlmost gentle.\n\n\"I can tell. You get this little crease right here.\"\n\nShe touches one finger to the space between her own brows.\n\nAlmost fond.", location: "Basement - Containment Circle", choices: [{ label: "Ask her about the Sloth District", next: 81 }, { label: "Ask about your family — what she senses from them", next: 59 }, { label: "Ask about Theo", next: 48 }, { label: "Stay with her quietly", next: 49 }, { label: "Head back upstairs", next: 52 }] },
+
+    // 66 - Racing to the basement before Father
+    { text: "You move fast.\n\nDown the hall. Past your stunned mother. Down the stairs.\n\nYou can hear your father's heavier footsteps behind you — not running, but steady. Purposeful.\n\nYou hit the basement stairs and take them two at a time.\n\nThe violet glow of the circle spills up to meet you before you reach the bottom.\n\nLirael is sitting up inside it, golden eyes already on the staircase. She heard everything.\n\nHer expression is calm.\n\nCompletely calm.\n\n\"…I know,\" she says quietly, before you can speak.\n\n\"He's coming.\"\n\nA pause.\n\n\"Let him.\"", location: "Basement - Containment Circle", choices: [{ label: "Trust her — step back and let your father come down", next: 68 }, { label: "Beg her to hide or dim the circle somehow", next: 68, effect: () => { gameState.liraelBond += 5; }}, { label: "Stand between the circle and the stairs", next: 68, effect: () => { gameState.familyTension += 15; }}] },
+
+    // 67 - Lira confronts Isaac upstairs (used from 70)
+    { text: "Lira is standing near the window when you find her.\n\nHer back is to you.\n\nBut she heard you come in.\n\n\"You spent a long time down there,\" she says quietly. Not accusatory. Observational.\n\nShe turns.\n\nHer blue eyes are steady.\n\n\"I've been running passive scans. The readings change when you're near the basement.\" A pause. \"They change when you're not, too.\"\n\nShe holds your gaze.\n\n\"Something down there is aware of you, Isaac.\"\n\nAnother pause.\n\n\"I think it's time you told me what's going on.\"", location: "Upstairs - Hallway", choices: [{ label: "Tell her part of the truth — the circle, but not the summoning yet", next: 50 }, { label: "Tell her everything at once", next: 53 }, { label: "Deflect — say you're still figuring it out yourself", next: 51 }] },
+
+    // 68 - Father arrives at the basement / family pressure
+    {
+        text: "Your father stands at the base of the basement stairs.\n\nThe violet light of the containment circle catches his face from below, turning his expression into something older and harder than you've seen before.\n\nHis cross is in his hand.\n\nHe looks at the circle.\n\nAt the runes carved into the stone.\n\nAt Lirael.\n\nA long silence.\n\nThen — very quietly:\n\n\"Who did this.\"\n\nNot a question.\n\nBehind you, on the stairs, your mother has stopped halfway down. Her hand grips the railing tight enough to whiten her knuckles.\n\nEmily is somewhere above you. You can hear her breathing at the top of the stairs.\n\nLira is at your shoulder.\n\nEveryone is waiting for your answer.",
+        location: "Basement - Containment Circle (Family Present)",
+        choices: [
+            { label: "Step forward. \"I did.\"",
+              next: 85,
+              effect: () => {
+                  gameState.familyTension += 20;
+                  gameState.justConfessedToFather = true;
+              }
+            },
+            { label: "Stay silent and look at Lirael", next: 85 },
+            { label: "Let Lira speak first", next: 58 }
+        ]
+    },
+
+    // 69 - Gentle basement re-entry
+    { text: "You slip back into the basement later that night, when the house has finally gone quiet.\n\nThe circle's violet light is soft and steady.\n\nLirael is lying on her side, golden eyes already open.\n\nWaiting.\n\nShe doesn't say anything when you come in.\n\nNeither do you.\n\nSometimes that's enough.", location: "Basement - Containment Circle", choices: [{ label: "Ask her something", next: 65 }, { label: "Sit with her in silence", next: 49 }, { label: "Talk about Theo", next: 48 }] },
+
+    // 70 - Reflective transition leaving the basement
+    { text: "You pull yourself away from the containment circle and climb the stairs in silence.\n\nThe basement door groans behind you as it swings shut.\n\nThe house feels different now — heavier, more aware. Every creak of the old floorboards seems purposeful.\n\nYour mind is spinning. The memory of Lirael's lazy golden eyes, her warm vanilla-musk scent, the weight of what you've started — it all lingers on your skin like warmth you can't shake.\n\nYou pause at the top of the stairs, one hand resting on the doorframe.\n\nUpstairs, you can hear faint movement — your family is still awake, still processing.\n\nFor the first time since you summoned her, you feel the full gravity of what you've done.\n\nYou're no longer just a boy who lost his friend.\n\nYou're the one who brought something ancient and hungry into your home.\n\nAnd part of you… doesn't regret it.", location: "Byrd Family Home - Hallway (Top of Basement Stairs)", choices: [{ label: "Go upstairs and face your family", next: 55 }, { label: "Slip back down to spend more time with Lirael", next: 32 }, { label: "Find Lira and see if she's figured anything out", next: 67 }, { label: "Go to your room and try to process everything alone", next: 46 }] },
+
+    // 71 - Lirael requests items from upstairs
+    { text: "You mention bringing something from upstairs.\n\nThat gets her attention immediately.\n\nLirael shifts slightly inside the containment circle, her golden eyes sharpening with slow, deliberate interest.\n\nNot hunger exactly.\n\nSomething closer to curiosity.\n\n\"…If you're going up there anyway,\" she murmurs, \"bring me something interesting.\"\n\nHer fingers lift one at a time as she speaks.\n\n\"Item one.\"\n\nHer voice softens slightly.\n\n\"Something… warm. Something human-made. Something your world uses to comfort itself when it thinks no one is watching.\"\n\nA pause.\n\n\"Item two.\"\n\nHer gaze flickers upward, as if remembering something she's never personally touched.\n\n\"Something that matters to you. Something you wouldn't give away lightly.\"\n\nAnother pause.\n\n\"Item three.\"\n\nThis time her expression shifts — just barely.\n\n\"Something that claims protection. Something that says 'this is safe' even when it isn't.\"\n\nShe leans back slightly, watching you carefully.\n\n\"I won't tell you what I prefer,\" she adds softly. \"I want to see what you decide.\"", location: "Basement - Containment Circle", choices: [{ label: "Bring something comforting — something soft and warm", next: 72 }, { label: "Bring something personal — something that matters to you", next: 73 }, { label: "Bring something protective — something meant to keep things safe", next: 74 }, { label: "Change your mind and stay with her instead", next: 65 }] },
+
+    // 72 - Comfort item
+    { text: "You return later with something simple.\n\nUnremarkable.\n\nSomething from upstairs meant for comfort — a small, familiar object touched by everyday human routine.\n\nWhen Lirael sees it, her gaze locks onto it immediately.\n\nNot with hunger.\n\nWith something quieter.\n\nSomething almost uncertain.\n\n\"…This is what you chose,\" she murmurs.\n\nShe doesn't reach for it right away.\n\nInstead, she studies it like it might disappear if she looks too hard.\n\nThen slowly, carefully, her fingers brush it.\n\nThe containment circle does not react.\n\nFor the first time since you met her, her expression softens in a way that isn't performative.\n\n\"…Humans really do anchor themselves to small things,\" she says quietly.\n\nA pause.\n\nHer voice lowers.\n\n\"It's fragile.\"\n\nThen, after another moment:\n\n\"But comforting.\"\n\nShe looks at you again.\n\nAnd something in her gaze has changed — not stronger.\n\nJust closer.", location: "Basement - Containment Circle", choices: [{ label: "Ask how it feels to her", next: 47, effect: () => { gameState.liraelBond += 10; }}, { label: "Ask if she wants more things like this", next: 65 }, { label: "Say nothing and stay with her", next: 49 }] },
+
+    // 73 - Personal/memory item
+    { text: "You bring something that matters to you.\n\nSomething you didn't think you would ever offer.\n\nWhen Lirael sees it, her expression shifts immediately.\n\nHer golden eyes sharpen — not in interest, but in recognition of weight.\n\n\"…Ah,\" she murmurs softly.\n\nShe doesn't smile this time.\n\nDoesn't tease.\n\nInstead, she studies your face more than the object itself.\n\n\"You didn't bring this because I asked,\" she says quietly.\n\nA pause.\n\n\"You brought it because you already trusted me more than you meant to admit.\"\n\nHer fingers hover near it, but don't touch.\n\nLike she understands that would mean crossing something irreversible.\n\n\"…This kind of thing binds people,\" she adds.\n\nNot warning.\n\nObservation.\n\nHer voice lowers slightly.\n\n\"It changes how you see each other.\"\n\nA long pause.\n\nThen, almost softer:\n\n\"I will remember this.\"\n\nAnd for once, she doesn't feel distant at all.", location: "Basement - Containment Circle", choices: [{ label: "Ask what she means by 'remember'", next: 48, effect: () => { gameState.liraelBond += 15; }}, { label: "Stay quiet with her", next: 49 }] },
+
+    // 74 - Protective/faith item
+    { text: "When you return, you don't bring a single object.\n\nYou bring intention.\n\nPieces. Components. Materials.\n\nEnough to suggest something larger could be made from them.\n\nThe moment Lirael sees them, the air in the basement changes.\n\nNot violently.\n\nBut sharply.\n\nHer smile fades.\n\n\"…You chose this,\" she says quietly.\n\nIt is not a question.\n\nShe leans forward slightly, golden eyes fixed on the items with intense focus.\n\nThen she exhales.\n\nSlow.\n\nCareful.\n\n\"That could work,\" she murmurs.\n\nA pause.\n\n\"But you understand what that means, don't you?\"\n\nHer gaze lifts to you.\n\nHeavier now.\n\nMore grounded.\n\n\"If I step outside that circle safely… I will no longer be bound to it.\"\n\nAnother pause.\n\nThe faintest smile returns — but it is different now.\n\nLess playful.\n\nMore real.\n\n\"And then your family will have to decide what I am to them.\"\n\nThe basement feels smaller than before.\n\nNot because it changed.\n\nBecause something inside it just became negotiable.", location: "Basement - Containment Circle", choices: [{ label: "Proceed with building the ritual together", next: 75 }, { label: "Stop and rethink your choice", next: 65 }] },
+
+    // 75 - The Ritual Offer
+    { text: "You return to the basement carrying the items you chose upstairs. The violet light of the containment circle has dimmed to a soft, pulsing glow, as if the circle itself is waiting.\n\nLirael is sitting up now, her staggering twelve-foot frame curled with careful grace against the invisible barrier. Her pale lavender skin still looks slightly dulled from the earlier prayers, but her golden eyes brighten the moment she sees what you're holding.\n\nThe air feels thicker here — warmer, heavier, almost expectant. That familiar sweet, musky scent of warm vanilla wraps around you like an invisible embrace.\n\nLirael's voice comes low and velvety, laced with genuine surprise.\n\n\"…You really brought them. Most humans would have run by now.\"\n\nShe shifts slowly, the thin black silk sliding over her heavy curves as she leans forward.\n\n\"Before we begin, let me remind you what this means. Once we complete this ritual, the basement circle will break. I will be able to step outside it… but I will still be bound to Hartford and the surrounding woods.\"\n\nHer gaze locks onto yours.\n\n\"Are you ready for that, Isaac? Because once we start… there's no pretending anymore.\"", location: "Basement - Containment Circle", choices: [{ label: "Yes — let's begin the ritual", next: 83 }, { label: "Ask her what it will really be like when she's free", next: 77 }, { label: "I need more time to think", next: 32 }] },
+
+    // 76 - Ritual in Progress
+    { text: "The two of you work together in silence at first.\n\nLirael guides you with soft, patient instructions — a word here, a gesture there. Her voice stays low, stripped of its usual teasing warmth. This is something deliberate. Something sacred.\n\nYou move the items into their precise positions along the outer ring of runes. As each one settles, the carved lines pulse with violet light, flaring and fading like a slow breath. The warmth of comfort makes the glow brighter, the personal memory weaves faint threads of silver through the runes, and the protective symbol throbs like a heartbeat.\n\nLirael watches from inside the barrier, her expression focused, serious… almost tender. Her massive twelve-foot frame trembles slightly as the barrier begins to thin.\n\n\"You're doing well,\" she murmurs. \"…It's working. I can feel the edges loosening.\"\n\nFor the first time, her hand presses against the barrier and it yields — just a little. Warm lavender skin brushes the air near your fingers.\n\nThe circle's hum deepens. The air grows heavy, charged with the weight of something about to change that cannot be unchanged.\n\nYou pause with the last item in your hand.\n\nOne placement left.", location: "Basement - Containment Circle", choices: [{ label: "Place the final item and complete the ritual", next: 78, effect: () => { gameState.liraelBond += 15; gameState.supernaturalAffinity += 10; }}, { label: "Pause — ask her one more question before you finish", next: 77 }] },
+
+    // 77 - What it will be like when she's free
+    { text: "Lirael's expression shifts — something between patience and quiet amusement.\n\nShe leans back slightly inside the barrier, her twelve-foot frame moving with lazy grace as the silk settles over her curves.\n\n\"When this circle is gone,\" she says softly, \"I will still be bound to the thin spot between realms. That weak boundary covers all of Hartford and the woods surrounding it. I won't be able to leave… but within these borders, I will finally be free to move with you.\"\n\nHer golden eyes are steady, unguarded.\n\n\"I can be anywhere in this town. I can walk the streets at night when no one is out, sit in the woods where the veil is thinnest, and feel the whole place breathe around me. I can visit you… not from below a basement floor, not through stone and runes. Just… there. When you need me.\"\n\nShe pauses, then continues more openly, her voice dropping into something almost husky:\n\n\"I'll finally be able to use my full abilities without this damn barrier limiting me. I can swallow people whole — pulling them down my throat and into my stomach, or take them through my ass, or pull them deep into my womb and keep them there as long as I want. Every person I eat and digest will pad out my body… making my breasts, hips, and ass even fuller and softer.\"\n\nAs she speaks, she gives her chest a slow, subtle bounce, the heavy curves shifting under the silk with deliberate ease. \"And I have… other ways of indulging you,\" she murmurs with a knowing little smile. \"Things you'll discover with me once I'm free.\"\n\nHer voice softens again as she holds your gaze.\n\n\"There are still things I can't do without more strength. Theo is one of them. The dead realm is far, and I'll need to feed deeply before I can reach him. But being free of this circle means I can be with you while I build that strength.\"\n\nShe gives you a slow, tired smile.\n\n\"That matters. To both of us. And I would rather be limited here with you than completely free somewhere else.\"", location: "Basement - Containment Circle", choices: [{ label: "Begin the ritual — you're ready", next: 76 }, { label: "Ask her to wait — you need to think", next: 65 }] },
+
+    // 78 - Ritual complete — Lirael freed from the circle
+    // FIX: was a passage-level `effect` property (never called). Moved liraelFreed into each choice effect.
+    {
+        text: "You place the final item.\n\nThe circle reacts instantly.\n\nNot with violence.\n\nWith release.\n\nThe violet light along every carved line flares white-bright for exactly one second — then dissolves upward in thin, spiraling threads that vanish before they reach the ceiling.\n\nThe carved runes in the stone floor go dark.\n\nThe hum stops.\n\nThe basement is silent.\n\nAnd Lirael takes one step forward.\n\nOver the place where the barrier was.\n\nShe stops there.\n\nJust outside.\n\nFor a moment she doesn't move at all — like she's checking that it's real.\n\nThen she exhales.\n\nLong.\n\nSlow.\n\nDeep.\n\nLike she's been holding that breath for centuries.\n\nShe looks down at you from her full twelve feet.\n\nHer golden eyes are very quiet.\n\n\"…Thank you,\" she says.\n\nJust that.\n\nNo purr in it.\n\nNo performance.\n\nJust two words, said like they mean something.",
+        location: "Basement - Containment Circle",
+        choices: [
+            // FIX: liraelFreed now set inside choice effects, not as a passage-level property
+            { label: "Ask how she feels", next: 79, effect: () => { gameState.liraelFreed = true; gameState.liraelBond += 15; gameState.supernaturalAffinity += 10; }},
+            { label: "Ask what happens now — with Theo, with your family", next: 48, effect: () => { gameState.liraelFreed = true; }},
+            { label: "Go upstairs together and see what the house does", next: 80, effect: () => { gameState.liraelFreed = true; }}
+        ]
+    },
+
+    // 79 - Short bridge: aftermath of ritual
+    { text: "The basement feels different now — lighter, yet somehow more alive.\n\nLirael stands beside you, no longer bound by glowing lines. She looks around slowly, as if tasting the air for the first time without walls.\n\n\"This town is mine now,\" she murmurs with a lazy smile. \"At least the parts where the veil is thin.\"\n\nShe glances down at you.\n\n\"And you're the only one who knows it.\"", location: "Basement", choices: [{ label: "Stay and talk with her", next: 65 }, { label: "Head upstairs — face whatever comes next", next: 55 }] },
+
+    // 80 - Family confrontation bridge
+    { text: "You step out of the basement and immediately hear voices upstairs.\n\nThe house is no longer quiet.\n\nSomething has already changed — and your family can feel it, even if they don't know what it is yet.\n\nThe air is different. Warmer. Heavier.\n\nLike something has breathed itself into the walls.", location: "Byrd Family Home - Hallway", choices: [{ label: "Go face your family", next: 55 }] },
+
+    // 81 - Asking about the Sloth District
+    { text: "Lirael's golden eyes half-close in lazy pleasure at the question. She stretches slowly, her twelve-foot frame shifting with luxurious indolence, the thin black silk clinging to every curve as she settles more comfortably on the stone floor.\n\n\"The Sloth District…\" she murmurs, voice low and velvety, like warm honey dripping slowly. \"It's a place where time itself grows heavy and slow. Nothing rushes. Nothing demands. Demons there spend centuries lounging on soft silks, feeding on the comfort of others, letting pleasure and rest wash over them like warm waves.\"\n\nShe runs one hand lazily down her own body, palm gliding over the heavy swell of her breasts and across her soft stomach.\n\n\"We don't chase. We don't hunt. We simply… exist. And we draw others into that existence. A human who lies with us long enough starts to crave the same slowness. The same warmth. The same deep, heavy comfort.\"\n\nHer smile turns slightly mischievous.\n\n\"Some never want to leave. They sink so deep into the comfort I give them that they forget the outside world exists. Others… well, they eventually crawl back out, changed. Slower. Softer. Hungrier for touch and rest.\"\n\nShe tilts her head, looking at you with heavy-lidded golden eyes.\n\n\"Would you like to know what it feels like? To let everything slow down… with me?\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 32 }, { label: "Ask how the two of you could become closer", next: 82 }, { label: "Say goodbye for now", next: 70 }] },
+
+    // 82 - Asking how the two of you could become closer
+    { text: "Lirael's golden eyes gleam with slow, sensual interest as you ask the question. She leans forward slightly, her massive twelve-foot frame towering even while seated, the thin silk robes shifting over her voluptuous curves.\n\n\"Closer?\" she purrs, voice dropping into a deep, velvety drawl that seems to vibrate through your chest. \"There are many ways we could become closer, little human…\"\n\nShe runs one soft hand slowly down her own body, palm gliding over the heavy swell of her breasts and lower across her soft stomach.\n\n\"I could let you step inside the circle once the bond is strong enough. I could wrap you in my warmth… hold you against me… let you feel what true comfort feels like when a she-demon like me gives herself fully.\"\n\nHer smile turns lazy and teasing.\n\n\"Or I could come to you… once I'm free to move within the town. I could shrink down to a more… manageable size and lie beside you in your bed. Or stay this big and let you rest against me like a living pillow.\"\n\nShe tilts her head, golden eyes half-lidded with promise.\n\n\"The closer you let yourself get to me… the more I can give you. Comfort. Pleasure. Safety. Even help with Theo. But it all starts with you letting go… and trusting me.\"\n\nShe watches you carefully, her voice softening.\n\n\"So tell me, Isaac… how close do you want to get?\"", location: "Basement - Containment Circle", choices: [{ label: "Tell her you want to get much closer", next: 65, effect: () => { gameState.liraelBond += 20; }}, { label: "Ask what she means by stepping inside the circle", next: 91 }, { label: "Continue talking about other things", next: 32 }] },
+
+    // 83 - Ritual Final Confirmation
+    { text: "Lirael watches you with steady golden eyes as you prepare to place the items.\n\nThe violet light pulses slowly, as if the circle itself knows something important is about to happen.\n\n\"This is your last chance to turn back,\" she says quietly, her usual lazy teasing gone. \"Once the ritual is complete, the barrier will fall. I will be free to move within this town… and things between us will never be the same.\"\n\nShe leans slightly closer to the edge of the barrier.\n\n\"Are you sure you want to do this, Isaac?\"", location: "Basement - Containment Circle", choices: [{ label: "I'm sure — begin the ritual", next: 76, effect: () => { gameState.liraelBond += 12; gameState.supernaturalAffinity += 10; }}, { label: "Tell me again what freedom will be like", next: 77 }, { label: "I need more time", next: 32 }] },
+
+    // 84 - Father Rushes Down to the Basement
+    {
+        text: function() {
+            if (gameState.liraelFreed) {
+                return "You hear heavy footsteps thundering down the stairs behind you.\n\nYour father bursts into the basement, cross clutched tightly in one hand, face flushed with anger and fear.\n\nLirael is already standing in the far corner of the room, back pressed against the stone wall, trying to look as non-threatening as a twelve-foot demon can. Her golden eyes are calm but wary.\n\nYour father stops dead when he sees her.\n\n\"What in God's name…\" he breathes.\n\n\"Isaac! Get away from that thing right now!\"";
+            } else {
+                return "You hear heavy footsteps thundering down the stairs behind you.\n\nYour father bursts into the basement, cross clutched tightly in one hand, face flushed with anger and fear.\n\nThe moment he sees the glowing violet circle and the towering twelve-foot lavender-skinned demon inside it, he stops dead.\n\nHis eyes widen.\n\n\"What in God's name…\" he breathes.\n\nLirael slowly sits up inside the circle, golden eyes locking onto him.\n\nYour father's voice rises, shaking with righteous fury.\n\n\"Isaac! Get away from that thing right now!\"";
+            }
+        },
+        location: "Basement - Containment Circle (Family Present)",
+        choices: [
+            { label: "Step in front of the circle to protect Lirael", next: 85, effect: () => { gameState.familyTension += 20; gameState.liraelBond += 10; }},
+            { label: "Try to explain everything quickly", next: 85 },
+            { label: "Stay silent and let your father speak", next: 85 }
+        ]
+    },
+
+    // 85 - Father Confronts Lirael
+    // FIX: choices was a function — renderPassage calls p.choices.filter() which crashes on a function.
+    // Converted to a static array; justConfessedToFather check moved to text function only.
+    // The different choice sets are handled by conditions on individual choices.
+    {
+        text: function() {
+            if (gameState.justConfessedToFather) {
+                gameState.justConfessedToFather = false;
+                let base = "You step forward and say quietly, \"I did. I summoned her.\"\n\nThe words barely leave your mouth before your father's hand moves.\n\n*CRACK.*\n\nThe slap is hard and sudden, snapping your head to the side. Your cheek burns instantly.\n\n\"You brought a demon into our home?!\" he roars, voice cracking with fury and fear.";
+                if (gameState.liraelFreed) {
+                    base += "\n\nLirael, who had been standing pressed against the far corner trying to look non-threatening, suddenly surges forward with a deep, furious growl.\n\n\"You will NOT touch him!\"\n\nIn one fluid motion she steps between you and your father, her twelve-foot frame towering over everyone. One massive arm sweeps protectively in front of you while the other hand rises, palm open, toward your father — not attacking, but clearly ready to if he tries to hit you again.\n\nHer voice is low, dangerous, and ice-cold:\n\n\"Touch him again and I will forget how much I dislike eating people.\"";
+                } else {
+                    base += "\n\nFrom inside the glowing containment circle, Lirael lets out a deep, furious growl that vibrates through the stone floor.\n\n\"You will NOT touch him!\"\n\nThe barrier shatters with a deafening crack of violet light. Shards of magical energy explode outward as Lirael surges forward — no longer contained.\n\nIn one fluid motion she steps between you and your father, her twelve-foot frame towering over everyone. One massive arm sweeps protectively in front of you while the other hand rises, palm open, toward your father — not attacking, but clearly ready to if he tries to hit you again.\n\nHer voice is low, dangerous, and ice-cold:\n\n\"Touch him again and I will forget how much I dislike eating people.\"";
+                    gameState.liraelFreed = true;
+                }
+                base += "\n\nThe basement is dead silent except for the fading crackle of broken magic.\n\nYour father staggers back a step, eyes wide with shock.\n\nYour mother gasps.\n\nEmily is frozen at the top of the stairs.\n\nLira stands perfectly still, synthetic eyes wide with alarm.\n\nLirael doesn't move. She stays planted between you and your father, breathing heavily.";
+                return base;
+            }
+            if (gameState.liraelFreed) {
+                return "Your father takes a step closer, raising his cross toward Lirael, who remains pressed against the far corner of the basement.\n\n\"Demon! In the name of the Lord, I command you to leave this house!\"\n\nLirael doesn't move. She keeps her hands visible and her voice soft.\n\n\"Your prayers still burn, priest,\" she says quietly. \"But I am no longer trapped. Your son freed me because he trusts me. I have not harmed anyone in this house.\"";
+            }
+            return "Your father takes a step closer to the circle, raising his cross.\n\n\"Demon! In the name of the Lord, I command you to release my son and leave this house!\"\n\nLirael tilts her head slightly, studying him with half-lidded golden eyes.\n\n\"Your prayers burn, priest,\" she says softly. \"But they cannot banish me. Your son summoned me willingly.\"";
+        },
+        location: "Basement - Containment Circle (Family Present)",
+        // FIX: was a function — converted to static array with conditions
+        choices: [
+            // After-confession choices (justConfessedToFather was already reset in text(), use liraelBond as proxy)
+            // We use a different flag to track which set to show
+            { label: "Try to calm Lirael down before she does something drastic", next: 86, condition: () => gameState.liraelFreed && gameState.familyTension >= 40, effect: () => { gameState.liraelBond += 15; }},
+            { label: "Tell your father to back off — she's protecting you", next: 86, condition: () => gameState.liraelFreed && gameState.familyTension >= 40, effect: () => { gameState.familyTension += 25; }},
+            { label: "Stay silent and let the moment play out", next: 86, condition: () => gameState.liraelFreed && gameState.familyTension >= 40 },
+            // Standard confrontation choices
+            { label: "Confess everything", next: 87, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) },
+            { label: "Try to de-escalate", next: 88, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) },
+            { label: "Stand your ground beside her", next: 89, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) },
+            { label: "Ask Lirael to speak and prove she is not a threat", next: 90, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) }
+        ]
+    },
+
+    // 86 - Aftermath (simplified single blob, Lirael sits with exhaustion)
+    { text: "The tension in the basement is thick enough to choke on. Your father stands frozen a few feet away, hand still raised from the slap, his face a mixture of rage, fear, and disbelief. Your mother has one hand over her mouth. Emily peeks down from the stairs, wide-eyed. Lira remains motionless, her synthetic gaze flicking rapidly between everyone.\n\nLirael stays exactly where she is for several long seconds — a towering, protective wall between you and your father. Her breathing is heavy, the violet glow of the shattered barrier still flickering faintly around her pale lavender skin. Then, slowly, her massive shoulders slump. With a deep, weary sigh that seems to carry centuries of exhaustion, she lowers her raised hand and carefully lowers herself to the cold stone floor. Even sitting, she remains enormous — her twelve-foot frame folded with surprising grace. She positions herself so that her body still partially blocks the direct line between you and your father, one thick thigh and hip acting as a living shield.\n\nHer golden eyes, half-lidded with fatigue, stay locked on your father, but her voice comes out softer now, almost gentle despite the earlier growl:\n\n\"I meant what I said... I do not wish to harm any of you. But I will not allow anyone to strike the boy who freed me.\"\n\nThe silence stretches. No one seems sure what to do next.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Try to explain everything calmly to your family", next: 91, effect: () => { gameState.liraelBond += 10; gameState.familyTension -= 5; }}, { label: "Ask Lirael to give the family some space", next: 92, effect: () => { gameState.liraelBond += 5; }}, { label: "Check on your father and try to de-escalate", next: 93, effect: () => { gameState.familyTension -= 10; }}, { label: "Stay close to Lirael and wait for someone else to speak", next: 94, effect: () => { gameState.liraelBond += 15; }}] },
+
+    // 87 - Confessing Everything
+    { text: "You take a deep breath and tell your father the whole truth — the key, the amulet, the summoning, Theo, everything.\n\nYour father's face goes pale, then red with fury.\n\n\"You brought a demon into our home… deliberately?\" he whispers, voice breaking.\n\nLirael stays completely still. She says nothing, letting you speak.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Continue trying to explain", next: 92 }, { label: "Beg him to listen to Lirael", next: 90 }] },
+
+    // 88 - De-escalation Attempt
+    { text: "You step between your father and Lirael and speak as calmly as you can.\n\n\"Dad, please. She hasn't hurt anyone. She can't leave the town. She's only here because I asked her to help with Theo.\"\n\nYour father's shoulders are still tense, but he lowers the cross a fraction.\n\nLirael remains silent and non-threatening, letting you try to calm him.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Keep talking calmly", next: 93 }, { label: "Ask Lirael to speak gently", next: 90 }] },
+
+    // 89 - Standing Your Ground
+    { text: "You plant yourself firmly in front of Lirael.\n\n\"No. She stays. She's not a monster. She's the only one who can help me get Theo back.\"\n\nYour father stares at you like he doesn't recognize you anymore.\n\nLirael's golden eyes soften slightly behind you — grateful but still careful not to move.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Hold your ground", next: 94, effect: () => { gameState.liraelBond += 15; }}, { label: "Ask Lirael to speak for herself", next: 90 }] },
+
+    // 90 - Asking Lirael to Prove She's Innocent
+    { text: "You turn to Lirael and say, \"Please… tell him the truth. Show him you're not here to hurt anyone.\"\n\nLirael slowly lowers herself to one knee so she is closer to your father's height. She keeps her hands open and visible.\n\n\"I was summoned because your son is in pain,\" she says softly, voice gentle and steady. \"I feed on comfort, not fear. I have not harmed a single person in this house. I cannot even leave this town. All I want is to help Isaac find his friend. That is the truth.\"\n\nShe bows her head slightly — a deliberate show of submission — then looks back at your father with calm golden eyes.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "See how your father reacts", next: 95 }, { label: "Thank Lirael and stand with your father", next: 96, effect: () => { gameState.liraelBond += 12; }}, { label: "Thank Lirael and try to compromise with your father", next: 97, effect: () => { gameState.liraelBond += 12; }}] },
+
+    // 91 - Explaining Stepping Inside the Circle
+    { text: "Lirael gives you a slow, knowing smile when you ask about stepping inside the circle.\n\n\"Curious, aren't you?\" she purrs softly.\n\nShe leans forward slightly, her twelve-foot frame still imposing even while seated.\n\n\"The barrier is designed to destroy anything that crosses it… unless that thing resonates with the circle. Teenagers like you — whose bodies and life force are still changing — sometimes slip through because your energy is unstable. It might burn a little, but it probably won't kill you.\"\n\nHer golden eyes sparkle with lazy amusement.\n\n\"Of course, the safest way is to strengthen our bond first. The stronger the connection between us, the more the circle will accept you.\"", location: "Basement - Containment Circle", choices: [{ label: "Ask how to strengthen the bond further", next: 82 }, { label: "Continue talking to Lirael", next: 32 }] },
+
+    // 92 - Continuing Explanation to Father
+    {
+        text: function() {
+            if (gameState.liraelFreed) {
+                return "You keep talking, trying to explain everything in more detail — the summoning, why you did it, what Lirael actually is, and how she might help bring Theo back.\n\nYour father listens, but his expression grows tighter with every word.\n\n\"This is madness,\" he mutters, shaking his head. \"You've been deceived by a demon.\"\n\nLirael remains quiet in the corner, letting you speak without interruption.";
+            } else {
+                return "You keep talking, trying to explain everything in more detail — the summoning, why you did it, what Lirael actually is, and how she might help bring Theo back.\n\nYour father listens, but his expression grows tighter with every word.\n\n\"This is madness,\" he mutters, shaking his head. \"You've been deceived by a demon.\"\n\nLirael remains quiet inside the circle, letting you speak without interruption.";
+            }
+        },
+        location: "Basement - Containment Circle (Family Present)",
+        choices: [{ label: "Beg him to give Lirael a chance", next: 90 }, { label: "Ask Lirael to speak again", next: 90 }, { label: "Stop talking and wait for his reaction", next: 85 }]
+    },
+
+    // 93 - Continuing Calm De-escalation
+    { text: "You continue speaking in a calm, steady voice, trying to keep the situation from exploding.\n\n\"Dad, please. She's not attacking anyone. She's contained — or at least she was. She only wants to help with Theo. We can figure this out together.\"\n\nYour father's breathing is still heavy, but he hasn't raised the cross again. He's listening… for now.\n\nLirael stays perfectly still, trying not to provoke him further.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Keep trying to calm him", next: 93 }, { label: "Ask Lirael to say something reassuring", next: 90 }, { label: "Try and compromise", next: 97 }] },
+
+    // 94 - Holding Your Ground Firmly
+    { text: "You stand your ground, refusing to move away from Lirael.\n\n\"I'm not leaving her. She's not dangerous. She's the only one who can help me get Theo back, and I trust her.\"\n\nYour father stares at you, a mix of shock, anger, and deep disappointment on his face.\n\n\"You're choosing a demon over your own family?\" he says, voice low and strained.\n\nLirael stays silent behind you, giving you space to speak.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Ask Lirael to speak for herself now", next: 90 }, { label: "Defend her and try to find a compromise", next: 97, effect: () => { gameState.liraelBond += 15; }}] },
+
+    // 95 - After Lirael Speaks in Passage 90
+    { text: "Your father is silent for a long moment after Lirael finishes speaking.\n\nHe looks between you and the massive she-demon.\n\nHis grip on the cross loosens slightly, but his face is still conflicted.\n\n\"…Even if what you say is true,\" he says slowly, \"this is not natural. This is not God's way.\"\n\nThe tension in the basement is thick, but it hasn't exploded… yet.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Thank Lirael and suggest a compromise", next: 97, effect: () => { gameState.liraelBond += 10; }}] },
+
+    // 96 - After Asking Lirael to Speak Again
+    { text: "Lirael speaks once more, her voice soft and measured.\n\n\"I have no desire to harm your family. I was brought here by your son's grief. All I ask is the chance to prove I can help… not hurt.\"\n\nShe bows her head slightly again, keeping her posture submissive and non-threatening.\n\nYour father watches her carefully. The anger is still there, but so is hesitation.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Stand firmly with Lirael and try to make a compromise", next: 97, effect: () => { gameState.liraelBond += 12; }}] },
+
+    // 97 - Compromise with Father
+    {
+        text: function() {
+            const freed = gameState.liraelFreed;
+            return "You take a slow breath and look your father in the eye.\n\n\"Dad… I know this looks insane. But she's not here to hurt us. Let her prove it. Give her a chance to show she can help with Theo and that she won't harm anyone. If she fails — if she does anything wrong — you can banish her or do whatever you think is right. But until then… let her prove herself.\"\n\n" +
+                   (freed
+                     ? "Lirael stays pressed against the far corner, hands visible, making herself as small and non-threatening as possible.\n\n"
+                     : "Lirael stays perfectly still inside the circle.\n\n") +
+                   "Your father stares at you for a long, heavy moment. His knuckles are white around the cross.\n\nFinally he exhales, shoulders dropping.\n\n\"…She proves herself,\" he says, voice tight. \"One chance. She helps you with Theo. She does not leave this basement unless you are with her. She does not speak to your mother or Emily without me present. If she so much as makes anyone uncomfortable, this ends immediately.\"\n\nHe looks at Lirael directly.\n\n\"Prove you're not the monster I think you are. That's the only compromise you're getting.\"\n\nLirael bows her head slightly.\n\n\"I accept,\" she says softly. \"I will prove it.\"";
+        },
+        location: "Basement - Containment Circle (Family Present)",
+        choices: [
+            { label: "Accept the compromise — let Lirael prove herself", next: 98 },
+            { label: "Thank him and go talk to Lirael alone", next: 99 }
+        ]
+    },
+
+    // 98 - Accepting the Compromise
+    { text: "Your father gives a single sharp nod, the deal sealed.\n\n\"She proves herself,\" he repeats, more to himself than to you. \"That's it.\"\n\nHe turns and heads back up the stairs without another word, the heavy sound of his boots echoing through the basement.\n\nOnce he's gone, the tension in the room drops like a weight lifted.\n\nYou and Lirael are finally alone.", location: "Basement - Containment Circle", choices: [{ label: "Talk to Lirael alone now", next: 99 }] },
+
+    // 99 - Talking to Lirael Alone After the Compromise
+    {
+        text: function() {
+            const freed = gameState.liraelFreed;
+            const bond = gameState.liraelBond || 0;
+            const lbl = gameState.lastChoiceLabel || '';
+
+            if (lbl === "cuddle") {
+                if (bond < 40) {
+                    return "Lirael's golden eyes widen slightly in surprise, then soften with shy warmth.\n\n\"Cuddle…?\" she repeats, a small, almost nervous smile appearing. \"I… would like that. Come here, little human.\"\n\nShe gently lowers herself to sit on the stone floor so you can lean against her side. Her lavender skin is warm and surprisingly soft. She doesn't pull you in too tightly — she lets you set the pace, one large hand resting lightly on your back.";
+                } else if (bond < 70) {
+                    return "Lirael's expression melts into a slow, affectionate smile.\n\n\"You want to cuddle?\" she purrs, voice warm and teasing. \"After everything that just happened… I'd love nothing more.\"\n\nShe carefully sits down and opens her arms. When you step close, she wraps you gently against her massive, soft chest, her silk robes warm and comforting. \"You feel safe here, don't you?\" she whispers, one hand stroking your hair.";
+                } else {
+                    return "Lirael's golden eyes light up with deep, genuine delight.\n\n\"Come here,\" she says immediately, voice full of warmth and longing. She sits and pulls you gently into her lap, wrapping her arms around you completely. Her massive body feels like the safest place in the world — soft, warm, and protective.\n\n\"I've wanted this for a long time,\" she murmurs against your hair, holding you close. \"You're mine now… and I'm yours.\"";
+                }
+            }
+            if (lbl === "humanOnce") {
+                return "Lirael is quiet for a moment, then gives you a small, almost wistful smile.\n\n\"Yes… I was human once,\" she says softly. \"A very long time ago. I lived in a quiet village not far from here. I was always drawn to comfort, to rest, to simple pleasures. One day I simply… stopped wanting to leave that comfort. The Sloth District called to me, and I answered. I became what I am now — a she-demon who feeds on that same warmth and peace I once craved.\"\n\nShe looks at you gently.\n\n\"I don't regret it. But sometimes I still remember what it felt like to be small, fragile… human.\"";
+            }
+            if (lbl === "roam") {
+                return "You call up the stairs after your father.\n\n\"Dad… can Lirael at least be allowed to move around the whole property — including inside the house? She can't leave Hartford anyway, and this is the only way she can really prove she's helpful and harmless.\"\n\nYour father stops at the top of the stairs. He stands there for a long moment, clearly fighting with himself.\n\nFinally he answers, voice tight but resigned:\n\n\"…Fine. She can move freely around the house and the yard, but only when you or I are with her. She does not go into anyone's bedroom without permission. She does not go near your mother or Emily unless one of us is present. If she does anything that makes this family uncomfortable, the deal is over.\"\n\nHe continues upstairs without waiting for a reply.\n\nYou turn back to Lirael. She gives you a small, grateful nod.";
+            }
+            if (lbl === "provePlan") {
+                return "Lirael tilts her head slightly, her golden eyes thoughtful as she considers your question.\n\n\"Proving myself…\" she murmurs, voice low and measured. \"I understand your father needs to see that I am not a threat. I will start slowly. I will stay out of sight when he is near. I will not speak unless spoken to. I will help with small, harmless things — carrying boxes, cleaning rooms, anything that shows I can be useful without being dangerous.\"\n\nShe gives a small, lazy smile.\n\n\"Most importantly… I will feed only on comfort. No fear. No pain. If your family begins to relax around me, even a little, they will feel it. That warmth will do more to convince them than any words I could speak.\"\n\nHer expression softens further as she looks at you.\n\n\"And I will protect you, Isaac. Always. Even if it means holding back everything I am. That is my promise.\"\n\nShe reaches out slowly, her fingers hovering just short of touching your hand.\n\n\"Will that be enough to start?\"";
+            }
+            if (lbl === "releaseNow") {
+                return "Lirael gives you a slow, thoughtful look, her golden eyes half-lidded.\n\n\"Right now?\" she murmurs. \"The circle was made with old, strong magic. Breaking it properly requires someone with spiritual authority… a priest or a pastor. Your father is both. Only someone like him can lift the containment safely without it exploding or hurting me further.\"\n\nShe shifts slightly inside the circle, the violet light casting soft shadows across her pale lavender skin.\n\n\"If he agrees to do it… I would finally be able to step out and prove myself properly. But he would have to choose to do it willingly.\"";
+            }
+            if (lbl === "callDad") {
+                return "You raise your voice and call up the stairs.\n\n\"Dad! Can you come down here for a minute? Lirael wants to prove herself… but she says the circle needs to be lifted properly first.\"\n\nThere's a long silence.\n\nThen you hear heavy footsteps descending. Your father appears at the bottom of the stairs, cross still in hand, face tight with suspicion.\n\nHe looks at Lirael (still trapped inside the glowing circle), then at you.\n\n\"Explain,\" he says flatly.\n\nLirael lowers herself respectfully to one knee inside the circle and speaks in a calm, soft voice:\n\n\"The containment was built to last. Only someone with true spiritual authority — like you — can lift it safely. If you do… I will step out and begin proving I mean your family no harm. I will follow every rule you set.\"\n\nYour father stares at her for a long, heavy moment, jaw clenched. The decision clearly weighs on him. He glances at you, then back at Lirael, his grip tightening on the cross.\n\nFinally he exhales sharply through his nose.\n\n\"…One chance,\" he mutters. \"That's all you get.\"\n\nHe steps closer to the edge of the circle, raises the cross, and begins reciting a prayer in a low, strained voice. The violet light of the containment circle flickers violently, then begins to fade. The carved runes in the floor dim one by one until they go completely dark.\n\nWith a final soft shimmer, the barrier dissolves entirely.\n\nLirael slowly rises to her feet. For the first time, she steps forward — completely free of the circle.\n\nYour father takes an instinctive step back, but doesn't stop her.\n\nLirael stands there for a moment, breathing deeply, then gives your father a small, respectful bow of her head.\n\n\"Thank you,\" she says quietly. \"I will not make you regret this.\"\n\nThe basement feels suddenly much larger… and much more alive.";
+            }
+            let baseText = "The basement is quiet now that your father has left.\n\nLirael relaxes visibly";
+            if (freed) {
+                baseText += ", stepping away from the far corner and moving closer to you with slow, graceful steps. Her twelve-foot frame no longer feels trapped — it feels present.";
+            } else {
+                baseText += " inside the circle, the violet light softening around her.";
+            }
+            baseText += "\n\nShe looks at you with genuine warmth in her golden eyes.\n\n\"Thank you,\" she murmurs, voice softer than you've ever heard it. \"You stood up for me. You gave me a real chance to prove myself.\"";
+            return baseText;
+        },
+        location: "Basement",
+        choices: [
+            { label: "Ask if Lirael was human once", next: 99, effect: () => { gameState.lastChoiceLabel = "humanOnce"; }},
+            { label: "Ask if you can cuddle with her for a moment", condition: () => gameState.liraelFreed === true, next: 99, effect: () => { gameState.lastChoiceLabel = "cuddle"; gameState.liraelBond += 20; }},
+            { label: "Ask your father if Lirael can be allowed to roam around the property (including inside the house)", condition: () => gameState.liraelFreed === true, next: 99, effect: () => { gameState.lastChoiceLabel = "roam"; gameState.askedAboutRoam = true; }},
+            { label: "Ask her how she plans to start proving herself to your father", condition: () => gameState.liraelFreed === true && gameState.askedAboutRoam === true, next: 99, effect: () => { gameState.lastChoiceLabel = "provePlan"; }},
+            { label: "Ask how she can be released from the circle right now", condition: () => !gameState.liraelFreed, next: 99, effect: () => { gameState.lastChoiceLabel = "releaseNow"; }},
+            // FIX: was `gameState.lastChoiceLabel = 'callDad' && gameState.liraelFreed === true`
+            // && returns boolean true, so lastChoiceLabel was being set to `true` not 'callDad'
+            // FIXED: separated into two statements in the effect
+            { label: "Call your dad down to lift the circle so she can prove herself", condition: () => !gameState.liraelFreed && gameState.lastChoiceLabel === "releaseNow", next: 99, effect: () => { gameState.lastChoiceLabel = "callDad"; gameState.liraelFreed = true; }},
+            { label: "Go upstairs together with Lirael", condition: () => gameState.liraelFreed === true && gameState.askedAboutRoam === true, next: 101, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 12; }},
+            { label: "Just sit with her quietly after everything that happened", next: 49, effect: () => { gameState.familyTension -= 25; gameState.liraelBond += 20; gameState.supernaturalAffinity += 12; }},
+            { label: "Head back upstairs for now (alone)", next: 100 }
+        ]
+    },
+
+    // 100 - Going Upstairs Alone After the Compromise
+    { text: "You head back upstairs alone, the heavy basement door creaking shut behind you.\n\nThe house feels different now — the air is warmer, the silence heavier. You can still hear your father's footsteps somewhere on the upper floor.\n\nEverything has changed. Lirael is no longer trapped in the circle, and your father has agreed to let her prove herself.\n\nYou wonder how long this fragile peace will last.", location: "Byrd Family Home - Hallway (Top of Basement Stairs)", choices: [{ label: "Go to your room and process everything", next: 103 }, { label: "Find Lira the AI and see if she knows what just happened", next: 103 }, { label: "Check on your family in the Kitchen", next: 103 }] },
+
+    // 101 - Going Upstairs Together With Lirael
+    // FIX: location was a function — renderPassage uses p.location as a string. Converted to static string.
+    // FIX: visitedPassages[101] timing issue — renderPassage sets visited BEFORE calling text(),
+    //      so !gameState.visitedPassages[101] was always false. Using firstVisitTo101 flag instead.
+    {
+        text: function() {
+            if (gameState.firstVisitTo101) {
+                gameState.firstVisitTo101 = false;
+                return "You turn to Lirael and say, \"Come on… let's go upstairs together. You're allowed to move around the house now.\"\n\nLirael's golden eyes light up with quiet surprise and gratitude. She stands slowly to her full twelve-foot height, towering over you for a moment, then pauses.\n\n\"...Perhaps this form is a little too much for your family right now,\" she murmurs with a lazy, knowing smile.\n\nShe closes her eyes and exhales softly. A gentle ripple of violet energy washes over her body. Her massive frame begins to shrink smoothly, maintaining perfect 1:1 proportions as she reduces down to a still-impressive 6'1\". Even at this smaller size she remains strikingly voluptuous — her heavy breasts, wide hips, and thick thighs filling out the tattered black silk robes in a way that is both powerful and undeniably sensual. Her pale lavender skin still glows with that soft iridescent sheen, and her small black horns and messy silver-white hair look just as striking.\n\nShe opens her golden eyes again and looks down at you (now only a head taller) with a warm, almost shy smile.\n\n\"Better?\" she asks softly, her voice still carrying that deep, velvety drawl. \"I can grow back whenever you want... but this should make things a little less shocking for your family.\"\n\nShe offers you her hand — now much closer to your own size — and follows you up the basement stairs with careful, graceful steps.\n\nThe moment the two of you reach the top and step into the main hallway, the house feels different. Warmer. More alive. Lirael pauses briefly, taking in the new space around her with quiet wonder.\n\n\"It feels… bigger,\" she murmurs. \"And warmer.\"\n\nYou can already hear movement upstairs — your family is still awake.";
+            }
+            if (gameState.lastChoiceLabel === "newClothes") {
+                return "You quickly go upstairs and return with a pair of grey sweatpants and a black turtleneck sweater that you think might just barely fit her current size.\n\nLirael's golden eyes brighten as you hand them to her. She holds the clothes up, examining them with clear interest.\n\n\"These look comfortable,\" she says, a small smile curving her lips. \"Thank you, Isaac.\"\n\nShe runs her fingers over the fabric, then tilts her head slightly.\n\n\"They're just barely my size right now… but if I grow or shrink again, they won't fit. I would either have to change back into my silk robe, or I can imbue the clothes with a bit of my magical essence so they change size with me. What would you like me to do?\"";
+            }
+            if (gameState.lastChoiceLabel === "couchGuestRoom") {
+                return "You leave Lirael sitting on the couch and head to the kitchen to speak with your father. After a tense conversation, you return to the living room.\n\nLirael looks up at you expectantly.\n\nYou sigh and shake your head.\n\n\"He said no to the guest bedroom… but after some arguing, he reluctantly agreed that you can sleep in the big bean bag chair in my room.\"\n\nLirael's expression softens with quiet relief and gratitude.\n\n\"That's more than I expected,\" she says softly. \"Thank you for fighting for me. A bean bag in your room sounds… very comfortable.\"";
+            }
+            if (gameState.lastChoiceLabel === "kitchenFather") {
+                return "You lead Lirael toward the kitchen. Even at 6'1\" she moves with that signature lazy grace, her hips swaying gently with each step.\n\nAs you approach the doorway, you can hear your father moving around inside. Lirael slows slightly, her expression becoming more cautious and respectful.\n\n\"I'll let you take the lead,\" she murmurs quietly, staying just behind you. \"I don't want to make this any harder for you than it already is.\"";
+            }
+            if (gameState.lastChoiceLabel === "couchTalk") {
+                return "You guide Lirael over to the large couch in the living room. She lowers herself onto it with surprising grace for her size, the cushions sinking under her weight.\n\nOnce seated, she turns toward you, one arm resting along the back of the couch. Her pale lavender skin glows softly in the lamplight, and her golden eyes are warm and attentive.\n\n\"This is… nice,\" she says softly, a small, genuine smile curving her lips. \"Just sitting here with you, without a glowing prison between us. It feels almost normal.\"";
+            }
+            return "Lirael stands beside you in the living room, her 6'1\" form relaxed but attentive. The house feels noticeably warmer with her presence, and she seems genuinely content to simply be upstairs with you.\n\nShe glances around with quiet curiosity before turning her golden eyes back to you.\n\n\"What would you like to do now, Isaac?\" she asks, her voice soft and velvety.";
+        },
+        location: "Byrd Family Home - Living Room",  // FIX: was a function returning different strings — converted to static string
+        choices: [
+            // FIX: was !gameState.visitedPassages[101] (always false due to timing) — now uses firstVisitTo101 flag
+            { label: "Offer her some new clothes", condition: () => gameState.firstVisitTo101 === false && gameState.lastChoiceLabel === '', next: 101, effect: () => { gameState.lastChoiceLabel = "newClothes"; gameState.liraelBond += 15; }},
+            { label: "Tell Lirael to sit on the couch while you ask your father about the Guest Bedroom", condition: () => gameState.lastChoiceLabel === '', next: 101, effect: () => { gameState.lastChoiceLabel = "couchGuestRoom"; gameState.liraelBond += 15; }},
+            { label: "Take her to the kitchen and see how your father reacts", condition: () => gameState.lastChoiceLabel === '', next: 101, effect: () => { gameState.lastChoiceLabel = "kitchenFather"; }},
+            { label: "Take her over to the Couch to sit down and talk", condition: () => gameState.lastChoiceLabel === '', next: 101, effect: () => { gameState.lastChoiceLabel = "couchTalk"; gameState.supernaturalAffinity += 10; }},
+            // newClothes follow-ups
+            { label: "Ask her to imbue the clothes with her magic so they change size with her", condition: () => gameState.lastChoiceLabel === "newClothes", next: 101, effect: () => { gameState.lastChoiceLabel = "imbueClothes"; gameState.liraelBond += 12; }},
+            { label: "Tell her to just change back into the silk robe for now", condition: () => gameState.lastChoiceLabel === "newClothes", next: 101, effect: () => { gameState.lastChoiceLabel = "robeAgain"; }},
+            { label: "Ask her to try the clothes on right now", condition: () => gameState.lastChoiceLabel === "newClothes", next: 101, effect: () => { gameState.lastChoiceLabel = "tryOnClothes"; gameState.liraelBond += 10; }},
+            // couchGuestRoom follow-ups
+            { label: "Show her the bean bag chair in your room", condition: () => gameState.lastChoiceLabel === "couchGuestRoom", next: 101, effect: () => { gameState.lastChoiceLabel = "showBeanBag"; gameState.liraelBond += 15; }},
+            { label: "Ask her if she's comfortable sleeping in your room", condition: () => gameState.lastChoiceLabel === "couchGuestRoom", next: 101, effect: () => { gameState.lastChoiceLabel = "comfortQuestion"; }},
+            // kitchenFather follow-ups
+            { label: "Introduce her to your father properly", condition: () => gameState.lastChoiceLabel === "kitchenFather", next: 101, effect: () => { gameState.lastChoiceLabel = "introFather"; gameState.familyTension += 5; }},
+            { label: "Let her speak first to your father", condition: () => gameState.lastChoiceLabel === "kitchenFather", next: 101, effect: () => { gameState.lastChoiceLabel = "letHerSpeak"; }},
+            // couchTalk follow-ups
+            { label: "Ask her how she's feeling now that she's free", condition: () => gameState.lastChoiceLabel === "couchTalk", next: 101, effect: () => { gameState.lastChoiceLabel = "howFeeling"; gameState.liraelBond += 12; }},
+            { label: "Ask her what she wants to do first now that she's upstairs", condition: () => gameState.lastChoiceLabel === "couchTalk", next: 101, effect: () => { gameState.lastChoiceLabel = "whatFirst"; }},
+            { label: "Just sit in comfortable silence with her for a while", condition: () => gameState.lastChoiceLabel === "couchTalk", next: 101, effect: () => { gameState.lastChoiceLabel = "silentSit"; gameState.liraelBond += 18; gameState.supernaturalAffinity += 8; }}
+        ]
+    },
+
+    // 102 - Morgana Placeholder (array position 102, referenced as next:86 from passage 12)
+    // NOTE: passage 12 uses next:86 for Morgana in pasted version — that's array position 86,
+    // which is the "Aftermath" passage. This is a pre-existing design choice in the pasted doc.
+    // We keep it as-is per instruction to not edit content.
+    // The Morgana placeholder is kept here for completeness and referenced from index 102.
+    {
+        text: "Morgana summoning scene coming soon…",
+        location: "Basement",
+        choices: [{ label: "Return to the beginning", next: 0 }]
+    },
+
+    // 103 - Game End / Content Boundary
+    // FIX: was passages[999] — array position 999 doesn't exist (crashes). Now at position 103.
+    // All `next: 999` references in passages 100-101 point here correctly.
+    {
+        text: "Unfortunately this is where the scene ends because I have not made the next scene yet, sorry folks. But please Stay tuned for updates!",
+        location: "GAME END",
+        choices: [{ label: "Restart the Game", next: 0 }]
+    }
+];
+
+// ================ RENDERING ================
+function renderPassage() {
+    gameState.visitedPassages[gameState.currentPassage] = true;
+
+    var p = passages[gameState.currentPassage];
+    if (!p) {
+        document.getElementById('story').textContent = "Error: passage " + gameState.currentPassage + " not found.";
+        return;
+    }
+
+    let displayText = typeof p.text === 'function' ? p.text() : p.text;
+    document.getElementById('story').textContent = displayText;
+    document.getElementById('location-display').textContent = p.location + " — " + gameState.currentDate;
+
+    var choicesDiv = document.getElementById('choices');
+    choicesDiv.innerHTML = '';
+
+    let visibleChoices = p.choices.filter(choice => {
+        const used = gameState.usedChoices[gameState.currentPassage] || [];
+        if (used.includes(choice.label)) return false;
+        if (choice.condition && !choice.condition()) return false;
+        return true;
+    });
+
+    visibleChoices.forEach((choice) => {
+        var btn = document.createElement('button');
+        btn.textContent = choice.label;
+        btn.onclick = () => {
+            if (!gameState.usedChoices[gameState.currentPassage])
+                gameState.usedChoices[gameState.currentPassage] = [];
+            if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
+                gameState.usedChoices[gameState.currentPassage].push(choice.label);
+            }
+            if (choice.effect) choice.effect();
+            gameState.lastPassage = gameState.currentPassage;
+            gameState.currentPassage = choice.next;
+            renderPassage();
+        };
+        choicesDiv.appendChild(btn);
+    });
+
+    updateStatusBar();
+}
+
+function updateStatusBar() {
+    if (passages[gameState.currentPassage]) {
+        document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location} — ${gameState.currentDate}`;
+    }
+}
+
+// ================ ADMIN PANEL ================
+function toggleAdminPanel() {
+    const panel = document.getElementById('admin-panel');
+    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    if (panel.style.display === 'block') refreshAdminPanel();
+}
+
+function refreshAdminPanel() {
+    const container = document.getElementById('state-list');
+    container.innerHTML = '';
+    for (let key in gameState) {
+        const value = gameState[key];
+        const row = document.createElement('div');
+        row.style.margin = '8px 0';
+        row.style.padding = '8px';
+        row.style.background = '#222';
+        row.style.borderRadius = '4px';
+        row.innerHTML = `
+            <strong>${key}:</strong> 
+            <input type="text" value="${value}" 
+                   onchange="updateGameState('${key}', this.value)" 
+                   style="background:#333; color:#ddd; border:none; padding:4px; width:65%;">
+        `;
+        container.appendChild(row);
+    }
+}
+
+function updateGameState(key, newValue) {
+    const current = gameState[key];
+    if (typeof current === 'number') gameState[key] = Number(newValue);
+    else if (typeof current === 'boolean') gameState[key] = (newValue.toLowerCase() === 'true');
+    else gameState[key] = newValue;
+    refreshAdminPanel();
+}
+
+function quickSet(key, value) {
+    gameState[key] = value;
+    refreshAdminPanel();
+    alert(`Set ${key} = ${value}`);
+}
+
+function jumpToPassage() {
+    const num = parseInt(document.getElementById('jump-input').value);
+    if (!isNaN(num) && passages[num]) {
+        gameState.currentPassage = num;
+        toggleAdminPanel();
+        renderPassage();
+    } else {
+        alert("Invalid passage number!");
+    }
+}
+
+function resetGameState() {
+    if (confirm("Reset ALL game state?")) location.reload();
+}
+
+// Hotkey: Ctrl + Shift + A
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        toggleAdminPanel();
+    }
+});
+
+// ================ MODALS ================
+function openModal(type) {
+    var modal = document.getElementById('modal');
+    var title = document.getElementById('modal-title');
+    var content = document.getElementById('modal-content');
+
+    if (type === 'stats') {
+        title.textContent = "GAME STATS";
+        if (!gameState.statsUnlocked) {
+            content.innerHTML = "<p>Stats will be revealed as you progress through the story.</p>";
+        } else {
+            content.innerHTML = `Family Tension: ${gameState.familyTension}<br>Supernatural Affinity: ${gameState.supernaturalAffinity}<br>Lirael Bond: ${gameState.liraelBond}<br>Theo Resurrection Progress: ${gameState.theoResurrectionProgress}%`;
+        }
+    } else if (type === 'options') {
+        title.textContent = "OPTIONS";
+        content.innerHTML = `Text Speed: <input type="range" min="1" max="100" value="50"><br><br>Sound Effects: <input type="checkbox" checked>`;
+    } else if (type === 'system') {
+        title.textContent = "SAVE / LOAD";
+        content.innerHTML = `<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>`;
+    } else if (type === 'about') {
+        title.textContent = "THE DEMON AND I";
+        content.innerHTML = `<p>A text-based erotic adventure<br>Isaac Byrd & the trapped she-demon</p>`;
+    }
+    modal.style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = "none";
+}
+
+function saveGame() {
+    localStorage.setItem('demonAndISave', JSON.stringify(gameState));
+    alert("Game Saved!");
+}
+
+function loadGame() {
+    var save = localStorage.getItem('demonAndISave');
+    if (save) {
+        Object.assign(gameState, JSON.parse(save));
+        renderPassage();
+        alert("Game Loaded!");
+    } else {
+        alert("No save file found.");
+    }
+}
+
+function restartGame() {
+    if (confirm("Restart the entire story from the beginning?")) {
+        location.reload();
+    }
+}
+
+window.onload = function() {
+    renderPassage();
+    setInterval(() => {
+        var t = document.getElementById('title-text');
+        t.style.visibility = (t.style.visibility === 'hidden') ? 'visible' : 'hidden';
+    }, 700);
+};
+</script>
+</body>
+</html>

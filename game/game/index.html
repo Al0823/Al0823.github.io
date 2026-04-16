@@ -1239,7 +1239,8 @@ var passages = [
     {
         text: function() {
             if (gameState.justConfessedToFather) {
-                
+                // Reset the flag so it doesn't stick
+                gameState.justConfessedToFather = false;
 
                 let base = "You step forward and say quietly, \"I did. I summoned her.\"\n\nThe words barely leave your mouth before your father's hand moves.\n\n*CRACK.*\n\nThe slap is hard and sudden, snapping your head to the side. Your cheek burns instantly.\n\n\"You brought a demon into our home?!\" he roars, voice cracking with fury and fear.";
 
