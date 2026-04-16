@@ -1201,6 +1201,63 @@ var passages = [
     ]
 },
 
+// 120 - Quiet Moment with Lirael
+{
+    text: function() {
+        const lbl = gameState.lastChoiceLabel || '';
+
+        if (lbl === "worry") {
+            return "You admit quietly that it does worry you sometimes — the idea that Emily’s predatory instincts are still growing even though your parents forbid her from acting on them.\n\n\"I’m worried she might eat one of us one day,\" you confess softly. \"One of the family members… or Lira… or maybe even you, Lirael. And I feel like she’s already eaten more than just those two in kindergarten. None of the family or Lira knows about any of it yet.\"\n\nLirael listens without interrupting, her hand gently stroking your hair while her own stomach continues its loud, wet digestion — thick, sloppy gurgles and messy squelching churns rumbling steadily against you.\n\n\"Those are valid fears,\" she murmurs softly. \"She’s already shown she can handle live prey. The birthday cake, the watermelon with that loud *CRUNCH*… her body is clearly built for it. But your parents are trying to suppress something that may not want to stay suppressed.\"\n\nShe pulls you a little closer, her warm, plush body enveloping you.\n\n\"If it ever becomes too much… if she starts struggling with those instincts… I can help guide her. Safely. Only if you want me to.\"";
+        }
+
+        if (lbl === "usedToIt") {
+            return "You tell her you’re mostly used to it by now — Emily’s predatory side has always been part of your family dynamic, even if it’s kept under wraps.\n\nLirael gives a small, understanding hum, her golden eyes half-lidded as she holds you close.\n\n\"Used to it… but not blind to it,\" she says softly. \"The signs are still there. The way she looks at large objects sometimes… the occasional hungry glint in her eyes. She may not be allowed to eat people, but her body remembers what it can do.\"\n\nHer own belly lets out a loud, wet *gluuuurk*, the heavy bulge shifting as she gently rubs it.\n\n\"She’s already curvier than other girls her age because of what she’s digested before. Those instincts don’t fade — they just wait.\"";
+        }
+
+        if (lbl === "potential") {
+            return "You ask Lirael what she thinks about Emily’s potential.\n\nShe pauses for a moment, her hand still resting on her noisy, churning stomach as the wet, sloppy sounds continue.\n\n\"She has real potential,\" Lirael says thoughtfully. \"Swallowing two whole people at such a young age and keeping them down for nearly a day? That’s impressive control. Most children couldn’t do that. Even the cake and the watermelon show her body is efficient and strong.\"\n\nShe looks down at you with calm golden eyes.\n\n\"If she were allowed to explore those instincts safely… she could become very powerful one day. But right now your parents are holding her back. That kind of suppression can be dangerous if it builds up too long.\"";
+        }
+
+        if (lbl === "quietCuddle119") {
+            return "You choose to stay quiet and simply cuddle closer, listening to Lirael’s loud, wet stomach as it continues its messy work — thick gurgles, sloppy squelches, and deep bubbling churns vibrating against you.\n\nLirael doesn’t push for words. She just holds you gently, one hand stroking your hair while the other rests on her own noisy belly.\n\nAfter a long, comfortable silence, she speaks softly.\n\n\"Emily’s instincts are strong… but so is her love for this family. She ran to me when I was crying because she wanted to help. That part of her is just as real as the predator inside.\"";
+        }
+
+        // Default fallback
+        return "You stay quiet for a while, simply cuddling against Lirael while her loud, wet stomach continues its noisy work — thick, sloppy gurgles and messy squelching churns rumbling steadily against you.\n\nLirael holds you close without pushing for conversation, her hand gently stroking your hair as the digestion sounds fill the room.";
+    },
+    location: "Isaac's Bedroom",
+    choices: [
+        { label: "Ask if Lirael would ever help guide Emily's instincts", next: 121 },
+        { label: "Tell her you’re glad she’s here with you", next: 121, effect: () => { gameState.liraelBond += 25; }},
+        { label: "Just keep cuddling in silence", next: 121, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 10; }}
+    ]
+},
+
+// 121 - Three Hours Later (Family Returning)
+{
+    text: function() {
+        const lbl = gameState.lastChoiceLabel || '';
+
+        let opening = "";
+
+        if (lbl === "guideEmily") {
+            opening = "You asked Lirael if she would ever help guide Emily’s instincts. She held you close and answered gently, saying she would only do so if you and Emily both wanted it, and only in a safe way. The conversation left you feeling a little lighter.";
+        } else if (lbl === "gladShesHere") {
+            opening = "You told Lirael you’re glad she’s here with you. She smiled warmly and pulled you tighter against her, whispering that she’s glad too. The quiet moment felt intimate and safe.";
+        } else if (lbl === "keepCuddling") {
+            opening = "You chose to keep cuddling in silence, simply listening to the noisy, wet sounds of her stomach as time passed. Lirael seemed content to hold you without needing words.";
+        } else {
+            opening = "You stayed wrapped in Lirael’s warm embrace, the loud, wet sounds of her digestion filling the quiet room.";
+        }
+
+        return opening + "\n\nThree hours have now passed since Lirael swallowed the burglar.\n\nHer stomach has remained active the entire time. The loud, wet digestion sounds have continued steadily — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps. Every time the bulge shifts, you can hear a distinct sloshing sound as the contents move inside her.\n\nThanks to the meal, Lirael has gotten a little more curvy — her breasts and hips look slightly fuller and softer, the borrowed clothes hugging her body even more snugly than before.\n\nShe has kept her acids at a natural pace, just as you asked. The heavy bulge in her midsection has become noticeably smaller and softer, though it still moves occasionally with a wet slosh and gurgle.\n\nLirael has been gentle and attentive the whole time, stroking your hair and murmuring soft reassurances while her body worked.\n\nSuddenly, the sound of a car pulling into the driveway breaks the quiet.\n\nYour family is home.\n\nLirael lifts her head slightly, golden eyes alert. She listens for a moment, then gives you a small, calm smile.\n\n\"They’re back,\" she says softly. \"And they brought pizza — I can smell it from here.\"\n\nShe gently shifts, still holding you close for a few more seconds before slowly sitting up. Her belly lets out one final, heavy, wet gurgle with a slosh as the last visible bulge settles.\n\n\"We should go downstairs,\" she murmurs, her voice warm but practical. \"Your family will be expecting us. I’ll stay calm and follow your lead. Just remember… they don’t know what happened this afternoon.\"\n\nShe stands up to her full 6'1\" height (still in the borrowed clothes) and offers you her hand, ready to face your family together.";
+    },
+    location: "Isaac's Bedroom (Late Afternoon)",
+    choices: [
+        { label: "Go downstairs with Lirael to greet your family", next: 122 }
+    ]
+},
+
     // 164 - Morgana Placeholder (array position 102, referenced as next:86 from passage 12)
 
     {
