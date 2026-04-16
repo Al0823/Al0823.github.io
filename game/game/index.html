@@ -143,7 +143,6 @@ color: #f0f0f0;
 background-color: #303030;
 }
 
-/* Admin Panel Styles */
 #admin-panel {
 display: none;
 position: fixed;
@@ -156,7 +155,7 @@ border: 4px solid #ffcc00;
 padding: 20px;
 overflow: auto;
 z-index: 10000;
-color: #ddd;
+color: #dddddd;
 }
 </style>
 </head>
@@ -232,6 +231,7 @@ color: #ddd;
 <script>
 // ================ GAME STATE ================
 var gameState = {
+// Global
     currentPassage: 0,
     lastPassage: 0,
     currentDate: "August 22",
@@ -241,25 +241,38 @@ var gameState = {
     theoResurrectionProgress: 0,
     hasKey: false,
     hasAmulet: false,
-    liraelFedComfort: false,
     statsUnlocked: false,
+    usedChoices: {},
+    visitedPassages: {},
+    liraelFreed: false,
+//Day 1 - August 22
+    liraelFedComfort: false,
     exploredWithLira: false,
     gaveGranola: false,
     askedAboutEmily: false,
     askedAboutSelf: false,
     firstVisitTo13: true,
-    conversationOptionsUsed: 0,
-    lirasPresent: false,
-    usedChoices: {},
-    visitedPassages: {},
-    askedLiraelAbout: {},
-    liraelFreed: false,
+askedLiraelAbout: {},
+//unused currently,  I think
+/*   conversationOptionsUsed: 0, 
+  lirasPresent: false,  */ 
+
+
+
+//Day 2 - August 23
     lastChoiceLabel: "",
     askedAboutRoam: false,
     justConfessedToFather: false,
-    // FIX: separate flag for P100 first-visit detection, not tied to visitedPassages timing
     firstVisitTo100: true,
-				kitchenBanned: false,
+kitchenBanned: false,
+//Stuff commented out below is what I want to properly implement eventually
+/*
+liraelfreedmethod: 0, // 0 for not yet freed, 1 for being freed by the talisman/ritual, 2 for breaking out after you get slapped, and 3 for Dad freeing her in passage 99. I will eventually make it so that if she is not freed when you get to passage 99, you cannot progress past 99 until dad frees her
+fatherBond: 50, // change to be a set range that generates a random number in that range for the value
+motherBond: 78, // change to be a set range that generates a random number in that range for the value
+sisterBond: 62, // change to be a set range that generates a random number in that range for the value
+liraBond: 15, // change to be a set range that generates a random number in that range for the value, Lower because your family just got her before the move
+*/
 }
 var passages = [
     // 0 - Arrival
@@ -404,7 +417,7 @@ var passages = [
                 gameState.pathChosen = "Lirael"; 
                 gameState.statsUnlocked = true; 
             }},
-            { label: "Head down to the Basement and use the lock of ancient black hair", next: 86, effect: () => { 
+            { label: "Head down to the Basement and use the lock of ancient black hair", next: 164, effect: () => { 
                 gameState.pathChosen = "Morgana"; 
             }}
         ]
@@ -1077,7 +1090,72 @@ var passages = [
     ]
 },
 
-    // 998 - Morgana Placeholder (array position 102, referenced as next:86 from passage 12)
+// 113 - After the Swallowing
+{
+    text: "You stand there for a moment, eyes fixed on the spot where the burglar had been. A flicker of surprise crosses your face, but it fades quickly. In this world, abilities like this aren't unheard of — especially among women and every AI companion like Lira. Still, seeing it happen right in front of you is something else.\n\nAlmost immediately, loud, wet, sloppy sounds erupt from Lirael's belly. Thick, squelching gurgles and heavy, churning glurks echo through the quiet kitchen as her stomach gets to work. The visible bulge shifts and compresses with every wet, noisy squeeze, accompanied by deep, bubbling glurps and messy, liquid sloshes that make the whole process impossible to ignore.\n\nLirael lets out a soft, satisfied sigh, one large hand gently rubbing slow circles over her now slightly fuller belly. The noisy, wet digestion continues loudly under her palm — wet squelches, thick gurgles, and sloppy churning sounds filling the room as her body begins breaking down her meal.\n\nShe looks down at you with calm, half-lidded golden eyes, her expression gentle.\n\n\"It's done,\" she says softly, her deep velvety voice carrying quiet reassurance even as her stomach keeps up its wet, busy work. \"He won't hurt anyone or steal from your family again.\"\n\nThe loud, sloppy sounds of digestion continue without pause — wet glurks, bubbling squelches, and heavy, liquid churns echoing between you.\n\nShe takes a slow step closer, still towering over you at her full twelve feet.\n\n\"Are you alright, Isaac?\" she asks, tilting her head slightly. \"I know that was sudden. But abilities like this aren't exactly rare — especially for someone like me. He made his choice the moment he broke into your home.\"\n\nHer free hand reaches out gently, hovering near your shoulder as if waiting for permission to comfort you.",
+    location: "Byrd Family Home - Kitchen (Afternoon)",
+    choices: [
+        { label: "Ask Lirael how she feels after eating him", next: 114 },
+        { label: "Tell her you're okay but still processing what just happened", next: 114 },
+        { label: "Ask what will happen to the burglar now", next: 114 },
+        { label: "Just stand there quietly with her for a moment", next: 114, effect: () => { gameState.liraelBond += 15; }}
+    ]
+},
+
+// 114 - After the Swallowing (Reaction)
+{
+    text: "You take a slow breath, still feeling the weight of what just happened, but not overwhelmed by it. In this world, vore wasn't some impossible myth — plenty of women could do it, and every AI companion like Lira was fully capable. Still, watching it happen so casually in your own kitchen was a lot to take in.\n\nThe loud, wet digestion sounds continue from Lirael's belly — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps that echo through the quiet room. The heavy bulge in her midsection shifts visibly with every noisy contraction.\n\nLirael keeps one hand resting gently on her stomach, rubbing slow circles as the wet, noisy sounds grow louder for a moment. She watches you carefully with those half-lidded golden eyes, patient and calm.\n\n\"He's still alive in there,\" she says softly, her velvety voice warm and matter-of-fact. \"Right now he's sitting in a small pool of acid. It's only a little for now — I can control how much I release and how fast it works. Unlike humans, who have no control once someone is swallowed, I decide everything.\"\n\nShe gives her belly a gentle, affectionate pat, causing another loud, wet gurgle to rise up.\n\n\"I could end him instantly if I wanted to. One thought and the acids would surge. But right now… he's just sitting there. Warm. Surrounded. Waiting.\"\n\nThe sloppy, churning sounds continue — thick glurks, bubbling squelches, and heavy liquid movements echoing between you.\n\nHer expression softens as she looks at you.\n\n\"I'm not going to pretend this is normal for you yet. But I'm here. If you want to talk about it… or if you just want to sit with me while my body keeps him like this… I'm right here.\"",
+    location: "Byrd Family Home - Kitchen (Afternoon)",
+    choices: [
+        { label: "Ask her how it feels to have someone inside her", next: 115 },
+        { label: "Tell her you're okay, just surprised", next: 115, effect: () => { gameState.liraelBond += 12; }},
+        { label: "Ask what will happen to him eventually", next: 115 },
+        { label: "Just sit quietly with her and listen to the sounds", next: 115, effect: () => { gameState.liraelBond += 18; gameState.supernaturalAffinity += 8; }}
+    ]
+},
+
+// 115 - Talking About the Burglar Inside Her
+{
+    text: "Lirael keeps one hand resting on her softly churning belly, the loud, wet sounds of digestion still filling the kitchen — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps that rise and fall with every slow movement of her stomach.\n\nShe looks down at you with calm, half-lidded golden eyes, patient and attentive.\n\n\"He's still sitting there,\" she murmurs softly, her velvety voice gentle. \"In that small pool of acid. It's warm… but not burning him yet. I haven't released enough to really hurt him. He's probably scared, but he's alive. For now.\"\n\nAnother loud, wet glurk echoes from her midsection as the bulge shifts slightly.\n\n\"I can keep him like this for hours if I want,\" she continues, rubbing slow circles over the noisy bulge. \"Or I can make the acids surge and end him in seconds. Most humans can't control it once they swallow someone — it just happens. But I can choose exactly how fast it goes.\"\n\nShe tilts her head, studying your face.\n\n\"Does that bother you? Knowing he's still conscious in there… sitting in my stomach, listening to everything? Or does it make you feel safer, knowing I have that kind of control?\"\n\nThe wet, sloppy digestion sounds continue steadily — thick squelches, bubbling gurgles, and heavy liquid churns — as if her body is patiently waiting for her decision.",
+    location: "Byrd Family Home - Kitchen (Afternoon)",
+    choices: [
+        { label: "Ask her how it feels to have someone inside her", next: 116 },
+        { label: "Tell her you're okay, just surprised", next: 116, effect: () => { gameState.liraelBond += 12; }},
+        { label: "Tell her it makes you feel safer, but digest him naturally", next: 116 },
+        { label: "Just sit quietly with her and listen to the sounds", next: 116, effect: () => { gameState.liraelBond += 15; gameState.supernaturalAffinity += 8; }}
+    ]
+},
+
+// 116 - Continuing the Conversation After the Swallowing
+{
+    text: function() {
+        const lbl = gameState.lastChoiceLabel || '';
+
+        if (lbl === "howItFeels") {
+            return "Lirael’s golden eyes soften with a lazy, almost affectionate smile as her hand continues to slowly rub her noisy belly.\n\n\"How it feels?\" she murmurs, voice low and velvety. \"It’s warm… heavy… and very intimate. I can feel him sitting there in that small pool of acid, squirming just a little. Every little movement sends these pleasant ripples through me.\"\n\nA loud, wet *glurk* echoes from her stomach, followed by a messy squelch as the bulge shifts.\n\n\"It’s comforting, in a way,\" she continues. \"Like having something warm and alive nestled deep inside me. I can feel his heartbeat… his fear… his warmth. But I’m keeping the acids low for now, just like you wanted.\"";
+        }
+
+        if (lbl === "okaySurprised") {
+            return "Lirael nods gently, her expression understanding.\n\n\"It’s okay to be surprised,\" she says softly. \"Even if vore isn’t rare in this world, seeing it happen right in front of you is different. Especially when it’s someone you know.\"\n\nShe keeps rubbing slow circles over her loudly churning belly, the wet, sloppy gurgles and thick squelches continuing steadily.\n\n\"I’m not going anywhere. You can take all the time you need to process it. I’m right here with you.\"";
+        }
+
+        if (lbl === "saferButNatural") {
+            return "Lirael’s smile turns a little warmer, almost proud.\n\n\"I understand,\" she murmurs. \"You feel safer knowing I have control… but you want it to happen naturally.\"\n\nShe gently presses on her belly. A wet, heavy *gluuuurk* rises up as she slowly releases a bit more acid.\n\n\"There… I’ve let it start working at a natural pace. He’ll still be alive for a while, but it won’t take days anymore. Is that better?\"";
+        }
+
+        // Default / quiet listening response
+        return "You sit quietly with her, the loud, wet digestion sounds filling the kitchen — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps that rise and fall steadily.\n\nLirael doesn’t speak for a long moment. She simply keeps one hand on her stomach, gently rubbing the noisy bulge while her golden eyes stay on you, soft and patient.\n\nThe wet, visceral noises continue without pause, a constant reminder of what’s happening inside her.";
+    },
+    location: "Byrd Family Home - Kitchen (Afternoon)",
+    choices: [
+        { label: "Ask what it feels like for the burglar right now", next: 117 },
+        { label: "Ask if she enjoys having someone inside her", next: 117, effect: () => { gameState.liraelBond += 15; }},
+        { label: "Stay quiet and just listen to her stomach", next: 117, effect: () => { gameState.liraelBond += 18; gameState.supernaturalAffinity += 10; }},
+        { label: "Suggest you both go upstairs and get away from the noise", next: 117 }
+    ]
+},
+
+    // 164 - Morgana Placeholder (array position 102, referenced as next:86 from passage 12)
 
     {
         text: "Morgana summoning scene coming soon…",
