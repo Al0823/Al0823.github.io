@@ -1040,10 +1040,22 @@ var passages = [
 
 // 109 - Morning Rundown + Time Skip (Lirael Proven Worthy)
 {
-    text: "You wake up the next morning feeling more rested than you have in a long time.\n\nLirael is still beside the bed, watching over you with soft golden eyes. She smiles when she sees you stir.\n\n\"Good morning,\" she says quietly.\n\n---\n\nOver the past few days Lirael has been on her best behavior. She helped with small chores, stayed out of sight when your father was nearby, and only fed on comfort. Your family has slowly begun to relax around her.\n\nThis morning your father calls everyone together.\n\n\"I’ve been watching her closely,\" he says, his voice still cautious but noticeably softer than before. \"She hasn’t broken any rules. She hasn’t harmed anyone. She’s even been… helpful.\"\n\nHe looks at Lirael directly.\n\n\"I’ve decided she can stay. And if anyone ever tries to do harm to this family… you have my permission to use your abilities to protect us.\"\n\nLirael bows her head respectfully, a small, grateful smile on her lips.\n\n\"Thank you,\" she says softly. \"I will keep your family safe.\"\n\nThe house feels different now — lighter, warmer, and more alive with her here.",
+    text: "You wake up this next morning feeling more rested than you have in a long time.\n\nLirael is beside the bed, watching over you with soft golden eyes. She smiles when she sees you stir.\n\n\"Good morning,\" she says quietly.\n\n---\n\nOver the past few days Lirael has been on her best behavior. She helped with small chores, stayed out of sight when your father was nearby, and only fed on comfort. Your family has slowly begun to relax around her.\n\nThis morning your father calls everyone together.\n\n\"I’ve been watching her closely,\" he says, his voice still cautious but noticeably softer than before. \"She hasn’t broken any rules. She hasn’t harmed anyone. She’s even been… helpful.\"\n\nHe looks at Lirael directly.\n\n\"I’ve decided she can stay. And if anyone ever tries to do harm to this family… you have my permission to use your abilities to protect us.\"\n\nLirael bows her head respectfully, a small, grateful smile on her lips.\n\n\"Thank you,\" she says softly. \"I will keep your family safe.\"\n\nThe house feels different now — lighter, warmer, and more alive with her here.",
     location: "Isaac's Bedroom - Morning",
     choices: [
-        { label: "Continue the story", next: 999 }
+        { label: "Continue the story", next: 110 }
+    ],
+    effect: () => {
+        gameState.currentDate = "August 30";
+    }
+},
+
+// 110 - Saturday Grocery Day (Left Alone with Lirael)
+{
+    text: "The morning after your father's reluctant decision passes quietly. By the time breakfast is finished, the calendar on the wall reminds everyone what day it is.\n\nSaturday.\n\nGrocery day.\n\nYour parents have kept the same routine for years: they take Emily with them to the big supermarket in town, and usually bring Lira along to help carry bags and keep Emily entertained. It’s always been their way of giving you a few hours of peace and quiet at the house alone.\n\nThis time, however, things feel different.\n\nYour father glances at Lirael, then at you.\n\n\"We’re heading out for groceries,\" he says, his tone still carrying a trace of caution. \"Emily and Lira are coming with us. We’ll be gone a couple of hours.\"\n\nHe looks directly at Lirael.\n\n\"You stay here with Isaac. Don’t leave the house. Don’t go near the basement unless he’s with you. And don’t… cause any trouble.\"\n\nLirael bows her head respectfully, her 6'1\" frame calm and non-threatening.\n\n\"I understand,\" she says softly. \"I’ll stay right here with him.\"\n\nYour mother gives you one last concerned look, then gathers her purse and keys. Emily bounces excitedly by the door, already talking about what snacks she wants to pick out.\n\nA few minutes later, the minivan pulls out of the driveway. The sound of the engine fades down the long wooded road until the house is completely silent.\n\nYou and Lirael are alone.\n\nFor the first time since she was freed from the circle, the entire house belongs to just the two of you.",
+    location: "Byrd Family Home - Living Room (Saturday Morning)",
+    choices: [
+        { label: "Go up to your room and relax for a bit with Lirael", next: 111 }
     ]
 },
 
