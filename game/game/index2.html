@@ -895,8 +895,7 @@ var passages = [
             // FIXED: separated into two statements in the effect
             { label: "Call your dad down to lift the circle so she can prove herself", condition: () => !gameState.liraelFreed && gameState.lastChoiceLabel === "releaseNow", next: 99, effect: () => { gameState.lastChoiceLabel = "callDad"; gameState.liraelFreed = true; }},
             { label: "Go upstairs together with Lirael", condition: () => gameState.liraelFreed === true && gameState.askedAboutRoam === true, next: 101, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 12; }},
-            { label: "Just sit with her quietly after everything that happened", next: 49, effect: () => { gameState.familyTension -= 25; gameState.liraelBond += 20; gameState.supernaturalAffinity += 12; }},
-            { label: "Head back upstairs for now (alone)", next: 100 }
+           { label: "Head back upstairs for now (alone)", next: 100 }
         ]
     },
 
