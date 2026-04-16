@@ -1132,7 +1132,7 @@ var passages = [
         const lbl = gameState.lastChoiceLabel || '';
 
         if (lbl === "howItFeels") {
-            return "Lirael’s golden eyes soften with a lazy, almost affectionate smile as her hand continues to slowly rub her noisy belly.\n\n\"How it feels?\" she murmurs, voice low and velvety. \"It’s warm… heavy… and very intimate. I can feel him sitting there in that small pool of acid, squirming just a little. Every little movement sends these pleasant ripples through me.\"\n\nA loud, wet *glurk* echoes from her stomach, followed by a messy squelch as the bulge shifts.\n\n\"It’s comforting, in a way,\" she continues. \"Like having something warm and alive nestled deep inside me. I can feel his heartbeat… his fear… his warmth. But I’m keeping the acids low for now, just like you wanted.\"";
+            return "Lirael’s golden eyes soften with a lazy, almost affectionate smile as her hand continues to slowly rub her noisy belly.\n\n\"How it feels?\" she murmurs, voice low and velvety. \"It’s warm… heavy… and very intimate. I can feel him sitting there in that small pool of acid, squirming just a little. Every little movement sends these pleasant ripples through me.\"\n\nA loud, wet *glurk* echoes from her stomach, followed by a messy squelch as the bulge shifts.\n\n\"It’s comforting, in a way,\" she continues. \"Like having something warm and alive nestled deep inside me. I can feel his heartbeat… his fear… his warmth.\"";
         }
 
         if (lbl === "okaySurprised") {
@@ -1140,7 +1140,7 @@ var passages = [
         }
 
         if (lbl === "saferButNatural") {
-            return "Lirael’s smile turns a little warmer, almost proud.\n\n\"I understand,\" she murmurs. \"You feel safer knowing I have control… but you want it to happen naturally.\"\n\nShe gently presses on her belly. A wet, heavy *gluuuurk* rises up as she slowly releases a bit more acid.\n\n\"There… I’ve let it start working at a natural pace. He’ll still be alive for a while, but it won’t take days anymore. Is that better?\"";
+            return "Lirael’s smile turns a little warmer, almost proud.\n\n\"I understand,\" she murmurs. \"You feel safer knowing I have control… but you want it to happen naturally.\"\n\nShe gently presses on her belly. A wet, heavy *gluuuurk* rises up as she slowly releases a bit more acid.\n\n\"There… I’ve let it start working at a natural pace. On this setting it will take about four hours before he’s gone. He’ll still be alive for a while longer, but it won’t be days. Is that better?\"";
         }
 
         // Default / quiet listening response
@@ -1148,10 +1148,56 @@ var passages = [
     },
     location: "Byrd Family Home - Kitchen (Afternoon)",
     choices: [
-        { label: "Ask what it feels like for the burglar right now", next: 117 },
-        { label: "Ask if she enjoys having someone inside her", next: 117, effect: () => { gameState.liraelBond += 15; }},
-        { label: "Stay quiet and just listen to her stomach", next: 117, effect: () => { gameState.liraelBond += 18; gameState.supernaturalAffinity += 10; }},
-        { label: "Suggest you both go upstairs and get away from the noise", next: 117 }
+        { label: "Go back upstairs to relax with Lirael", next: 117 }
+    ]
+},
+
+// 117 - Upstairs Cuddle Session
+{
+    text: "You nod toward the stairs and say softly, \"Let’s go back upstairs and relax.\"\n\nLirael gives you a warm, understanding smile. She follows you quietly up the stairs, her twelve-foot frame moving with that familiar lazy grace. The loud, wet sounds of her digestion travel with her — thick, sloppy gurgles and messy squelching churns that have grown even louder and wetter than before, echoing softly through the hallway as her stomach continues its busy work.\n\nOnce inside your room, she closes the door behind her with a gentle click. Without a word she steps close and pulls you into a very tight, enveloping cuddle. She lowers herself onto your bed first, then guides you down so you’re nestled fully against her massive, soft body.\n\nHer arms wrap around you completely, one hand cradling the back of your head while the other rests low on your back, pressing you firmly into the warm, plush swell of her chest and belly. Her pale lavender skin is incredibly soft and warm, and the loud, wet digestion sounds are even more intense up close — heavy, bubbling glurks, thick squelching churns, and messy, liquid sloshes vibrating right against your body as the bulge in her stomach shifts and works noisily.\n\nShe holds you close, almost possessively, her chin resting gently on top of your head.\n\n\"There… just relax with me,\" she whispers, her velvety voice low and soothing. \"You’ve been through a lot today. Let my body take care of the rest.\"\n\nThe noisy, wet sounds of her stomach continue without pause — loud, sloppy gurgles and deep, churning glurps pressing right against you as she slowly rocks you in her arms. The heavy bulge in her belly moves and compresses with every wet sound, the digestion clearly working faster and louder now.\n\nYou stay like that for a long while, wrapped safely in her warmth.\n\nThen — suddenly — something clicks in your mind.\n\nA memory surfaces, sharp and clear.\n\nYou remember something important.",
+    location: "Isaac's Bedroom",
+    choices: [
+        { label: "Tell Lirael what you remembered", next: 118 }
+    ]
+},
+
+// 118 - Remembering Emily's Kindergarten Incident
+{
+    text: "You stay nestled against Lirael’s warm, softly churning body for a long moment, the loud, wet sounds of her digestion still rumbling heavily against you — thick, sloppy gurgles and messy squelching churns that have grown even louder and wetter than before.\n\nThen the memory hits you, sudden and vivid.\n\nYou lift your head slightly from her chest and speak quietly.\n\n\"I just remembered something… about Emily.\"\n\nLirael’s golden eyes open a little wider, curious and attentive. She keeps holding you close, one hand gently stroking your back as her noisy stomach continues its work.\n\nYou continue, voice low.\n\n\"When she was in Kindergarten… she ate another student. And a teacher. Both of them. She kept them down the whole time. Her stomach didn’t finish emptying until almost a full day later. She digested both of them completely. That’s why she looks the way she does for her age… curvier than the other kids.\"\n\nLirael is quiet for a moment, the only sound in the room the loud, wet, churning gurgles coming from her own belly.\n\nThen a slow, genuine smile spreads across her face.\n\n\"Mmm… your little sister has quite the impressive predatory skills for someone so young,\" she purrs softly, voice warm with interest. \"Eating two people at once and keeping them down for an entire day? That’s not something most children can do. It explains why she’s so… developed for her age.\"\n\nShe gives her own noisy, bulging stomach a gentle pat, causing another thick, sloppy *gluuuurk* to rise up.\n\n\"I’m not surprised she ran straight into my circle and hugged me without fear. She already knows what it feels like to have someone inside her.\"\n\nLirael looks down at you, her golden eyes half-lidded and affectionate.\n\n\"Does knowing that make you feel any different about what I just did downstairs?\"",
+    location: "Isaac's Bedroom",
+    choices: [
+        { label: "Tell Lirael how you feel about Emily's past", next: 119 },
+        { label: "Ask if she thinks Emily might do something like that again", next: 119 },
+        { label: "Just stay quiet and cuddle closer while her stomach works", next: 119, effect: () => { gameState.liraelBond += 20; }}
+    ]
+},
+
+// 119 - Discussing Emily's Predatory Instincts
+{
+    text: function() {
+        const lbl = gameState.lastChoiceLabel || '';
+
+        if (lbl === "impressiveSkills") {
+            return "Lirael’s golden eyes brighten with genuine interest as you tell her about Emily’s kindergarten incident.\n\n\"She ate another student and a teacher… and kept them down for nearly a full day?\" she murmurs, voice low and impressed. \"That is quite the display of predatory skill for such a young child. Most adults couldn’t manage that.\"\n\nHer own stomach lets out a loud, wet *gluuuurk* as she gently rubs the noisy bulge.\n\n\"No wonder she looks curvier than other girls her age. She’s already digested two whole people. Her body clearly knows what to do with live prey. Even if your parents forbid her from eating anyone now, those instincts are strong. They won’t just vanish.\"\n\nShe tilts her head, a small smile playing on her lips.\n\n\"Does knowing she has that kind of potential inside her make you proud… or worried?\"";
+        }
+
+        if (lbl === "notScared") {
+            return "Lirael nods slowly, her expression thoughtful as you explain Emily’s past.\n\n\"So she swallowed two people whole when she was only in kindergarten,\" she says softly. \"And kept them down for almost a day until her stomach finished digesting them both. That explains why she’s already so curvier than other children her age.\"\n\nA heavy, sloppy gurgle rises from Lirael’s own belly as she continues rubbing it.\n\n\"Your parents may forbid her from eating people, but those predatory instincts are clearly still there. The birthday cake she ate in one bite… the watermelon with that loud *CRUNCH* as the rind was crushed… her body is built for this. She’s just been told not to use her full abilities.\"\n\nShe looks down at you with calm golden eyes.\n\n\"How do you feel about it now, knowing she’s already shown that kind of power?\"";
+        }
+
+        if (lbl === "quietCuddle") {
+            return "You stay quiet for a while, simply cuddling against Lirael while her loud, wet stomach continues its noisy work.\n\nAfter some time, you finally speak.\n\n\"I remembered something about Emily… When she was in kindergarten, she ate another student and a teacher. She kept them down and her stomach didn’t finish emptying until almost a whole day later. She digested both of them completely. That’s why she looks curvier than other kids her age.\"\n\nLirael is silent for a moment, then lets out a soft, low hum of interest.\n\n\"Mmm… your little sister has impressive predatory instincts,\" she murmurs. \"Even at that young age, swallowing two whole people and holding them for a full day? Most children couldn’t do that. No wonder she ran straight into my circle without fear. She already knows what it feels like to have someone inside her.\"\n\nHer hand keeps rubbing her own loudly churning belly as the wet, sloppy sounds continue.\n\n\"Your parents may be against her eating people… but those instincts are still growing.\"";
+        }
+
+        // Default fallback
+        return "Lirael listens as you tell her about Emily’s kindergarten incident — how she ate another student and a teacher, kept them down for nearly a full day, and fully digested both of them. That’s why she already looks curvier than other kids her age.\n\n\"Impressive,\" Lirael says softly, her golden eyes gleaming with interest. \"Even at that young age she showed strong predatory instincts. Your parents may forbid her from eating people now, but those urges don’t simply disappear.\"\n\nHer own stomach lets out another loud, wet gurgle as she gently rubs the noisy bulge.\n\n\"She’s already proven she can handle live prey. The birthday cake she swallowed whole… the watermelon with that loud *CRUNCH* as the rind was crushed inside her… her body clearly knows what to do.\"";
+    },
+    location: "Isaac's Bedroom",
+    choices: [
+        { label: "Admit it does worry you sometimes", next: 120, effect: () => { gameState.liraelBond += 10; }},
+        { label: "Say you're mostly used to it by now", next: 120, effect: () => { gameState.liraelBond += 15; }},
+        { label: "Ask Lirael what she thinks about Emily's potential", next: 120 },
+        { label: "Just stay quiet and cuddle while listening to both stomachs", next: 120, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 8; }}
     ]
 },
 
