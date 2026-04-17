@@ -229,61 +229,89 @@ color: #dddddd;
 </div>
 
 <script>
+
 // ================ GAME STATE ================
 var gameState = {
-// Global
+    // ====================== GLOBAL (Used throughout entire story) ======================
     currentPassage: 0,
     lastPassage: 0,
     currentDate: "August 22",
+
+    // Core Stats
     familyTension: 0,
     supernaturalAffinity: 0,
+
+    // ====================== LIRAEL'S BONDS ======================
     liraelBond: 0,
-    theoResurrectionProgress: 0,
+
+    liraelFatherBond: 0,
+    liraelMotherBond: 0,
+    liraelSisterBond: 0,
+    liraelLiraBond: 0,
+
+    // ====================== ISAAC'S (PLAYER) BONDS ======================
+    // These will be randomized only once when starting on passage 0
+    isaacMotherBond: 0,      // Will be set on first load
+    isaacSisterBond: 0,
+    isaacFatherBond: 0,
+    isaacLiraBond: 0,
+
+    // Lirael Status
+    liraelFreed: false,
+    liraelFreedMethod: 0,
+
+    // Key Items
     hasKey: false,
     hasAmulet: false,
+
+    // Progress
     statsUnlocked: false,
+    theoResurrectionProgress: 0,
+
+    // Tracking
     usedChoices: {},
     visitedPassages: {},
-    liraelFreed: false,
-//Day 1 - August 22
+    lastChoiceLabel: "",
+    whoAteGrimmold: "",
+
+    // Flag to ensure bonds are randomized only once
+    bondsInitialized: false,
+
+    // ====================== DAY 1 - August 22 ======================
     liraelFedComfort: false,
+liratoldenergyreadings: false,
     exploredWithLira: false,
     gaveGranola: false,
     askedAboutEmily: false,
     askedAboutSelf: false,
     firstVisitTo13: true,
-askedLiraelAbout: {},
-//unused currently,  I think
-/*   conversationOptionsUsed: 0, 
-  lirasPresent: false,  */ 
+    askedLiraelAbout: {},
 
-
-
-//Day 2 - August 23
-    lastChoiceLabel: "",
+    // ====================== DAY 2 - August 23 ======================
     askedAboutRoam: false,
     justConfessedToFather: false,
     firstVisitTo100: true,
-kitchenBanned: false,
-//Day 3 - August 30
-whoAteGrimmold: "",
-//Stuff commented out below is what I want to properly implement eventually
-/*
-liraelfreedmethod: 0, // 0 for not yet freed, 1 for being freed by the talisman/ritual, 2 for breaking out after you get slapped, and 3 for Dad freeing her in passage 99. I will eventually make it so that if she is not freed when you get to passage 99, you cannot progress past 99 until dad frees her
-fatherBond: 50, // change to be a set range that generates a random number in that range for the value
-motherBond: 78, // change to be a set range that generates a random number in that range for the value
-sisterBond: 62, // change to be a set range that generates a random number in that range for the value
-liraBond: 15, // change to be a set range that generates a random number in that range for the value, Lower because your family just got her before the move
-*/
+    kitchenBanned: false,
+};
+
+	// Initialize random bonds only once when starting a new game
+if (!gameState.bondsInitialized && gameState.currentPassage === 0) {
+    gameState.isaacMotherBond = Math.floor(Math.random() * 25) + 70;   // 70–94 (highest)
+    gameState.isaacSisterBond = Math.floor(Math.random() * 25) + 60;   // 60–84
+    gameState.isaacFatherBond = Math.floor(Math.random() * 30) + 45;   // 45–74
+    gameState.isaacLiraBond   = Math.floor(Math.random() * 20) + 12;   // 12–31 (lowest)
+    
+    gameState.bondsInitialized = true;
 }
+
 var passages = [
     // 0 - Arrival
     {
         text: "The old minivan's engine coughs, sputters, and finally dies with a long, rattling sigh that seems to echo just a little too loudly in the stillness. For a moment, no one moves.\n\nThen you push the door open.\n\nCool Connecticut air spills in immediately, wrapping around you like something alive. It carries the sharp bite of pine resin, the damp richness of soil that hasn't seen full sunlight in years, and underneath it all… something faintly metallic. It settles on the back of your tongue in a way you can't quite explain.\n\nYou step out.\n\nGravel crunches sharply beneath your sneakers — loud, intrusive, unnatural against the heavy quiet pressing in from all sides. Even that small sound feels like it doesn't belong here.\n\nAnd then you look up.\n\nThe house towers over you.\n\nThree stories tall. Victorian. Ancient.\n\nIts weathered wood has faded into a sickly gray-green, like something left to rot but never allowed to decay fully. Thick ropes of ivy crawl up its walls and wrap around the shutters like veins, clinging, digging in — as if the house is being pulled back into the earth… or refusing to let go.\n\nYour eyes drift upward.\n\nThe attic window.\n\nA perfect black rectangle.\n\nNo reflection. No light. Just emptiness.\n\nAnd yet… you can't shake the feeling that something inside is looking directly at you.\n\nThe woods press in close on all sides — dense, towering, ancient. Their branches knit together overhead, choking out the sky and leaving the entire property trapped in a dim, unnatural twilight. Even though it's still day, it doesn't feel like it.\n\nIt feels like evening.\n\nOr something later.\n\nYour mother, Rebecca, steps out beside you, clutching her silver cross so tightly her knuckles go white. You hear the faint creak of the chain as it strains under the pressure.\n\n\"This is God's test,\" she whispers. The words sound rehearsed. Forced. Like she's trying to convince herself more than anyone else.\n\nYour father, Pastor Michael, slams his door harder than necessary. The sound cracks through the air.\n\n\"Darkness has no place here,\" he mutters immediately, already pacing, already scanning the house like it's something that needs to be confronted. \"We'll cleanse every inch of this property if we have to.\"\n\nEmily practically explodes out of the van, bouncing on her toes, completely oblivious.\n\n\"It looks like a REAL haunted mansion!\" she says, eyes shining. \"Can we explore the attic tonight? Please? PLEASE?\"\n\nYou don't answer.\n\nYou just stand there.\n\nHands shoved deep into your hoodie pocket.\n\nYour messy dark-brown hair shifts slightly as a cold breeze slides past you. Your hazel eyes stay locked on the house.\n\nUpstate New York feels a million miles away now.\n\nAnd Theo…\n\nThat weight in your chest tightens again. Heavy. Unmoving. Unfinished.\n\nInside the foyer, standing perfectly still in the dim light, is Lira.\n\nShe looks… real.\n\nToo real.\n\nSmooth synthetic skin with a faint pearlescent sheen. Shoulder-length dark hair that falls naturally against her face. Calm blue eyes that track each of you as you enter — not mechanically, but attentively.\n\nConcerned.\n\nA soft glow pulses from the tag on her wrist.\n\n\"Lira, Model F-7, Property of Byrd Family.\"\n\nShe smiles.\n\nSmall. Warm. Almost shy.\n\n\"Hey… welcome home,\" she says gently.\n\nThere's a pause.\n\nJust long enough to feel intentional.\n\n\"I've got all the rooms set up for you.\"\n\nAnother pause.\n\nThis one heavier.\n\n\"…Just so you know…\"\n\nHer eyes flick briefly toward the floor. Then back to you.\n\n\"…the house has some pretty weird energy readings. Basement. Attic mostly.\"\n\nA faint flicker of uncertainty crosses her face.\n\n\"I can't explain it.\"\n\nShe hesitates.\n\n\"…but it's definitely there.\"",
         location: "Byrd Family Home - Foyer",
         choices: [
-            { label: "Help the family unpack", next: 1 },
-            { label: "Talk to Lira", next: 2 },
+            { label: "Help the family unpack", next: 1, effect: () => {gameState.isaacSisterBond += 6, gameState.isaacFatherBond += 8, gameState.issacLiraBond += 4, gameState.isaacMotherBond += 8;}},
+            { label: "Talk to Lira", next: 2, effect: () => {gameState.issacLiraBond += 10;} },
             { label: "Go explore the woods behind the house", next: 4 }
         ]
     },
@@ -304,7 +332,7 @@ var passages = [
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Tell me about the history of this house", next: 5 },
-            { label: "What do you mean by weird energy readings?", next: 6 },
+{ label: "What do you mean by weird energy readings?", next: 6, effect: () => {gameState.liratoldenergyreadings == true;} },
             { label: "Have people really disappeared here?", next: 7 },
             { label: "Ask Lira to explore the woods with you", next: 3 },
             { label: "Go explore the woods alone", next: 4 },
@@ -722,18 +750,24 @@ var passages = [
     // 77 - What it will be like when she's free
     { text: "Lirael's expression shifts — something between patience and quiet amusement.\n\nShe leans back slightly inside the barrier, her twelve-foot frame moving with lazy grace as the silk settles over her curves.\n\n\"When this circle is gone,\" she says softly, \"I will still be bound to the thin spot between realms. That weak boundary covers all of Hartford and the woods surrounding it. I won't be able to leave… but within these borders, I will finally be free to move with you.\"\n\nHer golden eyes are steady, unguarded.\n\n\"I can be anywhere in this town. I can walk the streets at night when no one is out, sit in the woods where the veil is thinnest, and feel the whole place breathe around me. I can visit you… not from below a basement floor, not through stone and runes. Just… there. When you need me.\"\n\nShe pauses, then continues more openly, her voice dropping into something almost husky:\n\n\"I'll finally be able to use my full abilities without this damn barrier limiting me. I can swallow people whole — pulling them down my throat and into my stomach, or take them through my ass, or pull them deep into my womb and keep them there as long as I want. Every person I eat and digest will pad out my body… making my breasts, hips, and ass even fuller and softer.\"\n\nAs she speaks, she gives her chest a slow, subtle bounce, the heavy curves shifting under the silk with deliberate ease. \"And I have… other ways of indulging you,\" she murmurs with a knowing little smile. \"Things you'll discover with me once I'm free.\"\n\nHer voice softens again as she holds your gaze.\n\n\"There are still things I can't do without more strength. Theo is one of them. The dead realm is far, and I'll need to feed deeply before I can reach him. But being free of this circle means I can be with you while I build that strength.\"\n\nShe gives you a slow, tired smile.\n\n\"That matters. To both of us. And I would rather be limited here with you than completely free somewhere else.\"", location: "Basement - Containment Circle", choices: [{ label: "Begin the ritual — you're ready", next: 76 }, { label: "Ask her to wait — you need to think", next: 65 }] },
 
-    // 78 - Ritual complete — Lirael freed from the circle
-    // FIX: was a passage-level `effect` property (never called). Moved liraelFreed into each choice effect.
-    {
-        text: "You place the final item.\n\nThe circle reacts instantly.\n\nNot with violence.\n\nWith release.\n\nThe violet light along every carved line flares white-bright for exactly one second — then dissolves upward in thin, spiraling threads that vanish before they reach the ceiling.\n\nThe carved runes in the stone floor go dark.\n\nThe hum stops.\n\nThe basement is silent.\n\nAnd Lirael takes one step forward.\n\nOver the place where the barrier was.\n\nShe stops there.\n\nJust outside.\n\nFor a moment she doesn't move at all — like she's checking that it's real.\n\nThen she exhales.\n\nLong.\n\nSlow.\n\nDeep.\n\nLike she's been holding that breath for centuries.\n\nShe looks down at you from her full twelve feet.\n\nHer golden eyes are very quiet.\n\n\"…Thank you,\" she says.\n\nJust that.\n\nNo purr in it.\n\nNo performance.\n\nJust two words, said like they mean something.",
-        location: "Basement - Containment Circle",
-        choices: [
-            // FIX: liraelFreed now set inside choice effects, not as a passage-level property
-            { label: "Ask how she feels", next: 79, effect: () => { gameState.liraelFreed = true; gameState.liraelBond += 15; gameState.supernaturalAffinity += 10; }},
-            { label: "Ask what happens now — with Theo, with your family", next: 48, effect: () => { gameState.liraelFreed = true; }},
-            { label: "Go upstairs together and see what the house does", next: 80, effect: () => { gameState.liraelFreed = true; }}
-        ]
-    },
+				// 78 - Ritual complete — Lirael freed from the circle (Method 1)
+{
+    text: "You place the final item.\n\nThe circle reacts instantly.\n\nNot with violence.\n\nWith release.\n\nThe violet light along every carved line flares white-bright for exactly one second — then dissolves upward in thin, spiraling threads that vanish before they reach the ceiling.\n\nThe carved runes in the stone floor go dark.\n\nThe hum stops.\n\nThe basement is silent.\n\nAnd Lirael takes one step forward.\n\nOver the place where the barrier was.\n\nShe stops there.\n\nJust outside.\n\nFor a moment she doesn't move at all — like she's checking that it's real.\n\nThen she exhales.\n\nLong.\n\nSlow.\n\nDeep.\n\nLike she's been holding that breath for centuries.\n\nShe looks down at you from her full twelve feet.\n\nHer golden eyes are very quiet.\n\n\"…Thank you,\" she says.\n\nJust that.\n\nNo purr in it.\n\nNo performance.\n\nJust two words, said like they mean something.",
+    location: "Basement - Containment Circle",
+    choices: [
+        { label: "Ask how she feels", next: 79, effect: () => { 
+            gameState.liraelFreed = true; 
+            gameState.liraelFreedMethod = 1;
+            gameState.liraelBond += 18;
+            gameState.supernaturalAffinity += 12; 
+        }},
+        { label: "Go upstairs alone to face what comes next", next: 80, effect: () => { 
+            gameState.liraelFreed = true; 
+            gameState.liraelFreedMethod = 1;
+            gameState.liraelBond += 12;
+        }}
+    ]
+},
 
     // 79 - Short bridge: aftermath of ritual
     { text: "The basement feels different now — lighter, yet somehow more alive.\n\nLirael stands beside you, no longer bound by glowing lines. She looks around slowly, as if tasting the air for the first time without walls.\n\n\"This town is mine now,\" she murmurs with a lazy smile. \"At least the parts where the veil is thin.\"\n\nShe glances down at you.\n\n\"And you're the only one who knows it.\"", location: "Basement", choices: [{ label: "Stay and talk with her", next: 65 }, { label: "Head upstairs — face whatever comes next", next: 55 }] },
@@ -805,6 +839,8 @@ var passages = [
             { label: "Ask Lirael to speak and prove she is not a threat", next: 90, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) }
         ]
     },
+
+
 
     // 86 - Aftermath (simplified single blob, Lirael sits with exhaustion)
     { text: "The tension in the basement is thick enough to choke on. Your father stands frozen a few feet away, hand still raised from the slap, his face a mixture of rage, fear, and disbelief. Your mother has one hand over her mouth. Emily peeks down from the stairs, wide-eyed. Lira remains motionless, her synthetic gaze flicking rapidly between everyone.\n\nLirael stays exactly where she is for several long seconds — a towering, protective wall between you and your father. Her breathing is heavy, the violet glow of the shattered barrier still flickering faintly around her pale lavender skin. Then, slowly, her massive shoulders slump. With a deep, weary sigh that seems to carry centuries of exhaustion, she lowers her raised hand and carefully lowers herself to the cold stone floor. Even sitting, she remains enormous — her twelve-foot frame folded with surprising grace. She positions herself so that her body still partially blocks the direct line between you and your father, one thick thigh and hip acting as a living shield.\n\nHer golden eyes, half-lidded with fatigue, stay locked on your father, but her voice comes out softer now, almost gentle despite the earlier growl:\n\n\"I meant what I said... I do not wish to harm any of you. But I will not allow anyone to strike the boy who freed me.\"\n\nThe silence stretches. No one seems sure what to do next.", location: "Basement - Containment Circle (Family Present)", choices: [{ label: "Try to explain everything calmly to your family", next: 91, effect: () => { gameState.liraelBond += 10; gameState.familyTension -= 5; }}, { label: "Ask Lirael to give the family some space", next: 92, effect: () => { gameState.liraelBond += 5; }}, { label: "Check on your father and try to de-escalate", next: 93, effect: () => { gameState.familyTension -= 10; }}, { label: "Stay close to Lirael and wait for someone else to speak", next: 94, effect: () => { gameState.liraelBond += 15; }}] },
@@ -1247,8 +1283,18 @@ var passages = [
 {
     text: "You and Lirael head toward the stairs together. Before you descend, Lirael pauses and looks down at you.\n\n\"They might find this form a bit much right after everything,\" she says softly. \"Let me make it easier.\"\n\nShe closes her eyes for a moment. A gentle ripple of violet energy washes over her body as she shrinks smoothly down to her 6'1\" form, maintaining perfect proportions. As she gets smaller, the remaining bulge in her stomach becomes much more prominent — the partially digested remains of the burglar are now clearly visible as a soft, rounded swell that sits heavily in her midsection. The clothes you gave her earlier shrink with her, still fitting perfectly thanks to her essence imbued in the fabric.\n\nShe opens her golden eyes again and gives you a small, calm smile.\n\n\"Better?\" she asks, offering you her hand.\n\nYou both head downstairs just as the front door opens.\n\nYour family walks in carrying several large pizza boxes, the warm, cheesy smell immediately filling the house. Emily is chatting excitedly. Your mother looks tired but relieved. Your father is carrying the heaviest bags.\n\nThe moment they see you and Lirael, everyone stops.\n\nTheir eyes go straight to the noticeable, rounded bulge in Lirael’s stomach.\n\nBefore anyone can panic, you quickly speak up.\n\n\"There was a burglar,\" you explain. \"He broke in while you were gone. Lirael… took care of him. She swallowed him whole. That’s what you’re seeing right now. She’s digesting him at a natural pace.\"\n\nLirael stays calm and respectful, her hands visible and open.\n\n\"I only acted to protect Isaac and your home,\" she says softly. \"He was stealing from you. I kept him contained so he couldn’t hurt anyone.\"\n\nEmily’s eyes go wide with fascination rather than fear.\n\n\"Whoa… that’s so cool,\" she says, stepping closer without hesitation. She reaches out and pokes Lirael’s stomach a few times. Her finger sinks in a little into the soft, warm swell with each gentle press.\n\nThe mother gives Lirael a small, thankful smile, clearly relieved that the threat was handled.\n\nYour father stares at the bulge for a long moment, then lets out a slow breath. A slight, reluctant smile appears on his face.\n\n\"…Thank you,\" he says gruffly. \"For protecting my son and our home.\"\n\nHe gestures toward the dining room.\n\n\"You’re eating with the rest of the family tonight. And… proceed at the pace you’re going with digesting him. No need to rush it.\"\n\nLirael bows her head respectfully.\n\n\"Thank you,\" she says quietly. \"I will.\"",
     location: "Byrd Family Home - Living Room (Evening)",
-    choices: [
-        { label: "Sit down for dinner with everyone", next: 124 }
+choices: [
+        { label: "Sit down for dinner with everyone", next: 124, effect: () => { 
+            gameState.isaacFatherBond += 10;
+            gameState.isaacMotherBond += 8;
+            gameState.isaacSisterBond += 12;
+            gameState.issacLiraBond += 8;
+            gameState.liraelFatherBond += 10;
+            gameState.liraelBond += 8;
+            gameState.liraelMotherBond += 6;
+            gameState.liraelSisterBond += 10;
+            gameState.liraelLiraBond += 4;
+        }}
     ]
 },
 
@@ -1340,7 +1386,6 @@ var passages = [
     text: function() {
         if (gameState.lastChoiceLabel === "Try to work as team to get Lirael inside") {
             
-            // Random chance: 65% success (Lirael keeps him), 35% failure (vomits into Emily)
             const successChance = Math.random();
             const success = successChance > 0.35;
             
@@ -1358,11 +1403,11 @@ var passages = [
             return "You look at Lirael’s hugely swollen stomach and suggest she quick-digests Grimmold right now so the family can get back inside more easily.\n\n\"If you insta-digest him, we could all go inside without having to struggle with… that,\" you say, gesturing toward the massive double-sized bulge.\n\nLirael considers it for a moment, then nods slowly.\n\n\"Very well… but only if Emily does not see,\" she says calmly. She turns to your mother. \"Could you please take Emily upstairs for a few minutes? I do not want her to witness this.\"\n\nYour mother understands immediately and gently takes Emily’s hand.\n\n\"Come on, sweetheart. Let’s go pick out your pajamas,\" she says, leading Emily upstairs with Lira (the AI) following to help.\n\nOnce Emily is out of sight, Lirael stands up straighter. A bright violet glow suddenly surges around her body. She begins to rapidly digest Grimmold. Loud, violent *glorps* and wet churning fill the yard as the massive bulge quickly shrinks.\n\nAs the digestion accelerates, Lirael’s body absorbs the energy and mass. Her hips widen noticeably, her thighs thicken, and her breasts and ass become significantly fuller and curvier. The sudden increase in her curves, combined with the rapid expansion of energy, causes her current clothes to rip apart completely, tearing at the seams and falling away in pieces.\n\nWithin less than a minute, her belly has reduced to a much smaller, rounded swell. Lirael now stands noticeably thicker and curvier than before. She doesn’t seem embarrassed at all. She simply walks over to her tattered robe on the grass, slips it back on, and adjusts it around her new, voluptuous figure.\n\n\"There,\" she says softly, now properly clothed again. \"That should make things easier. Let us go inside.\"";
         }
         
-        // Shared closing — now changes based on who ate Grimmold
+        // Shared closing — changes based on who ate Grimmold
         if (gameState.whoAteGrimmold === "emily") {
-            return "\n\nNow safely inside the living room, Emily sits on the large couch with her enormously swollen belly — easily 2–3 times her body size — resting heavily on her lap and spilling over the edges. The loud, extremely wet sounds of digestion fill the room as Grimmold continues to break down inside her.\n\nYour father glances at the massive dome, then at the rest of the family.\n\n\"We’ll figure this out,\" he says quietly. \"One night at a time.\"";
+            return "\n\nNow safely inside the living room, Emily sits on the large couch with her enormously swollen belly — easily 2–3 times her body size — resting heavily on her lap and spilling over the edges. The loud, extremely wet sounds of digestion fill the room as Grimmold continues to break down inside her.\n\nYour father stares at the massive dome for a long moment, then looks at Emily with a mix of concern and disbelief.\n\n\"Emily… are you sure you’ll be able to keep him down?\" he asks, voice tight.";
         } else {
-            return "\n\nNow safely inside the living room, Lirael sits on the large couch. Her stomach — while still noticeably rounded and active — is far more manageable than before. Thick, wet gurgles and occasional sloshes can still be heard as the remains of Grimmold continue to break down.\n\nYour father glances at her, then at the rest of the family.\n\n\"We’ll figure this out,\" he says quietly. \"One night at a time.\"";
+            return "\n\nNow safely inside the living room, Lirael sits on the large couch. Her stomach — while still noticeably rounded and active — is far more manageable than before. Thick, wet gurgles and occasional sloshes can still be heard as the remains of Grimmold continue to break down.\n\nYour father glances at her swollen midsection, then asks quietly,\n\n\"Lirael… are you sure you’ll be able to keep him down?\"";
         }
     },
     location: "Byrd Family Home - Living Room (Evening)",
