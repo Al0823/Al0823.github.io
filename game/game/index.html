@@ -936,7 +936,6 @@ var passages = [
         { label: "Offer her some new clothes", next: 101 },
         { label: "Tell Lirael to sit on the couch for a moment while you go to the kitchen to ask your father if Lirael can sleep in the Guest Bedroom", next: 102 },
         { label: "Take her to the kitchen and see how your father reacts", next: 103, condition: () => !gameState.kitchenBanned },
-        { label: "Take her over to the Couch to sit down and talk", next: 104 }
     ]
 },
 
@@ -970,15 +969,11 @@ var passages = [
     ]
 },
 
-// 104 - Sit on the couch and talk
+// 104 - Ask if she's comfortable sleeping in your room
 {
-    text: "You guide Lirael over to the large couch in the living room. She lowers herself onto it with surprising grace for her size, the cushions sinking under her weight.\n\nOnce seated, she turns toward you, one arm resting along the back of the couch. Her pale lavender skin glows softly in the lamplight, and her golden eyes are warm and attentive.\n\n\"This is… nice,\" she says softly, a small, genuine smile curving her lips. \"Just sitting here with you, without a glowing prison between us. It feels almost normal.\"",
-    location: "Byrd Family Home - Living Room",
-    choices: [
-        { label: "Ask her how she's feeling now that she's free", next: 105, effect: () => { gameState.liraelBond += 12; }},
-        { label: "Ask her what she wants to do first now that she's upstairs", next: 105 },
-        { label: "Just sit in comfortable silence with her for a while", next: 105, effect: () => { gameState.liraelBond += 18; gameState.supernaturalAffinity += 8; }}
-    ]
+    text: "Lirael looks at you with warm golden eyes.\n\n\"I will be very comfortable here,\" she says softly. \"Thank you for letting me stay close to you.\"",
+    location: "Isaac's Bedroom",
+    choices: [{ label: "Continue", next: 100 }]
 },
 
 // 105 - Changing Scene (Mini-passage style)
@@ -1007,126 +1002,113 @@ var passages = [
     choices: [{ label: "Continue", next: 100 }]
 },
 
-// 104 - Ask if she's comfortable sleeping in your room
-{
-    text: "Lirael looks at you with warm golden eyes.\n\n\"I will be very comfortable here,\" she says softly. \"Thank you for letting me stay close to you.\"",
-    location: "Isaac's Bedroom",
-    choices: [{ label: "Continue", next: 100 }]
-},
 
-// 105 - Late night talk / silence option (from 104)
-{
-    text: "You turn toward the bean bag chair in the darkness.\n\nLirael is watching you quietly, her golden eyes soft.\n\n\"You’re very kind to me,\" she whispers. \"Most humans would be terrified… but you treat me like I belong here.\"",
-    location: "Isaac's Bedroom",
-    choices: [
-        { label: "Tell her you want her here", next: 100, effect: () => { gameState.liraelBond += 20; }},
-        { label: "Just sit in silence with her", next: 100, effect: () => { gameState.liraelBond += 15; }}
-    ]
-},
 
-// 106 - Bridge to Dinner
+
+
+// 107 - Bridge to Dinner
 {
     text: "After spending some time with Lirael, the smell of dinner begins to drift through the house. Your father calls everyone to the table.\n\nYou and Lirael head to the dining room together. The meal is tense but quiet. Lirael stays respectful and mostly silent, as promised.\n\nOnce dinner ends, you take her upstairs to your room for the night.",
     location: "Byrd Family Home - Dining Room",
     choices: [
-        { label: "Continue to bedtime", next: 107 }
+        { label: "Continue to bedtime", next: 108 }
     ]
 },
 
-// 107 - Bedtime Scene (Bean Bag + Bed)
+// 108 - Bedtime Scene (Bean Bag + Bed)
 {
     text: "Lirael settles into the large bean bag chair in the corner of your room with a contented sigh, her curvaceous 6'1\" body sinking deeply into the soft material.\n\nYou climb into your own bed, feeling strangely safe with her presence nearby.\n\nThe room is quiet except for the faint creaks of the old house.",
     location: "Isaac's Bedroom - Night",
     choices: [
-        { label: "Drift off to sleep with Lirael", next: 108 }
+        { label: "Drift off to sleep with Lirael", next: 109 }
     ]
 },
 
-// 108 - Held While Falling Asleep
+// 109 - Held While Falling Asleep
 {
     text: "You lie in bed, eyes growing heavy. Lirael quietly rises from the bean bag chair and walks over to you. She sits on the edge of the bed, then gently pulls you into her arms, cradling your head against her soft, warm chest.\n\nHer pale lavender skin is incredibly comforting. One large hand strokes your hair slowly while the other rests protectively on your back.\n\n\"Sleep, little human,\" she whispers, voice soft and velvety. \"I’ve got you.\"\n\nYou drift off to sleep wrapped safely in her embrace.",
     location: "Isaac's Bedroom - Night",
     choices: [
-        { label: "End the day", next: 109 }
+        { label: "End the day", next: 110 }
     ]
 },
 
-// 109 - Morning Rundown + Time Skip (Lirael Proven Worthy)
+// 110 - Morning Rundown + Time Skip (Lirael Proven Worthy)
 {
     text: "You wake up this next morning feeling more rested than you have in a long time.\n\nLirael is beside the bed, watching over you with soft golden eyes. She smiles when she sees you stir.\n\n\"Good morning,\" she says quietly.\n\n---\n\nOver the past few days Lirael has been on her best behavior. She helped with small chores, stayed out of sight when your father was nearby, and only fed on comfort. Your family has slowly begun to relax around her.\n\nThis morning your father calls everyone together.\n\n\"I’ve been watching her closely,\" he says, his voice still cautious but noticeably softer than before. \"She hasn’t broken any rules. She hasn’t harmed anyone. She’s even been… helpful.\"\n\nHe looks at Lirael directly.\n\n\"I’ve decided she can stay. And if anyone ever tries to do harm to this family… you have my permission to use your abilities to protect us.\"\n\nLirael bows her head respectfully, a small, grateful smile on her lips.\n\n\"Thank you,\" she says softly. \"I will keep your family safe.\"\n\nThe house feels different now — lighter, warmer, and more alive with her here.",
     location: "Isaac's Bedroom - Morning",
     choices: [
-        { label: "Continue the story", next: 110 }
+        { label: "Continue the story", next: 111 }
     ],
     effect: () => {
         gameState.currentDate = "August 30";
     }
 },
 
-// 110 - Saturday Grocery Day (Left Alone with Lirael)
+// 111 - Saturday Grocery Day (Left Alone with Lirael)
 {
     text: "The morning after your father's reluctant decision passes quietly. By the time breakfast is finished, the calendar on the wall reminds everyone what day it is.\n\nSaturday.\n\nGrocery day.\n\nYour parents have kept the same routine for years: they take Emily with them to the big supermarket in town, and usually bring Lira along to help carry bags and keep Emily entertained. It’s always been their way of giving you a few hours of peace and quiet at the house alone.\n\nThis time, however, things feel different.\n\nYour father glances at Lirael, then at you.\n\n\"We’re heading out for groceries,\" he says, his tone still carrying a trace of caution. \"Emily and Lira are coming with us. We’ll be gone a couple of hours.\"\n\nHe looks directly at Lirael.\n\n\"You stay here with Isaac. Don’t leave the house. Don’t go near the basement unless he’s with you. And don’t… cause any trouble.\"\n\nLirael bows her head respectfully, her 6'1\" frame calm and non-threatening.\n\n\"I understand,\" she says softly. \"I’ll stay right here with him.\"\n\nYour mother gives you one last concerned look, then gathers her purse and keys. Emily bounces excitedly by the door, already talking about what snacks she wants to pick out.\n\nA few minutes later, the minivan pulls out of the driveway. The sound of the engine fades down the long wooded road until the house is completely silent.\n\nYou and Lirael are alone.\n\nFor the first time since she was freed from the circle, the entire house belongs to just the two of you.",
     location: "Byrd Family Home - Living Room (Saturday Morning)",
     choices: [
-        { label: "Go up to your room and relax for a bit with Lirael", next: 111 }
+        { label: "Go up to your room and relax for a bit with Lirael", next: 112 }
     ]
 },
 
-// 111 - Relaxing in Isaac's Room (Cuddle + Crash)
+// 112 - Relaxing in Isaac's Room (Cuddle + Crash)
 {
     text: "You nod toward the stairs and say, \"Come on, let's go up to my room and relax for a bit.\"\n\nLirael gives you a warm, gentle smile and follows you upstairs without a word. Her 6'1\" frame moves with that familiar lazy grace, the borrowed sweatpants and turtleneck hugging her generous curves as she walks.\n\nOnce inside your room, she closes the door softly behind her. Without hesitation, she steps close and pulls you into a tight, enveloping cuddle. Her arms wrap around you, one hand gently cradling the back of your head while the other rests protectively on your lower back. She guides you both toward the bed, then settles down with you nestled against her soft, warm chest.\n\nHer pale lavender skin is incredibly comforting, radiating a gentle heat. The faint sweet, musky vanilla scent that always seems to cling to her surrounds you completely.\n\n\"There…\" she murmurs softly, her velvety voice vibrating through her chest. \"Just relax with me for a while. You've earned it.\"\n\nYou let yourself sink into her embrace. Her body is plush and yielding, yet strong enough to make you feel completely safe. Time slips by peacefully as you rest against her, listening to the slow, steady rhythm of her breathing.\n\nEventually, exhaustion from the last few days catches up with you, and you drift off in her arms.\n\n---\n\nA loud, sudden crash echoes from downstairs — the unmistakable sound of something heavy shattering on the floor.\n\nYou jolt awake, heart pounding.\n\nLirael's head shoots up instantly, her golden eyes snapping open, instantly alert. Her arms tighten around you protectively for a split second before she relaxes them.\n\nShe listens for a moment, then looks down at you with calm but serious golden eyes.\n\n\"...You should go investigate that noise,\" she says quietly, her voice low and steady. \"I'll stay right here unless you need me. Be careful, Isaac.\"",
     location: "Isaac's Bedroom",
     choices: [
-        { label: "Get up and investigate the noise", next: 112 }
+        { label: "Get up and investigate the noise", next: 113 }
     ]
 },
 
-// 112 - The Burglar
+// 113 - The Burglar
 {
     text: "You quietly slip out of Lirael's arms and get to your feet, heart already beating faster. You creep toward the door on silent feet, careful not to make a sound on the old floorboards. Lirael stays perfectly still on the bed, watching you with alert golden eyes but saying nothing.\n\nYou ease the bedroom door open just enough to slip through, then begin creeping down the stairs, keeping close to the wall where the steps are least likely to creak. Every small sound feels deafening in the quiet house.\n\nWhen you reach the bottom, you poke your head around the corner toward the living room — the direction the crash came from.\n\nThere, in the bright afternoon sunlight filtering through the curtains, you see him.\n\nA man dressed in dark clothes, wearing a ski mask, crouched near the overturned side table. Shattered glass from a broken lamp is scattered across the floor. He's hurriedly stuffing small items into a black backpack — your mother's silver candlesticks, a few electronics, and what looks like your father's watch.\n\nA burglar.\n\nYour stomach drops. You pull your head back immediately and retreat as quietly and quickly as you can, heart hammering in your chest. You hurry back up the stairs, trying not to make any noise, and slip back into your room, closing the door behind you.\n\nLirael is already sitting up on the edge of the bed, her golden eyes fixed on you with concern.\n\n\"What is it?\" she asks softly.\n\nYou whisper quickly, \"There's a burglar downstairs. He's stealing stuff right now.\"\n\nLirael's expression shifts instantly. The gentle warmth disappears, replaced by something much more serious — and predatory.\n\nShe stands up smoothly.\n\n\"I'll take care of it,\" she says, her voice low and calm, but carrying an unmistakable edge.\n\nAs she speaks, her body begins to grow. A soft ripple of violet energy washes over her. She expands rapidly, maintaining perfect proportions, until she reaches her full staggering twelve-foot height once again. The sweatpants and turtleneck you gave her stretch and grow with her, the fabric shimmering faintly as if imbued with her own essence — they fit her massive frame perfectly without tearing.\n\nNow towering over you again, she looks down with calm, focused golden eyes.\n\n\"Stay behind me,\" she murmurs.\n\nShe moves toward the door with surprising quiet for her size, and you follow closely behind her as she heads downstairs. The old steps barely creak under her weight — as if the house itself is holding its breath.\n\nYou both move silently through the hallway and stop just outside the kitchen entrance. The burglar is still inside, rummaging through drawers, unaware of the massive presence now looming behind him.\n\nLirael steps into the kitchen without hesitation. In one smooth, powerful motion, she reaches down and grabs the man by the back of his shirt, lifting him clean off the ground as if he weighs nothing.\n\nThe burglar lets out a startled yelp, legs kicking uselessly in the air.\n\nBefore Lirael can do anything more, you quickly say, \"Wait — before you do anything, let me check him. I need to see if he has any of our stuff.\"\n\nLirael pauses, holding the struggling man effortlessly in the air. She turns him slightly so you can pat him down.\n\nYou quickly search his pockets and backpack. You find your mother's candlesticks, your father's watch, a few small electronics, and some cash that definitely isn't his. You pull everything out and set it on the counter.\n\nLirael waits patiently until you're done.\n\nOnce you've stepped back, she raises the burglar higher, bringing him level with her face. Her golden eyes are half-lidded, calm, and hungry.\n\nWithout a word, she opens her mouth — wide.\n\nThe burglar’s eyes go wide with terror as she smoothly lifts him toward it.\n\nIn one slow, deliberate motion, she swallows him whole.\n\nNo chewing.\n\nNo struggle.\n\nJust a long, smooth gulp as his body slides down her throat, forming a visible, heavy bulge that travels downward until it settles deep in her stomach.\n\nLirael lets out a soft, satisfied sigh, one hand resting gently on her now slightly fuller belly.\n\n\"Mmm… much better,\" she murmurs, voice velvety and content. \"He won't be bothering anyone anymore.\"",
     location: "Byrd Family Home - Kitchen (Afternoon)",
     choices: [
-        { label: "React to what just happened", next: 113 }
+        { label: "React to what just happened", next: 114 }
     ]
 },
 
-// 113 - After the Swallowing
+// 114 - After the Swallowing
 {
     text: "You stand there for a moment, eyes fixed on the spot where the burglar had been. A flicker of surprise crosses your face, but it fades quickly. In this world, abilities like this aren't unheard of — especially among women and every AI companion like Lira. Still, seeing it happen right in front of you is something else.\n\nAlmost immediately, loud, wet, sloppy sounds erupt from Lirael's belly. Thick, squelching gurgles and heavy, churning glurks echo through the quiet kitchen as her stomach gets to work. The visible bulge shifts and compresses with every wet, noisy squeeze, accompanied by deep, bubbling glurps and messy, liquid sloshes that make the whole process impossible to ignore.\n\nLirael lets out a soft, satisfied sigh, one large hand gently rubbing slow circles over her now slightly fuller belly. The noisy, wet digestion continues loudly under her palm — wet squelches, thick gurgles, and sloppy churning sounds filling the room as her body begins breaking down her meal.\n\nShe looks down at you with calm, half-lidded golden eyes, her expression gentle.\n\n\"It's done,\" she says softly, her deep velvety voice carrying quiet reassurance even as her stomach keeps up its wet, busy work. \"He won't hurt anyone or steal from your family again.\"\n\nThe loud, sloppy sounds of digestion continue without pause — wet glurks, bubbling squelches, and heavy, liquid churns echoing between you.\n\nShe takes a slow step closer, still towering over you at her full twelve feet.\n\n\"Are you alright, Isaac?\" she asks, tilting her head slightly. \"I know that was sudden. But abilities like this aren't exactly rare — especially for someone like me. He made his choice the moment he broke into your home.\"\n\nHer free hand reaches out gently, hovering near your shoulder as if waiting for permission to comfort you.",
     location: "Byrd Family Home - Kitchen (Afternoon)",
     choices: [
-        { label: "Ask Lirael how she feels after eating him", next: 114 },
-        { label: "Tell her you're okay but still processing what just happened", next: 114 },
-        { label: "Ask what will happen to the burglar now", next: 114 },
-        { label: "Just stand there quietly with her for a moment", next: 114, effect: () => { gameState.liraelBond += 15; }}
+        { label: "Ask Lirael how she feels after eating him", next: 115 },
+        { label: "Tell her you're okay but still processing what just happened", next: 115 },
+        { label: "Ask what will happen to the burglar now", next: 115 },
+        { label: "Just stand there quietly with her for a moment", next: 115, effect: () => { gameState.liraelBond += 15; }}
     ]
 },
 
-// 114 - After the Swallowing (Reaction)
+// 115 - After the Swallowing (Reaction)
 {
     text: "You take a slow breath, still feeling the weight of what just happened, but not overwhelmed by it. In this world, vore wasn't some impossible myth — plenty of women could do it, and every AI companion like Lira was fully capable. Still, watching it happen so casually in your own kitchen was a lot to take in.\n\nThe loud, wet digestion sounds continue from Lirael's belly — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps that echo through the quiet room. The heavy bulge in her midsection shifts visibly with every noisy contraction.\n\nLirael keeps one hand resting gently on her stomach, rubbing slow circles as the wet, noisy sounds grow louder for a moment. She watches you carefully with those half-lidded golden eyes, patient and calm.\n\n\"He's still alive in there,\" she says softly, her velvety voice warm and matter-of-fact. \"Right now he's sitting in a small pool of acid. It's only a little for now — I can control how much I release and how fast it works. Unlike humans, who have no control once someone is swallowed, I decide everything.\"\n\nShe gives her belly a gentle, affectionate pat, causing another loud, wet gurgle to rise up.\n\n\"I could end him instantly if I wanted to. One thought and the acids would surge. But right now… he's just sitting there. Warm. Surrounded. Waiting.\"\n\nThe sloppy, churning sounds continue — thick glurks, bubbling squelches, and heavy liquid movements echoing between you.\n\nHer expression softens as she looks at you.\n\n\"I'm not going to pretend this is normal for you yet. But I'm here. If you want to talk about it… or if you just want to sit with me while my body keeps him like this… I'm right here.\"",
     location: "Byrd Family Home - Kitchen (Afternoon)",
     choices: [
-        { label: "Ask her how it feels to have someone inside her", next: 115 },
-        { label: "Tell her you're okay, just surprised", next: 115, effect: () => { gameState.liraelBond += 12; }},
-        { label: "Ask what will happen to him eventually", next: 115 },
-        { label: "Just sit quietly with her and listen to the sounds", next: 115, effect: () => { gameState.liraelBond += 18; gameState.supernaturalAffinity += 8; }}
+        { label: "Ask her how it feels to have someone inside her", next: 116 },
+        { label: "Tell her you're okay, just surprised", next: 116, effect: () => { gameState.liraelBond += 12; }},
+        { label: "Ask what will happen to him eventually", next: 116 },
+        { label: "Just sit quietly with her and listen to the sounds", next: 116, effect: () => { gameState.liraelBond += 18; gameState.supernaturalAffinity += 8; }}
     ]
 },
 
-// 115 - Talking About the Burglar Inside Her
+// 116 - Talking About the Burglar Inside Her
 {
     text: "Lirael keeps one hand resting on her softly churning belly, the loud, wet sounds of digestion still filling the kitchen — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps that rise and fall with every slow movement of her stomach.\n\nShe looks down at you with calm, half-lidded golden eyes, patient and attentive.\n\n\"He's still sitting there,\" she murmurs softly, her velvety voice gentle. \"In that small pool of acid. It's warm… but not burning him yet. I haven't released enough to really hurt him. He's probably scared, but he's alive. For now.\"\n\nAnother loud, wet glurk echoes from her midsection as the bulge shifts slightly.\n\n\"I can keep him like this for hours if I want,\" she continues, rubbing slow circles over the noisy bulge. \"Or I can make the acids surge and end him in seconds. Most humans can't control it once they swallow someone — it just happens. But I can choose exactly how fast it goes.\"\n\nShe tilts her head, studying your face.\n\n\"Does that bother you? Knowing he's still conscious in there… sitting in my stomach, listening to everything? Or does it make you feel safer, knowing I have that kind of control?\"\n\nThe wet, sloppy digestion sounds continue steadily — thick squelches, bubbling gurgles, and heavy liquid churns — as if her body is patiently waiting for her decision.",
     location: "Byrd Family Home - Kitchen (Afternoon)",
     choices: [
-        { label: "Ask her how it feels to have someone inside her", next: 116 },
-        { label: "Tell her you're okay, just surprised", next: 116, effect: () => { gameState.liraelBond += 12; }},
-        { label: "Tell her it makes you feel safer, but digest him naturally", next: 116 },
-        { label: "Just sit quietly with her and listen to the sounds", next: 116, effect: () => { gameState.liraelBond += 15; gameState.supernaturalAffinity += 8; }}
+        { label: "Ask her how it feels to have someone inside her", next: 117 },
+        { label: "Tell her you're okay, just surprised", next: 117, effect: () => { gameState.liraelBond += 12, gameState.lastChoiceLabel = "howItFeels"; }},
+        { label: "Tell her it makes you feel safer, but digest him naturally", next: 117, effect: () => { gameState.lastChoiceLabel = "okaySurprised";} },
+        { label: "Just sit quietly with her and listen to the sounds", next: 117, effect: () => { gameState.liraelBond += 15, gameState.supernaturalAffinity += 8, gameState.lastChoiceLabel = "saferButNatural"; }}
     ]
 },
 
-// 116 - Continuing the Conversation After the Swallowing
+// 117 - Continuing the Conversation After the Swallowing
 {
     text: function() {
         const lbl = gameState.lastChoiceLabel || '';
@@ -1148,31 +1130,31 @@ var passages = [
     },
     location: "Byrd Family Home - Kitchen (Afternoon)",
     choices: [
-        { label: "Go back upstairs to relax with Lirael", next: 117 }
+        { label: "Go back upstairs to relax with Lirael", next: 118 }
     ]
 },
 
-// 117 - Upstairs Cuddle Session
+// 118 - Upstairs Cuddle Session
 {
     text: "You nod toward the stairs and say softly, \"Let’s go back upstairs and relax.\"\n\nLirael gives you a warm, understanding smile. She follows you quietly up the stairs, her twelve-foot frame moving with that familiar lazy grace. The loud, wet sounds of her digestion travel with her — thick, sloppy gurgles and messy squelching churns that have grown even louder and wetter than before, echoing softly through the hallway as her stomach continues its busy work.\n\nOnce inside your room, she closes the door behind her with a gentle click. Without a word she steps close and pulls you into a very tight, enveloping cuddle. She lowers herself onto your bed first, then guides you down so you’re nestled fully against her massive, soft body.\n\nHer arms wrap around you completely, one hand cradling the back of your head while the other rests low on your back, pressing you firmly into the warm, plush swell of her chest and belly. Her pale lavender skin is incredibly soft and warm, and the loud, wet digestion sounds are even more intense up close — heavy, bubbling glurks, thick squelching churns, and messy, liquid sloshes vibrating right against your body as the bulge in her stomach shifts and works noisily.\n\nShe holds you close, almost possessively, her chin resting gently on top of your head.\n\n\"There… just relax with me,\" she whispers, her velvety voice low and soothing. \"You’ve been through a lot today. Let my body take care of the rest.\"\n\nThe noisy, wet sounds of her stomach continue without pause — loud, sloppy gurgles and deep, churning glurps pressing right against you as she slowly rocks you in her arms. The heavy bulge in her belly moves and compresses with every wet sound.\n\nYou stay like that for a long while, wrapped safely in her warmth.\n\nThen — suddenly — something clicks in your mind.\n\nA memory surfaces, sharp and clear.\n\nYou remember something important.",
     location: "Isaac's Bedroom",
     choices: [
-        { label: "Tell Lirael what you remembered", next: 118 }
+        { label: "Tell Lirael what you remembered", next: 119 }
     ]
 },
 
-// 118 - Remembering Emily's Kindergarten Incident
+// 119 - Remembering Emily's Kindergarten Incident
 {
     text: "You lift your head slightly from Lirael’s warm chest and speak quietly.\n\n\"I just remembered something… about Emily.\"\n\nLirael’s golden eyes open a little wider, curious and attentive. She keeps holding you close, one hand gently stroking your back as her noisy stomach continues its loud, wet work.\n\nYou continue, voice low.\n\n\"When she was in Kindergarten… she ate another student. And a teacher. Both of them. She kept them down the whole time. Her stomach didn’t finish emptying until almost a full day later. She digested both of them completely. That’s why she looks the way she does for her age… curvier than the other kids.\"\n\nLirael is quiet for a moment, the only sound the loud, sloppy gurgles and thick squelches coming from her own belly.\n\nThen a slow, genuine smile spreads across her face.\n\n\"Mmm… your little sister has quite the impressive predatory skills for someone so young,\" she purrs softly, voice warm with interest. \"Eating two people at once and keeping them down for an entire day? That’s not something most children can do. It explains why she’s so… developed for her age.\"\n\nShe gives her own noisy, bulging stomach a gentle pat, causing another loud, wet gurgle to rise up.\n\n\"I’m not surprised she ran straight into my circle and hugged me without fear. She already knows what it feels like to have someone inside her.\"",
     location: "Isaac's Bedroom",
     choices: [
-        { label: "Tell Lirael how you feel about Emily's past", next: 119, effect: () => { gameState.lastChoiceLabel = "impressiveSkills"; }},
-        { label: "Say you're not really scared of it", next: 119, effect: () => { gameState.lastChoiceLabel = "notScared"; }},
-        { label: "Just stay quiet and cuddle while thinking about it", next: 119, effect: () => { gameState.lastChoiceLabel = "quietCuddle"; }}
+        { label: "Tell Lirael how you feel about Emily's past", next: 120, effect: () => { gameState.lastChoiceLabel = "impressiveSkills"; }},
+        { label: "Say you're not really scared of it", next: 120, effect: () => { gameState.lastChoiceLabel = "notScared"; }},
+        { label: "Just stay quiet and cuddle while thinking about it", next: 120, effect: () => { gameState.lastChoiceLabel = "quietCuddle"; }}
     ]
 },
 
-// 119 - Discussing Emily's Current Predatory Instincts
+// 120 - Discussing Emily's Current Predatory Instincts
 {
     text: function() {
         const lbl = gameState.lastChoiceLabel || '';
@@ -1194,14 +1176,14 @@ var passages = [
     },
     location: "Isaac's Bedroom",
     choices: [
-        { label: "Admit it does worry you sometimes", next: 120, effect: () => { gameState.liraelBond += 10; }},
-        { label: "Say you're mostly used to it by now", next: 120, effect: () => { gameState.liraelBond += 15; }},
-        { label: "Ask Lirael what she thinks about Emily's potential", next: 120 },
-        { label: "Just stay quiet and cuddle while listening to Lirael's stomach", next: 120, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 8; }}
+        { label: "Admit it does worry you sometimes", next: 121, effect: () => { gameState.liraelBond += 10, gameState.lastChoiceLabel = "worry"; }},
+        { label: "Say you're mostly used to it by now", next: 121, effect: () => { gameState.liraelBond += 15, gameState.lastChoiceLabel = "usedToIt"; }},
+        { label: "Ask Lirael what she thinks about Emily's potential", next: 121, effect: () => {gameState.lastChoiceLabel = "potential";}},
+        { label: "Just stay quiet and cuddle while listening to Lirael's stomach", next: 121, effect: () => { gameState.liraelBond += 20, gameState.supernaturalAffinity += 8, gameState.lastChoiceLabel = "quietCuddle120"; }}
     ]
 },
 
-// 120 - Quiet Moment with Lirael
+// 121 - Quiet Moment with Lirael
 {
     text: function() {
         const lbl = gameState.lastChoiceLabel || '';
@@ -1218,7 +1200,7 @@ var passages = [
             return "You ask Lirael what she thinks about Emily’s potential.\n\nShe pauses for a moment, her hand still resting on her noisy, churning stomach as the wet, sloppy sounds continue.\n\n\"She has real potential,\" Lirael says thoughtfully. \"Swallowing two whole people at such a young age and keeping them down for nearly a day? That’s impressive control. Most children couldn’t do that. Even the cake and the watermelon show her body is efficient and strong.\"\n\nShe looks down at you with calm golden eyes.\n\n\"If she were allowed to explore those instincts safely… she could become very powerful one day. But right now your parents are holding her back. That kind of suppression can be dangerous if it builds up too long.\"";
         }
 
-        if (lbl === "quietCuddle119") {
+        if (lbl === "quietCuddle120") {
             return "You choose to stay quiet and simply cuddle closer, listening to Lirael’s loud, wet stomach as it continues its messy work — thick gurgles, sloppy squelches, and deep bubbling churns vibrating against you.\n\nLirael doesn’t push for words. She just holds you gently, one hand stroking your hair while the other rests on her own noisy belly.\n\nAfter a long, comfortable silence, she speaks softly.\n\n\"Emily’s instincts are strong… but so is her love for this family. She ran to me when I was crying because she wanted to help. That part of her is just as real as the predator inside.\"";
         }
 
@@ -1227,13 +1209,13 @@ var passages = [
     },
     location: "Isaac's Bedroom",
     choices: [
-        { label: "Ask if Lirael would ever help guide Emily's instincts", next: 121 },
-        { label: "Tell her you’re glad she’s here with you", next: 121, effect: () => { gameState.liraelBond += 25; }},
-        { label: "Just keep cuddling in silence", next: 121, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 10; }}
+        { label: "Ask if Lirael would ever help guide Emily's instincts", next: 122 },
+        { label: "Tell her you’re glad she’s here with you", next: 122, effect: () => { gameState.liraelBond += 25; }},
+        { label: "Just keep cuddling in silence", next: 122, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 10; }}
     ]
 },
 
-// 121 - Three Hours Later (Family Returning)
+// 122 - Three Hours Later (Family Returning)
 {
     text: function() {
         const lbl = gameState.lastChoiceLabel || '';
@@ -1254,7 +1236,36 @@ var passages = [
     },
     location: "Isaac's Bedroom (Late Afternoon)",
     choices: [
-        { label: "Go downstairs with Lirael to greet your family", next: 122 }
+        { label: "Go downstairs with Lirael to greet your family", next: 123 }
+    ]
+},
+
+// 123 - Family Returns Home with Pizza
+{
+    text: "You and Lirael head toward the stairs together. Before you descend, Lirael pauses and looks down at you.\n\n\"They might find this form a bit much right after everything,\" she says softly. \"Let me make it easier.\"\n\nShe closes her eyes for a moment. A gentle ripple of violet energy washes over her body as she shrinks smoothly down to her 6'1\" form, maintaining perfect proportions. As she gets smaller, the remaining bulge in her stomach becomes much more prominent — the partially digested remains of the burglar are now clearly visible as a soft, rounded swell that sits heavily in her midsection. The clothes you gave her earlier shrink with her, still fitting perfectly thanks to her essence imbued in the fabric.\n\nShe opens her golden eyes again and gives you a small, calm smile.\n\n\"Better?\" she asks, offering you her hand.\n\nYou both head downstairs just as the front door opens.\n\nYour family walks in carrying several large pizza boxes, the warm, cheesy smell immediately filling the house. Emily is chatting excitedly. Your mother looks tired but relieved. Your father is carrying the heaviest bags.\n\nThe moment they see you and Lirael, everyone stops.\n\nTheir eyes go straight to the noticeable, rounded bulge in Lirael’s stomach.\n\nBefore anyone can panic, you quickly speak up.\n\n\"There was a burglar,\" you explain. \"He broke in while you were gone. Lirael… took care of him. She swallowed him whole. That’s what you’re seeing right now. She’s digesting him at a natural pace.\"\n\nLirael stays calm and respectful, her hands visible and open.\n\n\"I only acted to protect Isaac and your home,\" she says softly. \"He was stealing from you. I kept him contained so he couldn’t hurt anyone.\"\n\nEmily’s eyes go wide with fascination rather than fear.\n\n\"Whoa… that’s so cool,\" she says, stepping closer without hesitation. She reaches out and pokes Lirael’s stomach a few times. Her finger sinks in a little into the soft, warm swell with each gentle press.\n\nThe mother gives Lirael a small, thankful smile, clearly relieved that the threat was handled.\n\nYour father stares at the bulge for a long moment, then lets out a slow breath. A slight, reluctant smile appears on his face.\n\n\"…Thank you,\" he says gruffly. \"For protecting my son and our home.\"\n\nHe gestures toward the dining room.\n\n\"You’re eating with the rest of the family tonight. And… proceed at the pace you’re going with digesting him. No need to rush it.\"\n\nLirael bows her head respectfully.\n\n\"Thank you,\" she says quietly. \"I will.\"",
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Sit down for dinner with everyone", next: 124 }
+    ]
+},
+
+// 124 - Family Dinner with Lirael
+{
+    text: "Everyone gathers around the dining table. The warm smell of fresh pizza fills the room as your father opens the boxes — sixteen large cheese pizzas in total.\n\nAt first the atmosphere is awkward, but hunger quickly takes over. You all start eating, and to everyone’s surprise, Lirael enjoys the meal more than anyone else.\n\nHer golden eyes widen with pure delight at the first bite.\n\n\"This… is incredible,\" she breathes, voice full of genuine awe. \"Pizza did not exist when I was alive as a human. This is the most flavorful human food I have ever tasted — alive or as a demon. The cheese… the sauce… the crust… it’s all so rich.\"\n\nShe eats with polite enthusiasm, clearly savoring every bite.\n\nEmily, true to form, devours four entire large pizzas by herself. She barely pauses between slices, her young but already curvy frame making short work of them. Your parents watch with a mix of resignation and quiet amusement — this isn’t new behavior for her.\n\nBy the time everyone else is full, there are still several pizzas left.\n\nLirael looks at the remaining boxes with a soft, hopeful smile.\n\n\"May I…?\" she asks politely.\n\nYour father gives a small nod.\n\nLirael proceeds to finish the rest of the pizza with perfect manners — folding slices neatly, eating without making any mess, and savoring each bite. The family watches in quiet awe as she steadily clears the table, her 6'1\" frame showing no strain at all.\n\nBy the time dinner ends, the burglar is pretty much gone. The once-noticeable bulge in Lirael’s stomach has smoothed out significantly, leaving only a soft, gentle swell.\n\nThen, without warning, Lirael lets out a quiet but unmistakable *buuurp*.\n\nSomething small and dark flies out of her mouth and lands on the table with a soft plop.\n\nIt’s the burglar’s ski mask — slightly damp, but otherwise intact.\n\nLirael’s eyes widen in embarrassment. She quickly covers her mouth with one hand.\n\n\"Oh… excuse me,\" she says, cheeks flushing a soft lavender. \"I apologize. That was… unintended.\"\n\nYour father stares at the mask for a second, then lets out a low chuckle. Your mother gives a small, surprised laugh. Even Emily giggles.\n\nThe tension in the room finally breaks a little.",
+    location: "Byrd Family Home - Dining Room (Evening)",
+    choices: [
+        { label: "React to the ski mask and Lirael's belch", next: 125 }
+    ]
+},
+
+// 125 - After the Belch and Ski Mask
+{
+    text: "For a moment, everyone just stares at the slightly damp ski mask sitting in the middle of the dining table.\n\nYou feel a strange mix of surprise and reluctant amusement. The absurdity of the situation — a demon burping up a burglar’s ski mask after eating pizza with your family — hits you all at once.\n\nEmily is the first to break the silence with a bright giggle.\n\n\"That was so cool!\" she says, eyes wide with fascination.\n\nYour mother lets out a soft, surprised laugh, covering her mouth with her hand. Even your father’s usual stern expression cracks into a small, reluctant smile as he shakes his head.\n\nYou can’t help but chuckle too, the tension from earlier finally easing.\n\nYour father leans back in his chair, looking at Lirael with a mix of curiosity and cautious acceptance.\n\n\"Well… that was something,\" he says gruffly. \"Since you’re part of this household now — at least for the time being — I’d like to know more about you. What was your life like… before you became what you are now? When you were still human?\"\n\nLirael blinks once, clearly surprised by the question. She sits up a little straighter, her golden eyes softening as she thinks back.\n\n\"I was born in a small village not far from here, in what you would now call the late 1600s,\" she begins, her voice warm and velvety, carrying a gentle nostalgia.\n\n\"My name was Lira back then. I lived with my mother and two younger sisters in a modest cottage at the edge of the woods. We were poor, but we were close. I spent most of my days helping in the garden, gathering herbs, and taking care of my sisters while my mother worked as a healer for the village.\"\n\nShe smiles faintly, one hand absently resting on her now mostly-smooth stomach.\n\n\"I was always drawn to comfort. Soft blankets, warm fires, slow afternoons lying in the grass watching the clouds. I never wanted much — just peace, good food, and the people I loved nearby. I dreamed of marrying a kind man, raising children, and living a quiet life.\"\n\nHer expression grows a little wistful.\n\n\"But the world back then was harsh. The witch hunts were beginning to spread. People feared anything they didn’t understand. My mother’s healing knowledge made some villagers suspicious. One day, a group of men came for her. I tried to protect her… and in the struggle, I was struck down.\"\n\nShe pauses, her golden eyes distant for a moment.\n\n\"I died that day. But instead of passing on, something in me reached toward the Sloth District — the realm of rest and comfort I had always craved. When I woke up again, I was no longer human. I was… this. A she-demon who feeds on the very comfort I once longed for.\"\n\nLirael looks around the table at your family, her voice softening further.\n\n\"Being here with all of you… it reminds me of those quiet evenings in the cottage. The warmth. The simple joy of sharing a meal. Even if I’m no longer the girl I once was… I still cherish that feeling.\"",
+    location: "Byrd Family Home - Dining Room (Evening)",
+    choices: [
+        { label: "Ask Lirael more about her human life", next: 126 },
+        { label: "Tell her you're glad she's here now", next: 126, effect: () => { gameState.liraelBond += 20; }},
+        { label: "Stay quiet and let the moment settle", next: 126, effect: () => { gameState.liraelBond += 15; }}
     ]
 },
 
