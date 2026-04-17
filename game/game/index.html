@@ -230,9 +230,9 @@ color: #dddddd;
 
 <script>
 
-// ================ GAME STATE ================
+//  GAME STATE 
 var gameState = {
-    // ====================== GLOBAL (Used throughout entire story) ======================
+    //GLOBAL (Used throughout entire story) 
     currentPassage: 0,
     lastPassage: 0,
     currentDate: "August 22",
@@ -241,7 +241,7 @@ var gameState = {
     familyTension: 0,
     supernaturalAffinity: 0,
 
-    // ====================== LIRAEL'S BONDS ======================
+    // LIRAEL'S BONDS 
     liraelBond: 0,
 
     liraelFatherBond: 0,
@@ -249,7 +249,7 @@ var gameState = {
     liraelSisterBond: 0,
     liraelLiraBond: 0,
 
-    // ====================== ISAAC'S (PLAYER) BONDS ======================
+    //ISAAC'S (PLAYER) BONDS
     // These will be randomized only once when starting on passage 0
     isaacMotherBond: 0,      // Will be set on first load
     isaacSisterBond: 0,
@@ -277,17 +277,20 @@ var gameState = {
     // Flag to ensure bonds are randomized only once
     bondsInitialized: false,
 
-    // ====================== DAY 1 - August 22 ======================
+    //DAY 1 - August 22 
     liraelFedComfort: false,
 liratoldenergyreadings: false,
-    exploredWithLira: false,
+liratolddisappearances: false,
+    exploredwoodsWithLira: false,
+exploredwoodsalone: false,
+liratoldhousehistory: false,
     gaveGranola: false,
     askedAboutEmily: false,
     askedAboutSelf: false,
     firstVisitTo13: true,
     askedLiraelAbout: {},
 
-    // ====================== DAY 2 - August 23 ======================
+    // DAY 2 - August 23 
     askedAboutRoam: false,
     justConfessedToFather: false,
     firstVisitTo100: true,
@@ -312,7 +315,7 @@ var passages = [
         choices: [
             { label: "Help the family unpack", next: 1, effect: () => {gameState.isaacSisterBond += 6, gameState.isaacFatherBond += 8, gameState.issacLiraBond += 4, gameState.isaacMotherBond += 8;}},
             { label: "Talk to Lira", next: 2, effect: () => {gameState.issacLiraBond += 10;} },
-            { label: "Go explore the woods behind the house", next: 4 }
+            { label: "Go explore the woods behind the house", next: 4, effect: () => {gameState.exploredwoodsalone = true;} }
         ]
     },
 
@@ -321,8 +324,8 @@ var passages = [
         text: "The next hour drags.\n\nBox after box.\n\nUp the stairs. Down the hall. Back again.\n\nYour arms start to burn early on, muscles tightening with each trip, but you keep going anyway. The house doesn't make it easy.\n\nEvery single step on the staircase groans loudly beneath your weight — long, drawn-out creaks that echo upward into the higher floors like the house is announcing your presence.\n\nOr complaining about it.\n\nDust hangs thick in the air, disturbed by every movement. It drifts through narrow beams of light cutting in from the tall windows, turning the sunlight into something hazy and muted.\n\nLike the house is filtering it.\n\nWatching it.\n\nYour mother pauses once, resting her hand gently on your shoulder. It's brief, but you feel the tension in her fingers.\n\n\"Thank you,\" she says quietly.\n\nYour father gives you a short nod later. No words. Just approval.\n\nThat's rare enough to notice.\n\nEmily doesn't stop talking.\n\nShe runs between rooms, narrating everything she sees, already planning routes to the attic, already deciding which corners look the most haunted.\n\nBy the time the last box is set down, your arms feel heavy, your back tight, and a thin layer of sweat clings to your skin beneath your hoodie.\n\nYou stop.\n\nJust for a second.\n\nAnd listen.\n\nThe house… feels different now.\n\nHeavier.\n\nMore awake.\n\nLike it noticed you moving through it.\n\nLira approaches quietly down the hallway. You don't hear her footsteps at all.\n\n\"You've been working really hard,\" she says softly.\n\nShe tilts her head slightly, studying your face in a way that feels… careful.\n\n\"Everything okay, Isaac?\"",
         location: "Byrd Family Home - Upstairs Hallway",
         choices: [
-            { label: "Talk to Lira", next: 2 },
-            { label: "Go explore the woods behind the house", next: 4 }
+            { label: "Talk to Lira", next: 2, effect: () => {gameState.issacLiraBond += 10;}},
+            { label: "Go explore the woods behind the house", next: 4, effect: () => {gameState.exploredwoodsalone = true;}}
         ]
     },
 
@@ -331,12 +334,13 @@ var passages = [
         text: "Lira turns fully toward you.\n\nNot just mechanically — intentionally.\n\nHer posture shifts, her weight settling naturally onto one leg. A small movement, but one that feels… practiced. Human.\n\nHer blue eyes lock onto yours, soft and focused.\n\nAttentive.\n\n\"Hey, Isaac,\" she says gently.\n\nHer voice is quiet, but it carries easily in the stillness of the foyer. There's a warmth to it — not artificial, not programmed in any obvious way.\n\nSomething closer to concern.\n\n\"You look like you've got a lot weighing on you already.\"\n\nShe pauses.\n\nJust long enough to give you space to respond.\n\nHer fingers shift slightly at her side — a subtle, almost nervous movement.\n\n\"What do you want to know?\"\n\nAnother pause.\n\nHer voice softens just a little more.\n\n\"…Or is there something else on your mind?\"",
         location: "Byrd Family Home - Foyer",
         choices: [
-            { label: "Tell me about the history of this house", next: 5 },
-{ label: "What do you mean by weird energy readings?", next: 6, effect: () => {gameState.liratoldenergyreadings == true;} },
-            { label: "Have people really disappeared here?", next: 7 },
-            { label: "Ask Lira to explore the woods with you", next: 3 },
-            { label: "Go explore the woods alone", next: 4 },
-            { label: "Never mind for now. Thanks, Lira.", next: 8 }
+            { label: "Tell me about the history of this house", next: 5, effect: () => {gameState.liratoldhousehistory = true;} },
+{ label: "What do you mean by weird energy readings?", next: 6, effect: () => {gameState.liratoldenergyreadings = true, gameState.issacLiraBond += 5; } },
+            { label: "Have people really disappeared here?", next: 7, effect: () => {gameState.liratolddisappearances = true;} },
+            { label: "Ask Lira to explore the woods with you", next: 3, effect: () => {
+                gameState.exploredwoodsWithLira = true, gameState.issacLiraBond += 5;} },
+            { label: "Go explore the woods alone", next: 4, effect: () => {gameState.exploredwoodsalone = true;}},
+            { label: "Never mind for now. Thanks, Lira.", next: 1, }
         ]
     },
 
@@ -350,7 +354,6 @@ var passages = [
                 gameState.hasAmulet = true;
                 gameState.supernaturalAffinity += 22;
                 gameState.statsUnlocked = true;
-                gameState.exploredWithLira = true;
             }}
         ]
     },
@@ -1560,7 +1563,7 @@ function openModal(type) {
         if (!gameState.statsUnlocked) {
             content.innerHTML = "<p>Stats will be revealed as you progress through the story.</p>";
         } else {
-            content.innerHTML = `Family Tension: ${gameState.familyTension}<br>Supernatural Affinity: ${gameState.supernaturalAffinity}<br>Lirael Bond: ${gameState.liraelBond}<br>Theo Resurrection Progress: ${gameState.theoResurrectionProgress}%`;
+            content.innerHTML = `Family Tension: ${gameState.familyTension}<br>Supernatural Affinity: ${gameState.supernaturalAffinity}<br>Lirael Bond: ${gameState.liraelBond}<br>Father Bond: ${gameState.issacFatherBond}<br>Mother Bond: ${gameState.issacMotherBond}<br>Sister Bond: ${gameState.issacSisterBond}<br>Lira Bond: ${gameState.issacLiraBond}<br>Theo Resurrection Progress: ${gameState.theoResurrectionProgress}%`;
         }
     } else if (type === 'options') {
         title.textContent = "OPTIONS";
