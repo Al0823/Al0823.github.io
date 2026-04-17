@@ -160,6 +160,9 @@ var gameState = {
     firstVisitTo100: true,
     kitchenBanned: false,
 
+//Day 3 - August 30
+knowliraelmilk: false,
+
     // Morgana path
     pathChosen: "",
 };
@@ -989,20 +992,36 @@ var passages = [
         ]
     },
 
-    // 122 - Three Hours Later (Family Returning)
-    {
-        text: function() {
-            const lbl = gameState.lastChoiceLabel || '';
-            let opening = "";
-            if (lbl === "guideEmily") { opening = "You asked Lirael if she would ever help guide Emily's instincts. She held you close and answered gently, saying she would only do so if you and Emily both wanted it, and only in a safe way. The conversation left you feeling a little lighter.";
-            } else if (lbl === "gladShesHere") { opening = "You told Lirael you're glad she's here with you. She smiled warmly and pulled you tighter against her, whispering that she's glad too. The quiet moment felt intimate and safe.";
-            } else if (lbl === "keepCuddling") { opening = "You chose to keep cuddling in silence, simply listening to the noisy, wet sounds of her stomach as time passed. Lirael seemed content to hold you without needing words.";
-            } else { opening = "You stayed wrapped in Lirael's warm embrace, the loud, wet sounds of her digestion filling the quiet room."; }
-            return opening + "\n\nThree hours have now passed since Lirael swallowed the burglar.\n\nHer stomach has remained active the entire time. The loud, wet digestion sounds have continued steadily — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps. Every time the bulge shifts, you can hear a distinct sloshing sound as the contents move inside her.\n\nThanks to the meal, Lirael has gotten a little more curvy — her breasts and hips look slightly fuller and softer, the borrowed clothes hugging her body even more snugly than before.\n\nShe has kept her acids at a natural pace, just as you asked. The heavy bulge in her midsection has become noticeably smaller and softer, though it still moves occasionally with a wet slosh and gurgle.\n\nLirael has been gentle and attentive the whole time, stroking your hair and murmuring soft reassurances while her body worked.\n\nSuddenly, the sound of a car pulling into the driveway breaks the quiet.\n\nYour family is home.\n\nLirael lifts her head slightly, golden eyes alert. She listens for a moment, then gives you a small, calm smile.\n\n\"They're back,\" she says softly. \"And they brought pizza — I can smell it from here.\"\n\nShe gently shifts, still holding you close for a few more seconds before slowly sitting up. Her belly lets out one final, heavy, wet gurgle with a slosh as the last visible bulge settles.\n\n\"We should go downstairs,\" she murmurs, her voice warm but practical. \"Your family will be expecting us. I'll stay calm and follow your lead. Just remember… they don't know what happened this afternoon.\"\n\nShe stands up to her full 6'1\" height (still in the borrowed clothes) and offers you her hand, ready to face your family together.";
-        },
-        location: "Isaac's Bedroom (Late Afternoon)",
-        choices: [{ label: "Go downstairs with Lirael to greet your family", next: 123 }]
+				// 122 - Three Hours Later (Family Returning)
+{
+    text: function() {
+        const lbl = gameState.lastChoiceLabel || '';
+        
+        if (lbl === "keepCuddling" && gameState.liraelBond >= 150) {
+            gameState.knowliraelmilk = true;
+            
+            return "You choose to keep cuddling in silence, simply listening to the noisy, wet sounds of her stomach as time passes. Lirael seems content to hold you without needing words… at first.\n\nBut the longer you stay pressed against her warm, soft body, the more her breathing changes. It grows deeper, heavier, laced with unmistakable hunger. Her golden eyes, once half-lidded with lazy comfort, slowly open with raw, burning desire.\n\n\"…Cuddling isn't enough anymore,\" she murmurs, her velvety voice thick and dripping with lust. \"I've been so patient with you… but I need more tonight. I need all of you.\"\n\nWith surprising gentleness for her size, she lays you down on the floor for a moment. She pulls her sweater up and off in one smooth motion, letting her massive, heavy breasts spill free. They bounce heavily with the movement, already noticeably fuller and softer than before. Warm droplets of sweet, creamy milk bead at her swollen nipples and slowly trickle down the heavy curves.\n\nLirael stands to her full 12-foot height, then carefully lifts you and places you on the large bean bag chair. She steps forward, turns, and slowly lowers herself onto your lap, facing you.\n\nHer thick, powerful thighs spread wide and straddle you completely, her immense weight pressing you deep into the soft bean bag as she settles in. You can feel the intense, radiating heat from between her legs as she begins to slowly, deliberately grind and straddle your lap with lazy, sensual rolls of her hips — heavy, possessive, and completely dominating.\n\nA massive, aching bulge strains painfully hard against your pants, throbbing visibly beneath her. Lirael notices immediately. A slow, satisfied, almost predatory smile spreads across her face as she looks down at you — fully aware of how completely she has you trapped and helpless beneath her.\n\nShe leans forward, letting her enormous, heavy breasts hang just inches from your face.\n\n\"Mmm… I have infinite breast milk for you,\" she purrs, voice dripping with seduction and control. \"It never runs out. You can drink as much as you want… for as long as you want. All for you.\"\n\nShe presses one warm, leaking nipple against your lips. You open your mouth and latch on. Rich, sweet milk immediately floods your tongue as you begin drinking greedily. Lirael lets out a deep, satisfied moan, one large hand cradling the back of your head possessively while she continues to slowly grind her hips against your throbbing bulge.\n\nShe only pulls you away for the briefest moments — just long enough for you to gasp for air — before guiding you to her other breast so you can continue drinking without pause.\n\n---\n\nThree full hours pass like this.\n\nLirael never stops feeding you. Her milk flows endlessly, rich and sweet, never once running low. She keeps you latched almost the entire time, only switching breasts for the briefest moments so you can breathe, then immediately pressing you back to her nipple. You drink and drink until your stomach feels painfully full to bursting, swollen and tight beneath your clothes.\n\nFinally, as the sound of a car pulling into the driveway reaches the room, Lirael gently pulls your mouth away from her nipple. A thin trail of warm milk still connects your lips to her breast for a moment before breaking.\n\nShe looks down at your heavily distended belly with a soft, affectionate smile.\n\n\"You've had enough for now,\" she murmurs. With a gentle wave of her hand, a soft violet glow surrounds your abdomen. In an instant, the excess milk is digested. Your stomach shrinks back to normal size, though you can feel a pleasant layer of soft milk fat settling around your midsection and hips — a subtle, permanent reminder of how much you drank from her.\n\nLirael stands up, her own body still looking noticeably curvier and softer. She quickly pulls her sweater back on, adjusting it over her heavy breasts just as the car doors slam outside.\n\nShe offers you her hand with a warm, knowing smile.\n\n\"They're back,\" she says softly. \"Let's go greet them.\"";
+        }
+        
+        // Normal / low-bond version
+        let opening = "";
+        if (lbl === "guideEmily") {
+            opening = "You asked Lirael if she would ever help guide Emily's instincts. She held you close and answered gently, saying she would only do so if you and Emily both wanted it, and only in a safe way. The conversation left you feeling a little lighter.";
+        } else if (lbl === "gladShesHere") {
+            opening = "You told Lirael you're glad she's here with you. She smiled warmly and pulled you tighter against her, whispering that she's glad too. The quiet moment felt intimate and safe.";
+        } else if (lbl === "keepCuddling") {
+            opening = "ou chose to keep cuddling in silence, simply listening to the noisy, wet sounds of her stomach as time passed. Lirael seemed content to hold you without needing words.";
+        } else {
+            opening = "You stayed wrapped in Lirael's warm embrace, the loud, wet sounds of her digestion filling the quiet room.";
+        }
+        
+        return opening + "\n\nThree hours have now passed since Lirael swallowed the burglar.\n\nHer stomach has remained active the entire time. The loud, wet digestion sounds have continued steadily — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps. Every time the bulge shifts, you can hear a distinct sloshing sound as the contents move inside her.\n\nThanks to the meal, Lirael has gotten a little more curvy — her breasts and hips look slightly fuller and softer, the borrowed clothes hugging her body even more snugly than before.\n\nShe has kept her acids at a natural pace, just as you asked. The heavy bulge in her midsection has become noticeably smaller and softer, though it still moves occasionally with a wet slosh and gurgle.\n\nLirael has been gentle and attentive the whole time, stroking your hair and murmuring soft reassurances while her body worked.\n\nSuddenly, the sound of a car pulling into the driveway breaks the quiet.\n\nYour family is home.\n\nLirael lifts her head slightly, golden eyes alert. She listens for a moment, then gives you a small, calm smile.\n\n\"They're back,\" she says softly. \"And they brought pizza — I can smell it from here.\"\n\nShe gently shifts, still holding you close for a few more seconds before slowly sitting up. Her belly lets out one final, heavy, wet gurgle with a slosh as the last visible bulge settles.\n\n\"We should go downstairs,\" she murmurs, her voice warm but practical. \"Your family will be expecting us. I'll stay calm and follow your lead. Just remember… they don't know what happened this afternoon.\"\n\nShe stands up to her full 12'0\" height (still in the borrowed clothes) and offers you her hand, ready to face your family together.";
     },
+    location: "Isaac's Bedroom (Late Afternoon)",
+    choices: [
+        { label: "Go downstairs with Lirael to greet your family", next: 123 }
+    ]
+},
 
     // 123 - Family Returns Home with Pizza
     {
