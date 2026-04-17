@@ -265,6 +265,8 @@ askedLiraelAbout: {},
     justConfessedToFather: false,
     firstVisitTo100: true,
 kitchenBanned: false,
+//Day 3 - August 30
+whoAteGrimmold: "",
 //Stuff commented out below is what I want to properly implement eventually
 /*
 liraelfreedmethod: 0, // 0 for not yet freed, 1 for being freed by the talisman/ritual, 2 for breaking out after you get slapped, and 3 for Dad freeing her in passage 99. I will eventually make it so that if she is not freed when you get to passage 99, you cannot progress past 99 until dad frees her
@@ -1333,6 +1335,43 @@ var passages = [
     ]
 },
 
+// 134 - Getting Lirael Inside
+{
+    text: function() {
+        if (gameState.lastChoiceLabel === "Try to work as team to get Lirael inside") {
+            
+            // Random chance: 65% success (Lirael keeps him), 35% failure (vomits into Emily)
+            const successChance = Math.random();
+            const success = successChance > 0.35;
+            
+            if (success) {
+                gameState.whoAteGrimmold = "lirael";
+                return "You suggest that the family should work together as a team to help Lirael get back inside despite her current condition.\n\n\"We can do this together,\" you say. \"We'll help her move carefully so no one gets hurt.\"\n\nLirael blinks in surprise, then gives a soft, warm smile.\n\nYour father nods after a short pause.\n\n\"Alright. Team it is,\" he says gruffly.\n\nEveryone coordinates quickly. Your mother and Emily move ahead to hold doors open and clear the path. You and your father support Lirael on either side, while Lira (the AI) stays close to help steady her if needed. Lirael’s massively distended stomach — easily double her 6'1\" size — sways heavily with every step, gurgling and sloshing loudly as Grimmold continues to thrash inside.\n\nIt’s slow and a little awkward, but working as a team you manage to guide her safely through the front door and into the living room. Lirael lowers herself onto the large couch with a tired but grateful sigh, the enormous churning bulge resting heavily between her thighs and spilling slightly onto the cushions.\n\n\"Thank you… truly,\" Lirael says softly, looking at each of you. \"I did not expect all of you to help me like this.\"";
+            } 
+            else {
+                gameState.whoAteGrimmold = "emily";
+                return "You suggest that the family should work together as a team to help Lirael get back inside despite her current condition.\n\n\"We can do this together,\" you say. \"We'll help her move carefully so no one gets hurt.\"\n\nEveryone begins coordinating, but halfway across the yard Lirael suddenly freezes. Her golden eyes widen and she lets out a strained gasp.\n\n\"Wait— I can’t… hold him…\" she manages before her body convulses violently.\n\nWith a loud, wet retching sound, Lirael vomits Grimmold straight into Emily’s open mouth. The creature is barely digested at all — mostly intact, covered in thick, sticky slime, still weakly thrashing and glowing faintly blue from the eyes and mouth.\n\nEmily doesn’t hesitate. Her eyes flash with strong predatory instinct. She grabs Lirael’s hips to steady her, tilts her head back, and begins swallowing in powerful, continuous gulps. Her small throat bulges dramatically as she forces the slimy, skeletal mass down. She presses her hands firmly against Lirael’s belly, helping to push more of Grimmold out and into her own mouth.\n\nWet, sloppy sounds fill the yard as Emily actively swallows the barely-digested demon. It takes nearly ten long minutes. Emily never once pulls away — her predatory instincts fully on display as she works to take every last piece. By the end, all of Grimmold has been transferred into Emily’s stomach. Her belly is now massively swollen, easily 2–3 times her own body size, hanging out a good 6 feet in front of her and actually touching the ground.\n\nThe sounds coming from Emily’s stomach are incredibly loud and wet — constant heavy *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, loud squelching gurgles, and deep, sloppy churns as Grimmold thrashes weakly inside the tight, stretched space.\n\nLirael collapses to her knees, now empty and panting. A violet glow suddenly surges around her as she grows back to her full 12-foot height. Without hesitation, she gently scoops up Emily — carefully supporting the girl’s enormous, ground-dragging belly — and carries her inside the house. You, your father, your mother, and Lira all follow closely behind her.\n\nLirael lowers Emily onto the large couch in the living room, the child’s massive stomach resting heavily on her lap and spilling over the edges. Emily continues to gently rub her hugely distended belly with both hands, a small, satisfied smile on her face.\n\nLirael looks at Emily with clear admiration.\n\n\"Isaac was not exaggerating,\" she says softly, voice full of awe. \"You are only about 5'2\"… and you just ate a demon that was nearly 15 feet tall. You have extraordinary predatory abilities, Emily.\"";
+            }
+        } 
+        else if (gameState.lastChoiceLabel === "Suggest Lirael quick-digests Grimmold so that we all can go inside now") {
+            gameState.whoAteGrimmold = "lirael";
+            return "You look at Lirael’s hugely swollen stomach and suggest she quick-digests Grimmold right now so the family can get back inside more easily.\n\n\"If you insta-digest him, we could all go inside without having to struggle with… that,\" you say, gesturing toward the massive double-sized bulge.\n\nLirael considers it for a moment, then nods slowly.\n\n\"Very well… but only if Emily does not see,\" she says calmly. She turns to your mother. \"Could you please take Emily upstairs for a few minutes? I do not want her to witness this.\"\n\nYour mother understands immediately and gently takes Emily’s hand.\n\n\"Come on, sweetheart. Let’s go pick out your pajamas,\" she says, leading Emily upstairs with Lira (the AI) following to help.\n\nOnce Emily is out of sight, Lirael stands up straighter. A bright violet glow suddenly surges around her body. She begins to rapidly digest Grimmold. Loud, violent *glorps* and wet churning fill the yard as the massive bulge quickly shrinks.\n\nAs the digestion accelerates, Lirael’s body absorbs the energy and mass. Her hips widen noticeably, her thighs thicken, and her breasts and ass become significantly fuller and curvier. The sudden increase in her curves, combined with the rapid expansion of energy, causes her current clothes to rip apart completely, tearing at the seams and falling away in pieces.\n\nWithin less than a minute, her belly has reduced to a much smaller, rounded swell. Lirael now stands noticeably thicker and curvier than before. She doesn’t seem embarrassed at all. She simply walks over to her tattered robe on the grass, slips it back on, and adjusts it around her new, voluptuous figure.\n\n\"There,\" she says softly, now properly clothed again. \"That should make things easier. Let us go inside.\"";
+        }
+        
+        // Shared closing — now changes based on who ate Grimmold
+        if (gameState.whoAteGrimmold === "emily") {
+            return "\n\nNow safely inside the living room, Emily sits on the large couch with her enormously swollen belly — easily 2–3 times her body size — resting heavily on her lap and spilling over the edges. The loud, extremely wet sounds of digestion fill the room as Grimmold continues to break down inside her.\n\nYour father glances at the massive dome, then at the rest of the family.\n\n\"We’ll figure this out,\" he says quietly. \"One night at a time.\"";
+        } else {
+            return "\n\nNow safely inside the living room, Lirael sits on the large couch. Her stomach — while still noticeably rounded and active — is far more manageable than before. Thick, wet gurgles and occasional sloshes can still be heard as the remains of Grimmold continue to break down.\n\nYour father glances at her, then at the rest of the family.\n\n\"We’ll figure this out,\" he says quietly. \"One night at a time.\"";
+        }
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Sit down and talk more with Lirael", next: 135 },
+        { label: "Offer to get Lirael something to drink", next: 135, effect: () => { gameState.liraelBond += 15; }},
+        { label: "Check how Emily is handling everything", next: 135 }
+    ]
+},
     // 164 - Morgana Placeholder 
 
     {
