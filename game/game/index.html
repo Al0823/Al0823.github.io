@@ -1212,9 +1212,9 @@ var passages = [
     },
     location: "Isaac's Bedroom",
     choices: [
-        { label: "Ask if Lirael would ever help guide Emily's instincts", next: 122 },
-        { label: "Tell her you’re glad she’s here with you", next: 122, effect: () => { gameState.liraelBond += 25; }},
-        { label: "Just keep cuddling in silence", next: 122, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 10; }}
+        { label: "Ask if Lirael would ever help guide Emily's instincts", next: 122, effect: () => {gameState.lastChoiceLabel = "guideEmily";}},
+        { label: "Tell her you’re glad she’s here with you", next: 122, effect: () => { gameState.liraelBond += 25, gameState.lastChoiceLabel = "gladShesHere"; }},
+        { label: "Just keep cuddling in silence", next: 122, effect: () => { gameState.liraelBond += 20; gameState.supernaturalAffinity += 10, gameState.lastChoiceLabel = "keepCuddling"; }}
     ]
 },
 
@@ -1330,8 +1330,8 @@ var passages = [
     text: "The family stands in stunned silence as Lirael finishes speaking. Your father’s face is tight with concern, his arms still crossed over his chest. Your mother looks uneasy but remains composed, holding Emily protectively. Emily herself seems more fascinated than scared, her eyes repeatedly drifting back to Lirael’s massively distended stomach, which continues to gurgle and slosh wetly as Grimmold thrashes inside.\n\nLira (the AI) remains perfectly still, quietly processing everything.\n\nLirael lets out a tired sigh, gently rubbing the enormous, double-sized bulge with slow circles.\n\n\"I have tried to put Grimmold down before,\" she admits quietly. \"Multiple times, in fact. But every time I almost succeed, my body forces him back up before he is truly gone. He always finds a way to survive. This time… I truly believe I have won. The fight took more out of him than before.\"\n\nShe pauses as another loud, thick *gluuuurk* echoes from her heavy stomach, the bulge stretching outward noticeably before slowly settling again.\n\n\"If, for some reason, I do end up vomiting him back up… there is something important you should know. A normal person who eats Grimmold and manages to fully digest him would be guaranteed to go to heaven when they die. The act of finally destroying him carries that kind of spiritual weight.\"\n\nLirael looks directly at Emily, her golden eyes soft but serious.\n\n\"That is why, if it ever comes to that, I would like the person to be Emily. From what I have seen of her myself… and from what Isaac has quietly told me about her… she has the strength and the instincts for it. She would succeed where others might fail.\"\n\nEmily’s cheeks flush slightly, but she doesn’t look afraid — only surprised and a little proud.\n\nLirael continues, her hand still resting on the massive, churning swell.\n\n\"It will take me at least twelve hours to digest him at a natural speed. If I were to instantly digest him right now, the sudden expansion of energy and mass would almost certainly rip my current clothes to shreds. I do not mind being nude… but I would rather not have Emily see me that way. So I will let nature take its course this time.\"\n\nShe offers a small, weary smile to the group.\n\n\"There is much more I could tell you about creatures like him, about the old wars between realms, and about how thin the boundary has become in this town. But for tonight… I am simply glad you are all safe.\"\n\nYour father nods slowly, still processing everything. Your mother glances between Lirael and Emily with quiet worry. Emily, however, looks thoughtful — as if the idea of one day finishing what Lirael started doesn’t frighten her at all.",
     location: "Byrd Family Home - Front Yard (Evening)",
     choices: [
-        { label: "Try to work as team to get Lirael inside", next: 134, effect: () => { gameState.liraelBond += 20; } },
-        { label: "Suggest Lirael quick-digests Grimmold so that we all can go inside now", next: 134, effect: () => { gameState.liraelBond += 20; }},
+        { label: "Try to work as team to get Lirael inside", next: 134, effect: () => { gameState.liraelBond += 20, gameState.lastChoiceLabel = "Try to work as team to get Lirael inside"; } },
+        { label: "Suggest Lirael quick-digests Grimmold so that we all can go inside now", next: 134, effect: () => { gameState.liraelBond += 20, gameState.lastChoiceLabel = "Suggest Lirael quick-digests Grimmold so that we all can go inside now"; }},
     ]
 },
 
