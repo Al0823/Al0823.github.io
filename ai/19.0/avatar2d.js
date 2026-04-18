@@ -5,7 +5,7 @@
 (function(global) {
   "use strict";
 
-  /* ── Trait Parsers ────────────────────────────────────────────────────── */
+
 
   var SKIN = {
     pale:   { base:"#FFE8DC", mid:"#F0C8A8", shadow:"#D4956A", blush:"#F4AABB", lip:"#D4727A" },
@@ -93,7 +93,6 @@
     return "n";
   }
 
-  /* ── Avatar Class ─────────────────────────────────────────────────────── */
 
   function CompanionAvatar(canvas) {
     console.log("CompanionAvatar constructor - canvas element:", canvas);
@@ -170,7 +169,6 @@
     };
   };
 
-  /* ── Geometry ─────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._geo = function() {
     var W = this.W, H = this.H;
@@ -193,7 +191,6 @@
     };
   };
 
-  /* ── Main draw ────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._draw = function() {
     if (this._destroyed) return;
@@ -226,7 +223,6 @@
     ctx.restore();
   };
 
-  /* ── Background ───────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawBg = function(ctx, g, a) {
     // Dark gradient bg
@@ -257,7 +253,6 @@
     }
   };
 
-  /* ── Body ─────────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawBody = function(ctx, g, a) {
     var t   = this.traits;
@@ -332,7 +327,6 @@
     }
   };
 
-  /* ── Neck ─────────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawNeck = function(ctx, g) {
     var t  = this.traits;
@@ -356,7 +350,6 @@
     ctx.restore();
   };
 
-  /* ── Face ─────────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawFace = function(ctx, g, a) {
     var t   = this.traits;
@@ -481,7 +474,6 @@
     }
   };
 
-  /* ── Eye ──────────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawEye = function(ctx, t, a, cx, cy, rad, isRight) {
     var blink = a.blinkOpen;
@@ -558,7 +550,6 @@
     ctx.restore();
   };
 
-  /* ── Nose ─────────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawNose = function(ctx, g, t, fx, fcy, fw, fh) {
     var nx = fx, ny = g.noseY;
@@ -584,7 +575,6 @@
     ctx.restore();
   };
 
-  /* ── Mouth ────────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawMouth = function(ctx, g, t, a, fx, my, fw, fh, fem) {
     var mw  = fw * (fem ? 0.34 : 0.41);
@@ -642,7 +632,6 @@
     ctx.restore();
   };
 
-  /* ── Hair back ────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawHairBack = function(ctx, g, a) {
     var t = this.traits;
@@ -667,7 +656,6 @@
     ctx.restore();
   };
 
-  /* ── Hair front ───────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawHairFront = function(ctx, g, a) {
     var t = this.traits;
@@ -748,7 +736,6 @@
     ctx.fillStyle = g2; ctx.fill();
   };
 
-  /* ── Lighting ─────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawLighting = function(ctx, g, a) {
     var lx = g.cx + (a.lightX-0.5)*g.faceW*1.3;
@@ -771,7 +758,6 @@
     ctx.fill();
   };
 
-  /* ── Expression FX ────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawFX = function(ctx, g, a) {
     // Sparkles for joy/excitement
@@ -795,8 +781,6 @@
       ctx.fill();
     }
   };
-
-  /* ── Expression system ────────────────────────────────────────────────── */
 
   var EGLOW = {
     idle:null,
@@ -830,7 +814,6 @@
     }
   };
 
-  /* ── Animation loop ───────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._startLoop = function() {
     console.log("_startLoop called, canvas:", this.canvas, "ctx:", this.ctx, "dimensions:", this.W, "x", this.H);
@@ -885,7 +868,6 @@
     window.addEventListener("mousemove", this._mouseHandler);
   };
 
-  /* ── View / Rebuild / Resize ──────────────────────────────────────────── */
 
   CompanionAvatar.prototype._applyViewScale = function() {};
 
@@ -901,7 +883,6 @@
     }
   };
 
-  /* ── Destroy ──────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype.destroy = function() {
     this._destroyed = true;
@@ -911,7 +892,6 @@
     this.initialized = false;
   };
 
-  /* ── Color utilities ──────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._hexToRgb = function(hex) {
     if (!hex || typeof hex !== 'string') return '0,0,0';

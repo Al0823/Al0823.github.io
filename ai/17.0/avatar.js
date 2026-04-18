@@ -6,7 +6,6 @@
 (function(global) {
   "use strict";
 
-  /* ── Trait parsers ─────────────────────────────────────────────────────── */
 
   var SKIN_TONES = {
     light:  { base: 0xFFE0C8, shadow: 0xE8BFA0, blush: 0xF4A0A0 },
@@ -123,7 +122,6 @@
     return 0x3A5F8A;
   }
 
-  /* ── Avatar class ──────────────────────────────────────────────────────── */
 
   function CompanionAvatar(canvasEl) {
     this.canvas = canvasEl;
@@ -320,7 +318,6 @@
     root.x = W / 2;
   };
 
-  /* ── Body drawing ──────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawBody = function(container, t, W, H) {
     var ch = this._charHeight();
@@ -453,7 +450,6 @@
     container.addChild(lower);
   };
 
-  /* ── Head drawing ──────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawHead = function(container, t, W, H) {
     var fem = t.gender === "feminine";
@@ -728,7 +724,6 @@
     container.addChild(m);
   };
 
-  /* ── Hair drawing ──────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawHairBack = function(container, t) {
     container.removeChildren();
@@ -886,7 +881,6 @@
     container.addChild(g);
   };
 
-  /* ── Eyelid blink ──────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._drawLid = function(lidGraphic, t, openAmount) {
     // openAmount: 0 = fully open, 1 = fully closed
@@ -912,7 +906,6 @@
     lidGraphic.lineStyle(0);
   };
 
-  /* ── Expression system ─────────────────────────────────────────────────── */
 
   var EXPRESSION_CONFIGS = {
     idle:       { browY: 0,   browAngle: 0,  blushA: 0.35, eyeScale: 1.0 },
@@ -1017,7 +1010,6 @@
     glow.endFill();
   };
 
-  /* ── Animation loop ────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._startLoop = function() {
     var self = this;
@@ -1113,7 +1105,6 @@
     window.addEventListener("mousemove", this._mouseMoveHandler);
   };
 
-  /* ── View mode ─────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype.setView = function(view) {
     this.view = view;
@@ -1139,8 +1130,6 @@
     }
   };
 
-  /* ── Resize ────────────────────────────────────────────────────────────── */
-
   CompanionAvatar.prototype.resize = function() {
     if (!this.app || !this.canvas) return;
     var w = this.canvas.offsetWidth;
@@ -1151,7 +1140,6 @@
     }
   };
 
-  /* ── Destroy ───────────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype.destroy = function() {
     if (this._raf) cancelAnimationFrame(this._raf);
@@ -1160,7 +1148,6 @@
     this.initialized = false;
   };
 
-  /* ── Color helpers ─────────────────────────────────────────────────────── */
 
   CompanionAvatar.prototype._lighten = function(hex, amt) {
     var r = ((hex >> 16) & 0xFF);
@@ -1176,7 +1163,6 @@
     return this._lighten(hex, -amt);
   };
 
-  /* ── Export ────────────────────────────────────────────────────────────── */
   window.CompanionAvatar = CompanionAvatar;
 
 })(window);

@@ -288,7 +288,6 @@
 
   <div id="main">
 
-    <!-- ── Face Panel ── -->
     <div id="face-panel">
       <div id="face-panel-header">
         <div>
@@ -309,66 +308,42 @@
         </div>
         <img id="face-photo" src="" alt="companion face" style="display:none" />
 
-        <!-- SVG overlay for animated expressions -->
-        <!--
-          Calibrated for passport-style 512x512 portrait:
-          Face fills ~80% of frame. Measurements based on average face proportions:
-          - Top of head:   y ~30
-          - Eyebrows:      y ~190  (38% from top)
-          - Eyes center:   y ~215  (42% from top)
-          - Nose tip:      y ~290  (57% from top)
-          - Mouth center:  y ~340  (66% from top)
-          - Chin:          y ~400  (78% from top)
-          - Left eye cx:   x ~185  (36% from left)
-          - Right eye cx:  x ~327  (64% from left)
-          - Eye width:     ~55px each side
-        -->
+
         <svg id="face-svg-overlay" class="expr-idle"
           viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
           style="display:none;position:absolute;inset:0;width:100%;height:100%;pointer-events:none;">
 
-          <!-- ── Left eyelid (blink) ── -->
-          <!-- Covers eye from top: starts at y=197, expands downward -->
           <rect id="lid-left"
             x="150" y="197" width="68" height="0"
             fill="rgb(180,160,140)" rx="3"
             style="transition: height 0.07s ease;" />
 
-          <!-- ── Right eyelid (blink) ── -->
           <rect id="lid-right"
             x="294" y="197" width="68" height="0"
             fill="rgb(180,160,140)" rx="3"
             style="transition: height 0.07s ease;" />
 
-          <!-- ── Left eyebrow ── -->
-          <!-- Base: flat arch from x155 to x225, apex at x190, y188 -->
           <path id="brow-left"
             d="M155 194 Q190 182 225 192"
             fill="none" stroke="rgba(30,20,10,0.45)" stroke-width="5"
             stroke-linecap="round"
             style="transition: d 0.3s ease;" />
 
-          <!-- ── Right eyebrow ── -->
-          <!-- Mirror: from x287 to x357, apex at x322 -->
           <path id="brow-right"
             d="M287 192 Q322 182 357 194"
             fill="none" stroke="rgba(30,20,10,0.45)" stroke-width="5"
             stroke-linecap="round"
             style="transition: d 0.3s ease;" />
 
-          <!-- ── Eye shine dots (always on, subtle life) ── -->
           <circle cx="175" cy="210" r="5" fill="rgba(255,255,255,0.55)" />
           <circle cx="337" cy="210" r="5" fill="rgba(255,255,255,0.55)" />
 
-          <!-- ── Mouth curve ── -->
-          <!-- Base neutral: slight upturn, centered at x256, y340 -->
           <path id="mouth-curve"
             d="M215 340 Q256 348 297 340"
             fill="none" stroke="rgba(20,10,5,0.30)" stroke-width="5"
             stroke-linecap="round"
             style="transition: d 0.35s ease;" />
 
-          <!-- ── Emotion color wash over whole face ── -->
           <ellipse id="emotion-glow"
             cx="256" cy="260" rx="145" ry="180"
             fill="rgba(0,0,0,0)"
@@ -381,7 +356,6 @@
       </div>
     </div>
 
-    <!-- ── Chat area ── -->
     <div id="chat-area">
       <div id="chat-header">
         <span id="header-icon">🧪</span>
@@ -439,8 +413,6 @@
         <button id="send-btn" class="toolbar-btn" onclick="send()">Send</button>
       </div>
     </div>
-
-    <!-- ── Companion sidebar ── -->
     <div id="companion-panel">
       <div id="cp-header"><span>🫂 Companions</span><button id="cp-close" onclick="toggleCompanionPanel()">✕</button></div>
       <div id="cp-list"></div>
@@ -454,7 +426,6 @@
   </div>
 </div>
 
-<!-- ── Modal ── -->
 <div id="modal-overlay">
   <div id="modal">
     <h2 id="modal-title">Create Companion</h2>

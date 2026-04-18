@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-	<!-- Help me -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -273,7 +272,6 @@
     #modal-cancel-btn { background: #21262d; color: #8b949e; } #modal-cancel-btn:hover { background: #30363d; color: #e6edf3; }
     .memory-badge { font-size: 11px; background: #1a1030; border: 1px solid #bc8cff44; border-radius: 20px; padding: 2px 9px; color: #bc8cff; }
   </style>
-  <!-- PixiJS v7 for avatar rendering -->
  <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.x/dist/pixi.min.js"></script>
   <script src="avatar.js"></script>
 </head>
@@ -292,30 +290,28 @@
 
   <div id="main">
 
-    <!-- ── Face Panel (PixiJS avatar) ── -->
     <div id="face-panel">
       <div id="face-panel-header">
         <div>
           <div id="face-comp-name">Companion</div>
           <div id="face-emotion-label">idle</div>
         </div>
-        <!--<div id="face-view-toggle">
+       <div id="face-view-toggle">
           <button class="face-view-btn active" id="btn-bust"     onclick="setAvatarView('bust')">Bust</button>
           <button class="face-view-btn"         id="btn-upper"   onclick="setAvatarView('upper')">Upper</button>
           <button class="face-view-btn"         id="btn-full"    onclick="setAvatarView('full')">Full</button>
           <button class="face-view-btn"         id="btn-hidden"  onclick="setAvatarView('hidden')">Hide</button>
-        </div>-->
+        </div>
       </div>
-      <!--<div id="face-canvas-wrap">
+    <div id="face-canvas-wrap">
         <div id="face-building">
           <div class="face-spinner"></div>
           <span>Building avatar...</span>
         </div>
         <canvas id="face-canvas"></canvas>
-      </div>-->
+      </div>
     </div>
 
-    <!-- ── Chat area ── -->
     <div id="chat-area">
       <div id="chat-header">
         <span id="header-icon">🧪</span>
@@ -374,7 +370,6 @@
       </div>
     </div>
 
-    <!-- ── Companion sidebar ── -->
     <div id="companion-panel">
       <div id="cp-header"><span>🫂 Companions</span><button id="cp-close" onclick="toggleCompanionPanel()">✕</button></div>
       <div id="cp-list"></div>
