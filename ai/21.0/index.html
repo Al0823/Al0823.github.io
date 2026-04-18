@@ -414,7 +414,6 @@
      CONSTANTS & CONFIG
   ══════════════════════════════════════════════════════════════════════════ */
   var WORKER_URL           = "https://githubai-relay.akonyswoodard.workers.dev";
-  var HF_TOKEN_KEY         = "hf_token"; // user stores their own HF token in localStorage
   var STORAGE_KEY          = "ai_chat_companions_v1";
   var POLLINATIONS_REFERRER= "al0823.github.io";
   var lastImageRequest     = 0;
@@ -924,12 +923,6 @@
     messagesEl.appendChild(tip); modeTipEl = tip;
     chatHistory = [];
 
-    // Show HF token prompt in music mode if not set
-    if (mode === "music") {
-      var stored = localStorage.getItem(HF_TOKEN_KEY) || "";
-      if (!stored) showHFTokenPrompt();
-    }
-
     inputEl.focus();
   }
 
@@ -1162,152 +1155,123 @@
   /* ══════════════════════════════════════════════════════════════════════════
      MUSIC MODE
   ══════════════════════════════════════════════════════════════════════════ */
-  function showHFTokenPrompt() {
-    clearTip();
-    var w = document.createElement("div"); w.className = "message assistant";
-    var l = document.createElement("div"); l.className = "label"; l.textContent = "Music Studio";
-    var b = document.createElement("div"); b.className = "bubble";
-    b.innerHTML = '<div style="margin-bottom:10px">To generate audio with Bark, add your <strong>Hugging Face token</strong> below.<br><small style="color:#8b949e">Get one free at <a href="https://huggingface.co/settings/tokens" target="_blank" style="color:#e0974c">huggingface.co/settings/tokens</a><br>Lyrics generation works without a token.</small></div>';
-    var row = document.createElement("div"); row.style.cssText = "display:flex;gap:8px;margin-top:4px";
-    var inp = document.createElement("input"); inp.type="password"; inp.placeholder="hf_..."; inp.style.cssText = "flex:1;background:#0d1117;border:1px solid #4a3010;border-radius:6px;color:#e6edf3;font-size:13px;padding:6px 10px;outline:none;font-family:inherit";
-    var stored = localStorage.getItem(HF_TOKEN_KEY) || "";
-    if (stored) inp.value = stored;
-    var saveBtn = document.createElement("button"); saveBtn.className = "music-gen-btn"; saveBtn.textContent = "Save";
-    saveBtn.onclick = function() {
-      var tok = inp.value.trim();
-      if (tok) { localStorage.setItem(HF_TOKEN_KEY, tok); saveBtn.textContent = "Saved ✓"; setTimeout(function(){ saveBtn.textContent = "Save"; }, 1500); }
-    };
-    row.appendChild(inp); row.appendChild(saveBtn); b.appendChild(row);
-    w.appendChild(l); w.appendChild(b); messagesEl.appendChild(w); messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
 
   function generateMusic() {
-    var concept = inputEl.value.trim(); if (!concept) { alert("Describe your song idea first."); return; }
+    var concept = inputEl.value.trim();
+    if (!concept) { alert("Describe your song idea first."); return; }
     var genre = document.getElementById("music-genre-select").value || "pop";
     inputEl.value = ""; inputEl.style.height = "auto"; setButtons(true);
 
-    addMessage("user", "🎵 [" + genre.toUpperCase() + "] " + concept);
-
-    // Step 1: Generate lyrics via worker (HF/Qwen)
+    addMessage("user", "\uD83C\uDFB5 [" + genre.toUpperCase() + "] " + concept);
     var lyricsBubble = addSpinnerBubble("Writing lyrics...");
 
-    var lyricsPrompt =
-      "You are a professional songwriter. Write complete, original song lyrics for the following concept.\n\n"
-      + "Genre: " + genre + "\n"
-      + "Concept: " + concept + "\n\n"
-      + "Requirements:\n"
-      + "- Write a full song: intro (if applicable), at least 2 verses, a chorus, a bridge, and outro\n"
-      + "- Each section clearly labeled in [brackets] e.g. [Verse 1], [Chorus], [Bridge]\n"
-      + "- Lyrics should feel authentic to the " + genre + " genre — use appropriate vocabulary, flow, and emotional tone\n"
-      + "- No placeholder text, no generic filler — write real, singable lines\n"
-      + "- After the lyrics, on a new line write: TITLE: <song title>\n"
-      + "- Keep total output under 600 words";
-
+    // ── Step 1: Lyrics via worker action endpoint ──────────────────────────
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.timeout = 35000;
+
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== 4) return;
       try {
-        if (xhr.status !== 200) throw new Error("Status " + xhr.status);
-        var data  = JSON.parse(xhr.responseText);
-        var reply = (data.reply || "").trim();
-        if (!reply) throw new Error("No reply");
+        if (xhr.status !== 200) throw new Error("Server returned " + xhr.status);
+        var data = JSON.parse(xhr.responseText);
+        if (data.error) throw new Error(data.error);
+        var reply = (data.lyrics || "").trim();
+        if (!reply) throw new Error("No lyrics returned");
 
-        // Extract title
+        // Extract title from end of response
         var titleMatch = reply.match(/TITLE:\s*(.+)/i);
         var songTitle  = titleMatch ? titleMatch[1].trim() : concept.substring(0, 40);
         var lyricsText = reply.replace(/TITLE:\s*.+/i, "").trim();
 
-        // Render music card
-        lyricsBubble.className = "";
-        lyricsBubble.innerHTML = "";
+        // Build music card
+        lyricsBubble.className  = "";
+        lyricsBubble.innerHTML  = "";
         lyricsBubble.style.cssText = "";
 
-        var card = document.createElement("div"); card.className = "music-card";
-        var titleEl = document.createElement("div"); titleEl.className = "music-title"; titleEl.textContent = "🎵 " + songTitle;
-        var metaEl  = document.createElement("div"); metaEl.className = "music-meta";  metaEl.textContent  = genre.toUpperCase() + " · Generated by AI";
+        var card     = document.createElement("div"); card.className     = "music-card";
+        var titleEl  = document.createElement("div"); titleEl.className  = "music-title"; titleEl.textContent  = "\uD83C\uDFB5 " + songTitle;
+        var metaEl   = document.createElement("div"); metaEl.className   = "music-meta";  metaEl.textContent   = genre.toUpperCase() + " \u00B7 AI Generated";
         var lyricsEl = document.createElement("div"); lyricsEl.className = "lyrics-text"; lyricsEl.textContent = lyricsText;
         card.appendChild(titleEl); card.appendChild(metaEl); card.appendChild(lyricsEl);
 
-        // Audio generation section
-        var hfToken = localStorage.getItem(HF_TOKEN_KEY) || "";
+        // ── Step 2: Audio generation section ────────────────────────────────
         var audioSection = document.createElement("div");
+        var statusEl  = document.createElement("div");  statusEl.className  = "music-status";
+        var audioGenBtn = document.createElement("button"); audioGenBtn.className = "music-gen-btn"; audioGenBtn.textContent = "\uD83D\uDD0A Generate Audio (Bark)";
+        statusEl.textContent = "Audio generation via Bark (30\u201390 sec)";
 
-        if (hfToken) {
-          var statusEl = document.createElement("div"); statusEl.className = "music-status"; statusEl.textContent = "Ready to generate audio";
-          var audioGenBtn = document.createElement("button"); audioGenBtn.className = "music-gen-btn"; audioGenBtn.textContent = "🔊 Generate Audio (Bark)";
-          audioGenBtn.onclick = function() {
-            audioGenBtn.disabled = true; audioGenBtn.textContent = "Generating audio...";
-            statusEl.textContent = "Sending to Bark (this takes 30–90s)...";
-            generateBarkAudio(lyricsText.substring(0, 1000), hfToken, function(audioBlob) {
-              var audioUrl = URL.createObjectURL(audioBlob);
-              var audio = document.createElement("audio"); audio.controls = true; audio.src = audioUrl;
-              var dlBtn = document.createElement("button"); dlBtn.className = "music-gen-btn"; dlBtn.textContent = "⬇ Download MP3";
-              dlBtn.onclick = function() { triggerDL(audioUrl, songTitle.replace(/[^a-z0-9]/gi,"_") + ".mp3"); };
-              audioSection.innerHTML = ""; audioSection.appendChild(audio); audioSection.appendChild(dlBtn);
-              messagesEl.scrollTop = messagesEl.scrollHeight;
-            }, function(errMsg) {
-              statusEl.textContent = "Audio failed: " + errMsg;
-              audioGenBtn.disabled = false; audioGenBtn.textContent = "🔊 Retry Audio";
-            });
-          };
-          audioSection.appendChild(audioGenBtn); audioSection.appendChild(statusEl);
-        } else {
-          var noTokenEl = document.createElement("div"); noTokenEl.className = "music-status";
-          noTokenEl.innerHTML = 'Add your <a href="https://huggingface.co/settings/tokens" target="_blank" style="color:#e0974c">HF token</a> to enable audio generation.';
-          audioSection.appendChild(noTokenEl);
-        }
+        audioGenBtn.onclick = function() {
+          audioGenBtn.disabled = true; audioGenBtn.textContent = "Generating...";
+          statusEl.textContent = "Sending to Bark on HuggingFace...";
+          _callBarkWorker(lyricsText.substring(0, 1000), function(audioBase64, mimeType) {
+            // Convert base64 back to Blob for playback
+            var binary = atob(audioBase64);
+            var bytes  = new Uint8Array(binary.length);
+            for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            var blob     = new Blob([bytes], { type: mimeType || "audio/wav" });
+            var audioUrl = URL.createObjectURL(blob);
+            var audio    = document.createElement("audio"); audio.controls = true; audio.src = audioUrl;
+            var dlBtn    = document.createElement("button"); dlBtn.className = "music-gen-btn"; dlBtn.textContent = "\u2B07 Download Audio";
+            dlBtn.onclick = function() { triggerDL(audioUrl, songTitle.replace(/[^a-z0-9]/gi, "_") + ".wav"); };
+            audioSection.innerHTML = ""; audioSection.appendChild(audio); audioSection.appendChild(dlBtn);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+          }, function(errMsg) {
+            statusEl.textContent = "\u26A0\uFE0F Audio failed: " + errMsg;
+            audioGenBtn.disabled = false; audioGenBtn.textContent = "\uD83D\uDD0A Retry Audio";
+          });
+        };
+
+        audioSection.appendChild(audioGenBtn); audioSection.appendChild(statusEl);
         card.appendChild(audioSection);
 
         // Copy lyrics button
-        var copyBtn = document.createElement("button"); copyBtn.className = "music-gen-btn"; copyBtn.textContent = "📋 Copy Lyrics";
-        copyBtn.onclick = function() { navigator.clipboard.writeText(lyricsText).then(function(){ copyBtn.textContent = "Copied!"; setTimeout(function(){ copyBtn.textContent = "📋 Copy Lyrics"; }, 1500); }); };
+        var copyBtn = document.createElement("button"); copyBtn.className = "music-gen-btn"; copyBtn.textContent = "\uD83D\uDCCB Copy Lyrics";
+        copyBtn.onclick = function() {
+          navigator.clipboard.writeText(lyricsText).then(function() {
+            copyBtn.textContent = "Copied!";
+            setTimeout(function() { copyBtn.textContent = "\uD83D\uDCCB Copy Lyrics"; }, 1500);
+          });
+        };
         card.appendChild(copyBtn);
 
         lyricsBubble.appendChild(card);
         messagesEl.scrollTop = messagesEl.scrollHeight;
       } catch(e) {
-        lyricsBubble.textContent = "⚠️ Lyrics generation failed: " + e.message;
+        lyricsBubble.textContent = "\u26A0\uFE0F Lyrics failed: " + e.message;
       }
       setButtons(false); inputEl.focus();
     };
-    xhr.onerror = function() { lyricsBubble.textContent = "⚠️ Network error."; setButtons(false); };
-    xhr.ontimeout = function() { lyricsBubble.textContent = "⚠️ Request timed out."; setButtons(false); };
-    xhr.send(JSON.stringify({ messages: [{ role: "user", content: lyricsPrompt }], mode: "code" }));
+    xhr.onerror   = function() { lyricsBubble.textContent = "\u26A0\uFE0F Network error."; setButtons(false); };
+    xhr.ontimeout = function() { lyricsBubble.textContent = "\u26A0\uFE0F Request timed out."; setButtons(false); };
+    xhr.send(JSON.stringify({ action: "lyrics", concept: concept, genre: genre }));
   }
-
-  function generateBarkAudio(text, hfToken, onSuccess, onError) {
-    // Bark via HuggingFace Inference API
-    // We use the suno/bark-small model for faster generation
+  // Calls the worker's bark action endpoint — HF token stays server-side
+  function _callBarkWorker(text, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://api-inference.huggingface.co/models/suno/bark-small", true);
-    xhr.setRequestHeader("Authorization", "Bearer " + hfToken);
+    xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.responseType = "blob";
-    xhr.timeout = 120000; // Bark is slow — 2 min timeout
+    xhr.timeout = 130000; // Bark is slow — give it 2m10s
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== 4) return;
-      if (xhr.status === 200) {
-        onSuccess(xhr.response);
-      } else if (xhr.status === 503) {
-        // Model loading — tell user
-        onError("Model is loading on HuggingFace (can take ~30s). Try again in a moment.");
-      } else if (xhr.status === 401) {
-        onError("Invalid HF token. Check your token at huggingface.co/settings/tokens");
-      } else {
-        onError("HF API returned status " + xhr.status);
+      try {
+        if (xhr.status === 503) { onError("Bark model is loading on HuggingFace — wait ~30s and retry."); return; }
+        if (xhr.status === 401) { onError("HF token invalid — check the HF_TOKEN secret in your Cloudflare worker."); return; }
+        if (xhr.status !== 200) { onError("Worker returned status " + xhr.status); return; }
+        var data = JSON.parse(xhr.responseText);
+        if (data.error) { onError(data.error); return; }
+        if (!data.audio) { onError("No audio data returned."); return; }
+        onSuccess(data.audio, data.mimeType || "audio/wav");
+      } catch(e) {
+        onError("Parse error: " + e.message);
       }
     };
-    xhr.onerror = function() { onError("Network error calling HuggingFace API."); };
-    xhr.ontimeout = function() { onError("Timed out — Bark model may be overloaded. Try again."); };
-
-    // Bark format: text_inputs is the lyrics, voice_preset sets the speaker
-    xhr.send(JSON.stringify({ inputs: text, parameters: { voice_preset: "v2/en_speaker_6" } }));
+    xhr.onerror   = function() { onError("Network error reaching worker."); };
+    xhr.ontimeout = function() { onError("Timed out — Bark may be overloaded. Try again."); };
+    xhr.send(JSON.stringify({ action: "bark", text: text }));
   }
-
   /* ══════════════════════════════════════════════════════════════════════════
      MAIN SEND / XHR
   ══════════════════════════════════════════════════════════════════════════ */
