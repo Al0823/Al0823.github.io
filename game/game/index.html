@@ -1148,7 +1148,7 @@ var passages = [
         if (gameState.lastChoiceLabel === "Try to work as team to get Lirael inside") {
             
             const successChance = Math.random();
-            const success = successChance > 0.35;   // 65% chance of success
+            const success = successChance > 0.35; // 65% chance of success
             
             if (success) {
                 gameState.whoAteGrimmold = "lirael";
@@ -1156,7 +1156,7 @@ var passages = [
             } 
             else {
                 gameState.whoAteGrimmold = "emily";
-                return "You suggest that the family should work together as a team to help Lirael get back inside despite her current condition.\n\n\"We can do this together,\" you say. \"We'll help her move carefully so no one gets hurt.\"\n\nEveryone begins coordinating, but halfway across the yard Lirael suddenly freezes. Her golden eyes widen and she lets out a strained gasp.\n\n\"Wait— I can’t… hold him…\" she manages before her body convulses violently.\n\nWith a loud, wet retching sound, Lirael vomits Grimmold straight into Emily’s open mouth. The creature is barely digested at all — mostly intact, covered in thick, sticky slime, still weakly thrashing and glowing faintly blue.\n\nEmily doesn’t hesitate. Her eyes flash with strong predatory instinct. She grabs Lirael’s hips to steady her, tilts her head back, and begins swallowing in powerful, continuous gulps. Her small throat bulges dramatically as she forces the slimy, skeletal mass down. She presses her hands firmly against Lirael’s belly, helping to push more of Grimmold out and into her own mouth.\n\nWet, sloppy sounds fill the yard as Emily actively swallows the barely-digested demon. It takes nearly ten long minutes. Emily never once pulls away — her predatory instincts fully on display as she works to take every last piece. By the end, all of Grimmold has been transferred into Emily’s stomach. Her belly is now massively swollen, easily 2–3 times her own 5'2\" body size, hanging low and heavy while the rest of her body remains unchanged for now.\n\nThe sounds coming from Emily’s stomach are incredibly loud and wet — constant heavy *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, loud squelching gurgles, and deep, sloppy churns as Grimmold thrashes weakly inside the tight, stretched space.\n\nLirael collapses to her knees, now empty and panting. A violet glow suddenly surges around her as she grows back to her full 12-foot height. Without hesitation, she gently scoops up Emily — carefully supporting the girl’s enormous, gurgling belly — and carries her inside the house.\n\nLirael lowers Emily onto the large couch in the living room, the child’s massive stomach resting heavily on her lap. Emily continues to gently rub her hugely distended belly with both hands, a small, satisfied smile on her face.\n\nLirael looks at Emily with clear admiration.\n\n\"Isaac was not exaggerating,\" she says softly, voice full of awe. \"You are a human child that is only about 5'2\"… and you just ate a demon that was nearly 15 feet tall. You have extraordinary predatory abilities, Emily.\"";
+                return "You suggest that the family should work together as a team to help Lirael get back inside despite her current condition.\n\n\"We can do this together,\" you say. \"We'll help her move carefully so no one gets hurt.\"\n\nEveryone begins coordinating, but halfway across the yard Lirael suddenly freezes. Her golden eyes widen and she lets out a strained gasp.\n\n\"Wait— I can’t… hold him…\" she manages before her body convulses violently.\n\nWith a loud, wet retching sound, Lirael vomits Grimmold straight into Emily’s open mouth. The creature is barely digested at all — mostly intact, covered in thick, sticky slime, still weakly thrashing and glowing faintly blue.\n\nEmily doesn’t hesitate. Her eyes flash with strong predatory instinct. She grabs Lirael’s hips to steady her, tilts her head back, and begins swallowing in powerful, continuous gulps. Her small throat bulges dramatically as she forces the slimy, skeletal mass down. She presses her hands firmly against Lirael’s belly, helping to push more of Grimmold out and into her own mouth.\n\nWet, sloppy sounds fill the yard as Emily actively swallows the barely-digested demon. It takes nearly ten long minutes. Emily never once pulls away — her predatory instincts fully on display as she works to take every last piece. By the end, all of Grimmold has been transferred into Emily’s stomach. Her belly is now massively swollen, easily 2–3 times her own 5'2\" body size, protruding about 6 feet in front of her and actually touching the ground while the rest of her body remains unchanged for now.\n\nThe sounds coming from Emily’s stomach are incredibly loud and wet — constant heavy *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, loud squelching gurgles, and deep, sloppy churns as Grimmold thrashes weakly inside the tight, stretched space.\n\nLirael collapses to her knees, now empty and panting. A violet glow suddenly surges around her as she grows back to her full 12-foot height. Without hesitation, she gently scoops up Emily — carefully supporting the girl’s enormous, ground-dragging belly — and carries her inside the house.\n\nLirael lowers Emily onto the large couch in the living room, the child’s massive stomach resting heavily on her lap and spilling onto the cushions. Emily continues to gently rub her hugely distended belly with both hands, a small, satisfied smile on her face.\n\nLirael looks at Emily with clear admiration.\n\n\"Isaac was not exaggerating,\" she says softly, voice full of awe. \"You are a human child that is only about 5'2\"… and you just ate a demon that was nearly 15 feet tall. You have extraordinary predatory abilities, Emily.\"";
             }
         } 
         else if (gameState.lastChoiceLabel === "Suggest Lirael quick-digests Grimmold so that we all can go inside now") {
@@ -1169,9 +1169,115 @@ var passages = [
     },
     location: "Byrd Family Home - Living Room (Evening)",
     choices: [
-        { label: "Sit down and talk more with Lirael", next: 135 },
-        { label: "Offer to get Lirael something to drink", next: 135, effect: () => { gameState.liraelBond += 15; }},
-        { label: "Check how Emily is handling everything", next: 135 }
+        { label: "Sit down on the couch and listen to the conversation", next: 135 }
+    ]
+},
+
+// 135 - Family Conversation About Eating Things Alive
+{
+    text: function() {
+        let stomachText = "";
+        
+        if (gameState.whoAteGrimmold === "emily") {
+            stomachText = "Emily’s massively swollen stomach protrudes about 6 feet in front of her and actually touches the ground, resting heavily on her lap and the cushions. The longer the conversation goes on, the louder and wetter her stomach becomes — constant heavy *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, loud squelching gurgles, and deep, sloppy churns filling the room as Grimmold continues to break down inside her.";
+        } else {
+            stomachText = "Lirael’s noticeably rounded and still-active stomach gurgles and sloshes loudly. The longer the conversation goes on, the wetter and more intense the sounds become — thick *GLORPS*, bubbling *GLUUUURKS*, messy sloshing, and deep, sloppy churns echoing through the room.";
+        }
+        
+ return "The conversation turns to the family’s long-standing rule against eating things alive.\n\nLirael speaks first, her voice calm and curious.\n\n\"I’ve noticed your family has a very strict rule against eating things alive,\" she says, gently running a hand over her own softer, curvier figure. \"Why is that? It does not affect where you end up when you die… unless, of course, you eat someone with a status like Grimmold. There are actually many perks to it.\"\n\nShe glances down at her own body, emphasizing her wider hips and fuller breasts.\n\n\"Look at me. Every person I digest makes me softer, curvier, more… comfortable to be around. It feels wonderful.\"\n\nShe turns her golden eyes toward Emily.\n\n\"And Emily… you have truly insane predatory instincts and skills for someone so young. Swallowing a demon nearly three times your size without hesitation? That is extraordinary.\"\n\n" + stomachText + "\n\nLirael continues, her tone warm but direct.\n\n\"So why forbid it entirely? It seems like such a waste of a natural ability. Could this rule… perhaps be forgotten about?\"";
+    },
+    location: "Byrd Family Home - Living Room (Night)",
+    choices: [
+        { label: "Continue to listen to the conversation", next: 136 }
+    ]
+},
+
+// 136 - Discussion About School and the Rule
+{
+    text: function() {
+        let stomachDesc = "";
+        
+        if (gameState.whoAteGrimmold === "emily") {
+            stomachDesc = "As the conversation continues, Emily’s massively swollen stomach — protruding about 6 feet in front of her and touching the ground — grows even louder and wetter. Heavy *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, loud squelching gurgles, and deep, sloppy churns become more frequent and intense, filling the room as Grimmold continues to break down inside her.";
+        } else {
+            stomachDesc = "Lirael’s rounded stomach continues to gurgle and slosh wetly in the background, though not as dramatically as Emily’s most likely would have if she had eaten Grimmold.";
+        }
+        
+        return "Your father leans forward, rubbing his temple as he speaks.\n\n\"Even if we did remove the rule… school starts in just five days. If Emily starts eating people at school, it could cause all kinds of problems. Teachers, other students, parents — it would be chaos.\"\n\nLirael listens patiently, then replies in her calm, velvety voice.\n\n\"There are many perks to allowing it,\" she says, gently running a hand over her own softer, curvier figure. \"It brings strength, beauty, comfort… and as you can see, it can make someone quite… pleasing to look at.\" She gives a small, knowing smile as she gestures to her wider hips and fuller breasts.\n\n\"I could help keep things under control. I can pose as one of those staff members who follows a specific student or two around. I would make sure Emily only eats people who are willing… or anyone who tries to harm or be mean to her. If they try to hurt her, I will let her eat them… or I will eat them myself.\"\n\nShe turns her golden eyes toward you.\n\n\"And Isaac would be completely safe at school. If any student tries to harm him, I will wait until they are alone… and then I will eat them. No one would ever know.\"\n\nYour father is quiet for a long moment, clearly weighing her words. Finally he sighs.\n\n\"…The school already allows students to eat willing peers or faculty. And they let teachers eat students for detention… as long as the teacher can regurgitate on command. But sometimes they forget… or the student gets fully digested before detention ends.\"\n\nHe looks at Lirael directly.\n\n\"If you’re offering to… ‘forget’ in those cases… then perhaps we can lift the rule. As long as you keep Emily from causing real trouble.\"\n\n" + stomachDesc;
+    },
+    location: "Byrd Family Home - Living Room (Night)",
+    choices: [
+        { label: "Stay quiet and listen", next: 137 }
+    ]
+},
+
+// 137 - Agreeing to Lift the Rule
+{
+    text: function() {
+        let stomachEvent = "";
+        
+        if (gameState.whoAteGrimmold === "emily") {
+            stomachEvent = "In the middle of the conversation, Emily’s massively swollen stomach suddenly becomes even louder and more aggressive. Heavy *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, and loud squelching gurgles grow violent and intense as Grimmold continues to break down inside her. Then her belly lets out a particularly violent, deep gurgle… followed by a huge, wet *BUUUUURP* that echoes through the living room. A small, round quartz ball flies out of her mouth and lands with a soft clink on the coffee table — one of the two things needed for a cloaking stone.";
+        } else {
+            stomachEvent = "In the middle of the conversation, the struggles inside Lirael’s stomach suddenly die out. Grimmold is no longer moving — he is dead, though still far from fully digested. A moment later, her belly lets out a violent, heavy gurgle… followed by a huge, wet *BUUUUURP* that echoes through the living room. A small, round quartz ball flies out of her mouth and lands with a soft clink on the coffee table — one of the two things needed for a cloaking stone.";
+        }
+        
+        return "Lirael gives a small, graceful nod.\n\n\"I will gladly agree to those terms,\" she says softly. \"I will act as a chaperone for Emily and Isaac at school. I will only allow eating when it is willing… or when someone tries to harm either of them. In those cases, I will handle it myself if needed.\"\n\nShe pauses, then adds gently,\n\n\"However… to do this properly, I will need a cloaking stone. As I mentioned earlier, it requires a blessed cross or crucifix to be broken into dust and rubbed onto a round piece of quartz. Once I wear it as a necklace, I will appear completely human to everyone else.\"\n\n" + stomachEvent + "\n\nYour father stares at the quartz ball on the table for a long moment, then lets out a slow breath.\n\n\"…Well. That solves one problem,\" he mutters. \"We’ll find a crucifix and make the stone. But remember — this is a trial. One mistake and the rule goes back in place.\"\n\nLirael bows her head respectfully.\n\n\"I understand. I will not disappoint you.\"";
+    },
+    location: "Byrd Family Home - Living Room (Night)",
+    choices: [
+        { label: "Continue listening the conversation", next: 138 }
+    ]
+},
+
+// 138 - Continuing the Conversation
+{
+    text: function() {
+        if (gameState.whoAteGrimmold === "emily") {
+            return "Your father stares at the small quartz ball on the coffee table for a long moment, then leans back in his chair with a heavy sigh.\n\n\"Fine,\" he says gruffly. \"We'll make the cloaking stone. But we're doing this carefully. No rushing. No mistakes.\"\n\nLirael nods respectfully.\n\n\"I understand completely,\" she replies in her calm, velvety voice. \"I will follow every rule you set. My only goal is to protect this family and help Isaac with Theo.\"\n\nEmily, still cradling her massive, loudly gurgling belly, speaks up with surprising confidence.\n\n\"I think it's a good idea,\" she says, gently rubbing the huge dome that protrudes 6 feet in front of her and touches the ground. \"Lirael can keep an eye on me at school. And if anyone tries to mess with Isaac… well, they won't get very far.\"\n\nYour mother looks between everyone, still a bit uneasy but clearly softening.\n\n\"As long as no one gets hurt unnecessarily… and as long as Emily stays safe,\" she adds quietly.\n\nLira (the AI) remains silent but observant, her synthetic eyes flicking between the quartz ball and Emily’s enormously swollen stomach.\n\nThe conversation drifts for a while longer — discussing school logistics, how Lirael will pose as staff, what the cloaking stone will look like, and how to keep everything discreet. The mood in the room slowly shifts from tension to cautious acceptance.\n\nEvery so often, another loud, wet, aggressive gurgle rises from Emily’s belly, the messy sloshing and deep churning growing even more intense the longer they talk.";
+        } 
+        else {
+            return "Your father stares at the small quartz ball on the coffee table for a long moment, then leans back in his chair with a heavy sigh.\n\n\"Fine,\" he says gruffly. \"We'll make the cloaking stone. But we're doing this carefully. No rushing. No mistakes.\"\n\nLirael nods respectfully, still gently resting a hand on her rounded stomach.\n\n\"I understand completely,\" she replies in her calm, velvety voice. \"I will follow every rule you set. My only goal is to protect this family and help Isaac with Theo.\"\n\nYour mother looks between everyone, still a bit uneasy but clearly softening.\n\n\"As long as no one gets hurt unnecessarily… and as long as Emily stays safe,\" she adds quietly.\n\nLira (the AI) remains silent but observant, her synthetic eyes flicking between the quartz ball and Lirael’s noticeably swollen midsection.\n\nThe conversation drifts for a while longer — discussing school logistics, how Lirael will pose as staff, what the cloaking stone will look like, and how to keep everything discreet. The mood in the room slowly shifts from tension to cautious acceptance.\n\nEvery so often, another loud, wet gurgle rises from Lirael’s belly, though the struggles inside have completely died out — Grimmold is no longer moving, though he is still far from fully digested.";
+        }
+    },
+    location: "Byrd Family Home - Living Room (Night)",
+    choices: [
+        { label: "Continue listening to the conversation", next: 139 },
+    ]
+},
+
+// 139 - Making the Cloaking Stone
+{
+    text: function() {
+        let emilyStomach = "";
+        
+        if (gameState.whoAteGrimmold === "emily") {
+            emilyStomach = "As they begin preparing, Emily’s massively swollen stomach suddenly shifts into overdrive. The already loud and wet sounds become even more aggressive — violent *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, and deep, churning gurgles echoing through the room. Grimmold’s struggles finally die out completely. He is dead inside her, though still far from digested. Her belly continues to gurgle loudly, the huge 6-foot protrusion resting heavily on the ground.";
+        } else {
+            emilyStomach = "Lirael’s rounded stomach continues to gurgle wetly in the background. Grimmold’s struggles have already died out inside her — he is dead, though still far from fully digested.";
+        }
+        
+        return "Your father stands up with a decisive nod.\n\n\"Alright. If we’re doing this, let’s do it properly. We’ll make the cloaking stone tonight.\"\n\nHe retrieves a blessed crucifix from a small wooden box in the living room cabinet — one he had been using for the house blessings. Everyone gathers around the coffee table as he carefully prepares to break it.\n\n" + emilyStomach + "\n\nYour father breaks the crucifix with a firm snap. The wood and metal splinter, releasing a fine dust. Lirael hands him the small quartz ball that had come up earlier. He rubs the quartz thoroughly in the blessed dust, coating it evenly.\n\nOnce finished, he threads the quartz onto a simple silver chain and holds it out.\n\nLirael takes the necklace with both hands, her golden eyes respectful.\n\n\"Thank you,\" she says softly.\n\nShe slips the chain over her head and lets the quartz rest against her chest. A faint violet shimmer runs over her body for a moment.\n\nWhen it fades, her skin has changed to a soft, natural human tone, and her glowing golden eyes have become a warm, ordinary hazel. However, she remains her full 12-foot height (unless she chooses to shrink), and she can still use all of her abilities without any limitation.\n\nLirael looks down at herself and smiles gently.\n\n\"It worked. To everyone else, I will now appear as a tall human woman with silver-white hair. But I am still fully myself.\"\n\nShe then turns to the family with a thoughtful expression.\n\n\"Since we are lifting the old rule, there is something important I should teach all of you — how to escape a human stomach from the inside. It is possible to make your predator vomit you back up if you know the right spots to press or strike. It could save your life one day.\"\n\nShe gives a small, warm smile.\n\n\"In return… I would like to learn more about modern society. There is still so much I do not understand — cars, phones, schools, the internet… I want to learn everything.\"";
+    },
+    location: "Byrd Family Home - Living Room (Night)",
+    choices: [
+        { label: "Continue the conversation", next: 140 }
+    ]
+},
+
+// 140 - Ending the Night
+{
+    text: function() {
+        if (gameState.whoAteGrimmold === "emily") {
+            return "The conversation continues for a while longer. Your father asks more questions about how Lirael will act at school, your mother expresses quiet concern about safety, and Emily chimes in excitedly about the idea of Lirael being her “guardian.” Lirael answers everything patiently and respectfully, occasionally glancing at Emily’s still-massive belly with a mix of amusement and admiration.\n\nEventually, the exhaustion of the long, eventful day catches up with everyone.\n\n\"It’s getting late,\" your father says, rubbing his eyes. \"We should all get some rest. School starts soon, and we still have a lot to figure out.\"\n\nYour mother nods in agreement. \"Come on, Emily. Let’s get you settled.\"\n\nEmily tries to stand up, but her stomach — still enormously swollen, though now only about 2 to 2.5 times her own size — makes it difficult. It hangs heavily in front of her, gurgling and sloshing loudly with every small movement. She gives a sheepish grin.\n\n\"I think I’m stuck here tonight…\"\n\nYour mother sighs but smiles softly. \"Alright. You can sleep on the couch. Just… try not to make too much noise.\"\n\nEmily settles back down, both hands resting on her huge, noisy belly as she gets comfortable.\n\nMeanwhile, you and Lirael head upstairs to your room. Once inside, Lirael looks at the large bean bag chair, then at your king-sized bed.\n\n\"I don’t want to sleep over there tonight,\" she says softly while taking the cloaking stone off and setting it on her nightstand, her golden eyes warm. \"I’d rather be closer to you.\"\n\nShe closes her eyes for a moment. A gentle violet shimmer passes over her body as she shrinks down to a more manageable 6 feet tall. She then climbs into your bed beside you, her soft, curvy body sliding under the covers.\n\nWithout hesitation, she pulls you into her arms and cuddles you close, practically engulfing your face in the warm, heavy swell of her breasts. Her pale lavender skin is incredibly soft and comforting, and her sweet, musky vanilla scent surrounds you completely.\n\n\"There… much better,\" she murmurs, voice low and velvety as she holds you protectively against her. \"Sleep well, Isaac.\"";
+        } 
+        else {
+            return "The conversation continues for a while longer. Your father asks more questions about how Lirael will act at school, your mother expresses quiet concern about safety, and Emily chimes in excitedly about the idea of Lirael being her “guardian.” Lirael answers everything patiently and respectfully.\n\nEventually, the exhaustion of the long, eventful day catches up with everyone.\n\n\"It’s getting late,\" your father says, rubbing his eyes. \"We should all get some rest. School starts soon, and we still have a lot to figure out.\"\n\nYour mother nods in agreement. \"Come on, Emily. Let’s get you to bed.\"\n\nEmily heads off to her room while you and Lirael go upstairs to yours. Once inside, Lirael looks at the large bean bag chair, then at your king-sized bed.\n\n\"I don’t want to sleep over there tonight,\" she says softly while taking the cloaking stone off and placing it on your night stand, her golden eyes warm. \"I’d rather be closer to you.\"\n\nShe closes her eyes for a moment. A gentle violet shimmer passes over her body as she shrinks down to a more manageable 6 feet tall. She then climbs into your bed beside you, her soft, curvy body sliding under the covers.\n\nWithout hesitation, she pulls you into her arms and cuddles you close, practically engulfing your face in the warm, heavy swell of her breasts. Her pale lavender skin is incredibly soft and comforting, and her sweet, musky vanilla scent surrounds you completely.\n\n\"There… much better,\" she murmurs, voice low and velvety as she holds you protectively against her. \"Sleep well, Isaac.\"";
+        }
+    },
+    location: "Isaac's Bedroom (Late Night)",
+    choices: [
+        { label: "End the day", next: 141 }
     ]
 },
     // 164 - Morgana Placeholder 
