@@ -134,6 +134,7 @@ trainingTurnCount: 0,      // Current turn in the training session
     acidStage: 0,              // 0 = mild, 1 = moderate, 2 = strong, 3 = critical
 predHealth: 100,
     predDefense: 0,
+nextTrainer: "",
     
     // Real Vore / Death System (Dangerous Scenes)
     isSwallowed: false,            // Player is currently swallowed in a real (potentially deadly) scene
@@ -1935,7 +1936,7 @@ var passages = [
 // 144 - Training Session Summary
 {
     text: function() {
-        let summary = "Lirael helps up off the floor. You stand up, breathing heavily but unharmed.\n\n";
+        let summary = "Lirael helps you up off the floor. You stand up, breathing heavily but unharmed.\n\n";
 
         // Session summary
         summary += "**Training Session Complete**\n\n";
