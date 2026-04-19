@@ -145,7 +145,9 @@ nextTrainer: "",
     digestionRateReal: 10,         // How fast digestion progresses per turn
     canDieFromDigestion: true,     // If true, full digestion = game over
     voreDeathCount: 0,             // How many times player has been digested
-    lastSwallowedBy: "",           // Last predator who swallowed the player
+    lastSwallowedBy: "",// Last predator who swallowed the player
+lastActionText: "",
+checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false },
     
     // Existing Core Variables (from your original code)
     liraelFreed: false,
@@ -160,6 +162,7 @@ nextTrainer: "",
     whoAteGrimmold: "",
     bondsInitialized: false,
     knowliraelmilk: false,
+    liraEaten: false,
     
     // Day Flags & Other Variables (from your original code)
     liraelFedComfort: false,
@@ -275,7 +278,7 @@ var passages = [
     { text: "Your room doesn't feel like yours yet.\n\nThe bed is unfamiliar.\n\nThe air smells faintly of dust and old wood.\n\nYou lie down anyway.\n\nStaring up at the cracked ceiling.\n\nWaiting for sleep to come.\n\nIt doesn't.\n\n---\n\nAt first, it's just small things.\n\nA creak somewhere down the hall.\n\nThe faint shift of wood settling.\n\nNormal.\n\nExplainable.\n\nThen it changes.\n\nThe sounds become… deliberate.\n\nMeasured.\n\nFootsteps that don't quite sound like footsteps.\n\nScratching that moves.\n\nNot in one place.\n\nBut from wall… to wall.\n\nSlowly.\n\nLike something exploring.\n\nYour chest tightens slightly.\n\nYou stay still.\n\nListening.\n\nA whisper drifts through the darkness.\n\nToo soft to make out.\n\nToo clear to ignore.\n\nYour breath slows.\n\nYou focus.\n\nTry to hear it again.\n\nNothing.\n\nThen—\n\nAnother.\n\nCloser this time.\n\nYou sit up.\n\nThe silence that follows feels worse than the noise.\n\nHeavier.\n\nExpectant.\n\nMinutes pass.\n\nOr maybe longer.\n\nTime feels… stretched here.\n\nEventually, the unease becomes too much.\n\nLying here isn't helping.\n\nIt's making it worse.", location: "Isaac's Bedroom", choices: [{ label: "Sneak down to the basement", next: 10 }, { label: "Go up to the attic instead", next: 12 }] },
 
     // 12 - Attic Discovery
-    { text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratching.\n\nNot loud.\n\nBut persistent.\n\nYour body tenses before your mind fully catches up.\n\nYou're already sitting up.\n\nAlready listening.\n\nIt doesn't stop.\n\n---\n\nThe attic ladder creaks loudly as you pull it down.\n\nToo loudly.\n\nYou pause.\n\nWait.\n\nNothing reacts.\n\nSo you climb.\n\n---\n\nThe attic air hits you immediately.\n\nHot.\n\nStale.\n\nThick with the smell of aged paper, dust, mothballs… and something faintly rotten beneath it all.\n\nYour flashlight beam cuts through the darkness in a narrow cone.\n\nShapes emerge slowly.\n\nOld trunks.\n\nBroken furniture.\n\nCovered paintings leaning against the walls like they were turned away on purpose.\n\nEvery movement stirs dust into the air, making it feel harder to breathe.\n\nThe scratching stops.\n\nJust as suddenly as it started.\n\n---\n\nYou step further in.\n\nCareful.\n\nQuiet.\n\nYour elbow bumps into something.\n\nA heavy wooden box shifts—\n\nAnd something falls.\n\n*THUD.*\n\nThe sound is sharp.\n\nToo loud.\n\nYou freeze.\n\nWait.\n\nNothing.\n\nSlowly, you look down.\n\nA thick, leather-bound book lies open at your feet.\n\nIts pages are yellowed with age.\n\nThe spine cracked.\n\nThe title…\n\nFaded, but still readable.\n\n**Ars Goetia, Safe Summoning Rites for Companions and Bound Servants**\n\nYour stomach tightens slightly.\n\nYou kneel.\n\nFlip a page.\n\nDiagrams.\n\nCircles.\n\nInstructions.\n\nDetailed.\n\nPrecise.\n\nFamiliar.\n\nToo familiar.\n\nThen you see them.\n\nTwo items tucked between the pages.\n\nYour breath catches.\n\nTheo's drawing.\n\nThe one you've kept with you since he disappeared.\n\nAnd beside it—\n\nA lock of long, perfectly preserved black hair.\n\nIt shouldn't still look like that.\n\nBut it does.\n\nUntouched by time.\n\nWaiting.", location: "Attic", choices: [{ label: "Head down to the Basement and use Theo's drawing", next: 13, effect: () => { gameState.pathChosen = "Lirael"; gameState.statsUnlocked = true; }}, { label: "Head down to the Basement and use the lock of ancient black hair", next: 148, effect: () => { gameState.pathChosen = "Morgana"; }}] },
+    { text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratching.\n\nNot loud.\n\nBut persistent.\n\nYour body tenses before your mind fully catches up.\n\nYou're already sitting up.\n\nAlready listening.\n\nIt doesn't stop.\n\n---\n\nThe attic ladder creaks loudly as you pull it down.\n\nToo loudly.\n\nYou pause.\n\nWait.\n\nNothing reacts.\n\nSo you climb.\n\n---\n\nThe attic air hits you immediately.\n\nHot.\n\nStale.\n\nThick with the smell of aged paper, dust, mothballs… and something faintly rotten beneath it all.\n\nYour flashlight beam cuts through the darkness in a narrow cone.\n\nShapes emerge slowly.\n\nOld trunks.\n\nBroken furniture.\n\nCovered paintings leaning against the walls like they were turned away on purpose.\n\nEvery movement stirs dust into the air, making it feel harder to breathe.\n\nThe scratching stops.\n\nJust as suddenly as it started.\n\n---\n\nYou step further in.\n\nCareful.\n\nQuiet.\n\nYour elbow bumps into something.\n\nA heavy wooden box shifts—\n\nAnd something falls.\n\n*THUD.*\n\nThe sound is sharp.\n\nToo loud.\n\nYou freeze.\n\nWait.\n\nNothing.\n\nSlowly, you look down.\n\nA thick, leather-bound book lies open at your feet.\n\nIts pages are yellowed with age.\n\nThe spine cracked.\n\nThe title…\n\nFaded, but still readable.\n\n**Ars Goetia, Safe Summoning Rites for Companions and Bound Servants**\n\nYour stomach tightens slightly.\n\nYou kneel.\n\nFlip a page.\n\nDiagrams.\n\nCircles.\n\nInstructions.\n\nDetailed.\n\nPrecise.\n\nFamiliar.\n\nToo familiar.\n\nThen you see them.\n\nTwo items tucked between the pages.\n\nYour breath catches.\n\nTheo's drawing.\n\nThe one you've kept with you since he disappeared.\n\nAnd beside it—\n\nA lock of long, perfectly preserved black hair.\n\nIt shouldn't still look like that.\n\nBut it does.\n\nUntouched by time.\n\nWaiting.", location: "Attic", choices: [{ label: "Head down to the Basement and use Theo's drawing", next: 13, effect: () => { gameState.pathChosen = "Lirael"; gameState.statsUnlocked = true; }}, { label: "Head down to the Basement and use the lock of ancient black hair", next: 999, effect: () => { gameState.pathChosen = "Morgana"; }}] },
 
     // 13 - Lirael First Meeting / Return Visit
     {
@@ -1319,38 +1322,47 @@ var passages = [
             gameState.preyStamina = 100,
             gameState.digestionProgress = 0,
             gameState.acidStage = 0,
-            gameState.predHealth = 100,
-            gameState.predDefense = 7,
+            gameState.predHealth = 90,
+            gameState.predDefense = 5,
             gameState.trainingSessionCount += 1;} }
     ]
 },
-/*
-// 143 - Isaac's Escape Training Session (Self-Contained)
+// 143 - Isaac's Escape Training Session
 {
     text: function() {
         // Initialize on first entry
-        if (gameState.trainingTurnCount === undefined) { 
-            gameState.trainingTurnCount = 0, 
-            gameState.inStomach = true, 
-            gameState.currentPredator = "lira",        // Lira (AI) is the predator
-            gameState.preyHealth = 100,
-            gameState.preyStamina = 100,
-            gameState.digestionProgress = 0,
-            gameState.acidStage = 0,
-            gameState.predHealth = 100,
-            gameState.predDefense = 7,
-            gameState.trainingSessionCount += 1,
+        if (gameState.trainingTurnCount === undefined) {
+            gameState.trainingTurnCount = 0;
+            gameState.inStomach = true;
+            gameState.currentPredator = "lira";
+            gameState.preyHealth = 100;
+            gameState.preyStamina = 100;
+            gameState.digestionProgress = 0;
+            gameState.acidStage = 0;
+            gameState.predHealth = 90;
+            gameState.predDefense = 5;
+            gameState.trainingSessionCount += 1;
             gameState.escapeTrainingProgress = Math.min(100, gameState.escapeTrainingProgress + 12);
+            gameState.checkpointShown = { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false };
+            gameState.lastChoiceLabel = "";
         }
 
         gameState.trainingTurnCount += 1;
 
-        let status = "**Turn:** " + gameState.trainingTurnCount + 
-                     "**Health:** " + gameState.preyHealth + 
-                     "**Stamina:** " + gameState.preyStamina + 
-                     "**Digestion:** " + gameState.digestionProgress + "%" +
-                     "**Acid Stage:** " + gameState.acidStage +
-                     "**Predator Health:** " + gameState.predHealth;
+        // Acid stage increases every 3 turns
+        if (gameState.trainingTurnCount % 3 === 0) {
+            gameState.acidStage = Math.min(3, gameState.acidStage + 1);
+        }
+
+        // Health ticks down every turn, scaled by acidStage
+        let healthLoss = 4 + (gameState.acidStage * 3);
+        gameState.preyHealth -= healthLoss;
+        if (gameState.preyHealth < 0) gameState.preyHealth = 0;
+
+        // Digestion always progresses
+        gameState.digestionProgress += 2 + gameState.acidStage;
+
+        let status = `**Turn:** ${gameState.trainingTurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${gameState.digestionProgress}% | **Acid Stage:** ${gameState.acidStage} | **Lira's Stomach Health:** ${gameState.predHealth}`;
 
         let digestionText = "";
         if (gameState.acidStage === 0) digestionText = "The stomach walls gently churn around you.";
@@ -1358,7 +1370,59 @@ var passages = [
         else if (gameState.acidStage === 2) digestionText = "The burning sensation is getting stronger.";
         else if (gameState.acidStage === 3) digestionText = "@@color:red;The acids are painful now.@@";
 
-        // Check for successful escape
+        // Checkpoint messages
+        let checkpointText = "";
+
+        if (gameState.predHealth <= 75 && !gameState.checkpointShown.pred75) {
+            checkpointText += "@@color:yellow;Lira's stomach is starting to strain from your efforts.@@\n";
+            gameState.checkpointShown.pred75 = true;
+        }
+        if (gameState.predHealth <= 50 && !gameState.checkpointShown.pred50) {
+            checkpointText += "@@color:orange;Lira's stomach is noticeably weakening. She's starting to struggle.@@\n";
+            gameState.checkpointShown.pred50 = true;
+        }
+        if (gameState.predHealth <= 25 && !gameState.checkpointShown.pred25) {
+            checkpointText += "@@color:lime;You're close! Lira's stomach is on the verge of giving in.@@\n";
+            gameState.checkpointShown.pred25 = true;
+        }
+
+        if (gameState.preyHealth <= 75 && !gameState.checkpointShown.player75) {
+            checkpointText += "@@color:yellow;You're starting to feel the strain...@@\n";
+            gameState.checkpointShown.player75 = true;
+        }
+        if (gameState.preyHealth <= 50 && !gameState.checkpointShown.player50) {
+            checkpointText += "@@color:orange;You're taking noticeable damage now.@@\n";
+            gameState.checkpointShown.player50 = true;
+        }
+        if (gameState.preyHealth <= 25 && !gameState.checkpointShown.player25) {
+            checkpointText += "@@color:red;You're in serious danger... one more big hit could be fatal.@@\n";
+            gameState.checkpointShown.player25 = true;
+        }
+
+        if (gameState.acidStage === 1 && !gameState.checkpointShown.acid1) {
+            checkpointText += "@@color:yellow;The acids have begun to rise...@@\n";
+            gameState.checkpointShown.acid1 = true;
+        }
+        if (gameState.acidStage === 2 && !gameState.checkpointShown.acid2) {
+            checkpointText += "@@color:orange;The burning is getting much worse.@@\n";
+            gameState.checkpointShown.acid2 = true;
+        }
+        if (gameState.acidStage === 3 && !gameState.checkpointShown.acid3) {
+            checkpointText += "@@color:red;The acids are now extremely painful!@@\n";
+            gameState.checkpointShown.acid3 = true;
+        }
+
+        // DEATH CHECK - Player dies if health <= 0 or digestion >= 100
+        if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
+            gameState.inStomach = false;
+            gameState.currentPredator = "";
+            gameState.trainingTurnCount = 0;
+            gameState.acidStage = 0;
+
+            return "@@color:red;The acids and pressure finally overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
+        }
+
+        // Early escape
         if (gameState.predHealth <= 0) {
             gameState.inStomach = false;
             gameState.currentPredator = "";
@@ -1367,8 +1431,8 @@ var passages = [
             return digestionText + "\n\nYour efforts overwhelm Lira's stomach! She doubles over and vomits you back up safely.\n\nLirael claps. \"Well done, Isaac! You successfully escaped before the time limit.\"";
         }
 
-        // Auto-release attempt after 8 turns
-        if (gameState.trainingTurnCount >= 8) {
+        // Auto-release at turn 10
+        if (gameState.trainingTurnCount >= 10) {
             let result = "\n\nYou've been inside for quite a while. Lirael tells Lira to end the session. Lira focuses and tries to vomit you back up...\n\n";
             
             if (Math.random() < 0.95) {
@@ -1378,79 +1442,64 @@ var passages = [
                 gameState.acidStage = 0;
                 return result + "With a powerful heave, Lira successfully vomits you back up. You land safely on the floor.\n\nLirael smiles. \"Good effort.\"";
             } else {
-                gameState.acidStage = Math.min(3, gameState.acidStage + 1);
-                gameState.digestionProgress += 18;
-                gameState.preyHealth -= 15;
-                return result + "Lira struggles but fails to bring you up. The acids surge violently.\n\nYou have **one last chance** to escape...";
+                gameState.acidStage = 3;
+                gameState.digestionProgress += 25;
+                gameState.preyHealth -= 25;
+                
+                if (gameState.digestionProgress >= 100 || gameState.preyHealth <= 0) {
+                    gameState.inStomach = false;
+                    gameState.currentPredator = "";
+                    gameState.trainingTurnCount = 0;
+                    gameState.acidStage = 0;
+                    return result + "@@color:red;Lira fails to bring you up in time. The acids overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
+                }
+                
+                return result + "Lira struggles but fails to bring you up. The acids surge violently.\n\nYou have **one last desperate chance** to escape...";
             }
         }
 
-        return "You are inside **Lira's** stomach for training.\n\nLirael stands outside, giving instructions.\n\n" + status + "\n\n" + digestionText + "\n\nWhat will you do?";
+        // Action text based on lastChoiceLabel
+        let actionText = "";
+        if (gameState.lastChoiceLabel) {
+            if (gameState.lastChoiceLabel === "Struggle Conservatively") actionText = "You struggle conservatively, pushing gently against the walls.\n";
+            else if (gameState.lastChoiceLabel === "Struggle") actionText = "You struggle steadily against the stomach walls.\n";
+            else if (gameState.lastChoiceLabel === "Struggle Aggressively") actionText = "You thrash aggressively with all your strength.\n";
+            else if (gameState.lastChoiceLabel === "Brace Yourself") actionText = "You brace yourself firmly against the walls.\n";
+            else if (gameState.lastChoiceLabel === "Probe") actionText = "You carefully probe the stomach walls, searching for weak points.\n";
+            else if (gameState.lastChoiceLabel === "Soothe") actionText = "You gently massage the stomach walls, trying to calm it.\n";
+            else if (gameState.lastChoiceLabel === "Rest") actionText = "You take a moment to rest and regain some strength.\n";
+
+            // Predator action text
+            const predMove = ["massage","relax","taunt","knead","squeeze","crush","shake"][Math.floor(Math.random()*7)];
+            if (predMove === "massage") actionText += "Lira gently massages her belly from the outside, soothing the stomach.\n";
+            else if (predMove === "relax") actionText += "Lira relaxes her stomach muscles, making the chamber a little less tight.\n";
+            else if (predMove === "taunt") actionText += "Lira taunts you softly, her voice vibrating through the walls.\n";
+            else if (predMove === "knead") actionText += "Lira kneads her belly firmly, grinding the walls against you.\n";
+            else if (predMove === "squeeze") actionText += "Lira squeezes her stomach muscles, compressing you tightly.\n";
+            else if (predMove === "crush") actionText += "Lira crushes her stomach muscles hard around you.\n";
+            else if (predMove === "shake") actionText += "Lira shakes her belly vigorously, tossing you around.\n";
+        }
+
+        return "You are inside **Lira's** stomach for training.\n\nLirael stands outside, giving instructions.\n\n" + status + "\n\n" + digestionText + "\n\n" + checkpointText + "\n" + actionText + "What will you do?";
     },
     location: "Inside Lira's Stomach (Safe Training)",
-    choices: function() {
-        const choices = [];
-        
-        if (gameState.preyStamina > 0 && gameState.preyHealth > 0) {
-            choices.push(
-                { label: "Struggle Conservatively", next: 143, effect: () => {
-                    gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
-                    gameState.digestionProgress += 4 + gameState.acidStage;
-                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
-                }},
-                { label: "Struggle", next: 143, effect: () => {
-                    gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
-                    gameState.digestionProgress += 7 + gameState.acidStage;
-                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
-                }},
-                { label: "Struggle Aggressively", next: 143, effect: () => {
-                    gameState.preyStamina -= 25;
-                    gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
-                    gameState.digestionProgress += 12 + gameState.acidStage;
-                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
-                }},
-                { label: "Brace Yourself", next: 143, effect: () => {
-                    gameState.preyStamina -= 10;
-                    gameState.preyHealth += 12;
-                }}
-            );
-        }
-        
-        if (gameState.preyResilience > 2 && gameState.preyStamina > 15) {
-            choices.push({ label: "Probe", next: 143, effect: () => {
-                gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
-                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
-            }});
-        }
-        
-        if (gameState.preyResilience > 4 && gameState.preyStamina > 20) {
-            choices.push({ label: "Soothe", next: 143, effect: () => {
-                gameState.preyStamina -= 14;
-                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
-                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
-            }});
-        }
-        
-        choices.push({ label: "Rest", next: 143, effect: () => {
-            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
-        }});
-        
-        // Manual end session
-        choices.push({ label: "Ask Lirael to end the session", next: 145, effect: () => {
+    choices: [
+        { label: "Struggle Conservatively", next: 143, effect: () => { gameState.preyStamina -= 6; gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*3)+3) - gameState.predDefense)); gameState.digestionProgress += 3 + gameState.acidStage; if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8; gameState.lastChoiceLabel = "Struggle Conservatively"; }},
+        { label: "Struggle", next: 143, effect: () => { gameState.preyStamina -= 11; gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*4)+6) - gameState.predDefense)); gameState.digestionProgress += 6 + gameState.acidStage; if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12; gameState.lastChoiceLabel = "Struggle"; }},
+        { label: "Struggle Aggressively", next: 143, effect: () => { gameState.preyStamina -= 18; gameState.preyHealth -= 5; gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*5)+11) - Math.round(gameState.predDefense*0.7))); gameState.digestionProgress += 10 + gameState.acidStage; if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18; gameState.lastChoiceLabel = "Struggle Aggressively"; }},
+        { label: "Brace Yourself", next: 143, effect: () => { gameState.preyStamina -= 7; gameState.preyHealth += 10; gameState.lastChoiceLabel = "Brace Yourself"; }},
+        { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 12, effect: () => { gameState.preyStamina -= 9; gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*4)+5) - gameState.predDefense)); if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15; gameState.lastChoiceLabel = "Probe"; }},
+        { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 18, effect: () => { gameState.preyStamina -= 11; gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 9); if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12; gameState.lastChoiceLabel = "Soothe"; }},
+        { label: "Rest", next: 143, effect: () => { gameState.preyStamina = Math.min(100, gameState.preyStamina + 15); gameState.lastChoiceLabel = "Rest"; }},
+        { label: "Ask Lirael to end the session", next: 144, effect: () => { 
             gameState.inStomach = false;
-            gameState.currentPredator = "";
+            gameState.currentPredator = "";/*
             gameState.trainingTurnCount = 0;
-            gameState.acidStage = 0;
-        }});
-        
-        return choices;
-    }
-},*/
-
+            gameState.acidStage = 0;*/
+        }}
+    ]
+},
+/*
 // 143 - Isaac's Escape Training Session (Self-Contained)
 {
     text: function() {
@@ -1932,7 +1981,7 @@ var passages = [
         }}
         ]
     },
-
+*/
 // 144 - Training Session Summary
 {
     text: function() {
@@ -1964,38 +2013,33 @@ var passages = [
     },
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
-        { label: "Father goes next", next: 145, effect: () => {
-            // Slight bonus for Isaac watching
-            gameState.escapeSkillIsaac = Math.min(100, gameState.escapeSkillIsaac + 3), gamestate.nextTrainer = father;
-        }},
-        { label: "Mother goes next", next: 145, effect: () => {gamestate.nextTrainer = mother;}
+        { label: "Father goes next", next: 145, effect: () => {gameState.lastChoiceLabel = "Father goes next";}
+        },
+        { label: "Mother goes next", next: 145, effect: () => {gameState.lastChoiceLabel = "Mother goes next";}
         },
 
-        { label: "End training for now", next: 146, effect: () => {
-            gameState.trainingTurnCount = 0;
-        }}
+        { label: "End training for now", next: 146
+    }
     ]
 },
+
 
 // 145 - Next Family Member Training
 {
     text: function() {
-        // Default to father if somehow undefined
-        if (!gameState.nextTrainer) gameState.nextTrainer = "father";
-
-        if (gameState.nextTrainer === "father") {
-            return "Your father steps forward, looking determined but a bit stiff.\n\n\"Alright,\" he grunts. \"My turn. Let's see what this is about.\"\n\nLira opens her mouth and swallows your father. His larger frame makes a much more noticeable bulge in her stomach. Lirael gives instructions from the side.\n\nYour father immediately begins struggling inside. You can see Lira's stomach shifting and hear occasional grunts from both of them.\n\nAfter several minutes of vigorous movement, Lira doubles over and vomits your father back up. He lands on his feet, breathing hard but looking satisfied.\n\nLirael nods approvingly. \"Not bad for a first try. You have good strength, but you relied mostly on brute force. Technique will help you conserve energy next time.\"\n\nYour father wipes slime off his arms. \"Not as easy as it looks,\" he mutters.";
+        if (gameState.lastChoiceLabel === "Father goes next") {
+            return "Your father steps forward, looking determined but a bit stiff.\n\n\"Alright,\" he grunts. \"My turn. Let's see what this is about.\"\n\nLira opens her mouth and swallows your father. His larger frame makes a much more noticeable bulge in her stomach. Lirael gives instructions from the side.\n\nYour father immediately begins struggling inside. You can see Lira's stomach shifting and hear occasional grunts from both of them.\n\nAfter several minutes of vigorous movement, Lira doubles over and vomits your father back up. He lands on his feet, breathing hard but looking satisfied.\n\nLirael nods approvingly. \"Not bad for a first try. You have good strength, but you relied mostly on brute force. Technique will help you conserve energy next time.\"\n\nYour father wipes slime off his arms. \"Not as easy as it looks,\" he mutters.\n\nYour mother steps forward, looking nervous but resolute.\n\n\"I'll give it a try,\" she says quietly.\n\nLira swallows her carefully. Your mother's smaller frame creates a smoother, more rounded bulge in Lira's stomach. Lirael coaches her gently from the outside.\n\nInside, your mother uses more careful, precise movements rather than raw power. After a few minutes, Lira begins to retch and successfully brings her back up.\n\nYour mother stands up, a bit shaky but smiling faintly.\n\nLirael looks pleased. \"Very good. You focused on placement and leverage rather than just strength. That kind of smart struggling will serve you well.\"";
         } 
-        else if (gameState.nextTrainer === "mother") {
-            return "Your mother steps forward, looking nervous but resolute.\n\n\"I'll give it a try,\" she says quietly.\n\nLira swallows her carefully. Your mother's smaller frame creates a smoother, more rounded bulge in Lira's stomach. Lirael coaches her gently from the outside.\n\nInside, your mother uses more careful, precise movements rather than raw power. After a few minutes, Lira begins to retch and successfully brings her back up.\n\nYour mother stands up, a bit shaky but smiling faintly.\n\nLirael looks pleased. \"Very good. You focused on placement and leverage rather than just strength. That kind of smart struggling will serve you well.\"";
+        else if (gameState.lastChoiceLabel === "Mother goes next") {
+            return "Your mother steps forward, looking nervous but resolute.\n\n\"I'll give it a try,\" she says quietly.\n\nLira swallows her carefully. Your mother's smaller frame creates a smoother, more rounded bulge in Lira's stomach. Lirael coaches her gently from the outside.\n\nInside, your mother uses more careful, precise movements rather than raw power. After a few minutes, Lira begins to retch and successfully brings her back up.\n\nYour mother stands up, a bit shaky but smiling faintly.\n\nLirael looks pleased. \"Very good. You focused on placement and leverage rather than just strength. That kind of smart struggling will serve you well.\"\n\nYour father then steps forward, looking determined but a bit stiff.\n\n\"Alright,\" he grunts. \"My turn. Let's see what this is about.\"\n\nLira opens her mouth and swallows your father. His larger frame makes a much more noticeable bulge in her stomach. Lirael gives instructions from the side.\n\nYour father immediately begins struggling inside. You can see Lira's stomach shifting and hear occasional grunts from both of them.\n\nAfter several minutes of vigorous movement, Lira doubles over and vomits your father back up. He lands on his feet, breathing hard but looking satisfied.\n\nLirael nods approvingly. \"Not bad for a first try. You have good strength, but you relied mostly on brute force. Technique will help you conserve energy next time.\"\n\nYour father wipes slime off his arms. \"Not as easy as it looks,\" he mutters.";
         }
 
         return "\n\nLirael looks around at the family.\n\n\"Training is going well so far. Who should go next?\"";
     },
     location: "Byrd Family Home - Living Room (Late Morning)",
     choices: [
-        { label: "Father goes next", next: 145, effect: () => { gameState.nextTrainer = "father"; }},
-        { label: "Mother goes next", next: 145, effect: () => { gameState.nextTrainer = "mother"; }},
+        { label: "Father goes next", next: 145, condition: () => {gameState.lastChoiceLabel = "Father goes next";} },
+        { label: "Mother goes next", next: 145, condition: () =>  {gameState.lastChoiceLabel = "Mother goes next";} },
         { label: "End training for today", next: 146, effect: () => {
             gameState.inStomach = false;
             gameState.currentPredator = "";
@@ -2017,17 +2061,80 @@ var passages = [
         gameState.digestionProgress = 0;
         gameState.predHealth = 100;
 
-        return "Lirael looks around at the tired but accomplished family with a gentle smile.\n\n\"That was an excellent first training session,\" she says warmly. \"Everyone showed real potential. We will continue tomorrow.\"\n\nShe pauses for a moment, then continues:\n\n\"Tomorrow, Emily will have her turn to train... and the rest of us will train with a real predator.\" She doesn't reveal who that predator will be, only giving a small, knowing smile.\n\n\"After Emily completes her training, I would like to experiment with her stomach capacity and a few other abilities... if that is acceptable to all of you.\"\n\nEmily looks excited. Your parents exchange a cautious but resigned glance.\n\nLirael then bows her head slightly in respect.\n\n\"For now, I believe we have done enough for tonight. In return for my assistance with training... I would very much like to be taught more about the modern world. There is still so much I do not understand — cars, phones, the internet, daily customs... I want to learn as much as possible.\"\n\nThe room feels heavy with the events of the day, but a sense of cautious progress hangs in the air.";
+        return "Lirael looks around at the tired but accomplished family with a gentle smile.\n\n\"That was an excellent first training session,\" she says warmly. \"Everyone showed real potential. We will continue tomorrow.\"\n\nShe pauses for a moment, then continues:\n\n\"Tomorrow, Emily will have her turn to train... and the rest of us will train with a real predator.\" She doesn't reveal who that predator will be, only giving a small, knowing smile.\n\n\"After Emily completes her training, I would like to experiment with her stomach capacity and a few other abilities... if that is acceptable to all of you.\"\n\nEmily looks excited. Your parents exchange a cautious but resigned glance, then nod in agreement.\n\n\"We can do that,\" your father says. \"We'll teach you about the modern world tomorrow after Emily trains and you do your... experiments.\"\n\nLirael bows her head respectfully.\n\n\"Thank you. I look forward to learning.\" She then excuses herself, quickly running upstairs. A moment later she returns wearing the cloaking stone necklace. With a soft violet shimmer, she grows back to her more comfortable 6'1\" height while still appearing human to outsiders.\n\nAs the evening settles in, your mother suggests ordering pizza for dinner. The family agrees, and your father places the order. While they wait for the pizza to arrive, everyone starts to feel the long day catching up with them.\n\nEmily sits with them, her stomach now only about half her size. Grimmold is pretty much fully digested at this point, and the massive amount of energy has gone straight to her body. Her clothes are hugging her much tighter than before — her breasts have grown noticeably larger and rounder, straining against the fabric of her shirt, while her hips and ass have widened into a full, plush hourglass shape. Her thighs are thicker and softer, and overall she looks significantly more curvaceous and womanly than she did just yesterday.";
+
     },
-    location: "Byrd Family Home - Living Room (Late Afternoon)",
+    location: "Byrd Family Home - Living Room (Late Evening)",
     choices: [
-        { label: "Agree to teach Lirael about the modern world tomorrow", next: 147, effect: () => { 
-            gameState.liraelBond += 20; 
-        }},
-        { label: "Ask Lirael more about tomorrow's plans", next: 147 },
-        { label: "Suggest everyone gets some rest for now", next: 147, effect: () => { 
-            gameState.liraelBond += 10; 
-        }}
+        { label: "Wait for the pizza to arrive", next: 147 }
+    ]
+},
+
+// 147 - Pizza Delivery
+{
+    text: function() {
+        // Reset flag
+        gameState.liraEaten = false;
+
+        let baseText = "A little while later, the doorbell rings. Your father gets up to answer it.\n\nThe pizza delivery person is a very curvy and voluptuous woman in her mid-20s. She has wide hips, a thick ass, and a large, heavy chest that strains against her delivery uniform. She’s carrying a tall stack of at least ten pizza boxes.\n\n\"Ten large pizzas?\" she says cheerfully, balancing the heavy stack. \"That’ll be $148.50.\"\n\nEmily’s eyes light up at the sight of the mountain of pizza. Without thinking, she suddenly lunges forward from the couch, stomach still gurgling, trying to grab the boxes.\n\nShe misses.\n\nInstead, her mouth opens wide and she instinctively swallows the curvaceous delivery woman head-first in one powerful motion. As the woman slides in, Emily reaches up and tears the woman’s tight top open with both hands, exposing her large, soft breasts. Emily lets out a pleased hum as she savors the woman’s sweet, slightly salty flavor.\n\nWet, greedy gulps echo through the room as Emily swallows the thick, plush body down. Her throat bulges dramatically as the delivery woman’s heavy chest and wide hips stretch her mouth and throat. Emily takes her time, clearly enjoying the taste.\n\n";
+
+        // 5% rare event - Lira tries to intervene
+        if (Math.random() < 0.05) {
+            gameState.liraEaten = true;
+            return baseText + "As Emily reaches the woman’s wide hips, Lira suddenly steps in and tries to pull the delivery woman back out by her legs.\n\n\"Wait, Emily—!\" Lira says, grabbing the woman’s ankles.\n\nBut the momentum is too strong. Emily’s powerful swallow continues, and Lira is yanked forward. With a surprised yelp, Lira’s head and shoulders slide straight into Emily’s mouth along with the delivery woman.\n\nEmily’s eyes widen in surprise, but she can’t stop the reflexive gulp. She swallows both of them down in one long, heavy motion. Her throat bulges massively as the two bodies slide inside her.\n\nEmily sits in place, unable to move. Her stomach is now enormously swollen, resting heavily on the floor and spreading out in front of her. She can barely reach her hands over the top of the massive, gurgling dome.\n\nInside, loud, wet gurgles and muffled struggles can be heard as both the delivery woman and Lira begin to break down.\n\nLirael raises an eyebrow, looking both impressed and slightly concerned.\n\nYour parents stare in stunned silence.";
+        }
+
+        // Normal 95% path
+        return baseText + "Emily reaches the woman’s wide hips and continues swallowing with a satisfied moan. With a final heavy *GLORP*, the curvaceous delivery woman disappears completely into Emily’s stomach.\n\nEmily sits back for a moment, then slowly waddles over to the couch, her massively swollen belly now so large and heavy that it barely hovers above the ground, swaying and sloshing with every step. She lowers herself onto the cushions with a tired but satisfied sigh, both hands gently rubbing the enormous, gurgling dome resting on her lap and spilling onto the couch. Her shirt has ridden up completely, sitting bunched at the very top of her massive belly like a crop top, leaving the smooth, stretched skin fully exposed.\n\n\"Mmm… she tasted really good,\" Emily murmurs, licking her lips. \"And we still have all the pizza!\"\n\nThe stack of ten pizza boxes sits forgotten on the floor. Inside Emily’s stomach, loud, wet gurgles and muffled struggles can be heard as the curvaceous woman begins to break down.\n\nLirael raises an eyebrow, looking both impressed and amused.\n\nYour parents stare in stunned silence.";
+
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { label: "React to what just happened", next: 148 }
+    ]
+},
+
+// 148 - Family Reaction to the Delivery Incident
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare path - Lira was also swallowed
+            return "The room is dead silent for several long seconds, broken only by the loud, wet *GLORPS* and *CHURRNS* coming from Emily’s enormously distended belly.\n\nYour father is the first to speak, staring at the massive, floor-touching gut resting in front of his daughter.\n\n\"...Emily,\" he says slowly, voice strained. \"You just ate the pizza delivery girl. And Lira.\"\n\nEmily pats the top of her huge, sloshing stomach with both hands. Her shirt has ridden up completely, sitting bunched at the very top of her massive belly like a crop top, leaving the smooth, stretched skin of her hugely swollen middle completely exposed.\n\n\"I was really hungry,\" she says, as if that explains everything. \"And Lira got in the way when she tried to pull the delivery lady out. But they both tasted pretty good... especially the delivery lady. She was really soft and sweet.\"\n\nYour mother’s face is pale. \"Emily, honey… we ordered ten pizzas. Not… not two people.\"\n\nEmily shrugs, still gently rubbing the enormous dome that spreads across her lap and touches the floor.\n\n\"Pizza delivery people get eaten all the time,\" she says casually. \"They probably aren’t going to come looking for her.\"\n\nLirael steps closer and places a hand on the side of Emily’s gigantic, gurgling belly, feeling both the delivery woman and Lira slowly softening inside.\n\n\"Fascinating,\" Lirael murmurs. \"Your capacity is quite impressive, Emily.\"\n\nYour father rubs his temples. \"We’re going to have to figure out how to explain one missing pizza delivery person… and possibly find a replacement for Lira if she doesn’t survive this.\"\n\nThe stack of ten untouched pizza boxes sits on the coffee table, completely forgotten.\n\nLirael then grows smoothly to her full 12'0\" height with a soft violet shimmer. Without hesitation, she reaches down and gently picks up Emily — massive belly and all — cradling her in her arms as if she weighs nothing.\n\n\"Come,\" Lirael says calmly. \"All of the family should eat dinner. The pizza is getting cold.\" She carries Emily toward the kitchen, the girl’s enormous stomach swaying heavily between her arms.";
+        } 
+        else {
+            // Normal path - only delivery woman eaten
+            return "The room is dead silent for several long seconds, broken only by the loud, wet *GLORPS* and *CHURRNS* coming from Emily’s enormously distended belly.\n\nYour father is the first to speak, staring at the massive, floor-touching gut resting in front of his daughter.\n\n\"...Emily,\" he says slowly, voice strained. \"You just ate the pizza delivery girl.\"\n\nEmily pats the top of her huge, sloshing stomach with both hands. Her shirt has ridden up completely, sitting bunched at the very top of her massive belly like a crop top, leaving the smooth, stretched skin of her hugely swollen middle completely exposed.\n\n\"I was really hungry,\" she says, as if that explains everything. \"She tasted really good too... really soft and sweet.\"\n\nYour mother’s face is pale. \"Emily, honey… we ordered ten pizzas. Not… not a person.\"\n\nEmily shrugs, still gently rubbing the enormous dome that spreads across her lap and touches the floor.\n\n\"Pizza delivery people get eaten all the time,\" she says casually. \"They probably aren’t going to come looking for her.\"\n\nLirael steps closer and places a hand on the side of Emily’s gigantic, gurgling belly.\n\n\"Fascinating,\" Lirael murmurs. \"Your capacity is quite impressive, Emily.\"\n\nYour father rubs his temples. \"We’re going to have to figure out how to explain one missing pizza delivery person…\"\n\nThe stack of ten untouched pizza boxes sits on the coffee table, completely forgotten.\n\nLirael then grows smoothly to her full 12'0\" height with a soft violet shimmer. Without hesitation, she reaches down and gently picks up Emily — massive belly and all — cradling her in her arms as if she weighs nothing.\n\n\"Come,\" Lirael says calmly. \"All of the family should eat dinner. The pizza is getting cold.\" She carries Emily toward the kitchen, the girl’s enormous stomach swaying heavily between her arms.";
+        }
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { label: "Follow them to the kitchen", next: 149 }
+    ]
+},
+
+    // 149 - Dinner with the Family
+{
+    text: function() {
+        return "Lirael gently sets Emily down in one of the reinforced kitchen chairs. Even with the chair’s sturdy build, Emily’s massively swollen belly rests heavily on her lap and spills over the edges, the gurgling mass nearly touching the floor. Lirael then shrinks smoothly back down to her more comfortable 6'1\" height and sits in the chair right next to her, placing a supportive hand on the side of Emily’s enormous, sloshing gut.\n\nThe family gathers around the table. The ten pizza boxes are opened, and everyone starts eating, though the mood is still a bit stunned from what just happened.\n\nEmily eats with surprising enthusiasm despite her already overstuffed stomach. About halfway through dinner, she suddenly lets out a deep, wet belch. A small, glistening piece of Lira’s synthetic skin flies out of her mouth and lands on the table with a soft *plop*.\n\nEmily blinks, then giggles. \"Whoops. Looks like Lira lost a bit of her outer layer already. She’s not fully digested yet, but the pizza delivery girl is getting pretty close.\"\n\nShe shifts in her seat, and as she does, her already strained shirt tears slightly across the chest, the fabric giving way with a soft *riiiip*. At the same time, the sides of her pants split a little at the seams as her widened hips and thicker thighs push against the material.\n\n\"Huh,\" Emily says, looking down at herself with a mix of surprise and satisfaction. \"I think I’m a little more filled out now.\"\n\nHer breasts have grown noticeably larger and rounder, pressing tightly against the torn fabric of her shirt. Her hips and ass have become even wider and softer, and her thighs look plush and full. The changes from fully digesting the delivery woman (and partially processing Lira) have given her an even more exaggerated, curvaceous figure.\n\nLirael watches with calm fascination, gently rubbing the side of Emily’s massive belly.\n\n\"Your body is adapting very efficiently,\" she notes. \"This should make tomorrow’s experiments quite interesting.\"\n\nYour parents exchange another worried glance but continue eating in silence, the sound of chewing and occasional stomach gurgles filling the kitchen.";
+
+    },
+    location: "Byrd Family Home - Kitchen (Late Evening)",
+    choices: [
+        { label: "Continue dinner and conversation", next: 150 }
+    ]
+},
+
+// 150 - Family Reaction at Dinner
+{
+    text: function() {
+        return "The partially dissolved skull of the pizza delivery woman sits on the table, still glistening with stomach acid. The family stares at it in stunned silence for a long moment.\n\nYour father finally breaks the quiet, voice strained.\n\n\"Emily... you just belched up a skull. On the dinner table.\"\n\nEmily looks down at the skull with mild curiosity, still gently rubbing her large, gurgling belly.\n\n\"Sorry,\" she says, not sounding particularly sorry. \"She went down really easy. I guess my stomach is getting stronger.\"\n\nYour mother pushes her plate away, looking slightly green.\n\n\"I think I’ve lost my appetite...\"\n\nLirael, ever composed, reaches across the table and calmly picks up the skull. She examines it for a moment before setting it aside.\n\n\"Efficient digestion,\" she comments mildly. \"The delivery woman is fully broken down now. Lira is still intact, though her synthetic outer layer is mostly gone. She should survive if Emily does not digest her too aggressively tonight.\"\n\nWithout further comment, Lirael stands up to her full 6'1\" height and begins finishing off the rest of the pizzas. She eats with surprising speed and grace, methodically working through the remaining boxes as if it were the most normal thing in the world. The family watches in silence as she polishes off slice after slice until all ten pizzas are gone.\n\nOnce the last box is empty, Lirael wipes her mouth with a napkin and sits back down, looking perfectly satisfied.\n\n\"Thank you for the meal,\" she says politely. \"It was quite enjoyable. Now... shall we discuss tomorrow’s plans? Emily’s training, my experiments with her stomach capacity, and my lessons about the modern world?\"\n\nEmily lets out a small, contented burp. From deep inside her massive, still gurgling belly comes Lira’s muffled, slightly irritated voice:\n\n\"I am sitting in a shoulder-high pool of stomach acid and the remains of the pizza delivery woman,\" Lira complains, her words vibrating through Emily’s stretched skin. \"It is very uncomfortable.\"\n\nLirael simply smiles serenely.";
+
+    },
+    location: "Byrd Family Home - Kitchen (Late Evening)",
+    choices: [
+        { label: "Discuss tomorrow's plans", next: 151 },
+        { label: "Ask Lirael how Lira is doing inside Emily", next: 151 },
+        { label: "Suggest everyone gets some rest", next: 151 }
     ]
 },
 
