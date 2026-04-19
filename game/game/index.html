@@ -98,49 +98,67 @@ var gameState = {
     currentPassage: 0,
     lastPassage: 0,
     currentDate: "August 22",
-
+    
     // Core Stats
     familyTension: 0,
     supernaturalAffinity: 0,
-
-    // LIRAEL'S BONDS (how each family member feels about Lirael)
-    liraelBond: 0,          // Isaac ↔ Lirael
-    liraelFatherBond: 0,    // Father ↔ Lirael
-    liraelMotherBond: 0,    // Mother ↔ Lirael
-    liraelSisterBond: 0,    // Emily ↔ Lirael
-    liraelLiraBond: 0,      // Lira (AI) ↔ Lirael
-
-    // ISAAC'S (PLAYER) BONDS — randomized once at game start
+    
+    // Lirael Bonds
+    liraelBond: 0,
+    liraelFatherBond: 0,
+    liraelMotherBond: 0,
+    liraelSisterBond: 0,
+    liraelLiraBond: 0,
+    
+    // Isaac's Bonds
     isaacMotherBond: 0,
     isaacSisterBond: 0,
     isaacFatherBond: 0,
-    isaacLiraBond: 0,       // FIX: was 'issacLiraBond' (typo) — unified to 'isaacLiraBond'
-
-    // Lirael Status
+    isaacLiraBond: 0,
+    
+    // Vore / Prey System - Training (Safe)
+    inStomach: false,
+    currentPredator: "",           // "lira", "lirael", "emily", etc.
+    preyHealth: 100,
+    preyStamina: 100,
+    preyResilience: 3,             // Unlocks Probe (3+) and Soothe (5+)
+    digestionProgress: 0,
+    escapeTrainingProgress: 0,
+    escapeSkillIsaac: 0,
+    escapeSkillFather: 0,
+    escapeSkillMother: 0,
+    escapeSkillEmily: 0,
+    escapeSkillLira: 0,
+    trainingSessionCount: 0,
+				    trainingTurnCount: 0,      // Current turn in the training session
+    acidStage: 0,              // 0 = mild, 1 = moderate, 2 = strong, 3 = critical
+    
+    // Real Vore / Death System (Dangerous Scenes)
+    isSwallowed: false,            // Player is currently swallowed in a real (potentially deadly) scene
+    currentPredatorReal: "",       // Who ate the player in a real scene
+    preyHealthReal: 100,           // Health in real dangerous scenes
+    preyStaminaReal: 100,
+    digestionProgressReal: 0,      // 0-100 (100 = death if canDieFromDigestion is true)
+    digestionRateReal: 10,         // How fast digestion progresses per turn
+    canDieFromDigestion: true,     // If true, full digestion = game over
+    voreDeathCount: 0,             // How many times player has been digested
+    lastSwallowedBy: "",           // Last predator who swallowed the player
+    
+    // Existing Core Variables (from your original code)
     liraelFreed: false,
-    // FIX: liraelFreedMethod tracks HOW she was freed:
-    // 0 = not freed, 1 = ritual (passage 78), 2 = forced break to protect Isaac (passage 85),
-    // 3 = father voluntarily lifts circle (passage 99 callDad)
     liraelFreedMethod: 0,
-
-    // Key Items
     hasKey: false,
     hasAmulet: false,
-
-    // Progress
     statsUnlocked: false,
     theoResurrectionProgress: 0,
-
-    // Tracking
     usedChoices: {},
     visitedPassages: {},
     lastChoiceLabel: "",
     whoAteGrimmold: "",
-
-    // Flag to ensure bonds are randomized only once
     bondsInitialized: false,
-
-    // DAY 1 - August 22
+    knowliraelmilk: false,
+    
+    // Day Flags & Other Variables (from your original code)
     liraelFedComfort: false,
     liratoldenergyreadings: false,
     liratolddisappearances: false,
@@ -153,17 +171,10 @@ var gameState = {
     firstVisitTo13: true,
     conversationOptionsUsed: 0,
     askedLiraelAbout: {},
-
-    // DAY 2 - August 23
     askedAboutRoam: false,
     justConfessedToFather: false,
     firstVisitTo100: true,
     kitchenBanned: false,
-
-//Day 3 - August 30
-knowliraelmilk: false,
-
-    // Morgana path
     pathChosen: "",
 };
 
@@ -174,7 +185,25 @@ if (!gameState.bondsInitialized && gameState.currentPassage === 0) {
     gameState.isaacFatherBond = Math.floor(Math.random() * 30) + 45;   // 45–74
     gameState.isaacLiraBond   = Math.floor(Math.random() * 20) + 12;   // 12–31 (lowest)
     gameState.bondsInitialized = true;
+				// Default values for vore/prey system
+gameState.preyHealth = 100;
+gameState.preyStamina = 100;
+gameState.preyResilience = 3;
+gameState.digestionProgress = 0;
+gameState.escapeTrainingProgress = 0;
+
+gameState.isSwallowed = false;
+gameState.currentPredatorReal = "";
+gameState.preyHealthReal = 100;
+gameState.preyStaminaReal = 100;
+gameState.digestionProgressReal = 0;
+gameState.digestionRateReal = 10;
+gameState.canDieFromDigestion = true;
+gameState.voreDeathCount = 0;
+gameState.lastSwallowedBy = "";
 }
+
+
 
 var passages = [
     // 0 - Arrival
@@ -1289,13 +1318,141 @@ var passages = [
         { label: "Watch the training begin", next: 142 }
     ]
 },
-    // 164 - Morgana Placeholder 
 
-    {
-        text: "Morgana summoning scene coming soon…",
-        location: "Basement",
-        choices: [{ label: "Return to the beginning", next: 0 }]
+// 142 - Stomach Escape Training Begins
+{
+    text: "Lira stands ready in the center of the living room, her synthetic body perfectly still as she prepares to act as the predator for the demonstration.\n\nLirael, now at her comfortable 5'6\" height, steps forward with a calm, confident smile.\n\n\"I will demonstrate first,\" she says. \"Watch closely.\"\n\nShe walks straight up to Lira, turns around, and allows the AI to swallow her whole. Lira opens her mouth wide and smoothly takes Lirael in, her throat bulging visibly as the 5'6\" she-demon slides down. Within moments, Lirael is fully inside Lira’s stomach, creating a large, rounded bulge in the AI’s midsection.\n\nThe family watches in tense silence.\n\nExactly three minutes later, Lira suddenly doubles over with a loud, wet *GLORP*. Lirael forces her way back up in one smooth, powerful motion, emerging head-first from Lira’s mouth and landing gracefully on her feet, completely unharmed and barely even disheveled.\n\nLirael wipes her mouth with the back of her hand and turns to the family, adopting a clear, instructional tone.\n\n\"Escaping a stomach is about making your predator nauseous enough to vomit you back up,\" she explains. \"You cannot force the esophageal sphincter open directly, but you can create intense internal pressure and discomfort through targeted struggling. Here are the core maneuvers:\n\n1. **Vigorous full-body thrashing** — kick, punch, and twist your entire body as hard as possible to slam against the stomach walls. This creates sudden, chaotic movement that often triggers the predator's gag reflex.\n\n2. **Targeted pressure on sensitive areas** — focus your hands or feet on the upper stomach wall or near the esophageal sphincter area. Push, knead, or strike repeatedly to build localized nausea and force retching.\n\n3. **Rolling and contorting** — curl into a ball and then explosively uncurl, or roll side-to-side inside the stomach. This shifts your weight dramatically and increases the chances of overwhelming the predator's balance and digestion.\n\nShe demonstrates the motions in the air with her hands, showing the forceful, energetic movements.\n\n\"However, there are risks to failed escape attempts. If your struggling is too weak or poorly timed, it may accelerate digestion instead of triggering vomiting. A larger predator can also clench their stomach muscles to counteract your movements, causing the stomach to churn more violently and flood with additional acids as a natural reaction to resistance. In extreme cases, excessive thrashing against a tight stomach can cause you physical harm — bruising, disorientation, or even temporary paralysis from pressure on nerves.\"\n\n\"Size dynamics remain critical. A smaller predator with a tighter stomach is often **harder** to escape from because your movements have less room to build effective pressure. A larger predator with a more spacious stomach is usually **easier** to nauseate because you have more leverage and momentum for vigorous struggling. Your own size and strength relative to your predator will determine how quickly you can induce vomiting — and how dangerous failure can be.\"\n\nLirael looks around at everyone, her golden eyes warm but serious.\n\n\"Would anyone like to try?\"\n\nYour father steps forward, arms crossed, and nods toward you.\n\n\"Isaac should go first.\"",
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Begin the escape training", next: 143 }
+    ]
+},
+
+// 143 - Isaac's Escape Training Session (Self-Contained)
+{
+    text: function() {
+        // Initialize on first entry
+        if (gameState.trainingTurnCount === undefined) {
+            gameState.trainingTurnCount = 0;
+            gameState.inStomach = true;
+            gameState.currentPredator = "lira";        // Lira (AI) is the predator
+            gameState.preyHealth = 100;
+            gameState.preyStamina = 100;
+            gameState.digestionProgress = 0;
+            gameState.acidStage = 0;
+            gameState.predHealth = 100;
+            gameState.predDefense = 7;
+            gameState.trainingSessionCount += 1;
+            gameState.escapeTrainingProgress = Math.min(100, gameState.escapeTrainingProgress + 12);
+        }
+
+        gameState.trainingTurnCount += 1;
+
+        let status = "**Turn:** " + gameState.trainingTurnCount + 
+                     " **Health:** " + gameState.preyHealth + 
+                     " **Stamina:** " + gameState.preyStamina + 
+                     " **Digestion:** " + gameState.digestionProgress + "%" +
+                     " **Acid Stage:** " + gameState.acidStage +
+                     " **Predator Health:** " + gameState.predHealth;
+
+        let digestionText = "";
+        if (gameState.acidStage === 0) digestionText = "The stomach walls gently churn around you.";
+        else if (gameState.acidStage === 1) digestionText = "The acids are starting to tingle against your skin.";
+        else if (gameState.acidStage === 2) digestionText = "The burning sensation is getting stronger.";
+        else if (gameState.acidStage === 3) digestionText = "@@color:red;The acids are painful now.@@";
+
+        // Check for successful escape
+        if (gameState.predHealth <= 0) {
+            gameState.inStomach = false;
+            gameState.currentPredator = "";
+            gameState.trainingTurnCount = 0;
+            gameState.acidStage = 0;
+            return digestionText + "\n\nYour efforts overwhelm Lira's stomach! She doubles over and vomits you back up safely.\n\nLirael claps. \"Well done, Isaac! You successfully escaped before the time limit.\"";
+        }
+
+        // Auto-release attempt after 8 turns
+        if (gameState.trainingTurnCount >= 8) {
+            let result = "\n\nYou've been inside for quite a while. Lirael tells Lira to end the session. Lira focuses and tries to vomit you back up...\n\n";
+            
+            if (Math.random() < 0.95) {
+                gameState.inStomach = false;
+                gameState.currentPredator = "";
+                gameState.trainingTurnCount = 0;
+                gameState.acidStage = 0;
+                return result + "With a powerful heave, Lira successfully vomits you back up. You land safely on the floor.\n\nLirael smiles. \"Good effort.\"";
+            } else {
+                gameState.acidStage = Math.min(3, gameState.acidStage + 1);
+                gameState.digestionProgress += 18;
+                gameState.preyHealth -= 15;
+                return result + "Lira struggles but fails to bring you up. The acids surge violently.\n\nYou have **one last chance** to escape...";
+            }
+        }
+
+        return "You are inside **Lira's** stomach for training.\n\nLirael stands outside, giving instructions.\n\n" + status + "\n\n" + digestionText + "\n\nWhat will you do?";
     },
+    location: "Inside Lira's Stomach (Safe Training)",
+    choices: function() {
+        const choices = [];
+        
+        if (gameState.preyStamina > 0 && gameState.preyHealth > 0) {
+            choices.push(
+                { label: "Struggle Conservatively", next: 143, effect: () => {
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, effect: () => {
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, effect: () => {
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, effect: () => {
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }}
+            );
+        }
+        
+        if (gameState.preyResilience > 2 && gameState.preyStamina > 15) {
+            choices.push({ label: "Probe", next: 143, effect: () => {
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }});
+        }
+        
+        if (gameState.preyResilience > 4 && gameState.preyStamina > 20) {
+            choices.push({ label: "Soothe", next: 143, effect: () => {
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }});
+        }
+        
+        choices.push({ label: "Rest", next: 143, effect: () => {
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }});
+        
+        // Manual end session
+        choices.push({ label: "Ask Lirael to end the session", next: 145, effect: () => {
+            gameState.inStomach = false;
+            gameState.currentPredator = "";
+            gameState.trainingTurnCount = 0;
+            gameState.acidStage = 0;
+        }});
+        
+        return choices;
+    }
+},
 
 
     // 999 - Game End / Content Boundary
