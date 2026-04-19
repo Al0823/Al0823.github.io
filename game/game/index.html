@@ -1349,11 +1349,11 @@ var passages = [
         gameState.trainingTurnCount += 1;
 
         let status = "**Turn:** " + gameState.trainingTurnCount + 
-                     " **Health:** " + gameState.preyHealth + 
-                     " **Stamina:** " + gameState.preyStamina + 
-                     " **Digestion:** " + gameState.digestionProgress + "%" +
-                     " **Acid Stage:** " + gameState.acidStage +
-                     " **Predator Health:** " + gameState.predHealth;
+                     "**Health:** " + gameState.preyHealth + 
+                     "**Stamina:** " + gameState.preyStamina + 
+                     "**Digestion:** " + gameState.digestionProgress + "%" +
+                     "**Acid Stage:** " + gameState.acidStage +
+                     "**Predator Health:** " + gameState.predHealth;
 
         let digestionText = "";
         if (gameState.acidStage === 0) digestionText = "The stomach walls gently churn around you.";
@@ -1454,6 +1454,78 @@ var passages = [
     }
 },
 
+// 144 - Training Session Summary
+{
+    text: function() {
+        let summary = "Lirael helps you out of Lira's stomach. You stand up, breathing heavily but unharmed.\n\n";
+
+        // Session summary
+        summary += "**Training Session Complete**\n\n";
+        summary += "Turns survived: " + gameState.trainingTurnCount + "\n";
+        summary += "Final digestion progress: " + gameState.digestionProgress + "%\n";
+        summary += "Your escape skill improved.\n\n";
+
+        // Update Isaac's skill
+        gameState.escapeSkillIsaac = Math.min(100, gameState.escapeSkillIsaac + Math.round(gameState.escapeTrainingProgress / 8));
+
+        summary += "**Isaac's Escape Skill:** " + gameState.escapeSkillIsaac + "\n\n";
+
+        // Reset training variables
+        gameState.inStomach = false;
+        gameState.currentPredator = "";
+        gameState.trainingTurnCount = 0;
+        gameState.acidStage = 0;
+        gameState.preyHealth = 100;
+        gameState.preyStamina = 100;
+        gameState.digestionProgress = 0;
+
+        summary += "Lirael looks at the family.\n\n\"Isaac did well for his first real attempt. Who would like to go next?\"";
+
+        return summary;
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Father goes next", next: 145, effect: () => { 
+            gameState.currentPredator = "lira";
+            // Slight bonus for Isaac watching
+            gameState.escapeSkillIsaac = Math.min(100, gameState.escapeSkillIsaac + 3);
+        }},
+        { label: "Mother goes next", next: 145, effect: () => { 
+            gameState.currentPredator = "lira";
+        }},
+
+        { label: "End training for now", next: 146, effect: () => {
+            gameState.trainingTurnCount = 0;
+        }}
+    ]
+},
+
+// 145 - Next Family Member Training
+{
+    text: function() {
+        // Default to father if somehow undefined
+        if (!gameState.nextTrainer) gameState.nextTrainer = "father";
+
+        if (gameState.nextTrainer === "father") {
+            return "Your father steps forward, looking determined but a bit stiff.\n\n\"Alright,\" he grunts. \"My turn. Let's see what this is about.\"\n\nLira opens her mouth and swallows your father. His larger frame makes a much more noticeable bulge in her stomach. Lirael gives instructions from the side.\n\nYour father immediately begins struggling inside. You can see Lira's stomach shifting and hear occasional grunts from both of them.\n\nAfter several minutes of vigorous movement, Lira doubles over and vomits your father back up. He lands on his feet, breathing hard but looking satisfied.\n\nLirael nods approvingly. \"Not bad for a first try. You have good strength, but you relied mostly on brute force. Technique will help you conserve energy next time.\"\n\nYour father wipes slime off his arms. \"Not as easy as it looks,\" he mutters.";
+        } 
+        else if (gameState.nextTrainer === "mother") {
+            return "Your mother steps forward, looking nervous but resolute.\n\n\"I'll give it a try,\" she says quietly.\n\nLira swallows her carefully. Your mother's smaller frame creates a smoother, more rounded bulge in Lira's stomach. Lirael coaches her gently from the outside.\n\nInside, your mother uses more careful, precise movements rather than raw power. After a few minutes, Lira begins to retch and successfully brings her back up.\n\nYour mother stands up, a bit shaky but smiling faintly.\n\nLirael looks pleased. \"Very good. You focused on placement and leverage rather than just strength. That kind of smart struggling will serve you well.\"";
+        }
+
+        return "\n\nLirael looks around at the family.\n\n\"Training is going well so far. Who should go next?\"";
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Father goes next", next: 145, effect: () => { gameState.nextTrainer = "father"; }},
+        { label: "Mother goes next", next: 145, effect: () => { gameState.nextTrainer = "mother"; }},
+        { label: "End training for today", next: 146, effect: () => {
+            gameState.inStomach = false;
+            gameState.currentPredator = "";
+            gameState.trainingTurnCount = 0;
+        }}
+    ]
+},
 
     // 999 - Game End / Content Boundary
 
