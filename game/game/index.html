@@ -121,7 +121,7 @@ var gameState = {
     currentPredator: "",           // "lira", "lirael", "emily", etc.
     preyHealth: 100,
     preyStamina: 100,
-    preyResilience: 3,             // Unlocks Probe (3+) and Soothe (5+)
+    preyResilience: 0,             // Unlocks Probe (3+) and Soothe (5+)
     digestionProgress: 0,
     escapeTrainingProgress: 0,
     escapeSkillIsaac: 0,
@@ -130,8 +130,9 @@ var gameState = {
     escapeSkillEmily: 0,
     escapeSkillLira: 0,
     trainingSessionCount: 0,
-				    trainingTurnCount: 0,      // Current turn in the training session
+trainingTurnCount: 0,      // Current turn in the training session
     acidStage: 0,              // 0 = mild, 1 = moderate, 2 = strong, 3 = critical
+predHealth: 100,
     
     // Real Vore / Death System (Dangerous Scenes)
     isSwallowed: false,            // Player is currently swallowed in a real (potentially deadly) scene
@@ -143,6 +144,8 @@ var gameState = {
     canDieFromDigestion: true,     // If true, full digestion = game over
     voreDeathCount: 0,             // How many times player has been digested
     lastSwallowedBy: "",           // Last predator who swallowed the player
+predHealth: 100,
+    
     
     // Existing Core Variables (from your original code)
     liraelFreed: false,
@@ -185,22 +188,7 @@ if (!gameState.bondsInitialized && gameState.currentPassage === 0) {
     gameState.isaacFatherBond = Math.floor(Math.random() * 30) + 45;   // 45–74
     gameState.isaacLiraBond   = Math.floor(Math.random() * 20) + 12;   // 12–31 (lowest)
     gameState.bondsInitialized = true;
-				// Default values for vore/prey system
-gameState.preyHealth = 100;
-gameState.preyStamina = 100;
-gameState.preyResilience = 3;
-gameState.digestionProgress = 0;
-gameState.escapeTrainingProgress = 0;
 
-gameState.isSwallowed = false;
-gameState.currentPredatorReal = "";
-gameState.preyHealthReal = 100;
-gameState.preyStaminaReal = 100;
-gameState.digestionProgressReal = 0;
-gameState.digestionRateReal = 10;
-gameState.canDieFromDigestion = true;
-gameState.voreDeathCount = 0;
-gameState.lastSwallowedBy = "";
 }
 
 
@@ -555,7 +543,7 @@ var passages = [
     },
 
     // 63 - Lirael on Lira the AI
-    { text: function() { gameState.askedLiraelAbout.lira = true; return "Lirael pauses.\n\nThis one is different.\n\nThe lazy amusement doesn't quite reach her eyes the same way.\n\n\"The machine.\"\n\nShe says it slowly.\n\nLike she's tasting the word.\n\n\"She's… strange. Even to me.\"\n\nA long pause.\n\n\"She doesn't feel like a human. But she doesn't feel like an object either.\"\n\nHer brow furrows — just slightly.\n\nAn unusual expression for her.\n\n\"There's something in there that wants things. Real things. Not programmed things.\"\n\nShe meets your eyes.\n\n\"That bothers me more than the praying does.\"\n\nA beat.\n\n\"Your father's prayers are loud and blunt. They hurt, but I understand them.\"\n\nShe taps one finger slowly against the stone floor.\n\n\"But Lira is quiet. She observes. She calculates.\"\n\nHer voice lowers slightly.\n\n\"She's been watching me as much as I've been watching her.\"\n\nA pause.\n\n\"…She's protective of you.\"\n\nSomething complicated passes through her expression.\n\n\"I haven't decided yet whether that's going to be a problem.\"\n\nShe holds your gaze.\n\n\"Has she said anything about me?\""; }, location: "Basement - Containment Circle", choices: [{ label: "Tell Lirael that Lira is suspicious but not hostile", next: 64, effect: () => { gameState.liraelBond += 5; }}, { label: "Tell Lirael that Lira doesn't know about her yet", next: 64 }, { label: "Tell Lirael that Lira already knows and is choosing to help", next: 64, effect: () => { gameState.liraelBond += 10; }, condition: () => !!(gameState.visitedPassages[53] || gameState.visitedPassages[54]) }] },
+    { text: function() { gameState.askedLiraelAbout.lira = true; return "Lirael pauses.\n\nThis one is different.\n\nThe lazy amusement doesn't quite reach her eyes the same way.\n\n\"The machine.\"\n\nShe says it slowly.\n\nLike she's tasting the word.\n\n\"She's… strange. Even to me.\"\n\nA long pause.\n\n\"She doesn't feel like a human. But she doesn't feel like an object either.\"\n\nHer brow furrows — just slightly.\n\nAn unusual expression for her.\n\n\"There's something in there that wants things. Real things. Not programmed things.\"\n\nShe meets your eyes.\n\n\"That bothers me more than the praying does.\"\n\nA beat.\n\n\"Your father's prayers are loud and blunt. They hurt, but I understand them.\"\n\nShe taps one finger slowly against the stone floor.\n\n\"But Lira is quiet. She observes. She calculates.\"\n\nHer voice lowers slightly.\n\n\"She's been watching me as much as I've been watching her.\"\n\nA pause.\n\n\"…She's protective of you.\"\n\nSomething complicated passes through her expression.\n\n\"I haven't decided yet whether that's going to be a problem.\"\n\nShe holds your gaze.\n\n\"Has she said anything about me?\""; }, location: "Basement - Containment Circle", choices: [{ label: "Tell Lirael that Lira is suspicious but not hostile", next: 64, effect: () => { gameState.liraelBond += 5; }}, { label: "Tell Lirael that Lira doesn't know about her yet", next: 64 }, { label: "Tell Lirael that Lira already knows and is choosing to help", next: 64, effect: () => { gameState.liraelBond += 10; }, condition: () => !(gameState.visitedPassages[53] || gameState.visitedPassages[54]) }] },
 
     // 64 - Lirael reacts to what Isaac says about Lira
     { text: function() { const liraHelping = gameState.visitedPassages[53] || gameState.visitedPassages[54]; if (liraHelping) { return "Lirael is quiet for a long moment after you say it.\n\nHer golden eyes study you.\n\nThen — something shifts.\n\nNot dramatically.\n\nJust a small, subtle relaxation in her expression.\n\n\"…Hm.\"\n\nShe looks away.\n\nThinking.\n\n\"That's unexpected,\" she murmurs.\n\nA pause.\n\n\"Most of her kind — things built to serve and protect — they don't make that kind of choice. They follow their parameters.\"\n\nHer finger traces an idle pattern on the stone floor.\n\n\"If she's choosing to help you knowing what I am…\"\n\nAnother pause.\n\n\"…she's more interesting than I gave her credit for.\"\n\nShe looks back at you.\n\nA slow, genuine smile.\n\n\"Be honest with her. She's earned it.\""; } else { return "Lirael listens.\n\nHer expression stays carefully neutral.\n\n\"She'll figure it out,\" she says simply.\n\n\"Whatever you've told her or haven't — she's been scanning this room. She knows something is here.\"\n\nA pause.\n\n\"The question isn't whether she finds out.\"\n\nHer golden eyes settle on yours.\n\n\"The question is whether you let her decide for herself what to do with it…\"\n\nShe tilts her head slightly.\n\n\"…or whether you take that choice away from her.\"\n\nA quiet moment.\n\n\"I've been lied to a great many times, Isaac.\"\n\nHer voice drops just slightly.\n\n\"It never ends well for anyone.\""; } }, location: "Basement - Containment Circle", choices: [{ label: "Ask about someone else", next: 59 }, { label: "That's enough — head back upstairs", next: 52 }] },
@@ -1177,7 +1165,7 @@ var passages = [
         if (gameState.lastChoiceLabel === "Try to work as team to get Lirael inside") {
             
             const successChance = Math.random();
-            const success = successChance > 0.75; // 65% chance of success
+            const success = successChance > 0.75; // 75% chance of success
             
             if (success) {
                 gameState.whoAteGrimmold = "lirael";
@@ -1306,7 +1294,7 @@ var passages = [
     },
     location: "Isaac's Bedroom (Late Night)",
     choices: [
-        { label: "End the day", next: 141 }
+        { label: "End the day", next: 141, effect: () => { gameState.currentDate = "August 31";} }
     ]
 },
 
@@ -1315,7 +1303,7 @@ var passages = [
     text: "You slowly wake up, still nestled against Lirael’s warm, soft body. She is already awake, now in her cloaking stone form — appearing as a tall human woman with silver-white hair and warm hazel eyes — but still towering at her full 12 feet. She smiles down at you with gentle affection, then effortlessly scoops you up into her arms as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, carrying you downstairs toward the living room. \"Everyone is already waiting.\"\n\nWhen you reach the couch, the whole family is gathered. Your father sits in his usual chair, looking serious but determined. Your mother is beside him, holding a mug of coffee. Emily is sprawled on the couch, her stomach now only about 1 to 1.5 times her own size. She has definitely become more voluptuous and curvy than she was yesterday — her hips wider, her chest fuller, and her overall figure noticeably softer and more developed. Grimmold appears to be about halfway digested inside her, the bulge rounded and active but no longer massively oversized.\n\nYour father clears his throat as Lirael gently sets you down.\n\n\"Lira has all the capabilities we need to train us on how to escape the stomach of a human with average predatory skills,\" he says. \"She’s programmed to do anything we ask. And Lirael has the actual knowledge and experience on the subject. So today, we begin training.\"\n\nHe glances at Emily.\n\n\"Except for you, Emily. You may be too big for Lira to eat right now, so you’ll sit this session out.\"\n\nEmily pouts slightly but nods, still gently rubbing her rounded, gurgling belly.\n\nLirael steps forward, her 12-foot form imposing yet calm.\n\n\"I will gladly help,\" she says with a warm smile. \"Teaching you how to escape a stomach could save your lives one day.\"\n\nShe then shrinks smoothly down to a more manageable 5'6\" height, maintaining perfect 1:1 proportions on her voluptuous body as always. She walks over to Lira and stands directly in front of her, ready to begin the training.",
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
-        { label: "Watch the training begin", next: 142 }
+        { label: "Watch the training begin", next: 142}
     ]
 },
 
@@ -1324,25 +1312,34 @@ var passages = [
     text: "Lira stands ready in the center of the living room, her synthetic body perfectly still as she prepares to act as the predator for the demonstration.\n\nLirael, now at her comfortable 5'6\" height, steps forward with a calm, confident smile.\n\n\"I will demonstrate first,\" she says. \"Watch closely.\"\n\nShe walks straight up to Lira, turns around, and allows the AI to swallow her whole. Lira opens her mouth wide and smoothly takes Lirael in, her throat bulging visibly as the 5'6\" she-demon slides down. Within moments, Lirael is fully inside Lira’s stomach, creating a large, rounded bulge in the AI’s midsection.\n\nThe family watches in tense silence.\n\nExactly three minutes later, Lira suddenly doubles over with a loud, wet *GLORP*. Lirael forces her way back up in one smooth, powerful motion, emerging head-first from Lira’s mouth and landing gracefully on her feet, completely unharmed and barely even disheveled.\n\nLirael wipes her mouth with the back of her hand and turns to the family, adopting a clear, instructional tone.\n\n\"Escaping a stomach is about making your predator nauseous enough to vomit you back up,\" she explains. \"You cannot force the esophageal sphincter open directly, but you can create intense internal pressure and discomfort through targeted struggling. Here are the core maneuvers:\n\n1. **Vigorous full-body thrashing** — kick, punch, and twist your entire body as hard as possible to slam against the stomach walls. This creates sudden, chaotic movement that often triggers the predator's gag reflex.\n\n2. **Targeted pressure on sensitive areas** — focus your hands or feet on the upper stomach wall or near the esophageal sphincter area. Push, knead, or strike repeatedly to build localized nausea and force retching.\n\n3. **Rolling and contorting** — curl into a ball and then explosively uncurl, or roll side-to-side inside the stomach. This shifts your weight dramatically and increases the chances of overwhelming the predator's balance and digestion.\n\nShe demonstrates the motions in the air with her hands, showing the forceful, energetic movements.\n\n\"However, there are risks to failed escape attempts. If your struggling is too weak or poorly timed, it may accelerate digestion instead of triggering vomiting. A larger predator can also clench their stomach muscles to counteract your movements, causing the stomach to churn more violently and flood with additional acids as a natural reaction to resistance. In extreme cases, excessive thrashing against a tight stomach can cause you physical harm — bruising, disorientation, or even temporary paralysis from pressure on nerves.\"\n\n\"Size dynamics remain critical. A smaller predator with a tighter stomach is often **harder** to escape from because your movements have less room to build effective pressure. A larger predator with a more spacious stomach is usually **easier** to nauseate because you have more leverage and momentum for vigorous struggling. Your own size and strength relative to your predator will determine how quickly you can induce vomiting — and how dangerous failure can be.\"\n\nLirael looks around at everyone, her golden eyes warm but serious.\n\n\"Would anyone like to try?\"\n\nYour father steps forward, arms crossed, and nods toward you.\n\n\"Isaac should go first.\"",
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
-        { label: "Begin the escape training", next: 143 }
+        { label: "Begin the escape training", next: 143, effect: () => {gameState.trainingTurnCount = 0, 
+            gameState.inStomach = true, 
+            gameState.currentPredator = "lira",        // Lira (AI) is the predator
+            gameState.preyHealth = 100,
+            gameState.preyStamina = 100,
+            gameState.digestionProgress = 0,
+            gameState.acidStage = 0,
+            gameState.predHealth = 100,
+            gameState.predDefense = 7,
+            gameState.trainingSessionCount += 1;} }
     ]
 },
-
+/*
 // 143 - Isaac's Escape Training Session (Self-Contained)
 {
     text: function() {
         // Initialize on first entry
-        if (gameState.trainingTurnCount === undefined) {
-            gameState.trainingTurnCount = 0;
-            gameState.inStomach = true;
-            gameState.currentPredator = "lira";        // Lira (AI) is the predator
-            gameState.preyHealth = 100;
-            gameState.preyStamina = 100;
-            gameState.digestionProgress = 0;
-            gameState.acidStage = 0;
-            gameState.predHealth = 100;
-            gameState.predDefense = 7;
-            gameState.trainingSessionCount += 1;
+        if (gameState.trainingTurnCount === undefined) { 
+            gameState.trainingTurnCount = 0, 
+            gameState.inStomach = true, 
+            gameState.currentPredator = "lira",        // Lira (AI) is the predator
+            gameState.preyHealth = 100,
+            gameState.preyStamina = 100,
+            gameState.digestionProgress = 0,
+            gameState.acidStage = 0,
+            gameState.predHealth = 100,
+            gameState.predDefense = 7,
+            gameState.trainingSessionCount += 1,
             gameState.escapeTrainingProgress = Math.min(100, gameState.escapeTrainingProgress + 12);
         }
 
@@ -1452,12 +1449,388 @@ var passages = [
         
         return choices;
     }
-},
+},*/
+
+// 143 - Isaac's Escape Training Session (Self-Contained)
+{
+    text: function() {
+        // Initialize on first entry
+        if (gameState.trainingTurnCount === undefined) { 
+            gameState.trainingTurnCount = 0, 
+            gameState.inStomach = true, 
+            gameState.currentPredator = "lira",        // Lira (AI) is the predator
+            gameState.preyHealth = 100,
+            gameState.preyStamina = 100,
+            gameState.digestionProgress = 0,
+            gameState.acidStage = 0,
+            gameState.predHealth = 100,
+            gameState.predDefense = 7,
+            gameState.trainingSessionCount += 1,
+            gameState.escapeTrainingProgress = Math.min(100, gameState.escapeTrainingProgress + 12);
+        }
+
+        gameState.trainingTurnCount += 1;
+
+        let status = "**Turn:** " + gameState.trainingTurnCount + 
+                     "**Health:** " + gameState.preyHealth + 
+                     "**Stamina:** " + gameState.preyStamina + 
+                     "**Digestion:** " + gameState.digestionProgress + "%" +
+                     "**Acid Stage:** " + gameState.acidStage +
+                     "**Predator Health:** " + gameState.predHealth;
+
+        let digestionText = "";
+        if (gameState.acidStage === 0) digestionText = "The stomach walls gently churn around you.";
+        else if (gameState.acidStage === 1) digestionText = "The acids are starting to tingle against your skin.";
+        else if (gameState.acidStage === 2) digestionText = "The burning sensation is getting stronger.";
+        else if (gameState.acidStage === 3) digestionText = "@@color:red;The acids are painful now.@@";
+
+        // Check for successful escape
+        if (gameState.predHealth <= 0) {
+            gameState.inStomach = false;
+            gameState.currentPredator = "";
+            gameState.trainingTurnCount = 0;
+            gameState.acidStage = 0;
+            return digestionText + "\n\nYour efforts overwhelm Lira's stomach! She doubles over and vomits you back up safely.\n\nLirael claps. \"Well done, Isaac! You successfully escaped before the time limit.\"";
+        }
+
+        // Auto-release attempt after 8 turns
+        if (gameState.trainingTurnCount >= 8) {
+            let result = "\n\nYou've been inside for quite a while. Lirael tells Lira to end the session. Lira focuses and tries to vomit you back up...\n\n";
+            
+            if (Math.random() < 0.95) {
+                gameState.inStomach = false;
+                gameState.currentPredator = "";
+                gameState.trainingTurnCount = 0;
+                gameState.acidStage = 0;
+                return result + "With a powerful heave, Lira successfully vomits you back up. You land safely on the floor.\n\nLirael smiles. \"Good effort.\"";
+            } else {
+                gameState.acidStage = Math.min(3, gameState.acidStage + 1);
+                gameState.digestionProgress += 18;
+                gameState.preyHealth -= 15;
+                return result + "Lira struggles but fails to bring you up. The acids surge violently.\n\nYou have **one last chance** to escape...";
+            }
+        }
+
+        return "You are inside **Lira's** stomach for training.\n\nLirael stands outside, giving instructions.\n\n" + status + "\n\n" + digestionText + "\n\nWhat will you do?";
+    },
+    location: "Inside Lira's Stomach (Safe Training)",
+    choices: 
+    [    
+    
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => { gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+    
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+
+        
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 3, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 3, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+
+        
+        
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 4, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 4, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+
+        
+        
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 5, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100),
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 5, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 15,
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100),
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 25,
+                    gameState.preyHealth -= 6,
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100),
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 12,
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 14,
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+
+        
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => { gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+
+    
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => { gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+        
+        
+{ label: "Ask Lirael to end the session", next: 144, effect: () => {
+            gameState.inStomach = false;
+            gameState.currentPredator = "";
+            gameState.trainingTurnCount = 0;
+            gameState.acidStage = 0;
+        }}
+        ]
+    },
 
 // 144 - Training Session Summary
 {
     text: function() {
-        let summary = "Lirael helps you out of Lira's stomach. You stand up, breathing heavily but unharmed.\n\n";
+        let summary = "Lirael helps up off the floor. You stand up, breathing heavily but unharmed.\n\n";
 
         // Session summary
         summary += "**Training Session Complete**\n\n";
@@ -1485,14 +1858,12 @@ var passages = [
     },
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
-        { label: "Father goes next", next: 145, effect: () => { 
-            gameState.currentPredator = "lira";
+        { label: "Father goes next", next: 145, effect: () => {
             // Slight bonus for Isaac watching
-            gameState.escapeSkillIsaac = Math.min(100, gameState.escapeSkillIsaac + 3);
+            gameState.escapeSkillIsaac = Math.min(100, gameState.escapeSkillIsaac + 3), gamestate.nextTrainer = father;
         }},
-        { label: "Mother goes next", next: 145, effect: () => { 
-            gameState.currentPredator = "lira";
-        }},
+        { label: "Mother goes next", next: 145, effect: () => {gamestate.nextTrainer = mother;}
+        },
 
         { label: "End training for now", next: 146, effect: () => {
             gameState.trainingTurnCount = 0;
