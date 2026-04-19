@@ -1515,7 +1515,7 @@ var passages = [
 
         return "\n\nLirael looks around at the family.\n\n\"Training is going well so far. Who should go next?\"";
     },
-    location: "Byrd Family Home - Living Room (Morning)",
+    location: "Byrd Family Home - Living Room (Late Morning)",
     choices: [
         { label: "Father goes next", next: 145, effect: () => { gameState.nextTrainer = "father"; }},
         { label: "Mother goes next", next: 145, effect: () => { gameState.nextTrainer = "mother"; }},
@@ -1523,6 +1523,33 @@ var passages = [
             gameState.inStomach = false;
             gameState.currentPredator = "";
             gameState.trainingTurnCount = 0;
+        }}
+    ]
+},
+
+// 146 - Training Session Ends
+{
+    text: function() {
+        // Clean up all training variables
+        gameState.inStomach = false;
+        gameState.currentPredator = "";
+        gameState.trainingTurnCount = 0;
+        gameState.acidStage = 0;
+        gameState.preyHealth = 100;
+        gameState.preyStamina = 100;
+        gameState.digestionProgress = 0;
+        gameState.predHealth = 100;
+
+        return "Lirael looks around at the tired but accomplished family with a gentle smile.\n\n\"That was an excellent first training session,\" she says warmly. \"Everyone showed real potential. We will continue tomorrow.\"\n\nShe pauses for a moment, then continues:\n\n\"Tomorrow, Emily will have her turn to train... and the rest of us will train with a real predator.\" She doesn't reveal who that predator will be, only giving a small, knowing smile.\n\n\"After Emily completes her training, I would like to experiment with her stomach capacity and a few other abilities... if that is acceptable to all of you.\"\n\nEmily looks excited. Your parents exchange a cautious but resigned glance.\n\nLirael then bows her head slightly in respect.\n\n\"For now, I believe we have done enough for tonight. In return for my assistance with training... I would very much like to be taught more about the modern world. There is still so much I do not understand — cars, phones, the internet, daily customs... I want to learn as much as possible.\"\n\nThe room feels heavy with the events of the day, but a sense of cautious progress hangs in the air.";
+    },
+    location: "Byrd Family Home - Living Room (Late Afternoon)",
+    choices: [
+        { label: "Agree to teach Lirael about the modern world tomorrow", next: 147, effect: () => { 
+            gameState.liraelBond += 20; 
+        }},
+        { label: "Ask Lirael more about tomorrow's plans", next: 147 },
+        { label: "Suggest everyone gets some rest for now", next: 147, effect: () => { 
+            gameState.liraelBond += 10; 
         }}
     ]
 },
