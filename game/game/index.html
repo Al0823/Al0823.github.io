@@ -133,6 +133,7 @@ var gameState = {
 trainingTurnCount: 0,      // Current turn in the training session
     acidStage: 0,              // 0 = mild, 1 = moderate, 2 = strong, 3 = critical
 predHealth: 100,
+    predDefense: 0,
     
     // Real Vore / Death System (Dangerous Scenes)
     isSwallowed: false,            // Player is currently swallowed in a real (potentially deadly) scene
@@ -144,8 +145,6 @@ predHealth: 100,
     canDieFromDigestion: true,     // If true, full digestion = game over
     voreDeathCount: 0,             // How many times player has been digested
     lastSwallowedBy: "",           // Last predator who swallowed the player
-predHealth: 100,
-    
     
     // Existing Core Variables (from your original code)
     liraelFreed: false,
@@ -275,7 +274,7 @@ var passages = [
     { text: "Your room doesn't feel like yours yet.\n\nThe bed is unfamiliar.\n\nThe air smells faintly of dust and old wood.\n\nYou lie down anyway.\n\nStaring up at the cracked ceiling.\n\nWaiting for sleep to come.\n\nIt doesn't.\n\n---\n\nAt first, it's just small things.\n\nA creak somewhere down the hall.\n\nThe faint shift of wood settling.\n\nNormal.\n\nExplainable.\n\nThen it changes.\n\nThe sounds become… deliberate.\n\nMeasured.\n\nFootsteps that don't quite sound like footsteps.\n\nScratching that moves.\n\nNot in one place.\n\nBut from wall… to wall.\n\nSlowly.\n\nLike something exploring.\n\nYour chest tightens slightly.\n\nYou stay still.\n\nListening.\n\nA whisper drifts through the darkness.\n\nToo soft to make out.\n\nToo clear to ignore.\n\nYour breath slows.\n\nYou focus.\n\nTry to hear it again.\n\nNothing.\n\nThen—\n\nAnother.\n\nCloser this time.\n\nYou sit up.\n\nThe silence that follows feels worse than the noise.\n\nHeavier.\n\nExpectant.\n\nMinutes pass.\n\nOr maybe longer.\n\nTime feels… stretched here.\n\nEventually, the unease becomes too much.\n\nLying here isn't helping.\n\nIt's making it worse.", location: "Isaac's Bedroom", choices: [{ label: "Sneak down to the basement", next: 10 }, { label: "Go up to the attic instead", next: 12 }] },
 
     // 12 - Attic Discovery
-    { text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratching.\n\nNot loud.\n\nBut persistent.\n\nYour body tenses before your mind fully catches up.\n\nYou're already sitting up.\n\nAlready listening.\n\nIt doesn't stop.\n\n---\n\nThe attic ladder creaks loudly as you pull it down.\n\nToo loudly.\n\nYou pause.\n\nWait.\n\nNothing reacts.\n\nSo you climb.\n\n---\n\nThe attic air hits you immediately.\n\nHot.\n\nStale.\n\nThick with the smell of aged paper, dust, mothballs… and something faintly rotten beneath it all.\n\nYour flashlight beam cuts through the darkness in a narrow cone.\n\nShapes emerge slowly.\n\nOld trunks.\n\nBroken furniture.\n\nCovered paintings leaning against the walls like they were turned away on purpose.\n\nEvery movement stirs dust into the air, making it feel harder to breathe.\n\nThe scratching stops.\n\nJust as suddenly as it started.\n\n---\n\nYou step further in.\n\nCareful.\n\nQuiet.\n\nYour elbow bumps into something.\n\nA heavy wooden box shifts—\n\nAnd something falls.\n\n*THUD.*\n\nThe sound is sharp.\n\nToo loud.\n\nYou freeze.\n\nWait.\n\nNothing.\n\nSlowly, you look down.\n\nA thick, leather-bound book lies open at your feet.\n\nIts pages are yellowed with age.\n\nThe spine cracked.\n\nThe title…\n\nFaded, but still readable.\n\n**Ars Goetia, Safe Summoning Rites for Companions and Bound Servants**\n\nYour stomach tightens slightly.\n\nYou kneel.\n\nFlip a page.\n\nDiagrams.\n\nCircles.\n\nInstructions.\n\nDetailed.\n\nPrecise.\n\nFamiliar.\n\nToo familiar.\n\nThen you see them.\n\nTwo items tucked between the pages.\n\nYour breath catches.\n\nTheo's drawing.\n\nThe one you've kept with you since he disappeared.\n\nAnd beside it—\n\nA lock of long, perfectly preserved black hair.\n\nIt shouldn't still look like that.\n\nBut it does.\n\nUntouched by time.\n\nWaiting.", location: "Attic", choices: [{ label: "Head down to the Basement and use Theo's drawing", next: 13, effect: () => { gameState.pathChosen = "Lirael"; gameState.statsUnlocked = true; }}, { label: "Head down to the Basement and use the lock of ancient black hair", next: 164, effect: () => { gameState.pathChosen = "Morgana"; }}] },
+    { text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratching.\n\nNot loud.\n\nBut persistent.\n\nYour body tenses before your mind fully catches up.\n\nYou're already sitting up.\n\nAlready listening.\n\nIt doesn't stop.\n\n---\n\nThe attic ladder creaks loudly as you pull it down.\n\nToo loudly.\n\nYou pause.\n\nWait.\n\nNothing reacts.\n\nSo you climb.\n\n---\n\nThe attic air hits you immediately.\n\nHot.\n\nStale.\n\nThick with the smell of aged paper, dust, mothballs… and something faintly rotten beneath it all.\n\nYour flashlight beam cuts through the darkness in a narrow cone.\n\nShapes emerge slowly.\n\nOld trunks.\n\nBroken furniture.\n\nCovered paintings leaning against the walls like they were turned away on purpose.\n\nEvery movement stirs dust into the air, making it feel harder to breathe.\n\nThe scratching stops.\n\nJust as suddenly as it started.\n\n---\n\nYou step further in.\n\nCareful.\n\nQuiet.\n\nYour elbow bumps into something.\n\nA heavy wooden box shifts—\n\nAnd something falls.\n\n*THUD.*\n\nThe sound is sharp.\n\nToo loud.\n\nYou freeze.\n\nWait.\n\nNothing.\n\nSlowly, you look down.\n\nA thick, leather-bound book lies open at your feet.\n\nIts pages are yellowed with age.\n\nThe spine cracked.\n\nThe title…\n\nFaded, but still readable.\n\n**Ars Goetia, Safe Summoning Rites for Companions and Bound Servants**\n\nYour stomach tightens slightly.\n\nYou kneel.\n\nFlip a page.\n\nDiagrams.\n\nCircles.\n\nInstructions.\n\nDetailed.\n\nPrecise.\n\nFamiliar.\n\nToo familiar.\n\nThen you see them.\n\nTwo items tucked between the pages.\n\nYour breath catches.\n\nTheo's drawing.\n\nThe one you've kept with you since he disappeared.\n\nAnd beside it—\n\nA lock of long, perfectly preserved black hair.\n\nIt shouldn't still look like that.\n\nBut it does.\n\nUntouched by time.\n\nWaiting.", location: "Attic", choices: [{ label: "Head down to the Basement and use Theo's drawing", next: 13, effect: () => { gameState.pathChosen = "Lirael"; gameState.statsUnlocked = true; }}, { label: "Head down to the Basement and use the lock of ancient black hair", next: 148, effect: () => { gameState.pathChosen = "Morgana"; }}] },
 
     // 13 - Lirael First Meeting / Return Visit
     {
@@ -1395,20 +1394,20 @@ var passages = [
             choices.push(
                 { label: "Struggle Conservatively", next: 143, effect: () => {
                     gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
                     gameState.digestionProgress += 4 + gameState.acidStage;
                     if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
                 }},
                 { label: "Struggle", next: 143, effect: () => {
                     gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
                     gameState.digestionProgress += 7 + gameState.acidStage;
                     if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
                 }},
                 { label: "Struggle Aggressively", next: 143, effect: () => {
                     gameState.preyStamina -= 25;
                     gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
                     gameState.digestionProgress += 12 + gameState.acidStage;
                     if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
                 }},
@@ -1422,7 +1421,7 @@ var passages = [
         if (gameState.preyResilience > 2 && gameState.preyStamina > 15) {
             choices.push({ label: "Probe", next: 143, effect: () => {
                 gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
                 if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
             }});
         }
@@ -1517,306 +1516,412 @@ var passages = [
     choices: 
     [    
     
-                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => { gameState.trainingTurnCount += 1,
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {
                     gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
                     gameState.digestionProgress += 4 + gameState.acidStage;
                     if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
                 }},
-                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {
                     gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
                     gameState.digestionProgress += 7 + gameState.acidStage;
                     if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
                 }},
-                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {
                     gameState.preyStamina -= 25;
                     gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
                     gameState.digestionProgress += 12 + gameState.acidStage;
                     if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
                 }},
-                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 1, effect: () => {
                     gameState.preyStamina -= 10;
                     gameState.preyHealth += 12;
                 }},
         
         
        
-           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 1, effect: () => {
                 gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
                 if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
             }},
         
- { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 1, effect: () => {
                 gameState.preyStamina -= 14;
                 gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
                 if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
             }},
         
-        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 1, effect: () => {gameState.trainingTurnCount += 1,
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 1, effect: () => {
             gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
         }},
     
-                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {
                     gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    gameState.acidStage += 1;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                     gameState.acidStage += 1;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                     gameState.acidStage += 1;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                     gameState.acidStage += 1;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 2, effect: () => {
+                gameState.preyStamina -= 12;
+                gameState.acidStage += 1;
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 2, effect: () => {
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+      gameState.acidStage += 1;
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 2, effect: () => {
+             gameState.acidStage += 1;
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+
+        
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 3, effect: () => {
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
                     gameState.digestionProgress += 4 + gameState.acidStage;
                     if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
                 }},
-                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 3, effect: () => {
                     gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
                     gameState.digestionProgress += 7 + gameState.acidStage;
                     if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
                 }},
-                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 3, effect: () => {
                     gameState.preyStamina -= 25;
                     gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
                     gameState.digestionProgress += 12 + gameState.acidStage;
                     if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
                 }},
-                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 3, effect: () => {
                     gameState.preyStamina -= 10;
                     gameState.preyHealth += 12;
                 }},
         
         
        
-           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 3, effect: () => {
                 gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
                 if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
             }},
         
- { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 3, effect: () => {
                 gameState.preyStamina -= 14;
                 gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
                 if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
             }},
         
-        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 2, effect: () => {gameState.trainingTurnCount += 1,
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 3, effect: () => {
             gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
         }},
 
         
-                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 3, effect: () => {gameState.trainingTurnCount += 1,
+        
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 4, effect: () => {
                     gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
                     gameState.digestionProgress += 4 + gameState.acidStage;
                     if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
                 }},
-                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 3, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 4, effect: () => {
                     gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
                     gameState.digestionProgress += 7 + gameState.acidStage;
                     if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
                 }},
-                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 4, effect: () => {
                     gameState.preyStamina -= 25;
                     gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
                     gameState.digestionProgress += 12 + gameState.acidStage;
                     if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
                 }},
-                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 4, effect: () => {
                     gameState.preyStamina -= 10;
                     gameState.preyHealth += 12;
                 }},
         
         
        
-           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 4, effect: () => {
                 gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
                 if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
             }},
         
- { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 4, effect: () => {
                 gameState.preyStamina -= 14;
                 gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
                 if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
             }},
         
-        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 3, effect: () => {gameState.trainingTurnCount += 1,
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 4, effect: () => {
             gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
         }},
 
         
         
-                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 4, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 5, effect: () => {
                     gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense)),
                     gameState.digestionProgress += 4 + gameState.acidStage;
+                     gameState.acidStage += 1;
                     if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
                 }},
-                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 4, effect: () => {gameState.trainingTurnCount += 1,
-                    gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
-                    gameState.digestionProgress += 7 + gameState.acidStage;
-                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
-                }},
-                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
-                    gameState.preyStamina -= 25;
-                    gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
-                    gameState.digestionProgress += 12 + gameState.acidStage;
-                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
-                }},
-                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
-                    gameState.preyStamina -= 10;
-                    gameState.preyHealth += 12;
-                }},
-        
-        
-       
-           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
-                gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
-                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
-            }},
-        
- { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
-                gameState.preyStamina -= 14;
-                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
-                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
-            }},
-        
-        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 4, effect: () => {gameState.trainingTurnCount += 1,
-            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
-        }},
-
-        
-        
-                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 5, effect: () => {gameState.trainingTurnCount += 1,
-                    gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100),
-                    gameState.digestionProgress += 4 + gameState.acidStage;
-                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
-                }},
-                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 5, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 5, effect: () => {
                     gameState.preyStamina -= 15,
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100),
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense)),
                     gameState.digestionProgress += 7 + gameState.acidStage;
+                     gameState.acidStage += 1;
                     if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
                 }},
-                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 5, effect: () => {
                     gameState.preyStamina -= 25,
                     gameState.preyHealth -= 6,
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100),
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7))),
                     gameState.digestionProgress += 12 + gameState.acidStage;
+                     gameState.acidStage += 1;
                     if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
                 }},
-                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount == 5, effect: () => {
                     gameState.preyStamina -= 10;
                     gameState.preyHealth += 12;
+                     gameState.acidStage += 1;
                 }},
         
        
-           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount == 5, effect: () => {
                 gameState.preyStamina -= 12,
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                     gameState.acidStage += 1;
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
                 if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
             }},
         
- { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount == 5, effect: () => {
                 gameState.preyStamina -= 14,
                 gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+      gameState.acidStage += 1;
                 if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
             }},
         
-        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 5, effect: () => {gameState.trainingTurnCount += 1,
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount == 5, effect: () => {
+             gameState.acidStage += 1;
             gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
         }},
 
         
-                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => { gameState.trainingTurnCount += 1,
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => { 
                     gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
                     gameState.digestionProgress += 4 + gameState.acidStage;
                     if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
                 }},
-                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {
                     gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
                     gameState.digestionProgress += 7 + gameState.acidStage;
                     if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
                 }},
-                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {
                     gameState.preyStamina -= 25;
                     gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
                     gameState.digestionProgress += 12 + gameState.acidStage;
                     if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
                 }},
-                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 6, effect: () => {
                     gameState.preyStamina -= 10;
                     gameState.preyHealth += 12;
                 }},
         
         
        
-           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 6, effect: () => {
                 gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
                 if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
             }},
         
- { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 6, effect: () => {
                 gameState.preyStamina -= 14;
                 gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
                 if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
             }},
         
-        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 6, effect: () => {gameState.trainingTurnCount += 1,
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 6, effect: () => {
             gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
         }},
 
     
-                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => { gameState.trainingTurnCount += 1,
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => { 
                     gameState.preyStamina -= 8;
-                    gameState.predHealth -= Math.clamp(random(3,5) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
                     gameState.digestionProgress += 4 + gameState.acidStage;
                     if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
                 }},
-                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {
                     gameState.preyStamina -= 15;
-                    gameState.predHealth -= Math.clamp(random(6,9) - gameState.predDefense, 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
                     gameState.digestionProgress += 7 + gameState.acidStage;
                     if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
                 }},
-                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {
                     gameState.preyStamina -= 25;
                     gameState.preyHealth -= 6;
-                    gameState.predHealth -= Math.clamp(random(11,15) - Math.round(gameState.predDefense * 0.7), 0, 100);
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
                     gameState.digestionProgress += 12 + gameState.acidStage;
                     if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
                 }},
-                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 7, effect: () => {
                     gameState.preyStamina -= 10;
                     gameState.preyHealth += 12;
                 }},
         
         
        
-           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 7, effect: () => {
                 gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.clamp(random(5,8) - gameState.predDefense, 0, 100);
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
                 if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
             }},
         
- { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 7, effect: () => {
                 gameState.preyStamina -= 14;
                 gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
                 if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
             }},
         
-        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 7, effect: () => {gameState.trainingTurnCount += 1,
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 7, effect: () => {
             gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
         }},
+
+
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 8, effect: () => {
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                     gameState.acidStage += 1;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 8, effect: () => {
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                     gameState.acidStage += 1;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 8, effect: () => {
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                     gameState.acidStage += 1;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 8, effect: () => {
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                     gameState.acidStage += 1;
+                }},
         
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 8, effect: () => {
+                gameState.preyStamina -= 12;
+                gameState.acidStage += 1;
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 8, effect: () => {
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+      gameState.acidStage += 1;
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 8, effect: () => {
+             gameState.acidStage += 1;
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
+
+
+                { label: "Struggle Conservatively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 9, effect: () => { 
+                    gameState.preyStamina -= 8;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(5-3+1))+3) - gameState.predDefense));
+                    gameState.digestionProgress += 4 + gameState.acidStage;
+                    if (Math.random() < 0.45) gameState.escapeTrainingProgress += 8;
+                }},
+                { label: "Struggle", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 9, effect: () => {
+                    gameState.preyStamina -= 15;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(9-6+1))+6) - gameState.predDefense));
+                    gameState.digestionProgress += 7 + gameState.acidStage;
+                    if (Math.random() < 0.6) gameState.escapeTrainingProgress += 12;
+                }},
+                { label: "Struggle Aggressively", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 9, effect: () => {
+                    gameState.preyStamina -= 25;
+                    gameState.preyHealth -= 6;
+                    gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(15-11+1))+11) - Math.round(gameState.predDefense * 0.7)));
+                    gameState.digestionProgress += 12 + gameState.acidStage;
+                    if (Math.random() < 0.75) gameState.escapeTrainingProgress += 18;
+                }},
+                { label: "Brace Yourself", next: 143, condition: () => gameState.preyStamina > 0 && gameState.preyHealth > 0 && gameState.trainingTurnCount === 9, effect: () => {
+                    gameState.preyStamina -= 10;
+                    gameState.preyHealth += 12;
+                }},
+        
+        
+       
+           { label: "Probe", next: 143, condition: () => gameState.preyResilience > 2 && gameState.preyStamina > 15 && gameState.trainingTurnCount === 9, effect: () => {
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.max(0, Math.min(100, (Math.floor(Math.random()*(8-5+1))+5) - gameState.predDefense));
+                if (Math.random() < 0.7) gameState.escapeTrainingProgress += 15;
+            }},
+        
+ { label: "Soothe", next: 143, condition: () => gameState.preyResilience > 4 && gameState.preyStamina > 20 && gameState.trainingTurnCount === 9, effect: () => {
+                gameState.preyStamina -= 14;
+                gameState.digestionProgress = Math.max(0, gameState.digestionProgress - 10);
+                if (Math.random() < 0.55) gameState.escapeTrainingProgress += 12;
+            }},
+        
+        { label: "Rest", next: 143, condition: () => gameState.trainingTurnCount === 9, effect: () => {
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+        }},
         
 { label: "Ask Lirael to end the session", next: 144, effect: () => {
             gameState.inStomach = false;
@@ -1962,10 +2067,12 @@ function renderPassage() {
         var btn = document.createElement('button');
         btn.textContent = choice.label;
         btn.onclick = () => {
-            if (!gameState.usedChoices[gameState.currentPassage])
-                gameState.usedChoices[gameState.currentPassage] = [];
-            if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
-                gameState.usedChoices[gameState.currentPassage].push(choice.label);
+            if (choice.next !== gameState.currentPassage) {
+                if (!gameState.usedChoices[gameState.currentPassage])
+                    gameState.usedChoices[gameState.currentPassage] = [];
+                if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
+                    gameState.usedChoices[gameState.currentPassage].push(choice.label);
+                }
             }
             if (choice.effect) choice.effect();
             gameState.lastPassage = gameState.currentPassage;
