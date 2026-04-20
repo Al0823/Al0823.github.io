@@ -1,0 +1,58 @@
+<header class="finalprojectheader">
+  <link id="mainStylesheet" rel="stylesheet" href="/finalproject/css/main.css?v=4.0">
+
+  <div class="finalprojectheader">
+Trouble Game
+  </div>
+
+<script src="/finalproject/js/settings.js"></script>
+
+  <script>
+    (function () {
+
+      function initHeader() {
+        if (!window.vars) return false;
+
+        if (window.vars.CSSVAR) {
+          const mainLink = document.getElementById("mainStylesheet");
+          if (mainLink) {
+            mainLink.href = window.vars.APATHVAR + "style.css?v=4.0";
+          }
+        }
+
+        window.updatePageTitle = function () {
+          const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
+
+          const fullTitle =
+            (window.vars.WEBSITETITLE || "") +
+            (pageTitle ? " - " + pageTitle : "");
+
+          document.title = fullTitle;
+
+          const titleEl = document.getElementById("pageTitle");
+          if (titleEl) titleEl.textContent = fullTitle;
+        };
+
+        if (window.updatePageTitle) {
+          window.updatePageTitle();
+        }
+
+        return true;
+      }
+
+      function waitForVars() {
+        if (!initHeader()) {
+          setTimeout(waitForVars, 50);
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", waitForVars);
+      } else {
+        waitForVars();
+      }
+
+    })();
+  </script>
+
+	</header>

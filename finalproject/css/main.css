@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-body {
+.finalprojectbody {
   margin: 0;
   font-family: sans-serif;
   display: grid;
@@ -10,10 +10,9 @@ body {
   height: 100vh;
 }
 
-/* Header & Footer */
-.header, .footer {
+.finalprojectheader, .finalprojectfooter {
   background: #1f1f1f;
-  color: white;
+  color: #ffffff;
   text-align: center;
   padding: 1rem;
 }
@@ -43,11 +42,11 @@ body {
 .game-placeholder {
   width: 100%;
   height: 100%;
-  border: 4px dashed #999;
+  border: 4px dashed #999999;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: #ffffff;
   font-weight: bold;
 }
 
@@ -55,7 +54,7 @@ body {
 .side-panel {
   background: #e0e0e0;
   padding: 1rem;
-  border-left: 2px solid #ccc;
+  border-left: 2px solid #cccccc;
 }
 
 /* 📱 Mobile Responsive */
@@ -67,6 +66,6 @@ body {
 
   .side-panel {
     border-left: none;
-    border-top: 2px solid #ccc;
+    border-top: 2px solid #cccccc;
   }
 }

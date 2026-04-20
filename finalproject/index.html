@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="/finalproject/js/vars.js"></script>
+<script src="/finalproject/js/includeengine.js"></script>
 <head>
-  <meta charset="UTF-8">
-  <title>Trouble Layout</title>
-  <link rel="stylesheet" href="/finalproject/css/main.css">
+<meta charset="UTF-8">
+<script>let PAGETITLE="Help what do I call this";</script>
+<title id="pageTitle"></title>
 </head>
 <body class="finalprojectbody">
 
-  <header class="finalprojectheader">
+  <header id="finalprojectheader">
     <h1>Trouble Online</h1>
   </header>
 
@@ -31,9 +33,13 @@
 
   </main>
 
-  <footer class="finalprojectfooter">
-    <p>© 2026</p>
+  <footer id="finalprojectfooter">
   </footer>
+<script>
+IncludeEngine.load([
+  { id: "finalprojectheader", file: "header.html" },
+  { id: "finalprojectfooter", file: "footer.html" }
+]);
+</script>
 
-</body>
 </html>
