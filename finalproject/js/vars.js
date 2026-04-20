@@ -3,7 +3,9 @@ window.vars = (function() {
   var PATHVAR = "/finalproject/";
 
   return {
-    PATHVAR: APATHVAR,
+    PATHVAR: PATHVAR,
+
+  INCVAR: PATHVAR + "css/",
 
     INCVAR: PATHVAR + "includes/",
 
