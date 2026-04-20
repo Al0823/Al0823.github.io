@@ -5,7 +5,7 @@ window.vars = (function() {
   return {
     PATHVAR: PATHVAR,
 
-  INCVAR: PATHVAR + "css/",
+  CSSVAR: PATHVAR + "css/",
 
     INCVAR: PATHVAR + "includes/",
 
