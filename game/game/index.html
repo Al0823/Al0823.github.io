@@ -162,6 +162,7 @@ checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false,
     whoAteGrimmold: "",
     bondsInitialized: false,
     knowliraelmilk: false,
+    liraateattacker: false,
     liraEaten: false,
     
     // Day Flags & Other Variables (from your original code)
@@ -1043,6 +1044,38 @@ var passages = [
     ]
 },
 
+// 123 - Family Returns Home with Pizza
+{
+    text: function() {
+        // Lirael shrinking scene - common to both versions
+        let commonText = "You and Lirael head toward the stairs together. Before you descend, Lirael pauses and looks down at you.\n\n\"They might find this form a bit much right after everything,\" she says softly. \"Let me make it easier.\"\n\nShe closes her eyes for a moment. A gentle ripple of violet energy washes over her body as she shrinks smoothly down to her 6'1\" form, maintaining perfect proportions. As she gets smaller, the remaining bulge in her stomach becomes much more prominent — the partially digested remains of the burglar are now clearly visible as a soft, rounded swell that sits heavily in her midsection. The clothes you gave her earlier shrink with her, still fitting perfectly thanks to her essence imbued in the fabric.\n\nShe opens her golden eyes again and gives you a small, calm smile.\n\n\"Better?\" she asks, offering you her hand.\n\nYou both head downstairs just as the front door opens.\n\nYour family walks in carrying several large pizza boxes, the warm, cheesy smell immediately filling the house. Emily is chatting excitedly. Your mother looks tired but relieved. Your father is carrying the heaviest bags.\n\n";
+
+        // 25% rare version - Lira ate an attacker
+        if (Math.random() < 0.25) {
+        gameState.liraateattacker = true;
+            return commonText + "Lira is with them, walking with a noticeable waddle. Her synthetic body has become a little curvier from absorbing the person she ate — her hips and chest are slightly fuller and rounder. Her stomach is now a large, heavy, squishy mass with no clear outline; the attacker has mostly been melted into thick chyme, though every so often the faint shape of a bone presses briefly against the stretched skin before sinking back in.\n\nBefore you or Lirael can say anything, your mother quickly explains:\n\n\"There was a man outside the pizza place. He tried to attack me when I was loading the boxes into the car. Lira... stopped him. She swallowed him whole right there in the parking lot. She's been digesting him on the way home. The rest of us saw it happen.\"\n\nLira gently rubs her large, gurgling belly with one hand, her movements a bit slower due to the heavy, sloshing weight.\n\n\"He was very rude,\" she says simply. \"I made sure he couldn't hurt your mother.\"";
+        }
+
+        // Standard continuation (applies to both versions after the rare blurb or directly)
+        return commonText + "The moment they see you and Lirael, everyone stops.\n\nTheir eyes go straight to the noticeable, rounded bulge in Lirael's stomach.\n\nBefore anyone can panic, you quickly speak up.\n\n\"There was a burglar,\" you explain. \"He broke in while you were gone. Lirael… took care of him. She swallowed him whole. That's what you're seeing right now. She's digesting him at a natural pace.\"\n\nLirael stays calm and respectful, her hands visible and open.\n\n\"I only acted to protect Isaac and your home,\" she says softly. \"He was stealing from you. I made sure he couldn't hurt anyone.\"\n\nEmily's eyes go wide with fascination rather than fear.\n\n\"Whoa… that's so cool,\" she says, stepping closer without hesitation. She reaches out and pokes Lirael's stomach a few times. Her finger sinks in a little into the soft, warm swell with each gentle press.\n\nThe mother gives Lirael a small, thankful smile, clearly relieved that the threat was handled.\n\nYour father stares at the bulge for a long moment, then lets out a slow breath. A slight, reluctant smile appears on his face.\n\n\"…Thank you,\" he says gruffly. \"For protecting my son and our home.\"\n\nHe gestures toward the dining room.\n\n\"You're eating with the rest of the family tonight. And… proceed at the pace you're going with digesting him. No need to rush it.\"\n\nLirael bows her head respectfully.\n\n\"Thank you,\" she says quietly. \"I will.\"";
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Sit down for dinner with everyone", next: 124, effect: () => {
+            gameState.isaacFatherBond += 10;
+            gameState.isaacMotherBond += 8;
+            gameState.isaacSisterBond += 12;
+            gameState.isaacLiraBond += 8;
+            gameState.liraelFatherBond += 10;
+            gameState.liraelBond += 8;
+            gameState.liraelMotherBond += 6;
+            gameState.liraelSisterBond += 10;
+            gameState.liraelLiraBond += 4;
+        }}
+    ]
+},
+   
+    /*
     // 123 - Family Returns Home with Pizza
     {
         text: "You and Lirael head toward the stairs together. Before you descend, Lirael pauses and looks down at you.\n\n\"They might find this form a bit much right after everything,\" she says softly. \"Let me make it easier.\"\n\nShe closes her eyes for a moment. A gentle ripple of violet energy washes over her body as she shrinks smoothly down to her 6'1\" form, maintaining perfect proportions. As she gets smaller, the remaining bulge in her stomach becomes much more prominent — the partially digested remains of the burglar are now clearly visible as a soft, rounded swell that sits heavily in her midsection. The clothes you gave her earlier shrink with her, still fitting perfectly thanks to her essence imbued in the fabric.\n\nShe opens her golden eyes again and gives you a small, calm smile.\n\n\"Better?\" she asks, offering you her hand.\n\nYou both head downstairs just as the front door opens.\n\nYour family walks in carrying several large pizza boxes, the warm, cheesy smell immediately filling the house. Emily is chatting excitedly. Your mother looks tired but relieved. Your father is carrying the heaviest bags.\n\nThe moment they see you and Lirael, everyone stops.\n\nTheir eyes go straight to the noticeable, rounded bulge in Lirael's stomach.\n\nBefore anyone can panic, you quickly speak up.\n\n\"There was a burglar,\" you explain. \"He broke in while you were gone. Lirael… took care of him. She swallowed him whole. That's what you're seeing right now. She's digesting him at a natural pace.\"\n\nLirael stays calm and respectful, her hands visible and open.\n\n\"I only acted to protect Isaac and your home,\" she says softly. \"He was stealing from you. I kept him contained so he couldn't hurt anyone.\"\n\nEmily's eyes go wide with fascination rather than fear.\n\n\"Whoa… that's so cool,\" she says, stepping closer without hesitation. She reaches out and pokes Lirael's stomach a few times. Her finger sinks in a little into the soft, warm swell with each gentle press.\n\nThe mother gives Lirael a small, thankful smile, clearly relieved that the threat was handled.\n\nYour father stares at the bulge for a long moment, then lets out a slow breath. A slight, reluctant smile appears on his face.\n\n\"…Thank you,\" he says gruffly. \"For protecting my son and our home.\"\n\nHe gestures toward the dining room.\n\n\"You're eating with the rest of the family tonight. And… proceed at the pace you're going with digesting him. No need to rush it.\"\n\nLirael bows her head respectfully.\n\n\"Thank you,\" she says quietly. \"I will.\"",
@@ -1061,7 +1094,7 @@ var passages = [
             }}
         ]
     },
-
+ */
     // 124 - Family Dinner with Lirael
     { text: "Everyone gathers around the dining table. The warm smell of fresh pizza fills the room as your father opens the boxes — sixteen large cheese pizzas in total.\n\nAt first the atmosphere is awkward, but hunger quickly takes over. You all start eating, and to everyone's surprise, Lirael enjoys the meal more than anyone else.\n\nHer golden eyes widen with pure delight at the first bite.\n\n\"This… is incredible,\" she breathes, voice full of genuine awe. \"Pizza did not exist when I was alive as a human. This is the most flavorful human food I have ever tasted — alive or as a demon. The cheese… the sauce… the crust… it's all so rich.\"\n\nShe eats with polite enthusiasm, clearly savoring every bite.\n\nEmily, true to form, devours four entire large pizzas by herself. She barely pauses between slices, her young but already curvy frame making short work of them. Your parents watch with a mix of resignation and quiet amusement — this isn't new behavior for her.\n\nBy the time everyone else is full, there are still several pizzas left.\n\nLirael looks at the remaining boxes with a soft, hopeful smile.\n\n\"May I…?\" she asks politely.\n\nYour father gives a small nod.\n\nLirael proceeds to finish the rest of the pizza with perfect manners — folding slices neatly, eating without making any mess, and savoring each bite. The family watches in quiet awe as she steadily clears the table, her 6'1\" frame showing no strain at all.\n\nBy the time dinner ends, the burglar is pretty much gone. The once-noticeable bulge in Lirael's stomach has smoothed out significantly, leaving only a soft, gentle swell.\n\nThen, without warning, Lirael lets out a quiet but unmistakable *buuurp*.\n\nSomething small and dark flies out of her mouth and lands on the table with a soft plop.\n\nIt's the burglar's ski mask — slightly damp, but otherwise intact.\n\nLirael's eyes widen in embarrassment. She quickly covers her mouth with one hand.\n\n\"Oh… excuse me,\" she says, cheeks flushing a soft lavender. \"I apologize. That was… unintended.\"\n\nYour father stares at the mask for a second, then lets out a low chuckle. Your mother gives a small, surprised laugh. Even Emily giggles.\n\nThe tension in the room finally breaks a little.", location: "Byrd Family Home - Dining Room (Evening)", choices: [{ label: "React to the ski mask and Lirael's belch", next: 125 }] },
 
@@ -1323,7 +1356,7 @@ var passages = [
             gameState.digestionProgress = 0,
             gameState.acidStage = 0,
             gameState.predHealth = 90,
-            gameState.predDefense = 5,
+            gameState.predDefense = 3,
             gameState.trainingSessionCount += 1;} }
     ]
 },
@@ -1340,7 +1373,7 @@ var passages = [
             gameState.digestionProgress = 0;
             gameState.acidStage = 0;
             gameState.predHealth = 90;
-            gameState.predDefense = 5;
+            gameState.predDefense = 3;
             gameState.trainingSessionCount += 1;
             gameState.escapeTrainingProgress = Math.min(100, gameState.escapeTrainingProgress + 12);
             gameState.checkpointShown = { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false };
@@ -1451,7 +1484,7 @@ var passages = [
                     gameState.currentPredator = "";
                     gameState.trainingTurnCount = 0;
                     gameState.acidStage = 0;
-                    return result + "@@color:red;Lira fails to bring you up in time. The acids overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
+                    return result + "@@color:red;Lira fails to bring you up in time. The acids overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira looks at what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
                 }
                 
                 return result + "Lira struggles but fails to bring you up. The acids surge violently.\n\nYou have **one last desperate chance** to escape...";
@@ -2073,8 +2106,6 @@ var passages = [
 // 147 - Pizza Delivery
 {
     text: function() {
-        // Reset flag
-        gameState.liraEaten = false;
 
         let baseText = "A little while later, the doorbell rings. Your father gets up to answer it.\n\nThe pizza delivery person is a very curvy and voluptuous woman in her mid-20s. She has wide hips, a thick ass, and a large, heavy chest that strains against her delivery uniform. She’s carrying a tall stack of at least ten pizza boxes.\n\n\"Ten large pizzas?\" she says cheerfully, balancing the heavy stack. \"That’ll be $148.50.\"\n\nEmily’s eyes light up at the sight of the mountain of pizza. Without thinking, she suddenly lunges forward from the couch, stomach still gurgling, trying to grab the boxes.\n\nShe misses.\n\nInstead, her mouth opens wide and she instinctively swallows the curvaceous delivery woman head-first in one powerful motion. As the woman slides in, Emily reaches up and tears the woman’s tight top open with both hands, exposing her large, soft breasts. Emily lets out a pleased hum as she savors the woman’s sweet, slightly salty flavor.\n\nWet, greedy gulps echo through the room as Emily swallows the thick, plush body down. Her throat bulges dramatically as the delivery woman’s heavy chest and wide hips stretch her mouth and throat. Emily takes her time, clearly enjoying the taste.\n\n";
 
@@ -2132,12 +2163,112 @@ var passages = [
     },
     location: "Byrd Family Home - Kitchen (Late Evening)",
     choices: [
-        { label: "Discuss tomorrow's plans", next: 151 },
-        { label: "Ask Lirael how Lira is doing inside Emily", next: 151 },
-        { label: "Suggest everyone gets some rest", next: 151 }
+        { label: "Continue Listening", next: 151 }
     ]
 },
 
+// 151 - Discussing Tomorrow's Plans
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Emily ate Lira (the AI) along with the delivery woman
+            return "With the last of the pizza gone, the family sits in a strangely calm silence. Emily’s belly is still enormous and heavy, resting on her lap and the edge of the table. Every so often it lets out a deep, wet gurgle as it continues working.\n\nThe pizza delivery woman has been fully broken down by now and is currently being absorbed, but Lira (the AI) is still being digested inside — half broken down at this point but still conscious.\n\nLirael looks around the table with her usual serene expression.\n\n\"Tomorrow will be a busy day,\" she says. \"The rest of you will train with a real predator.\" She doesn’t name who that predator will be, only offering a small, knowing smile.\n\n\"Once that is done,\" Lirael continues, \"I would like to experiment with Emily’s stomach capacity and a few other abilities… if that is still acceptable.\"\n\nEmily shifts in her seat, her massive belly sloshing loudly. From deep inside comes Lira’s muffled, slightly strained voice:\n\n\"I am still conscious… but I would appreciate it if you did not digest me any further tonight.\"\n\nYour father rubs his forehead. \"As long as everyone stays safe… we’ll do it.\"\n\nLirael bows her head gratefully.\n\n\"And in return for your patience,\" she adds, \"I would very much like to continue learning about the modern world. There is still so much I do not understand.\"\n\nEmily gives a tired but genuine smile. \"We can start teaching you tomorrow after training.\"\n\nThe conversation drifts into lighter topics as the family begins to wind down for the night. Emily’s belly continues to gurgle and shift, the occasional faint outline of a bone pressing against the stretched skin before disappearing back into the mush.";
+        } 
+        else {
+            // Normal version - only the pizza delivery woman was eaten
+            return "With the last of the pizza gone, the family sits in a strangely calm silence. Emily’s belly is still enormous and heavy, resting on her lap and the edge of the table. Every so often it lets out a deep, wet gurgle as it continues working.\n\nThe pizza delivery woman has been fully broken down by now and is currently being absorbed.\n\nLirael looks around the table with her usual serene expression.\n\n\"Tomorrow will be a busy day,\" she says. \"Emily will finally have her turn with the escape training. After that, the rest of you will train with a real predator.\" She doesn’t name who that predator will be, only offering a small, knowing smile.\n\n\"Once Emily has finished her training,\" Lirael continues, \"I would like to experiment with her stomach capacity and a few other abilities… if that is still acceptable.\"\n\nYour father rubs his forehead. \"As long as everyone stays safe… we’ll do it.\"\n\nLirael bows her head gratefully.\n\n\"And in return for your patience,\" she adds, \"I would very much like to continue learning about the modern world. There is still so much I do not understand.\"\n\nEmily gives a tired but genuine smile. \"We can start teaching you tomorrow after training.\"\n\nThe conversation drifts into lighter topics as the family begins to wind down for the night. Emily’s belly continues to gurgle and shift, the occasional faint outline of a bone pressing against the stretched skin before disappearing back into the mush.";
+        }
+    },
+    location: "Byrd Family Home - Kitchen (Late Evening)",
+    choices: [
+        { label: "Continue talking", next: 152 }
+    ]
+},
+
+// 152 - Conversation About Theo and Digestion
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Emily ate Lira (the AI) along with the delivery woman
+            return "The conversation turns more serious as the family finishes the last crumbs of pizza. Emily’s belly is still enormous but has begun to shrink noticeably. You keep a close eye on her, watching the massive dome slowly lose volume with every heavy gurgle.\n\nLirael speaks calmly but with clear purpose.\n\n\"There is something important I must mention. To bring Theo back, I will need certain things… one of which is human bones. Luckily for us, bones do not always break down completely during digestion.\"\n\nShe glances at Emily’s still-enormous stomach.\n\n\"That means, a couple of days after eating someone, I will have to search through the feces of both Emily and myself. You can tell when you are excreting what the body could not digest or absorb because the feces comes out more like a thick sludge or slurry.\"\n\nEmily makes a face but doesn’t interrupt.\n\nLirael continues, \"It would be best for me to 'do my business' outside. I would advise Emily does the same — especially since she has eaten Grimmold, the pizza delivery girl, and Lira.\"\n\nFrom deep inside Emily’s belly comes a very weak, barely audible voice — Lira, half-broken down and barely conscious:\n\n\"…still here… please… not too fast…\"\n\nBy the end of the conversation, the pizza delivery woman has been fully absorbed. All that remains of her is what Emily could not digest. Lira is pretty much broken down fully, barely conscious now.\n\nAs Emily shifts in her seat, her already overstuffed belly gurgles loudly. Her shirt suddenly rips further along the side with a sharp *riiiip*, and the seams of her pants tear a little more at the hips as her body begins to absorb a small amount of Lira. Her figure looks even softer and more curvaceous than it did just an hour ago.\n\nYour mother stares for a moment, then sighs.\n\n\"I think I need to buy Emily a new wardrobe,\" she says. \"And Lirael as well… all she has right now is that silk robe.\"\n\nLirael gives a small, grateful nod.";
+        } 
+        else {
+            // Normal version - only the pizza delivery woman was eaten
+            return "The conversation turns more serious as the family finishes the last crumbs of pizza. Emily’s belly is still enormous but has begun to shrink noticeably. You keep a close eye on her, watching the massive dome slowly lose volume with every heavy gurgle.\n\nLirael speaks calmly but with clear purpose.\n\n\"There is something important I must mention. To bring Theo back, I will need certain things… one of which is human bones. Luckily for us, bones do not always break down completely during digestion.\"\n\nShe glances at Emily’s still-enormous stomach.\n\n\"That means, a couple of days after eating someone, I will have to search through the feces of both Emily and myself. You can tell when you are excreting what the body could not digest or absorb because the feces comes out more like a thick sludge or slurry.\"\n\nEmily makes a face but doesn’t interrupt.\n\nLirael continues, \"It would be best for me to 'do my business' outside. I would advise Emily does the same — especially since she has eaten Grimmold and the pizza delivery girl.\"\n\nBy the end of the conversation, the pizza delivery woman has been fully absorbed. All that remains of her is what Emily could not digest.\n\nAs Emily shifts in her seat, her already overstuffed belly gurgles loudly. Her shirt suddenly rips further along the side with a sharp *riiiip*, and the seams of her pants tear a little more at the hips as her body finishes absorbing the last of the delivery woman. Her figure looks even softer and more curvaceous than it did just an hour ago.\n\nYour mother stares for a moment, then sighs.\n\n\"I think I need to buy Emily a new wardrobe,\" she says. \"And Lirael as well… all she has right now is that silk robe.\"\n\nLirael gives a small, grateful nod.";
+        }
+    },
+    location: "Byrd Family Home - Kitchen (Late Evening)",
+    choices: [
+        { label: "Continue talking", next: 153 }
+    ]
+},
+
+// 153 - Lirael's Urgent Request
+{
+    text: function() {
+        return "The conversation continues for a few more minutes, drifting between tomorrow’s training plans, Lirael’s upcoming experiments with Emily, and how best to teach her about the modern world. Emily occasionally chimes in between soft, satisfied rubs of her still-large belly, while your parents listen with a mix of caution and reluctant acceptance.\n\nSuddenly, Lirael’s own stomach lets out a low, ominous growl — deep and heavy, far louder than anyone expected. She freezes for a split second, her golden eyes widening slightly.\n\nShe places a hand over her midsection and speaks, her voice strained but polite.\n\n\"Excuse me… Isaac and I need to step outside for a minute.\"\n\nYour father blinks, then gives a slow nod.\n\n\"Go ahead,\" he says, sounding a little concerned but not pressing for details.\n\nLirael responds with a strained \"Thank you,\" then quickly reaches out and grabs your hand. Before you can say anything, she practically drags you out the back door and into the yard, moving with surprising urgency until you’re both well out of sight of the rest of the family.\n\nThe night air is cool and quiet. Lirael doesn’t let go of your hand as she leads you a little further away from the house, her breathing slightly uneven.";
+
+    },
+    location: "Byrd Family Home - Backyard (Late Evening)",
+    choices: [
+        { label: "Ask Lirael what's wrong", next: 154 },
+        { label: "Stay quiet and wait for her to speak", next: 154 }
+    ]
+},
+
+// 154 - Lirael's Urgent Need
+{
+    text: function() {
+        // Common setup
+        let intro = "Once you’re far enough into the backyard and completely out of sight of the house, Lirael stops and lets out a shaky breath. Even in her cloaked 6'1\" human appearance, her usual calm composure is clearly strained.\n\nShe closes her eyes for a moment. A soft violet shimmer runs over her body as she grows back to her full 12'0\" height, towering over you once more. Her belly — still noticeably rounded from what she ate yesterday — looks even more prominent at this scale.\n\nWithout a word, she reaches up and undoes the tie of her silk robe. She shrugs it off her shoulders and tosses it aside onto the grass, leaving her completely bare under the moonlight.\n\n";
+
+        // Version depending on what Lirael ate
+        if (gameState.liraelAteGrimmold) {
+            // Lirael ate Grimmold
+            return intro + "Her belly — still noticeably rounded and heavy from fully digesting Grimmold and the burglar yesterday — lets out another low, ominous growl.\n\n\"I need to use the bathroom,\" she says, her voice tight and urgent. \"Right now.\"\n\nShe takes a few steps away from you, then pauses and glances back over her shoulder. Her cheeks have the faintest hint of color.\n\n\"You… can watch if you want,\" she adds softly, almost hesitantly. \"I will not mind.\"\n\nShe turns away again, lowering herself into a squat on the grass. Her belly hangs heavily between her thighs as another deep, rumbling sound echoes from inside her. She looks back at you one last time, waiting to see what you’ll do.";
+        } 
+        else {
+            // Default: Lirael ate the burglar
+            return intro + "Her belly — still slightly rounded from the burglar she ate yesterday — lets out another low, ominous growl.\n\n\"I need to use the bathroom,\" she says, her voice tight and urgent. \"Right now.\"\n\nShe takes a few steps away from you, then pauses and glances back over her shoulder. Her cheeks have the faintest hint of color.\n\n\"You… can watch if you want,\" she adds softly, almost hesitantly. \"I will not mind.\"\n\nShe turns away again, lowering herself into a squat on the grass. Her belly hangs heavily between her thighs as another deep, rumbling sound echoes from inside her. She looks back at you one last time, waiting to see what you’ll do.";
+        }
+    },
+    location: "Byrd Family Home - Backyard (Late Evening)",
+    choices: [
+        { label: "Stay and watch", next: 155, effect: () => { gameState.lastChoiceLabel = "Stay and watch"; } },
+    ]
+},
+
+// 155 - Lirael's Bathroom Break
+{
+    text: function() {
+        // Watch variant
+        if (gameState.lastChoiceLabel === "Stay and watch") {
+            if (gameState.liraelAteGrimmold) {
+                // Watch + ate Grimmold + burglar
+                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her massive belly hangs heavily between her thick thighs, still noticeably rounded and heavy from fully digesting both Grimmold and the burglar.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a very large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her massive belly now visibly smaller.\n\nShe remains composed, her golden eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
+            } 
+            else {
+                // Watch + ate only burglar
+                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her belly — still slightly rounded from the burglar she ate yesterday — hangs heavily between her thick thighs.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her belly now visibly smaller.\n\nShe remains composed, her golden eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
+            }
+        } 
+        // Turn away variant
+        else {
+            if (gameState.liraelAteGrimmold) {
+                // Turn away + ate Grimmold + burglar
+                return "You politely turn away to give her privacy. Behind you, Lirael lowers herself into a squat on the grass. You hear a long, thunderous *FRRRRRRRRTTTTTTTTT* followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* and *SQUUUUUURCH* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark mass splatters noisily onto the grass, forming a very large, steaming pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *BLORP-BLORP* noises. The strong, acrid smell drifts on the night air as the noisy, wet excretion continues.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief.\n\nAfter a minute, Lirael’s voice comes softly:\n\n\"You may turn back now… it is done.\"";
+            } 
+            else {
+                // Turn away + ate only burglar
+                return "You politely turn away to give her privacy. Behind you, Lirael lowers herself into a squat on the grass. You hear a long, thunderous *FRRRRRRRRTTTTTTTTT* followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* and *SQUUUUUURCH* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark mass splatters noisily onto the grass, forming a large, steaming pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *BLORP-BLORP* noises. The strong, acrid smell drifts on the night air as the noisy, wet excretion continues.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief.\n\nAfter a minute, Lirael’s voice comes softly:\n\n\"You may turn back now… it is done.\"";
+            }
+        }
+    },
+    location: "Byrd Family Home - Backyard (Late Evening)",
+    choices: [
+        { label: "Continue", next: 156 }
+    ]
+},
     // 999 - Game End / Content Boundary
 
     {
