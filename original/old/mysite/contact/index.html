@@ -1,0 +1,62 @@
+[include file=../includes/vars.inc]
+[include file=[incVAR]header.inc]
+[include file=[incVAR]navbar.inc]
+
+<div class="bodycopy">
+  <div class="left">This is my Contact page, the purpose of this page is to have contact to me whom is the creator of the website. </div>
+  <div class="conmiddle">
+  <form action="thankyou.html" target="_blank" method="post" autocomplete="on">
+<fieldset style="border-color: black;">
+  <legend>Name</legend>
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" style="width:500px; height:30px;" required><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" style="width:500px; height:30px;" required><br>
+</fieldset>
+<fieldset style="border-color: black;">
+  <legend>Contact Information</legend>
+  <label for="text"> Email:</label><br> 
+  <input type="email" id="Email" name="Email" style="width:500px; height:30px;"><br>
+  <label for="text">Address:</label><br>
+  <input type="text" id="address" name="Address" style="width:500px; height:30px;">
+  <br>
+  <label for="text">State:</label><br>
+<select name="state" id="state">
+[search db=[dbvar]country.db&EQstatusDATArq=1]
+[founditems]
+  <option disabled>[title]</option>
+  [search db=[dbvar]state.db&EQr_countryDATArq=[sku]&titleSORT=1]
+  [founditems]
+  <option value="[code]" [showif [code]=NY]selected[/showif]>[title]</option>
+  [/founditems]
+  [/search]
+[/founditems]
+[/search]
+</select>
+  [closedatabase db=[dbVAR]country.db]
+  [closedatabase db=[dbVAR]state.db]
+  <br><br>
+  <label for="phone">Phone number:</label><br>
+  <input type="tel" id="Phone" name="phone" style="height:30px;" placeholder="012-345-6789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+</fieldset><br>
+<fieldset style="border-color: black;">
+  <legend>Comments</legend>
+  <label for="Reason">Reason why you are contacting me:</label><br>
+  <select id="Reason" name="Reason" style="width:100px; height:30px;" required>
+    <option value="">Select One</option>
+    <option>Report Bug</option>
+    <option>Questions</option>
+    <option>Suggestions</option>
+    <option>Other</option>
+  </select><br>
+  <label for="Comment">Comment</label><br>
+  <textarea name="comment" rows="10" cols="50" placeholder="Write your comment here"></textarea><br>
+ <div class= "ip"> <input type="hidden" id="custId" name="User IP" value="[ipaddress]"> </div>
+   <input type="submit" value="Submit" style="width:100px; height:30px;">
+</fieldset>
+</form>
+  </div>
+  <div class="right"> <img class=imgright src="[imgVAR]contact.png" alt="Uh oh broken"> </div>
+</div>
+
+[include file=[incVAR]footer.inc]

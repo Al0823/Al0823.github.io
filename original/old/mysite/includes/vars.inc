@@ -1,0 +1,7 @@
+[!] mac is hurting my brain [/!]
+[text]pathVAR=/citi/coding/2025/ak/mysite/[/text]
+[text]imgVAR=[pathVAR]gallery/images/[/text]
+[text]cssVAR=[pathVAR]css/[/text]
+[text]incVAR=[pathVAR]includes/[/text]
+[text]debugVAR=0[/text]
+[text]dbVAR=[pathVAR]databases/[/text]
