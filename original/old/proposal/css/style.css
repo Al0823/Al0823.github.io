@@ -1,21 +1,21 @@
 .body {
-	background-color: #000000;
-	color:#ffffff;
+	background-color: black;
+	color:white;
 }
 
 h1 {
-	color: #ffffff;
+	color: white;
 	text-align: center;
 }
 
 h2 {
-	color: #ffffff;
+	color: white;
 	text-align: center;
 }
 
 .p {
 	font-size: 12px;
-	color: #ffffff;
+	color: white;
 	text-align: left;
 }
 
@@ -37,7 +37,7 @@ img {
 
 .flex-container {
 	display: flex;
-	background-color: #008000;
+	background-color: Green;
 	margin: 20px;
 	padding: 20px;
 font-size: 30px;
