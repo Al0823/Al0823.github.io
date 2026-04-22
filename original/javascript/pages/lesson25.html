@@ -1,0 +1,779 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Numbers Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Numbers" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what a "Number" is in Javascript is a primitive data type that is used to show whole numbers and numbers with decimal points.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<div class="fs-15">Number Types</div><br><br>
+
+<div class="fs-10">JavaScript has only one type of number.
+<br><br>
+Numbers can be written with or without decimals.</div>
+<br><br>
+
+<p id="NUMBERS"></p>
+
+<script>
+let x = 3.14;
+let y = 3;
+document.getElementById("NUMBERS").innerHTML = x + "<br>" + y;
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">Extra large or extra small numbers can be written with scientific (exponent) notation</DIV><br><br>
+<p id="NUMBERS2"></p>
+
+<script>
+let x = 123e5;
+let y = 123e-5;
+document.getElementById("NUMBERS2").innerHTML = x + "<br>" + y;
+</script>
+
+<div class="fs-15">Integer Precision</div><br><br>
+
+<div class="fs-10">Integers (numbers without a period or exponent notation) are accurate up to 15 digits.<br><br>
+
+<p id="NUMBERS3"></p>
+
+<script>
+// 15 digits:
+let x = 999999999999999;
+
+// 16 digits:
+let y = 9999999999999999;
+document.getElementById("NUMBERS3").innerHTML = "Accurate: " + x + "<br>Inaccurate: " + y;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+The maximum number of decimals is 17.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Floating Precision</DIV><BR><BR>
+
+<p id="NUMBERS4"></p>
+
+<script>
+let x = 0.2 + 0.1;
+document.getElementById("NUMBERS4").innerHTML = "0.2 + 0.1 = " + x;
+</script>
+<BR><BR>
+
+<p id="NUMBERS5"></p>
+
+<p>But it helps to multiply and divide:</p>
+
+<p id="NUMBERS6"></p>
+
+<script>
+let x = 0.2 + 0.1;
+document.getElementById("NUMBERS5").innerHTML = "0.2 + 0.1 = " + x;
+let y = (0.2*10 + 0.1*10) / 10;
+document.getElementById("NUMBERS6").innerHTML = "0.2 + 0.1 = " + y;
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-15">Adding Numbers and Strings</DIV><BR><BR>
+
+<DIV CLASS="FS-10">JavaScript uses the + operator for both addition and concatenation.
+<BR><BR>
+Numbers are added. Strings are concatenated.<BR><BR>
+If you add two numbers, the result will be a number.
+</DIV><BR><BR>
+
+<p id="NUMBERS7"></p>
+
+<script>
+let x = 10;
+let y = 20;
+let z = x + y;
+document.getElementById("NUMBERS7").innerHTML = z;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+If you add two strings, the result will be a string concatenation
+</DIV><BR><BR>
+<p id="NUMBERS8"></p>
+
+<script>
+let x = "10";
+let y = "20";
+let z = x + y;
+document.getElementById("NUMBERS8").innerHTML = z;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+If you add a number and a string, the result will be a string concatenation.
+</DIV><BR><BR>
+<p id="NUMBERS10"></p>
+
+<script>
+let x = 10;
+let y = "20";
+let z = x + y;
+document.getElementById("NUMBERS10").innerHTML = z;
+</script>
+<DIV CLASS="FS-10">If you add a string and a number, the result will be a string concatenation</DIV><BR><BR>
+<p id="NUMBERS11"></p>
+
+<script>
+let x = "10";
+let y = 20;
+document.getElementById("NUMBERS11").innerHTML = "The result is: " + x + y;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+A common mistake is to expect this result to be 30
+</DIV><BR><BR>
+<p id="NUMBERS12"></p>
+
+<script>
+var x = 10;
+var y = 20;
+document.getElementById("NUMBERS12").innerHTML =
+"The result is: " + x + y;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">A common mistake is to expect this result to be 102030
+</DIV><BR><BR>
+
+<p id="NUMBERS13"></p>
+
+<script>
+let x = 10;
+let y = 20;
+let z = "30";
+let result = x + y + z;
+document.getElementById("NUMBERS13").innerHTML = result;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+The JavaScript interpreter works from left to right.
+<BR><BR>
+First 10 + 20 is added because x and y are both numbers.
+<BR><BR>
+Then 30 + "30" is concatenated because z is a string.
+</DIV><BR><BR>
+<DIV CLASS="FS-15">Numeric Strings</DIV><br><br>
+<div class="fs-10">JavaScript strings can have numeric content
+<br><br>
+JavaScript will try to convert strings to numbers in all numeric operations (besides addition)
+</div><br><br>
+<p id="NUMBERS14"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x / y;   
+document.getElementById("NUMBERS14").innerHTML = z;
+</script><BR><BR>
+<p id="NUMBERS15"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x / y;   
+document.getElementById("NUMBERS15").innerHTML = z;
+</script><BR><br>
+<p id="NUMBERS16"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x * y;   
+document.getElementById("NUMBERS16").innerHTML = z;
+</script><BR><BR>
+<p id="NUMBERS17"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x - y;   
+document.getElementById("NUMBERS17").innerHTML = z;
+</script><BR><BR>
+
+<p id="NUMBERS18"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x + y;   
+document.getElementById("NUMBERS18").innerHTML = z;
+</script>
+<DIV CLASS="FS-10">
+In the last example JavaScript uses the + operator to concatenate the strings
+</DIV><BR><BR>
+<DIV CLASS="FS-15">NaN (Not a Number)</DIV><br><br>
+<div class="fs-10">NaN is a JavaScript reserved word indicating that a number is not a legal number.
+<BR><BR>
+Trying to do arithmetic with a non-numeric string will result in NaN (Not a Number)
+</div><br><br>
+<p id="NUMBERS19"></p>
+
+<script>
+document.getElementById("NUMBERS19").innerHTML = 100 / "Apple";
+</script>
+<DIV CLASS="FS-10">However, if the string is numeric, the result will be a number</DIV><BR><BR>
+<p id="NUMBERS20"></p>
+
+<script>
+document.getElementById("NUMBERS20").innerHTML = 100 / "10";
+</script><BR><BR>
+
+<DIV CLASS="FS-10">You can use the global JavaScript function isNaN() to find out if a value is a not a number</DIV><BR><BR>
+
+<p id="NUMBERS21"></p>
+
+<script>
+let x = 100 / "Apple";
+document.getElementById("NUMBERS21").innerHTML = isNaN(x);
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Watch out for NaN. If you use NaN in a mathematical operation, the result will also be NaN</DIV><BR><BR>
+
+<p id="NUMBERS22"></p>
+
+<script>
+let x = NaN;
+let y = 5;
+document.getElementById("NUMBERS22").innerHTML = x + y;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Or the result might be a concatenation like NaN5</DIV><BR><BR>
+<p id="NUMBERS23"></p>
+
+<script>
+let x = NaN;
+let y = "5";
+document.getElementById("NUMBERS23").innerHTML = x + y;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">NaN is a number, typeof NaN returns number</DIV><BR><BR>
+<p id="NUMBERS24"></p>
+
+<script>
+let x = NaN;
+document.getElementById("NUMBERS24").innerHTML = typeof x;
+</script><BR><BR>
+<DIV CLASS="FS-15">Infinity</DIV><br><BR>
+<DIV CLASS="FS-10">Infinity or -Infinity is the value JavaScript will return if you calculate a number outside the largest possible number.</DIV><BR><BR>
+<p id="NUMBERS25"></p>
+
+<script>
+let myNumber = 2; 
+let txt = "";
+while (myNumber != Infinity) {
+   myNumber = myNumber * myNumber;
+   txt = txt + myNumber + "<br>";
+}
+document.getElementById("NUMBERS25").innerHTML = txt;
+</script><BR><BR>
+<DIV CLASS="FS-10">Division by 0 (zero) also creates Infinity</DIV><BR><BR>
+<p id="NUMBERS26"></p>
+
+<script>
+let x = 2/0;
+let y = -2/0;
+document.getElementById("NUMBERS26").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">Infinity is a number, typeof Infinity returns number.</DIV><BR><BR>
+<p id="NUMBERS27></p>
+
+<script>
+document.getElementById("NUMBERS27").innerHTML = typeof Infinity;
+</script><BR><BR>
+<DIV CLASS="FS-15">Hexadecimal</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript interprets numeric constants as hexadecimal if they are preceded by 0x.</DIV><BR><BR>
+<p id="NUMBERS28"></p>
+
+<script>
+let x = 0xFF;
+document.getElementById("NUMBERS28").innerHTML = "0xFF = " + x;
+</script><BR><BR>
+<DIV CLASS="FS-10">Never write a number starting with a zero (like 07).<BR><BR>
+Some JavaScript versions interpret numbers as octal if they are written with a leading zero.
+<BR><BR>
+By default, JavaScript displays numbers as base 10 decimals.
+<BR><BR>
+But you can use the toString() method to output numbers from base 2 to base 36.
+<BR><BR>
+Hexadecimal is base 16, Decimal is base 10, Octal is base 8, and Binary is base 2.</DIV><BR><BR>
+<p id="NUMBERS29"></p>
+
+<script>
+let myNumber = 32;
+document.getElementById("NUMBERS29").innerHTML =
+"Decimal 32 = " + "<br><br>" + 
+
+"Hexatrigesimal (base 36): " + myNumber.toString(36) + "<br>" +
+"Duotrigesimal (base 32): " + myNumber.toString(32) + "<br>" +
+"Hexadecimal (base 16): " + myNumber.toString(16) + "<br>" +
+"Duodecimal (base 12): " + myNumber.toString(12) + "<br>" +
+"Decimal (base 10): " + myNumber.toString(10) + "<br>" +
+"Octal (base 8): " + myNumber.toString(8) + "<br>" +
+"Binary (base 2): " + myNumber.toString(2);
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Numbers as OBJECTS</DIV><BR><BR>
+<DIV CLASS="FS-10">Normally JavaScript numbers are primitive values created from literals.<BR><BR>But numbers can also be defined as OBJECTS with the keyword new</DIV><BR><BR>
+<p id="NUMBERS30"></p>
+
+<script>
+// x is a number
+let x = 67;
+
+// y is a Number object
+let y = new Number(67);
+
+document.getElementById("NUMBERS30").innerHTML = typeof x + "<br>" + typeof y;
+</script><BR><BR>
+<DIV CLASS="FS-10">You should not create Number objects.
+<BR><BR>
+The new keyword complicates the code and slows down execution speed.
+<BR><BR>
+Number Objects can produce unexpected results</DIV><BR><BR>
+<p id="NUMBERS31"></p>
+
+<script>
+// x is a number
+let x = 67;
+
+// y is an object
+let y = new Number(67);
+document.getElementById("NUMBERS31").innerHTML = (x==y);
+</script><BR><BR>
+<p id="NUMBERS32"></p>
+
+<script>
+// x is a number
+let x = 67;
+
+// y is an object
+let y = new Number(67);
+
+document.getElementById("NUMBERS32").innerHTML = (x===y);
+</script><BR><BR><DIV CLASS="FS-10">Note the difference between (x==y) and (x===y).<BR><BR>When using the == operator, x and y are equal.<BR><BR>When using the === operator, x and y are not equal.</DIV><BR><BR>
+<p id="NUMBERS33"></p>
+
+<script>
+// x is an object
+let x = new Number(67);
+
+// y is an object
+let y = new Number(67);
+
+document.getElementById("NUMBERS33").innerHTML = (x==y);
+</script><BR><BR>
+<p id="NUMBERS34"></p>
+
+<script>
+// x is an object
+let x = new Number(500);
+
+// y is an object
+let y = new Number(500);
+
+document.getElementById("NUMBERS34").innerHTML = (x===y);
+</script><BR><BR>
+<DIV CLASS="FS-10">Comparing two JavaScript objects will always return false.</DIV><BR><BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<div class="fs-15">Number Types</div><br><br>
+
+<div class="fs-10">JavaScript has only one type of number.
+<br><br>
+Numbers can be written with or without decimals.</div>
+<br><br>
+
+<p id="NUMBERS"></p>
+
+<script>
+let x = 3.14;
+let y = 3;
+document.getElementById("NUMBERS").innerHTML = x + "<br>" + y;
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-10">Extra large or extra small numbers can be written with scientific (exponent) notation</DIV><br><br>
+<p id="NUMBERS2"></p>
+
+<script>
+let x = 123e5;
+let y = 123e-5;
+document.getElementById("NUMBERS2").innerHTML = x + "<br>" + y;
+</script>
+
+<div class="fs-15">Integer Precision</div><br><br>
+
+<div class="fs-10">Integers (numbers without a period or exponent notation) are accurate up to 15 digits.<br><br>
+
+<p id="NUMBERS3"></p>
+
+<script>
+// 15 digits:
+let x = 999999999999999;
+
+// 16 digits:
+let y = 9999999999999999;
+document.getElementById("NUMBERS3").innerHTML = "Accurate: " + x + "<br>Inaccurate: " + y;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+The maximum number of decimals is 17.
+</DIV><BR><BR>
+
+<DIV CLASS="FS-15">Floating Precision</DIV><BR><BR>
+
+<p id="NUMBERS4"></p>
+
+<script>
+let x = 0.2 + 0.1;
+document.getElementById("NUMBERS4").innerHTML = "0.2 + 0.1 = " + x;
+</script>
+<BR><BR>
+
+<p id="NUMBERS5"></p>
+
+<p>But it helps to multiply and divide:</p>
+
+<p id="NUMBERS6"></p>
+
+<script>
+let x = 0.2 + 0.1;
+document.getElementById("NUMBERS5").innerHTML = "0.2 + 0.1 = " + x;
+let y = (0.2*10 + 0.1*10) / 10;
+document.getElementById("NUMBERS6").innerHTML = "0.2 + 0.1 = " + y;
+</script>
+<BR><BR>
+
+<DIV CLASS="FS-15">Adding Numbers and Strings</DIV><BR><BR>
+
+<DIV CLASS="FS-10">JavaScript uses the + operator for both addition and concatenation.
+<BR><BR>
+Numbers are added. Strings are concatenated.<BR><BR>
+If you add two numbers, the result will be a number.
+</DIV><BR><BR>
+
+<p id="NUMBERS7"></p>
+
+<script>
+let x = 10;
+let y = 20;
+let z = x + y;
+document.getElementById("NUMBERS7").innerHTML = z;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+If you add two strings, the result will be a string concatenation
+</DIV><BR><BR>
+<p id="NUMBERS8"></p>
+
+<script>
+let x = "10";
+let y = "20";
+let z = x + y;
+document.getElementById("NUMBERS8").innerHTML = z;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+If you add a number and a string, the result will be a string concatenation.
+</DIV><BR><BR>
+<p id="NUMBERS10"></p>
+
+<script>
+let x = 10;
+let y = "20";
+let z = x + y;
+document.getElementById("NUMBERS10").innerHTML = z;
+</script>
+<DIV CLASS="FS-10">If you add a string and a number, the result will be a string concatenation</DIV><BR><BR>
+<p id="NUMBERS11"></p>
+
+<script>
+let x = "10";
+let y = 20;
+document.getElementById("NUMBERS11").innerHTML = "The result is: " + x + y;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+A common mistake is to expect this result to be 30
+</DIV><BR><BR>
+<p id="NUMBERS12"></p>
+
+<script>
+var x = 10;
+var y = 20;
+document.getElementById("NUMBERS12").innerHTML =
+"The result is: " + x + y;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">A common mistake is to expect this result to be 102030
+</DIV><BR><BR>
+
+<p id="NUMBERS13"></p>
+
+<script>
+let x = 10;
+let y = 20;
+let z = "30";
+let result = x + y + z;
+document.getElementById("NUMBERS13").innerHTML = result;
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">
+The JavaScript interpreter works from left to right.
+<BR><BR>
+First 10 + 20 is added because x and y are both numbers.
+<BR><BR>
+Then 30 + "30" is concatenated because z is a string.
+</DIV><BR><BR>
+<DIV CLASS="FS-15">Numeric Strings</DIV><br><br>
+<div class="fs-10">JavaScript strings can have numeric content
+<br><br>
+JavaScript will try to convert strings to numbers in all numeric operations (besides addition)
+</div><br><br>
+<p id="NUMBERS14"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x / y;   
+document.getElementById("NUMBERS14").innerHTML = z;
+</script><BR><BR>
+<p id="NUMBERS15"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x / y;   
+document.getElementById("NUMBERS15").innerHTML = z;
+</script><BR><br>
+<p id="NUMBERS16"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x * y;   
+document.getElementById("NUMBERS16").innerHTML = z;
+</script><BR><BR>
+<p id="NUMBERS17"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x - y;   
+document.getElementById("NUMBERS17").innerHTML = z;
+</script><BR><BR>
+
+<p id="NUMBERS18"></p>
+
+<script>
+let x = "100";
+let y = "10";
+let z = x + y;   
+document.getElementById("NUMBERS18").innerHTML = z;
+</script>
+<DIV CLASS="FS-10">
+In the last example JavaScript uses the + operator to concatenate the strings
+</DIV><BR><BR>
+<DIV CLASS="FS-15">NaN (Not a Number)</DIV><br><br>
+<div class="fs-10">NaN is a JavaScript reserved word indicating that a number is not a legal number.
+<BR><BR>
+Trying to do arithmetic with a non-numeric string will result in NaN (Not a Number)
+</div><br><br>
+<p id="NUMBERS19"></p>
+
+<script>
+document.getElementById("NUMBERS19").innerHTML = 100 / "Apple";
+</script>
+<DIV CLASS="FS-10">However, if the string is numeric, the result will be a number</DIV><BR><BR>
+<p id="NUMBERS20"></p>
+
+<script>
+document.getElementById("NUMBERS20").innerHTML = 100 / "10";
+</script><BR><BR>
+
+<DIV CLASS="FS-10">You can use the global JavaScript function isNaN() to find out if a value is a not a number</DIV><BR><BR>
+
+<p id="NUMBERS21"></p>
+
+<script>
+let x = 100 / "Apple";
+document.getElementById("NUMBERS21").innerHTML = isNaN(x);
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Watch out for NaN. If you use NaN in a mathematical operation, the result will also be NaN</DIV><BR><BR>
+
+<p id="NUMBERS22"></p>
+
+<script>
+let x = NaN;
+let y = 5;
+document.getElementById("NUMBERS22").innerHTML = x + y;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Or the result might be a concatenation like NaN5</DIV><BR><BR>
+<p id="NUMBERS23"></p>
+
+<script>
+let x = NaN;
+let y = "5";
+document.getElementById("NUMBERS23").innerHTML = x + y;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">NaN is a number, typeof NaN returns number</DIV><BR><BR>
+<p id="NUMBERS24"></p>
+
+<script>
+let x = NaN;
+document.getElementById("NUMBERS24").innerHTML = typeof x;
+</script><BR><BR>
+<DIV CLASS="FS-15">Infinity</DIV><br><BR>
+<DIV CLASS="FS-10">Infinity or -Infinity is the value JavaScript will return if you calculate a number outside the largest possible number.</DIV><BR><BR>
+<p id="NUMBERS25"></p>
+
+<script>
+let myNumber = 2; 
+let txt = "";
+while (myNumber != Infinity) {
+   myNumber = myNumber * myNumber;
+   txt = txt + myNumber + "<br>";
+}
+document.getElementById("NUMBERS25").innerHTML = txt;
+</script><BR><BR>
+<DIV CLASS="FS-10">Division by 0 (zero) also creates Infinity</DIV><BR><BR>
+<p id="NUMBERS26"></p>
+
+<script>
+let x = 2/0;
+let y = -2/0;
+document.getElementById("NUMBERS26").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">Infinity is a number, typeof Infinity returns number.</DIV><BR><BR>
+<p id="NUMBERS27></p>
+
+<script>
+document.getElementById("NUMBERS27").innerHTML = typeof Infinity;
+</script><BR><BR>
+<DIV CLASS="FS-15">Hexadecimal</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript interprets numeric constants as hexadecimal if they are preceded by 0x.</DIV><BR><BR>
+<p id="NUMBERS28"></p>
+
+<script>
+let x = 0xFF;
+document.getElementById("NUMBERS28").innerHTML = "0xFF = " + x;
+</script><BR><BR>
+<DIV CLASS="FS-10">Never write a number starting with a zero (like 07).<BR><BR>
+Some JavaScript versions interpret numbers as octal if they are written with a leading zero.
+<BR><BR>
+By default, JavaScript displays numbers as base 10 decimals.
+<BR><BR>
+But you can use the toString() method to output numbers from base 2 to base 36.
+<BR><BR>
+Hexadecimal is base 16, Decimal is base 10, Octal is base 8, and Binary is base 2.</DIV><BR><BR>
+<p id="NUMBERS29"></p>
+
+<script>
+let myNumber = 32;
+document.getElementById("NUMBERS29").innerHTML =
+"Decimal 32 = " + "<br><br>" + 
+
+"Hexatrigesimal (base 36): " + myNumber.toString(36) + "<br>" +
+"Duotrigesimal (base 32): " + myNumber.toString(32) + "<br>" +
+"Hexadecimal (base 16): " + myNumber.toString(16) + "<br>" +
+"Duodecimal (base 12): " + myNumber.toString(12) + "<br>" +
+"Decimal (base 10): " + myNumber.toString(10) + "<br>" +
+"Octal (base 8): " + myNumber.toString(8) + "<br>" +
+"Binary (base 2): " + myNumber.toString(2);
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Numbers as OBJECTS</DIV><BR><BR>
+<DIV CLASS="FS-10">Normally JavaScript numbers are primitive values created from literals.<BR><BR>But numbers can also be defined as OBJECTS with the keyword new</DIV><BR><BR>
+<p id="NUMBERS30"></p>
+
+<script>
+// x is a number
+let x = 67;
+
+// y is a Number object
+let y = new Number(67);
+
+document.getElementById("NUMBERS30").innerHTML = typeof x + "<br>" + typeof y;
+</script><BR><BR>
+<DIV CLASS="FS-10">You should not create Number objects.
+<BR><BR>
+The new keyword complicates the code and slows down execution speed.
+<BR><BR>
+Number Objects can produce unexpected results</DIV><BR><BR>
+<p id="NUMBERS31"></p>
+
+<script>
+// x is a number
+let x = 67;
+
+// y is an object
+let y = new Number(67);
+document.getElementById("NUMBERS31").innerHTML = (x==y);
+</script><BR><BR>
+<p id="NUMBERS32"></p>
+
+<script>
+// x is a number
+let x = 67;
+
+// y is an object
+let y = new Number(67);
+
+document.getElementById("NUMBERS32").innerHTML = (x===y);
+</script><BR><BR><DIV CLASS="FS-10">Note the difference between (x==y) and (x===y).<BR><BR>When using the == operator, x and y are equal.<BR><BR>When using the === operator, x and y are not equal.</DIV><BR><BR>
+<p id="NUMBERS33"></p>
+
+<script>
+// x is an object
+let x = new Number(67);
+
+// y is an object
+let y = new Number(67);
+
+document.getElementById("NUMBERS33").innerHTML = (x==y);
+</script><BR><BR>
+<p id="NUMBERS34"></p>
+
+<script>
+// x is an object
+let x = new Number(500);
+
+// y is an object
+let y = new Number(500);
+
+document.getElementById("NUMBERS34").innerHTML = (x===y);
+</script><BR><BR>
+<DIV CLASS="FS-10">Comparing two JavaScript objects will always return false.</DIV><BR><BR>
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

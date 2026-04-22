@@ -1,0 +1,48 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Bitwise Operators</h2><br><br><div class="fs-10">Bitwise operators perform operations on **binary representations** of numbers. Each number is converted to a 32-bit binary format, the operation is applied bit by bit, and the result is converted back to a decimal number.</div><br><br><div class="fs-15">Bitwise AND (&)</div><br><br><div class="fs-10">The AND operator returns 1 only if **both bits are 1**. Otherwise, it returns 0.</div><br><br><textarea id="textbox" rows="10" cols="70">// Bitwise AND let a = 5; // 0101 in binary let b = 3; // 0011 in binary
+
+let result = a & b; // 0001 in binary = 1
+
+document.getElementById("demo").innerHTML = "5 & 3 = " + result;</textarea><br><br><div class="fs-15">Bitwise OR (|)</div><br><br><div class="fs-10">The OR operator returns 1 if any of the bits are 1.</div><br><br><textarea id="textbox" rows="10" cols="70">// Bitwise OR
+let a = 5; // 0101 in binary
+let b = 3; // 0011 in binary
+
+let result = a | b; // 0111 in binary = 7
+
+document.getElementById("demo").innerHTML = "5 | 3 = " + result;</textarea><br><br><div class="fs-15">Bitwise XOR (^)</div><br><br><div class="fs-10">The XOR operator returns 1 if the bits are different, otherwise 0.</div><br><br><textarea id="textbox" rows="10" cols="70">// Bitwise XOR
+let a = 5; // 0101 in binary
+let b = 3; // 0011 in binary
+
+let result = a ^ b; // 0110 in binary = 6
+
+document.getElementById("demo").innerHTML = "5 ^ 3 = " + result;</textarea><br><br><div class="fs-15">Bitwise NOT (~)</div><br><br><div class="fs-10">The NOT operator inverts all bits. It is equivalent to -(x+1) for signed 32-bit numbers.</div><br><br><textarea id="textbox" rows="10" cols="70">// Bitwise NOT
+let a = 5; // 00000000000000000000000000000101 in binary
+
+let result = ~a; // 11111111111111111111111111111010 in binary = -6
+
+document.getElementById("demo").innerHTML = "~5 = " + result;</textarea><br><br><div class="fs-15">Left Shift (<<)</div><br><br><div class="fs-10">Shifts the bits to the left and fills the right with zeros. Equivalent to multiplying by 2 for each shift.</div><br><br><textarea id="textbox" rows="10" cols="70">// Left Shift
+let a = 5; // 0101 in binary
+
+let result = a << 1; // 1010 in binary = 10
+
+document.getElementById("demo").innerHTML = "5 << 1 = " + result;</textarea><br><br><div class="fs-15">Right Shift (>>)</div><br><br><div class="fs-10">Shifts the bits to the right and keeps the sign bit (preserves the sign for negative numbers). Equivalent to dividing by 2 for each shift.</div><br><br><textarea id="textbox" rows="10" cols="70">// Right Shift
+let a = 5; // 0101 in binary
+
+let result = a >> 1; // 0010 in binary = 2
+
+document.getElementById("demo").innerHTML = "5 >> 1 = " + result;</textarea><br><br><div class="fs-15">Zero-fill Right Shift (>>>)</div><br><br><div class="fs-10">Shifts the bits to the right and fills the left with zeros. Always returns a positive number.</div><br><br><textarea id="textbox" rows="10" cols="70">// Zero-fill Right Shift
+let a = -5; // 11111111111111111111111111111011 in binary (two's complement)
+
+let result = a >>> 1; // 01111111111111111111111111111101 = 2147483645
+
+document.getElementById("demo").innerHTML = "-5 >>> 1 = " + result;</textarea><br><br><div class="fs-15">Bitwise Operators Summary</div><br><br><div class="fs-10">| Operator | Description |<br>|----------|------------|<br>| & | AND |<br>| | | OR |<br>| ^ | XOR |<br>| ~ | NOT |<br>| << | Left shift |<br>| >> | Right shift|<br>| >>> | Zero-fill right shift |</div><br><br>
+
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]

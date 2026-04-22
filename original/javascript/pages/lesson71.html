@@ -1,0 +1,157 @@
+<!DOCTYPE html>[include file=../includes/vars.inc]<html lang="en"><head><meta charset="UTF-8"><script>var PAGETITLE = "ECMAScript 1999 Lesson";</script><title id="pageTitle"></title><script src="../includes/vars.js"></script></head><body><header><div id="header">Javascript Wiki</div></header><main>[include file=[INCVAR]nav.inc]<article><h2>JavaScript 1999 (ES3)</h2><br><br><div class="fs-10">JavaScript ES3 added many things to aid the average user, it added things like Regular expressions, Error handling (try...catch), the switch keyword, and the do...while loop</div><br><br><div class="fs-15">ECMAScript 3 (1999)</div><br><br><div class="fs-10">The first revision to JavaScript.<br><br>ECMAScript 1999 is also known as ES3.<br><br>Despite it&#39;s age, it is still supported by all modern browsers today</div><br><br><div class="fs-15">ES3 Features</div><br><br><div class="fs-10"><ul><li>Regular expressions (Sequence of characters that forms a search pattern)</li><li>Error handling (try...catch) (Statement to define code blocks to be tested in case of an error)</li><li>The switch keyword (Selects code blocks to be executed based on a conditions)</li><li>The do...while loop	(A variant of the while loop)</li></ul></div><br><br><div class="fs-15">Regular Expressions</div><br><br><div class="fs-10">A sequence of characters that forms a search pattern.<br><br>Do a case-insensitive search for "w3schools" in a string:</div><br><br><textarea id="textbox" rows="10" cols="70">let text = "Visit javascript"; let n = text.search(/javascript/i); document.getElementById("demo").innerHTML = n;</textarea><br><br><div class="fs-15">The try...catch Keywords</div><br><br><div class="fs-10">Statement to define code blocks to be tested in case of an error.<br><br>You cannot use a non-existing variable:</div><br><br><textarea id="textbox" rows="10" cols="70">let x = 5; try {x = y + 1;} catch(err) {let text = err.name + "<br>" + err.message; document.getElementById("demo").innerHTML = text;}</textarea><br><br><div class="fs-15">The switch Keyword</div><br><br><div class="fs-10">Based on a condition, switch selects one or more code blocks to be executed.<br><br>This example uses the weekday number to calculate the weekday name:</div><br><br><textarea id="textbox" rows="10" cols="70"> let day; let date = new Date().getDay(); switch (date) { case 0: day = "Sunday"; break; case 1: day = "Monday"; break; case 2: day = "Tuesday"; break; case 3: day = "Wednesday"; break; case 4: day = "Thursday"; break; case 5: day = "Friday"; break; case  6: day = "Saturday";} document.getElementById("demo").innerHTML = "Today is " + day;</textarea><br><br><div class="fs-15">The do...while Loop</div><br><br><div class="fs-10">The do while runs at least once, even if the condition is false from the start.<br><br>This is because the code block is executed before the condition is tested:</div><br><br><textarea id="textbox" rows="10" cols="70"> var text = ""; var i = 0; do {text += "<br>The number is " + i; i++;}while (i < 10); document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-10">Do not forget to increase the variable used in the condition, otherwise the loop will never end!</div><br><br></article></main><footer id="footer"></footer><div id="debugInclude"></div><script>
+(function () {
+  const w = window;
+  const d = document;
+
+  function rand(n = 1) {
+    return Math.random() * n;
+  }
+
+  function delay(fn, t) {
+    setTimeout(fn, t);
+  }
+
+  // ----------------------------------
+  // CSS LOADER (cache-safe)
+  // ----------------------------------
+  function loadCSS() {
+    const v = w.vars;
+    if (!v || !v.CSSVAR) return;
+
+    const link = d.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = v.CSSVAR + "?v=" + Date.now();
+    d.head.appendChild(link);
+  }
+
+  // ----------------------------------
+  // Core include loader
+  // ----------------------------------
+  function loadInclude(targetId, url, callback, onError) {
+    try {
+      const iframe = d.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = url + "?v=" + Date.now();
+
+      iframe.onload = function () {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          if (!doc || !doc.body) throw new Error("Empty include");
+
+          const target = d.getElementById(targetId);
+          if (!target) {
+            cleanup();
+            callback && callback();
+            return;
+          }
+
+          target.innerHTML = doc.body.innerHTML;
+
+          // Execute scripts inside include
+          const scripts = doc.getElementsByTagName("script");
+          for (let i = scripts.length - 1; i >= 0; i--) {
+            const s = d.createElement("script");
+            s.text = scripts[i].innerHTML;
+            (d.body || d.documentElement).appendChild(s);
+          }
+
+          cleanup();
+          callback && callback();
+        } catch {
+          cleanup();
+          onError && onError();
+        }
+      };
+
+      iframe.onerror = function () {
+        cleanup();
+        onError && onError();
+      };
+
+      function cleanup() {
+        try { d.body.removeChild(iframe); } catch {}
+      }
+
+      d.body.appendChild(iframe);
+    } catch {
+      onError && onError();
+    }
+  }
+
+  // ----------------------------------
+  // Include loader with .inc fallback
+  // ----------------------------------
+  function loadWithFallback(targetId, basePath, file, callback) {
+    const primary = basePath + file;
+
+    if (!file.endsWith(".inc")) {
+      loadInclude(targetId, primary, callback);
+      return;
+    }
+
+    // Try .inc first
+    loadInclude(
+      targetId,
+      primary,
+      callback,
+      () => {
+        const fallback = basePath + file.replace(".inc", ".html");
+        loadInclude(targetId, fallback, callback);
+      }
+    );
+  }
+
+  // ----------------------------------
+  // MAIN INCLUDE SEQUENCE (FIXED ORDER)
+  // ----------------------------------
+  function startIncludes() {
+    const v = w.vars;
+    if (!v) return;
+
+    const includes = [
+      ["header", "header.html"],
+      ["footer", "footer.html"]
+    ];
+
+    let i = 0;
+
+    function next() {
+      if (i >= includes.length) {
+        afterLoad();
+        return;
+      }
+
+      const [id, file] = includes[i++];
+      delay(() => {
+        loadWithFallback(id, v.INCVAR, file, next);
+      }, rand(40) + 10); // smaller delay now that shuffle is gone
+    }
+
+    function afterLoad() {
+      // Debug include with fallback
+      if (v.DEBUGVAR) {
+        delay(() => {
+          loadWithFallback("debugInclude", v.INCVAR, "debug.inc");
+        }, 30);
+      }
+
+      // Update title
+      try {
+        if (typeof updatePageTitle === "function") {
+          updatePageTitle();
+        }
+      } catch {}
+    }
+
+    next();
+  }
+
+  // ----------------------------------
+  // INIT
+  // ----------------------------------
+  loadCSS();
+  delay(startIncludes, 50);
+
+})();
+</script></body></html>

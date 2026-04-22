@@ -1,0 +1,78 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Object Display Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Object Display" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what an "Object display" is in Javascript is it is basically how you present the data inside a Javascript object.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">Displaying OBJECT Properties</DIV>
+<br>
+<DIV CLASS="FS-10">An Object's properties can be added in a string.</DIV>
+<br>
+<p id="OBJECTS10"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Properties
+let text = person.name + ", " + person.age + ", " + person.city;
+
+document.getElementById("OBJECTS10").innerHTML = text;
+</script>
+<BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+
+
+<DIV CLASS="FS-15">Displaying OBJECT Properties</DIV>
+<br>
+<DIV CLASS="FS-10">An Object's properties can be added in a string.</DIV>
+<br>
+<p id="OBJECTS10"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Properties
+let text = person.name + ", " + person.age + ", " + person.city;
+
+document.getElementById("OBJECTS10").innerHTML = text;
+</script>
+<BR>
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

@@ -1,0 +1,331 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Functions Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Functions" Javascript page, it teaches you how to write this code and how it works.
+Now what this code can do is help with organization, modulation and efficiency.
+<br><br>
+<div class="fs-15">Why use functions?</div>
+<br>
+You are able to reuse functions later on, it works similar to a include file except it is not a file.
+<br><br>
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<p id="FUNCTIONS"></p>
+
+<script>
+
+function myFunction(p1, p2) {
+  return p1 * p2;
+}
+
+let result = myFunction(67, 1);
+document.getElementById("FUNCTIONS").innerHTML = "The result is: " + result;
+</script>
+
+This is a Function to compute the product of p1 and p2.
+
+<p id="FUNCTIONS2"></p>
+
+<script>
+function toCelsius(f) {
+  return (5/9) * (f-32);
+}
+
+let value = toCelsius(77);
+document.getElementById("FUNCTIONS2").innerHTML = value;
+</script>
+
+<DIV CLASS="FS-10">Right here I am Invoking or calling a function that converts temperatures from Fahrenheit to Celsius</DIV><BR><BR>
+
+<p id="FUNCTIONS3"></p>
+
+<script>
+function toCelsius(f) {
+  return (5/9) * (f-32);
+}
+
+let value = toCelsius();
+document.getElementById("FUNCTIONS3").innerHTML = value;
+</script>
+
+<DIV CLASS="FS-10">In the instance above I am accessing a function with incorrect parameters, so it will return an incorrect answer.</DIV><BR><BR>
+
+<p id="FUNCTIONS4"></p>
+
+<script>
+function toCelsius(f) {
+  return (5/9) * (f-32);
+}
+
+let value = toCelsius;
+document.getElementById("FUNCTIONS4").innerHTML = value;
+</script>
+
+<DIV CLASS="FS-10">Accessing a function without a "()" returns the function and not the function result</DIV><BR><BR>
+
+<p id="FUNCTIONS5"></p>
+
+<script>
+ 
+let myFunction2 = function(a, b) {return a * b};
+
+let result = myFunction2(67, 1);
+document.getElementById("FUNCTIONS5").innerHTML = "The product is: " + result;
+</script>
+
+The term "myFunction2" computes the product of a and b.
+<br><br>
+
+
+<p id="FUNCTIONS6"></p>
+
+<script>
+// myFunction computes the product of a and b
+myFunction3 = (a, b) => a * b;
+
+let result = myFunction3(67, 1);
+document.getElementById("FUNCTIONS6").innerHTML = "The product is: " + result
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">Arrow FUNCTIONS allow us to write shorter function syntax, the function above is an Arrow function.</DIV>
+<br><br>
+
+<DIV CLASS="FS-15">LOCAL VARIABLES</DIV><BR><BR>
+
+<DIV CLASS="FS-10">The variables that are declared within a Javascript FUNCTION will becoe Local to the FUNCTION, Local variables can only be accessed from inside the FUNCTION.</DIV><BR><BR>
+
+<p id="FUNCTIONS67"></p>
+<p id="FUNCTIONS7"></p>
+
+<script>
+let text = "Outside: " + typeof carName;
+document.getElementById("FUNCTIONS67").innerHTML = text;
+
+function myFunction4() {
+  let carName = "PONTIAC";
+  let text = "Inside: " + typeof carName + " " + carName; 
+  document.getElementById("FUNCTIONS7").innerHTML = text;
+}
+
+myFunction4();
+</script>
+
+<DIV CLASS="FS-10">Outside of "myFunction4()" "carName" is an undefined variable.</DIV><BR><BR>
+
+
+<DIV CLASS="FS-15">Parameters vs. Arguments</DIV><BR><BR>
+
+<DIV CLASS="FS-10">Parameters and Arguments are distinct ideas when working with FUNCTIONS.
+<BR>
+Parameters are the names listed in the FUNCTION definition.
+<BR>
+Parameters are the names of the values that will be passed.
+<BR>
+Arguments are values that get passed to the function when it is called.
+<BR>
+Arguments are the values returned by the FUNCTION.
+</DIV>
+
+
+<p id="FUNCTIONS8"></p>
+
+<script>
+// name and age are parameters<br>
+function greet(name, age) {
+  return "Hello " + name + "! You are " + age + " years old.";
+}
+
+document.getElementById("FUNCTIONS8").innerHTML = greet("Aloysius", 17);
+</script>
+
+<DIV CLASS="FS-10">
+"name" and "age" are parameters
+<BR>
+"Aloysius" and 17 are Arguements
+</DIV>
+
+<p id="FUNCTIONS9"></p>
+
+<script>
+let text = "The temperature is " + toCelsius(77) + " Celsius.";
+document.getElementById("FUNCTIONS9").innerHTML = text;
+
+function toCelsius(fahrenheit) {
+  return (5/9) * (fahrenheit-32);
+} 
+</script>
+
+
+
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<p id="FUNCTIONS"></p>
+
+<script>
+
+function myFunction(p1, p2) {
+  return p1 * p2;
+}
+
+let result = myFunction(67, 1);
+document.getElementById("FUNCTIONS").innerHTML = "The result is: " + result;
+</script>
+
+This is a Function to compute the product of p1 and p2.
+
+<p id="FUNCTIONS2"></p>
+
+<script>
+function toCelsius(f) {
+  return (5/9) * (f-32);
+}
+
+let value = toCelsius(77);
+document.getElementById("FUNCTIONS2").innerHTML = value;
+</script>
+
+<DIV CLASS="FS-10">Right here I am Invoking or calling a function that converts temperatures from Fahrenheit to Celsius</DIV><BR><BR>
+
+<p id="FUNCTIONS3"></p>
+
+<script>
+function toCelsius(f) {
+  return (5/9) * (f-32);
+}
+
+let value = toCelsius();
+document.getElementById("FUNCTIONS3").innerHTML = value;
+</script>
+
+<DIV CLASS="FS-10">In the instance above I am accessing a function with incorrect parameters, so it will return an incorrect answer.</DIV><BR><BR>
+
+<p id="FUNCTIONS4"></p>
+
+<script>
+function toCelsius(f) {
+  return (5/9) * (f-32);
+}
+
+let value = toCelsius;
+document.getElementById("FUNCTIONS4").innerHTML = value;
+</script>
+
+<DIV CLASS="FS-10">Accessing a function without a "()" returns the function and not the function result</DIV><BR><BR>
+
+<p id="FUNCTIONS5"></p>
+
+<script>
+ 
+let myFunction2 = function(a, b) {return a * b};
+
+let result = myFunction2(67, 1);
+document.getElementById("FUNCTIONS5").innerHTML = "The product is: " + result;
+</script>
+
+The term "myFunction2" computes the product of a and b.
+<br><br>
+
+
+<p id="FUNCTIONS6"></p>
+
+<script>
+// myFunction computes the product of a and b
+myFunction3 = (a, b) => a * b;
+
+let result = myFunction3(67, 1);
+document.getElementById("FUNCTIONS6").innerHTML = "The product is: " + result
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">Arrow FUNCTIONS allow us to write shorter function syntax, the function above is an Arrow function.</DIV>
+<br><br>
+
+<DIV CLASS="FS-15">LOCAL VARIABLES</DIV><BR><BR>
+
+<DIV CLASS="FS-10">The variables that are declared within a Javascript FUNCTION will becoe Local to the FUNCTION, Local variables can only be accessed from inside the FUNCTION.</DIV><BR><BR>
+
+<p id="FUNCTIONS67"></p>
+<p id="FUNCTIONS7"></p>
+
+<script>
+let text = "Outside: " + typeof carName;
+document.getElementById("FUNCTIONS67").innerHTML = text;
+
+function myFunction4() {
+  let carName = "PONTIAC";
+  let text = "Inside: " + typeof carName + " " + carName; 
+  document.getElementById("FUNCTIONS7").innerHTML = text;
+}
+
+myFunction4();
+</script>
+
+<DIV CLASS="FS-10">Outside of "myFunction4()" "carName" is an undefined variable.</DIV><BR><BR>
+
+
+<DIV CLASS="FS-15">Parameters vs. Arguments</DIV><BR><BR>
+
+<DIV CLASS="FS-10">Parameters and Arguments are distinct ideas when working with FUNCTIONS.
+<BR>
+Parameters are the names listed in the FUNCTION definition.
+<BR>
+Parameters are the names of the values that will be passed.
+<BR>
+Arguments are values that get passed to the function when it is called.
+<BR>
+Arguments are the values returned by the FUNCTION.
+</DIV>
+
+
+<p id="FUNCTIONS8"></p>
+
+<script>
+// name and age are parameters<br>
+function greet(name, age) {
+  return "Hello " + name + "! You are " + age + " years old.";
+}
+
+document.getElementById("FUNCTIONS8").innerHTML = greet("Aloysius", 17);
+</script>
+
+<DIV CLASS="FS-10">
+"name" and "age" are parameters
+<BR>
+"Aloysius" and 17 are Arguments
+</DIV>
+
+<p id="FUNCTIONS9"></p>
+
+<script>
+let text = "The temperature is " + toCelsius(77) + " Celsius.";
+document.getElementById("FUNCTIONS9").innerHTML = text;
+
+function toCelsius(fahrenheit) {
+  return (5/9) * (fahrenheit-32);
+} 
+</script>
+
+
+</script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

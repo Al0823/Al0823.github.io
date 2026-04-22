@@ -1,0 +1,147 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+    <article>
+    <h2>JavaScript If / Else Tutorial</h2>
+    <p><strong>If statements</strong> are used to make decisions in JavaScript. They run different code depending on whether a condition is true or false.</p>
+
+<div class="fs-15">The else Statement</div><br><br>
+<div class="fs-10">Use the else statement to specify a block of code to be executed if a condition is false.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+if (condition) {
+  //  block of code to be executed if the condition is true
+} else {
+  //  block of code to be executed if the condition is false
+}
+</textarea><br><br>
+<div class="fs-10">If the hour is less than 18, create a "Good day" greeting, otherwise "Good evening":</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const hour = new Date().getHours(); 
+let greeting;
+
+if (hour < 18) {
+  greeting = "Good day";
+} else {
+  greeting = "Good evening";
+}
+
+document.getElementById("demo").innerHTML = greeting;
+</textarea><br><br>
+
+<div class="fs-15">The else if Statement</div><br><br>
+<div class="fs-10">Use the else if statement to specify a new condition if the first is false.
+<br><br>
+Syntax:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+if (condition1) {
+  //  block of code to be executed if condition1 is true
+} else if (condition2) {
+  //  block of code to be executed if the condition1 is false and condition2 is true
+} else {
+  //  block of code to be executed if the condition1 is false and condition2 is false
+}
+</textarea><br><br>
+<div class="fs-10">Example<br><br>
+If time is less than 10:00, create a "Good morning" greeting, if not, but time is less than 20:00, create a "Good day" greeting, otherwise a "Good evening":</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+var time = new Date().getHours();
+var greeting;
+if (time < 10) {
+  greeting = "Good morning";
+} else if (time < 20) {
+  greeting = "Good day";
+} else {
+  greeting = "Good evening";
+}
+document.getElementById("demo").innerHTML = greeting;
+</textarea><br><br>
+<div class="fs-10">Example<br><br>
+This example will write a link to either W3Schools or to the World Wildlife Foundation (WWF). By using a random number, there is a 50% chance for each of the links.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+var text;
+if (Math.random() < 0.5) {
+  text = "<a href='https://w3schools.com'>Visit W3Schools</a>";
+} else {
+  text = "<a href='https://wwf.org'>Visit WWF</a>";
+}
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+
+
+
+    <h3>The if Statement</h3>
+    <pre><code>let age = 18;
+
+if (age >= 18) {
+  console.log("You are an adult.");
+}</code></pre>
+
+    <h3>The else Statement</h3>
+    <pre><code>let age = 16;
+
+if (age >= 18) {
+  console.log("Adult");
+} else {
+  console.log("Minor");
+}</code></pre>
+
+    <h3>The else if Statement</h3>
+    <pre><code>let score = 85;
+
+if (score >= 90) {
+  console.log("Grade A");
+} else if (score >= 80) {
+  console.log("Grade B");
+} else {
+  console.log("Keep trying!");
+}</code></pre>
+
+    <h3>Example Output</h3>
+    <pre><code id="ifExample"></code></pre>
+
+    <script>
+      let temperature = 30;
+      let message;
+
+      if (temperature > 30) {
+        message = "It's hot!";
+      } else if (temperature >= 20) {
+        message = "Nice weather.";
+      } else {
+        message = "It's cold!";
+      }
+
+      document.getElementById("ifExample").textContent = message;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Enter your age:</p>
+    <input type="number" id="ageInput" placeholder="Enter age">
+    <button id="checkAgeBtn">Check Age</button>
+    <pre id="ageOutput"></pre>
+
+    <script>
+      document.getElementById("checkAgeBtn").addEventListener("click", () => {
+        const age = Number(document.getElementById("ageInput").value);
+        let result;
+
+        if (age >= 18) {
+          result = "You are an adult.";
+        } else if (age > 0) {
+          result = "You are a minor.";
+        } else {
+          result = "Please enter a valid age.";
+        }
+
+        document.getElementById("ageOutput").textContent = result;
+      });
+    </script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

@@ -1,0 +1,64 @@
+[include file=../includes/vars.inc]
+
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>JavaScript Scope</h2><br><br> <div class="fs-10">In JavaScript, "scope" determines where variables are accessible in your code.<br><br> There are two main types of scope:</div><br><br> <div class="fs-15"> Global Scope</div><br><br> <div class="fs-10">A variable declared outside any function or block has **global scope**. It can be accessed anywhere in your code.</div><br><br> <textarea id="textbox" rows="10" cols="70"> var name = "Alice"; // global variable
+
+function greet() {
+console.log("Hello " + name); // accessible here
+}
+
+greet();
+console.log(name); // accessible here too
+</textarea><br><br>
+
+<div class="fs-15"> Local Scope / Function Scope</div><br><br> <div class="fs-10">A variable declared inside a function has **local scope** (function scope). It is only accessible inside that function.</div><br><br> <textarea id="textbox" rows="10" cols="70"> function greet() { var name = "Bob"; // local variable console.log("Hello " + name); }
+
+greet();
+console.log(name); // Error! 'name' is not defined outside the function
+</textarea><br><br>
+
+<div class="fs-15"> Block Scope</div><br><br> <div class="fs-10">Variables declared with <code>let</code> or <code>const</code> inside a block ({}) have **block scope**. They are not visible outside that block.</div><br><br> <textarea id="textbox" rows="10" cols="70"> if (true) { let age = 20; const city = "Paris"; console.log(age); // 20 console.log(city); // Paris }
+
+console.log(age); // Error! 'age' is not defined
+console.log(city); // Error! 'city' is not defined
+</textarea><br><br>
+
+<div class="fs-15"> var vs let / const in Loops</div><br><br> <div class="fs-10">When using <code>var</code> in a loop, the variable is **function scoped** and affects the variable outside the loop. When using <code>let</code> or <code>const</code>, the variable is **block scoped** and does not affect the outer variable.</div><br><br> <div class="fs-10">Using var in a loop:</div><br><br> <textarea id="textbox" rows="10" cols="70"> var i = 5;
+
+for (var i = 0; i < 3; i++) {
+console.log(i); // 0, 1, 2
+}
+
+console.log(i); // 3 (loop changed outer variable)
+</textarea><br><br>
+
+<div class="fs-10">Using let in a loop:</div><br><br> <textarea id="textbox" rows="10" cols="70"> let i = 5;
+
+for (let i = 0; i < 3; i++) {
+console.log(i); // 0, 1, 2
+}
+
+console.log(i); // 5 (outer variable unaffected)
+</textarea><br><br>
+
+<div class="fs-15"> Nested Functions and Scope</div><br><br> <div class="fs-10">Inner functions can access variables of outer functions (lexical scope), but outer functions cannot access variables inside inner functions.</div><br><br> <textarea id="textbox" rows="10" cols="70"> function outer() { let outerVar = "I'm outside!";
+
+function inner() {
+console.log(outerVar); // accessible here
+let innerVar = "I'm inside!";
+}
+
+inner();
+console.log(innerVar); // Error! innerVar is not defined here
+}
+
+outer();
+</textarea><br><br>
+
+<div class="fs-15"> Summary</div><br><br> <div class="fs-10"> <ul> <li><strong>Global scope:</strong> variables accessible anywhere.</li> <li><strong>Function scope:</strong> variables declared inside a function, accessible only in that function.</li> <li><strong>Block scope:</strong> variables declared with <code>let</code> or <code>const</code> inside a block, accessible only inside that block.</li> <li><strong>var vs let/const:</strong> var is function scoped, let/const are block scoped.</li> <li><strong>Nested functions:</strong> inner functions can access outer variables, but outer functions cannot access inner variables.</li> </ul> </div><br><br> <div class="fs-10">Understanding scope is essential to avoid variable conflicts and unexpected behavior in JavaScript.</div><br><br> </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

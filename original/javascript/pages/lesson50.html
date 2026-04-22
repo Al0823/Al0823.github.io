@@ -1,0 +1,164 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Iterables</h2><div class="fs-10">Iterables are objects that implement the @@iterator method, meaning they define how their elements can be accessed one by one.<br><br> Essentially, an iterable is anything you can loop over using for...of or other constructs that expect a sequence of values.</div><br><br><div class="fs-15">An Iterable is an Iterable Object</div><br><br><div class="fs-10">Iterable can be iterated over with for...of loops</div><br><br><div class="fs-15">The for...of Loop</div><br><br><div class="fs-10">The JavaScript for..of statement loops through the elements of an iterable object.</div><br><br><div class="fs-15">Syntax</div><br><br><textarea id="textbox" rows="10" cols="70">for (variable of iterable) {  code block to be executed }</textarea><br><br><div class="fs-15">Iterating</div><br><br><div class="fs-10">Iterating means looping over a sequence of elements.
+<br><br>
+Here are some examples:
+<br><br><ul>
+<ll>Iterating over a String</ll>
+<ll>Iterating over an Array</ll>
+<ll>Iterating over a Set</ll>
+<ll>Iterating over a Map</ll></ul></div><br><br><div class="fs-15">Iterating Over a String</div><br><br><div class="fs-10">You can use a for...of loop to iterate over the elements of a string:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a String
+const name = "W3Schools";
+
+// Iterate over the string elements
+let text = ""
+for (const x of name) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Iterating Over an Array</div><br><br><div class="fs-10">You can use a for...of loop to iterate over the elements of an Array:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create an Array
+const letters = ["a","b","c"];
+
+// Iterate over the array elements
+let text = "";
+for (const x of letters) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><textarea id="textbox" rows="10" cols="70">// Create an Array
+const numbers = [2,4,6,8];
+
+// Iterate over the array elements
+let text = "";
+for (const x of numbers) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Iterating Over a Set</div><br><br><div class="fs-10">You can use a for...of loop to iterate over the elements of a Set:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set(["a","b","c"]);
+
+// Iterate over the set elementss
+let text = "";
+for (const x of letters) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Iterating Over a Map</div><br><br><div class="fs-10">You can use a for...of loop to iterate over the elements of a Map:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500],
+  ["bananas", 300],
+  ["oranges", 200]
+]);
+
+// Iterate over the map elements
+let text = "";
+for (const x of fruits) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Javascript Iterators</div><br><br><div class="fs-10">The iterator protocol defines how to produce a sequence of values from an object.
+<br><br>
+An object becomes an iterator when it implements a next() method.
+<br><br>
+The next() method must return an object with two properties:<br><br>
+<ul><li>value (the next value)</li><li>done (true or false)</li></ul><br><br>value:	The value returned by the iterator
+(Can be omitted if done is true)<br><br>
+done:	true if the iterator has completed,
+false if the iterator has produced a new value<br><br>Technically, iterables must implement the Symbol.iterator method.
+<br><br>
+In JavaScript the following are iterables:<br><br><ul><li>Strings</li><li>Arrays</li><li>Typed Arrays</li><li>Sets</li><li>Maps</li></ul><br><br>Because their prototype objects have a Symbol.iterator method:</div><br><br><div class="fs-15">Home Made Iterable</div><br><br><div class="fs-10">This iterable returns never ending number: 10,20,30,40,.... when the next() method is called:</div><br><br><textarea id="textbox" rows="10" cols="70">// Home Made Iterable
+function myNumbers() {
+  let n = 0;
+  return {
+    next: function() {
+      n += 10;
+      return {value:n, done:false};
+    }
+  };
+}
+
+// Create Iterable
+const n = myNumbers();
+n.next(); // 10
+n.next(); // 20
+n.next(); // 30
+
+document.getElementById("demo").innerHTML = n.next().value;</textarea><br><br><div class="fs-10">Home made iterables do not support the JavaScript for...of statement.
+<br><br>
+A JavaScript iterable is an object that has a Symbol.iterator.
+<br><br>
+The Symbol.iterator is a function that returns a next() function.
+<br><br>
+An iterable can be iterated over with the code: for (const x of iterable) { }</div><br><br><textarea id="textbox" rows="10" cols="70">// Create an Object
+myNumbers = {};
+
+// Make it Iterable
+myNumbers[Symbol.iterator] = function() {
+  let n = 0;
+  done = false;
+  return {
+    next() {
+      n += 10;
+      if (n == 100) {done = true}
+      return {value:n, done:done};
+    }
+  };
+}</textarea><br><br><div class="fs-10">Now you can use for..of</div><br><br><textarea id="textbox" rows="10" cols="70">// Create an Object
+myNumbers = {};
+
+// Make it Iterable
+myNumbers[Symbol.iterator] = function() {
+  let n = 0;
+  done = false;
+  return {
+    next() {
+      n += 10;
+      if (n == 100) {done = true}
+      return {value:n, done:done};
+    }
+  };
+}
+
+let text = ""
+for (const num of myNumbers) {
+  text += num +"<br>"
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-10">The Symbol.iterator method is called automatically by for..of.
+<br><br>
+But we can also do it "manually":</div><br><br><textarea id="textbox" rows="10" cols="70">// Create an Object
+myNumbers = {};
+
+// Make it Iterable
+myNumbers[Symbol.iterator] = function() {
+  let n = 0;
+  done = false;
+  return {
+    next() {
+      n += 10;
+      if (n == 100) {done = true}
+      return {value:n, done:done};
+    }
+  };
+}
+
+// Create an Iterator
+let iterator = myNumbers[Symbol.iterator]();
+
+let text = ""
+while (true) {
+  const result = iterator.next();
+  if (result.done) break;
+  text += result.value +"<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-10">Iterators provide a controlled way to work with data sequences, enabling custom iteration logic for various data structures.
+
+In the next chapter you will learn about the new Iterator Helper Functions introduced in ECMAScript 2025.</div><br><br></article>
+ </main> 
+[include file=[INCVAR]footer.inc]

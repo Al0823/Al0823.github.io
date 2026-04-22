@@ -1,0 +1,157 @@
+<!DOCTYPE html>[include file=../includes/vars.inc]<html lang="en"><head><meta charset="UTF-8"><script>var PAGETITLE = "ECMAScript 2015 Lesson";</script><title id="pageTitle"></title><script src="../includes/vars.js"></script></head><body><header><div id="header">Javascript Wiki</div></header><main>[include file=[INCVAR]nav.inc]<article><h2>JavaScript 2015 (ES6)</h2><br><br><div class="fs-10">ECMAScript 2015, also called ES6, brought major improvements to JavaScript, making code cleaner, easier to maintain, and more powerful. It introduced new ways to declare variables, write functions, handle objects, and manage asynchronous operations.</div><br><br><div class="fs-15">ECMAScript 2015 (ES6)</div><br><br><div class="fs-10">ES6 is the sixth major version of JavaScript and introduced many new features.<br><br>All modern browsers support ES6 today, though older browsers may require transpiling.</div><br><br><div class="fs-15">ES6 Features</div><br><br><div class="fs-10"><ul><li>let and const (Block-scoped variable declarations)</li><li>Arrow functions (Concise function syntax)</li><li>Classes (Syntactic sugar for constructor functions)</li><li>Template literals (Multiline strings and string interpolation)</li><li>Default parameters (Set default values for function parameters)</li><li>Destructuring (Extract values from arrays or objects)</li><li>Spread and Rest operators (...)</li><li>Modules (import and export)</li><li>Promises (Asynchronous operations handling)</li><li>Enhanced object literals</li><li>for...of loop</li></ul></div><br><br><div class="fs-15">let and const</div><br><br><div class="fs-10">Use <b>let</b> for block-scoped variables and <b>const</b> for constants.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let x = 10; const y = 20; x = x + 5; // Works y = y + 5; // Error, cannot reassign const</textarea><br><br><div class="fs-15">Arrow Functions</div><br><br><div class="fs-10">A shorter syntax for writing functions. Arrow functions also do not bind their own <code>this</code>.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">const add = (a, b) => a + b; document.getElementById("demo").innerHTML = add(5, 3);</textarea><br><br><div class="fs-15">Classes</div><br><br><div class="fs-10">ES6 introduced class syntax to make object-oriented code simpler.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">class Person { constructor(name, age) { this.name = name; this.age = age; } greet() { return `Hello, my name is ${this.name}`; } } const p1 = new Person("Alice", 25); document.getElementById("demo").innerHTML = p1.greet();</textarea><br><br><div class="fs-15">Template Literals</div><br><br><div class="fs-10">Use backticks <code>`</code> to create strings with variables and multiline strings.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let name = "Bob"; let message = `Hello, ${name}!\nWelcome to ES6.`; document.getElementById("demo").innerHTML = message;</textarea><br><br><div class="fs-15">Default Parameters</div><br><br><div class="fs-10">Functions can have default values for parameters.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">function greet(name = "Guest") { return `Hello, ${name}!`; } document.getElementById("demo").innerHTML = greet();</textarea><br><br><div class="fs-15">Destructuring</div><br><br><div class="fs-10">Extract values from arrays or objects into variables.<br><br>Array Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let [a, b] = [10, 20]; document.getElementById("demo").innerHTML = a + ", " + b;</textarea><br><br><div class="fs-10">Object Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let {name, age} = {name: "Charlie", age: 30}; document.getElementById("demo").innerHTML = name + ", " + age;</textarea><br><br><div class="fs-15">Spread and Rest Operators</div><br><br><div class="fs-10">The <code>...</code> operator can spread array elements or gather function arguments.<br><br>Spread Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let arr1 = [1,2]; let arr2 = [...arr1, 3, 4]; document.getElementById("demo").innerHTML = arr2;</textarea><br><br><div class="fs-10">Rest Example:</div><br><br><textarea id="textbox" rows="10" cols="70">function sum(...numbers) { return numbers.reduce((a,b) => a+b, 0); } document.getElementById("demo").innerHTML = sum(1,2,3,4);</textarea><br><br><div class="fs-15">Modules</div><br><br><div class="fs-10">ES6 allows splitting code into modules using <code>export</code> and <code>import</code>.<br><br>Example (export.js):</div><br><br><textarea id="textbox" rows="10" cols="70">export const pi = 3.14159; export function square(x) { return x*x; }</textarea><br><br><div class="fs-10">Example (import.js):</div><br><br><textarea id="textbox" rows="10" cols="70">import {pi, square} from './export.js'; document.getElementById("demo").innerHTML = pi + ", " + square(4);</textarea><br><br><div class="fs-15">Promises</div><br><br><div class="fs-10">Promises handle asynchronous operations more cleanly than callbacks.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let promise = new Promise((resolve, reject) => { let success = true; if(success) { resolve("Done!"); } else { reject("Failed"); } }); promise.then(result => document.getElementById("demo").innerHTML = result) .catch(error => document.getElementById("demo").innerHTML = error);</textarea><br><br><div class="fs-15">for...of Loop</div><br><br><div class="fs-10">Iterate over iterable objects like arrays.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let fruits = ["Apple","Banana","Cherry"]; let text = ""; for (let fruit of fruits) { text += fruit + "<br>"; } document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Enhanced Object Literals</div><br><br><div class="fs-10">ES6 allows shorthand syntax for object properties and methods.<br><br>Example:</div><br><br><textarea id="textbox" rows="10" cols="70">let name = "Daisy"; let age = 28; let person = {name, age, greet() { return `Hi, I'm ${this.name}`; }}; document.getElementById("demo").innerHTML = person.greet();</textarea><br><br></article></main><footer id="footer"></footer><div id="debugInclude"></div><script>
+(function () {
+  const w = window;
+  const d = document;
+
+  function rand(n = 1) {
+    return Math.random() * n;
+  }
+
+  function delay(fn, t) {
+    setTimeout(fn, t);
+  }
+
+  // ----------------------------------
+  // CSS LOADER (cache-safe)
+  // ----------------------------------
+  function loadCSS() {
+    const v = w.vars;
+    if (!v || !v.CSSVAR) return;
+
+    const link = d.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = v.CSSVAR + "?v=" + Date.now();
+    d.head.appendChild(link);
+  }
+
+  // ----------------------------------
+  // Core include loader
+  // ----------------------------------
+  function loadInclude(targetId, url, callback, onError) {
+    try {
+      const iframe = d.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = url + "?v=" + Date.now();
+
+      iframe.onload = function () {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          if (!doc || !doc.body) throw new Error("Empty include");
+
+          const target = d.getElementById(targetId);
+          if (!target) {
+            cleanup();
+            callback && callback();
+            return;
+          }
+
+          target.innerHTML = doc.body.innerHTML;
+
+          // Execute scripts inside include
+          const scripts = doc.getElementsByTagName("script");
+          for (let i = scripts.length - 1; i >= 0; i--) {
+            const s = d.createElement("script");
+            s.text = scripts[i].innerHTML;
+            (d.body || d.documentElement).appendChild(s);
+          }
+
+          cleanup();
+          callback && callback();
+        } catch {
+          cleanup();
+          onError && onError();
+        }
+      };
+
+      iframe.onerror = function () {
+        cleanup();
+        onError && onError();
+      };
+
+      function cleanup() {
+        try { d.body.removeChild(iframe); } catch {}
+      }
+
+      d.body.appendChild(iframe);
+    } catch {
+      onError && onError();
+    }
+  }
+
+  // ----------------------------------
+  // Include loader with .inc fallback
+  // ----------------------------------
+  function loadWithFallback(targetId, basePath, file, callback) {
+    const primary = basePath + file;
+
+    if (!file.endsWith(".inc")) {
+      loadInclude(targetId, primary, callback);
+      return;
+    }
+
+    // Try .inc first
+    loadInclude(
+      targetId,
+      primary,
+      callback,
+      () => {
+        const fallback = basePath + file.replace(".inc", ".html");
+        loadInclude(targetId, fallback, callback);
+      }
+    );
+  }
+
+  // ----------------------------------
+  // MAIN INCLUDE SEQUENCE (FIXED ORDER)
+  // ----------------------------------
+  function startIncludes() {
+    const v = w.vars;
+    if (!v) return;
+
+    const includes = [
+      ["header", "header.html"],
+      ["footer", "footer.html"]
+    ];
+
+    let i = 0;
+
+    function next() {
+      if (i >= includes.length) {
+        afterLoad();
+        return;
+      }
+
+      const [id, file] = includes[i++];
+      delay(() => {
+        loadWithFallback(id, v.INCVAR, file, next);
+      }, rand(40) + 10); // smaller delay now that shuffle is gone
+    }
+
+    function afterLoad() {
+      // Debug include with fallback
+      if (v.DEBUGVAR) {
+        delay(() => {
+          loadWithFallback("debugInclude", v.INCVAR, "debug.inc");
+        }, 30);
+      }
+
+      // Update title
+      try {
+        if (typeof updatePageTitle === "function") {
+          updatePageTitle();
+        }
+      } catch {}
+    }
+
+    next();
+  }
+
+  // ----------------------------------
+  // INIT
+  // ----------------------------------
+  loadCSS();
+  delay(startIncludes, 50);
+
+})();
+</script></body></html> 

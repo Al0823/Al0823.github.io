@@ -1,0 +1,113 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Maps</h2><br><br><div class="fs-10">Map is a special type of object that holds key-value pairs. Unlike regular objects, Map keys can be any type—numbers, strings, objects, or even functions.<br><br> Maps remember the original insertion order of keys, making them useful when order matters.</div><br><br><div class="fs-15">How to Create a Map</div><br><br><div class="fs-10">You can create a JavaScript Map by:<br><br><ul><li>Passing an array of key-value pairs to new Map()</li><li>Create an empty map and use set() to add entries</li></ul></div><br><br><div class="fs-15">The new Map() Method</div><br><br><div class="fs-10">Pass an array of key-value pairs to the constructor:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500],
+  ["bananas", 300],
+  ["oranges", 200]
+]);
+
+// Display size
+document.getElementById("demo").innerHTML = "The map has " + fruits.size + " entries.";</textarea><br><br><div class="fs-10">Create an empty Map and add values:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map();
+
+// Add entries
+fruits.set("apples", 500);
+fruits.set("bananas", 300);
+fruits.set("oranges", 200);
+
+// Display size
+document.getElementById("demo").innerHTML = "The map has " + fruits.size + " entries.";</textarea><br><br><div class="fs-10">Using variables as keys:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map();
+
+// Create variables
+const key1 = "apples";
+const key2 = "bananas";
+
+// Add using variables
+fruits.set(key1, 500);
+fruits.set(key2, 300);
+
+// Display size
+document.getElementById("demo").innerHTML = fruits.size;</textarea><br><br><div class="fs-15">The set() Method</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500]
+]);
+
+// Add new values
+fruits.set("bananas", 300);
+fruits.set("oranges", 200);
+
+// Display size
+document.getElementById("demo").innerHTML = fruits.size;</textarea><br><br><div class="fs-10">Updating values with set():</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500]
+]);
+
+// Update existing key
+fruits.set("apples", 1000);
+
+// Display updated value
+document.getElementById("demo").innerHTML = fruits.get("apples");</textarea><br><br><div class="fs-15">The get() Method</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500],
+  ["bananas", 300]
+]);
+
+// Get value
+document.getElementById("demo").innerHTML = fruits.get("bananas");</textarea><br><br><div class="fs-15">The delete() Method</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500],
+  ["bananas", 300]
+]);
+
+// Delete a key
+fruits.delete("apples");
+
+// Display size
+document.getElementById("demo").innerHTML = fruits.size;</textarea><br><br><div class="fs-15">The has() Method</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500]
+]);
+
+// Check existence
+document.getElementById("demo").innerHTML = fruits.has("apples");</textarea><br><br><div class="fs-15">Listing Map Entries</div><br><br><div class="fs-10">You can loop through a Map using for..of:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500],
+  ["bananas", 300],
+  ["oranges", 200]
+]);
+
+// Loop entries
+let text = "";
+for (const [key, value] of fruits) {
+  text += key + " = " + value + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Map.forEach()</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apples", 500],
+  ["bananas", 300]
+]);
+
+let text = "";
+fruits.forEach(function(value, key) {
+  text += key + " = " + value + "<br>";
+});
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Maps are Objects</div><br><br><div class="fs-10">typeof returns object:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map();
+
+// Display typeof
+document.getElementById("demo").innerHTML = typeof fruits;</textarea><br><br><div class="fs-10">instanceof Map returns true:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map();
+
+// Check instance
+document.getElementById("demo").innerHTML = fruits instanceof Map;</textarea><br><br></article>
+ </main> 
+[include file=[INCVAR]footer.inc]

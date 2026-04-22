@@ -1,0 +1,131 @@
+<html>
+[include file=../includes/vars.inc]
+[TEXT]PAGETITLE=ARRAY METHODS[/TEXT]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>ARRAY METHODS Javascript tutorial</h2>
+<br><br>
+
+
+This is the "ARRAY METHODS" Javascript page, it teaches you how to write this code and how it works.<BR><BR>
+Now what this code can do is make it easier to interact with Arrays.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">JavaScript Array length</DIV><BR><BR>
+<DIV CLASS="FS-10">The length property returns the length (size) of an array</DIV><BR><BR>
+<p id="ARRAYMETHODS1"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let size = fruits.length;
+document.getElementById("ARRAYMETHODS1").innerHTML = size;
+</script><BR><BR>
+<DIV CLASS="FS-10">The length property can also be used to set the length of an array</DIV><BR><BR>
+<p id="ARRAYMETHODS2"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+fruits.length = 2;
+document.getElementById("ARRAYMETHODS2").innerHTML = fruits;
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array toString()</DIV><BR><BR>
+<DIV CLASS="FS-10">The toString() method returns the elements of an array as a comma separated string.</DIV><BR><BR>
+<p id="ARRAYMETHODS3"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+let myList = fruits.toString();
+document.getElementById("ARRAYMETHODS3").innerHTML = myList;
+</script><BR><BR>
+<DIV CLASS="FS-10">Every JavaScript object has a toString() method.
+<BR><BR>
+The toString() method is used internally by JavaScript when an object needs to be displayed as a text (like in HTML), or when an object needs to be used as a string.</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array at()</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2022 intoduced the array method at()</DIV><BR><BR>
+<p id="ARRAYMETHODS4"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let fruit = fruits.at(2);
+
+document.getElementById("ARRAYMETHOD4").innerHTML = fruit;
+</script><BR><BR>
+<p id="ARRAYMETHODS5"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let fruit = fruits[2];
+
+document.getElementById("ARRAYMETHOD5").innerHTML = fruit;
+</script><BR><BR>
+<DIV CLASS="FS-10">The at() method returns an indexed element from an array.
+<BR><BR>
+The at() method returns the same as [].
+<BR><BR>
+Many languages allow negative bracket indexing like [-1] to access elements from the end of an object / array / string.
+<BR><BR>
+This is not possible in JavaScript, because [] is used for accessing both arrays and objects. obj[-1] refers to the value of key -1, not to the last property of the object.
+<BR><BR>
+The at() method was introduced in ES2022 to solve this problem.
+</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array join()</DIV><BR><BR>
+<DIV CLASS="FS-10">The join() method also joins all array elements into a string.
+<BR><BR>
+It behaves just like toString(), but in addition you can specify the separator</DIV><BR><BR>
+<p id="ARRAYMETHODS6"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYMETHODS6").innerHTML = fruits.join(" * ");
+</script><BR><BR>
+<DIV CLASS="FS-15">Popping and Pushing</DIV><BR><BR>
+<DIV CLASS="FS-10">When you work with arrays, it is easy to remove elements and add new elements.
+<BR><BR>
+What it does is Pop (remove) items out of an array, or pushing items into an array.</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array pop()</DIV><BR><BR>
+<DIV CLASS="FS-10">The pop() method removes the last element from an array</DIV><BR><BR>
+<p id="ARRAYMETHODS7"></p>
+<p id="ARRAYMETHODS8"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYMETHODS7").innerHTML = fruits;
+fruits.pop();
+document.getElementById("ARRAYMETHODS8").innerHTML = fruits;
+</script><BR><BR>
+<DIV CLASS="FS-10">The pop() method returns the value that was "popped out"</DIV><BR><BR>
+<p id="ARRAYMETHODS9"></p>
+<p id="ARRAYMETHODS10"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYMETHODS9").innerHTML = fruits.pop();
+document.getElementById("ARRAYMETHODS10").innerHTML = fruits;
+</script><BR><BR>
+
+[/input]
+</textarea>
+
+
+
+
+<h2>Now you try!</h2>
+<br><br>
+
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

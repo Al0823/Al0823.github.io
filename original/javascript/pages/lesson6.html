@@ -1,0 +1,76 @@
+<html>
+[include file=../includes/vars.inc]
+[text]PAGETITLE=Comments Lesson[/text]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+	<h2>Comments</h2><br><br>
+	<div class="fs-10">Comments in JavaScript are used to explain code, make it more readable, or prevent execution of code temporarily.<br><br>
+Comments are ignored by the browser and do not affect the program.</div><br><br>
+
+<div class="fs-15">Single-line Comments</div><br><br>
+<div class="fs-10">Single-line comments start with <code>//</code>. Everything after <code>//</code> on that line will be ignored.</div><br><br>
+<textarea id="textbox" rows="5" cols="70">
+// This is a single-line comment
+let x = 5; // You can also comment after code
+</textarea><br><br>
+<div class="fs-10">In the example above, the browser ignores the comments, but executes <code>let x = 5;</code>.</div><br><br>
+
+<div class="fs-15">Multi-line Comments</div><br><br>
+<div class="fs-10">Multi-line comments start with <code>/*</code> and end with <code>*/</code>. 
+Everything between <code>/*</code> and <code>*/</code> is ignored by the browser.</div><br><br>
+<textarea id="textbox" rows="7" cols="70">
+/* This is a 
+multi-line comment
+which spans several lines */
+let y = 10;
+</textarea><br><br>
+<div class="fs-10">Use multi-line comments to explain complex code or temporarily disable blocks of code.</div><br><br>
+
+<div class="fs-15">HTML-style Comments</div><br><br>
+<div class="fs-10">In older JavaScript, you might see comments like <code>&lt;!-- comment --&gt;</code>.
+<br><br>This is mainly for backward compatibility and is rarely used today.</div><br><br>
+<textarea id="textbox" rows="5" cols="70">
+<!-- This is an HTML-style comment -->
+let z = 15;
+</textarea><br><br>
+<div class="fs-10">Modern browsers ignore these comments too, but it’s better to use <code>//</code> or <code>/* */</code>.</div><br><br>
+
+<div class="fs-15">Why Use Comments?</div><br><br>
+<div class="fs-10">
+- Explain code for yourself or others.<br>
+- Make code easier to understand.<br>
+- Temporarily disable code during testing or debugging.<br>
+- Help with code maintenance.
+</div><br><br>
+
+<div class="fs-15">Examples of Using Comments</div><br><br>
+<div class="fs-10">You can mix single-line and multi-line comments as needed:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+// Initialize variables
+let a = 5;  // first variable
+let b = 10; // second variable
+
+/* Add the two numbers
+   and store the result */
+let sum = a + b;
+
+console.log(sum); // Output the result
+</textarea><br><br>
+<div class="fs-10">The comments above make the code easier to read and understand for anyone looking at it later.</div><br><br>
+
+<div class="fs-15">Important Notes</div><br><br>
+<div class="fs-10">
+- Comments are ignored by the browser.<br>
+- Do not overuse comments—write clear code first.<br>
+- Use comments to clarify complex logic or note important information.<br>
+- Avoid leaving old or irrelevant comments in production code.
+</div><br><br>
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

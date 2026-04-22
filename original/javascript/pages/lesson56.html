@@ -1,0 +1,51 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Type Conversion</h2><br><br><div class="fs-10">Type conversion in JavaScript is when you manually convert data from one type to another. JavaScript can also perform automatic conversion (type coercion) in certain situations.<br><br>There are two main types of conversion:</div><br><br><ul class="fs-10"><li>**Explicit Conversion** – You convert the data yourself using functions like <code>Number()</code>, <code>String()</code>, or <code>Boolean()</code>.</li><li>**Implicit Conversion (Type Coercion)** – JavaScript automatically converts types when performing operations with mixed types.</li></ul><br><br> <div class="fs-15">Converting to a Number</div><br><br><div class="fs-10">You can convert strings or other types to numbers using the <code>Number()</code> function or unary plus <code>+</code> operator:</div><br><br><textarea id="textbox" rows="10" cols="70">// Using Number() let str = "123"; let num = Number(str); document.getElementById("demo").innerHTML = num + 1; // 124
+
+// Using unary plus
+let str2 = "456";
+let num2 = +str2;
+document.getElementById("demo").innerHTML += "<br>" + (num2 + 1); // 457</textarea><br><br><div class="fs-10">Invalid conversions return <code>NaN</code> (Not a Number):</div><br><br><textarea id="textbox" rows="10" cols="70">// Invalid Number conversion
+let str = "Hello";
+let num = Number(str);
+document.getElementById("demo").innerHTML = num; // NaN</textarea><br><br>
+
+<div class="fs-15">Converting to a String</div><br><br><div class="fs-10">You can convert numbers, booleans, or other types to strings using the <code>String()</code> function or the <code>toString()</code> method:</div><br><br><textarea id="textbox" rows="10" cols="70">// Using String() let num = 123; let str = String(num); document.getElementById("demo").innerHTML = str + " is now a string"; // "123 is now a string"
+
+// Using toString()
+let bool = true;
+let str2 = bool.toString();
+document.getElementById("demo").innerHTML += "<br>" + str2 + " is now a string";</textarea><br><br>
+
+<div class="fs-15">Converting to a Boolean</div><br><br><div class="fs-10">You can convert numbers, strings, or other types to booleans using the <code>Boolean()</code> function. Falsy values convert to <code>false</code>, and all other values convert to <code>true</code>:</div><br><br><textarea id="textbox" rows="10" cols="70">// Boolean Conversion let x = 0; let y = Boolean(x); // false
+
+let z = "Hello";
+let a = Boolean(z); // true
+
+document.getElementById("demo").innerHTML = "0 converts to " + y + "<br>'Hello' converts to " + a;</textarea><br><br>
+
+<div class="fs-15">Automatic Type Conversion</div><br><br><div class="fs-10">JavaScript often converts types automatically when performing operations:</div><br><br><textarea id="textbox" rows="10" cols="70">// Number + String -> String let x = 5 + "5"; // "55"
+
+// String - Number -> Number
+let y = "10" - 4; // 6
+
+// Boolean in arithmetic -> Number
+let z = true + 1; // 2 (true becomes 1)
+document.getElementById("demo").innerHTML = "5+'5'=" + x + "<br>'10'-4=" + y + "<br>true+1=" + z;</textarea><br><br>
+
+<div class="fs-15">Other Conversion Functions</div><br><br><div class="fs-10">Other useful conversion functions include:</div><br><br><ul class="fs-10"><li><code>parseInt()</code> – Converts a string to an integer.</li><li><code>parseFloat()</code> – Converts a string to a floating-point number.</li><li><code>toFixed()</code> – Converts a number to a string with a specified number of decimals.</li></ul><br><br><textarea id="textbox" rows="10" cols="70">// parseInt and parseFloat let intNum = parseInt("123px"); // 123 let floatNum = parseFloat("3.14em"); // 3.14
+
+// toFixed
+let n = 5.6789;
+let nStr = n.toFixed(2); // "5.68"
+
+document.getElementById("demo").innerHTML = "parseInt: " + intNum + "<br>parseFloat: " + floatNum + "<br>toFixed: " + nStr;</textarea><br><br>
+
+<div class="fs-15">Summary</div><br><br><div class="fs-10">- <code>Number()</code>, <code>String()</code>, <code>Boolean()</code> are used for explicit conversion.<br>- JavaScript automatically converts types in operations (type coercion).<br>- <code>parseInt()</code>, <code>parseFloat()</code>, and <code>toFixed()</code> are common helpers for conversion.<br>- Invalid conversions return <code>NaN</code>.</div><br><br> </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

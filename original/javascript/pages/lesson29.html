@@ -1,0 +1,789 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>JAVASCRIPT ARRAYS Javascript tutorial</h2>
+<br><br>
+
+
+This is the "JAVASCRIPT ARRAYS" Javascript page, it teaches you how to write this code and how it works.<BR><BR>
+Now what this code can do is help store and organize values.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<p id="ARRAYS1"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYS1").innerHTML = cars;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">An Array is an object type designed for storing data collections, some of Key characteristics of JavaScript arrays are listed below.<br><br>
+<ul>
+<li>Elements (An array is a list of values, known as elements)</li>
+
+<li>Ordered (Array elements are ordered based on their index)</li>
+
+<li>Zero indexed (The first element is at index 0, the second at index 1, and so on)</li>
+
+<li>Dynamic size (Arrays can grow or shrink as elements are added or removed)</li>
+
+<li>Heterogeneous (Arrays can store elements of different data types (numbers, strings, objects and other arrays))</li>
+</ul>
+</DIV>
+
+<p id="ARRAYS2"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYS2").innerHTML = cars;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Spaces and line breaks are not important. A declaration can span multiple lines.</DIV><BR><BR>
+<p id="ARRAYS3"></p>
+
+<script>
+const cars = [
+  "Saab",
+  "Volvo",
+  "BMW"
+];
+document.getElementById("ARRAYS3").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-10">You can also create an empty array, and provide elements later.</DIV><BR><BR>
+<p id="ARRAYS4"></p>
+
+<script>
+const cars = [];
+cars[0]= "Saab";
+cars[1]= "Volvo";
+cars[2]= "BMW";
+document.getElementById("ARRAYS4").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-15">Using the JavaScript Keyword new</DIV><BR><BR>
+<DIV CLASS="FS-10">The following example also creates an Array, and assigns values to it</DIV><BR><BR>
+<p id="ARRAYNEW1"></p>
+
+<script>
+const cars = new Array("Saab", "Volvo", "BMW");
+document.getElementById("ARRAYNEW1").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-10">The two examples above do exactly the same, which means there is no need to use new Array().
+<br><br>
+For simplicity, readability and execution speed, use the array literal method.</DIV><BR><BR>
+<DIV CLASS="FS-15">Accessing Array Elements</DIV><BR><BR>
+<DIV CLASS="FS-10">You access an array element by referring to the index number</DIV><BR><BR>
+<p id="ARRAYACCESS1"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYACCESS1").innerHTML = cars[0];
+</script><BR><BR>
+<DIV CLASS="FS-10">Array indexes start with 0.
+<BR><BR>
+[0] is the first element. [1] is the second element.</DIV><BR><BR>
+<DIV CLASS="FS-15">Changing an Array Element</DIV><BR><BR>
+<DIV CLASS="FS-10">The statement below changes the value of the first element in cars</DIV><BR><BR>
+<p id="ARRAYCHANGE"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+cars[0] = "Opel";
+document.getElementById("ARRAYCHANGE").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-15">Converting an Array to a String</DIV><BR><BR>
+<DIV CLASS="FS-10">The JavaScript method toString() converts an array to a string of (comma separated) array values.</DIV><BR><BR>
+<p id="ARRAYCONVERT"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+let myList = fruits.toString();
+document.getElementById("ARRAYCONVERT").innerHTML = myList;
+</script><BR><BR>
+<DIV CLASS="FS-15">Access the Full Array</DIV><BR><BR>
+<DIV CLASS="FS-10">With JavaScript, the full array can be accessed by referring to the array name</DIV><BR><BR>
+<p id="ARRAYACCESS2"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYACCESS2").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-15">Arrays are Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">Arrays are a special type of objects. The typeof operator in JavaScript returns "object" for arrays.</DIV>
+<BR><BR>
+JavaScript arrays are best described as arrays Arrays use numbers to access its "elements". In the example below, person[0] returns John</DIV><BR><BR>
+<p id="ARRAYOBJECT1"></p>
+
+<script>
+const person = ["John", "Doe", 46];
+document.getElementById("ARRAYOBJECT1").innerHTML = person[0];
+</script><BR><BR>
+<DIV CLASS="FS-10">Objects use names to access its "members". In this example, person.firstName returns John</DIV><BR><BR>
+<p id="ARRAYOBJECT2"></p>
+
+<script>
+const person = {firstName:"John", lastName:"Doe", age:46};
+document.getElementById("ARRAYOBJECT2").innerHTML = person.firstName;
+</script><BR><BR>
+<DIV CLASS="FS-15">Array Elements Can Be Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript variables can be objects. Arrays are special kinds of objects.
+<BR><BR>
+Because of this, you can have variables of different types in the same Array.
+<BR><BR>
+You can have objects in an Array. You can have functions in an Array. You can have arrays in an Array</DIV>
+<BR><BR>
+<DIV CLASS="FS-15">Array Properties and Methods</DIV><BR><BR>
+<DIV CLASS="FS-10">The real strength of JavaScript arrays are the built-in array properties and methods<BR><BR>Array methods are covered in the next chapters.</DIV>
+<BR><BR>
+<DIV CLASS="FS-15">The length Property</DIV><BR><BR>
+<DIV CLASS="FS-10">The length property of an array returns the length of an array (the number of array elements)</DIV><BR><BR>
+<p id="ARRAYPROPS"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let size = fruits.length;
+document.getElementById("ARRAYPROPS").innerHTML = size;
+</script><BR><BR>
+<DIV CLASS="FS-10">The length property is always one more than the highest array index.</DIV><BR><BR>
+<DIV CLASS="FS-15">Accessing the First Array Element</DIV><BR><BR>
+<p id="ARRAYACCESS3"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYACCESS3").innerHTML = fruits[0];
+</script><BR><BR>
+<DIV CLASS="FS-15">Accessing the Last Array Element</DIV><BR><BR>
+<p id="ARRAYACCESS4"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYACCESS4").innerHTML = fruits[fruits.length-1];
+</script><BR><BR>
+<DIV CLASS="FS-15">Looping Array Elements</DIV><BR><BR>
+<DIV CLASS="FS-10">One way to loop through an array, is using a for loop</DIV><BR><BR>
+<p id="ARRAYLOOP1"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let fLen = fruits.length;
+
+let text = "<ul>";
+for (let i = 0; i < fLen; i++) {
+  text += "<li>" + fruits[i] + "</li>";
+}
+text += "</ul>";
+
+document.getElementById("ARRAYLOOP1").innerHTML = text;
+</script><BR><BR>
+<DIV CLASS="FS-10">You can also use the Array.forEach() function</DIV><BR><BR>
+<p id="ARRAYLOOP2"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+let text = "<ul>";
+fruits.forEach(myFunction);
+text += "</ul>";
+
+document.getElementById("ARRAYLOOP2").innerHTML = text;
+
+function myFunction(value) {
+  text += "<li>" + value + "</li>";
+} 
+</script><BR><BR>
+<DIV CLASS="FS-15">Adding Array Elements</DIV><BR><BR>
+<DIV CLASS="FS-10">The easiest way to add a new element to an array is using the push() method.</DIV><BR><BR>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="ADDARRAY1"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+document.getElementById("ADDARRAY1").innerHTML = fruits;
+
+function myFunction() {
+  fruits.push("Lemon");
+  document.getElementById("ADDARRAY1").innerHTML = fruits;
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">New element can also be added to an array using the length property</DIV><BR><BR>
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+document.getElementById("demo").innerHTML = fruits;
+
+function myFunction() {
+  fruits[fruits.length] = "Lemon";
+  document.getElementById("demo").innerHTML = fruits;
+}
+</script><BR><BR>
+<DIV CLASS="FS-10"Adding elements with high indexes can create undefined "holes" in an array</DIV><BR><BR>
+<p id="ARRAYADD3"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+fruits[6] = "Lemon";
+
+let fLen = fruits.length;
+let text = "";
+for (i = 0; i < fLen; i++) {
+  text += fruits[i] + "<br>";
+}
+
+document.getElementById("ARRAYADD3").innerHTML = text;
+</script><BR><BR>
+<DIV CLASS="FS-15">Associative Arrays</DIV><BR><BR>
+<DIV CLASS="FS-10">Many programming languages support arrays with named indexes.
+<BR><BR>
+Arrays with named indexes are called associative arrays (or hashes).
+<BR><BR>
+JavaScript does not support arrays with named indexes.
+<BR><BR>
+In JavaScript, arrays always use numbered indexes.  </DIV><BR><BR>
+<p id="ARRAYASSOC1"></p>
+
+<script>
+const person = [];
+person[0] = "John";
+person[1] = "Doe";
+person[2] = 46; 
+document.getElementById("ARRAYASSOC1").innerHTML =
+person[0] + " " + person.length;
+</script><BR><BR>
+<DIV CLASS="FS-10">If you use named indexes, JavaScript will redefine the array to an object.
+<BR><BR>
+After that, some array methods and properties will produce incorrect results.</DIV><BR><BR>
+<p id="ARRAYASSOC2"></p>
+
+<script>
+const person = [];
+person["firstName"] = "John";
+person["lastName"] = "Doe";
+person["age"] = 46; 
+document.getElementById("ARRAYASSOC2").innerHTML =
+person[0] + " " + person.length;
+</script><BR><BR>
+<DIV CLASS="FS-15">The Difference Between Arrays and Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">In JavaScript, arrays use numbered indexes.  
+<BR><BR>
+In JavaScript, objects use named indexes.<BR><BR> Arrays are a special kind of objects, with numbered indexes.
+</DIV><BR><BR>
+<DIV CLASS="FS-15">The Difference Between Arrays and Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">In JavaScript, arrays use numbered indexes.  
+<BR><BR>
+In JavaScript, objects use named indexes.<BR><BR> Arrays are a special kind of objects, with numbered indexes.
+</DIV><BR><BR>
+<div class="fs-15">When to Use Arrays and when to use Objects.</div><BR><BR>
+<DIV CLASS="FS-10">
+<ul>
+<li>JavaScript does not support associative arrays.</li>
+
+<li>You should use objects when you want the element names to be strings (text).</li>
+
+<li>Zero indexed (The first element is at index 0, the second at index 1, and so on)</li>
+
+<li>You should use arrays when you want the element names to be numbers.</li>
+</ul>
+</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript new Array()</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript has a built-in array constructor new Array().
+<br><br>
+But you can safely use [] instead.
+<br><br>
+These two different statements both create a new empty array named points
+<br><br>
+These two different statements both create a new array containing 6 numbers
+</DIV><BR><BR>
+<p id="ARRAYNEW2"></p>
+
+<script>
+//const points = new Array(40, 100, 1, 5, 25, 10, 67);
+const points = [40, 100, 1, 5, 25, 10, 67];
+document.getElementById("ARRAYNEW2").innerHTML = points[0];  
+</script><BR><BR>
+<DIV CLASS="FS-10">The new keyword can produce some unexpected results
+</DIV><BR><BR>
+<p id="ARRAYNEW3"></p>
+
+<script>
+var points = new Array(40, 100, 1);
+document.getElementById("ARRAYNEW3").innerHTML = points;  
+</script><BR><BR>
+<p id="ARRAYNEW4"></p>
+
+<script>
+var points = new Array(40, 100);
+document.getElementById("ARRAYNEW4").innerHTML = points;  
+</script><BR><BR>
+<p id="ARRAYNEW5"></p>
+
+<script>
+var points = new Array(40);
+document.getElementById("ARRAYNEW5").innerHTML = points;  
+</script><BR><BR>
+<DIV CLASS="FS-15">How to Recognize an Array</DIV><BR><BR>
+<DIV CLASS="FS-10">A common question is: How do I know if a variable is an array?
+<BR><BR>
+The problem is that the JavaScript operator typeof returns "object"
+</DIV><BR><BR>
+<p id="ARRAYS5"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYS5").innerHTML = typeof fruits;
+</script><BR><BR>
+<DIV CLASS="FS-10">The typeof operator returns object because a JavaScript array is an object.
+</DIV><BR><BR>
+<DIV CLASS="FS-15">Solution 1</DIV><BR><BR>
+<DIV CLASS="FS-10">To solve this problem ECMAScript 5 (JavaScript 2009) defined a new method Array.isArray()
+</DIV><BR><BR>
+<p id="ARRAYS6"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+document.getElementById("ARRAYS6").innerHTML = Array.isArray(fruits);
+</script><BR><BR>
+<DIV CLASS="FS-15">Solution 2</DIV><BR><BR>
+<DIV CLASS="FS-10">The instanceof operator returns true if an object is created by a given constructor.
+</DIV><BR><BR>
+<p id="ARRAYS7"></p>
+
+<script> 
+// Create an Array
+const fruits = ["apples", "bananas", "oranges"];
+
+document.getElementById("ARRAYS7").innerHTML =
+"Array: " + (fruits instanceof Array);
+</script><BR><BR>
+<DIV CLASS="FS-15">Nested Arrays and Objects
+2</DIV><BR><BR>
+<DIV CLASS="FS-10">Values in objects can be arrays, and values in arrays can be objects<BR><BR>
+To access arrays inside arrays, use a for-in loop for each array
+</DIV><BR><BR>
+<p id="ARRAYS8"></p>
+
+<script>
+let x = "";
+const myObj = {
+  name: "John",
+  age: 30,
+  cars: [
+    {name:"Ford", models:["Fiesta", "Focus", "Mustang"]},
+    {name:"BMW", models:["320", "X3", "X5"]},
+    {name:"Fiat", models:["500", "Panda"]}
+  ]
+}
+
+for (let i in myObj.cars) {
+  x += "<h2>" + myObj.cars[i].name + "</h2>";
+  for (let j in myObj.cars[i].models) {
+    x += myObj.cars[i].models[j] + "<br>";
+  }
+}
+
+document.getElementById("ARRAYS8").innerHTML = x;
+</script><BR><BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<p id="ARRAYS1"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYS1").innerHTML = cars;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">An Array is an object type designed for storing data collections, some of Key characteristics of JavaScript arrays are listed below.<br><br>
+<ul>
+<li>Elements (An array is a list of values, known as elements)</li>
+
+<li>Ordered (Array elements are ordered based on their index)</li>
+
+<li>Zero indexed (The first element is at index 0, the second at index 1, and so on)</li>
+
+<li>Dynamic size (Arrays can grow or shrink as elements are added or removed)</li>
+
+<li>Heterogeneous (Arrays can store elements of different data types (numbers, strings, objects and other arrays))</li>
+</ul>
+</DIV>
+
+<p id="ARRAYS2"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYS2").innerHTML = cars;
+</script><BR><BR>
+
+<DIV CLASS="FS-10">Spaces and line breaks are not important. A declaration can span multiple lines.</DIV><BR><BR>
+<p id="ARRAYS3"></p>
+
+<script>
+const cars = [
+  "Saab",
+  "Volvo",
+  "BMW"
+];
+document.getElementById("ARRAYS3").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-10">You can also create an empty array, and provide elements later.</DIV><BR><BR>
+<p id="ARRAYS4"></p>
+
+<script>
+const cars = [];
+cars[0]= "Saab";
+cars[1]= "Volvo";
+cars[2]= "BMW";
+document.getElementById("ARRAYS4").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-15">Using the JavaScript Keyword new</DIV><BR><BR>
+<DIV CLASS="FS-10">The following example also creates an Array, and assigns values to it</DIV><BR><BR>
+<p id="ARRAYNEW1"></p>
+
+<script>
+const cars = new Array("Saab", "Volvo", "BMW");
+document.getElementById("ARRAYNEW1").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-10">The two examples above do exactly the same, which means there is no need to use new Array().
+<br><br>
+For simplicity, readability and execution speed, use the array literal method.</DIV><BR><BR>
+<DIV CLASS="FS-15">Accessing Array Elements</DIV><BR><BR>
+<DIV CLASS="FS-10">You access an array element by referring to the index number</DIV><BR><BR>
+<p id="ARRAYACCESS1"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYACCESS1").innerHTML = cars[0];
+</script><BR><BR>
+<DIV CLASS="FS-10">Array indexes start with 0.
+<BR><BR>
+[0] is the first element. [1] is the second element.</DIV><BR><BR>
+<DIV CLASS="FS-15">Changing an Array Element</DIV><BR><BR>
+<DIV CLASS="FS-10">The statement below changes the value of the first element in cars</DIV><BR><BR>
+<p id="ARRAYCHANGE"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+cars[0] = "Opel";
+document.getElementById("ARRAYCHANGE").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-15">Converting an Array to a String</DIV><BR><BR>
+<DIV CLASS="FS-10">The JavaScript method toString() converts an array to a string of (comma separated) array values.</DIV><BR><BR>
+<p id="ARRAYCONVERT"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+let myList = fruits.toString();
+document.getElementById("ARRAYCONVERT").innerHTML = myList;
+</script><BR><BR>
+<DIV CLASS="FS-15">Access the Full Array</DIV><BR><BR>
+<DIV CLASS="FS-10">With JavaScript, the full array can be accessed by referring to the array name</DIV><BR><BR>
+<p id="ARRAYACCESS2"></p>
+
+<script>
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("ARRAYACCESS2").innerHTML = cars;
+</script><BR><BR>
+<DIV CLASS="FS-15">Arrays are Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">Arrays are a special type of objects. The typeof operator in JavaScript returns "object" for arrays.</DIV>
+<BR><BR>
+JavaScript arrays are best described as arrays Arrays use numbers to access its "elements". In the example below, person[0] returns John</DIV><BR><BR>
+<p id="ARRAYOBJECT1"></p>
+
+<script>
+const person = ["John", "Doe", 46];
+document.getElementById("ARRAYOBJECT1").innerHTML = person[0];
+</script><BR><BR>
+<DIV CLASS="FS-10">Objects use names to access its "members". In this example, person.firstName returns John</DIV><BR><BR>
+<p id="ARRAYOBJECT2"></p>
+
+<script>
+const person = {firstName:"John", lastName:"Doe", age:46};
+document.getElementById("ARRAYOBJECT2").innerHTML = person.firstName;
+</script><BR><BR>
+<DIV CLASS="FS-15">Array Elements Can Be Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript variables can be objects. Arrays are special kinds of objects.
+<BR><BR>
+Because of this, you can have variables of different types in the same Array.
+<BR><BR>
+You can have objects in an Array. You can have functions in an Array. You can have arrays in an Array</DIV>
+<BR><BR>
+<DIV CLASS="FS-15">Array Properties and Methods</DIV><BR><BR>
+<DIV CLASS="FS-10">The real strength of JavaScript arrays are the built-in array properties and methods<BR><BR>Array methods are covered in the next chapters.</DIV>
+<BR><BR>
+<DIV CLASS="FS-15">The length Property</DIV><BR><BR>
+<DIV CLASS="FS-10">The length property of an array returns the length of an array (the number of array elements)</DIV><BR><BR>
+<p id="ARRAYPROPS"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let size = fruits.length;
+document.getElementById("ARRAYPROPS").innerHTML = size;
+</script><BR><BR>
+<DIV CLASS="FS-10">The length property is always one more than the highest array index.</DIV><BR><BR>
+<DIV CLASS="FS-15">Accessing the First Array Element</DIV><BR><BR>
+<p id="ARRAYACCESS3"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYACCESS3").innerHTML = fruits[0];
+</script><BR><BR>
+<DIV CLASS="FS-15">Accessing the Last Array Element</DIV><BR><BR>
+<p id="ARRAYACCESS4"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYACCESS4").innerHTML = fruits[fruits.length-1];
+</script><BR><BR>
+<DIV CLASS="FS-15">Looping Array Elements</DIV><BR><BR>
+<DIV CLASS="FS-10">One way to loop through an array, is using a for loop</DIV><BR><BR>
+<p id="ARRAYLOOP1"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+let fLen = fruits.length;
+
+let text = "<ul>";
+for (let i = 0; i < fLen; i++) {
+  text += "<li>" + fruits[i] + "</li>";
+}
+text += "</ul>";
+
+document.getElementById("ARRAYLOOP1").innerHTML = text;
+</script><BR><BR>
+<DIV CLASS="FS-10">You can also use the Array.forEach() function</DIV><BR><BR>
+<p id="ARRAYLOOP2"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+let text = "<ul>";
+fruits.forEach(myFunction);
+text += "</ul>";
+
+document.getElementById("ARRAYLOOP2").innerHTML = text;
+
+function myFunction(value) {
+  text += "<li>" + value + "</li>";
+} 
+</script><BR><BR>
+<DIV CLASS="FS-15">Adding Array Elements</DIV><BR><BR>
+<DIV CLASS="FS-10">The easiest way to add a new element to an array is using the push() method.</DIV><BR><BR>
+<button onclick="myFunction()">Try it</button>
+
+<p id="ADDARRAY1"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+document.getElementById("ADDARRAY1").innerHTML = fruits;
+
+function myFunction() {
+  fruits.push("Lemon");
+  document.getElementById("ADDARRAY1").innerHTML = fruits;
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">New element can also be added to an array using the length property</DIV><BR><BR>
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+document.getElementById("demo").innerHTML = fruits;
+
+function myFunction() {
+  fruits[fruits.length] = "Lemon";
+  document.getElementById("demo").innerHTML = fruits;
+}
+</script><BR><BR>
+<DIV CLASS="FS-10"Adding elements with high indexes can create undefined "holes" in an array</DIV><BR><BR>
+<p id="ARRAYADD3"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+fruits[6] = "Lemon";
+
+let fLen = fruits.length;
+let text = "";
+for (i = 0; i < fLen; i++) {
+  text += fruits[i] + "<br>";
+}
+
+document.getElementById("ARRAYADD3").innerHTML = text;
+</script><BR><BR>
+<DIV CLASS="FS-15">Associative Arrays</DIV><BR><BR>
+<DIV CLASS="FS-10">Many programming languages support arrays with named indexes.
+<BR><BR>
+Arrays with named indexes are called associative arrays (or hashes).
+<BR><BR>
+JavaScript does not support arrays with named indexes.
+<BR><BR>
+In JavaScript, arrays always use numbered indexes.  </DIV><BR><BR>
+<p id="ARRAYASSOC1"></p>
+
+<script>
+const person = [];
+person[0] = "John";
+person[1] = "Doe";
+person[2] = 46; 
+document.getElementById("ARRAYASSOC1").innerHTML =
+person[0] + " " + person.length;
+</script><BR><BR>
+<DIV CLASS="FS-10">If you use named indexes, JavaScript will redefine the array to an object.
+<BR><BR>
+After that, some array methods and properties will produce incorrect results.</DIV><BR><BR>
+<p id="ARRAYASSOC2"></p>
+
+<script>
+const person = [];
+person["firstName"] = "John";
+person["lastName"] = "Doe";
+person["age"] = 46; 
+document.getElementById("ARRAYASSOC2").innerHTML =
+person[0] + " " + person.length;
+</script><BR><BR>
+<DIV CLASS="FS-15">The Difference Between Arrays and Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">In JavaScript, arrays use numbered indexes.  
+<BR><BR>
+In JavaScript, objects use named indexes.<BR><BR> Arrays are a special kind of objects, with numbered indexes.
+</DIV><BR><BR>
+<DIV CLASS="FS-15">The Difference Between Arrays and Objects</DIV><BR><BR>
+<DIV CLASS="FS-10">In JavaScript, arrays use numbered indexes.  
+<BR><BR>
+In JavaScript, objects use named indexes.<BR><BR> Arrays are a special kind of objects, with numbered indexes.
+</DIV><BR><BR>
+<div class="fs-15">When to Use Arrays and when to use Objects.</div><BR><BR>
+<DIV CLASS="FS-10">
+<ul>
+<li>JavaScript does not support associative arrays.</li>
+
+<li>You should use objects when you want the element names to be strings (text).</li>
+
+<li>Zero indexed (The first element is at index 0, the second at index 1, and so on)</li>
+
+<li>You should use arrays when you want the element names to be numbers.</li>
+</ul>
+</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript new Array()</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript has a built-in array constructor new Array().
+<br><br>
+But you can safely use [] instead.
+<br><br>
+These two different statements both create a new empty array named points
+<br><br>
+These two different statements both create a new array containing 6 numbers
+</DIV><BR><BR>
+<p id="ARRAYNEW2"></p>
+
+<script>
+//const points = new Array(40, 100, 1, 5, 25, 10, 67);
+const points = [40, 100, 1, 5, 25, 10, 67];
+document.getElementById("ARRAYNEW2").innerHTML = points[0];  
+</script><BR><BR>
+<DIV CLASS="FS-10">The new keyword can produce some unexpected results
+</DIV><BR><BR>
+<p id="ARRAYNEW3"></p>
+
+<script>
+var points = new Array(40, 100, 1);
+document.getElementById("ARRAYNEW3").innerHTML = points;  
+</script><BR><BR>
+<p id="ARRAYNEW4"></p>
+
+<script>
+var points = new Array(40, 100);
+document.getElementById("ARRAYNEW4").innerHTML = points;  
+</script><BR><BR>
+<p id="ARRAYNEW5"></p>
+
+<script>
+var points = new Array(40);
+document.getElementById("ARRAYNEW5").innerHTML = points;  
+</script><BR><BR>
+<DIV CLASS="FS-15">How to Recognize an Array</DIV><BR><BR>
+<DIV CLASS="FS-10">A common question is: How do I know if a variable is an array?
+<BR><BR>
+The problem is that the JavaScript operator typeof returns "object"
+</DIV><BR><BR>
+<p id="ARRAYS5"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYS5").innerHTML = typeof fruits;
+</script><BR><BR>
+<DIV CLASS="FS-10">The typeof operator returns object because a JavaScript array is an object.
+</DIV><BR><BR>
+<DIV CLASS="FS-15">Solution 1</DIV><BR><BR>
+<DIV CLASS="FS-10">To solve this problem ECMAScript 5 (JavaScript 2009) defined a new method Array.isArray()
+</DIV><BR><BR>
+<p id="ARRAYS6"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple"];
+document.getElementById("ARRAYS6").innerHTML = Array.isArray(fruits);
+</script><BR><BR>
+<DIV CLASS="FS-15">Solution 2</DIV><BR><BR>
+<DIV CLASS="FS-10">The instanceof operator returns true if an object is created by a given constructor.
+</DIV><BR><BR>
+<p id="ARRAYS7"></p>
+
+<script> 
+// Create an Array
+const fruits = ["apples", "bananas", "oranges"];
+
+document.getElementById("ARRAYS7").innerHTML =
+"Array: " + (fruits instanceof Array);
+</script><BR><BR>
+<DIV CLASS="FS-15">Nested Arrays and Objects
+2</DIV><BR><BR>
+<DIV CLASS="FS-10">Values in objects can be arrays, and values in arrays can be objects<BR><BR>
+To access arrays inside arrays, use a for-in loop for each array
+</DIV><BR><BR>
+<p id="ARRAYS8"></p>
+
+<script>
+let x = "";
+const myObj = {
+  name: "John",
+  age: 30,
+  cars: [
+    {name:"Ford", models:["Fiesta", "Focus", "Mustang"]},
+    {name:"BMW", models:["320", "X3", "X5"]},
+    {name:"Fiat", models:["500", "Panda"]}
+  ]
+}
+
+for (let i in myObj.cars) {
+  x += "<h2>" + myObj.cars[i].name + "</h2>";
+  for (let j in myObj.cars[i].models) {
+    x += myObj.cars[i].models[j] + "<br>";
+  }
+}
+
+document.getElementById("ARRAYS8").innerHTML = x;
+</script><BR><BR>
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

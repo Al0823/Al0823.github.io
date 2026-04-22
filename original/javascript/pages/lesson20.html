@@ -1,0 +1,107 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Events Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Events" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what an "Event" is in Javascript is it can create things for other Javascript code to react or interact with.
+<br><br>
+
+<DIV CLASS="FS-15">HTML EVENTS</DIV>
+
+<DIV CLASS="FS-10">
+<BR><BR>
+An HTML event can be something the browser does, or something a user does.
+<BR><BR>
+Here are some examples of HTML events are when a HTML web page has finished loading, a HTML input field was changed, or when a HTML button was clicked.
+<BR><BR>
+When these events happen, you might want to do something.
+<BR><BR>
+JavaScript lets you execute code when events are detected.
+<BR><BR>
+HTML allows event handler attributes, with JavaScript code, to be added to HTML elements.
+
+
+</DIV>
+<br><br>
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<br><br>
+In the example below, an onclick attribute is added to a "<button>" element.
+<br><br>
+<button onclick="document.getElementById('EVENTS').innerHTML=Date()">The time is?</button>
+<br>
+<p id="EVENTS"></p>
+<br><br>
+In the example above, the JavaScript code changes the content of the "<p>" tag with id="EVENTS".
+<br><br>
+
+<button onclick="this.innerHTML=Date()">The time is?</button>
+<br><br>
+In the example above, the code changes the content of its own element (using this.innerHTML)
+<br><br>
+<p>Click the button to display the date.</p>
+<button onclick="displayDate()">The time is?</button>
+
+<script>
+function displayDate() {
+  document.getElementById("EVENTS2").innerHTML = Date();
+}
+</script>
+
+<p id="EVENTS2"></p>
+<br><br>
+Javascript code usually several lines long. It is more common to see event attributes calling functions.
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+
+In the example below, an onclick attribute is added to a [url]"<button>"[/url] element.
+<br><br>
+<button onclick="document.getElementById('EVENTS').innerHTML=Date()">The time is?</button>
+<br>
+<p id="EVENTS"></p>
+<br><br>
+In the example above, the JavaScript code changes the content of the [url]"<p>"[/url] tag with id="EVENTS".
+<br><br>
+
+<button onclick="this.innerHTML=Date()">The time is?</button>
+<br><br>
+In the example above, the code changes the content of its own element (using this.innerHTML)
+<br><br>
+<p>Click the button to display the date.</p>
+<button onclick="displayDate()">The time is?</button>
+
+<script>
+function displayDate() {
+  document.getElementById("EVENTS2").innerHTML = Date();
+}
+</script>
+
+<p id="EVENTS2"></p>
+<br><br>
+Javascript code usually several lines long. It is more common to see event attributes calling functions.
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

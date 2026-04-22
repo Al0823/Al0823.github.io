@@ -1,0 +1,138 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Map Methods</h2><br><br>
+<div class="fs-10">Map is a special type of object that lets you store key-value pairs. Unlike objects, the keys can be of any type, including functions, objects, or any primitive type.<br><br>Think of it as a collection where each value is associated with a unique key, and the insertion order of keys is remembered.</div><br><br>
+
+<div class="fs-15">How to Create a Map</div><br><br>
+<div class="fs-10">You can create a JavaScript Map by:<br><br>
+<ul>
+<li>Passing an array of arrays (key-value pairs) to <code>new Map()</code></li>
+<li>Create an empty Map and use <code>set()</code> to add key-value pairs</li>
+</ul>
+</div><br><br>
+
+<div class="fs-15">The new Map() Method</div><br><br>
+<div class="fs-10">Pass an array of key-value pairs to the <code>new Map()</code> constructor:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apple", 10],
+  ["banana", 20],
+  ["orange", 30]
+]);
+
+// Display Map size
+document.getElementById("demo").innerHTML = "The map has " + fruits.size + " entries.";</textarea><br><br>
+
+<div class="fs-10">Create a Map and add key-value pairs:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create an empty Map
+const fruits = new Map();
+
+// Add key-value pairs
+fruits.set("apple", 10);
+fruits.set("banana", 20);
+fruits.set("orange", 30);
+
+// Display Map size
+document.getElementById("demo").innerHTML = "The map has " + fruits.size + " entries.";</textarea><br><br>
+
+<div class="fs-15">The set() Method</div><br><br>
+<div class="fs-10">Add new key-value pairs to a Map using <code>set()</code>:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apple", 10],
+  ["banana", 20]
+]);
+
+// Add new key-value pairs
+fruits.set("orange", 30);
+fruits.set("grape", 40);
+
+// Display Map size
+document.getElementById("demo").innerHTML = "The map has " + fruits.size + " entries.";</textarea><br><br>
+
+<div class="fs-10">If you set the same key multiple times, the last value will overwrite the previous one:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map();
+
+// Add key-value pairs
+fruits.set("apple", 10);
+fruits.set("apple", 15); // overwrites previous value
+
+// Display the value
+document.getElementById("demo").innerHTML = "Apple value: " + fruits.get("apple");</textarea><br><br>
+
+<div class="fs-15">Listing the Elements</div><br><br>
+<div class="fs-10">You can list all Map entries with a for..of loop:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apple", 10],
+  ["banana", 20],
+  ["orange", 30]
+]);
+
+// List all entries
+let text = "";
+for (const [key, value] of fruits) {
+  text += key + " = " + value + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br>
+
+<div class="fs-15">The get() Method</div><br><br>
+<div class="fs-10">Use <code>get()</code> to retrieve the value associated with a key:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apple", 10],
+  ["banana", 20]
+]);
+
+// Get a value
+document.getElementById("demo").innerHTML = "Banana value: " + fruits.get("banana");</textarea><br><br>
+
+<div class="fs-15">The has() Method</div><br><br>
+<div class="fs-10">Check if a Map contains a specific key with <code>has()</code>:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apple", 10],
+  ["banana", 20]
+]);
+
+// Check if key exists
+document.getElementById("demo").innerHTML = "Has orange? " + fruits.has("orange");</textarea><br><br>
+
+<div class="fs-15">The delete() Method</div><br><br>
+<div class="fs-10">Remove a key-value pair from a Map:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map([
+  ["apple", 10],
+  ["banana", 20]
+]);
+
+// Delete a key
+fruits.delete("apple");
+
+// Display Map size
+document.getElementById("demo").innerHTML = "The map has " + fruits.size + " entries.";</textarea><br><br>
+
+<div class="fs-15">Maps are Objects</div><br><br>
+<div class="fs-10">typeof returns object:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map();
+
+// Display typeof
+document.getElementById("demo").innerHTML = "The type of the map is " + typeof fruits;</textarea><br><br>
+
+<div class="fs-10">instanceof Map returns true:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">// Create a Map
+const fruits = new Map();
+
+// Check instance
+document.getElementById("demo").innerHTML = fruits instanceof Map;</textarea><br><br>
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]

@@ -1,0 +1,152 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Set Methods</h2><br><br>
+
+<div class="fs-10">JavaScript Sets come with built-in methods that let you add, remove, check, and loop through values easily.<br><br>
+These methods help you manage unique collections without worrying about duplicates.</div>
+
+<br><br><div class="fs-15">Common Set Methods</div><br><br>
+<div class="fs-10">
+<ul>
+<li>add() — Add a value</li>
+<li>delete() — Remove a value</li>
+<li>has() — Check if value exists</li>
+<li>clear() — Remove all values</li>
+<li>forEach() — Loop through values</li>
+<li>values() — Get iterator of values</li>
+<li>keys() — Same as values()</li>
+<li>entries() — Returns [value, value] pairs</li>
+</ul>
+</div>
+
+<br><br><div class="fs-15">The add() Method</div><br><br>
+
+<div class="fs-10">Adds a new value to a Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set(["a","b","c"]);
+
+// Add a value
+letters.add("d");
+
+// Show size
+document.getElementById("demo").innerHTML = letters.size;</textarea>
+
+<br><br><div class="fs-10">Adding duplicate values does nothing:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set();
+
+letters.add("a");
+letters.add("a");
+letters.add("a");
+
+document.getElementById("demo").innerHTML = letters.size; // 1</textarea>
+
+<br><br><div class="fs-15">The delete() Method</div><br><br>
+
+<div class="fs-10">Removes a specific value from a Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+letters.delete("b");
+
+document.getElementById("demo").innerHTML = letters.has("b"); // false</textarea>
+
+<br><br><div class="fs-15">The has() Method</div><br><br>
+
+<div class="fs-10">Checks if a value exists in the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+document.getElementById("demo").innerHTML = letters.has("a");</textarea>
+
+<br><br><div class="fs-15">The clear() Method</div><br><br>
+
+<div class="fs-10">Removes all values from the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+letters.clear();
+
+document.getElementById("demo").innerHTML = letters.size; // 0</textarea>
+
+<br><br><div class="fs-15">The forEach() Method</div><br><br>
+
+<div class="fs-10">Runs a function once for each value in the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+letters.forEach(function(value) {
+  text += value + "<br>";
+});
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">The values() Method</div><br><br>
+
+<div class="fs-10">Returns an iterator containing all values:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+for (const x of letters.values()) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">The keys() Method</div><br><br>
+
+<div class="fs-10">For Sets, keys() is the same as values():</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+for (const x of letters.keys()) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">The entries() Method</div><br><br>
+
+<div class="fs-10">Returns iterator with [value, value] pairs (for Map compatibility):</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+for (const entry of letters.entries()) {
+  text += entry + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">Set size Property</div><br><br>
+
+<div class="fs-10">The size property returns how many values are in the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+document.getElementById("demo").innerHTML = letters.size;</textarea>
+
+<br><br><div class="fs-15">Summary</div><br><br>
+
+<div class="fs-10">
+Sets are great when you need:
+<ul>
+<li>Unique values</li>
+<li>Fast existence checks</li>
+<li>No duplicates automatically</li>
+<li>Simple iteration</li>
+</ul>
+Unlike arrays, Sets prevent duplicates by design and provide efficient lookup methods.</div>
+
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]

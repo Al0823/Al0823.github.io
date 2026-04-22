@@ -1,0 +1,76 @@
+<style>
+.flex_container {
+  display: flex;
+  flex-wrap: nowrap;
+  border: 2px rgb(75, 75, 75) solid;
+  background-color: rgb(125, 125, 125);
+}
+.flex {
+  width: 45%;
+  margin: 10px;
+  border: 2px rgb(75, 75, 75) solid;
+  background-color: rgb(175, 175, 175);
+}
+.DEBUGTITLE {
+  background-color: rgb(75, 75, 75);
+  color: rgb(255, 255, 255);
+  border: 2px solid rgb(200, 200, 200);
+}
+</style>
+
+<div class="DEBUGTITLE"><h1>Debug Variables</h1></div>
+
+<div class="flex_container">
+  <div class="flex"> LISTVARIABLES<br><div id="varsBox"></div></div>
+  <div class="flex"> FORMVARIABLES<br><div id="formBox"></div></div>
+</div>
+
+<div class="flex_container">
+  <div class="flex"> LISTCOOKIES<br><div id="cookieBox"></div></div>
+  <div class="flex"> LISTMIMEHEADERS<br><div id="headerBox"></div></div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // 🧠 LISTVARIABLES (replaces [listvariables])
+  let i = 1;
+  for (const key in window.vars) {
+    document.getElementById("varsBox").innerHTML += 
+      i++ + ", <b>" + key + "</b> = " + window.vars[key] + "<br>";
+  }
+
+  // 📋 FORMVARIABLES (replaces [formvariables])
+  const params = new URLSearchParams(window.location.search);
+  i = 1;
+  for (const [key, value] of params.entries()) {
+    document.getElementById("formBox").innerHTML += 
+      i++ + ", <b>" + key + "</b> = " + value + "<br>";
+  }
+
+  // 🍪 LISTCOOKIES (replaces [listcookies])
+  i = 1;
+  document.cookie.split(";").forEach(cookie => {
+    const [name, value] = cookie.split("=");
+    if (name) {
+      document.getElementById("cookieBox").innerHTML += 
+        i++ + " <b>" + name.trim() + "</b> = " + value + "<br>";
+    }
+  });
+
+  // 🌐 LISTMIMEHEADERS (approximation)
+  const headers = {
+    "User Agent": navigator.userAgent,
+    "Platform": navigator.platform,
+    "Language": navigator.language,
+    "Online": navigator.onLine
+  };
+
+  i = 1;
+  for (const key in headers) {
+    document.getElementById("headerBox").innerHTML += 
+      i++ + " <b>" + key + "</b> = " + headers[key] + "<br>";
+  }
+
+});
+</script>

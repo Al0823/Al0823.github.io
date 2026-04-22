@@ -1,1 +1,0 @@
-[showif [thisurl]^25admin25] [redirect [pathVAR]login/index.html][/showif]

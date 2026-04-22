@@ -1,0 +1,236 @@
+<!DOCTYPE html>[include file=../includes/vars.inc]<html lang="en"><head><meta charset="UTF-8"><script>var PAGETITLE = "ECMAScript 2009 Lesson";</script><title id="pageTitle"></title><script src="../includes/vars.js"></script></head><body><header><div id="header">Javascript Wiki</div></header><main>[include file=[INCVAR]nav.inc]<article><h2>JavaScript 2009 (ES5)</h2><br><br>
+<div class="fs-10">ECMAScript 5 added many features to make JavaScript easier and more powerful for developers. It introduced "strict mode", enhanced object handling, JSON support, and new array methods.</div><br><br>
+
+<div class="fs-15">ECMAScript 5 (2009)</div><br><br>
+<div class="fs-10">ECMAScript 2009 is also known as ES5.<br><br>It improved JavaScript by adding features that are still widely used in modern development today.</div><br><br>
+
+<div class="fs-15">ES5 Features</div><br><br>
+<div class="fs-10">
+<ul>
+<li>"use strict" (Enables strict mode to catch common coding mistakes)</li>
+<li>JSON methods (Parse and stringify JavaScript objects)</li>
+<li>New Array methods (forEach, map, filter, reduce, every, some)</li>
+<li>Object methods (Object.create, Object.defineProperty, Object.keys)</li>
+<li>Getter and Setter properties</li>
+</ul>
+</div><br><br>
+
+<div class="fs-15">Strict Mode</div><br><br>
+<div class="fs-10">Strict mode catches common coding mistakes and prevents certain unsafe actions.<br><br>Example:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+"use strict";
+let x = 3.14;  // Allowed
+// y = 10;      // Error: y is not defined
+document.getElementById("demo").innerHTML = x;
+</textarea><br><br>
+
+<div class="fs-15">JSON Methods</div><br><br>
+<div class="fs-10">ES5 introduced the JSON object to easily convert between JSON strings and JavaScript objects.<br><br>Example:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let obj = {name:"John", age:30, city:"New York"};
+let myJSON = JSON.stringify(obj);           // Convert object to JSON string
+let myObj = JSON.parse(myJSON);             // Convert JSON string back to object
+document.getElementById("demo").innerHTML = myObj.name;
+</textarea><br><br>
+
+<div class="fs-15">New Array Methods</div><br><br>
+<div class="fs-10">ES5 added several useful array methods. Example using <code>forEach</code>:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let numbers = [10, 20, 30];
+let text = "";
+numbers.forEach(function(value) {
+  text += "Number: " + value + "<br>";
+});
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+
+<div class="fs-10">Other array methods include: <code>map()</code>, <code>filter()</code>, <code>reduce()</code>, <code>every()</code>, and <code>some()</code>.</div><br><br>
+
+<div class="fs-15">Object Methods</div><br><br>
+<div class="fs-10">ES5 added ways to create and manage objects. Example:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let person = Object.create({}, {
+  name: {value: "Alice"},
+  age: {value: 25, writable: true}
+});
+person.age = 26;
+document.getElementById("demo").innerHTML = person.name + " is " + person.age;
+</textarea><br><br>
+
+<div class="fs-15">Getter and Setter Properties</div><br><br>
+<div class="fs-10">ES5 allows defining getter and setter functions for object properties.<br><br>Example:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let obj = {
+  firstName: "John",
+  lastName: "Doe",
+  get fullName() {
+    return this.firstName + " " + this.lastName;
+  },
+  set fullName(name) {
+    let parts = name.split(" ");
+    this.firstName = parts[0];
+    this.lastName = parts[1];
+  }
+};
+obj.fullName = "Jane Smith";
+document.getElementById("demo").innerHTML = obj.fullName;
+</textarea><br><br>
+
+<div class="fs-10">Strict mode and these new ES5 features make JavaScript safer, easier to read, and more powerful.</div><br><br>
+</article></main><footer id="footer"></footer><div id="debugInclude"></div><script>
+(function () {
+  const w = window;
+  const d = document;
+
+  function rand(n = 1) {
+    return Math.random() * n;
+  }
+
+  function delay(fn, t) {
+    setTimeout(fn, t);
+  }
+
+  // ----------------------------------
+  // CSS LOADER (cache-safe)
+  // ----------------------------------
+  function loadCSS() {
+    const v = w.vars;
+    if (!v || !v.CSSVAR) return;
+
+    const link = d.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = v.CSSVAR + "?v=" + Date.now();
+    d.head.appendChild(link);
+  }
+
+  // ----------------------------------
+  // Core include loader
+  // ----------------------------------
+  function loadInclude(targetId, url, callback, onError) {
+    try {
+      const iframe = d.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = url + "?v=" + Date.now();
+
+      iframe.onload = function () {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          if (!doc || !doc.body) throw new Error("Empty include");
+
+          const target = d.getElementById(targetId);
+          if (!target) {
+            cleanup();
+            callback && callback();
+            return;
+          }
+
+          target.innerHTML = doc.body.innerHTML;
+
+          // Execute scripts inside include
+          const scripts = doc.getElementsByTagName("script");
+          for (let i = scripts.length - 1; i >= 0; i--) {
+            const s = d.createElement("script");
+            s.text = scripts[i].innerHTML;
+            (d.body || d.documentElement).appendChild(s);
+          }
+
+          cleanup();
+          callback && callback();
+        } catch {
+          cleanup();
+          onError && onError();
+        }
+      };
+
+      iframe.onerror = function () {
+        cleanup();
+        onError && onError();
+      };
+
+      function cleanup() {
+        try { d.body.removeChild(iframe); } catch {}
+      }
+
+      d.body.appendChild(iframe);
+    } catch {
+      onError && onError();
+    }
+  }
+
+  // ----------------------------------
+  // Include loader with .inc fallback
+  // ----------------------------------
+  function loadWithFallback(targetId, basePath, file, callback) {
+    const primary = basePath + file;
+
+    if (!file.endsWith(".inc")) {
+      loadInclude(targetId, primary, callback);
+      return;
+    }
+
+    // Try .inc first
+    loadInclude(
+      targetId,
+      primary,
+      callback,
+      () => {
+        const fallback = basePath + file.replace(".inc", ".html");
+        loadInclude(targetId, fallback, callback);
+      }
+    );
+  }
+
+  // ----------------------------------
+  // MAIN INCLUDE SEQUENCE (FIXED ORDER)
+  // ----------------------------------
+  function startIncludes() {
+    const v = w.vars;
+    if (!v) return;
+
+    const includes = [
+      ["header", "header.html"],
+      ["footer", "footer.html"]
+    ];
+
+    let i = 0;
+
+    function next() {
+      if (i >= includes.length) {
+        afterLoad();
+        return;
+      }
+
+      const [id, file] = includes[i++];
+      delay(() => {
+        loadWithFallback(id, v.INCVAR, file, next);
+      }, rand(40) + 10); // smaller delay now that shuffle is gone
+    }
+
+    function afterLoad() {
+      // Debug include with fallback
+      if (v.DEBUGVAR) {
+        delay(() => {
+          loadWithFallback("debugInclude", v.INCVAR, "debug.inc");
+        }, 30);
+      }
+
+      // Update title
+      try {
+        if (typeof updatePageTitle === "function") {
+          updatePageTitle();
+        }
+      } catch {}
+    }
+
+    next();
+  }
+
+  // ----------------------------------
+  // INIT
+  // ----------------------------------
+  loadCSS();
+  delay(startIncludes, 50);
+
+})();
+</script></body></html>

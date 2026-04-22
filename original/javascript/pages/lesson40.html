@@ -1,0 +1,161 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+  <article>
+      <h2>JavaScript Random Tutorial</h2>
+
+      <p>JavaScript uses the <strong>Math.random()</strong> method to generate random numbers. This is commonly used in games, simulations, and decision-making logic.</p>
+
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.random();
+      </textarea><br><br>
+
+<div class="fs-15">JavaScript Math.random()</div>
+<div class="fs-10">Math.random() returns a random number between 0 (inclusive),  and 1 (exclusive):
+<br><br>
+Math.random() always returns a number lower than 1.</div><br><br>
+
+<div class="fs-15">JavaScript Random Integers</div>
+<div class="fs-10">Math.random() used with Math.floor() can be used to return random integers.
+	<br><br>
+There is no such thing as JavaScript integers.
+<br><br>
+We are talking about numbers with no decimals here.</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.floor(Math.random() * 10);
+      </textarea><br><br>
+
+<div class="fs-10">Explained:<br><br>
+Math.random() returns a floating-point number between 0 (inclusive) and 1 (exclusive).
+<br><br>
+Example outputs: 0.0, 0.237, 0.9999, but never 1.
+<br><br>
+Math.random() * 10 gives a range from 0 up to but not including 10.
+<br><br>
+Example possible results: 0.0, 3.5, 9.99, etc.
+<br><br>
+Math.floor() rounds a number down to the nearest whole integer:
+<br><br>
+3.5 becomes 3
+9.99 becomes 9
+0.1 becomes 0
+The possible integer results are then 0 through 9 (both inclusive).
+<br><br>
+In other words, the range is [0, 9].</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.floor(Math.random() * 11);
+      </textarea><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.floor(Math.random() * 100);
+      </textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.floor(Math.random() * 101);
+      </textarea><br><br>			
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.floor(Math.random() * 10) + 1;
+</textarea><br><br>
+<div class="fs-10">Explained:<br><br>
+Math.random() returns a number from 0 (inclusive) up to but not including 1.
+<br><br>
+Multiplying by 10 gives a number from 0 up to but not including 10.
+<br><br>
+Adding 1 shifts that range to 1 up to but not including 11.
+<br><br>
+Math.floor() then rounds down, so you get an integer between 1 and 10.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.floor(Math.random() * 100) + 1;
+</textarea><br><br>
+
+<div class="fs-15">A Proper Random Function</div><br><br>
+<div class="fs-10">As you can see from the examples above, it might be a good idea to create a proper random function to use for all random integer purposes.
+<br><br>
+This JavaScript function always returns a random integer between min (included) and max (excluded):</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<button onclick="document.getElementById('demo').innerHTML = getRndInteger(0,10)">Click Me</button>
+<p id="demo"></p>
+<script>
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+</script>
+</textarea><br><br>
+<div class="fs-10">As you can see from the examples above, it might be a good idea to create a proper random function to use for all random integer purposes.
+<br><br>
+This JavaScript function always returns a random integer between min and max (both included):</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<button onclick="document.getElementById('demo').innerHTML = getRndInteger(1,10)">Click Me</button>
+
+<p id="demo"></p>
+
+<script>
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+</script>
+</textarea><br><br>
+
+
+
+
+     <div class="fs-15">Examples</div><br><br>
+
+      <h3>Basic Random Number</h3>
+      <pre><code>let num = Math.random();
+console.log(num);</code></pre>
+
+      <h3>Random Whole Numbers</h3>
+      <pre><code>let num = Math.floor(Math.random() * 10);</code></pre>
+
+      <h3>Random Number in a Range</h3>
+      <pre><code>let num = Math.floor(Math.random() * 100) + 1;</code></pre>
+
+      <h3>Example Output</h3>
+      <pre id="randomExample"></pre>
+
+      <script>
+        document.getElementById("randomExample").textContent =
+          "Random decimal: " + Math.random() +
+          "\nRandom 1-10: " + (Math.floor(Math.random() * 10) + 1) +
+          "\nRandom 1-100: " + (Math.floor(Math.random() * 100) + 1);
+      </script>
+
+      <!-- Interactive examples -->
+      <h3>Interactive Examples</h3>
+      <p><strong>Dice Roll 🎲</strong></p>
+      <button id="diceBtn">Roll Dice</button>
+      <pre id="diceOutput"></pre>
+
+      <p><strong>Coin Flip 🪙</strong></p>
+      <button id="coinBtn">Flip Coin</button>
+      <pre id="coinOutput"></pre>
+
+      <script>
+        document.getElementById("diceBtn").addEventListener("click", () => {
+          const dice = Math.floor(Math.random() * 6) + 1;
+          document.getElementById("diceOutput").textContent = "You rolled: " + dice;
+        });
+
+        document.getElementById("coinBtn").addEventListener("click", () => {
+          const coin = Math.random() < 0.5 ? "Heads" : "Tails";
+          document.getElementById("coinOutput").textContent = "Result: " + coin;
+        });
+      </script>
+
+    </article>
+
+ </main> 
+[include file=[INCVAR]footer.inc]

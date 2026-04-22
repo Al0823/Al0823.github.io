@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+
+
+
+  
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+  <main>
+
+<div id="nav"></div>
+
+    <article>
+      <h2>JavaScript Array Const Javascript tutorial</h2>
+      <br><br>
+
+      This is the "Array Const" Javascript page, it teaches you how to write this code and how it works.<br><br>
+      Now what this code can do is it creates a constant reference to an array making it so you do not have to call it every time you need it.
+      <br><br>
+
+      <div class="FS-15">Array Const</div><br><br>
+      <div class="FS-15">ECMAScript 2015 (ES6)</div><br><br>
+      <div class="FS-10">
+        In 2015, JavaScript introduced an important new keyword: const.
+        <br><br>
+        It has become a common practice to declare arrays using const:
+      </div>
+      <br><br>
+
+      <textarea id="textbox" rows="10" cols="70">
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("demo").innerHTML = cars;
+      </textarea><br><br>
+
+      <div class="FS-15">Cannot be Reassigned</div><br><br>
+      <div class="FS-10">
+        An array declared with const cannot be reassigned:
+      </div>
+      <br><br>
+
+      <textarea id="textbox" rows="10" cols="70">
+try {
+  const cars = ["Saab", "Volvo", "BMW"];
+  cars = ["Toyota", "Volvo", "Audi"];
+}
+catch (err) {
+  document.getElementById("demo").innerHTML = err;
+}
+      </textarea><br><br>
+      <div class="FS-15">Arrays are not Constants</div><br><br>
+      <div class="FS-10">
+        The keyword const is a little misleading.
+<br><br>
+It does NOT define a constant array. It defines a constant reference to an array.
+<br><br>
+Because of this, we can still change the elements of a constant array.
+      </div>
+      <br><br>
+ <div class="FS-15">Elements Can be Reassigned</div><br><br>
+      <div class="FS-10">
+        You can change the elements of a constant array:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      // Create an Array:
+const cars = ["Saab", "Volvo", "BMW"];
+
+// Change an element:
+cars[0] = "Toyota";
+
+// Add an element:
+cars.push("Audi");
+
+// Display the Array:
+document.getElementById("demo").innerHTML = cars;</textarea><br><br>
+<div class="FS-15">Assigned when Declared</div><br><br>
+      <div class="FS-10">
+        JavaScript const variables must be assigned a value when they are declared:
+<br><br>
+Meaning: An array declared with const must be initialized when it is declared.
+<br><br>
+Using const without initializing the array is a syntax error which will not work:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars;
+cars = ["Saab", "Volvo", "BMW"];</textarea><br><br>
+<div class="FS-10">
+        Arrays declared with var can be initialized at any time.
+<br><br>
+You can even use the array before it is declared like this example below:
+      </div>
+      <br><br>
+      <textarea id="textbox" rows="10" cols="70">
+cars = ["Saab", "Volvo", "BMW"];
+var cars;
+
+document.getElementById("demo").innerHTML = cars[0];</textarea><br><br>
+<div class="FS-15">Const Block Scope</div><br><br>
+      <div class="FS-10">
+     An array declared with const has Block Scope.
+<br><br>
+An array declared in a block is not the same as an array declared outside the block:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars = ["Saab", "Volvo", "BMW"];
+// Here cars[0] is "Saab"
+{  
+  const cars = ["Toyota", "Volvo", "BMW"]; 
+  // Here cars[0] is "Toyota"
+}
+// Here cars[0] is "Saab"
+document.getElementById("demo").innerHTML = cars[0];
+</script></textarea><br><br>
+<div class="FS-10">
+     An array declared with var does not have block scope:
+      </div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+var cars = ["Saab", "Volvo", "BMW"];
+// Here cars[0] is "Saab"
+{  
+  var cars = ["Toyota", "Volvo", "BMW"]; 
+  // Here cars[0] is "Toyota"
+}
+// Here cars[0] is "Toyota"
+document.getElementById("demo").innerHTML = cars[0];
+</textarea><br><br>
+<div class="FS-15">Redeclaring Arrays</div><br><br>
+<div class="FS-10">
+        Redeclaring an array declared with var is allowed anywhere in a program:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      var cars = ["Volvo", "BMW"];   // Allowed
+var cars = ["Toyota", "BMW"];  // Allowed
+cars = ["Volvo", "Saab"];      // Allowed</textarea><br><br>
+<div class="FS-10">
+        Redeclaring or reassigning an array to const, in the same scope, or in the same block, is not allowed:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      cvar cars = ["Volvo", "BMW"];     // Allowed
+const cars = ["Volvo", "BMW"];   // Not allowed
+{
+  var cars = ["Volvo", "BMW"];   // Allowed
+  const cars = ["Volvo", "BMW"]; // Not allowed
+}</textarea><br><br>
+<div class="FS-10">
+        Redeclaring or reassigning an existing const array, in the same scope, or in the same block, is not allowed:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars = ["Volvo", "BMW"];   // Allowed
+const cars = ["Volvo", "BMW"];   // Not allowed
+var cars = ["Volvo", "BMW"];     // Not allowed
+cars = ["Volvo", "BMW"];         // Not allowed
+
+{
+  const cars = ["Volvo", "BMW"]; // Allowed
+  const cars = ["Volvo", "BMW"]; // Not allowed
+  var cars = ["Volvo", "BMW"];   // Not allowed
+  cars = ["Volvo", "BMW"];       // Not allowed
+}</textarea><br><br>
+<div class="FS-10">
+       Redeclaring an array with const, in another scope, or in another block, is allowed:
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars = ["Volvo", "BMW"];   // Allowed
+{
+  const cars = ["Volvo", "BMW"]; // Allowed
+}
+{
+  const cars = ["Volvo", "BMW"]; // Allowed
+}</textarea><br><br>
+    </article>
+  </main>
+<footer>
+  <div id="footer"><span id="dateTime"></span></div></footer>
+  <div id="debugInclude"></div>
+
+  <script>
+
+// Dynamically load CSS (non-static, auto refresh)
+(function loadCSS() {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "../../css/style.css?v=" + Date.now(); // cache-buster
+  document.head.appendChild(link);
+})();
+
+
+    // Title
+    document.getElementById("pageTitle").textContent =
+      window.vars.WEBSITETITLE + " - Array Const Javascript tutorial";
+
+    // Date
+    document.getElementById("dateTime").textContent =
+      "Copyright A.t.A. Tech Wiki 2025-" + new Date().toLocaleString();
+
+    // Includes
+    async function loadInclude(id, file) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+    }
+
+    loadInclude("header", window.vars.INCVAR + "header.html");
+    loadInclude("nav", window.vars.INCVAR + "nav.html");
+    loadInclude("footer", window.vars.INCVAR + "footer.html");
+
+    if (window.vars.DEBUGVAR) {
+      loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+    }
+  </script>
+
+</body>
+</html>

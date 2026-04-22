@@ -1,0 +1,861 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Array Sort Javascript tutorial</h2>
+<br><br>
+
+
+This is the "ARRAY SORT" Javascript page, it teaches you how to write this code and how it works.
+Now what this code can do is help to dort and organize your Arrays.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">Sorting an Array</DIV><BR><BR>
+<DIV CLASS="FS-10">The sort() method sorts an array alphabetically</DIV><BR><BR>
+<p id="ARRAYSORT1"></p>
+<p id="ARRAYSORT2"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSORT1").innerHTML = fruits;
+
+fruits.sort();
+document.getElementById("ARRAYSORT2").innerHTML = fruits;
+</script>
+<DIV CLASS="FS-15">Reversing an Array</DIV><BR><BR>
+<DIV CLASS="FS-10">The reverse() method reverses the elements in an array</DIV><BR><BR>
+<p id="ARRAYSORT3"></p>
+<p id="ARRAYSORT4"></p>
+
+<script>
+// Create and display an array:
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSORT3").innerHTML = fruits;
+
+// Reverse the array:
+fruits.reverse();
+
+document.getElementById("ARRAYSORT4").innerHTML = fruits;
+</script>
+<DIV CLASS="FS-10">By combining sort() and reverse(), you can sort an array in descending order</DIV><BR><BR>
+<p id="ARRAYSORT5"></p>
+<p id="ARRAYSORT6"></p>
+
+<script>
+// Create and display an array:
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSORT5").innerHTML = fruits;
+
+// First sort the array
+fruits.sort();
+
+// Then reverse it:
+fruits.reverse();
+
+document.getElementById("ARRAYSORT6").innerHTML = fruits;
+</script>
+<DIV CLASS="FS-15">Array toSorted() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2023 added the toSorted() method as a safe way to sort an array without altering the original array.
+<BR><BR>
+The difference between toSorted() and sort() is that the first method creates a new array, keeping the original array unchanged, while the last method alters the original array.</DIV><BR><BR>
+<p id="ARRAYSORT7"></p>
+
+<script>
+const months = ["Jan", "Feb", "Mar", "Apr"];
+const sorted = months.toSorted();
+
+document.getElementById("ARRAYSORT7").innerHTML = sorted;
+</script>
+<DIV CLASS="FS-15">Array toReversed() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2023 added the toReversed() method as a safe way to reverse an array without altering the original array.
+<BR><BR>
+The difference between toReversed() and reverse() is that the first method creates a new array, keeping the original array unchanged, while the last method alters the original array.</DIV><BR><BR>
+<p id="ARRAYSORT8"></p>
+
+<script>
+const months = ["Jan", "Feb", "Mar", "Apr"];
+const reversed = months.toReversed();
+
+document.getElementById("ARRAYSORT8").innerHTML = reversed;
+</script>
+<DIV CLASS="FS-15">Numeric Sort</DIV><BR><BR>
+<DIV CLASS="FS-10">By default, the sort() function sorts values as strings.
+<BR><BR>
+This works well for strings ("Apple" comes before "Banana").
+<BR><BR>
+If numbers are sorted as strings, "25" is bigger than "100", because "2" is bigger than "1".
+<BR><BR>
+Because of this, the sort() method will produce incorrect result when sorting numbers.
+<BR><BR>
+You can fix this by providing a compare function</DIV><BR><BR>
+<p id="ARRAYSORT9"></p>
+<p id="ARRAYSORT10"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT9").innerHTML = points;  
+
+points.sort(function(a, b){return a - b});
+document.getElementById("ARRAY10").innerHTML = points;
+</script>
+<p id="ARRAYSORT11"></p>
+<p id="ARRAYSORT12"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT11").innerHTML = points;  
+
+points.sort(function(a, b){return a - b});
+document.getElementById("ARRAYSORT12").innerHTML = points;
+</script>
+<DIV CLASS="FS-10">Use the same trick to sort an array descending</DIV><BR><BR>
+<p id="ARRAYSORT13"></p>
+<p id="ARRAYSORT14"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT13").innerHTML = points;
+
+points.sort(function(a, b){return b - a});
+document.getElementById("ARRAYSORT14").innerHTML = points;
+</script><BR><BR>
+<DIV CLASS="FS-15">The Compare Function</DIV>
+<DIV CLASS="FS-10">The purpose of the compare function is to define an alternative sort order.
+<BR><BR>
+The compare function should return a negative, zero, or positive value, depending on the arguments
+<BR><BR>
+When the sort() function compares two values, it sends the values to the compare function, and sorts the values according to the returned (negative, zero, positive) value.
+<BR><BR>
+If the result is negative, a is sorted before b.
+<BR><BR>
+If the result is positive, b is sorted before a.
+<BR><BR>
+If the result is 0, no changes are done with the sort order of the two values.
+<BR><BR>
+The compare function compares all the values in the array, two values at a time (a, b).
+<BR><BR>
+When comparing 40 and 100, the sort() method calls the compare function(40, 100).
+<BR><BR>
+The function calculates 40 - 100 (a - b), and since the result is negative (-60),  the sort function will sort 40 as a value lower than 100.
+<BR><BR>
+You can use this code snippet to experiment with numerically and alphabetically sorting
+</DIV><BR><BR>
+<button onclick="myFunction1()">Sort Alphabetically</button>
+<button onclick="myFunction2()">Sort Numerically</button>
+
+<p id="ARRAYSORT15"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT15").innerHTML = points;  
+
+function myFunction1() {
+  points.sort();
+  document.getElementById("ARRAYSORT15").innerHTML = points;
+}
+function myFunction2() {
+  points.sort(function(a, b){return a - b});
+  document.getElementById("ARRAYSORT15").innerHTML = points;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">Sorting an Array in Random Order</DIV><BR><BR>
+<DIV CLASS="FS-10">Using a sort function, like explained above, you can sort an numeric array in random order</DIV><BR><BR>
+<p id="ARRAYSORT16"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT16").innerHTML = points;  
+
+function myFunction3() {
+  points.sort(function(){return 0.5 - Math.random()});
+  document.getElementById("ARRAYSORT16").innerHTML = points;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">The Fisher Yates Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">The points.sort() method in the example above is not accurate. It will favor some numbers over others.
+<BR><BR>
+The most popular correct method, is called the Fisher Yates shuffle, and was introduced in data science as early as 1938!
+<BR><BR>
+In JavaScript the method can be translated to this</DIV><BR><BR>
+<p id="ARRAYSORT17"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT17").innerHTML = points;  
+
+function myFunction4() {
+  for (let i = points.length -1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i+1));
+    let k = points[i];
+    points[i] = points[j];
+    points[j] = k;
+  }
+  document.getElementById("ARRAYSORT17").innerHTML = points;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">Find the Lowest (or Highest) Array Value
+</DIV><BR><BR>
+<DIV CLASS="FS-10">There are no built-in functions for finding the max or min value in an array.
+<BR><BR>
+To find the lowest or highest value you have 3 options
+<BR><BR>
+
+<ul>
+<liSort the array and read the first or last element</li>
+
+<li>Use Math.min() or Math.max()</li>
+
+<li>Write a home made function</li>
+</ul>
+</DIV><BR><BR>
+<DIV CLASS="FS-15">Find Min or Max with sort()
+</DIV><BR><BR>
+<DIV CLASS="FS-10">After you have sorted an array, you can use the index to obtain the highest and lowest values.
+<BR><BR>
+Sort Ascending
+</DIV><BR><BR>
+<span id="ARRAYSORT18"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return a-b});
+document.getElementById("ARRAYSORT18").innerHTML = points[0];
+</script><BR><BR>
+<DIV CLASS="FS-10">Sort Descending</DIV><BR><BR>
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return b-a});
+document.getElementById("ARRAYSORT19").innerHTML = points[0];
+</script><BR><BR>
+<DIV CLASS="FS-15">Using Math.min() on an Array
+</DIV><BR><BR>
+<DIV CLASS="FS-10">You can use Math.min.apply to find the lowest number in an array
+</DIV><BR><BR>
+
+<p>The lowest number is <span id="ARRAYSORT20"></span>.</p>
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT20").innerHTML = myArrayMin(points);
+
+function myArrayMin(arr) {
+  return Math.min.apply(null, arr);
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">Math.min.apply(null, [1, 2, 3]) is equivalent to Math.min(1, 2, 3).</DIV><BR><BR>
+<DIV CLASS="FS-15">Using Math.max() on an Array
+</DIV><BR><BR>
+<DIV CLASS="FS-10">You can use Math.max.apply to find the highest number in an array
+</DIV><BR><BR>
+<p>The highest number is <span id="ARRAYSORT21"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT21").innerHTML = myArrayMax(points);
+
+function myArrayMax(arr) {
+  return Math.max.apply(null, arr);
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">JavaScript Array Minimum Method</DIV><BR><BR>
+<DIV CLASS="FS-15">Using Math.max() on an Array
+</DIV><BR><BR>
+<DIV CLASS="FS-10">There is no built-in function for finding the lowest value in a JavaScript array.
+<br><br>
+The fastest code to find the lowest number is to use a home made method.
+<br><br>
+This function loops through an array comparing each value with the lowest value found
+</DIV><BR><BR>
+<p>The lowest number is <span id="ARRAYSORT22"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT22").innerHTML = myArrayMin(points);
+
+function myArrayMin(arr) {
+  let len = arr.length;
+  let min = Infinity;
+  while (len--) {
+    if (arr[len] < min) {
+      min = arr[len];
+    }
+  }
+  return min;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array Maximum Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">There is no built-in function for finding the highest value in a JavaScript array.
+<BR><BR>
+The fastest code to find the highest number is to use a home made method.
+<BR><BR>
+This function loops through an array comparing each value with the highest value found
+</DIV><BR><BR>
+<p>The highest number is <span id="ARRAYSORT23"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT23").innerHTML = myArrayMax(points);
+
+function myArrayMax(arr) {
+  let len = arr.length;
+  let max = -Infinity;
+  while (len--) {
+    if (arr[len] > max) {
+      max = arr[len];
+    }
+  }
+  return max;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">Sorting Object Arrays
+</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript arrays often contain objects
+<BR><BR>
+Even if objects have properties of different data types, the sort() method can be used to sort the array.
+<BR><BR>
+The solution is to write a compare function to compare the property values
+</DIV><BR><BR>
+<p id="ARRAYSORT24"></p>
+
+<script>
+const cars = [
+  {type:"Volvo", year:2016},
+  {type:"Saab", year:2001},
+  {type:"BMW", year:2010}
+];
+
+displayCars();
+
+cars.sort(function(a, b){return a.year - b.year});
+displayCars();
+
+function displayCars() {
+  document.getElementById("ARRAYSORT24").innerHTML =
+  cars[0].type + " " + cars[0].year + "<br>" +
+  cars[1].type + " " + cars[1].year + "<br>" +
+  cars[2].type + " " + cars[2].year;
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">Comparing string properties is a little more complex</DIV><BR><BR>
+<button onclick="myFunction5()">Sort</button>
+<p id="ARRAYSORT25"></p>
+
+<script>
+const cars = [
+  {type:"Volvo", year:2016},
+  {type:"Saab", year:2001},
+  {type:"BMW", year:2010}
+];
+
+displayCars();
+
+function myFunction5() {
+  cars.sort(function(a, b){
+    let x = a.type.toLowerCase();
+    let y = b.type.toLowerCase();
+    if (x < y) {return -1;}
+    if (x > y) {return 1;}
+    return 0;
+  });
+  displayCars();
+}
+
+function displayCars() {
+  document.getElementById("ARRAYSORT25").innerHTML =
+  cars[0].type + " " + cars[0].year + "<br>" +
+  cars[1].type + " " + cars[1].year + "<br>" +
+  cars[2].type + " " + cars[2].year;
+}
+</script><br><br>
+
+<DIV CLASS="FS-15">Stable Array sort()
+</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2019 revised the Array sort() method.
+<BR><BR>
+Before 2019, the specification allowed unstable sorting algorithms such as QuickSort.
+<BR><BR>
+After ES2019, browsers must use a stable sorting algorithm:
+<BR><BR>
+When sorting elements on a value, the elements must keep their relative position to other elements with the same value.
+</DIV><BR><BR>
+<p id="ARRAYSORT26"></p>
+
+<script>
+
+const myArr = [
+  {name:"X00",price:100 },
+  {name:"X01",price:100 },
+  {name:"X02",price:100 },
+  {name:"X03",price:100 },
+  {name:"X04",price:110 },
+  {name:"X05",price:110 },
+  {name:"X06",price:110 },
+  {name:"X07",price:110 },
+  {name:"X08",price:120 },
+  {name:"X09",price:120 },
+  {name:"X10",price:120 },
+  {name:"X11",price:120 },
+  {name:"X12",price:130 },
+  {name:"X13",price:130 },
+  {name:"X14",price:130 },
+  {name:"X15",price:130 },
+  {name:"X16",price:140 },
+  {name:"X17",price:140 },
+  {name:"X18",price:140 },
+  {name:"X19",price:140 }
+];
+
+myArr.sort( (p1, p2) => {
+  if (p1.price < p2.price) return -1;
+  if (p1.price > p2.price) return 1;
+  return 0;
+});
+
+let txt = "";
+myArr.forEach(myFunction6);
+
+function myFunction6(value) {
+  txt += value.name + " " + value.price + "<br>"; 
+}
+document.getElementById("ARRAYSORT26").innerHTML = txt;
+</script><BR><BR><DIV CLASS="FS-10">
+In the example above, when sorting on price, the result is not allowed to come out with the names in an other relative position like this</DIV><BR><BR>
+
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+
+<DIV CLASS="FS-15">Sorting an Array</DIV><BR><BR>
+<DIV CLASS="FS-10">The sort() method sorts an array alphabetically</DIV><BR><BR>
+<p id="ARRAYSORT1"></p>
+<p id="ARRAYSORT2"></p>
+
+<script>
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSORT1").innerHTML = fruits;
+
+fruits.sort();
+document.getElementById("ARRAYSORT2").innerHTML = fruits;
+</script>
+<DIV CLASS="FS-15">Reversing an Array</DIV><BR><BR>
+<DIV CLASS="FS-10">The reverse() method reverses the elements in an array</DIV><BR><BR>
+<p id="ARRAYSORT3"></p>
+<p id="ARRAYSORT4"></p>
+
+<script>
+// Create and display an array:
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSORT3").innerHTML = fruits;
+
+// Reverse the array:
+fruits.reverse();
+
+document.getElementById("ARRAYSORT4").innerHTML = fruits;
+</script>
+<DIV CLASS="FS-10">By combining sort() and reverse(), you can sort an array in descending order</DIV><BR><BR>
+<p id="ARRAYSORT5"></p>
+<p id="ARRAYSORT6"></p>
+
+<script>
+// Create and display an array:
+const fruits = ["Banana", "Orange", "Apple", "Mango"];
+document.getElementById("ARRAYSORT5").innerHTML = fruits;
+
+// First sort the array
+fruits.sort();
+
+// Then reverse it:
+fruits.reverse();
+
+document.getElementById("ARRAYSORT6").innerHTML = fruits;
+</script>
+<DIV CLASS="FS-15">Array toSorted() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2023 added the toSorted() method as a safe way to sort an array without altering the original array.
+<BR><BR>
+The difference between toSorted() and sort() is that the first method creates a new array, keeping the original array unchanged, while the last method alters the original array.</DIV><BR><BR>
+<p id="ARRAYSORT7"></p>
+
+<script>
+const months = ["Jan", "Feb", "Mar", "Apr"];
+const sorted = months.toSorted();
+
+document.getElementById("ARRAYSORT7").innerHTML = sorted;
+</script>
+<DIV CLASS="FS-15">Array toReversed() Method</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2023 added the toReversed() method as a safe way to reverse an array without altering the original array.
+<BR><BR>
+The difference between toReversed() and reverse() is that the first method creates a new array, keeping the original array unchanged, while the last method alters the original array.</DIV><BR><BR>
+<p id="ARRAYSORT8"></p>
+
+<script>
+const months = ["Jan", "Feb", "Mar", "Apr"];
+const reversed = months.toReversed();
+
+document.getElementById("ARRAYSORT8").innerHTML = reversed;
+</script>
+<DIV CLASS="FS-15">Numeric Sort</DIV><BR><BR>
+<DIV CLASS="FS-10">By default, the sort() function sorts values as strings.
+<BR><BR>
+This works well for strings ("Apple" comes before "Banana").
+<BR><BR>
+If numbers are sorted as strings, "25" is bigger than "100", because "2" is bigger than "1".
+<BR><BR>
+Because of this, the sort() method will produce incorrect result when sorting numbers.
+<BR><BR>
+You can fix this by providing a compare function</DIV><BR><BR>
+<p id="ARRAYSORT9"></p>
+<p id="ARRAYSORT10"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT9").innerHTML = points;  
+
+points.sort(function(a, b){return a - b});
+document.getElementById("ARRAY10").innerHTML = points;
+</script>
+<p id="ARRAYSORT11"></p>
+<p id="ARRAYSORT12"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT11").innerHTML = points;  
+
+points.sort(function(a, b){return a - b});
+document.getElementById("ARRAYSORT12").innerHTML = points;
+</script>
+<DIV CLASS="FS-10">Use the same trick to sort an array descending</DIV><BR><BR>
+<p id="ARRAYSORT13"></p>
+<p id="ARRAYSORT14"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT13").innerHTML = points;
+
+points.sort(function(a, b){return b - a});
+document.getElementById("ARRAYSORT14").innerHTML = points;
+</script><BR><BR>
+<DIV CLASS="FS-15">The Compare Function</DIV>
+<DIV CLASS="FS-10">The purpose of the compare function is to define an alternative sort order.
+<BR><BR>
+The compare function should return a negative, zero, or positive value, depending on the arguments
+<BR><BR>
+When the sort() function compares two values, it sends the values to the compare function, and sorts the values according to the returned (negative, zero, positive) value.
+<BR><BR>
+If the result is negative, a is sorted before b.
+<BR><BR>
+If the result is positive, b is sorted before a.
+<BR><BR>
+If the result is 0, no changes are done with the sort order of the two values.
+<BR><BR>
+The compare function compares all the values in the array, two values at a time (a, b).
+<BR><BR>
+When comparing 40 and 100, the sort() method calls the compare function(40, 100).
+<BR><BR>
+The function calculates 40 - 100 (a - b), and since the result is negative (-60),  the sort function will sort 40 as a value lower than 100.
+<BR><BR>
+You can use this code snippet to experiment with numerically and alphabetically sorting
+</DIV><BR><BR>
+<button onclick="myFunction1()">Sort Alphabetically</button>
+<button onclick="myFunction2()">Sort Numerically</button>
+
+<p id="ARRAYSORT15"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT15").innerHTML = points;  
+
+function myFunction1() {
+  points.sort();
+  document.getElementById("ARRAYSORT15").innerHTML = points;
+}
+function myFunction2() {
+  points.sort(function(a, b){return a - b});
+  document.getElementById("ARRAYSORT15").innerHTML = points;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">Sorting an Array in Random Order</DIV><BR><BR>
+<DIV CLASS="FS-10">Using a sort function, like explained above, you can sort an numeric array in random order</DIV><BR><BR>
+<p id="ARRAYSORT16"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT16").innerHTML = points;  
+
+function myFunction3() {
+  points.sort(function(){return 0.5 - Math.random()});
+  document.getElementById("ARRAYSORT16").innerHTML = points;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">The Fisher Yates Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">The points.sort() method in the example above is not accurate. It will favor some numbers over others.
+<BR><BR>
+The most popular correct method, is called the Fisher Yates shuffle, and was introduced in data science as early as 1938!
+<BR><BR>
+In JavaScript the method can be translated to this</DIV><BR><BR>
+<p id="ARRAYSORT17"></p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT17").innerHTML = points;  
+
+function myFunction4() {
+  for (let i = points.length -1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i+1));
+    let k = points[i];
+    points[i] = points[j];
+    points[j] = k;
+  }
+  document.getElementById("ARRAYSORT17").innerHTML = points;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">Find the Lowest (or Highest) Array Value
+</DIV><BR><BR>
+<DIV CLASS="FS-10">There are no built-in functions for finding the max or min value in an array.
+<BR><BR>
+To find the lowest or highest value you have 3 options
+<BR><BR>
+
+<ul>
+<liSort the array and read the first or last element</li>
+
+<li>Use Math.min() or Math.max()</li>
+
+<li>Write a home made function</li>
+</ul>
+</DIV><BR><BR>
+<DIV CLASS="FS-15">Find Min or Max with sort()
+</DIV><BR><BR>
+<DIV CLASS="FS-10">After you have sorted an array, you can use the index to obtain the highest and lowest values.
+<BR><BR>
+Sort Ascending
+</DIV><BR><BR>
+<span id="ARRAYSORT18"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return a-b});
+document.getElementById("ARRAYSORT18").innerHTML = points[0];
+</script><BR><BR>
+<DIV CLASS="FS-10">Sort Descending</DIV><BR><BR>
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+points.sort(function(a, b){return b-a});
+document.getElementById("ARRAYSORT19").innerHTML = points[0];
+</script><BR><BR>
+<DIV CLASS="FS-15">Using Math.min() on an Array
+</DIV><BR><BR>
+<DIV CLASS="FS-10">You can use Math.min.apply to find the lowest number in an array
+</DIV><BR><BR>
+
+<p>The lowest number is <span id="ARRAYSORT20"></span>.</p>
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT20").innerHTML = myArrayMin(points);
+
+function myArrayMin(arr) {
+  return Math.min.apply(null, arr);
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">Math.min.apply(null, [1, 2, 3]) is equivalent to Math.min(1, 2, 3).</DIV><BR><BR>
+<DIV CLASS="FS-15">Using Math.max() on an Array
+</DIV><BR><BR>
+<DIV CLASS="FS-10">You can use Math.max.apply to find the highest number in an array
+</DIV><BR><BR>
+<p>The highest number is <span id="ARRAYSORT21"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT21").innerHTML = myArrayMax(points);
+
+function myArrayMax(arr) {
+  return Math.max.apply(null, arr);
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">JavaScript Array Minimum Method</DIV><BR><BR>
+<DIV CLASS="FS-15">Using Math.max() on an Array
+</DIV><BR><BR>
+<DIV CLASS="FS-10">There is no built-in function for finding the lowest value in a JavaScript array.
+<br><br>
+The fastest code to find the lowest number is to use a home made method.
+<br><br>
+This function loops through an array comparing each value with the lowest value found
+</DIV><BR><BR>
+<p>The lowest number is <span id="ARRAYSORT22"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT22").innerHTML = myArrayMin(points);
+
+function myArrayMin(arr) {
+  let len = arr.length;
+  let min = Infinity;
+  while (len--) {
+    if (arr[len] < min) {
+      min = arr[len];
+    }
+  }
+  return min;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript Array Maximum Method
+</DIV><BR><BR>
+<DIV CLASS="FS-10">There is no built-in function for finding the highest value in a JavaScript array.
+<BR><BR>
+The fastest code to find the highest number is to use a home made method.
+<BR><BR>
+This function loops through an array comparing each value with the highest value found
+</DIV><BR><BR>
+<p>The highest number is <span id="ARRAYSORT23"></span>.</p>
+
+<script>
+const points = [40, 100, 1, 5, 25, 10];
+document.getElementById("ARRAYSORT23").innerHTML = myArrayMax(points);
+
+function myArrayMax(arr) {
+  let len = arr.length;
+  let max = -Infinity;
+  while (len--) {
+    if (arr[len] > max) {
+      max = arr[len];
+    }
+  }
+  return max;
+}
+</script><BR><BR>
+<DIV CLASS="FS-15">Sorting Object Arrays
+</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript arrays often contain objects
+<BR><BR>
+Even if objects have properties of different data types, the sort() method can be used to sort the array.
+<BR><BR>
+The solution is to write a compare function to compare the property values
+</DIV><BR><BR>
+<p id="ARRAYSORT24"></p>
+
+<script>
+const cars = [
+  {type:"Volvo", year:2016},
+  {type:"Saab", year:2001},
+  {type:"BMW", year:2010}
+];
+
+displayCars();
+
+cars.sort(function(a, b){return a.year - b.year});
+displayCars();
+
+function displayCars() {
+  document.getElementById("ARRAYSORT24").innerHTML =
+  cars[0].type + " " + cars[0].year + "<br>" +
+  cars[1].type + " " + cars[1].year + "<br>" +
+  cars[2].type + " " + cars[2].year;
+}
+</script><BR><BR>
+<DIV CLASS="FS-10">Comparing string properties is a little more complex</DIV><BR><BR>
+<button onclick="myFunction5()">Sort</button>
+<p id="ARRAYSORT25"></p>
+
+<script>
+const cars = [
+  {type:"Volvo", year:2016},
+  {type:"Saab", year:2001},
+  {type:"BMW", year:2010}
+];
+
+displayCars();
+
+function myFunction5() {
+  cars.sort(function(a, b){
+    let x = a.type.toLowerCase();
+    let y = b.type.toLowerCase();
+    if (x < y) {return -1;}
+    if (x > y) {return 1;}
+    return 0;
+  });
+  displayCars();
+}
+
+function displayCars() {
+  document.getElementById("ARRAYSORT25").innerHTML =
+  cars[0].type + " " + cars[0].year + "<br>" +
+  cars[1].type + " " + cars[1].year + "<br>" +
+  cars[2].type + " " + cars[2].year;
+}
+</script><br><br>
+
+<DIV CLASS="FS-15">Stable Array sort()
+</DIV><BR><BR>
+<DIV CLASS="FS-10">ES2019 revised the Array sort() method.
+<BR><BR>
+Before 2019, the specification allowed unstable sorting algorithms such as QuickSort.
+<BR><BR>
+After ES2019, browsers must use a stable sorting algorithm:
+<BR><BR>
+When sorting elements on a value, the elements must keep their relative position to other elements with the same value.
+</DIV><BR><BR>
+<p id="ARRAYSORT26"></p>
+
+<script>
+
+const myArr = [
+  {name:"X00",price:100 },
+  {name:"X01",price:100 },
+  {name:"X02",price:100 },
+  {name:"X03",price:100 },
+  {name:"X04",price:110 },
+  {name:"X05",price:110 },
+  {name:"X06",price:110 },
+  {name:"X07",price:110 },
+  {name:"X08",price:120 },
+  {name:"X09",price:120 },
+  {name:"X10",price:120 },
+  {name:"X11",price:120 },
+  {name:"X12",price:130 },
+  {name:"X13",price:130 },
+  {name:"X14",price:130 },
+  {name:"X15",price:130 },
+  {name:"X16",price:140 },
+  {name:"X17",price:140 },
+  {name:"X18",price:140 },
+  {name:"X19",price:140 }
+];
+
+myArr.sort( (p1, p2) => {
+  if (p1.price < p2.price) return -1;
+  if (p1.price > p2.price) return 1;
+  return 0;
+});
+
+let txt = "";
+myArr.forEach(myFunction6);
+
+function myFunction6(value) {
+  txt += value.name + " " + value.price + "<br>"; 
+}
+document.getElementById("ARRAYSORT26").innerHTML = txt;
+</script><BR><BR><DIV CLASS="FS-10">
+In the example above, when sorting on price, the result is not allowed to come out with the names in an other relative position like this</DIV><BR><BR>
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

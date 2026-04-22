@@ -1,0 +1,81 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Destructuring</h2><br><br><div class="fs-10">Destructuring assignment is a special syntax in JavaScript that allows you to unpack values from arrays or properties from objects into distinct variables.<br><br> It makes it easier to extract data from arrays or objects without having to access each element or property individually.</div><br><br><div class="fs-15">Destructuring Arrays</div><br><br><div class="fs-10">You can unpack values from arrays into variables using square brackets <code>[]</code>:</div><br><br><div class="fs-15">Basic Array Destructuring</div><br><br><div class="fs-10">Assign array elements to variables in one line:</div><br><br><textarea id="textbox" rows="10" cols="70">// Array const fruits = ["Apple", "Banana", "Cherry"];
+
+// Destructuring
+const [a, b, c] = fruits;
+
+// Display Variables
+document.getElementById("demo").innerHTML = a + ", " + b + ", " + c;</textarea><br><br><div class="fs-10">You can skip elements using extra commas:</div><br><br><textarea id="textbox" rows="10" cols="70">// Array
+const fruits = ["Apple", "Banana", "Cherry"];
+
+// Skip the second element
+const [first, , third] = fruits;
+
+document.getElementById("demo").innerHTML = first + " & " + third;</textarea><br><br><div class="fs-15">Default Values</div><br><br><div class="fs-10">Assign default values if the array element is undefined:</div><br><br><textarea id="textbox" rows="10" cols="70">// Array with missing elements
+const fruits = ["Apple"];
+
+// Default value for second element
+const [a, b = "Banana"] = fruits;
+
+document.getElementById("demo").innerHTML = a + " & " + b;</textarea><br><br><div class="fs-15">Destructuring Objects</div><br><br><div class="fs-10">You can unpack properties from objects into variables using curly braces <code>{}</code>:</div><br><br><div class="fs-15">Basic Object Destructuring</div><br><br><div class="fs-10">Assign object properties to variables with the same name:</div><br><br><textarea id="textbox" rows="10" cols="70">// Object
+const person = {name: "John", age: 30, city: "New York"};
+
+// Destructuring
+const {name, age, city} = person;
+
+document.getElementById("demo").innerHTML = name + " is " + age + " years old from " + city;</textarea><br><br><div class="fs-10">Assigning to new variable names:</div><br><br><textarea id="textbox" rows="10" cols="70">// Object
+const person = {name: "John", age: 30, city: "New York"};
+
+// Destructuring with new variable names
+const {name: n, age: a, city: c} = person;
+
+document.getElementById("demo").innerHTML = n + ", " + a + ", " + c;</textarea><br><br><div class="fs-15">Default Values in Objects</div><br><br><div class="fs-10">Provide defaults if a property does not exist:</div><br><br><textarea id="textbox" rows="10" cols="70">// Object
+const person = {name: "John"};
+
+// Default value for age
+const {name, age = 25} = person;
+
+document.getElementById("demo").innerHTML = name + " is " + age + " years old";</textarea><br><br><div class="fs-15">Destructuring in Function Parameters</div><br><br><div class="fs-10">You can destructure objects directly in function parameters:</div><br><br><textarea id="textbox" rows="10" cols="70">// Object
+const person = {name: "John", age: 30};
+
+// Function with destructuring
+function greet({name, age}) {
+document.getElementById("demo").innerHTML = "Hello " + name + ", age " + age;
+}
+
+greet(person);</textarea><br><br><div class="fs-15">Nested Destructuring</div><br><br><div class="fs-10">You can destructure arrays or objects inside arrays or objects:</div><br><br><textarea id="textbox" rows="10" cols="70">// Nested Object
+const person = {
+name: "John",
+address: {city: "New York", zip: 10001}
+};
+
+// Nested destructuring
+const {name, address: {city, zip}} = person;
+
+document.getElementById("demo").innerHTML = name + " lives in " + city + " (" + zip + ")";</textarea><br><br><div class="fs-10">Nested arrays can also be destructured:</div><br><br><textarea id="textbox" rows="10" cols="70">// Nested Array
+const numbers = [1, [2, 3]];
+
+// Destructure nested array
+const [a, [b, c]] = numbers;
+
+document.getElementById("demo").innerHTML = a + ", " + b + ", " + c;</textarea><br><br><div class="fs-15">Using the Rest Operator</div><br><br><div class="fs-10">The rest operator <code>...</code> can be used to collect the remaining elements or properties:</div><br><br><textarea id="textbox" rows="10" cols="70">// Array Rest
+const numbers = [1, 2, 3, 4, 5];
+
+const [first, second, ...rest] = numbers;
+
+document.getElementById("demo").innerHTML = rest.join(", ");</textarea><br><br><textarea id="textbox" rows="10" cols="70">// Object Rest
+const person = {name: "John", age: 30, city: "NY"};
+
+const {name, ...details} = person;
+
+document.getElementById("demo").innerHTML = JSON.stringify(details);</textarea><br><br>
+
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]

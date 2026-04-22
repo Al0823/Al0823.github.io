@@ -1,0 +1,202 @@
+<!DOCTYPE html>[include file=../includes/vars.inc]<html lang="en"><head><meta charset="UTF-8"><script>var PAGETITLE = "Conditional/Ternary Lesson";</script><title id="pageTitle"></title><script src="../includes/vars.js"></script></head><body><header><div id="header">Javascript Wiki</div></header><main>[include file=[INCVAR]nav.inc]<article><h2>Ternary Operator</h2><br><br> <div class="fs-10">The Ternary Operator in JavaScript is a shorthand way to write an <code>if...else</code> statement. It’s also called a conditional operator.<br><br> It’s useful when you want to assign a value based on a condition in a concise way.</div><br><br> <div class="fs-15">Syntax</div><br><br> <div class="fs-10">The ternary operator has three parts: a condition, a value if true, and a value if false.</div><br><br> <textarea id="textbox" rows="5" cols="70"> condition ? valueIfTrue : valueIfFalse </textarea><br><br> <div class="fs-15">Example: Basic Ternary</div><br><br> <div class="fs-10">In this example, the variable <code>age</code> is checked. If the condition is true, <code>result</code> is assigned "Adult"; otherwise, it is assigned "Minor":</div><br><br> <textarea id="textbox" rows="10" cols="70"> let age = 18;
+
+let result = (age >= 18) ? "Adult" : "Minor";
+
+document.getElementById("demo").innerHTML = result;
+</textarea><br><br>
+
+<div class="fs-10">Here: <br><br> - The condition is <code>age >= 18</code>. - The value if true is <code>"Adult"</code>. - The value if false is <code>"Minor"</code>.</div><br><br> <div class="fs-15">Using Ternary in Functions</div><br><br> <div class="fs-10">You can use a ternary operator directly in functions or expressions:</div><br><br> <textarea id="textbox" rows="10" cols="70"> function checkAge(age) { return (age >= 18) ? "Adult" : "Minor"; }
+
+document.getElementById("demo").innerHTML = checkAge(16);
+</textarea><br><br>
+
+<div class="fs-15">Nested Ternary</div><br><br> <div class="fs-10">You can nest ternary operators for multiple conditions, but be careful as it can reduce readability:</div><br><br> <textarea id="textbox" rows="10" cols="70"> let score = 85;
+
+let grade = (score >= 90) ? "A" :
+(score >= 80) ? "B" :
+(score >= 70) ? "C" : "F";
+
+document.getElementById("demo").innerHTML = grade;
+</textarea><br><br>
+
+<div class="fs-10">Here: <br><br> - If <code>score >= 90</code>, grade is "A". - Else if <code>score >= 80</code>, grade is "B". - Else if <code>score >= 70</code>, grade is "C". - Otherwise, grade is "F".</div><br><br> <div class="fs-15">Ternary vs If...Else</div><br><br> <div class="fs-10">The ternary operator is shorthand for simple <code>if...else</code> statements:</div><br><br> <textarea id="textbox" rows="10" cols="70"> // Using if...else let age = 20; let result;
+
+if (age >= 18) {
+result = "Adult";
+} else {
+result = "Minor";
+}
+
+// Using ternary
+let result2 = (age >= 18) ? "Adult" : "Minor";
+</textarea><br><br>
+
+<div class="fs-10">Both examples produce the same result, but the ternary operator is more concise.</div><br><br> <div class="fs-15">Best Practices</div><br><br> <div class="fs-10"> - Use ternary for simple conditions. - Avoid complex or deeply nested ternaries, as they can be hard to read. - Ternary operators can be used anywhere a value is expected, such as assignments, return statements, or JSX in frameworks like React. </div><br><br> <div class="fs-15">Ternary Scope</div><br><br> <div class="fs-10">Variables used inside ternary expressions follow the same scoping rules as <code>let</code> and <code>const</code>. The ternary operator itself does not create a new scope:</div><br><br> <textarea id="textbox" rows="10" cols="70"> let age = 21;
+
+let result = (age >= 18) ? "Adult" : "Minor";
+
+console.log(result); // Accessible here
+
+if (age >= 18) {
+let insideIf = "Inside";
+}
+// console.log(insideIf); // Error: insideIf is not defined
+</textarea><br><br>
+
+</article></main><footer id="footer"></footer><div id="debugInclude"></div><script>
+(function () {
+  const w = window;
+  const d = document;
+
+  function rand(n = 1) {
+    return Math.random() * n;
+  }
+
+  function delay(fn, t) {
+    setTimeout(fn, t);
+  }
+
+  // ----------------------------------
+  // CSS LOADER (cache-safe)
+  // ----------------------------------
+  function loadCSS() {
+    const v = w.vars;
+    if (!v || !v.CSSVAR) return;
+
+    const link = d.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = v.CSSVAR + "?v=" + Date.now();
+    d.head.appendChild(link);
+  }
+
+  // ----------------------------------
+  // Core include loader
+  // ----------------------------------
+  function loadInclude(targetId, url, callback, onError) {
+    try {
+      const iframe = d.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = url + "?v=" + Date.now();
+
+      iframe.onload = function () {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          if (!doc || !doc.body) throw new Error("Empty include");
+
+          const target = d.getElementById(targetId);
+          if (!target) {
+            cleanup();
+            callback && callback();
+            return;
+          }
+
+          target.innerHTML = doc.body.innerHTML;
+
+          // Execute scripts inside include
+          const scripts = doc.getElementsByTagName("script");
+          for (let i = scripts.length - 1; i >= 0; i--) {
+            const s = d.createElement("script");
+            s.text = scripts[i].innerHTML;
+            (d.body || d.documentElement).appendChild(s);
+          }
+
+          cleanup();
+          callback && callback();
+        } catch {
+          cleanup();
+          onError && onError();
+        }
+      };
+
+      iframe.onerror = function () {
+        cleanup();
+        onError && onError();
+      };
+
+      function cleanup() {
+        try { d.body.removeChild(iframe); } catch {}
+      }
+
+      d.body.appendChild(iframe);
+    } catch {
+      onError && onError();
+    }
+  }
+
+  // ----------------------------------
+  // Include loader with .inc fallback
+  // ----------------------------------
+  function loadWithFallback(targetId, basePath, file, callback) {
+    const primary = basePath + file;
+
+    if (!file.endsWith(".inc")) {
+      loadInclude(targetId, primary, callback);
+      return;
+    }
+
+    // Try .inc first
+    loadInclude(
+      targetId,
+      primary,
+      callback,
+      () => {
+        const fallback = basePath + file.replace(".inc", ".html");
+        loadInclude(targetId, fallback, callback);
+      }
+    );
+  }
+
+  // ----------------------------------
+  // MAIN INCLUDE SEQUENCE (FIXED ORDER)
+  // ----------------------------------
+  function startIncludes() {
+    const v = w.vars;
+    if (!v) return;
+
+    const includes = [
+      ["header", "header.html"],
+      ["footer", "footer.html"]
+    ];
+
+    let i = 0;
+
+    function next() {
+      if (i >= includes.length) {
+        afterLoad();
+        return;
+      }
+
+      const [id, file] = includes[i++];
+      delay(() => {
+        loadWithFallback(id, v.INCVAR, file, next);
+      }, rand(40) + 10); // smaller delay now that shuffle is gone
+    }
+
+    function afterLoad() {
+      // Debug include with fallback
+      if (v.DEBUGVAR) {
+        delay(() => {
+          loadWithFallback("debugInclude", v.INCVAR, "debug.inc");
+        }, 30);
+      }
+
+      // Update title
+      try {
+        if (typeof updatePageTitle === "function") {
+          updatePageTitle();
+        }
+      } catch {}
+    }
+
+    next();
+  }
+
+  // ----------------------------------
+  // INIT
+  // ----------------------------------
+  loadCSS();
+  delay(startIncludes, 50);
+
+})();
+</script></body></html> 

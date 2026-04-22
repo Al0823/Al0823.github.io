@@ -1,0 +1,312 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+    <h2>JavaScript Date Get Methods Tutorial</h2>
+    <p>The <strong>get methods</strong> are used to extract parts of a Date object, such as the year, month, day, hour, and more.</p>
+
+    <div class="fs-15">The new Date() Constructor</div><br><br>
+<div class="fs-10">In JavaScript, date objects are created with new Date().
+<br><br>
+new Date() returns a date object with the current date and time.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+				
+						<div class="fs-15">Date Get Methods</div><br><br>
+<div class="fs-10"><ul>
+      <li>getFullYear()	(Get year as a four digit number (yyyy))</li>
+      <li>getMonth()	(Get month as a number (0-11))</li>
+      <li>getDate()	Get day as a number (1-31)</li>
+      <li>getDay()	(Get weekday as a number (0-6))</li>
+      <li>getHours()	(Get hour (0-23))</li>
+      <li>getMinutes()	(Get minute (0-59))</li>
+      <li>getSeconds()	(Get second (0-59))</li>
+      <li>getMilliseconds()	(Get millisecond (0-999))</li>
+      <li>getTime()	(Get time (milliseconds since January 1, 1970))</li>
+    </ul>
+</div><br><br>
+				
+				<div class="fs-15">Things to take note of</div><br><br>
+				<div class="fs-10">The get methods above return Local time.
+<br><br>
+Universal time (UTC) is documented at the bottom of this page.
+<br><br>
+The get methods return information from existing date objects.
+<br><br>
+In a date object, the time is static. The "clock" is not "running".
+<br><br>
+The time in a date object is NOT the same as current time.
+</div><br><br>
+				
+<div class="fs-15">The getFullYear() Method</div><br><br>
+<div class="fs-10">The getFullYear() method returns the year of a date as a four digit number:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25")
+document.getElementById("demo").innerHTML = d.getFullYear();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getFullYear();
+      </textarea><br><br>	
+
+<div class="fs-15">Warning</div><br><br>
+<div class="fs-10">Old JavaScript code might use the non-standard method getYear().
+<br><br>
+getYear() is supposed to return a 2-digit year.
+<br><br>
+getYear() is deprecated. Do not use it!
+</div><br><br>
+
+<div class="fs-15">The getMonth() Method</div><br><br>
+<div class="fs-10">The getMonth() method returns the month of a date as a number (0-11).<br><br>
+	In JavaScript, January is month number 0, February is number 1, etc.
+<br><br>
+Finally, December is month number 11.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getMonth() + 1;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getMonth() + 1;
+      </textarea><br><br>	
+<div class="fs-10">You can use an array of names to return the month as a name:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const d = new Date("2021-03-25");
+let month = months[d.getMonth()];
+document.getElementById("demo").innerHTML = month;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+const d = new Date();
+let month = months[d.getMonth()];
+document.getElementById("demo").innerHTML = month;
+      </textarea><br><br>	
+
+<div class="fs-15">The getDate() Method</div><br><br>
+<div class="fs-10">The getDate() method returns the day of a date as a number (1-31):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getDate();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getDate();
+      </textarea><br><br>	
+
+<div class="fs-15">The getHours() Method</div><br><br>
+<div class="fs-10">The getHours() method returns the hours of a date as a number (0-23):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");document.getElementById("demo").innerHTML = d.getHours();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getHours();
+      </textarea><br><br>	
+
+<div class="fs-15">The getMinutes() Method</div><br><br>
+<div class="fs-10">The getMinutes() method returns the minutes of a date as a number (0-59):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getMinutes();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getMinutes();
+      </textarea><br><br>	
+
+						<div class="fs-15">The getSeconds() Method</div><br><br>
+<div class="fs-10">The getSeconds() method returns the seconds of a date as a number (0-59):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getSeconds();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getSeconds();
+      </textarea><br><br>	
+
+<div class="fs-15">The getMilliseconds() Method</div><br><br>
+<div class="fs-10">The getMilliseconds() method returns the milliseconds of a date as a number (0-999):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getMilliseconds();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getMilliseconds();
+      </textarea><br><br>	
+
+<div class="fs-15">The getDay() Method</div><br><br>
+<div class="fs-10">The getDay() method returns the weekday of a date as a number (0-6).<br><br>
+	In JavaScript, the first day of the week (day 0) is Sunday.
+<br><br>
+Some countries in the world consider the first day of the week to be Monday.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getDay();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getDay();
+      </textarea><br><br>	
+<div class="fs-10">You can use an array of names, and getDay() to return weekday as a name:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+const d = new Date("2021-03-25");
+let day = days[d.getDay()];
+document.getElementById("demo").innerHTML = day;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+const d = new Date();
+let day = days[d.getDay()];
+document.getElementById("demo").innerHTML = day;
+      </textarea><br><br>	
+
+<div class="fs-15">The getTime() Method</div><br><br>
+<div class="fs-10">The getTime() method returns the number of milliseconds since January 1, 1970:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("1970-01-01");
+document.getElementById("demo").innerHTML = d.getTime();
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2021-03-25");
+document.getElementById("demo").innerHTML = d.getTime();
+      </textarea><br><br>	
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getTime();
+      </textarea><br><br>
+
+<div class="fs-15">The Date.now() Method</div><br><br>
+<div class="fs-10">Date.now() returns the number of milliseconds since January 1, 1970.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const date = Date.now();
+document.getElementById("demo").innerHTML = date;
+      </textarea><br><br>				
+<textarea id="textbox" rows="10" cols="70">
+const minute = 1000 * 60;
+const hour = minute * 60;
+const day = hour * 24;
+const year = day * 365;
+
+
+let years = Math.round(Date.now() / year);
+document.getElementById("demo").innerHTML = years;
+      </textarea><br><br>	
+<div class="fs-10">Date.now() is a static method of the Date object.
+<br><br>
+You cannot use it on a date object like myDate.now().
+<br><br>
+The syntax is always Date.now().</div><br><br>
+
+<div class="fs-15">UTC Date Get Methods</div><br><br>
+<div class="fs-10"><ul>
+      <li>getUTCDate()	(Returns the UTC date)</li>
+      <li>getUTCDate()	(Returns the UTC date)</li>
+      <li>getUTCFullYear()	(Returns the UTC year)</li>
+      <li>getUTCMonth()	(Returns the UTC month)</li>
+      <li>getUTCDay()	(Returns the UTC day)</li>
+      <li>getUTCHours()	(Returns the UTC hour)</li>
+      <li>getUTCMinutes()	(Returns the UTC minutes)</li>
+      <li>getUTCSeconds()	(Returns the UTC seconds)</li>
+      <li>getUTCMilliseconds()	(Returns the UTC milliseconds)</li>
+    </ul><br><br>
+UTC methods use UTC time (Coordinated Universal Time).
+<br><br>
+UTC time is the same as GMT (Greenwich Mean Time).
+<br><br>
+The difference between Local time and UTC time can be up to 24 hours.
+</div><br><br>
+
+<div class="fs-15">The getTimezoneOffset() Method</div><br><br>
+<div class="fs-10">
+      The getTimezoneOffset() method returns the difference (in minutes) between local time an UTC time:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d.getTimezoneOffset();
+      </textarea><br><br>	
+
+
+
+
+
+
+
+
+
+
+
+
+				
+			
+
+    <h3>Example</h3>
+    <pre><code id="getMethodsExample"></code></pre>
+
+    <script>
+      const now = new Date();
+
+      const output = `
+Year: ${now.getFullYear()}
+Month (0-11): ${now.getMonth()}
+Date (day of month): ${now.getDate()}
+Day of week (0=Sun): ${now.getDay()}
+Hours: ${now.getHours()}
+Minutes: ${now.getMinutes()}
+Seconds: ${now.getSeconds()}
+Milliseconds: ${now.getMilliseconds()}
+Timestamp (ms since 1970): ${now.getTime()}
+      `;
+
+      document.getElementById("getMethodsExample").textContent = output;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Click the button to get the current date parts:</p>
+    <button id="getDateBtn">Get Current Date Parts</button>
+    <pre id="interactiveOutput"></pre>
+
+    <script>
+      document.getElementById("getDateBtn").addEventListener("click", () => {
+        const now = new Date();
+        document.getElementById("interactiveOutput").textContent =
+`Year: ${now.getFullYear()}
+Month: ${now.getMonth() + 1}
+Day: ${now.getDate()}
+Hour: ${now.getHours()}
+Minute: ${now.getMinutes()}
+Second: ${now.getSeconds()}`;
+      });
+    </script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

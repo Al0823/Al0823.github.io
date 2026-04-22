@@ -1,0 +1,564 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>"Assignment" Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Assignment" Javascript page, it teaches you how to write this code and how it works.
+Now what this code can do is change what some text says, it can also make buttons and just possibly redirects you if you know what you are doing.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<p id="ASSIGNMENTS"></p>
+
+<script>
+let x = 67;
+document.getElementById("ASSIGNMENTS").innerHTML = "Value of x is: " + x;
+</script>
+
+<p id="ASSIGNMENTS2"></p>
+
+<script>
+let y = 50
+let x = 17 + y;
+document.getElementById("ASSIGNMENTS2").innerHTML = x;
+</script>
+
+The simple assignment operator (=) assigns a simple value to a variable.
+
+<p id="ASSIGNMENTS3"></p>
+
+<script>
+let x = 10;
+x += 57;
+document.getElementById("ASSIGNMENT3").innerHTML = x;
+</script>
+
+The addition assignment operator adds a value to a variable.
+
+<p id="ASSIGNMENTS4"></p>
+
+<script>
+let x = 10;
+x -= 5;
+document.getElementById("ASSIGNMENTS4").innerHTML = "Value of x is: " + x;
+</script>
+
+The subtraction assignment operator subtracts a value from a variable.
+
+<p id="ASSIGNMENTS5"></p>
+
+<script>
+let x = 10;
+x *= 5;
+document.getElementById("ASSIGNMENTS5").innerHTML = "Value of x is: " + x;
+</script>
+
+The multiplication assignment operator multiplies a variable by whatever is where 5 is located.
+
+<p id="ASSIGNMENTS6"></p>
+
+<script>
+let x = 10;
+x **= 5;
+document.getElementById("ASSIGNMENTS6").innerHTML = "Value of x is: " + x;
+</script>
+
+The exponentiation assignment operator raises a variable by in this case what would be "5"
+
+<p id="ASSIGNMENTS67"></p>
+
+<script>
+let x = 67;
+x /= 1;
+document.getElementById("ASSIGNMENTS67").innerHTML = x;
+</script>
+
+The Division Assignment Operator divides a variable by 5 in this case.
+
+<p id="ASSIGNMENTS7"></p>
+
+<script>
+let x = 135;
+x %= 68;
+document.getElementById("ASSIGNMENTS7").innerHTML = "Value of x is: " + x;
+</script>
+
+The remainder operator assigns a remainder to a variable.
+
+<p id="ASSIGNMENTS8"></p>
+
+<script>
+let x = "67";
+let y ="Hello"
+document.getElementById("ASSIGNMENTS8").innerHTML = x, y;
+</script>
+
+The basic assignment operator assigns values to variables.
+
+<p id="ASSIGNMENTS9"></p>
+
+<script>
+let text = "I like";
+text += "67";
+document.getElementById("ASSIGNMENTS9").innerHTML = text;
+</script>
+
+The addition assignment operator can be used to add strings.
+
+<h2>LOGICAL AND ASSIGNMENT</h2>
+
+<p id="ASSIGNMENTS10"></p>
+
+<script>
+let x = true;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS10").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS11"></p>
+
+<script>
+let x = false;
+let y = x &&= 5;
+
+document.getElementById("ASSIGNMENTS11").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS12"></p>
+
+<script>
+let x = 1;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS12").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS13"></p>
+
+<script>
+let x = 0;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS13").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS14"></p>
+
+<script>
+let x = undefined;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS14").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS15"></p>
+
+<script>
+let x = null;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS15").innerHTML = "Value of y is: " + y;
+</script>
+
+The Logical and Assignment operator is used between two values.
+<br>
+If the first value is correct/true, then the second value is assigned.
+
+<h2>LOGICAL OR ASSIGNMENT</h2>
+
+<p id="ASSIGNMENTS16"></p>
+
+<script>
+let x = false;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS16").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS17"></p>
+
+<script>
+let x = true;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS17").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS18"></p>
+
+<script>
+let x = null;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS18").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS19"></p>
+
+<script>
+let x = undefined;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS19").innerHTML = "Value of y is: " + y;
+</script>
+
+The Logical and Assignment operator is used between two values.
+<br>
+If the first value is incorrect/false, then the second value is assigned.
+
+
+
+
+
+<p id="ASSIGNMENTS20"></p>
+
+<script>
+let x;
+x ??= 10;
+
+document.getElementById("ASSIGNNMENTS20").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS21"></p>
+
+<script>
+let x = 0;
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS21").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS22"></p>
+
+<script>
+let x = 0;
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS22").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS23"></p>
+
+<script>
+let x = undefined;
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS23").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS24"></p>
+
+<script>
+let x = 10;
+let y = 5
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS24").innerHTML = "x is: " + x; 
+</script>
+
+The Nullish Coalescing Assignment operator is used between two values.
+
+If the first value is not defined or null, the second value is assigned.
+
+<p id="ASSIGNMENTS25"></p>
+
+<script>
+let text = "12345";
+let min = Math.min(...text);
+let max = Math.max(...text);
+
+document.getElementById("ASSIGNMENTS25").innerHTML =
+"Minimum is: " + min + "<br>Maximum is: " + max;
+</script>
+
+The "..." operator splits iterables into individual elements.
+
+[/input]
+</textarea>
+
+
+<h2>Examples</h2>
+<br><br>
+
+<p id="ASSIGNMENTS"></p>
+
+<script>
+let x = 67;
+document.getElementById("ASSIGNMENTS").innerHTML = "Value of x is: " + x;
+</script>
+
+<p id="ASSIGNMENTS2"></p>
+
+<script>
+let y = 50
+let x = 17 + y;
+document.getElementById("ASSIGNMENTS2").innerHTML = x;
+</script>
+
+The simple assignment operator (=) assigns a simple value to a variable.
+
+<p id="ASSIGNMENTS3"></p>
+
+<script>
+let x = 10;
+x += 57;
+document.getElementById("ASSIGNMENT3").innerHTML = x;
+</script>
+
+The addition assignment operator adds a value to a variable.
+
+<p id="ASSIGNMENTS4"></p>
+
+<script>
+let x = 10;
+x -= 5;
+document.getElementById("ASSIGNMENTS4").innerHTML = "Value of x is: " + x;
+</script>
+
+The subtraction assignment operator subtracts a value from a variable.
+
+<p id="ASSIGNMENTS5"></p>
+
+<script>
+let x = 10;
+x *= 5;
+document.getElementById("ASSIGNMENTS5").innerHTML = "Value of x is: " + x;
+</script>
+
+The multiplication assignment operator multiplies a variable by whatever is where 5 is located.
+
+<p id="ASSIGNMENTS6"></p>
+
+<script>
+let x = 10;
+x **= 5;
+document.getElementById("ASSIGNMENTS6").innerHTML = "Value of x is: " + x;
+</script>
+
+The exponentiation assignment operator raises a variable by in this case what would be "5"
+
+<p id="ASSIGNMENTS67"></p>
+
+<script>
+let x = 67;
+x /= 1;
+document.getElementById("ASSIGNMENTS67").innerHTML = x;
+</script>
+
+The Division Assignment Operator divides a variable by 5 in this case.
+
+<p id="ASSIGNMENTS7"></p>
+
+<script>
+let x = 135;
+x %= 68;
+document.getElementById("ASSIGNMENTS7").innerHTML = "Value of x is: " + x;
+</script>
+
+The remainder operator assigns a remainder to a variable.
+
+<p id="ASSIGNMENTS8"></p>
+
+<script>
+let x = "67";
+let y ="Hello"
+document.getElementById("ASSIGNMENTS8").innerHTML = x, y;
+</script>
+
+The basic assignment operator assigns values to variables.
+
+<p id="ASSIGNMENTS9"></p>
+
+<script>
+let text = "I like";
+text += "67";
+document.getElementById("ASSIGNMENTS9").innerHTML = text;
+</script>
+
+The addition assignment operator can be used to add strings.
+
+<h2>LOGICAL AND ASSIGNMENT</h2>
+
+<p id="ASSIGNMENTS10"></p>
+
+<script>
+let x = true;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS10").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS11"></p>
+
+<script>
+let x = false;
+let y = x &&= 5;
+
+document.getElementById("ASSIGNMENTS11").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS12"></p>
+
+<script>
+let x = 1;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS12").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS13"></p>
+
+<script>
+let x = 0;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS13").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS14"></p>
+
+<script>
+let x = undefined;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS14").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS15"></p>
+
+<script>
+let x = null;
+let y = x &&= 10;
+
+document.getElementById("ASSIGNMENTS15").innerHTML = "Value of y is: " + y;
+</script>
+
+The Logical and Assignment operator is used between two values.
+<br>
+If the first value is correct/true, then the second value is assigned.
+
+<h2>LOGICAL OR ASSIGNMENT</h2>
+
+<p id="ASSIGNMENTS16"></p>
+
+<script>
+let x = false;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS16").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS17"></p>
+
+<script>
+let x = true;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS17").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS18"></p>
+
+<script>
+let x = null;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS18").innerHTML = "Value of y is: " + y;
+</script>
+
+<p id="ASSIGNMENTS19"></p>
+
+<script>
+let x = undefined;
+let y = x ||= 10;
+
+document.getElementById("ASSIGNMENTS19").innerHTML = "Value of y is: " + y;
+</script>
+
+The Logical and Assignment operator is used between two values.
+<br>
+If the first value is incorrect/false, then the second value is assigned.
+
+<p id="ASSIGNMENTS20"></p>
+
+<script>
+let x;
+x ??= 10;
+
+document.getElementById("ASSIGNNMENTS20").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS21"></p>
+
+<script>
+let x = 0;
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS21").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS22"></p>
+
+<script>
+let x = 0;
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS22").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS23"></p>
+
+<script>
+let x = undefined;
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS23").innerHTML = "x is: " + x; 
+</script>
+
+<p id="ASSIGNMENTS24"></p>
+
+<script>
+let x = 10;
+let y = 5
+x ??= 10;
+
+document.getElementById("ASSIGNMENTS24").innerHTML = "x is: " + x; 
+</script>
+
+The Nullish Coalescing Assignment operator is used between two values.
+
+If the first value is not defined or null, the second value is assigned.
+
+<p id="ASSIGNMENTS25"></p>
+
+<script>
+let text = "12345";
+let min = Math.min(...text);
+let max = Math.max(...text);
+
+document.getElementById("ASSIGNMENTS25").innerHTML =
+"Minimum is: " + min + "<br>Maximum is: " + max;
+</script>
+
+The "..." operator splits iterables into individual elements.
+
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

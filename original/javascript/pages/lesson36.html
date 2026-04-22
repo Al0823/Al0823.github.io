@@ -1,0 +1,229 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+    <h2>JavaScript Date Formats Tutorial</h2>
+    <p>This page teaches you how to format dates in JavaScript. Date objects can be displayed in different ways using built-in methods or custom formatting.</p>
+<br><br>
+<div class="fs-15">JavaScript Date Input</div><br><br>
+<div class="fs-10">There are generally 3 types of JavaScript date input formats:
+<br><br>
+
+<ul>
+      <li>ISO	("2015-03-25" (The International Standard))</li>
+      <li>Short	("03/25/2015")</li>
+      <li>Long	("Mar 25 2015" or "25 Mar 2015")</li>
+    </ul>
+				<br><br>
+				The ISO format follows a strict standard in JavaScript.
+<br><br>
+The other formats are not so well defined and might be browser specific.
+</div><br><br>
+
+<div class="fs-15">JavaScript Date Output</div><br><br>
+<div class="fs-10">Independent of input format, JavaScript will (by default) output dates in full text string format:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+Thu Feb 12 2026 13:47:10 GMT-0500 (Eastern Standard Time)
+      </textarea><br><br>
+
+<div class="fs-15">JavaScript ISO Dates</div><br><br>
+<div class="fs-10">ISO 8601 is the international standard for the representation of dates and times.
+<br><br>
+The ISO 8601 syntax (YYYY-MM-DD) is also the preferred JavaScript date format:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-03-25");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">The computed date will be relative to your time zone.
+Depending on your time zone, the result above will vary between March 24 and March 25.</div><br><br>
+
+<div class="fs-15">ISO Dates (Year and Month)</div><br><br>
+<div class="fs-10">ISO dates can be written without specifying the day (YYYY-MM):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-03"); 
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Time zones will vary the result above between February 28 and March 01.</div><br><br>
+
+<div class="fs-15">ISO Dates (Only Year)</div><br><br>
+<div class="fs-10">ISO dates can be written without month and day (YYYY):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Time zones will vary the result above between December 31 2014 and January 01 2015.</div><br><br>
+
+
+<div class="fs-15">ISO Dates (Date-Time)</div><br><br>
+<div class="fs-10">ISO dates can be written with added hours, minutes, and seconds (YYYY-MM-DDTHH:MM:SSZ):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-03-25T12:00:00Z");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Date and time is separated with a capital T.
+<br><br>
+UTC time is defined with a capital letter Z.
+<br><br>
+If you want to modify the time relative to UTC, remove the Z and add +HH:MM or -HH:MM instead:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+new Date("2015-03-25T12:00:00-06:00");
+      </textarea><br><br>
+<div class="fs-10">UTC (Universal Time Coordinated) is the same as GMT (Greenwich Mean Time).
+<br><br>
+Omitting T or Z in a date-time string can give different results in different browsers.</div><br><br>
+
+<div class="fs-15">Time Zones</div><br><br>
+<div class="fs-10">When setting a date, without specifying the time zone, JavaScript will use the browser's time zone.
+<br><br>
+When getting a date, without specifying the time zone, the result is converted to the browser's time zone.
+<br><br>
+In other words: If a date/time is created in GMT (Greenwich Mean Time), the date/time will be converted to CDT (Central US Daylight Time) if a user browses from central US.
+</div><br><br>
+
+<div class="fs-15">JavaScript Short Dates.</div><br><br>
+<div class="fs-10">Short dates are written with an "MM/DD/YYYY" syntax like this:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("03/25/2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+
+<div class="fs-15">WARNINGS </div><br><br>
+<div class="fs-10">In some browsers, months or days with no leading zeroes may produce an error:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015-3-25");
+      </textarea><br><br>
+						<div class="fs-10">The behavior of "YYYY/MM/DD" is undefined.
+Some browsers will try to guess the format. Some will return NaN.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("2015/03/25");
+      </textarea><br><br>
+<div class="fs-10">The behavior of  "DD-MM-YYYY" is also undefined.
+Some browsers will try to guess the format. Some will return NaN.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("25-03-2015");
+      </textarea><br><br>
+
+						<div class="fs-15">JavaScript Long Dates</div><br><br>
+<div class="fs-10">Long dates are most often written with a "MMM DD YYYY" syntax like this:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("Mar 25 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<div class="fs-10">Month and day can be in any order:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("25 Mar 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">And, month can be written in full (January), or abbreviated (Jan):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("January 25 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+const d = new Date("Jan 25 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<div class="fs-10">Commas are ignored. Names are case insensitive:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date("JANUARY, 25, 2015");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+
+						<div class="fs-15">Date Input - Parsing Dates</div><br><br>
+<div class="fs-10">If you have a valid date string, you can use the Date.parse() method to convert it to milliseconds.
+<br><br>
+Date.parse() returns the number of milliseconds between the date and January 1, 1970:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const msec = Date.parse("March 21, 2012");
+document.getElementById("demo").innerHTML = msec;
+      </textarea><br><br>
+						<div class="fs-10">You can then use the number of milliseconds to convert it to a date object:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let msec = Date.parse("March 21, 2012");
+const d = new Date(msec);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+
+
+    <h3>Common Date Formats</h3>
+    <ul>
+      <li><code>toDateString()</code>  returns the date in a readable format (e.g., "Fri Feb 05 2026")</li>
+      <li><code>toTimeString()</code> returns only the time (e.g., "15:30:45 GMT-0500 (EST)")</li>
+      <li><code>toLocaleDateString()</code>  returns the date in local format (e.g., "2/5/2026")</li>
+      <li><code>toLocaleTimeString()</code>  returns the time in local format (e.g., "3:30:45 PM")</li>
+      <li><code>toISOString()</code>  returns the date in ISO 8601 format (e.g., "2026-02-05T20:30:45.000Z")</li>
+    </ul>
+
+    <h3>Examples</h3>
+    <pre><code id="formatExample"></code></pre>
+
+    <script>
+      const now = new Date();
+      const formats = `
+toDateString(): ${now.toDateString()}
+toTimeString(): ${now.toTimeString()}
+toLocaleDateString(): ${now.toLocaleDateString()}
+toLocaleTimeString(): ${now.toLocaleTimeString()}
+toISOString(): ${now.toISOString()}
+      `;
+      document.getElementById("formatExample").textContent = formats;
+    </script>
+
+    <h3>Custom Date Format</h3>
+    <p>You can build your own format using the get methods:</p>
+    <pre><code id="customFormatExample"></code></pre>
+
+    <script>
+      const day = now.getDate();
+      const month = now.getMonth() + 1; // months are 0-based
+      const year = now.getFullYear();
+      const hour = now.getHours();
+      const minute = now.getMinutes();
+      const second = now.getSeconds();
+
+      document.getElementById("customFormatExample").textContent =
+        `Custom Format: ${month}/${day}/${year} ${hour}:${minute}:${second}`;
+    </script>
+
+    <p>This produces a string like: <em>2/5/2026 15:30:45</em>, and you can adjust it for any format you want.</p>
+
+    <h3>Interactive Example</h3>
+    <p>Click the button to see the current date and time in different formats:</p>
+    <button id="showDateBtn">Show Current Date & Time</button>
+    <pre id="interactiveOutput"></pre>
+
+    <script>
+      document.getElementById("showDateBtn").addEventListener("click", () => {
+        const now = new Date();
+        document.getElementById("interactiveOutput").textContent =
+          `toDateString(): ${now.toDateString()}
+toLocaleDateString(): ${now.toLocaleDateString()}
+toLocaleTimeString(): ${now.toLocaleTimeString()}
+toISOString(): ${now.toISOString()}`;
+      });
+    </script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

@@ -1,0 +1,164 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Strings Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Strings" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what a "String" is in Javascript is it can create things for other Javascript code to react or interact with.
+<br><br>
+
+<div class="fs-15">Strings</div>
+<br><br>
+<div class="fs-10">
+Strings are used to store text.
+<br><br>
+Strings are written with Quotations surrounding them
+</div>
+<br><br>
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<div class="fs-15">Using Quotes</div>
+<br><br>
+<div class="fs-10">
+A Javascript string is at least zero characters inside quotation marks.
+</div>
+<br><br>
+<p id="STRINGS"></p>
+
+<script>
+let text = "67";  // String written inside quotes
+document.getElementById("STRINGS").innerHTML = text;
+</script>
+<br><br>
+<div class="fs-10">
+You can use single or double quotes when writing Strings.
+</div>
+<br><br>
+<p id="STRINGS2"></p>
+
+<script>
+let carName1 = "Pontiac GTO"; // Double quotes
+let carName2 = 'Pontiac GTO'; // Single quotes
+
+document.getElementById("STRINGS2").innerHTML =
+carName1 + " " + carName2; 
+</script>
+<br><br>
+<div class="fs-10">
+Strings made with either double or single quotes work the same
+</div>
+<br><br>
+
+<div class="fs-15">Quotes inside Quotes</div><br><br>
+<div class="fs-10">You can use quotes inside a string if they do not match the quotes outside the string</div>
+<br><br>
+<p id="STRINGS3"></p>
+
+<script>
+let answer1 = "It's alright";
+let answer2 = "He is called 'ALOYSIUS'";
+let answer3 = 'He is called "ALOYSIUS"'; 
+
+document.getElementById("STRINGS3").innerHTML =
+answer1 + "<br>" + answer2 + "<br>" + answer3; 
+</script>
+<br><br>
+<div class="fs-15">Template Strings</div>
+<br><br>
+<div class="fs-10">
+Templates were introduced with ES6 (JavaScript 2016).
+<br><br>
+Templates are strings enclosed in backticks (`This is a template string`).
+<br><br>
+Templates allow single and double quotes inside a string
+</div>
+<br><br>
+<p id="STRINGS4"></p>
+
+<script>
+let text = `He's often called "ALOYSIUS"`;
+document.getElementById("STRINGS4").innerHTML = text;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">String Length</DIV>
+<br><br>
+<div class="fs-10">
+To find a length of a string, you have to use the built-in "length" property.
+</div>
+<br><br>
+<p id="STRINGS5"></p>
+
+<script>
+let text = "67";
+document.getElementById("STRINGS5").innerHTML = text.length;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">Escape Characters</DIV><br><br>
+<div class="fs-10">Because strings must be written inside quotes, JavaScript will misunderstand the string below</div><br><br>
+<p id="STRINGS6"></p>
+
+<script>
+let text = "I like "67" very much";
+document.getElementById("STRINGS6").innerHTML = text.length;
+</script><br><br>
+<div class="fs-10">The string will be chopped to "We are the so-called "
+<br><br>
+To solve this problem, you can use an backslash escape character.
+<br><br>
+The backslash escape character (\) turns special characters into string characters
+<br><br>
+You can make ', ", and \ with \', \", \\ respectively.
+<br><br>
+There are examples of this below</div>
+<br><br>
+<p id="STRINGS7"></p>
+
+<script>
+let text = "We are the so-called \"Vikings\" from the north.";
+document.getElementById("STRINGS7").innerHTML = text;
+
+ 
+</script>
+<BR><BR>
+<p id="STRINGS8"></p>
+
+<script>
+let text = 'It\'s alright.';
+document.getElementById("STRINGS8").innerHTML = text; 
+</script>
+<br><br>
+<p id="STRINGS9"></p>
+
+<script>
+let text = "The character \\ is called a backslash.";
+document.getElementById("STRINGS9").innerHTML = text; 
+</script>
+<BR>
+[/input]
+</textarea>
+
+
+
+<h2>Now you try!</h2>
+<br><br>
+
+
+
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

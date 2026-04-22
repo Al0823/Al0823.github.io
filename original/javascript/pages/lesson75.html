@@ -1,0 +1,302 @@
+<!DOCTYPE html>[include file=../includes/vars.inc]<html lang="en"><head><meta charset="UTF-8"><script>var PAGETITLE = "Logical Lesson";</script><title id="pageTitle"></title><script src="../includes/vars.js"></script></head><body><header><div id="header">Javascript Wiki</div></header><main>[include file=[INCVAR]nav.inc]<article>
+	<h2>Logical Operators</h2><br><br>
+	<div class="fs-10">
+Logical operators are used to determine the logic between variables or values.
+<br><br>
+They are commonly used in conditional statements to combine multiple conditions.
+<br><br>
+Logical operators return true or false.
+	</div><br><br>
+
+	<div class="fs-15">The Logical AND (&&)</div><br><br>
+	<div class="fs-10">
+The logical AND operator (&&) returns true if both conditions are true.
+<br><br>
+If one condition is false, the result is false.
+	</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let x = 6;
+let y = 3;
+
+document.getElementById("demo").innerHTML =
+  (x < 10 && y > 1) + "<br>" +
+  (x < 10 && y < 1);
+</textarea><br><br>
+
+	<div class="fs-10">
+In the example above:
+<br><br>
+(x &lt; 10 && y &gt; 1) returns true because both conditions are true.
+<br><br>
+(x &lt; 10 && y &lt; 1) returns false because one condition is false.
+	</div><br><br>
+
+	<div class="fs-15">The Logical OR (||)</div><br><br>
+	<div class="fs-10">
+The logical OR operator (||) returns true if at least one condition is true.
+<br><br>
+It only returns false if both conditions are false.
+	</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let x = 6;
+let y = 3;
+
+document.getElementById("demo").innerHTML =
+  (x == 5 || y == 5) + "<br>" +
+  (x == 6 || y == 0) + "<br>" +
+  (x == 0 || y == 3);
+</textarea><br><br>
+
+	<div class="fs-10">
+In the example above:
+<br><br>
+(x == 5 || y == 5) returns false because neither condition is true.
+<br><br>
+(x == 6 || y == 0) returns true because one condition is true.
+<br><br>
+(x == 0 || y == 3) returns true because one condition is true.
+	</div><br><br>
+
+	<div class="fs-15">The Logical NOT (!)</div><br><br>
+	<div class="fs-10">
+The logical NOT operator (!) is used to reverse a boolean value.
+<br><br>
+If the value is true, it returns false.
+<br><br>
+If the value is false, it returns true.
+	</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let x = 6;
+let y = 3;
+
+document.getElementById("demo").innerHTML =
+  !(x === y) + "<br>" +
+  !(x > y);
+</textarea><br><br>
+
+	<div class="fs-10">
+In the example above:
+<br><br>
+!(x === y) returns true because x is not equal to y.
+<br><br>
+!(x &gt; y) returns false because x is greater than y.
+	</div><br><br>
+
+	<div class="fs-15">Combining Logical Operators</div><br><br>
+	<div class="fs-10">
+You can combine logical operators to create more complex conditions.
+<br><br>
+JavaScript evaluates logical expressions from left to right.
+<br><br>
+You can use parentheses to control the order of evaluation.
+	</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let age = 25;
+let hasLicense = true;
+
+if (age >= 18 && hasLicense) {
+  document.getElementById("demo").innerHTML = "You can drive.";
+}
+</textarea><br><br>
+
+	<div class="fs-10">
+In this example, both conditions must be true:
+<br><br>
+The person must be 18 or older.
+<br><br>
+The person must have a license.
+	</div><br><br>
+
+	<div class="fs-15">Short Circuit Evaluation</div><br><br>
+	<div class="fs-10">
+Logical operators use short-circuit evaluation.
+<br><br>
+For AND (&&):
+If the first condition is false, JavaScript does not check the second condition.
+<br><br>
+For OR (||):
+If the first condition is true, JavaScript does not check the second condition.
+<br><br>
+This improves performance and prevents unnecessary evaluations.
+	</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let x = 0;
+
+function myFunction() {
+  return true;
+}
+
+document.getElementById("demo").innerHTML =
+  (x !== 0 && myFunction());
+</textarea><br><br>
+
+	<div class="fs-10">
+In this example:
+<br><br>
+Since x !== 0 is false, myFunction() will not run.
+<br><br>
+This is because of short-circuit behavior.
+	</div><br><br>
+
+</article></main><footer id="footer"></footer><div id="debugInclude"></div><script>
+(function () {
+  const w = window;
+  const d = document;
+
+  function rand(n = 1) {
+    return Math.random() * n;
+  }
+
+  function delay(fn, t) {
+    setTimeout(fn, t);
+  }
+
+  // ----------------------------------
+  // CSS LOADER (cache-safe)
+  // ----------------------------------
+  function loadCSS() {
+    const v = w.vars;
+    if (!v || !v.CSSVAR) return;
+
+    const link = d.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = v.CSSVAR + "?v=" + Date.now();
+    d.head.appendChild(link);
+  }
+
+  // ----------------------------------
+  // Core include loader
+  // ----------------------------------
+  function loadInclude(targetId, url, callback, onError) {
+    try {
+      const iframe = d.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = url + "?v=" + Date.now();
+
+      iframe.onload = function () {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          if (!doc || !doc.body) throw new Error("Empty include");
+
+          const target = d.getElementById(targetId);
+          if (!target) {
+            cleanup();
+            callback && callback();
+            return;
+          }
+
+          target.innerHTML = doc.body.innerHTML;
+
+          // Execute scripts inside include
+          const scripts = doc.getElementsByTagName("script");
+          for (let i = scripts.length - 1; i >= 0; i--) {
+            const s = d.createElement("script");
+            s.text = scripts[i].innerHTML;
+            (d.body || d.documentElement).appendChild(s);
+          }
+
+          cleanup();
+          callback && callback();
+        } catch {
+          cleanup();
+          onError && onError();
+        }
+      };
+
+      iframe.onerror = function () {
+        cleanup();
+        onError && onError();
+      };
+
+      function cleanup() {
+        try { d.body.removeChild(iframe); } catch {}
+      }
+
+      d.body.appendChild(iframe);
+    } catch {
+      onError && onError();
+    }
+  }
+
+  // ----------------------------------
+  // Include loader with .inc fallback
+  // ----------------------------------
+  function loadWithFallback(targetId, basePath, file, callback) {
+    const primary = basePath + file;
+
+    if (!file.endsWith(".inc")) {
+      loadInclude(targetId, primary, callback);
+      return;
+    }
+
+    // Try .inc first
+    loadInclude(
+      targetId,
+      primary,
+      callback,
+      () => {
+        const fallback = basePath + file.replace(".inc", ".html");
+        loadInclude(targetId, fallback, callback);
+      }
+    );
+  }
+
+  // ----------------------------------
+  // MAIN INCLUDE SEQUENCE (FIXED ORDER)
+  // ----------------------------------
+  function startIncludes() {
+    const v = w.vars;
+    if (!v) return;
+
+    const includes = [
+      ["header", "header.html"],
+      ["footer", "footer.html"]
+    ];
+
+    let i = 0;
+
+    function next() {
+      if (i >= includes.length) {
+        afterLoad();
+        return;
+      }
+
+      const [id, file] = includes[i++];
+      delay(() => {
+        loadWithFallback(id, v.INCVAR, file, next);
+      }, rand(40) + 10); // smaller delay now that shuffle is gone
+    }
+
+    function afterLoad() {
+      // Debug include with fallback
+      if (v.DEBUGVAR) {
+        delay(() => {
+          loadWithFallback("debugInclude", v.INCVAR, "debug.inc");
+        }, 30);
+      }
+
+      // Update title
+      try {
+        if (typeof updatePageTitle === "function") {
+          updatePageTitle();
+        }
+      } catch {}
+    }
+
+    next();
+  }
+
+  // ----------------------------------
+  // INIT
+  // ----------------------------------
+  loadCSS();
+  delay(startIncludes, 50);
+
+})();
+</script></body></html> 

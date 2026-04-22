@@ -1,0 +1,169 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=../includes/header.inc]
+<body>
+
+<main>
+[include file=../includes/nav.inc]
+
+<article><h2>Statements</h2><br><br>
+
+<div class="fs-10">
+A computer program is a list of instructions to be executed by a computer.<br><br>
+In a programming language, these programming instructions are called statements.<br><br>
+A JavaScript program is a sequence of programming statements.
+</div>
+
+<br><br>
+
+<div class="fs-15">JavaScript Statements</div><br><br>
+
+<div class="fs-10">
+JavaScript statements are composed of:<br><br>
+<ul>
+<li>Values</li>
+<li>Operators</li>
+<li>Expressions</li>
+<li>Keywords</li>
+<li>Comments</li>
+</ul>
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+// This is a JavaScript statement:
+let x = 5;
+
+// Another statement:
+x = x + 2;
+
+// Display the result
+document.getElementById("demo").innerHTML = x;
+</textarea>
+
+<br><br>
+
+<div class="fs-15">Semicolons</div><br><br>
+
+<div class="fs-10">
+Semicolons separate JavaScript statements.<br><br>
+Add a semicolon at the end of each executable statement:
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let a = 5;
+let b = 6;
+let c = a + b;
+
+document.getElementById("demo").innerHTML = c;
+</textarea>
+
+<br><br>
+
+<div class="fs-10">
+When separated by semicolons, multiple statements on one line are allowed:
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let a = 5; let b = 6; let c = a + b;
+
+document.getElementById("demo").innerHTML = c;
+</textarea>
+
+<br><br>
+
+<div class="fs-15">JavaScript White Space</div><br><br>
+
+<div class="fs-10">
+JavaScript ignores multiple spaces.<br><br>
+You can add white space to make your script more readable:
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let person = "John Doe";
+let carName = "Volvo";
+let price = 200;
+</textarea>
+
+<br><br>
+
+<div class="fs-10">
+A good practice is to put spaces around operators:
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let x = y + z;
+</textarea>
+
+<br><br>
+
+<div class="fs-15">JavaScript Line Length and Line Breaks</div><br><br>
+
+<div class="fs-10">
+For best readability, programmers often avoid lines longer than 80 characters.<br><br>
+If a JavaScript statement does not fit on one line, the best place to break it is after an operator:
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+"Hello Dolly!";
+</textarea>
+
+<br><br>
+
+<div class="fs-15">JavaScript Code Blocks</div><br><br>
+
+<div class="fs-10">
+JavaScript statements can be grouped together in code blocks, inside curly brackets {}.<br><br>
+The purpose of code blocks is to define statements to be executed together.
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+function myFunction() {
+  document.getElementById("demo1").innerHTML = "Hello Dolly!";
+  document.getElementById("demo2").innerHTML = "How are you?";
+}
+</textarea>
+
+<br><br>
+
+<div class="fs-15">JavaScript Keywords</div><br><br>
+
+<div class="fs-10">
+JavaScript statements often start with a keyword to identify the action to be performed.<br><br>
+Here is a list of some keywords you will learn about in this tutorial:
+</div>
+
+<br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+var     // Declares a variable
+let     // Declares a block variable
+const   // Declares a block constant
+if      // Marks a block of statements to be executed on a condition
+switch  // Marks a block of statements to be executed in different cases
+for     // Marks a block of statements to be executed in a loop
+function// Declares a function
+return  // Exits a function
+try     // Implements error handling
+</textarea>
+
+<br><br>
+
+</article>
+ </main> 
+[include file=../includes/footer.inc]
+</html>

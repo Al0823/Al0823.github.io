@@ -1,0 +1,129 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article>
+	<h2>JavaScript Errors</h2><br><br>
+	<div class="fs-10">Errors in JavaScript are problems in your code that prevent it from running correctly.
+<br><br>
+Errors are usually divided into three main types: Syntax errors, Runtime errors, and Logical errors.
+<br><br>
+Understanding errors is essential for debugging and writing working code.</div><br><br>
+
+<div class="fs-15">Syntax Errors</div><br><br>
+<div class="fs-10">Syntax errors occur when the code violates the rules of JavaScript syntax.
+<br><br>
+These errors prevent the code from running at all.
+<br><br>
+Common causes include missing parentheses, missing brackets, or typos.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 5
+console.log(x;
+</textarea><br><br>
+<div class="fs-10">In the example above, the missing closing parenthesis after <code>x</code> will cause a syntax error.
+<br><br>
+Syntax errors must be fixed before the code can run.</div><br><br>
+
+<div class="fs-15">Runtime Errors</div><br><br>
+<div class="fs-10">Runtime errors occur while the code is running.
+<br><br>
+These happen when the code encounters something it cannot process.
+<br><br>
+Examples include calling a function that does not exist or accessing a variable that is not defined.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let y;
+console.log(y.length);
+</textarea><br><br>
+<div class="fs-10">In the example above, <code>y</code> is undefined.
+<br><br>
+Accessing <code>y.length</code> will cause a runtime error.</div><br><br>
+
+<div class="fs-15">Logical Errors</div><br><br>
+<div class="fs-10">Logical errors do not stop the code from running, but the program produces incorrect results.
+<br><br>
+These are usually caused by mistakes in your algorithm or logic.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let a = 10;
+let b = 20;
+let total = a - b; // Should be a + b
+console.log(total);
+</textarea><br><br>
+<div class="fs-10">In the example above, the subtraction operator is used instead of addition.
+<br><br>
+The code runs without errors, but the result is wrong.</div><br><br>
+
+<div class="fs-15">Handling Errors with try...catch</div><br><br>
+<div class="fs-10">JavaScript provides a <code>try...catch</code> statement to handle runtime errors gracefully.
+<br><br>
+The <code>try</code> block contains code to test for errors.
+<br><br>
+The <code>catch</code> block contains code to execute if an error occurs.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+try {
+  let result = 10 / z;
+} catch (err) {
+  console.log("An error occurred: " + err.message);
+}
+</textarea><br><br>
+<div class="fs-10">In the example above, <code>z</code> is not defined.
+<br><br>
+Instead of crashing, the <code>catch</code> block handles the error and prints a message.</div><br><br>
+
+<div class="fs-15">throw Statement</div><br><br>
+<div class="fs-10">The <code>throw</code> statement allows you to create custom errors.
+<br><br>
+You can throw an exception if a condition is not met.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let age = 15;
+
+if (age < 18) {
+  throw "Too young!";
+}
+</textarea><br><br>
+<div class="fs-10">In the example above, a custom error is thrown if <code>age</code> is less than 18.
+<br><br>
+This can be useful for input validation or other checks.</div><br><br>
+
+<div class="fs-15">finally Statement</div><br><br>
+<div class="fs-10">The <code>finally</code> block contains code that will always run, regardless of whether an error occurred or not.
+<br><br>
+It is often used to clean up resources or perform final actions.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+try {
+  console.log("Start");
+  let data = JSON.parse("invalid json");
+} catch (err) {
+  console.log("Error caught: " + err.message);
+} finally {
+  console.log("This runs always");
+}
+</textarea><br><br>
+<div class="fs-10">In the example above, the <code>finally</code> block executes after the <code>catch</code> block.
+<br><br>
+It ensures that important cleanup code always runs.</div><br><br>
+
+<div class="fs-15">Error Object</div><br><br>
+<div class="fs-10">When an error occurs, JavaScript creates an <code>Error</code> object with useful properties:
+<br><br>
+<ul>
+<li><code>name</code>  the type of error (SyntaxError, ReferenceError, etc.)</li>
+<li><code>message</code>  a description of the error</li>
+</ul>
+<br>
+You can access these properties inside the <code>catch</code> block.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+try {
+  nonExistentFunction();
+} catch (err) {
+  console.log("Error Name: " + err.name);
+  console.log("Error Message: " + err.message);
+}
+</textarea><br><br>
+<div class="fs-10">This prints the type and message of the error, helping you debug more effectively.</div><br><br>
+
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]

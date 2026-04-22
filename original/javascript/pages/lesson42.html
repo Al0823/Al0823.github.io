@@ -1,0 +1,134 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+    <article>
+    <h2>JavaScript Comparisons Tutorial</h2>
+    <p>Comparison operators are used to compare values. They return a <strong>Boolean</strong> value: <code>true</code> or <code>false</code>.</p>
+
+    <div class="fs-15">Comparison Operators</div><br><br>
+				<div class="fs-10">Comparison operators are used to compare two values.
+<br><br>
+Comparison operators always return true or false.<br><br>
+Comparison operators can be used in conditional statements to compare values and take action depending on the result:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+if (age < 18) text = "Too young to buy alcohol";
+</textarea><br><br>
+<div class="fs-10">You will learn more about the use of conditional statements in the if...else chapter of this tutorial.</div><br><br>
+
+<div class="fs-15">JavaScript String Comparison</div><br><br>
+<div class="fs-10">All the comparison operators above can also be used on strings:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text1 = "A";
+let text2 = "B";
+let result = text1 < text2;
+document.getElementById("demo").innerHTML = "Is A less than B? " + result;
+</textarea><br><br>
+<div class="fs-10">Note that strings are compared alphabetically:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text1 = "20";
+let text2 = "5";
+let result = text1 < text2;
+document.getElementById("demo").innerHTML = "Is 20 less than 5? " + result;
+</textarea><br><br>
+
+<div class="fs-15">Comparing Different Types</div><br><br>
+<div class="fs-10">Comparing data of different types may give unexpected results.
+<br><br>
+When comparing a string with a number, JavaScript will convert the string to a number when doing the comparison. An empty string converts to 0. A non-numeric string converts to NaN which is always false.<br><br>
+When comparing two strings, "2" will be greater than "12".
+<br><br>
+Alphabetically 1 is less than 21.
+<br><br>
+To secure a proper result, variables should be converted to the proper type before comparison:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<input id="age" value="18" />
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  let voteable;
+  let age = Number(document.getElementById("age").value);
+  if (isNaN(age)) {
+    voteable = "Input is not a number";
+  } else {
+    voteable = (age < 18) ? "Too young" : "Old enough";
+  }
+  document.getElementById("demo").innerHTML = voteable + " to vote";
+}
+</script>
+</textarea><br><br>
+
+
+
+
+
+    <h3>Examples</h3>
+    <pre><code id="comparisonExample"></code></pre>
+
+    <script>
+      let x = 10;
+      let y = "10";
+      let z = 5;
+
+      document.getElementById("comparisonExample").textContent =
+`x == y: ${x == y}
+x === y: ${x === y}
+x != z: ${x != z}
+x > z: ${x > z}
+x < z: ${x < z}
+x >= 10: ${x >= 10}
+x <= 5: ${x <= 5}`;
+    </script>
+
+    <h3>Logical Operators</h3>
+    <ul>
+      <li><code>&&</code> – AND (both must be true)</li>
+      <li><code>||</code> – OR (one must be true)</li>
+      <li><code>!</code> – NOT (reverses true/false)</li>
+    </ul>
+
+    <pre><code id="logicalExample"></code></pre>
+
+    <script>
+      let a = true;
+      let b = false;
+
+      document.getElementById("logicalExample").textContent =
+`a && b: ${a && b}
+a || b: ${a || b}
+!a: ${!a}`;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Enter two numbers to compare:</p>
+    <input type="number" id="num1" placeholder="First number">
+    <input type="number" id="num2" placeholder="Second number">
+    <button id="compareBtn">Compare</button>
+    <pre id="compareOutput"></pre>
+
+    <script>
+      document.getElementById("compareBtn").addEventListener("click", () => {
+        const n1 = Number(document.getElementById("num1").value);
+        const n2 = Number(document.getElementById("num2").value);
+
+        document.getElementById("compareOutput").textContent =
+`n1 == n2: ${n1 == n2}
+n1 === n2: ${n1 === n2}
+n1 > n2: ${n1 > n2}
+n1 < n2: ${n1 < n2}`;
+      });
+    </script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

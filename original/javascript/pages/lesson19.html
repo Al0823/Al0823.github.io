@@ -1,0 +1,150 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>Object Constructors Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Object Constructors" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what an "Object Constructor" is in Javascript is a special type of Function used to create and initialize objects. It also can act as a blueprint for creating multiple object instances with similar methods or properties.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">OBJECT Constructor Functions</DIV>
+<br>
+<DIV CLASS="FS-10">When making an "Object type", you must use an "OBJECT constructor function"
+<br>
+</DIV>
+<br>
+
+<p id="OBJECTS11"></p>
+
+<script>
+// Constructor Function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create a Person object
+const mybioFather = new Person("Robert", "Konys", 43, "hazel");
+
+// Display age
+document.getElementById("OBJECTS11").innerHTML =
+"My father is " + mybioFather.age + "."; 
+</script>
+<br>
+<DIV CLASS="FS-10">
+In the constructor function above, "this" has no value.
+<br>
+The value of "this" will become a new object when a new object is created.
+<br>
+In the function below, we can use "new Person()" to create many new Person objects.
+</DIV>
+<BR>
+<p id="OBJECTS12"></P>
+
+<script>
+
+// Constructor function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create two Person objects
+const myFather = new Person("Nicholas", "Merrill", 37, "blue");
+const myMother = new Person("Shayla", "Merrill", 27, "brown");
+
+// Display age
+document.getElementById("OBJECTS12").innerHTML =
+"My father is " + myFather.age + ". My mother is " + myMother.age + "."; 
+
+</script>
+<BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<DIV CLASS="FS-15">OBJECT Constructor Functions</DIV>
+<br>
+<DIV CLASS="FS-10">When making an "Object type", you must use an "OBJECT constructor function"
+<br>
+</DIV>
+<br>
+
+<p id="OBJECTS11"></p>
+
+<script>
+// Constructor Function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create a Person object
+const mybioFather = new Person("Robert", "Konys", 43, "hazel");
+
+// Display age
+document.getElementById("OBJECTS11").innerHTML =
+"My father is " + mybioFather.age + "."; 
+</script>
+<br>
+<DIV CLASS="FS-10">
+In the constructor function above, "this" has no value.
+<br>
+The value of "this" will become a new object when a new object is created.
+<br>
+In the function below, we can use "new Person()" to create many new Person objects.
+</DIV>
+<BR>
+<p id="OBJECTS12"></P>
+
+<script>
+
+// Constructor function for Person objects
+function Person(first, last, age, eye) {
+  this.firstName = first;
+  this.lastName = last;
+  this.age = age;
+  this.eyeColor = eye;
+}
+
+// Create two Person objects
+const myFather = new Person("Nicholas", "Merrill", 37, "blue");
+const myMother = new Person("Shayla", "Merrill", 27, "brown");
+
+// Display age
+document.getElementById("OBJECTS12").innerHTML =
+"My father is " + myFather.age + ". My mother is " + myMother.age + "."; 
+
+</script>
+<BR>
+
+
+
+</script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

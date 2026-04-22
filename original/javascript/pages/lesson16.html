@@ -1,0 +1,115 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>OBJECT Properties Javascript tutorial</h2>
+<br><br>
+
+<DIV CLASS="FS-10">
+This is the "OBJECT Properties" Javascript page, it teaches you how to write this code and how it works.
+<BR><BR>
+Now what an "Object Property" is in Javascript is a key and value pair that defines a piece of data associated with an object.
+</DIV>
+
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">OBJECT Properties</DIV><BR><BR>
+
+<p id="OBJECTS6"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS6").innerHTML = person.firstname + " is " + person.age + " years old.";
+</script>
+<BR>
+<p id="OBJECTS7"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS7").innerHTML = person["firstname"] + " is " + person["age"] + " years old.";
+</script>
+
+<DIV CLASS="FS-10">
+There are two ways to access Object Properties.
+<BR>
+The first way is by using "."
+<BR>
+The second way is by using "[]"
+<BR>
+There are examples of both of these above this statement.
+</DIV>
+<BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Now you try!</h2>
+<br><br>
+
+
+<DIV CLASS="FS-15">OBJECT Properties</DIV><BR><BR>
+
+<p id="OBJECTS6"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS6").innerHTML = person.firstname + " is " + person.age + " years old.";
+</script>
+<BR>
+<p id="OBJECTS7"></p>
+
+<script>
+const person = {
+  firstname: "Aloysius",
+  lastname: "Konys-Merrill",
+  age: 17,
+  eyecolor: "brown"
+};
+
+document.getElementById("OBJECTS7").innerHTML = person["firstname"] + " is " + person["age"] + " years old.";
+</script>
+
+<DIV CLASS="FS-10">
+There are two ways to access Object Properties.
+<BR>
+The first way is by using "."
+<BR>
+The second way is by using "[]"
+<BR>
+There are examples of both of these above this statement.
+</DIV>
+<BR>
+
+
+
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

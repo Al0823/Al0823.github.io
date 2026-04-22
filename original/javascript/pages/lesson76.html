@@ -1,0 +1,252 @@
+<!DOCTYPE html>[include file=../includes/vars.inc]<html lang="en"><head><meta charset="UTF-8"><script>var PAGETITLE = "Continue Lesson";</script><title id="pageTitle"></title><script src="../includes/vars.js"></script></head><body><header><div id="header">Javascript Wiki</div></header><main>[include file=[INCVAR]nav.inc]<article>
+	<h2>Continue</h2><br><br>
+	<div class="fs-10">The <b>continue</b> statement in JavaScript is used to skip the current loop iteration and move directly to the next one.
+<br><br>
+Instead of stopping the loop entirely, continue only skips one cycle.
+<br><br>
+This is useful when you want to ignore certain values but keep looping.</div><br><br>
+
+<div class="fs-15">The Continue Statement</div><br><br>
+<div class="fs-10">The continue statement breaks one iteration (in the loop), if a specified condition occurs, and continues with the next iteration in the loop.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+for (let i = 0; i < 10; i++) {
+  if (i === 3) {
+    continue;
+  }
+  console.log(i);
+}
+</textarea><br><br>
+<div class="fs-10">In this example:
+<br><br>
+When i equals 3, the continue statement runs.
+<br><br>
+The number 3 is skipped, and the loop continues with the next value.</div><br><br>
+
+<div class="fs-15">Continue vs Break</div><br><br>
+<div class="fs-10">It is important to understand the difference between continue and break.
+<br><br>
+<b>continue</b> skips one loop iteration.
+<br><br>
+<b>break</b> stops the entire loop.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+// continue example
+for (let i = 0; i < 5; i++) {
+  if (i === 2) continue;
+  console.log(i);
+}
+
+// break example
+for (let i = 0; i < 5; i++) {
+  if (i === 2) break;
+  console.log(i);
+}
+</textarea><br><br>
+<div class="fs-10">With continue, the loop keeps running after skipping a value.
+<br><br>
+With break, the loop ends immediately.</div><br><br>
+
+<div class="fs-15">Using Continue in Different Loops</div><br><br>
+<div class="fs-10">The continue statement works in all loop types, including for, while, and do...while loops.</div><br><br>
+
+<div class="fs-15">Continue in a While Loop</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let i = 0;
+
+while (i < 6) {
+  i++;
+  if (i === 3) continue;
+  console.log(i);
+}
+</textarea><br><br>
+<div class="fs-10">In this example, when i is 3, the continue statement skips logging it and moves to the next loop cycle.</div><br><br>
+
+<div class="fs-15">Continue in a Do...While Loop</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let i = 0;
+
+do {
+  i++;
+  if (i === 4) continue;
+  console.log(i);
+} while (i < 6);
+</textarea><br><br>
+<div class="fs-10">The continue statement works the same way here.
+<br><br>
+It skips the rest of the current iteration and continues looping.</div><br><br>
+
+<div class="fs-15">Common Use Cases</div><br><br>
+<div class="fs-10">Continue is often used when filtering data inside loops.
+<br><br>
+For example, skipping even numbers:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+for (let i = 0; i <= 10; i++) {
+  if (i % 2 === 0) continue;
+  console.log(i);
+}
+</textarea><br><br>
+<div class="fs-10">This example prints only odd numbers because even numbers are skipped.</div><br><br>
+
+<div class="fs-15">Things to Watch Out For</div><br><br>
+<div class="fs-10">Be careful when using continue in while loops.
+<br><br>
+If you skip the part of the loop that updates your condition variable, you may create an infinite loop.
+<br><br>
+Always make sure the loop can still end.</div><br><br>
+
+</article></main><footer id="footer"></footer><div id="debugInclude"></div><script>
+(function () {
+  const w = window;
+  const d = document;
+
+  function rand(n = 1) {
+    return Math.random() * n;
+  }
+
+  function delay(fn, t) {
+    setTimeout(fn, t);
+  }
+
+  // ----------------------------------
+  // CSS LOADER (cache-safe)
+  // ----------------------------------
+  function loadCSS() {
+    const v = w.vars;
+    if (!v || !v.CSSVAR) return;
+
+    const link = d.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    link.href = v.CSSVAR + "?v=" + Date.now();
+    d.head.appendChild(link);
+  }
+
+  // ----------------------------------
+  // Core include loader
+  // ----------------------------------
+  function loadInclude(targetId, url, callback, onError) {
+    try {
+      const iframe = d.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = url + "?v=" + Date.now();
+
+      iframe.onload = function () {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          if (!doc || !doc.body) throw new Error("Empty include");
+
+          const target = d.getElementById(targetId);
+          if (!target) {
+            cleanup();
+            callback && callback();
+            return;
+          }
+
+          target.innerHTML = doc.body.innerHTML;
+
+          // Execute scripts inside include
+          const scripts = doc.getElementsByTagName("script");
+          for (let i = scripts.length - 1; i >= 0; i--) {
+            const s = d.createElement("script");
+            s.text = scripts[i].innerHTML;
+            (d.body || d.documentElement).appendChild(s);
+          }
+
+          cleanup();
+          callback && callback();
+        } catch {
+          cleanup();
+          onError && onError();
+        }
+      };
+
+      iframe.onerror = function () {
+        cleanup();
+        onError && onError();
+      };
+
+      function cleanup() {
+        try { d.body.removeChild(iframe); } catch {}
+      }
+
+      d.body.appendChild(iframe);
+    } catch {
+      onError && onError();
+    }
+  }
+
+  // ----------------------------------
+  // Include loader with .inc fallback
+  // ----------------------------------
+  function loadWithFallback(targetId, basePath, file, callback) {
+    const primary = basePath + file;
+
+    if (!file.endsWith(".inc")) {
+      loadInclude(targetId, primary, callback);
+      return;
+    }
+
+    // Try .inc first
+    loadInclude(
+      targetId,
+      primary,
+      callback,
+      () => {
+        const fallback = basePath + file.replace(".inc", ".html");
+        loadInclude(targetId, fallback, callback);
+      }
+    );
+  }
+
+  // ----------------------------------
+  // MAIN INCLUDE SEQUENCE (FIXED ORDER)
+  // ----------------------------------
+  function startIncludes() {
+    const v = w.vars;
+    if (!v) return;
+
+    const includes = [
+      ["header", "header.html"],
+      ["footer", "footer.html"]
+    ];
+
+    let i = 0;
+
+    function next() {
+      if (i >= includes.length) {
+        afterLoad();
+        return;
+      }
+
+      const [id, file] = includes[i++];
+      delay(() => {
+        loadWithFallback(id, v.INCVAR, file, next);
+      }, rand(40) + 10); // smaller delay now that shuffle is gone
+    }
+
+    function afterLoad() {
+      // Debug include with fallback
+      if (v.DEBUGVAR) {
+        delay(() => {
+          loadWithFallback("debugInclude", v.INCVAR, "debug.inc");
+        }, 30);
+      }
+
+      // Update title
+      try {
+        if (typeof updatePageTitle === "function") {
+          updatePageTitle();
+        }
+      } catch {}
+    }
+
+    next();
+  }
+
+  // ----------------------------------
+  // INIT
+  // ----------------------------------
+  loadCSS();
+  delay(startIncludes, 50);
+
+})();
+</script></body></html> 

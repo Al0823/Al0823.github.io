@@ -1,0 +1,21 @@
+
+[include file=includes/vars.inc]
+[text]PAGETITLE=Main page[/text]
+<html>
+[include file=[INCVAR]header.inc]
+
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article>
+This is the main page of the Wiki, from here you can get to the different pages of the website.
+
+
+[!]MAC DB FIELDNAMES[/!][!]
+[listfields db=/citi/coding/javascript/databases/nav.db]
+   Fieldname: [fieldname]<br>
+  [/listfields][/!]
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

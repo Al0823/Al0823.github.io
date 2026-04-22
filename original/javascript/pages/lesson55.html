@@ -1,0 +1,67 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Typeof</h2><br><br><div class="fs-10">The <code>typeof</code> operator returns a string indicating the type of the unevaluated operand. It is useful to check the data type of a variable, constant, or expression in JavaScript.</div><br><br> <div class="fs-15">Syntax</div><br><br><div class="fs-10"><code>typeof operand</code></div><br><br> <div class="fs-15">Examples of typeof</div><br><br><div class="fs-10">You can use <code>typeof</code> to check the type of different JavaScript values:</div><br><br><textarea id="textbox" rows="12" cols="70">// Numbers let x = 42; document.getElementById("demo").innerHTML = "x is " + typeof x + "<br>";
+
+// Strings
+let y = "Hello";
+document.getElementById("demo").innerHTML += "y is " + typeof y + "<br>";
+
+// Booleans
+let z = true;
+document.getElementById("demo").innerHTML += "z is " + typeof z + "<br>";
+
+// Undefined
+let a;
+document.getElementById("demo").innerHTML += "a is " + typeof a + "<br>";
+
+// Null (special case)
+let b = null;
+document.getElementById("demo").innerHTML += "b is " + typeof b + "<br>";
+
+// Objects
+let obj = {name: "Alice", age: 25};
+document.getElementById("demo").innerHTML += "obj is " + typeof obj + "<br>";
+
+// Functions
+function myFunc() {}
+document.getElementById("demo").innerHTML += "myFunc is " + typeof myFunc;</textarea><br><br>
+
+<div class="fs-15">Typeof Returns a String</div><br><br><div class="fs-10">The <code>typeof</code> operator always returns a string, such as <code>"number"</code>, <code>"string"</code>, <code>"boolean"</code>, <code>"object"</code>, <code>"function"</code>, or <code>"undefined"</code>.</div><br><br> <div class="fs-15">Common Uses</div><br><br><div class="fs-10">You can use <code>typeof</code> to:</div><br><br><ul class="fs-10"><li>Check the type of a variable before performing operations</li><li>Verify that a function parameter has the expected type</li><li>Detect undefined variables</li></ul><br><br> <div class="fs-15">Examples of Checking Variable Type</div><br><br><textarea id="textbox" rows="10" cols="70">// Example: checking variable type let num = 100; let text = "JavaScript";
+
+if (typeof num === "number") {
+document.getElementById("demo").innerHTML = "num is a number<br>";
+}
+
+if (typeof text === "string") {
+document.getElementById("demo").innerHTML += "text is a string";
+}</textarea><br><br>
+
+<div class="fs-15">Typeof with Arrays</div><br><br><div class="fs-10">Arrays are technically objects in JavaScript, so <code>typeof</code> returns "object":</div><br><br><textarea id="textbox" rows="10" cols="70">// Create an array let arr = [1,2,3];
+
+// typeof returns "object"
+document.getElementById("demo").innerHTML = "The type of arr is " + typeof arr;
+
+// To check if it's an array
+document.getElementById("demo").innerHTML += "<br>Is arr an Array? " + (arr instanceof Array);</textarea><br><br>
+
+<div class="fs-15">Typeof with Functions</div><br><br><div class="fs-10">Functions are a special type of object, so <code>typeof</code> returns "function":</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a function function greet() { return "Hello!"; }
+
+// typeof returns "function"
+document.getElementById("demo").innerHTML = "The type of greet is " + typeof greet;
+
+// Using instanceof
+document.getElementById("demo").innerHTML += "<br>Is greet a Function? " + (greet instanceof Function);</textarea><br><br>
+
+<div class="fs-15">Typeof with Undefined</div><br><br><div class="fs-10">If a variable has been declared but not assigned a value, <code>typeof</code> returns "undefined":</div><br><br><textarea id="textbox" rows="10" cols="70">// Declare variable let something;
+
+// typeof returns "undefined"
+document.getElementById("demo").innerHTML = "The type of something is " + typeof something;</textarea><br><br>
+
+<div class="fs-15">Typeof with Null</div><br><br><div class="fs-10">Be careful: <code>null</code> is considered an object in JavaScript. This is a historic bug:</div><br><br><textarea id="textbox" rows="10" cols="70">// null is considered an object let n = null; document.getElementById("demo").innerHTML = "The type of n is " + typeof n;</textarea><br><br> <div class="fs-15">Typeof Summary</div><br><br><div class="fs-10"><ul><li><code>typeof 42</code> → "number"</li><li><code>typeof "Hello"</code> → "string"</li><li><code>typeof true</code> → "boolean"</li><li><code>typeof undefined</code> → "undefined"</li><li><code>typeof null</code> → "object"</li><li><code>typeof {}</code> → "object"</li><li><code>typeof []</code> → "object"</li><li><code>typeof function() {}</code> → "function"</li></ul></div><br><br> </article>
+ </main> 
+[include file=[INCVAR]footer.inc]

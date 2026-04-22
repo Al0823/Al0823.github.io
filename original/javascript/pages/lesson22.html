@@ -1,0 +1,456 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>String Methods Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Strings Methods" Javascript page, it teaches you how to write this code and how it works.
+Now what this code can do is change what some text says, it can also make buttons and just possibly redirects you if you know what you are doing.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<div class="fs-15">JavaScript String Length</div>
+<div class="fs-10">The length property returns the length of a string</div>
+
+<p id="STRINGMETHODS"></p>
+
+<script>
+let text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+document.getElementById("STRINGMETHODS").innerHTML = text.length;
+</script><BR><BR>
+<DIV CLASS="FS-15">Extracting String Characters</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">There are 4 methods for extracting string characters:<BR><BR>
+
+The at(position) Method<BR><BR>
+The charAt(position) Method<BR><BR>
+The charCodeAt(position) Method<BR><BR>
+Using property access [] like in arrays<BR><BR></DIV>
+<DIV CLASS="FS-15">JavaScript String charAt()</DIV>
+<DIV CLASS="FS-10">The charAt() method returns the character at a specified index (position) in a string.</DIV><BR><BR>
+
+<p id="STRINGMETHODS2"></p>
+
+<script>
+var text = "HELLO WORLD";
+document.getElementById("STRINGMETHODS2").innerHTML = text.charAt(0);
+</script><BR><BR>
+<DIV CLASS="FS-15">JavaScript String charCodeAt()</DIV>
+<DIV CLASS="FS-10">The charCodeAt() method returns the code of the character at a specified index in a string.
+<BR><BR>
+The method returns a UTF-16 code (an integer between 0 and 65535).
+</DIV><BR><BR>
+<p id="STRINGMETHODS3"></p>
+
+<script>
+let text = "HELLO WORLD";
+document.getElementById("STRINGMETHODS3").innerHTML = text.charCodeAt(0);
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String codePointAt()</DIV>
+<BR><BR>
+<p id="STRINGMETHODS4"></p>
+
+<script>
+let text = "HELLO WORLD";
+let code = text.codePointAt(0);
+
+document.getElementById("STRINGMETHODS4").innerHTML = code;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String at()</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">ES2022 introduced the string method at()</DIV><BR><BR>
+<p id="STRINGMETHODS5"></p>
+
+<script>
+const name = "BOCES";
+let letter = name.at(2);
+
+document.getElementById("STRINGMETHODS5").innerHTML = letter;
+</script>
+<BR><BR>
+<p id="STRINGMETHODS6"></p>
+
+<script>
+const name = "BOCES";
+let letter = name[2];
+
+document.getElementById("STRINGMETHODS6").innerHTML = letter;
+</script><div class="fs-10">
+<BR><BR>
+The at() method returns the character at a specified position in a string.
+<BR><BR>
+The at() method is supported by all modern browsers since March 2022.
+<br><br>
+The at() method is new to javascript and allows for negative positions/indexes while charAt() does not.
+<br><br>
+With this new tag, you can now use myString.at(-2) instead of charAt(myString.length-2).
+</div>
+<br><br>
+<DIV CLASS="FS-15">JavaScript String Property Access []</DIV>
+<BR><BR>
+<p id="STRINGMETHODS7"></p>
+
+<script>
+let text = "HELLO WORLD";
+document.getElementById("STRINGMETHODS7").innerHTML = text[0];
+</script>
+<br><br>
+<div class="fs-10">
+<BR><BR>
+Property access can be a little unpredictable.
+<br><br>
+It makes strings look like arrays, but they actually are not
+<br><br>
+If no character is found, [] will return undefined, while charAt() will return an empty string.
+<br><br>
+It is read only. str[0] = "A" gives no error, but it does not work.</div>
+<br><br>
+<p id="STRINGMETHODS8"></p>
+
+<script>
+let text = "HELLO WORLD";
+
+text[0] = "A";  // Does not work
+
+document.getElementById("STRINGMETHODS8").innerHTML = text;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String concat()</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">concat() can join 2 or more strings together.</DIV><BR><BR>
+<p id="STRINGMETHODS9"></p>
+
+<script>
+let text1 = "Hello";
+let text2 = "World!";
+let text3 = text1.concat(" ",text2);
+document.getElementById("STRINGMETHODS9").innerHTML = text3;
+
+
+</script>
+<br><br>
+<div class="fs-10">The concat() method can be used instead of the plus operator; They do the exact same thing.
+<br><br>
+All string methods create a new string when returning a value. They do not modify the original string.
+<br><br>
+To put it simple; Strings are not able to be changed, they can only be replaced.
+
+
+</div>
+
+
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript Strings Extracting String Parts</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">There are 3 methods for extracting a part of a string; these methods are to slice(start, end), substring(start, end), and substr(start, length)</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript String slice()</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">slice() takes a part of a string and returns the taken part in a new string.
+<br><br>
+This method takes 2 parameters, the start position and end position (end position not included).</DIV><BR><BR>
+<p id="STRINGMETHODS10"></p>
+
+<script>
+let text = "STRAWBERRY, PINEAPPLE, ORANGE";
+let part = text.slice(7,13);
+document.getElementById("STRINGMETHODS10").innerHTML = part; 
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">JavaScript counts positions from zero; meaning that the First position is 0, the second would be 1, etc.
+</DIV>
+<br><br>
+<p id="STRINGMETHODS11"></p>
+
+<script>
+let text = "Apple, Banana, Kiwi";
+let part = text.slice(7)
+document.getElementById("STRINGMETHODS11").innerHTML = part;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript Strings substrings</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">substring() is similar to slice(). The only difference between the two is that the start and end values that are less than 0 are treated as 0 in substring().
+</DIV><BR><BR>
+<p id="STRINGMETHODS12"></p>
+
+<script>
+let str = "Apple, Banana, Kiwi";
+document.getElementById("STRINGMETHODS12").innerHTML = str.substring(7,13);
+</script><BR><BR><DIV CLASS="FS-10">
+If you omit the second parameter, substring() will slice out the rest of the string.</DIV><BR><BR>
+<DIV CLASS="FS-15">JavaScript Strings substr</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">substr() is kind of like slice().
+<br><br>
+The difference is that the second parameter specifies the length of the extracted part.
+<br><br>
+The substr() method is recommended in the most recent JavaScript standard.
+<br><br>
+You should use substring() or slice() instead.
+</DIV>
+<br><br>
+<p id="STRINGMETHODS13"></p>
+
+<script>
+let str = "Apple, Banana, Kiwi";
+document.getElementById("STRINGMETHODS13").innerHTML = str.substr(7,6);
+</script>
+<br><br>
+<div class="fs-10">If you do not include the second parameter, substr() will slice out the rest of the string.</div>
+<br><br>
+<p id="STRINGMETHODS14"></p>
+
+<script>
+let str = "Apple, Banana, Kiwi";
+document.getElementById("STRINGMETHODS14").innerHTML = str.substr(7);
+</script>
+<BR><BR>
+<DIV CLASS="FS-10">If the first parameter is a negative number, the position counts from the end of the string.</DIV><br><br>
+<p id="STRINGMETHODS15"></p>
+
+<script>
+let str = "Pineapple, Strwaberry, Orange";
+document.getElementById("STRINGMETHODS15").innerHTML = str.substr(-4);
+</script>
+<br><br>
+<DIV CLASS="FS-15">JavaScript Strings Converting to Upper and Lower Case</DIV>
+<BR><BR>
+<DIV CLASS="FS-10">A string is converted to upper case with toUpperCase()
+<br>
+A string is converted to lower case with toLowerCase()
+</DIV>
+<br><br>
+<DIV CLASS="FS-15">JavaScript String Methods toUpperCase()</DIV>
+<BR><BR>
+<button onclick="myFunctionSTRINGMETHODS16()">Make it UpperCase</button>
+
+<p id="STRINGMETHODS16">Hello World!</p>
+
+<script>
+function myFunctionSTRINGMETHODS16() {
+  let text = document.getElementById("STRINGMETHODS16").innerHTML;
+  document.getElementById("STRINGMETHODS16").innerHTML =
+  text.toUpperCase();
+}
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods toLowerCase()</DIV>
+<br><br>
+<button onclick="myFunctionSTRINGMETHODS17()">Make it LowerCase()</button>
+
+<p id="STRINGMETHODS17">Hello World!</p>
+
+<script>
+function myFunctionSTRINGMETHODS17() {
+  let text = document.getElementById("STRINGMETHODS17").innerHTML;
+  document.getElementById("STRINGMETHODS17").innerHTML =
+  text.toLowerCase();
+}
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods isWellFormed()</DIV>
+<br><br>
+<DIV CLASS="FS-10">The isWellFormed() method will return true if a string is well formed.
+<br><br>
+If no then it will return as false.
+<br><br>
+A string is not well formed if it contains Lone Surrogates.</DIV>
+<br><br>
+<p id="STRINGMETHODS18"></p>
+
+<script>
+let text = "Hello world!";
+let result = text.isWellFormed();
+
+document.getElementById("STRINGMETHODS18").innerHTML = result;
+</script>
+<BR><BR>
+<p id="STRINGMETHODS19"></p>
+
+<script>
+let text = "Hello world \uD800";
+let result = text.isWellFormed();
+
+document.getElementById("STRINGMETHODS19").innerHTML = result;
+</script>
+<BR><br>
+<DIV CLASS="FS-15">JavaScript String Methods Lone Surrogates</DIV>
+<br><br>
+<DIV CLASS="FS-10">A lone surrogate is a Unicode surrogate code point that is not part of a valid surrogate pair used to represent characters in UTF-16 encoding.</DIV>
+<br><br>
+<DIV CLASS="FS-15">JavaScript String Methods toWellFormed()</DIV>
+<br><br>
+<DIV CLASS="FS-10">The String method toWellFormed() returns a new string where all "lone surrogates" are replaced with the Unicode replacement character (U+FFFD).
+</DIV>
+<br><br>
+<p id="STRINGMETHODS20"></p>
+
+<script>
+let text = "Hello world \uD800";
+let result = text.toWellFormed();
+
+document.getElementById("STRINGMETHODS20").innerHTML = result;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods trim()</DIV>
+<br><br>
+<DIV CLASS="FS-10">The trim() method removes extra space from both sides of a string.
+</DIV>
+<br><br>
+<p id="STRINGMETHODS21"></p>
+
+<script>
+let text1 = "     Hello World!     ";
+let text2 = text1.trim();
+
+document.getElementById("STRINGMETHODS21").innerHTML =
+"Length text1 = " + text1.length + "<br>Length text2 = " + text2.length;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods trimStart()</DIV>
+<br><br>
+<DIV CLASS="FS-10">ECMAScript 2019 added the String method trimStart() to the world of JavaScript.
+<br><br>
+The trimStart() method works like trim(), but gets rid of extra space only from the start of a string</div>
+<br><br>
+<p id="STRINGMETHODS22"></p>
+
+<script>
+let text1 = "     Hello World!     ";
+let text2 = text1.trimStart();
+
+document.getElementById("STRINGMETHODS22").innerHTML =
+"Length text1 = " + text1.length + "<br>Length text2 = " + text2.length;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods trimEnd()</DIV>
+<br><br>
+<DIV CLASS="FS-10">ECMAScript 2019 added the String method trimEnd() to the world of JavaScript.
+<br><br>
+The trimEnd() method works like trim() but it only gets rid of extra space from the End of a string.</div>
+<br><br>
+<p id="STRINGMETHODS23"></p>
+
+<script>
+let text1 = "     Hello World!     ";
+let text2 = text1.trimEnd();
+
+document.getElementById("STRINGEMETHODS23").innerHTML =
+"Length text1 = " + text1.length + "<br>Length text2 = " + text2.length;
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods Padding</DIV><BR><BR>
+<div class="fs-10">ECMAScript 2017 added two new string methods to JavaScript: padStart() and padEnd() to support padding at the beginning and at the end of a string.
+</div><br><br>
+<DIV CLASS="FS-15">JavaScript String Methods padStart()</DIV>
+<br><br>
+<DIV CLASS="FS-10">The padStart() method pads a string from the start.
+<br><br>
+It pads a string with another string (multiple times) until it reaches a given length.</div>
+<br><br>
+<p id="STRINGMETHODS24"></p>
+
+<script>
+let text = "5";
+text = text.padStart(4,"0");
+
+document.getElementById("STRINGMETHODS24").innerHTML = text;
+</script>
+<br><br>
+<p id="STRINGMETHODS25"></p>
+
+<script>
+let text = "5";
+document.getElementById("STRINGMETHODS25").innerHTML = text.padStart(4,"x");
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods padEnd()</DIV>
+<br><br>
+<DIV CLASS="FS-10">The padEnd() method pads a string from the End.
+<br><br>
+It pads a string with another string (multiple times) until it reaches a given length.</div>
+<br><br>
+<p id="STRINGMETHODS26"></p>
+
+<script>
+let text = "5";
+text = text.padEnd(4,"0");
+
+document.getElementById("STRINGMETHODS26").innerHTML = text;
+</script>
+<BR><BR>
+<p id="STRINGMETHODS27"></p>
+
+<script>
+let text = "5";
+document.getElementById("STRINGMETHODS27").innerHTML = text.padEnd(4,"x");
+</script>
+<BR><BR><DIV CLASS="FS-10">
+The padEnd() method is a string method.
+<BR><BR>
+To pad a number, convert the number to a string first.
+</DIV>
+<BR><BR>
+<p id="STRINGMETHODS28"></p>
+
+<script>
+let numb = 5;
+let text = numb.toString();
+document.getElementById("STRINGMETHODS28").innerHTML = text.padEnd(4,"x");
+</script>
+<BR><BR>
+<DIV CLASS="FS-15">JavaScript String Methods repeat()</DIV>
+<br><br>
+<DIV CLASS="FS-10">The repeat() method returns a string with a number of copies of a string.
+<br><br>
+The repeat() method returns a new string.
+<br><br>
+The repeat() method does not change the original string.</div>
+<br><br>
+<p id="STRINGMETHODS29"></p>
+
+<script>
+let text = "Hello world!";
+let result = text.repeat(2);
+
+document.getElementById("STRINGMETHODS29").innerHTML = result;
+</script>
+<BR><BR>
+<p id="STRINGMETHODS30"></p>
+
+<script>
+let text = "Hello world!";
+let result = text.repeat(4);
+
+document.getElementById("STRINGMETHODS30").innerHTML = result;
+</script>
+<BR><BR>
+[/INPUT]
+</textarea>
+
+
+
+
+<h2>Now you try!</h2>
+<br><br>
+
+
+
+
+
+</script>
+
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

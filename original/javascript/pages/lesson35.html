@@ -1,0 +1,232 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+    <h2>JavaScript Dates Tutorial</h2>
+    This page teaches you how to work with <strong>Date objects</strong> in JavaScript. You can create a Date object to get the current date and time, or set a specific date.<br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+    <textarea id="textbox" rows="10" cols="70">
+const d = new Date("2022-03-25");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+     <div class="fs-10">
+Date objects are static. The "clock" is not "running".
+<br><br>
+The computer clock is ticking, date objects are not.
+     </div><br><br>
+    <div class="fs-15">JavaScript Date Output</div><br><br>
+    <div class="fs-10">
+By default, JavaScript will use the browser's time zone and display a date as a full text string:
+<br><br>
+Fri Feb 06 2026 06:29:43 GMT-0500 (Eastern Standard Time)
+<br><br>
+You will learn much more about how to display dates, later in this tutorial.
+    </div><br><br>
+<div class="fs-15">Creating Date Objects</div><br><br>
+    <div class="fs-10">
+Date objects are created with the new Date() constructor.
+<br><br>
+There are 9 ways to create a new date object:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+new Date()
+new Date(date string)
+
+new Date(year,month)
+new Date(year,month,day)
+new Date(year,month,day,hours)
+new Date(year,month,day,hours,minutes)
+new Date(year,month,day,hours,minutes,seconds)
+new Date(year,month,day,hours,minutes,seconds,ms)
+
+new Date(milliseconds)
+      </textarea><br><br>
+
+<div class="fs-15">JavaScript new Date()</div><br><br>
+    <div class="fs-10">
+new Date() creates a date object with the current date and time:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date();
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+
+<div class="fs-15">new Date(date string)</div><br><br>
+    <div class="fs-10">
+new Date(date string) creates a date object from a date string:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date("October 13, 2014 11:13:00");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date("2022-03-25");
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Date string formats are described in the next chapter.</div><br><br>
+
+<div class="fs-15">new Date(year, month, ...)</div><br><br>
+    <div class="fs-10">
+new Date(year, month, ...) creates a date object with a specified date and time.
+<br><br>
+7 numbers specify year, month, day, hour, minute, second, and millisecond (in that order):
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24, 10, 33, 30, 0);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<div class="fs-10">JavaScript counts months from 0 to 11:
+<br><br>
+January = 0.
+<br><br>
+December = 11.
+<br><br>
+Specifying a month higher than 11, will not result in an error but add the overflow to the next year:</div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 15, 24, 10, 33, 30, 0);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2019, 3, 24, 10, 33, 30, 0);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">Specifying a day higher than max, will not result in an error but add the overflow to the next month:</div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 05, 35, 10, 33, 30, 0);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 6, 5, 10, 33, 30);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-15">Using 6, 4, 3, or 2 Numbers</div><br><br>
+    <div class="fs-10">
+6 numbers specify year, month, day, hour, minute, second:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24, 10, 33, 30);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">
+5 numbers specify year, month, day, hour, minute:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24, 10, 33);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">
+4 numbers specify year, month, day, and hour:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24, 10);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">
+3 numbers specify year, month, and day:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11, 24);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">
+2 numbers specify year, and month:
+    </div><br><br>
+ <textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018, 11);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">You cannot omit month. If you supply only one parameter it will be treated as milliseconds.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(2018);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-15">Previous Century</div><br><br>
+<div class="fs-10">One and two digit years will be interpreted as 19xx:</div>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(99, 11, 24);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(9, 11, 24);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">JavaScript stores dates as number of milliseconds since January 01, 1970.
+<br><br>
+Zero time is January 01, 1970 00:00:00 UTC.
+<br><br>
+One day (24 hours) is 86 400 000 milliseconds.</div>
+<br><br>
+<div class="fs-15">new Date(milliseconds)</div>
+<div class="fs-10">new Date(milliseconds) creates a new date object as milliseconds plus zero time<br><br>01 January 1970 plus 100 000 000 000 milliseconds is:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(100000000000);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<div class="fs-10">01 January 1970 minus 100 000 000 000 milliseconds is:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const d = new Date(-100000000000);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+						<div class="fs-10">January 01 1970 plus 24 hours is:</div><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+const d = new Date(86400000);
+document.getElementById("demo").innerHTML = d;
+// or
+const d = new Date(24 * 60 * 60 * 1000);
+document.getElementById("demo").innerHTML = d;
+      </textarea><br><br>
+<h3>Examples</h3>    
+    <h3>Creating a Date Object</h3>
+    <p>Use the <code>Date()</code> constructor:</p>
+    <pre><code>let today = new Date();
+console.log(today);</code></pre>
+
+    <h3>Getting the Current Date and Time</h3>
+    <p>You can use methods like <code>getFullYear()</code>, <code>getMonth()</code>, <code>getDate()</code>, <code>getHours()</code>, etc.</p>
+    <pre><code>let now = new Date();
+let year = now.getFullYear();
+let month = now.getMonth() + 1; 
+let day = now.getDate();
+let hour = now.getHours();
+let minute = now.getMinutes();
+
+console.log(`Today is ${month}/${day}/${year} ${hour}:${minute}`);</code></pre>
+
+    <h3>Setting a Specific Date</h3>
+    <p>You can create a Date object for a specific date:</p>
+    <pre><code>let birthday = new Date("2005-06-15");
+console.log(birthday);</code></pre>
+
+    <h3>Other Useful Date Methods</h3>
+    <ul>
+      <li><code>getDay()</code> – returns the day of the week (0–6)</li>
+      <li><code>getTime()</code> – returns milliseconds since January 1, 1970</li>
+      <li><code>setFullYear(year)</code>, <code>setMonth(month)</code>, <code>setDate(day)</code> – modify a date</li>
+    </ul>
+
+    <h3>Example: Display Current Date and Time on Page</h3>
+    <p>Try this snippet:</p>
+    <pre><code id="dateExample"></code></pre>
+
+    <script>
+      const now = new Date();
+      document.getElementById("dateExample").textContent =
+        now.toLocaleString();
+    </script>
+
+    <p>This will output something like: <em>2/5/2026, 3:15:20 PM</em> depending on your local time.</p>
+  </article>
+
+
+ 
+ </main> 
+[include file=[INCVAR]footer.inc]

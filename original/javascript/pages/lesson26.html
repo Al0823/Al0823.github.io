@@ -1,0 +1,590 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article>
+<h2>BIGINT Javascript tutorial</h2>
+<br><br>
+
+
+This is the "BIGINT" Javascript page, it teaches you how to write this code and how it works.<BR><BR>
+Now what this code does is help with is storing integers and numerical data beyond the 64 bit limit that "NUMBER" has.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">Javascript BigInt</DIV><br><BR>
+<DIV CLASS="FS-15">What is JavaScript BigInt?</DIV><BR><BR>
+<DIV CLASS="FS-10">BigInt is a JavaScript data type for handling and storing big integer values.
+<BR><BR>
+BigInt allows you to work with integers larger than the limit of NUMBER.
+<BR><BR>
+BigInt can represent an integer of any size, limited only by available memory.</DIV><BR><BR>
+<DIV CLASS="FS-15">Javascript Accuracy</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript Numbers are only accurate up to 15 digits</DIV><BR><BR>
+<p id="BIGINT"></p>
+
+<script>
+// 15 digits:
+let x = 999999999999999;
+
+// 16 digits:
+let y = 9999999999999999;
+document.getElementById("BIGINT").innerHTML = "Accurate: " + x + "<br>Inaccurate: " + y;
+</script><BR><BR>
+<DIV CLASS="FS-15">Numbers are 64-bits Floating Point</DIV><BR><BR>
+<DIV CLASS="FS-10">All JavaScript Numbers are stored in a 64-bit floating-point format (IEEE 754 standard).
+<BR><BR>
+With this standard, large numbers cannot be exactly represented, but will be rounded.
+<BR><BR>
+JavaScript can only safely represent integers up to 253-1 (9007199254740991).
+<BR><BR>
+JavaScript can only safely represent integers down to -253-1 (-9007199254740991).</DIV><BR><BR>
+<p id="BIGINT2"></p>
+
+<script>
+let x = Number.MAX_SAFE_INTEGER;
+let y = Number.MIN_SAFE_INTEGER;
+
+document.getElementById("BIGINT2").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">Integers bigger than Number.MAX_SAFE_INTEGER will lose precision</DIV><BR><BR>
+<p id="BIGINT3"></p>
+
+<script>
+// Max (accurate)
+let x = 9007199254740991;
+
+// Max + 10 (inaccurate)
+let y = x + 10;
+
+document.getElementById("BIGINT3").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">Integers less than than Number.MIN_SAFE_INTEGER will lose precision</DIV><BR><BR>
+<p id="BIGINT3"></p>
+
+<script>
+// Max (accurate)
+let x = -9007199254740991;
+
+// Max + 10 (inaccurate)
+let y = x - 10;
+
+document.getElementById("BIGINT3").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">There is no such thing as a JavaScript Integer.
+<BR><BR>
+All JavaScript Numbers are 64-bit floating point.</DIV><BR><BR>
+<DIV CLASS="FS-15">How to Create a BigInt</DIV><BR><BR>
+<DIV CLASS="FS-10">You can create a BigInt in two ways,
+<BR><BR>
+Using an integer literal with an n suffix or using the BigInt() constructor with a string</DIV><BR><BR>
+<p id="BIGINT4"></p>
+
+<script>
+let x = 9999999999999999n;
+let y = BigInt("9999999999999999");
+
+document.getElementById("BIGINT4").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<p id="BIGINT5"></p>
+
+<script>
+let x = 12345678901234567890n;
+let y = BigInt("12345678901234567890");
+
+document.getElementById("BIGINT5").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">You can also create a BigInt using the Bigint() constructor with a Number.
+<BR><BR>
+But be careful because Numbers are only accurate up to 15 digits.</DIV><BR><BR>
+<p id="BIGINT6"></p>
+
+<script>
+let x = BigInt(9999999999999999);
+
+document.getElementById("BIGINT6").innerHTML = "Inaccurate: " + x;
+</script><BR><BR>
+<DIV CLASS="FS-15">BigInt is a JavaScript Datatype</DIV><BR><BR>
+<DIV CLASS="FS-10">The JavaScript typeof a BigInt is "bigint"</DIV><BR><BR>
+<p id="BIGINT7"></p>
+
+<script>
+let x = BigInt("9999999999999999");
+let type = typeof x;
+
+document.getElementById("BIGINT7").innerHTML = type;
+</script><BR><BR>
+<DIV CLASS="FS-10">BigInt is the second numeric data type in JavaScript (after Number).
+<BR><BR>
+With BigInt the total number of supported data types in JavaScript is 8<BR><BR>
+<OL>
+<LI>String</LI>
+<LI>Number</LI>
+<LI>Bigint</LI>
+<LI>Boolean</LI>
+<LI>Undefined</LI>
+<LI>Null</LI>
+<LI>Symbol</LI>
+<LI>Object</LI>
+</OL>
+</DIV><BR><BR>
+<DIV CLASS="fs-15">Arithmetic Operators</DIV><BR><BR>
+<DIV CLASS="FS-10">BigInt supports standard JavaScript arithmetic operators (+, -, ++, --, *, /, %, **).</DIV><BR><BR>
+<p id="BIGINT8"></p>
+
+<script>
+let x = 9007199254740995n;
+let y = 9007199254740995n;
+
+let z = x * y;
+
+document.getElementById("BIGINT8").innerHTML = z; 
+</script><BR><BR>
+<DIV CLASS="FS-15">Mixing BigInt and Numbers</DIV><BR><BR>
+<DIV CLASS="FS-10">Arithmetic between a BigInt and a Number is not allowed (it will result in a TypeError).<BR><BR>
+Explicit conversion must be done first.
+</DIV><BR><BR>
+<p id="BIGINT9"></p>
+
+<script>
+let x = 10n;
+let y = 5;
+
+let z = Number(x) + y;
+
+document.getElementById("BIGINT9").innerHTML = "Sum of x and y is " + z; 
+</script><BR><BR>
+<DIV CLASS="FS-15">BigInt / Number Conversions</DIV><BR><BR>
+<DIV CLASS="FS-10">BigInt to Number, use the Number() constructor.<BR><BR>
+Number to BigInt, Use the BigInt() constructor.</DIV><BR><BR>
+<p id="BIGINT10"></p>
+
+<script>
+// Creating BigInt
+let largeNumber = BigInt("12345678901234567890");
+
+// Conversion
+let num = Number(largeNumber);
+
+document.getElementById("BIGINT10").innerHTML = num; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Large BigInts might result in Infinity or loss of precision when converted to number.</DIV><BR><BR>
+<DIV CLASS="FS-15">BigInt Decimals</DIV><BR><BR>
+<DIV CLASS="FS-10">A BigInt can not have decimals.</DIV><BR><BR>
+<p id="BIGINT_11"></p>
+
+<script>
+let x = 5n;
+let y = Number(x) / 2;
+
+document.getElementById("BIGINT_11").innerHTML = y; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Attempting to convert a number with a fractional part to a BigInt will throw an error.</DIV><BR><BR>
+<DIV CLASS="FS-15">Comparison Operators</DIV><BR><BR>
+<DIV CLASS="FS-10">Bigint supports standard JavaScript comparison operators (<, > ==, ===, !==, <=, >=).
+<BR><BR>
+BigInts can also be compared with Numbers using standard comparison operators.</DIV><BR><BR>
+<p id="BIGINT_12"></p>
+
+<script>
+let x = (10n > 5n);   // true
+
+let y = (10n === 10); // false (different types)
+
+let z = (10n == 10);  // true (loose equality)
+
+document.getElementById("BIGINT_12").innerHTML = x + "," + y + "," + z; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Strict equality (===) between a BigInt and a Number will always be false due to different types.</DIV><BR><BR>
+<DIV CLASS="FS-15">Bitwise Operators</DIV><BR><BR>
+<div CLASS="FS-10">BigInt supports bitwise operations, but only with other BigInts (not Numbers)<BR><BR>
+<UL>
+<LI>& (AND)</LI>
+<LI>| (OR)</LI>
+<LI>^ (XOR)</LI>
+<LI>~ (NOT)</LI>
+</UL>
+</DIV><BR><BR>
+<p id="BIGINT_13"></p>
+
+<script>
+let a = 5n;   // 0101
+let b = 3n;   // 0011
+
+let x = (a & b); // 1n   (0001)
+let y = (a | b); // 7n   (0111)
+let z = (a ^ b); // 6n   (0110)
+let n = (~a);    // -6n  (bitwise NOT)
+
+document.getElementById("BIGINT_13").innerHTML = x + "," + y + "," + z + "," + n;
+</script>
+<DIV CLASS="FS-15">Bitwise Shift Operators</DIV>
+<DIV CLASS="FS-10">BigInt only supports two shift operators, left shift (<<), and signed right shift (>>).</DIV><BR><BR>
+<p id="BIGINT_14"></p>
+
+<script>
+let big = 10n; // (1010n)
+
+let x = (big << 2n); // 40n (101000)
+let y = (big >> 1n); // 5n  (0101)
+
+document.getElementById("BIGINT_14").innerHTML = x + "<br>" + y; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Both operands must be BigInt, Shift amounts must be non-negative, Right shift keeps the sign bit for negative values, these are all important rules of Javascript.<BR><BR>
+Unsigned right shift (>>>) is not allowed with BigInts.</DIV><BR><BR>
+<DIV CLASS="FS-15">BigInt Hex, Octal and Binary</DIV><BR><BR>
+<div CLASS="FS-10">BigInt can also be written in hexadecimal, octal, or binary notation:
+<br><br>
+Just like numbers, bigint literals support several bases.<BR><BR>
+<UL>
+<LI>Normal: 256n</LI>
+<LI>Octal: 0o400n</LI>
+<LI>Hexadecimal: 0x100n</LI>
+<LI>Binary: 0b100000000n</LI>
+</UL>
+</DIV><BR><BR>
+<p id="BIGINT_15"></p>
+
+<script>
+let num = 256n;
+let oct = 0o400n;
+let hex = 0x100n;
+let bin = 0b100000000n;
+
+document.getElementById("BIGINT_15").innerHTML = num + "<br>" + oct + "<br>" + hex + "<br>" + bin; 
+</script>
+
+<p id="BIGINT_16"></p>
+
+<script>
+let hex = 0x20000000000003n;
+let oct = 0o400000000000000003n;
+let bin = 0b100000000000000000000000000000000000000000000000000011n;
+
+document.getElementById("BIGINT_16").innerHTML = hex + "<br>" + oct + "<br>" + bin; 
+</script>
+
+<DIV CLASS="FS-15">Precision Curiosity</DIV><BR><BR>
+<div CLASS="FS-10">Maximum safe integer in JavaScript is 9007199254740991.
+<BR><BR>
+Rounding can compromise program security:
+</DIV><BR><BR>
+
+<p id="BIGINT_17"></p>
+
+<script>
+let x = 9007199254740992 === 9007199254740993;
+document.getElementById("BIGINT_17").innerHTML = x;
+</script>
+<p id="BIGINT_18"></p>
+
+<script>
+let x = 9007199254740992n === 9007199254740993n;
+document.getElementById("BIGINT_18").innerHTML = x;
+</script>
+
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+<DIV CLASS="FS-15">Javascript BigInt</DIV><br><BR>
+<DIV CLASS="FS-15">What is JavaScript BigInt?</DIV><BR><BR>
+<DIV CLASS="FS-10">BigInt is a JavaScript data type for handling and storing big integer values.
+<BR><BR>
+BigInt allows you to work with integers larger than the limit of NUMBER.
+<BR><BR>
+BigInt can represent an integer of any size, limited only by available memory.</DIV><BR><BR>
+<DIV CLASS="FS-15">Javascript Accuracy</DIV><BR><BR>
+<DIV CLASS="FS-10">JavaScript Numbers are only accurate up to 15 digits</DIV><BR><BR>
+<p id="BIGINT"></p>
+
+<script>
+// 15 digits:
+let x = 999999999999999;
+
+// 16 digits:
+let y = 9999999999999999;
+document.getElementById("BIGINT").innerHTML = "Accurate: " + x + "<br>Inaccurate: " + y;
+</script><BR><BR>
+<DIV CLASS="FS-15">Numbers are 64-bits Floating Point</DIV><BR><BR>
+<DIV CLASS="FS-10">All JavaScript Numbers are stored in a 64-bit floating-point format (IEEE 754 standard).
+<BR><BR>
+With this standard, large numbers cannot be exactly represented, but will be rounded.
+<BR><BR>
+JavaScript can only safely represent integers up to 253-1 (9007199254740991).
+<BR><BR>
+JavaScript can only safely represent integers down to -253-1 (-9007199254740991).</DIV><BR><BR>
+<p id="BIGINT2"></p>
+
+<script>
+let x = Number.MAX_SAFE_INTEGER;
+let y = Number.MIN_SAFE_INTEGER;
+
+document.getElementById("BIGINT2").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">Integers bigger than Number.MAX_SAFE_INTEGER will lose precision</DIV><BR><BR>
+<p id="BIGINT3"></p>
+
+<script>
+// Max (accurate)
+let x = 9007199254740991;
+
+// Max + 10 (inaccurate)
+let y = x + 10;
+
+document.getElementById("BIGINT3").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">Integers less than than Number.MIN_SAFE_INTEGER will lose precision</DIV><BR><BR>
+<p id="BIGINT3"></p>
+
+<script>
+// Max (accurate)
+let x = -9007199254740991;
+
+// Max + 10 (inaccurate)
+let y = x - 10;
+
+document.getElementById("BIGINT3").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">There is no such thing as a JavaScript Integer.
+<BR><BR>
+All JavaScript Numbers are 64-bit floating point.</DIV><BR><BR>
+<DIV CLASS="FS-15">How to Create a BigInt</DIV><BR><BR>
+<DIV CLASS="FS-10">You can create a BigInt in two ways,
+<BR><BR>
+Using an integer literal with an n suffix or using the BigInt() constructor with a string</DIV><BR><BR>
+<p id="BIGINT4"></p>
+
+<script>
+let x = 9999999999999999n;
+let y = BigInt("9999999999999999");
+
+document.getElementById("BIGINT4").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<p id="BIGINT5"></p>
+
+<script>
+let x = 12345678901234567890n;
+let y = BigInt("12345678901234567890");
+
+document.getElementById("BIGINT5").innerHTML = x + "<br>" + y;
+</script><BR><BR>
+<DIV CLASS="FS-10">You can also create a BigInt using the Bigint() constructor with a Number.
+<BR><BR>
+But be careful because Numbers are only accurate up to 15 digits.</DIV><BR><BR>
+<p id="BIGINT6"></p>
+
+<script>
+let x = BigInt(9999999999999999);
+
+document.getElementById("BIGINT6").innerHTML = "Inaccurate: " + x;
+</script><BR><BR>
+<DIV CLASS="FS-15">BigInt is a JavaScript Datatype</DIV><BR><BR>
+<DIV CLASS="FS-10">The JavaScript typeof a BigInt is "bigint"</DIV><BR><BR>
+<p id="BIGINT7"></p>
+
+<script>
+let x = BigInt("9999999999999999");
+let type = typeof x;
+
+document.getElementById("BIGINT7").innerHTML = type;
+</script><BR><BR>
+<DIV CLASS="FS-10">BigInt is the second numeric data type in JavaScript (after Number).
+<BR><BR>
+With BigInt the total number of supported data types in JavaScript is 8<BR><BR>
+<OL>
+<LI>String</LI>
+<LI>Number</LI>
+<LI>Bigint</LI>
+<LI>Boolean</LI>
+<LI>Undefined</LI>
+<LI>Null</LI>
+<LI>Symbol</LI>
+<LI>Object</LI>
+</OL>
+</DIV><BR><BR>
+<DIV CLASS="fs-15">Arithmetic Operators</DIV><BR><BR>
+<DIV CLASS="FS-10">BigInt supports standard JavaScript arithmetic operators (+, -, ++, --, *, /, %, **).</DIV><BR><BR>
+<p id="BIGINT8"></p>
+
+<script>
+let x = 9007199254740995n;
+let y = 9007199254740995n;
+
+let z = x * y;
+
+document.getElementById("BIGINT8").innerHTML = z; 
+</script><BR><BR>
+<DIV CLASS="FS-15">Mixing BigInt and Numbers</DIV><BR><BR>
+<DIV CLASS="FS-10">Arithmetic between a BigInt and a Number is not allowed (it will result in a TypeError).<BR><BR>
+Explicit conversion must be done first.
+</DIV><BR><BR>
+<p id="BIGINT9"></p>
+
+<script>
+let x = 10n;
+let y = 5;
+
+let z = Number(x) + y;
+
+document.getElementById("BIGINT9").innerHTML = "Sum of x and y is " + z; 
+</script><BR><BR>
+<DIV CLASS="FS-15">BigInt / Number Conversions</DIV><BR><BR>
+<DIV CLASS="FS-10">BigInt to Number, use the Number() constructor.<BR><BR>
+Number to BigInt, Use the BigInt() constructor.</DIV><BR><BR>
+<p id="BIGINT10"></p>
+
+<script>
+// Creating BigInt
+let largeNumber = BigInt("12345678901234567890");
+
+// Conversion
+let num = Number(largeNumber);
+
+document.getElementById("BIGINT10").innerHTML = num; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Large BigInts might result in Infinity or loss of precision when converted to number.</DIV><BR><BR>
+<DIV CLASS="FS-15">BigInt Decimals</DIV><BR><BR>
+<DIV CLASS="FS-10">A BigInt can not have decimals.</DIV><BR><BR>
+<p id="BIGINT_11"></p>
+
+<script>
+let x = 5n;
+let y = Number(x) / 2;
+
+document.getElementById("BIGINT_11").innerHTML = y; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Attempting to convert a number with a fractional part to a BigInt will throw an error.</DIV><BR><BR>
+<DIV CLASS="FS-15">Comparison Operators</DIV><BR><BR>
+<DIV CLASS="FS-10">Bigint supports standard JavaScript comparison operators (<, > ==, ===, !==, <=, >=).
+<BR><BR>
+BigInts can also be compared with Numbers using standard comparison operators.</DIV><BR><BR>
+<p id="BIGINT_12"></p>
+
+<script>
+let x = (10n > 5n);   // true
+
+let y = (10n === 10); // false (different types)
+
+let z = (10n == 10);  // true (loose equality)
+
+document.getElementById("BIGINT_12").innerHTML = x + "," + y + "," + z; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Strict equality (===) between a BigInt and a Number will always be false due to different types.</DIV><BR><BR>
+<DIV CLASS="FS-15">Bitwise Operators</DIV><BR><BR>
+<div CLASS="FS-10">BigInt supports bitwise operations, but only with other BigInts (not Numbers)<BR><BR>
+<UL>
+<LI>& (AND)</LI>
+<LI>| (OR)</LI>
+<LI>^ (XOR)</LI>
+<LI>~ (NOT)</LI>
+</UL>
+</DIV><BR><BR>
+<p id="BIGINT_13"></p>
+
+<script>
+let a = 5n;   // 0101
+let b = 3n;   // 0011
+
+let x = (a & b); // 1n   (0001)
+let y = (a | b); // 7n   (0111)
+let z = (a ^ b); // 6n   (0110)
+let n = (~a);    // -6n  (bitwise NOT)
+
+document.getElementById("BIGINT_13").innerHTML = x + "," + y + "," + z + "," + n;
+</script>
+<DIV CLASS="FS-15">Bitwise Shift Operators</DIV>
+<DIV CLASS="FS-10">BigInt only supports two shift operators, left shift (<<), and signed right shift (>>).</DIV><BR><BR>
+<p id="BIGINT_14"></p>
+
+<script>
+let big = 10n; // (1010n)
+
+let x = (big << 2n); // 40n (101000)
+let y = (big >> 1n); // 5n  (0101)
+
+document.getElementById("BIGINT_14").innerHTML = x + "<br>" + y; 
+</script><BR><BR>
+<DIV CLASS="FS-10">Both operands must be BigInt, Shift amounts must be non-negative, Right shift keeps the sign bit for negative values, these are all important rules of Javascript.<BR><BR>
+Unsigned right shift (>>>) is not allowed with BigInts.</DIV><BR><BR>
+<DIV CLASS="FS-15">BigInt Hex, Octal and Binary</DIV><BR><BR>
+<div CLASS="FS-10">BigInt can also be written in hexadecimal, octal, or binary notation:
+<br><br>
+Just like numbers, bigint literals support several bases.<BR><BR>
+<UL>
+<LI>Normal: 256n</LI>
+<LI>Octal: 0o400n</LI>
+<LI>Hexadecimal: 0x100n</LI>
+<LI>Binary: 0b100000000n</LI>
+</UL>
+</DIV><BR><BR>
+<p id="BIGINT_15"></p>
+
+<script>
+let num = 256n;
+let oct = 0o400n;
+let hex = 0x100n;
+let bin = 0b100000000n;
+
+document.getElementById("BIGINT_15").innerHTML = num + "<br>" + oct + "<br>" + hex + "<br>" + bin; 
+</script>
+
+<p id="BIGINT_16"></p>
+
+<script>
+let hex = 0x20000000000003n;
+let oct = 0o400000000000000003n;
+let bin = 0b100000000000000000000000000000000000000000000000000011n;
+
+document.getElementById("BIGINT_16").innerHTML = hex + "<br>" + oct + "<br>" + bin; 
+</script>
+
+<DIV CLASS="FS-15">Precision Curiosity</DIV><BR><BR>
+<div CLASS="FS-10">Maximum safe integer in JavaScript is 9007199254740991.
+<BR><BR>
+Rounding can compromise program security:
+</DIV><BR><BR>
+
+<p id="BIGINT_17"></p>
+
+<script>
+let x = 9007199254740992 === 9007199254740993;
+document.getElementById("BIGINT_17").innerHTML = x;
+</script>
+<p id="BIGINT_18"></p>
+
+<script>
+let x = 9007199254740992n === 9007199254740993n;
+document.getElementById("BIGINT_18").innerHTML = x;
+</script>
+<BR><BR>
+
+
+
+<DIV CLASS="FS-15">A quick Summary</DIV><BR><BR>
+<DIV CLASS="FS-10">
+BigInt allows arbitrary-precision integers
+<BR><BR>
+BigInt numbers can be as large (or small) as your memory allows.
+<BR><BR>
+BigInt are used for very large integers (cryptography, IDs, timestamps, etc).
+<BR><BR>
+BigInt is not suitable for decimals - only integers.
+<BR><BR>
+Math functions (like Math.sqrt()) do not work with BigInts.
+<BR><BR>
+JSON.stringify() cannot handle BigInts - throws an error.</DIV>
+  </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

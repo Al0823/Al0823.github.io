@@ -1,0 +1,42 @@
+<html>
+[include file=../includes/vars.inc]
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+
+<article> <h2>Variables</h2><br><br> <div class="fs-10">Variables in JavaScript are containers for storing data values. They allow you to give a name to a value so that you can use and manipulate it later.<br><br> Variables can hold numbers, strings, booleans, objects, arrays, or any other type of data.<br><br> They are fundamental for building dynamic programs and for keeping track of information.</div><br><br> <div class="fs-15">Declaring Variables</div><br><br> <div class="fs-10">JavaScript provides three ways to declare variables: <code>var</code>, <code>let</code>, and <code>const</code>.</div><br><br> <div class="fs-15">Using var</div><br><br> <div class="fs-10"><code>var</code> declares a variable, optionally initializing it to a value.<br><br> Variables declared with <code>var</code> have function scope and can be redeclared and updated.</div><br><br> <textarea id="textbox" rows="6" cols="70"> var name = "Alice"; var age = 25;
+
+name = "Bob"; // can update
+var age = 30; // can redeclare
+</textarea><br><br>
+
+<div class="fs-15">Using let</div><br><br> <div class="fs-10"><code>let</code> declares a block-scoped variable. You can update it, but you cannot redeclare it in the same scope.<br><br> Block scope means the variable only exists inside the block, statement, or expression where it is used.</div><br><br> <textarea id="textbox" rows="6" cols="70"> let name = "Alice"; name = "Bob"; // can update // let name = "Charlie"; // ❌ cannot redeclare in same scope </textarea><br><br> <div class="fs-15">Using const</div><br><br> <div class="fs-10"><code>const</code> declares a block-scoped variable that **cannot** be updated or redeclared.<br><br> A const variable must be initialized at the time of declaration.</div><br><br> <textarea id="textbox" rows="6" cols="70"> const name = "Alice"; // name = "Bob"; // ❌ cannot update // const name = "Charlie"; // ❌ cannot redeclare </textarea><br><br> <div class="fs-15">Variable Names</div><br><br> <div class="fs-10">Variable names (identifiers) in JavaScript must follow these rules:<br><br> - Can contain letters, digits, underscores, and dollar signs.<br> - Must begin with a letter, underscore (_), or dollar sign ($).<br> - Cannot be a reserved keyword (like <code>for</code>, <code>let</code>, <code>if</code>, etc.).<br> - Are case-sensitive (<code>myVar</code> and <code>myvar</code> are different).</div><br><br> <div class="fs-15">Assigning Values</div><br><br> <div class="fs-10">You can assign values to variables using the assignment operator <code>=</code>.<br><br> You can also assign multiple variables in one statement:</div><br><br> <textarea id="textbox" rows="6" cols="70"> let x = 5; let y = 10;
+
+let a = 1, b = 2, c = 3;
+</textarea><br><br>
+
+<div class="fs-15">Data Types</div><br><br> <div class="fs-10">Variables can store different types of data, including:<br><br> - Number: <code>let age = 30;</code><br> - String: <code>let name = "Alice";</code><br> - Boolean: <code>let isActive = true;</code><br> - Array: <code>let colors = ["red","green","blue"];</code><br> - Object: <code>let person = {firstName:"Alice", age:25};</code><br> - Undefined: <code>let data;</code> (no value yet)<br> - Null: <code>let data = null;</code> (intentional empty value)</div><br><br> <div class="fs-15">Variable Scope</div><br><br> <div class="fs-10">Scope determines where a variable is accessible in your code:</div><br><br> <div class="fs-10">Global Scope:</div><br><br> <textarea id="textbox" rows="6" cols="70"> var x = 10; // global variable
+
+function test() {
+console.log(x); // accessible here
+}
+</textarea><br><br>
+
+<div class="fs-10">Block Scope:</div><br><br> <textarea id="textbox" rows="6" cols="70"> { let y = 20; // block-scoped const z = 30; // block-scoped }
+
+// console.log(y); // ❌ not accessible here
+// console.log(z); // ❌ not accessible here
+</textarea><br><br>
+
+<div class="fs-10">Using <code>var</code> inside a block does **not** create block scope:</div><br><br> <textarea id="textbox" rows="6" cols="70"> { var x = 5; } console.log(x); // ✅ 5 (var ignores block scope) </textarea><br><br> <div class="fs-15">Hoisting</div><br><br> <div class="fs-10">Variables declared with <code>var</code> are "hoisted" to the top of their scope, meaning you can reference them before they are declared (though the value will be undefined).<br><br> Variables declared with <code>let</code> and <code>const</code> are also hoisted, but cannot be accessed before declaration (this is called the "temporal dead zone").</div><br><br> <textarea id="textbox" rows="6" cols="70"> console.log(a); // undefined var a = 5;
+
+console.log(b); // ❌ ReferenceError
+let b = 10;
+</textarea><br><br>
+
+<div class="fs-15">Best Practices</div><br><br> <div class="fs-10"> - Use <code>let</code> by default for variables that will change.<br> - Use <code>const</code> for constants that should not change.<br> - Avoid using <code>var</code> unless necessary for older browser support.<br> - Give meaningful names to variables to make code readable.<br> - Declare variables as close as possible to where they are used. </div><br><br> </article>
+ </main> 
+[include file=[INCVAR]footer.inc]
+</html>

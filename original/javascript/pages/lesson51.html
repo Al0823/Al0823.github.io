@@ -1,0 +1,78 @@
+[include file=../includes/vars.inc]
+<html>
+[include file=[INCVAR]header.inc]
+<body>
+
+<main>
+[include file=[INCVAR]nav.inc]
+<article><h2>Sets</h2><br><br><div class="fs-10">Set is a special type of object that lets you store unique values of any type—whether primitive types (like numbers or strings) or objects.<br><br> Think of it as a collection where duplicates are automatically removed and order is mostly irrelevant (though insertion order is remembered when iterating).</div><br><br><div class="fs-15">How to Create a Set</div><br><br><div class="fs-10">You can create a JavaScript Set by:<br><br><ul><li>Passing an array to new Set()</li><li>Create an empty set and use add() to add values</li></ul></div><br><br><div class="fs-15">The new Set() Method</div><br><br><div class="fs-10">Pass an array to the new Set() constructor:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set(["a","b","c"]);
+
+// Display set.size
+document.getElementById("demo").innerHTML = "The set has " + letters.size + " values.";</textarea><br><br><div class="fs-10">Create a Set and add values:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set();
+
+// Add Values to the Set
+letters.add("a");
+letters.add("b");
+letters.add("c");
+
+// Display the Size
+document.getElementById("demo").innerHTML = "The set has " + letters.size + " values.";</textarea><br><br><div class="fs-10">Create a Set and add variables:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set();
+
+// Create Variables
+const a = "a";
+const b = "b";
+const c = "c";
+
+// Add Values as Variables to the Set
+letters.add(a);
+letters.add(b);
+letters.add(c);
+
+// Display the Size
+document.getElementById("demo").innerHTML = "The set has " + letters.size + " values.";</textarea><br><br><div class="fs-15">The add() Method</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a new Set
+const letters = new Set(["a","b","c"]);
+
+// Add a new Element
+letters.add("d");
+letters.add("e");
+
+// Display set.size
+document.getElementById("demo").innerHTML = "The set has " + letters.size + " values.";</textarea><br><br><div class="fs-10">If you add equal elements, only the first will be saved:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set();
+
+// Add Values to the Set
+letters.add("a");
+letters.add("b");
+letters.add("c");
+letters.add("c");
+letters.add("c");
+letters.add("c");
+letters.add("c");
+letters.add("c");
+
+// Display the Size
+document.getElementById("demo").innerHTML = "The set has " + letters.size + " values.";</textarea><br><br><div class="fs-15">Listing the Elements</div><br><br><div class="fs-10">You can list all Set elements (values) with a for..of loop:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set(["a","b","c"]);
+
+// List all Elements
+let text = "";
+for (const x of letters) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea><br><br><div class="fs-15">Sets are Objects</div><br><br><div class="fs-10">typeof returns object:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a new Set
+const letters = new Set(["a","b","c"]);
+
+// Display typeof
+document.getElementById("demo").innerHTML = "The type of the set is " + typeof letters;</textarea><br><br><div class="fs-10">instanceof Set returns true:</div><br><br><textarea id="textbox" rows="10" cols="70">// Create a new Set
+const letters = new Set(["a","b","c"]);
+
+// Display typeof
+document.getElementById("demo").innerHTML = letters instanceof Set;</textarea><br><br>
+
+</article>
+ </main> 
+[include file=[INCVAR]footer.inc]
