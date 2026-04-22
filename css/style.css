@@ -239,31 +239,77 @@ footer {
     border-bottom: 1px solid rgb(225, 225, 225) !important;
     padding: 0.75rem !important;
   }
-  article { padding: 1rem !important; }
-  .big { width: 100% !important; margin-left: 0 !important; padding-left: 0.5rem !important; }
-  .grid-container { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .grid-container > div { font-size: 20px !important; padding: 8px; }
-  .needs > div, .wants > div { width: 45% !important; font-size: 14px !important; margin: 5px !important; padding: 10px !important; }
+  article { 
+padding: 1rem !important; 
+}
+.big { 
+width: 100% !important; 
+margin-left: 0 !important; 
+padding-left: 0.5rem !important; 
+}
+.grid-container { 
+grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+}
+grid-container > div { 
+font-size: 20px !important; 
+padding: 8px; 
+}
+.needs > div, .wants > div { 
+width: 45% !important; 
+font-size: 14px !important; 
+margin: 5px !important; 
+padding: 10px !important; 
+}
 }
 
 /* Phones and small screens (≤768px) */
 @media (max-width: 768px) {
-  header { font-size: 2rem !important; padding: 0.75rem !important; }
-  nav a, .fmwnavleft a, .fmwnavright a { font-size: 16px !important; }
-  nav ul li, .fmwnavleft ul li, .fmwnavright ul li { margin-bottom: 0.5rem !important; }
-  .needs > div, .wants > div { width: 100% !important; font-size: 12px !important; }
-  .grid-container > div { font-size: 16px !important; }
-  .underconstruction { font-size: 28px !important; padding: 20px !important; }
-  .underconstruction::before { font-size: 30px !important; }
+header { 
+	font-size: 2rem !important; 
+	padding: 0.75rem !important; 
+}
+nav a, .fmwnavleft a, .fmwnavright a { 
+	font-size: 16px !important; 
+}
+nav ul li, .fmwnavleft ul li, .fmwnavright ul li { 
+	margin-bottom: 0.5rem !important; 
+}
+.needs > div, .wants > div { 
+	width: 100% !important; 
+	font-size: 12px !important; 
+}
+.grid-container > div { 
+	font-size: 16px !important; 
+}
+.underconstruction { 
+	font-size: 28px !important; 
+	padding: 20px !important; 
+}
+.underconstruction::before { 
+	font-size: 30px !important; 
+}
 }
 
-/* Very small phones (≤480px) */
 @media (max-width: 480px) {
-  header { font-size: 1.5rem !important; padding: 0.5rem !important; }
-  footer { font-size: 25px !important; padding: 10px !important; }
-  nav a, .fmwnavleft a, .fmwnavright a { font-size: 14px !important; padding: 10px 12px !important; }
-  .dropdown .dropbtn { font-size: 16px !important; padding: 10px 12px !important; }
-  .big { min-height: auto !important; }
+header { 
+font-size: 1.5rem !important; 
+padding: 0.5rem !important; 
+}
+footer { 
+	font-size: 25px !important; 
+	padding: 10px !important; 
+}
+nav a, .fmwnavleft a, .fmwnavright a {
+font-size: 14px !important; 
+padding: 10px 12px !important; 
+}
+.dropdown .dropbtn { 
+	font-size: 16px !important; 
+	padding: 10px 12px !important; 
+}
+.big { 
+	min-height: auto !important; 
+}
 }
 
 .fs-10{
@@ -1261,148 +1307,148 @@ min-height: 100%!Important;
 
 
 .TC-LIGHTGREY {
-color:rgb(175, 175, 175)!Important;
+color:#afafaf!Important;
 }
 
 .TCGB-LIGHTGREY-a1 {
-background-color: rgb(175, 175, 175)0.1!Important;
+background-color: #afafaf1a!Important;
 }
 
 .TCGB-LIGHTGREY-a2 {
-background-color: rgb(175, 175, 175)0.2!Important;
+background-color: #afafaf33!Important;
 }
 
 .TCGB-LIGHTGREY-a3 {
-background-color: rgb(175, 175, 175)0.3!Important;
+background-color: #afafaf4d!Important;
 }
 
 .TCGB-LIGHTGREY-a4 {
-background-color: rgb(175, 175, 175)0.4!Important;
+background-color: #afafaf66!Important;
 }
 
 .TCGB-LIGHTGREY-a5 {
-background-color: rgb(175, 175, 175)0.5!Important;
+background-color: #afafaf80!Important;
 }
 
 .TCGB-LIGHTGREY-a6 {
-background-color: rgb(175, 175, 175)0.6!Important;
+background-color: #afafaf99!Important;
 }
 
 .TCGB-LIGHTGREY-a7 {
-background-color: rgb(175, 175, 175)0.7!Important;
+background-color: #afafafb3!Important;
 }
 
 .TCGB-LIGHTGREY-a8 {
-background-color: rgb(175, 175, 175)0.8!Important;
+background-color: #afafafcc!Important;
 }
 
 .TCGB-LIGHTGREY-a9 {
-background-color: rgb(175, 175, 175)0.9!Important;
+background-color: #afafafe6!Important;
 }
 
 .TCGB-LIGHTGREY-a10 {
-background-color: rgb(175, 175, 175)1!Important;
+background-color: #afafaf!Important;
 }
 
 
 
 
 .TC-LIGHTERGREY {
-color:rgb(200, 200, 200)!Important;
+color:#c8c8c8!Important;
 }
 
 .TCGB-LIGHTERGREY-a1 {
-background-color: rgb(200, 200, 200)0.1!Important;
+background-color: #c8c8c81a!Important;
 }
 
 .TCGB-LIGHTERGREY-a2 {
-background-color: rgb(200, 200, 200)0.2!Important;
+background-color: #c8c8c833!Important;
 }
 
 .TCGB-LIGHTERGREY-a3 {
-background-color: rgb(200, 200, 200)0.3!Important;
+background-color: #c8c8c84d!Important;
 }
 
 .TCGB-LIGHTERGREY-a4 {
-background-color: rgb(200, 200, 200)0.4!Important;
+background-color: #c8c8c866!Important;
 }
 
 .TCGB-LIGHTERGREY-a5 {
-background-color: rgb(200, 200, 200)0.5!Important;
+background-color: #c8c8c880!Important;
 }
 
 .TCGB-LIGHTERGREY-a6 {
-background-color: rgb(200, 200, 200)0.6!Important;
+background-color: #c8c8c899!Important;
 }
 
 .TCGB-LIGHTERGREY-a7 {
-background-color: rgb(200, 200, 200)0.7!Important;
+background-color: #c8c8c8b3!Important;
 }
 
 .TCGB-LIGHTERGREY-a8 {
-background-color: rgb(200, 200, 200)0.8!Important;
+background-color: #c8c8c8cc!Important;
 }
 
 .TCGB-LIGHTERGREY-a9 {
-background-color: rgb(200, 200, 200)0.9!Important;
+background-color: #c8c8c8e6!Important;
 }
 
 .TCGB-LIGHTERGREY-a10 {
-background-color: rgb(200, 200, 200)1!Important;
+background-color: #c8c8c8!Important;
 }
 
 
 
 
 .TC-WHITE {
-color:rgb(255, 255, 255)!Important;
+color:#ffffff!Important;
 }
 
 .TCGB-WHITE-a1 {
-background-color: rgb(255, 255, 255)0.1!Important;
+background-color: #ffffff1a!Important;
 }
 
 .TCGB-WHITE-a2 {
-background-color: rgb(255, 255, 255)0.2!Important;
+background-color: #ffffff33!Important;
 }
 
 .TCGB-WHITE-a3 {
-background-color: rgb(255, 255, 255)0.3!Important;
+background-color: #ffffff4d!Important;
 }
 
 .TCGB-WHITE-a4 {
-background-color: rgb(255, 255, 255)0.4!Important;
+background-color: #ffffff66!Important;
 }
 
 .TCGB-WHITE-a5 {
-background-color: rgb(255, 255, 255)0.5!Important;
+background-color: #ffffff80!Important;
 }
 
 .TCGB-WHITE-a6 {
-background-color: rgb(255, 255, 255)0.6!Important;
+background-color: #ffffff99!Important;
 }
 
 .TCGB-WHITE-a7 {
-background-color: rgb(255, 255, 255)0.7!Important;
+background-color: #ffffffb3!Important;
 }
 
 .TCGB-WHITE-a8 {
-background-color: rgb(255, 255, 255)0.8!Important;
+background-color: #ffffffcc!Important;
 }
 
 .TCGB-WHITE-a9 {
-background-color: rgb(255, 255, 255)0.9!Important;
+background-color: #ffffffe6!Important;
 }
 
 .TCGB-WHITE-a10 {
-background-color: rgb(255, 255, 255)1!Important;
+background-color: #ffffff!Important;
 }
 
 
 
 
 .TC-DARKGREY {
-color:rgb(75, 75, 75)!Important;
+color:#4b4b4b!Important;
 }
 
 .TCGB-DARKGREY-a1 {
