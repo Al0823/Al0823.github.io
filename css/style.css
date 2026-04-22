@@ -1,245 +1,248 @@
 
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
- /* font-family: 'VT323', monospace; */
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+/* font-family: 'VT323', monospace; */
 }
 
 
 
 :root {
-  --bg: #afafaf;
-  --bg-soft: #c8c8c8;
-  --bg-softer: #e6e6e6;
-  --panel: #969696b3;
+--bg: #afafaf;
+--bg-soft: #c8c8c8;
+--bg-softer: #e6e6e6;
+--panel: #969696b3;
 
-  --header-bg: #4b4b4b;
-  --footer-bg: #4b4b4b;
+--header-bg: #4b4b4b;
+--footer-bg: #4b4b4b;
 
-  --border: #646464;
-  --divider: #7d7d7d;
+--border: #646464;
+--divider: #7d7d7d;
 
-  --text: #000000;
-  --text-invert: #ffffff;
+--text: #000000;
+--text-invert: #ffffff;
 
-  --link: #4b5c01;
-  --hover: #e1e1e1;
+--link: #4b5c01;
+--hover: #e1e1e1;
 }
 
 
 .theme-light {
-  --bg: #f2f2f2;
-  --bg-soft: #ffffff;
-  --bg-softer: #fafafa;
-  --panel: #0000000d;
+--bg: #f2f2f2;
+--bg-soft: #ffffff;
+--bg-softer: #fafafa;
+--panel: #0000000d;
 
-  --header-bg: #e5e5e5;
-  --footer-bg: #e5e5e5;
+--header-bg: #e5e5e5;
+--footer-bg: #e5e5e5;
 
-  --border: #cccccc;
-  --divider: #dddddd;
+--border: #cccccc;
+--divider: #dddddd;
 
-  --text: #000000;
-  --text-invert: #000000;
+--text: #000000;
+--text-invert: #000000;
 
-  --link: #0066cc;
-  --hover: #eaeaea;
+--link: #0066cc;
+--hover: #eaeaea;
 }
 
 
 .theme-dark {
-  --bg: #121212;
-  --bg-soft: #1e1e1e;
-  --bg-softer: #2a2a2a;
-  --panel: #ffffff0f;
+--bg: #121212;
+--bg-soft: #1e1e1e;
+--bg-softer: #2a2a2a;
+--panel: #ffffff0f;
 
-  --header-bg: #000000;
-  --footer-bg: #000000;
+--header-bg: #000000;
+--footer-bg: #000000;
 
-  --border: #444444;
-  --divider: #333333;
+--border: #444444;
+--divider: #333333;
 
-  --text: #e5e5e5;
-  --text-invert: #ffffff;
+--text: #e5e5e5;
+--text-invert: #ffffff;
 
-  --link: #4ea3ff;
-  --hover: #2c2c2c;
+--link: #4ea3ff;
+--hover: #2c2c2c;
 }
 
 
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  line-height: 1.5;
-  background: var(--bg);
-  color: var(--text);
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+line-height: 1.5;
+background: var(--bg);
+color: var(--text);
 }
 
 header {
-  background: var(--header-bg);
-  color: var(--text-invert);
-  padding: 1rem;
-  text-align: center;
-  font-size: 2.5rem;
-  border-bottom: 2px solid var(--divider);
+background: var(--header-bg);
+color: var(--text-invert);
+padding: 1rem;
+text-align: center;
+font-size: 2.5rem;
+border-bottom: 2px solid var(--divider);
 }
 
 main {
-  flex: 1;
-  display: flex !important;
-  background: var(--bg);
+flex: 1;
+display: flex !important;
+background: var(--bg);
 }
 
 article {
-  flex: 1;
-  padding: 1.5rem;
+flex: 1;
+padding: 1.5rem;
 }
 
 
 
 nav, .nav {
-  width: 300px !important;
-  background: var(--bg-soft);
-  padding: 1rem !important;
-  border-right: 1px solid var(--border);
+width: 300px !important;
+background: var(--bg-soft);
+padding: 1rem !important;
+border-right: 1px solid var(--border);
 }
 
-nav ul { list-style: none; }
-nav ul li { margin-bottom: .75rem; }
+nav ul { 
+list-style: none; 
+}
+nav ul li { 
+margin-bottom: .75rem; 
+}
 
 a {
-  text-decoration: none;
-  color: var(--link);
+text-decoration: none;
+color: var(--link);
 }
 
-nav a:hover,
-.dropdown:hover .dropbtn {
-  background: var(--hover);
-  border-radius: 20px;
+nav a:hover, .dropdown:hover .dropbtn {
+background: var(--hover);
+border-radius: 20px;
 }
 
 
 
 footer {
-  flex-shrink: 0;
-  font-size: 40px;
-  background: var(--footer-bg);
-  color: var(--text-invert);
-  text-align: center;
-  padding: 15px 10px;
-  border-top: 1px solid var(--divider);
+flex-shrink: 0;
+font-size: 40px;
+background: var(--footer-bg);
+color: var(--text-invert);
+text-align: center;
+padding: 15px 10px;
+border-top: 1px solid var(--divider);
 }
 
 
 
 .big {
-  float: left;
-  width: 83%;
-  margin-left: 4.5px;
-  padding-left: 10px;
-  min-height: 1000px;
-  background: var(--panel);
-  border: 2px solid var(--border);
-  border-radius: 10px;
+float: left;
+width: 83%;
+margin-left: 4.5px;
+padding-left: 10px;
+min-height: 1000px;
+background: var(--panel);
+border: 2px solid var(--border);
+border-radius: 10px;
 }
 
 
 
 .grid-container {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  padding: 10px;
-  background: var(--bg);
+display: grid;
+grid-template-columns: auto auto auto auto;
+padding: 10px;
+background: var(--bg);
 }
 
 .grid-container > div {
-  background: var(--bg);
-  padding: 10px;
-  font-size: 30px;
-  text-align: center;
-  border: 2px solid var(--border);
+background: var(--bg);
+padding: 10px;
+font-size: 30px;
+text-align: center;
+border: 2px solid var(--border);
 }
 
 
 
-.dropdown { float:left; overflow:hidden; }
+.dropdown { 
+float:left; 
+overflow:hidden; 
+}
 
 .dropdown .dropbtn {
-  border:none;
-  font-size:20px;
-  padding:14px 16px;
-  background:inherit;
+border:none;
+font-size:20px;
+padding:14px 16px;
+background:inherit;
 }
 
 .dropdown-content {
-  display:none;
-  position:absolute;
-  background:var(--bg-soft);
-  min-width:160px;
-  box-shadow:0 8px 16px rgba(0,0,0,.2);
-  z-index:1;
+display:none;
+position:absolute;
+background:var(--bg-soft);
+min-width:160px;
+box-shadow:0 8px 16px #00000033;
+z-index:1;
 }
 
 .dropdown-content a {
-  display:block;
-  padding:14px 16px;
+display:block;
+padding:14px 16px;
 }
 
-.dropdown:hover .dropdown-content { display:block; }
+.dropdown:hover .dropdown-content { 
+display:block; 
+}
 
 
 
 .needs, .wants {
-  display:flex;
-  flex-wrap:wrap;
+display:flex;
+flex-wrap:wrap;
 }
 
 .needs > div,
 .wants > div {
-  background: var(--bg-softer);
-  border-radius: 20px;
-  margin: 10px;
-  padding: 20px;
-  flex-grow: 1;
+background: var(--bg-softer);
+border-radius: 20px;
+margin: 10px;
+padding: 20px;
+flex-grow: 1;
 }
 
 
 
 .underconstruction {
-  width:100%;
-  padding:30px;
-  text-align:center;
-  background: rgb(255,243,205);
-  border:4px dashed rgb(255,87,51);
-  border-radius:12px;
-  font-size:35px;
+width:100%;
+padding:30px;
+text-align:center;
+background: #fff3cd;
+border:4px dashed #ff5733;
+border-radius:12px;
+font-size:35px;
 }
 
-    
-    hr {
-    height: 10px;
-    background-color: rgb(75, 75, 75);
-    }
+
+hr {
+height: 10px;
+background-color: #4b4b4b;
+}
 
 
-/* =========================
-   Mobile Responsive Overrides
-   ========================= */
-
-/* Tablets and smaller devices (≤1024px) */
 @media (max-width: 1024px) {
-  main { flex-direction: column !important; }
-  nav, .nav, .fmwnavleft, .fmwnavright {
-    width: 100% !important;
-    border-right: none !important;
-    border-bottom: 1px solid rgb(225, 225, 225) !important;
-    padding: 0.75rem !important;
-  }
-  article { 
+main { flex-direction: column !important; }
+nav, .nav, .fmwnavleft, .fmwnavright {
+width: 100% !important;
+border-right: none !important;
+border-bottom: 1px solid #e1e1e1 !important;
+padding: 0.75rem !important;
+}
+article { 
 padding: 1rem !important; 
 }
 .big { 
@@ -262,31 +265,30 @@ padding: 10px !important;
 }
 }
 
-/* Phones and small screens (≤768px) */
 @media (max-width: 768px) {
 header { 
-	font-size: 2rem !important; 
-	padding: 0.75rem !important; 
+font-size: 2rem !important; 
+padding: 0.75rem !important; 
 }
 nav a, .fmwnavleft a, .fmwnavright a { 
-	font-size: 16px !important; 
+font-size: 16px !important; 
 }
 nav ul li, .fmwnavleft ul li, .fmwnavright ul li { 
-	margin-bottom: 0.5rem !important; 
+margin-bottom: 0.5rem !important; 
 }
 .needs > div, .wants > div { 
-	width: 100% !important; 
-	font-size: 12px !important; 
+width: 100% !important; 
+font-size: 12px !important; 
 }
 .grid-container > div { 
-	font-size: 16px !important; 
+font-size: 16px !important; 
 }
 .underconstruction { 
-	font-size: 28px !important; 
-	padding: 20px !important; 
+font-size: 28px !important; 
+padding: 20px !important; 
 }
 .underconstruction::before { 
-	font-size: 30px !important; 
+font-size: 30px !important; 
 }
 }
 
@@ -304,11 +306,11 @@ font-size: 14px !important;
 padding: 10px 12px !important; 
 }
 .dropdown .dropbtn { 
-	font-size: 16px !important; 
-	padding: 10px 12px !important; 
+font-size: 16px !important; 
+padding: 10px 12px !important; 
 }
 .big { 
-	min-height: auto !important; 
+min-height: auto !important; 
 }
 }
 
