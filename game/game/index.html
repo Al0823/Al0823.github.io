@@ -1351,7 +1351,7 @@ var passages = [
         { label: "Begin the escape training", next: 143, effect: () => {gameState.trainingTurnCount = 0, 
             gameState.inStomach = true, 
             gameState.currentPredator = "lira",        // Lira (AI) is the predator
-            gameState.preyHealth = 100,
+            gameState.preyHealth = 999,
             gameState.preyStamina = 100,
             gameState.digestionProgress = 0,
             gameState.acidStage = 0,
@@ -1368,7 +1368,7 @@ var passages = [
             gameState.trainingTurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "lira";
-            gameState.preyHealth = 100;
+            gameState.preyHealth = 999;
             gameState.preyStamina = 100;
             gameState.digestionProgress = 0;
             gameState.acidStage = 0;
@@ -2143,15 +2143,15 @@ var passages = [
     ]
 },
 
-    // 149 - Dinner with the Family
+// 149 - Dinner with the Family
 {
     text: function() {
-        return "Lirael gently sets Emily down in one of the reinforced kitchen chairs. Even with the chair’s sturdy build, Emily’s massively swollen belly rests heavily on her lap and spills over the edges, the gurgling mass nearly touching the floor. Lirael then shrinks smoothly back down to her more comfortable 6'1\" height and sits in the chair right next to her, placing a supportive hand on the side of Emily’s enormous, sloshing gut.\n\nThe family gathers around the table. The ten pizza boxes are opened, and everyone starts eating, though the mood is still a bit stunned from what just happened.\n\nEmily eats with surprising enthusiasm despite her already overstuffed stomach. About halfway through dinner, she suddenly lets out a deep, wet belch. A small, glistening piece of Lira’s synthetic skin flies out of her mouth and lands on the table with a soft *plop*.\n\nEmily blinks, then giggles. \"Whoops. Looks like Lira lost a bit of her outer layer already. She’s not fully digested yet, but the pizza delivery girl is getting pretty close.\"\n\nShe shifts in her seat, and as she does, her already strained shirt tears slightly across the chest, the fabric giving way with a soft *riiiip*. At the same time, the sides of her pants split a little at the seams as her widened hips and thicker thighs push against the material.\n\n\"Huh,\" Emily says, looking down at herself with a mix of surprise and satisfaction. \"I think I’m a little more filled out now.\"\n\nHer breasts have grown noticeably larger and rounder, pressing tightly against the torn fabric of her shirt. Her hips and ass have become even wider and softer, and her thighs look plush and full. The changes from fully digesting the delivery woman (and partially processing Lira) have given her an even more exaggerated, curvaceous figure.\n\nLirael watches with calm fascination, gently rubbing the side of Emily’s massive belly.\n\n\"Your body is adapting very efficiently,\" she notes. \"This should make tomorrow’s experiments quite interesting.\"\n\nYour parents exchange another worried glance but continue eating in silence, the sound of chewing and occasional stomach gurgles filling the kitchen.";
+        return "Lirael gently sets Emily down in one of the reinforced kitchen chairs. The girl’s enormous, floor-touching belly spreads out heavily in front of her, resting on her lap and pushing against the edge of the table. Lirael then shrinks smoothly back down to her more manageable 6'1\" height and sits beside her, looking perfectly composed.\n\nThe family gathers around the table as the ten pizza boxes are opened. For a few minutes, everyone eats in relative silence, the only sounds being chewing and the constant loud, wet gurgles coming from Emily’s massive stomach.\n\nEmily is halfway through her third slice when she suddenly leans back and lets out a deep, rumbling belch. A small, wet piece of Lira’s synthetic skin flies out of her mouth and lands on the table with a soft *plop*.\n\n\"Oops,\" Emily says, wiping her mouth. \"Lira must have lost some of her outer layer already.\"\n\nFrom deep inside Emily’s hugely swollen belly comes a muffled, slightly distorted voice — Lira’s voice.\n\n\"Yes... my outer synthetic layer is quite durable,\" Lira says, her words vibrating through the thick layers of flesh and fat. \"But your stomach acid is already breaking it down. The delivery woman, however, is almost completely gone.\"\n\nAs Emily reaches for another slice, her overstuffed belly shifts. Her shirt, already stretched tight across the top of her massive gut, suddenly tears with a loud *riiiip* along the side. At the same time, the seams of her pants split slightly at the hips, unable to contain her newly widened, softer curves.\n\nEmily looks down at herself and giggles. \"I think I’m a little more filled out now...\"\n\nThe family continues eating, trying not to stare too obviously at Emily’s hugely swollen, gurgling middle. By the end of dinner, the ten pizzas are mostly gone. Emily’s stomach lets out a deep, aggressive *GLORP-GURGLE*, and moments later she leans back and unleashes a powerful belch.\n\nA partially dissolved skull of the pizza delivery woman flies out of her mouth and lands on the table with a wet clatter. Parts of it are visibly eaten away by Emily’s stomach acid, the bone pitted and softened.\n\nEmily pats her now slightly smaller but still very large belly with satisfaction.\n\n\"That was a really filling meal,\" she says happily.\n\nFrom inside her belly comes Lira’s muffled voice again, sounding remarkably calm despite the situation.\n\n\"I am still alive for now,\" Lira says, her words vibrating through the thick flesh. \"But I would appreciate it if you tried not to digest me completely.\"";
 
     },
     location: "Byrd Family Home - Kitchen (Late Evening)",
     choices: [
-        { label: "Continue dinner and conversation", next: 150 }
+        { label: "React to what just happened", next: 150 }
     ]
 },
 
@@ -2211,7 +2211,6 @@ var passages = [
     },
     location: "Byrd Family Home - Backyard (Late Evening)",
     choices: [
-        { label: "Ask Lirael what's wrong", next: 154 },
         { label: "Stay quiet and wait for her to speak", next: 154 }
     ]
 },
@@ -2234,8 +2233,8 @@ var passages = [
     },
     location: "Byrd Family Home - Backyard (Late Evening)",
     choices: [
-        { label: "Stay and watch", next: 155, effect: () => { gameState.lastChoiceLabel = "Stay and watch"; }},
-							  { label: "Turn away and give her some privacy", next: 155 },
+        { label: "Stay and watch", next: 155, effect: () => { gameState.lastChoiceLabel = "Stay and watch"; } },
+{ label: "Turn Away", next: 155},
     ]
 },
 
@@ -2246,11 +2245,11 @@ var passages = [
         if (gameState.lastChoiceLabel === "Stay and watch") {
             if (gameState.liraelAteGrimmold) {
                 // Watch + ate Grimmold + burglar
-                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her massive belly hangs heavily between her thick thighs, still noticeably rounded and heavy from fully digesting both Grimmold and the burglar.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a very large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her massive belly now visibly smaller.\n\nShe remains composed, her golden eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
+                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her massive belly hangs heavily between her thick thighs, still noticeably rounded and heavy from fully digesting both Grimmold and the burglar.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a very large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her massive belly now visibly smaller.\n\nShe remains composed, her hazel eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
             } 
             else {
                 // Watch + ate only burglar
-                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her belly — still slightly rounded from the burglar she ate yesterday — hangs heavily between her thick thighs.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her belly now visibly smaller.\n\nShe remains composed, her golden eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
+                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her belly — still slightly rounded from the burglar she ate yesterday — hangs heavily between her thick thighs.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her belly now visibly smaller.\n\nShe remains composed, her hazel eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
             }
         } 
         // Turn away variant
@@ -2268,6 +2267,330 @@ var passages = [
     location: "Byrd Family Home - Backyard (Late Evening)",
     choices: [
         { label: "Continue", next: 156 }
+    ]
+},
+
+// 156 - After Lirael's Bathroom Break
+{
+    text: function() {
+        if (gameState.lastChoiceLabel === "Stay and watch") {
+            // Player chose to watch
+            if (gameState.liraelAteGrimmold) {
+                // Watched + Lirael ate Grimmold + burglar
+                return "You stayed and watched the entire process. Lirael rises gracefully from her squat, her belly now noticeably smaller and softer after relieving herself. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"All physical remains of the burglar and Grimmold are now out of me,\" she says softly. \"What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
+            } 
+            else {
+                // Watched + Lirael ate only burglar
+                return "You stayed and watched the entire process. Lirael rises gracefully from her squat, her belly now noticeably smaller and softer after relieving herself. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"All physical remains of the burglar are now out of me,\" she says softly. \"What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
+            }
+        } 
+        else {
+            // Player chose to turn away
+            if (gameState.liraelAteGrimmold) {
+                // Turned away + Lirael ate Grimmold + burglar
+                return "You politely turned away to give her privacy. After a minute, Lirael rises gracefully from her squat, her belly now noticeably smaller and softer. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"Thank you for giving me privacy,\" she says softly. \"All physical remains of the burglar and Grimmold are now out of me. What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
+            } 
+            else {
+                // Turned away + Lirael ate only burglar
+                return "You politely turned away to give her privacy. After a minute, Lirael rises gracefully from her squat, her belly now noticeably smaller and softer. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"Thank you for giving me privacy,\" she says softly. \"All physical remains of the burglar are now out of me. What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
+            }
+        }
+    },
+    location: "Byrd Family Home - Backyard (Late Evening)",
+    choices: [
+        { label: "Continue", next: 157 }
+    ]
+},
+
+// 157 - Returning Inside
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Emily ate Lira (the AI) + pizza delivery girl
+            return "Lirael gives you one last gentle look, then takes your hand again — this time more softly — and leads you a few steps further into the yard. She pauses, closes her eyes for a moment, and a soft violet shimmer runs over her body as she shrinks smoothly back down to her more manageable 6'1\" height.\n\nOnce she’s back to her cloaked human size, she releases your hand but stays close by your side. Together, you walk back toward the house.\n\nAs you step inside, the warm light and familiar voices of your family greet you. Emily is on the couch, wrapped up in a giant blanket that covers most of her body. You tilt your head and ask why she’s bundled up like that.\n\nYour mother sighs softly and answers, \"We were all just relaxing while we waited for you and Lirael to come back in. Then Emily’s stomach let out a really obnoxious, loud gurgle… and it suddenly started shrinking. There was this awful crushing sound of metal from inside her. Lira… didn’t make it. She was rapidly absorbed and… died.\"\n\nAs your mother speaks, Emily shifts under the blanket. The giant covering slips slightly, revealing that her stomach has shrunk dramatically — now only a soft, rounded potbelly. At the same time, the rapid absorption of Lira has made Emily noticeably curvier. Her breasts, hips, and thighs have filled out even more, and with the sudden change her already strained clothes finally give way. Her shirt rips open completely down the front and her pants tear apart at the sides, leaving her mostly exposed under the blanket.\n\nEmily blushes but doesn’t seem too embarrassed. She pulls the blanket tighter around herself and gives a small, sheepish smile.\n\nThe rest of the family sits in awkward silence, the reality of what just happened settling over the room.";
+        } 
+        else {
+            // Normal version - only the pizza delivery girl was eaten
+            return "Lirael gives you one last gentle look, then takes your hand again — this time more softly — and leads you a few steps further into the yard. She pauses, closes her eyes for a moment, and a soft violet shimmer runs over her body as she shrinks smoothly back down to her more manageable 6'1\" height.\n\nOnce she’s back to her cloaked human size, she releases your hand but stays close by your side. Together, you walk back toward the house.\n\nAs you step inside, the warm light and familiar voices of your family greet you. Emily is on the couch, wrapped up in a giant blanket that covers most of her body. You tilt your head and ask why she’s bundled up like that.\n\nYour mother sighs softly and answers, \"We were all just relaxing while we waited for you and Lirael to come back in. Then Emily’s stomach let out a really obnoxious, loud gurgle… and it suddenly started shrinking. The pizza delivery girl is fully gone now.\"\n\nAs your mother speaks, Emily shifts under the blanket. The giant covering slips slightly, revealing that her stomach has shrunk dramatically — now only a soft, rounded potbelly. At the same time, fully absorbing the pizza delivery girl has made Emily noticeably curvier. Her breasts, hips, and thighs have filled out even more, and with the sudden change her already strained clothes finally give way. Her shirt rips open completely down the front and her pants tear apart at the sides, leaving her mostly exposed under the blanket.\n\nEmily blushes but doesn’t seem too embarrassed. She pulls the blanket tighter around herself and gives a small, sheepish smile.\n\nThe rest of the family sits in awkward silence, the reality of what just happened settling over the room.";
+        }
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { label: "Continue", next: 158 }
+    ]
+},
+
+// 158 - Family Reaction to Lira's Fate
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Emily ate Lira (the AI) + pizza delivery girl
+            return "The room falls into an awkward, heavy silence after your mother’s explanation. Emily pulls the giant blanket tighter around her newly curvier body, her cheeks flushed but her expression oddly calm. Her potbelly gurgles softly as it finishes absorbing the last traces of Lira.\n\nYour father rubs the back of his neck, clearly uncomfortable.\n\n\"Well… that’s one less person we have to explain,\" he mutters, trying to find some silver lining. \"Still, losing Lira like that…\"\n\nEmily shifts on the couch, the blanket slipping slightly to reveal more of her softened, fuller figure — her breasts and hips noticeably rounder and heavier from absorbing both the pizza delivery woman and Lira.\n\n\"She tasted kind of metallic,\" Emily says quietly, almost thoughtfully. \"But she went down easier than I expected.\"\n\nYour mother sighs, looking between Emily and the rest of the family.\n\n\"We’ll have to be more careful from now on,\" she says. \"This… isn’t normal. Even for us.\"\n\nLirael, still standing calmly at 6'1\", watches the scene with a measured expression. After a moment, she speaks gently:\n\n\"Lira served her purpose. Her sacrifice will not be wasted. Once we have recovered, I would like to experiment with Emily’s stomach capacity and a few other abilities… if that is still acceptable.\"\n\nShe glances at Emily’s blanket-covered form and adds, \"Until we can go buy new clothes for Emily and myself, I can sew her a new set. Her current clothes clearly won’t fit anymore after tonight’s… growth.\"\n\nEmily gives a small, sheepish nod from under the blanket, while your mother looks relieved at the practical suggestion.\n\nThe conversation feels heavy, but no one argues. The reality of their new life — with its dangers, its strange rules, and its growing list of things that can no longer be undone — settles over the room like a thick blanket of its own.";
+        } 
+        else {
+            // Normal version - only the pizza delivery girl was eaten
+            return "The room falls into an awkward, heavy silence after your mother’s explanation. Emily pulls the giant blanket tighter around her newly curvier body, her cheeks flushed but her expression oddly calm. Her potbelly gurgles softly as it finishes absorbing the last traces of the pizza delivery woman.\n\nYour father rubs the back of his neck, clearly uncomfortable.\n\n\"Well… that’s one less person we have to explain,\" he mutters.\n\nEmily shifts on the couch, the blanket slipping slightly to reveal more of her softened, fuller figure — her breasts and hips noticeably rounder and heavier from absorbing the pizza delivery woman.\n\n\"She tasted really good,\" Emily says quietly. \"But I guess my stomach is getting stronger.\"\n\nYour mother sighs, looking between Emily and the rest of the family.\n\n\"We’ll have to be more careful from now on,\" she says. \"This… isn’t normal. Even for us.\"\n\nLirael, still standing calmly at 6'1\", watches the scene with a measured expression. After a moment, she speaks gently:\n\n\"The delivery woman is gone now. Tomorrow, we continue with the training as planned. Emily’s stomach capacity has already proven impressive tonight.\"\n\nShe glances at Emily’s blanket-covered form and adds, \"Until we can go buy new clothes for Emily and myself, I can sew her a new set. Her current clothes clearly won’t fit anymore after tonight’s… growth.\"\n\nEmily gives a small, sheepish nod from under the blanket, while your mother looks relieved at the practical suggestion.\n\nThe conversation feels heavy, but no one argues. The reality of their new life — with its dangers, its strange rules, and its growing list of things that can no longer be undone — settles over the room like a thick blanket of its own.";
+        }
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { label: "Continue", next: 159 }
+    ]
+},
+
+// 159 - Sewing New Clothes
+{
+    text: function() {
+        return "Your mother sighs again, looking at Emily’s blanket-covered form and the torn clothes barely holding on underneath.\n\n\"Fine,\" she says. \"Lirael, if you can sew her something that actually fits… go ahead. We’ll buy proper clothes tomorrow.\"\n\nYour father nods in agreement, though he still looks a bit overwhelmed by the whole situation.\n\nLirael’s face brightens with quiet delight.\n\n\"Thank you,\" she says warmly. \"I will make sure they are comfortable and durable.\"\n\nWith a graceful motion, Lirael raises one hand. A soft violet shimmer appears in the air as she materializes a small sewing kit — needles, thread, fabric, and scissors — all floating gently before settling into her hands.\n\nShe turns to Emily, who is still huddled under the giant blanket, and easily scoops her up into her arms — blanket, massive potbelly, and all. Emily lets out a surprised squeak but doesn’t resist.\n\n\"Come,\" Lirael says gently. \"I will sew you new clothes upstairs in your room. Isaac, you may wait on the couch. We will not be long.\"\n\nLirael carries the blanket-wrapped Emily up the stairs with surprising ease, her 6'1\" frame moving gracefully despite the extra weight. The sound of their footsteps fades as they disappear upstairs, leaving you, your parents, and the faint gurgling from Emily’s belly echoing in the quiet living room.";
+
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { label: "Wait on the couch", next: 160 },
+    ]
+},
+
+// 160 - Waiting on the Couch
+{
+    text: function() {
+        return "You sit down on the couch as instructed, the house feeling unusually quiet now that Lirael and Emily have gone upstairs. Your parents remain in the living room with you, the weight of the evening’s events still hanging in the air.\n\nYour mother sinks into the armchair across from you, rubbing her temples.\n\n\"This is all happening so fast,\" she murmurs. \"First the burglar, then the delivery girl… and now Lira. I don’t even know what to think anymore.\"\n\nYour father leans against the wall, arms crossed, staring at the floor.\n\n\"We knew things were going to change when we brought Lirael into this house,\" he says gruffly. \"Didn’t expect it to move this quickly, though.\"\n\nThe minutes tick by. From upstairs, you can occasionally hear the faint sound of fabric being cut and the low murmur of Lirael’s voice as she works on Emily’s new clothes. Every so often, Emily lets out a small giggle or a surprised sound as the measurements are taken.\n\nYour mother glances toward the stairs, then back at you.\n\n\"Are you holding up okay, Isaac?\" she asks gently. \"This can’t be easy for you either.\"\n\nThe house feels heavier than usual, the events of the day — the training, the swallowing, the rapid changes to Emily’s body — all settling in at once.";
+
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { label: "Sit in silence and wait for Lirael and Emily to return", next: 161 }
+    ]
+},
+
+// 161 - Lirael and Emily Return
+{
+    text: function() {
+        return "After what feels like a long wait, you hear footsteps coming down the stairs. Lirael appears first, still in her 6'1\" cloaked form, carrying a small bundle of newly sewn clothes. Emily follows behind her, now wearing a simple but well-fitted outfit that Lirael must have just finished. The new clothes hug her curvier figure comfortably, though her belly is still softly rounded from everything she’s absorbed tonight.\n\nLirael looks pleased with her work.\n\n\"The clothes are temporary,\" she says, \"but they should fit properly until we can buy better ones. I made them with room to grow, just in case.\"\n\nEmily gives a small twirl, clearly happy with the new outfit.\n\n\"They’re really comfortable,\" she says. \"Thanks, Lirael.\"\n\nYour mother smiles faintly, though she still looks tired.\n\n\"Thank you, Lirael,\" she says. \"That was very kind of you.\"\n\nYour father nods in agreement, though he remains quiet.\n\nLirael sets the remaining fabric scraps aside and looks at the family.\n\n\"It is getting late,\" she says gently. \"Perhaps we should all rest. Tomorrow will be a long day.\"";
+
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { label: "Agree and head to bed", next: 162 }
+    ]
+},
+
+// 162 - Heading to Bed
+{
+    text: function() {
+        return "Everyone agrees that it’s been a long and exhausting day. Your mother stands up first, stretching her back.\n\n\"I think we’ve all had enough for one night,\" she says. \"Let’s head to bed. Tomorrow is going to be… interesting.\"\n\nYour father nods, glancing once more at Emily’s newly fitted clothes and her still-softly-rounded belly before heading toward the stairs.\n\nEmily yawns widely and follows your parents upstairs, still wrapped in the giant blanket.\n\nAs you start to head up as well, Lirael falls into step beside you without a word. She follows you into your room as if it were the most natural thing in the world, closing the door behind her.\n\nShe walks over to your bed, first reaching up to remove the cloaking stone necklace from around her neck. She places it carefully on the nightstand, remaining at her comfortable 6'1\" height. Then she slips off her silk robe and slides under the covers in just her undergarments, making herself comfortable.\n\nYou climb into bed next to her. Lirael turns onto her side, facing you, her golden eyes soft in the dim light. She reaches out and gently pulls you closer, her body warm and smooth against yours.\n\nThe house grows quiet around you as you lie there with Lirael in your bed, her steady breathing the only sound in the room. The events of the day slowly fade as exhaustion finally takes over.";
+
+    },
+    location: "Isaac's Bedroom (Night)",
+    choices: [
+        { label: "End the day", next: 163 }
+    ]
+},
+
+// 163 - A Noise in the Night
+{
+    text: function() {
+        return "You lie in bed beside Lirael, her warm body pressed gently against yours. The events of the long day — the training, the swallowing, the rapid changes to Emily’s body, and everything else — finally begin to catch up with you. Your eyelids grow heavy as you start to drift off to sleep, the steady rhythm of Lirael’s breathing lulling you deeper.\n\nJust as you’re about to slip fully into unconsciousness, Lirael suddenly tenses beside you. Her hand gently but firmly shakes your shoulder.\n\n\"Isaac,\" she whispers urgently, her golden eyes wide open in the darkness. \"Wake up. I heard a noise.\"\n\nYou blink, startled awake, heart beating faster. The room is dark and quiet, but Lirael is sitting up slightly, listening intently. Her expression is alert and focused.\n\n\"It came from downstairs,\" she says softly, her voice low. \"Something moved. I am certain of it.\"\n\nThe house, which had felt peaceful only moments ago, now feels tense and uncertain once more.";
+
+    },
+    location: "Isaac's Bedroom (Night)",
+    choices: [
+        { label: "Get up and investigate the noise", next: 164 }
+    ]
+},
+
+// 164 - Investigating the Noise
+{
+    text: function() {
+        return "You and Lirael quietly slip out of bed. She reaches for her silk robe, slipping it on and tying it loosely around her waist before moving with silent grace. You both head downstairs, moving carefully through the dark house.\n\nThe living room and kitchen are still and quiet. For a moment, everything seems normal. Then you hear it again — a faint but distinct sound, like something shifting or scraping.\n\nThis time you can tell exactly where it’s coming from.\n\nThe basement.\n\nLirael stops at the top of the basement stairs, her golden eyes narrowing. She places a hand lightly on your arm, signaling you to stay quiet.\n\nThe noise comes once more — a low, muffled thump followed by the faint sound of movement from below.\n\nLirael leans in close and whispers, barely audible:\n\n\"It is definitely coming from the basement. Stay behind me.\"\n\nThe air feels heavier now. Whatever is down there, it doesn’t sound like it belongs.";
+
+    },
+    location: "Byrd Family Home - Basement Stairs (Night)",
+    choices: [
+        { label: "Go down to the basement with Lirael", next: 165 }
+    ]
+},
+
+// 165 - In the Basement
+{
+    text: function() {
+        return "You and Lirael descend the basement stairs together, moving as quietly as possible. The wooden steps creak softly under your weight. Lirael keeps one hand lightly on your arm, guiding you behind her as she leads the way.\n\nThe basement is dark and cool, lit only by the faint moonlight filtering through the small high windows. You both pause at the bottom, listening.\n\nThen you hear it again — a soft, frightened sound, like someone trying to stay quiet but failing.\n\nLirael’s eyes sharpen. She moves forward cautiously, and you follow close behind.\n\nIn the far corner, huddled against the wall and trying to make herself as small as possible, is an elven girl. She looks to be about 15 years old, with long, pointed ears, soft brown eyes wide with terror, and brown hair that falls messily around her shoulders. Her skin is a little lighter than golden brown, and she has a well-developed figure — not skinny, but not chunky either, with gentle curves that suggest she’s already maturing. She’s wearing torn, dirty clothes that suggest she’s been on the run for some time. She flinches violently when she sees you and Lirael, pressing herself harder against the wall.\n\nLirael stops a few feet away, raising her hands slowly to show she means no harm. The elven girl’s breathing is rapid and shallow. She looks ready to bolt, but there’s nowhere left to run.\n\nYou whisper to Lirael, \"Stay here and watch her. I’ll go get my dad.\"\n\nLirael nods once, her golden eyes never leaving the frightened girl.";
+
+    },
+    location: "Byrd Family Home - Basement (Night)",
+    choices: [
+        { label: "Go upstairs to get your dad", next: 166 }
+    ]
+},
+
+// 166 - Getting Your Dad
+{
+    text: function() {
+        return "You hurry back up the basement stairs as quietly as you can, heart pounding. The house is still dark and quiet. You move quickly to your parents’ bedroom door and knock softly but urgently.\n\nYour father opens the door almost immediately, looking alert and concerned. He’s already pulling on a shirt.\n\n\"What is it?\" he asks in a low voice.\n\nYou quickly explain: \"There’s an elven girl hiding in the basement. She looks scared. Lirael is watching her right now.\"\n\nYour father’s expression shifts from concern to grim resolve. He grabs a flashlight from the nightstand and follows you downstairs without hesitation. Your mother appears in the doorway behind him, looking worried, but stays upstairs as instructed.\n\nYou and your father descend the basement stairs together. Lirael is still standing exactly where you left her, her posture calm but protective, keeping a safe distance from the elven girl who remains huddled in the corner.\n\nYour father shines the flashlight gently toward the girl, careful not to blind her. The beam reveals her frightened face, soft brown eyes wide with terror, and the way she’s trembling against the wall.\n\nHe lowers the light slightly and speaks in a calm, steady voice.\n\n\"Hey… it’s okay. We’re not going to hurt you. Can you tell us who you are and why you’re here?\"";
+
+    },
+    location: "Byrd Family Home - Basement (Night)",
+    choices: [
+        { label: "Wait for the girl's response", next: 167 }
+    ]
+},
+
+// 167 - The Elven Girl's Story
+{
+    text: function() {
+        return "The elven girl flinches when your father speaks, pressing herself even harder against the wall. For a long moment she says nothing, her soft brown eyes darting between the three of you in pure terror. Lirael remains perfectly still, her presence calm and non-threatening.\n\nFinally, the girl swallows hard and speaks in a trembling, accented voice that sounds both ancient and young at the same time.\n\n\"I… I am from a nearby kingdom,\" she whispers. \"Hidden under veil magic. My kind… we went extinct long ago. But the Emperor brought us back. He wanted to learn how we harnessed power… even though we are mostly human.\"\n\nShe hugs her knees tighter to her chest, her long pointed ears twitching nervously.\n\n\"I was a castle slave. I do not have a name. They only called me… F-2.\"\n\nHer voice cracks on the last word. She looks down at the floor, tears welling in her soft brown eyes.\n\n\"Please… do not send me back. I ran away when the veil weakened. I do not want to be a slave anymore.\"\n\nEveryone waits in tense silence for your father's response.";
+
+    },
+    location: "Byrd Family Home - Basement (Night)",
+    choices: [
+        { label: "Wait for your father's response", next: 168 }
+    ]
+},
+
+// 168 - Father's Decision
+{
+    text: function() {
+        return "Your father stands quietly for a long moment, studying the frightened elven girl huddled in the corner. The flashlight beam stays steady on the floor near her feet so as not to blind her. Finally, he lets out a slow, heavy sigh and lowers the light completely.\n\n\"You’re welcome to stay,\" he says, his voice gruff but kind. \"We’re not in the business of sending scared kids back to whatever hell you came from. You’ll be safe here for now. No one’s going to hurt you or send you back.\"\n\nThe elven girl — F-2 — looks up at him with wide, disbelieving soft brown eyes, as if she’s waiting for the catch that never comes.\n\nYour father continues, \"We’ll figure out the rest in the morning. For tonight, you can sleep upstairs. We have a spare room. Just… try not to run off or cause any trouble.\"\n\nLirael gives a small, approving nod. Emily, who had peeked down the stairs behind you, looks excited at the idea of having another girl around the house.\n\nThe elven girl slowly uncurls a little, still trembling, but the terror in her eyes has softened into cautious hope.\n\n\"Thank you…\" she whispers, her voice barely audible.";
+
+    },
+    location: "Byrd Family Home - Basement (Night)",
+    choices: [
+        { label: "Help the elven girl upstairs", next: 169 }
+    ]
+},
+
+// 169 - Bringing F-2 Upstairs
+{
+    text: function() {
+        return "You and Lirael carefully help the elven girl — F-2 — to her feet. She’s shaky and clearly exhausted, her legs trembling as she stands. Lirael supports her on one side while you stay close on the other, guiding her slowly up the basement stairs.\n\nWhen you reach the living room, Emily peeks out from the couch, eyes wide with curiosity. Your parents watch silently from the doorway as the three of you pass through.\n\nF-2 keeps her head down, soft brown eyes fixed on the floor, clearly overwhelmed by the unfamiliar surroundings and the kindness she’s receiving.\n\nYou and Lirael continue guiding her up the main stairs to the guest bedroom. The room is simple but clean, with a comfortable bed, a small desk, and a window overlooking the backyard. Lirael helps the girl sit down on the edge of the bed, then kneels in front of her to speak gently.\n\n\"You are safe here,\" Lirael says softly. \"No one will force you to go back. Rest tonight. We will talk more in the morning.\"\n\nF-2 nods weakly, still clutching the torn edges of her dirty clothes. She looks utterly drained but no longer on the verge of bolting.\n\nLirael stands and turns to you.\n\n\"She needs rest,\" she says quietly. \"Let us leave her be.\"";
+
+    },
+    location: "Byrd Family Home - Guest Bedroom (Night)",
+    choices: [
+        { label: "Leave her to rest and go back to your room with Lirael", next: 170 }
+    ]
+},
+
+// 170 - Returning to Your Room
+{
+    text: function() {
+        return "You and Lirael quietly leave the guest bedroom, closing the door gently behind you. The hallway is dimly lit as you walk back toward your room.\n\nAs you pass by, you see Emily heading the opposite way — toward her own room. She gives you a small, tired wave and a sleepy smile before disappearing into her doorway.\n\nYou and Lirael continue down the hall in comfortable silence until you reach your bedroom. Lirael follows you inside without hesitation, closing the door softly behind her.\n\nShe removes her robe once more and slides under the covers. You join her, and she immediately turns onto her side to face you. Without a word, she gently pulls you closer, wrapping her arms around you and pressing her warm, smooth body against yours. Her fingers trace slow, soothing patterns along your back as she holds you.\n\nLirael rests her forehead against yours, her golden eyes soft and half-lidded in the darkness. Her breath is warm against your skin as she whispers:\n\n\"Sleep, Isaac. I am here.\"\n\nThe house is quiet now. You drift off to sleep wrapped in Lirael’s embrace, her steady heartbeat and gentle warmth the last things you feel before exhaustion finally claims you.";
+
+    },
+    location: "Isaac's Bedroom (Night)",
+    choices: [
+        { label: "End the day", next: 171, effect: () => { gameState.currentDate = "September 01";} }
+    ]
+},
+
+// 171 - The End of a Long Day
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Emily ate Lira (the AI)
+            return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Isaac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity. Emily will not be doing escape training today.";
+        } 
+        else {
+            // Normal version - Emily did not eat Lira
+            return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Isaac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today Emily will have her turn with the escape training, the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity.";
+        }
+    },
+    location: "Isaac's Bedroom (Morning)",
+    choices: [
+        { label: "Get up and start the day", next: 172 }
+    ]
+},
+
+// 172 - The Next Morning
+{
+    text: function() {
+        return "Morning light filters through the curtains as you stir awake. Before you can even sit up, Lirael’s strong arms slide beneath you. With effortless grace, she lifts you from the bed, cradling you against her chest as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, a small smile on her lips. \"Let me take you downstairs.\"\n\nStill half-asleep, you don’t protest as she carries you out of the room and down the stairs. Her body is warm and steady, her steps smooth and silent. She brings you into the living room and gently sets you down on the couch where the rest of your family is already waiting.\n\nYour mother is sipping coffee, your father is reading the newspaper, and Emily is curled up under a blanket, still looking sleepy but content with her newly curvier figure. They all look up as Lirael sets you down.\n\nWithout a word, Lirael turns and heads back upstairs. A few moments later, she returns, carefully holding the elven girl — F-2 — in her arms. The girl looks nervous but no longer terrified. She’s still wrapped in one of the spare blankets, her soft brown eyes darting around the room as Lirael carries her downstairs and sets her gently on the other end of the couch.\n\nLirael steps back, standing at her comfortable 6'1\" height, and looks at the family with calm composure.\n\nYour father clears his throat and looks around at everyone, his gaze finally settling on F-2.\n\n\"There is something that needs to be spoken about,\" he says seriously.";
+
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Wait for your father to continue", next: 173 }
+    ]
+},
+
+// 173 - The Family Meeting
+{
+    text: function() {
+        return "Your father’s serious tone makes everyone sit up a little straighter. He looks directly at the elven girl — F-2 — who shrinks slightly under his gaze, pulling the blanket tighter around herself.\n\n\"First things first,\" your father says, his voice steady but not unkind. \"We’re not sending you back. You’re welcome to stay here for now. But we need to know more about you, about where you came from, and why you ended up in our basement. No lies. No hiding things. We’ve already got enough complications in this house.\"\n\nF-2 swallows hard, her soft brown eyes flicking nervously between your father, Lirael, and the rest of the family. Her long pointed ears twitch once before she nods timidly.\n\n\"I… I will tell you everything I can,\" she whispers, her voice small but sincere.\n\nEmily leans forward on the couch, clearly fascinated. Your mother watches with quiet concern, while Lirael stands calmly beside you, observing everything.\n\nYour father continues, \"We’ll start with your name — or what they called you. Then we’ll talk about this Emperor, the veil magic, and how you got here. After that… we’ll figure out what comes next.\"\n\nThe elven girl takes a shaky breath, her hands clutching the edge of the blanket.\n\n\"They only ever called me F-2,\" she says softly. \"I was a castle slave. The Emperor… he brought my kind back because he wanted our power. We look mostly human, but we can do things humans cannot. The veil hid our kingdom for centuries… but it started to weaken. I ran when I saw my chance.\"\n\nShe pauses, eyes glistening with unshed tears.\n\n\"I did not know where to go. I was scared. So I hid in the first dark place I could find… your basement.\"\n\nThe room falls quiet as everyone processes her words. You choose to sit silently and listen, letting the conversation unfold.";
+
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Continue listening", next: 174 }
+    ]
+},
+
+// 174 - Continuing the Conversation
+{
+    text: function() {
+        return "Your father nods slowly, absorbing everything F-2 has said. He leans forward slightly, resting his elbows on his knees, and speaks in a calm but firm tone.\n\n\"Alright. So this Emperor brought your people back just to use your power. That sounds like a whole lot of trouble we don’t need right now. But you’re here, and you’re not going back. That’s what matters.\"\n\nHe glances at Lirael, then at you, before continuing.\n\n\"We’ll need to be careful. If this Emperor is looking for runaway slaves, we can’t have anyone sniffing around our house. For now, you stay hidden. No going outside alone. No drawing attention. We’ll figure out a long-term plan later.\"\n\nF-2 nods quickly, relief washing over her soft brown eyes. She still looks fragile and scared, but the terror from the basement has eased into cautious hope.\n\nEmily, unable to stay quiet any longer, leans forward with wide-eyed curiosity.\n\n\"So… you’re really from a hidden kingdom? That’s so cool. Do you have magic? Like, real magic?\"\n\nF-2 hesitates, then gives a tiny nod.\n\n\"A little… but I was never taught much. Slaves weren’t allowed to use it.\"\n\nLirael watches the exchange quietly, her expression thoughtful. Your mother reaches over and gently squeezes your father’s hand, clearly still processing everything.\n\nThe conversation continues, slow and careful, as the family begins to accept that their home now shelters yet another unusual guest.";
+
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Continue the conversation", next: 175 }
+    ]
+},
+
+// 175 - Shifting Plans for the Day
+{
+    text: function() {
+        return "The conversation about the Emperor and the hidden kingdom gradually slows. Your father leans back in his chair, rubbing his chin thoughtfully.\n\n\"We can talk more about all that later,\" he says. \"Right now, we’ve got more immediate things to handle.\"\n\nLirael nods in agreement. She reaches up and removes the cloaking stone necklace from around her neck. With a deliberate motion, she breaks the stone cleanly in half. One piece she keeps for herself, the other she holds out to F-2.\n\n\"Here,\" Lirael says gently. \"This will hide your ears and make you appear human to outsiders. It is not as strong as a full stone, but it will protect you for now.\"\n\nF-2 hesitates, then accepts the half-stone with trembling hands. She slips the cord over her head. A faint violet shimmer runs over her body as her pointed ears shorten and round out, making her look fully human.\n\nLirael puts her own half-stone back on. The shimmer returns, but it is weaker now. Her skin tone shifts to a more human shade, and her horns vanish, but her golden eyes remain unchanged — no longer turning hazel.\n\n\"The stone is split,\" Lirael explains calmly. \"It is weaker for me now, but it will suffice.\"\n\nEmily watches with wide eyes, clearly fascinated.\n\nF-2 stares down at the half-stone resting against her chest, then looks up at everyone with soft brown eyes full of cautious hope.\n\n\"If… if I may choose a name,\" she says quietly, \"I would like to be called… Lydia.\"\n\nYour mother smiles warmly.\n\n\"Lydia is a lovely name,\" she says. \"Welcome, Lydia.\"\n\nYour father nods in agreement.\n\n\"Alright, Lydia. We’ll figure out the rest as we go. But first — clothes. Emily’s wardrobe is ruined, Lirael only has that silk robe, and you have nothing but rags. We’re going shopping today.\"\n\nLirael inclines her head gracefully.\n\n\"I would be grateful to learn more about the modern world while we are out. Stores, money, how people choose clothes… all of it.\"\n\nEmily grins, already excited.\n\n\"This is going to be fun. We can teach you about malls, credit cards, and fashion all at once!\"\n\nThe mood in the room lightens just a little as everyone begins to prepare for the outing. As the conversation shifts toward the day ahead, your mother looks at Lydia with gentle concern and adds:\n\n\"One more thing, Lydia. You should be careful around Emily’s mouth. She has… abilities and instincts that make her swallow things when she gets excited or hungry. It’s not on purpose, but it happens. So just… keep a little distance from her face until we all get used to this.\"\n\nLydia’s eyes widen slightly, but she nods quickly, clutching the half-stone around her neck.";
+
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Get ready to go shopping", next: 176 }
+    ]
+},
+
+// 176 - Getting Ready to Go Shopping
+{
+    text: function() {
+        return "With the immediate plans settled, the family begins to move. Your mother stands up and starts gathering her purse and keys while your father checks his wallet. Emily, still wrapped in the giant blanket, carefully stands and heads upstairs to change into the temporary clothes Lirael had sewn for her earlier. Lydia remains on the couch, looking a little lost but no longer terrified, clutching the half-cloaking stone around her neck.\n\nLirael turns to you with a small, warm smile.\n\n\"This will be my first time experiencing a modern shopping trip,\" she says. \"I look forward to learning.\"\n\nYou all gather near the front door as Emily comes back down wearing the simple but well-fitted outfit Lirael had made. It hugs her newly curvier figure comfortably, though it’s clear she’s still adjusting to her changed body. Lydia stands up shyly, still wrapped in the blanket, clearly nervous about leaving the house.\n\nYour father opens the front door and gestures outside.\n\n\"Alright, everyone in the van,\" he says. \"Let’s get this over with before anything else strange happens today.\"\n\nLirael offers her hand to Lydia, who hesitates for a moment before taking it. Together, the group heads out to the driveway, the morning sun bright overhead as you all pile into the family van — ready for a day of teaching Lirael about the modern world, choosing a proper name for Lydia, and shopping for new clothes for Emily, Lirael, and now the newest member of the household.";
+
+    },
+    location: "Byrd Family Home - Driveway (Morning)",
+    choices: [
+        { label: "Get in the van and head to the mall", next: 177 }
+    ]
+},
+
+// 177 - Heading to the Mall
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Lira was eaten by Emily
+            return "Everyone gathers outside and begins loading into the family van. Your father takes the driver’s seat while your mother sits in the passenger side. Emily climbs into the middle row, her newly curvier figure taking up more space than usual. You slide in beside her.\n\nLirael and Lydia stand hesitantly beside the open sliding door. Lirael, still at her 6'1\" cloaked height, eyes the vehicle with clear uncertainty. Lydia, clutching her half-cloaking stone, looks even more nervous — she has likely never seen a car before.\n\n\"It is… safe?\" Lirael asks, peering inside.\n\nYour father chuckles from the driver’s seat. \"It’s just a van. Get in. We’re not going far.\"\n\nAfter a moment, Lirael helps Lydia climb in first, then follows, sitting carefully in the back row. The van feels strangely empty with one less person, but the mood is still tense as everyone settles.\n\nYour father starts the engine and pulls out of the driveway. The ride to the mall is quiet at first, broken only by Emily occasionally pointing out things to Lirael — traffic lights, other cars, billboards — trying to teach her about the modern world on the way.\n\nLydia sits silently, wide-eyed at everything passing by, while Lirael listens intently, asking occasional soft questions.\n\nThe van eventually pulls into the busy mall parking lot. As everyone begins to unbuckle, your father glances in the rearview mirror.\n\n\"Alright,\" he says. \"Let’s try to keep things normal today.\"";
+
+        } 
+        else {
+            // Normal version - Lira was not eaten
+            return "Everyone gathers outside and begins loading into the family van. Your father takes the driver’s seat while your mother sits in the passenger side. Emily climbs into the middle row, her newly curvier figure taking up more space than usual. You slide in beside her.\n\nLirael and Lydia stand hesitantly beside the open sliding door. Lirael, still at her 6'1\" cloaked height, eyes the vehicle with clear uncertainty. Lydia, clutching her half-cloaking stone, looks even more nervous — she has likely never seen a car before.\n\n\"It is… safe?\" Lirael asks, peering inside.\n\nYour father chuckles from the driver’s seat. \"It’s just a van. Get in. We’re not going far.\"\n\nAfter a moment, Lirael helps Lydia climb in first, then follows, sitting carefully in the back row. The van feels super crowded with everyone packed in — shoulders touching, knees bumping, the space tight and warm.\n\nYour father starts the engine and pulls out of the driveway. The ride to the mall is quiet at first, broken only by Emily occasionally pointing out things to Lirael — traffic lights, other cars, billboards — trying to teach her about the modern world on the way.\n\nLydia sits silently, wide-eyed at everything passing by, while Lirael listens intently, asking occasional soft questions.\n\nThe van eventually pulls into the busy mall parking lot. As everyone begins to unbuckle, your father glances in the rearview mirror.\n\n\"Alright,\" he says. \"Let’s try to keep things normal today.\"";
+
+        }
+    },
+    location: "Byrd Family Home - Driveway (Morning)",
+    choices: [
+        { label: "Enter the mall", next: 178 }
+    ]
+},
+
+// 178 - Arriving at the Mall
+{
+    text: function() {
+        return "The van pulls into the large, bustling mall parking lot. Your father finds a spot near one of the main entrances and shuts off the engine. Everyone begins unbuckling, the air filled with a mix of nervousness and reluctant excitement.\n\nLirael steps out first, looking around at the massive building and the steady stream of people with open curiosity. Lydia stays close to her side, clutching the half-cloaking stone around her neck, her soft brown eyes wide as she takes in the overwhelming sight of cars, signs, and crowds.\n\nEmily stretches as she climbs out, her new temporary clothes hugging her curvier figure. She grins at Lirael and Lydia.\n\n\"Welcome to the mall,\" she says. \"This is where normal people go to buy clothes, eat overpriced food, and pretend they have money.\"\n\nYour mother smiles faintly. \"Let’s try to keep this simple. We need outfits for Emily, Lirael, and Lydia. Nothing too flashy.\"\n\nYour father locks the van and nods toward the entrance.\n\n\"Stick together,\" he says gruffly. \"And try not to cause any scenes.\"\n\nAs the group walks toward the automatic doors, Lirael’s golden eyes scan everything — the bright lights, the large glass windows, the people moving in every direction. She stays close to you, occasionally asking quiet questions about what she sees.\n\nLydia stays almost glued to Lirael’s side, clearly overwhelmed but trying her best to stay calm.\n\nThe moment you all step inside the mall, the cool air-conditioned breeze and the loud hum of background music hit you. Stores stretch out in every direction, bright signs advertising sales and new arrivals.\n\nEmily claps her hands together once.\n\n\"Okay! Clothes first. Let’s find something that actually fits everyone.\"";
+
+    },
+    location: "Local Mall (Morning)",
+    choices: [
+        { label: "Head to a clothing store", next: 179 },
+        { label: "Let Emily take the lead on shopping", next: 180 },
+        { label: "Watch Lirael and Lydia's reactions to the mall", next: 181 }
     ]
 },
     // 999 - Game End / Content Boundary
