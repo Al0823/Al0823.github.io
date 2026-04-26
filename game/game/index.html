@@ -4,29 +4,156 @@
 <meta charset="UTF-8">
 <title>A.t.A. Projects, Websites, and Games - The Demon and I</title>
 <style>
-body { margin: 0; padding: 0; background-color: #080808; color: #c0c0c0; font-family: 'Courier New', Courier, monospace; }
-#container { width: 75%; margin: 16px auto; border: 4px solid #a0a0a0; background-color: #101010; padding: 12px; }
-#layout { display: flex; }
-#side-panel { width: 240px; border: 3px solid #505050; background-color: #111111; padding: 12px; margin-right: 12px; }
-.panel-section { margin-bottom: 16px; border: 2px inset #404040; padding: 10px; background-color: #181818; }
-.panel-title { font-size: 13px; color: #ffcc00; margin-bottom: 8px; letter-spacing: 0.1em; }
-.panel-button { display: block; margin: 6px 0; padding: 8px; border: 2px outset #808080; background-color: #202020; color: #f0f0f0; cursor: pointer; text-align: center; }
-.panel-button:hover { background-color: #303030; }
-#main-content { flex: 1; }
-#titlebar { background-color: #202020; color: #f8f8f8; padding: 14px; border: 2px inset #505050; text-align: center; letter-spacing: 0.18em; font-size: 21px; }
-#titlebar .blink { color: #ffcc00; }
-#main-frame { margin-top: 12px; border: 3px solid #505050; background: linear-gradient(180deg,#111111 0%,#1a1a1a 100%); padding: 14px; }
-#story { min-height: 520px; background: #121212; border: 2px inset #404040; padding: 22px; line-height: 1.85; white-space: pre-wrap; font-size: 15.5px; }
-#choices { margin-top: 22px; }
-#choices button { margin: 8px 10px 8px 0; padding: 13px 22px; border: 2px outset #808080; background-color: #202020; color: #f0f0f0; cursor: pointer; font-family: inherit; font-size: 14.8px; }
-#choices button:hover { background-color: #303030; }
-#status-bar { margin-top: 22px; padding: 12px; background-color: #181818; border: 2px inset #404040; font-size: 13px; text-align: center; }
-#modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000000d1; display: none; align-items: center; justify-content: center; }
-#modal-box { width: 420px; background-color: #101010; border: 3px solid #505050; padding: 18px; }
-#modal-title { color: #ffcc00; margin-bottom: 16px; font-size: 19px; }
-.modal-button { display: block; margin-top: 12px; padding: 10px; border: 2px outset #808080; background-color: #202020; cursor: pointer; text-align: center; color: #f0f0f0; }
-.modal-button:hover { background-color: #303030; }
-#admin-panel { display: none; position: fixed; top: 8%; left: 8%; width: 84%; height: 84%; background: #1a1a1a; border: 4px solid #ffcc00; padding: 20px; overflow: auto; z-index: 10000; color: #dddddd; }
+body { 
+margin: 0; 
+padding: 0; 
+background-color: #080808; 
+color: #c0c0c0; 
+font-family: 'Courier New', Courier, monospace; 
+}
+#container { 
+width: 75%; 
+margin: 16px auto; 
+border: 4px solid #a0a0a0; 
+background-color: #101010; 
+padding: 12px; 
+}
+#layout { 
+display: flex; 
+}
+#side-panel { 
+width: 240px; 
+border: 3px solid #505050; 
+background-color: #111111; 
+padding: 12px; 
+margin-right: 12px; 
+}
+.panel-section { 
+margin-bottom: 16px; 
+border: 2px inset #404040; 
+padding: 10px; 
+background-color: #181818; 
+}
+.panel-title { 
+font-size: 13px; 
+color: #ffcc00; 
+margin-bottom: 8px; 
+letter-spacing: 0.1em; 
+}
+.panel-button { 
+display: block; 
+margin: 6px 0; 
+padding: 8px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+color: #f0f0f0; 
+cursor: pointer; 
+text-align: center; 
+}
+.panel-button:hover { 
+background-color: #303030;
+}
+#main-content { 
+flex: 1; 
+}
+#titlebar { 
+background-color: #202020; 
+color: #f8f8f8; 
+padding: 14px; 
+border: 2px inset #505050; 
+text-align: center; 
+letter-spacing: 0.18em; 
+font-size: 21px; 
+}
+#titlebar .blink {
+color: #ffcc00; 
+}
+#main-frame { 
+margin-top: 12px; 
+border: 3px solid #505050; 
+background: linear-gradient(180deg,#111111 0%,#1a1a1a 100%);
+padding: 14px; 
+}
+#story { 
+min-height: 520px; 
+background: #121212; 
+border: 2px inset #404040; 
+padding: 22px; line-height: 1.85; 
+white-space: pre-wrap; 
+font-size: 15.5px; 
+}
+#choices { 
+margin-top: 22px; 
+}
+#choices button { 
+margin: 8px 10px 8px 0; 
+padding: 13px 22px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+color: #f0f0f0; 
+cursor: pointer; 
+font-family: inherit; 
+font-size: 14.8px; 
+}
+#choices button:hover { 
+background-color: #303030; 
+}
+#status-bar { 
+margin-top: 22px; 
+padding: 12px; 
+background-color: #181818; 
+border: 2px inset #404040; 
+font-size: 13px; 
+text-align: center; 
+}
+#modal { 
+position: fixed; 
+top: 0; 
+left: 0; 
+width: 100%; 
+height: 100%; 
+background-color: #000000d1; 
+display: none; 
+align-items: center; 
+justify-content: center; 
+}
+#modal-box { 
+width: 420px; 
+background-color: #101010; 
+border: 3px solid #505050; 
+padding: 18px; 
+}
+#modal-title { 
+color: #ffcc00; 
+margin-bottom: 16px; 
+font-size: 19px; 
+}
+.modal-button { 
+display: block;
+margin-top: 12px; 
+padding: 10px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+cursor: pointer; 
+text-align: center; 
+color: #f0f0f0; 
+}
+.modal-button:hover { 
+background-color: #303030; 
+}
+#admin-panel { 
+display: none; 
+position: fixed; 
+top: 8%; 
+left: 8%; 
+width: 84%; 
+height: 84%; 
+background: #1a1a1a; 
+border: 4px solid #ffcc00; 
+padding: 20px; 
+overflow: auto; 
+z-index: 10000; 
+color: #dddddd; }
 </style>
 </head>
 <body>
@@ -109,12 +236,14 @@ var gameState = {
     liraelMotherBond: 0,
     liraelSisterBond: 0,
     liraelLiraBond: 0,
+liraelLydiaBond: 0,
     
     // Isaac's Bonds
     isaacMotherBond: 0,
     isaacSisterBond: 0,
     isaacFatherBond: 0,
     isaacLiraBond: 0,
+issacLydiaBond: 0,
     
     // Vore / Prey System - Training (Safe)
     inStomach: false,
@@ -2116,6 +2245,7 @@ var passages = [
         }
 
         // Normal 95% path
+           gameState.liraEaten = false;
         return baseText + "Emily reaches the woman’s wide hips and continues swallowing with a satisfied moan. With a final heavy *GLORP*, the curvaceous delivery woman disappears completely into Emily’s stomach.\n\nEmily sits back for a moment, then slowly waddles over to the couch, her massively swollen belly now so large and heavy that it barely hovers above the ground, swaying and sloshing with every step. She lowers herself onto the cushions with a tired but satisfied sigh, both hands gently rubbing the enormous, gurgling dome resting on her lap and spilling onto the couch. Her shirt has ridden up completely, sitting bunched at the very top of her massive belly like a crop top, leaving the smooth, stretched skin fully exposed.\n\n\"Mmm… she tasted really good,\" Emily murmurs, licking her lips. \"And we still have all the pizza!\"\n\nThe stack of ten pizza boxes sits forgotten on the floor. Inside Emily’s stomach, loud, wet gurgles and muffled struggles can be heard as the curvaceous woman begins to break down.\n\nLirael raises an eyebrow, looking both impressed and amused.\n\nYour parents stare in stunned silence.";
 
     },
@@ -2583,16 +2713,168 @@ var passages = [
 // 178 - Arriving at the Mall
 {
     text: function() {
-        return "The van pulls into the large, bustling mall parking lot. Your father finds a spot near one of the main entrances and shuts off the engine. Everyone begins unbuckling, the air filled with a mix of nervousness and reluctant excitement.\n\nLirael steps out first, looking around at the massive building and the steady stream of people with open curiosity. Lydia stays close to her side, clutching the half-cloaking stone around her neck, her soft brown eyes wide as she takes in the overwhelming sight of cars, signs, and crowds.\n\nEmily stretches as she climbs out, her new temporary clothes hugging her curvier figure. She grins at Lirael and Lydia.\n\n\"Welcome to the mall,\" she says. \"This is where normal people go to buy clothes, eat overpriced food, and pretend they have money.\"\n\nYour mother smiles faintly. \"Let’s try to keep this simple. We need outfits for Emily, Lirael, and Lydia. Nothing too flashy.\"\n\nYour father locks the van and nods toward the entrance.\n\n\"Stick together,\" he says gruffly. \"And try not to cause any scenes.\"\n\nAs the group walks toward the automatic doors, Lirael’s golden eyes scan everything — the bright lights, the large glass windows, the people moving in every direction. She stays close to you, occasionally asking quiet questions about what she sees.\n\nLydia stays almost glued to Lirael’s side, clearly overwhelmed but trying her best to stay calm.\n\nThe moment you all step inside the mall, the cool air-conditioned breeze and the loud hum of background music hit you. Stores stretch out in every direction, bright signs advertising sales and new arrivals.\n\nEmily claps her hands together once.\n\n\"Okay! Clothes first. Let’s find something that actually fits everyone.\"";
-
+        if (gameState.liraEaten) {
+            // Rare version - Lira was eaten by Emily
+            return "The van pulls into the large, bustling mall parking lot. Your father finds a spot near one of the main entrances and shuts off the engine. Everyone begins unbuckling, the air filled with a mix of nervousness and reluctant excitement.\n\nLirael steps out first, looking around at the massive building and the steady stream of people with open curiosity. Lydia stays close to her side, clutching the half-cloaking stone around her neck, her soft brown eyes wide as she takes in the overwhelming sight of cars, signs, and crowds.\n\nEmily stretches as she climbs out, her new temporary clothes hugging her curvier figure. She grins at Lirael and Lydia.\n\n\"Welcome to the mall,\" she says. \"This is where normal people go to buy clothes, eat overpriced food, and pretend they have money.\"\n\nYour mother smiles faintly. \"Let’s try to keep this simple. We need outfits for Emily, Lirael, and Lydia. Nothing too flashy.\"\n\nYour father locks the van and nods toward the entrance.\n\n\"Stick together,\" he says gruffly. \"And try not to cause any scenes.\"\n\nAs the group walks toward the automatic doors, Lirael’s golden eyes scan everything — the bright lights, the large glass windows, the people moving in every direction. She stays close to you, occasionally asking quiet questions about what she sees.\n\nLydia stays almost glued to Lirael’s side, clearly overwhelmed but trying her best to stay calm.\n\nThe moment you all step inside the mall, the cool air-conditioned breeze and the loud hum of background music hit you. Stores stretch out in every direction, bright signs advertising sales and new arrivals.";
+        } 
+        else {
+            // Normal version - Lira was not eaten
+            return "The van pulls into the large, bustling mall parking lot. Your father finds a spot near one of the main entrances and shuts off the engine. Everyone begins unbuckling, the air filled with a mix of nervousness and reluctant excitement.\n\nLirael steps out first, looking around at the massive building and the steady stream of people with open curiosity. Lydia stays close to her side, clutching the half-cloaking stone around her neck, her soft brown eyes wide as she takes in the overwhelming sight of cars, signs, and crowds.\n\nEmily stretches as she climbs out, her new temporary clothes hugging her curvier figure. She grins at Lirael and Lydia.\n\n\"Welcome to the mall,\" she says. \"This is where normal people go to buy clothes, eat overpriced food, and pretend they have money.\"\n\nYour mother smiles faintly. \"Let’s try to keep this simple. We need outfits for Emily, Lirael, and Lydia. Nothing too flashy.\"\n\nYour father locks the van and nods toward the entrance.\n\n\"Stick together,\" he says gruffly. \"And try not to cause any scenes.\"\n\nAs the group walks toward the automatic doors, Lirael’s golden eyes scan everything — the bright lights, the large glass windows, the people moving in every direction. She stays close to you, occasionally asking quiet questions about what she sees.\n\nLydia stays almost glued to Lirael’s side, clearly overwhelmed but trying her best to stay calm.\n\nThe moment you all step inside the mall, the cool air-conditioned breeze and the loud hum of background music hit you. Stores stretch out in every direction, bright signs advertising sales and new arrivals.";
+        }
     },
     location: "Local Mall (Morning)",
     choices: [
-        { label: "Head to a clothing store", next: 179 },
-        { label: "Let Emily take the lead on shopping", next: 180 },
-        { label: "Watch Lirael and Lydia's reactions to the mall", next: 181 }
+        { label: "Head to a clothing store", next: 179 }
     ]
 },
+
+// 179 - At the Clothing Store
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Lira was eaten by Emily
+            return "The group makes its way through the bright, crowded mall corridors until Emily leads everyone into a large clothing store. Mannequins in the latest styles line the entrance, and racks of shirts, pants, dresses, and underwear stretch out in every direction.\n\nLirael’s golden eyes widen slightly as she takes in the overwhelming variety. She runs her fingers lightly over a rack of soft fabrics, clearly fascinated.\n\n\"So many choices…\" she murmurs. \"How do people decide what to wear?\"\n\nLydia stays close to Lirael, her soft brown eyes darting around nervously. She still looks overwhelmed by the noise, the lights, and the sheer number of people, but she doesn’t pull away.\n\nEmily immediately dives into the racks with enthusiasm, pulling out various tops and pants for herself, Lirael, and Lydia.\n\n\"Okay, let’s start simple,\" she says. \"We need stuff that fits Emily’s new… curves, clothes that work with Lirael’s height and style, and something comfortable for Lydia that won’t draw too much attention.\"\n\nYour mother starts browsing the women’s section while your father stands near the entrance, looking slightly out of place but resigned to the task.\n\nLirael picks up a simple blouse and holds it up, studying it with genuine curiosity.\n\n\"This material is very different from what I am used to,\" she says. \"It is soft… but thin. Will it last?\"\n\nEmily laughs. \"That’s why we buy more than one outfit!\"\n\nLydia remains quiet, but she tentatively reaches out to touch a soft sweater, a tiny spark of wonder breaking through her fear.\n\nThe shopping trip has officially begun.";
+        } 
+        else {
+            // Normal version - Lira was not eaten
+            return "The group makes its way through the bright, crowded mall corridors until Emily leads everyone into a large clothing store. Mannequins in the latest styles line the entrance, and racks of shirts, pants, dresses, and underwear stretch out in every direction.\n\nLirael’s golden eyes widen slightly as she takes in the overwhelming variety. She runs her fingers lightly over a rack of soft fabrics, clearly fascinated.\n\n\"So many choices…\" she murmurs. \"How do people decide what to wear?\"\n\nLydia stays close to Lirael, her soft brown eyes darting around nervously. She still looks overwhelmed by the noise, the lights, and the sheer number of people, but she doesn’t pull away.\n\nEmily immediately dives into the racks with enthusiasm, pulling out various tops and pants for herself, Lirael, and Lydia.\n\n\"Okay, let’s start simple,\" she says. \"We need stuff that fits Emily’s new… curves, clothes that work with Lirael’s height and style, and something comfortable for Lydia that won’t draw too much attention.\"\n\nYour mother starts browsing the women’s section while your father stands near the entrance, looking slightly out of place but resigned to the task.\n\nLirael picks up a simple blouse and holds it up, studying it with genuine curiosity.\n\n\"This material is very different from what I am used to,\" she says. \"It is soft… but thin. Will it last?\"\n\nEmily laughs. \"That’s why we buy more than one outfit!\"\n\nLydia remains quiet, but she tentatively reaches out to touch a soft sweater, a tiny spark of wonder breaking through her fear.\n\nThe shopping trip has officially begun.";
+        }
+    },
+    location: "Local Mall - Clothing Store (Morning)",
+    choices: [
+        { label: "Continue shopping", next: 180 }
+    ]
+},
+
+
+// 180 - Shopping with the Family
+{
+    text: function() {
+        return "The group spreads out through the store. Emily dives enthusiastically into the racks, pulling out tops, jeans, and dresses for herself, occasionally holding them up against her curvier figure to check the fit. Your mother helps her, offering quiet opinions on what looks good and what might be too revealing.\n\nLirael moves more slowly, her golden eyes scanning each item with genuine fascination. She runs her fingers over different fabrics, asking soft questions about materials, sizing, and why certain clothes are considered \"fashionable.\" Lydia stays close to her, still shy but gradually relaxing as she watches Lirael’s curiosity.\n\nYou stay near them, occasionally answering Lirael’s questions or helping Lydia pick something simple and comfortable. The elven girl seems overwhelmed by the bright lights and the sheer variety, but having Lirael beside her helps her stay grounded.\n\nYour father stands near the entrance, arms crossed, looking like he’d rather be anywhere else but occasionally offering gruff comments when Emily holds up something particularly bold.\n\nAfter a while, Emily emerges from the changing room wearing a new outfit that actually fits her current curves. She does a small spin, clearly pleased.\n\n\"This feels so much better,\" she says. \"No more ripping seams every time I move.\"\n\nLirael holds up a simple but elegant blouse she’s chosen for herself.\n\n\"I believe I am beginning to understand,\" she says with a small smile. \"Shall we continue?\"\n\nLydia nods shyly, beginning to show the faintest hint of excitement as she tentatively touches a soft sweater.";
+
+    },
+    location: "Local Mall - Clothing Store (Morning)",
+    choices: [
+        { label: "Continue helping with the shopping", next: 181 }
+    ]
+},
+
+// 181 - Finishing the Shopping Trip
+{
+    text: function() {
+        return "The group spends the next few hours moving from store to store, carefully selecting clothes that fit everyone’s new realities. Emily tries on dozens of outfits, laughing as she spins in front of the mirrors in her newly curvier body. Lirael examines each piece with genuine curiosity, asking questions about fabric, sizing, and style. Lydia stays close to her, slowly warming up as she tries on simple, comfortable clothes for the first time in her life.\n\nBy the time they finish, each of the girls has fourteen complete outfits — shirts, pants, dresses, underwear, and shoes that actually fit. You end up with a couple of new outfits for school as well, chosen quickly by your mother.\n\nThe shopping bags are numerous and heavy as the group finally walks out of the last store. Emily is beaming, clearly enjoying her new wardrobe. Lirael carries several bags with graceful ease, looking pleased with everything she learned. Lydia walks beside her, still a little shy but now wearing one of her new outfits under a light jacket, her soft brown eyes occasionally darting around at the bustling mall with cautious wonder.\n\nYour father adjusts the bags on his arms and lets out a tired sigh.\n\n\"That should hold us for a while,\" he says.\n\nEmily’s stomach gives a loud, demanding gurgle. She rubs it with a grin.\n\n\"Speaking of holding us… I’m starving again. Can we hit the food court before we head home?\"\n\nThe idea of the food court hangs in the air as the group stands near the mall exit, bags in hand, the scent of pretzels, pizza, and fried food drifting toward them from the nearby court.";
+
+    },
+    location: "Local Mall (Afternoon)",
+    choices: [
+        { label: "Head to the food court", next: 182 }
+    ]
+},
+
+// 182 - At the Food Court
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Lira was eaten by Emily
+            return "The group makes its way toward the food court, the smell of pretzels, pizza, fried chicken, and sweet cinnamon rolls growing stronger with every step. The area is bustling with people, bright signs advertising different cuisines, and the constant hum of conversation and background music.\n\nEmily’s eyes light up as she surveys the options, her stomach letting out another loud gurgle.\n\n\"Finally,\" she says, rubbing her still-softly-rounded belly. \"I’m starving.\"\n\nYour father finds a large table near the center and sets down the mountain of shopping bags. \"Go ahead and pick what you want,\" he says. \"Just don’t go overboard.\"\n\nEmily immediately heads toward the pizza stand, while your mother opts for something lighter. Lirael stands beside you, looking at the various food stalls with open curiosity.\n\n\"So much variety,\" she murmurs. \"How do people choose? There are so many smells…\"\n\nLydia stays close to Lirael, still a little overwhelmed by the noise and the crowd, but she tentatively points at a stand selling soft pretzels and cinnamon sugar twists.\n\nYou notice Emily returning with a tray loaded with several slices of pizza, setting it down on the table with a satisfied grin. As everyone begins to eat, Lirael takes a small bite of a pretzel she had chosen for herself, her golden eyes widening slightly at the taste.\n\n\"This is… surprisingly pleasant,\" she says, taking another bite.\n\nLydia nibbles quietly on her own pretzel, slowly relaxing as the warm food and the group’s casual atmosphere ease some of her tension.\n\nYour father watches the scene with a mix of amusement and resignation, occasionally glancing at Lydia to make sure she’s okay.\n\nThe food court feels oddly normal despite everything that has happened. For a brief moment, the family simply enjoys the meal together, the weight of the previous night’s events momentarily lifted.";
+        } 
+        else {
+            // Normal version - Lira was not eaten
+            return "The group makes its way toward the food court, the smell of pretzels, pizza, fried chicken, and sweet cinnamon rolls growing stronger with every step. The area is bustling with people, bright signs advertising different cuisines, and the constant hum of conversation and background music.\n\nEmily’s eyes light up as she surveys the options, her stomach letting out another loud gurgle.\n\n\"Finally,\" she says, rubbing her still-softly-rounded belly. \"I’m starving.\"\n\nYour father finds a large table near the center and sets down the mountain of shopping bags. \"Go ahead and pick what you want,\" he says. \"Just don’t go overboard.\"\n\nEmily immediately heads toward the pizza stand, while your mother opts for something lighter. Lirael stands beside you, looking at the various food stalls with open curiosity.\n\n\"So much variety,\" she murmurs. \"How do people choose? There are so many smells…\"\n\nLydia stays close to Lirael, still a little overwhelmed by the noise and the crowd, but she tentatively points at a stand selling soft pretzels and cinnamon sugar twists.\n\nYou notice Emily returning with a tray loaded with several slices of pizza, setting it down on the table with a satisfied grin. As everyone begins to eat, Lira also takes a small bite of a pretzel, her golden eyes widening slightly at the taste.\n\n\"This is… surprisingly pleasant,\" she says, taking another bite.\n\nLydia nibbles quietly on her own pretzel, slowly relaxing as the warm food and the group’s casual atmosphere ease some of her tension.\n\nYour father watches the scene with a mix of amusement and resignation, occasionally glancing at Lydia to make sure she’s okay.\n\nThe food court feels oddly normal despite everything that has happened. For a brief moment, the family simply enjoys the meal together, the weight of the previous night’s events momentarily lifted.";
+        }
+    },
+    location: "Local Mall - Food Court (Afternoon)",
+    choices: [
+        { label: "Continue eating and talking", next: 183, condition: () => !gameState.liraEaten },
+{ label: "Continue eating and talking", next: 184, condition: () => gameState.liraEaten }
+    ]
+},
+/*
+// 183 - At the Food Court
+{
+    text: function() {
+        if (gameState.liraEaten) {
+            // Rare version - Lira was already eaten by Emily earlier
+            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lydia nibbles quietly on her pretzel, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nThe conversation drifts lightly between bites — Emily pointing out funny signs, your mother asking Lydia gentle questions about what she likes, and Lirael listening intently as she learns more about the modern world. For a brief moment, the weight of the previous night feels a little lighter as the family simply enjoys the meal together.";
+
+        } 
+        else {
+            // Normal version - Lira was not eaten (yet)
+            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\nThe table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
+           gameState.liraEaten = true;
+
+        }
+    },
+    location: "Local Mall - Food Court (Afternoon)",
+    choices: [
+        { label: "Continue", next: 184,  }
+    ]
+},
+    
+*/
+// 183 - At the Food Court
+{
+    text: function() {
+            // Rare version - Lira was already eaten by Emily earlier
+            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lydia nibbles quietly on her pretzel, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nThe conversation drifts lightly between bites — Emily pointing out funny signs, your mother asking Lydia gentle questions about what she likes, and Lirael listening intently as she learns more about the modern world. For a brief moment, the weight of the previous night feels a little lighter as the family simply enjoys the meal together.";
+   },
+    location: "Local Mall - Food Court (Afternoon)",
+    choices: [
+        { label: "Continue", next: 185}
+    ]
+},
+
+// 184
+{
+    text: function() {
+// Normal version - Lira was not eaten (yet)
+            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\nThe table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
+
+
+    },
+    location: "Local Mall - Food Court (Afternoon)",
+    choices: [
+        { label: "Continue", next: 185, effect: () => {gameState.liraEaten = true;}  }
+    ]
+},
+
+// 186 - 
+{
+    text: function() {
+return ""
+},
+    location: " - ",
+    choices: [
+        { label: "", next: 187 }
+    ]
+},
+
+
+
+/* Create 184, have it start with everyone sitting at the table for a while and then Emily's stomach let's out an obnoxious growl and crushes and fully absorb's Lira in one fell swoop, causing Emily to size up again, but not to the point where her clothes will not properly fit her. */
+
+// 187 - 
+{
+    text: function() {
+return ""
+},
+    location: " - ",
+    choices: [
+        { label: "", next: 188 }
+    ]
+},
+
+// 188 - 
+{
+    text: function() {
+return ""
+},
+    location: " - ",
+    choices: [
+        { label: "", next: 189 }
+    ]
+},
+    
     // 999 - Game End / Content Boundary
 
     {
