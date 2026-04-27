@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<!-- Help me please -->
+	<!-- Help me -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -216,25 +216,27 @@ at <b>800&#215;600</b> resolution<br>
 
 <script type="text/javascript">
 (function() {
-  var baseWidth = 760;
+var baseWidth = 760;
+var maxScale = 1.25;
 
-  function scalePage() {
-    var screenWidth = document.body.clientWidth || window.innerWidth;
-    var scale = screenWidth / baseWidth;
+function scalePage() {
+  var screenWidth = document.body.clientWidth || window.innerWidth;
+  var scale = screenWidth / baseWidth;
 
+  if (scale > maxScale) scale = maxScale;
 
-    var container = document.getElementById('scale-container');
+  var container = document.getElementById('scale-container');
 
-    if (container && container.style) {
-      container.style.position = 'relative';
-      container.style.left = '50%';
-      container.style.width = baseWidth + 'px';
+  if (container && container.style) {
+    container.style.position = 'relative';
+    container.style.left = '50%';
+    container.style.width = baseWidth + 'px';
 
-      container.style.transform = 'translateX(-50%) scale(' + scale + ')';
+    container.style.transform = 'translateX(-50%) scale(' + scale + ')';
 
-      container.style.height = (document.body.scrollHeight / scale) + 'px';
-    }
+    container.style.height = (document.body.scrollHeight / scale) + 'px';
   }
+}
 
   if (window.addEventListener) {
     window.addEventListener('resize', scalePage, false);
