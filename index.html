@@ -2,9 +2,32 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A.t.A. Projects, Websites, and Games - Landing Page</title>
+<style type="text/css">
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#scale-wrapper {
+  width: 760px;
+  margin: 0 auto;
+}
+
+/* Modern browsers scale everything */
+@media screen {
+#scale-container {
+  transform-origin: top center;
+  text-align: center; 
+}
+}
+</style>
 </head>
 <body bgcolor="#afafaf" text="#000000" link="#4b5c01" vlink="#4b5c01" alink="#000000">
+
+<div id="scale-container">
+<div id="scale-wrapper">
 <center>
 <table width="760" border="0" cellpadding="0" cellspacing="0">
 <tr>
@@ -192,5 +215,39 @@ at <b>800&#215;600</b> resolution<br>
 </tr>
 </table>
 </center>
-</body>
+</div>
+</div>
+
+<script type="text/javascript">
+(function() {
+  var baseWidth = 760;
+
+  function scalePage() {
+    var screenWidth = document.body.clientWidth || window.innerWidth;
+    var scale = screenWidth / baseWidth;
+
+    if (scale > 1) scale = 1;
+
+    var container = document.getElementById('scale-container');
+
+    if (container && container.style) {
+      container.style.transform = 'scale(' + scale + ')';
+      container.style.width = baseWidth + 'px';
+
+      /* 🔥 THIS FIXES SCROLL/HEIGHT */
+      container.style.height = (document.body.scrollHeight / scale) + 'px';
+    }
+  }
+
+  if (window.addEventListener) {
+    window.addEventListener('resize', scalePage, false);
+    window.addEventListener('load', scalePage, false);
+  } else if (window.attachEvent) {
+    window.attachEvent('onresize', scalePage);
+    window.attachEvent('onload', scalePage);
+  } else {
+    window.onload = scalePage;
+  }
+})();
+</script>
 </html>
