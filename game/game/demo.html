@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>A.t.A. Projects, Websites, and Games - The Demon and I</title>
+<style>
+body { 
+margin: 0; 
+padding: 0; 
+background-color: #080808; 
+color: #c0c0c0; 
+font-family: 'Courier New', Courier, monospace; 
+}
+#container { 
+width: 75%; 
+margin: 16px auto; 
+border: 4px solid #a0a0a0; 
+background-color: #101010; 
+padding: 12px; 
+}
+#layout { 
+display: flex; 
+}
+#side-panel { 
+width: 240px; 
+border: 3px solid #505050; 
+background-color: #111111; 
+padding: 12px; 
+margin-right: 12px; 
+}
+.panel-section { 
+margin-bottom: 16px; 
+border: 2px inset #404040; 
+padding: 10px; 
+background-color: #181818; 
+}
+.panel-title { 
+font-size: 13px; 
+color: #ffcc00; 
+margin-bottom: 8px; 
+letter-spacing: 0.1em; 
+}
+.panel-button { 
+display: block; 
+margin: 6px 0; 
+padding: 8px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+color: #f0f0f0; 
+cursor: pointer; 
+text-align: center; 
+}
+.panel-button:hover { 
+background-color: #303030;
+}
+#main-content { 
+flex: 1; 
+}
+#titlebar { 
+background-color: #202020; 
+color: #f8f8f8; 
+padding: 14px; 
+border: 2px inset #505050; 
+text-align: center; 
+letter-spacing: 0.18em; 
+font-size: 21px; 
+}
+#titlebar .blink {
+color: #ffcc00; 
+}
+#main-frame { 
+margin-top: 12px; 
+border: 3px solid #505050; 
+background-color: linear-gradient(180deg,#111111 0%,#1a1a1a 100%);
+padding: 14px; 
+}
+#story { 
+min-height: 520px; 
+background-color: #121212; 
+border: 2px inset #404040; 
+padding: 22px; line-height: 1.85; 
+white-space: pre-wrap; 
+font-size: 15.5px; 
+}
+#choices { 
+margin-top: 22px; 
+}
+#choices button { 
+margin: 8px 10px 8px 0; 
+padding: 13px 22px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+color: #f0f0f0; 
+cursor: pointer; 
+font-family: inherit; 
+font-size: 14.8px; 
+}
+#choices button:hover { 
+background-color: #303030; 
+}
+#status-bar { 
+margin-top: 22px; 
+padding: 12px; 
+background-color: #181818; 
+border: 2px inset #404040; 
+font-size: 13px; 
+text-align: center; 
+}
+#modal { 
+position: fixed; 
+top: 0; 
+left: 0; 
+width: 100%; 
+height: 100%; 
+background-color: #000000d1; 
+display: none; 
+align-items: center; 
+justify-content: center; 
+}
+#modal-box { 
+width: 420px; 
+background-color: #101010; 
+border: 3px solid #505050; 
+padding: 18px; 
+}
+#modal-title { 
+color: #ffcc00; 
+margin-bottom: 16px; 
+font-size: 19px; 
+}
+.modal-button { 
+display: block;
+margin-top: 12px; 
+padding: 10px; 
+border: 2px outset #808080; 
+background-color: #202020; 
+cursor: pointer; 
+text-align: center; 
+color: #f0f0f0; 
+}
+.modal-button:hover { 
+background-color: #303030; 
+}
+#admin-panel { 
+display: none; 
+position: fixed; 
+top: 8%; 
+left: 8%; 
+width: 84%; 
+height: 84%; 
+background-color: #1a1a1a; 
+border: 4px solid #ffcc00; 
+padding: 20px; 
+overflow: auto; 
+z-index: 10000; 
+color: #dddddd; 
+}
+.admin-panel{
+color:#ffcc00; 
+text-align:center;
+}
+.toggleadminpanel{
+position:absolute; 
+top:15px; right:15px; 
+padding:8px 16px;
+}
+.adminpannelinner{
+display:grid; 
+grid-template-columns:1fr 1fr; 
+gap:25px;    
+}
+.state-list{
+max-height:65vh; 
+overflow:auto; 
+background-color:#111111; 
+padding:10px;
+}
+.passagejump{
+margin-top:25px;
+}
+.jump-input{
+width:100%; 
+padding:10px; 
+background-color:#222222; 
+color:#dddddd; 
+border:1px solid #555555;
+}
+.jumpbutton{
+width:100%; 
+margin-top:8px;
+}
+.saveloadreset{
+margin-top:25px;
+}
+#resetGameState{
+background-color:#8B0000;
+}
+</style>
+</head>
+<body>
+<div id="container">
+<div id="layout">
+<div id="side-panel">
+<div class="panel-section">
+<div class="panel-title">LOCATION</div>
+<div id="location-display">Byrd Family Home - Hartford, CT</div>
+</div>
+<div class="panel-section">
+<div class="panel-title">MENU</div>
+<div class="panel-button" onclick="openModal('stats')">View Stats</div>
+<div class="panel-button" onclick="openModal('options')">Options</div>
+<div class="panel-button" onclick="openModal('system')">Save / Load</div>
+<div class="panel-button" onclick="restartGame()">Restart Game</div>
+<div class="panel-button" onclick="openModal('about')">About</div>
+</div>
+</div>
+<div id="main-content">
+<div id="titlebar"><span id="title-text" class="blink">THE DEMON AND I</span></div>
+<div id="main-frame">
+<div id="story"></div>
+<div id="choices"></div>
+<div id="status-bar"></div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="admin-panel">
+<h2 class="admin-panel">🔧 ADMIN PANEL</h2>
+<button onclick="toggleAdminPanel()" class="toggleadminpanel">Close</button>
+<div class="adminpanelinner">
+<div>
+<h3>Game State Values</h3>
+<div id="state-list" class="state-list"></div>
+</div>
+<div>
+<h3>Quick Actions</h3>
+<button onclick="quickSet('liraelFreed', true)" class="modal-button">Free Lirael</button>
+<button onclick="quickSet('liraelBond', 100)" class="modal-button">Max Lirael Bond</button>
+<button onclick="quickSet('familyTension', 0)" class="modal-button">Reset Family Tension</button>
+<button onclick="quickSet('theoResurrectionProgress', 100)" class="modal-button">Max Theo Progress</button>
+<h3 class="passagejump">Jump to Passage</h3>
+<input type="number" id="jump-input" placeholder="Passage number" class="jump-input">
+<button onclick="jumpToPassage()" class="modal-button" class="jumpbutton">Jump to Passage</button>
+<h3 class="saveloadreset">Save / Load / Reset</h3>
+<button onclick="saveGame()" class="modal-button">Save Current State</button>
+<button onclick="loadGame()" class="modal-button">Load Saved State</button>
+<button onclick="resetGameState()" class="modal-button" id="resetGameState">Reset All State</button>
+</div>
+</div>
+</div>
+
+<div id="modal">
+<div id="modal-box">
+<div id="modal-title"></div>
+<div id="modal-content"></div>
+<div class="modal-button" onclick="closeModal()">Close</div>
+</div>
+</div>
+
+<script>
+// ================ GAME STATE ================
+var gameState = {
+    currentPassage: 0,
+    lastPassage: 0,
+    currentDate: "August 22",
+    
+    // Core Stats
+    familyTension: 0,
+    supernaturalAffinity: 0,
+    
+    // Lirael Bonds
+    liraelBond: 0,
+    liraelFatherBond: 0,
+    liraelMotherBond: 0,
+    liraelSisterBond: 0,
+    liraelLiraBond: 0,
+liraelLydiaBond: 0,
+    
+    // Isaac's Bonds
+    isaacMotherBond: 0,
+    isaacSisterBond: 0,
+    isaacFatherBond: 0,
+    isaacLiraBond: 0,
+issacLydiaBond: 0,
+    
+    // Vore / Prey System - Training (Safe)
+    inStomach: false,
+    currentPredator: "",           // "lira", "lirael", "emily", etc.
+    preyHealth: 100,
+    preyStamina: 100,
+    preyResilience: 0,             // Unlocks Probe (3+) and Soothe (5+)
+    digestionProgress: 0,
+    escapeTrainingProgress: 0,
+    escapeSkillIsaac: 0,
+    escapeSkillFather: 0,
+    escapeSkillMother: 0,
+    escapeSkillEmily: 0,
+    escapeSkillLira: 0,
+    trainingSessionCount: 0,
+trainingTurnCount: 0,      // Current turn in the training session
+    acidStage: 0,              // 0 = mild, 1 = moderate, 2 = strong, 3 = critical
+predHealth: 100,
+    predDefense: 0,
+nextTrainer: "",
+    
+    // Real Vore / Death System (Dangerous Scenes)
+    isSwallowed: false,            // Player is currently swallowed in a real (potentially deadly) scene
+    currentPredatorReal: "",       // Who ate the player in a real scene
+    preyHealthReal: 100,           // Health in real dangerous scenes
+    preyStaminaReal: 100,
+    digestionProgressReal: 0,      // 0-100 (100 = death if canDieFromDigestion is true)
+    digestionRateReal: 10,         // How fast digestion progresses per turn
+    canDieFromDigestion: true,     // If true, full digestion = game over
+    voreDeathCount: 0,             // How many times player has been digested
+    lastSwallowedBy: "",// Last predator who swallowed the player
+lastActionText: "",
+checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false },
+    
+    liraelFreed: false,
+    liraelFreedMethod: 0,
+    hasKey: false,
+    hasAmulet: false,
+    statsUnlocked: false,
+    theoResurrectionProgress: 0,
+    usedChoices: {},
+    visitedPassages: {},
+    lastChoiceLabel: "",
+    whoAteGrimmold: "",
+    bondsInitialized: false,
+    knowliraelmilk: false,
+    liraateattacker: false,
+    liraEaten: false,
+liraEatenMethod: 0,   // 0 = not eaten, 1 = eaten at food court, 2 = eaten earlier
+lastMallAttackerEatenBy: 0, // 0 = not eaten, 1 = eaten by Lirael, 2 = eaten by Emily, 3 = eaten by Lydia
+
+    liraelFedComfort: false,
+    liratoldenergyreadings: false,
+    liratolddisappearances: false,
+    exploredwoodsWithLira: false,
+    exploredwoodsalone: false,
+    liratoldhousehistory: false,
+    gaveGranola: false,
+    askedAboutEmily: false,
+    askedAboutSelf: false,
+    firstVisitTo13: true,
+    conversationOptionsUsed: 0,
+    askedLiraelAbout: {},
+    askedAboutRoam: false,
+    justConfessedToFather: false,
+    firstVisitTo100: true,
+    kitchenBanned: false,
+    pathChosen: "",
+};
+
+// Initialize random bonds only once when starting a new game
+if (!gameState.bondsInitialized && gameState.currentPassage === 0) {
+    gameState.isaacMotherBond = Math.floor(Math.random() * 25) + 70;   // 70–94 (highest)
+    gameState.isaacSisterBond = Math.floor(Math.random() * 25) + 60;   // 60–84
+    gameState.isaacFatherBond = Math.floor(Math.random() * 30) + 45;   // 45–74
+    gameState.isaacLiraBond   = Math.floor(Math.random() * 20) + 12;   // 12–31 (lowest)
+    gameState.bondsInitialized = true;
+
+}
+
+
+
+var passages = [
+    // 0 - Arrival
+    {
+        text: "The old minivan's engine coughs, sputters, and finally dies with a long, rattling sigh that seems to echo just a little too loudly in the stillness. For a moment, no one moves.\n\nThen you push the door open.\n\nCool Connecticut air spills in immediately, wrapping around you like something alive. It carries the sharp bite of pine resin, the damp richness of soil that hasn't seen full sunlight in years, and underneath it all… something faintly metallic. It settles on the back of your tongue in a way you can't quite explain.\n\nYou step out.\n\nGravel crunches sharply beneath your sneakers — loud, intrusive, unnatural against the heavy quiet pressing in from all sides. Even that small sound feels like it doesn't belong here.\n\nAnd then you look up.\n\nThe house towers over you.\n\nThree stories tall. Victorian. Ancient.\n\nIts weathered wood has faded into a sickly gray-green, like something left to rot but never allowed to decay fully. Thick ropes of ivy crawl up its walls and wrap around the shutters like veins, clinging, digging in — as if the house is being pulled back into the earth… or refusing to let go.\n\nYour eyes drift upward.\n\nThe attic window.\n\nA perfect black rectangle.\n\nNo reflection. No light. Just emptiness.\n\nAnd yet… you can't shake the feeling that something inside is looking directly at you.\n\nThe woods press in close on all sides — dense, towering, ancient. Their branches knit together overhead, choking out the sky and leaving the entire property trapped in a dim, unnatural twilight. Even though it's still day, it doesn't feel like it.\n\nIt feels like evening.\n\nOr something later.\n\nYour mother, Rebecca, steps out beside you, clutching her silver cross so tightly her knuckles go white. You hear the faint creak of the chain as it strains under the pressure.\n\n\"This is God's test,\" she whispers. The words sound rehearsed. Forced. Like she's trying to convince herself more than anyone else.\n\nYour father, Pastor Michael, slams his door harder than necessary. The sound cracks through the air.\n\n\"Darkness has no place here,\" he mutters immediately, already pacing, already scanning the house like it's something that needs to be confronted. \"We'll cleanse every inch of this property if we have to.\"\n\nEmily practically explodes out of the van, bouncing on her toes, completely oblivious.\n\n\"It looks like a REAL haunted mansion!\" she says, eyes shining. \"Can we explore the attic tonight? Please? PLEASE?\"\n\nYou don't answer.\n\nYou just stand there.\n\nHands shoved deep into your hoodie pocket.\n\nYour messy dark-brown hair shifts slightly as a cold breeze slides past you. Your hazel eyes stay locked on the house.\n\nUpstate New York feels a million miles away now.\n\nAnd Theo…\n\nThat weight in your chest tightens again. Heavy. Unmoving. Unfinished.\n\nInside the foyer, standing perfectly still in the dim light, is Lira.\n\nShe looks… real.\n\nToo real.\n\nSmooth synthetic skin with a faint pearlescent sheen. Shoulder-length dark hair that falls naturally against her face. Calm blue eyes that track each of you as you enter — not mechanically, but attentively.\n\nConcerned.\n\nA soft glow pulses from the tag on her wrist.\n\n\"Lira, Model F-7, Property of Byrd Family.\"\n\nShe smiles.\n\nSmall. Warm. Almost shy.\n\n\"Hey… welcome home,\" she says gently.\n\nThere's a pause.\n\nJust long enough to feel intentional.\n\n\"I've got all the rooms set up for you.\"\n\nAnother pause.\n\nThis one heavier.\n\n\"…Just so you know…\"\n\nHer eyes flick briefly toward the floor. Then back to you.\n\n\"…the house has some pretty weird energy readings. Basement. Attic mostly.\"\n\nA faint flicker of uncertainty crosses her face.\n\n\"I can't explain it.\"\n\nShe hesitates.\n\n\"…but it's definitely there.\"",
+        location: "Byrd Family Home - Foyer",
+        choices: [
+            { label: "Help the family unpack", next: 999},
+            { label: "Talk to Lira", next: 999},
+            { label: "Go explore the woods behind the house", next: 999}
+        ]
+    },
+
+    // 999 - Game End / Content Boundary
+
+    {
+        text: "Unfortunately this is where the scene ends because I have not made the next scene yet, sorry folks. But please Stay tuned for updates!",
+        location: "GAME END",
+        choices: [{ label: "Restart the Game", next: 0 }]
+    }
+];
+
+// ================ RENDERING ================
+function renderPassage() {
+    gameState.visitedPassages[gameState.currentPassage] = true;
+
+    var p = passages[gameState.currentPassage];
+    if (!p) {
+        document.getElementById('story').textContent = "Error: passage " + gameState.currentPassage + " not found.";
+        return;
+    }
+
+    let displayText = typeof p.text === 'function' ? p.text() : p.text;
+    document.getElementById('story').textContent = displayText;
+    document.getElementById('location-display').textContent = p.location + " — " + gameState.currentDate;
+
+    var choicesDiv = document.getElementById('choices');
+    choicesDiv.innerHTML = '';
+
+    let visibleChoices = p.choices.filter(choice => {
+        const used = gameState.usedChoices[gameState.currentPassage] || [];
+        if (used.includes(choice.label)) return false;
+        if (choice.condition && !choice.condition()) return false;
+        return true;
+    });
+
+    visibleChoices.forEach((choice) => {
+        var btn = document.createElement('button');
+        btn.textContent = choice.label;
+        btn.onclick = () => {
+            if (choice.next !== gameState.currentPassage) {
+                if (!gameState.usedChoices[gameState.currentPassage])
+                    gameState.usedChoices[gameState.currentPassage] = [];
+                if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
+                    gameState.usedChoices[gameState.currentPassage].push(choice.label);
+                }
+            }
+            if (choice.effect) choice.effect();
+            gameState.lastPassage = gameState.currentPassage;
+            gameState.currentPassage = choice.next;
+            renderPassage();
+        };
+        choicesDiv.appendChild(btn);
+    });
+
+    updateStatusBar();
+}
+
+function updateStatusBar() {
+    if (passages[gameState.currentPassage]) {
+        document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location} — ${gameState.currentDate}`;
+    }
+}
+
+// ================ ADMIN PANEL ================
+function toggleAdminPanel() {
+    const panel = document.getElementById('admin-panel');
+    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+    if (panel.style.display === 'block') refreshAdminPanel();
+}
+
+function refreshAdminPanel() {
+    const container = document.getElementById('state-list');
+    container.innerHTML = '';
+    for (let key in gameState) {
+        const value = gameState[key];
+        const row = document.createElement('div');
+        row.style.margin = '8px 0';
+        row.style.padding = '8px';
+        row.style.background = '#222222';
+        row.style.borderRadius = '4px';
+        row.innerHTML = `
+            <strong>${key}:</strong> 
+            <input type="text" value="${value}" 
+                   onchange="updateGameState('${key}', this.value)" 
+                   style="background:#333; color:#ddd; border:none; padding:4px; width:65%;">
+        `;
+        container.appendChild(row);
+    }
+}
+
+function updateGameState(key, newValue) {
+    const current = gameState[key];
+    if (typeof current === 'number') gameState[key] = Number(newValue);
+    else if (typeof current === 'boolean') gameState[key] = (newValue.toLowerCase() === 'true');
+    else gameState[key] = newValue;
+    refreshAdminPanel();
+}
+
+function quickSet(key, value) {
+    gameState[key] = value;
+    refreshAdminPanel();
+    alert(`Set ${key} = ${value}`);
+}
+
+function jumpToPassage() {
+    const num = parseInt(document.getElementById('jump-input').value);
+    if (!isNaN(num) && passages[num]) {
+        gameState.currentPassage = num;
+        toggleAdminPanel();
+        renderPassage();
+    } else {
+        alert("Invalid passage number!");
+    }
+}
+
+function resetGameState() {
+    if (confirm("Reset ALL game state?")) location.reload();
+}
+
+// Hotkey: Ctrl + Shift + A
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
+        e.preventDefault();
+        toggleAdminPanel();
+    }
+});
+
+// ================ MODALS ================
+function openModal(type) {
+    var modal = document.getElementById('modal');
+    var title = document.getElementById('modal-title');
+    var content = document.getElementById('modal-content');
+
+    if (type === 'stats') {
+        title.textContent = "GAME STATS";
+        if (!gameState.statsUnlocked) {
+            content.innerHTML = "<p>Stats will be revealed as you progress through the story.</p>";
+        } else {
+            content.innerHTML = `Family Tension: ${gameState.familyTension}<br>Supernatural Affinity: ${gameState.supernaturalAffinity}<br>Lirael Bond: ${gameState.liraelBond}<br>Father Bond: ${gameState.issacFatherBond}<br>Mother Bond: ${gameState.issacMotherBond}<br>Sister Bond: ${gameState.issacSisterBond}<br>Lira Bond: ${gameState.issacLiraBond}<br>Theo Resurrection Progress: ${gameState.theoResurrectionProgress}%`;
+        }
+    } else if (type === 'options') {
+        title.textContent = "OPTIONS";
+        content.innerHTML = `Text Speed: <input type="range" min="1" max="100" value="50"><br><br>Sound Effects: <input type="checkbox" checked>`;
+    } else if (type === 'system') {
+        title.textContent = "SAVE / LOAD";
+        content.innerHTML = `<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>`;
+    } else if (type === 'about') {
+        title.textContent = "THE DEMON AND I";
+        content.innerHTML = `<p>A text-based erotic adventure<br>Isaac Byrd & the trapped she-demon</p>`;
+    }
+    modal.style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = "none";
+}
+
+function saveGame() {
+    localStorage.setItem('demonAndISave', JSON.stringify(gameState));
+    alert("Game Saved!");
+}
+
+function loadGame() {
+    var save = localStorage.getItem('demonAndISave');
+    if (save) {
+        Object.assign(gameState, JSON.parse(save));
+        renderPassage();
+        alert("Game Loaded!");
+    } else {
+        alert("No save file found.");
+    }
+}
+
+function restartGame() {
+    if (confirm("Restart the entire story from the beginning?")) {
+        location.reload();
+    }
+}
+
+window.onload = function() {
+    renderPassage();
+    setInterval(() => {
+        var t = document.getElementById('title-text');
+        t.style.visibility = (t.style.visibility === 'hidden') ? 'visible' : 'hidden';
+    }, 700);
+};
+</script>
+</body>
+</html>
