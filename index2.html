@@ -1,31 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<!-- Help me -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A.t.A. Projects, Websites, and Games - Landing Page</title>
-<style type="text/css">
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
-#scale-wrapper {
-  width: 760px;
-}
-
-#scale-container {
-  transform-origin: top left;
-}
-</style>
 </head>
 <body bgcolor="#afafaf" text="#000000" link="#4b5c01" vlink="#4b5c01" alink="#000000">
-
-<div id="scale-container">
-<div id="scale-wrapper">
 <center>
-<table width="760" border="0" cellpadding="0" cellspacing="0">
+<table width="760" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
 <tr>
 <td bgcolor="#4b4b4b">
 <marquee scrollamount="4">
@@ -38,7 +19,7 @@ html, body {
 </td>
 </tr>
 </table>
-<table width="760" border="0" cellpadding="0" cellspacing="0" bgcolor="#4b4b4b">
+<table width="760" border="0" cellpadding="0" cellspacing="0" bgcolor="#4b4b4b" style="width:100%;">
 <tr>
 <td width="80" align="center" valign="middle">
 <font size="6" color="#ffffff">&#9733;</font><br>
@@ -61,7 +42,7 @@ html, body {
 </td>
 </tr>
 </table>
-<table width="760" border="2" cellpadding="4" cellspacing="0" bgcolor="#fff3cd">
+<table width="760" border="2" cellpadding="4" cellspacing="0" bgcolor="#fff3cd" style="width:100%;">
 <tr>
 <td align="center">
 <font size="2" color="#c70039" face="Arial, sans-serif">
@@ -71,10 +52,10 @@ html, body {
 </tr>
 </table>
 <br>
-<table width="760" border="0" cellpadding="6" cellspacing="4">
+<table width="760" border="0" cellpadding="6" cellspacing="4" style="width:100%;">
 <tr valign="top">
 <td width="370" bgcolor="#c8c8c8">
-<table width="100%" border="0" cellpadding="2" cellspacing="0" bgcolor="#4b4b4b">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" bgcolor="#4b4b4b" style="width:100%;">
 <tr>
 <td align="center">
 <font face="Comic Sans MS, Arial Black" size="5" color="#ffffff"><b>High School Creations</b></font>
@@ -106,7 +87,7 @@ html, body {
 <font size="1" color="#4b4b4b">&nbsp;&nbsp;&nbsp;My very last High School web project!</font><br><br>
 </td>
 <td width="120" align="center" valign="top">
-<table border="3" cellpadding="6" cellspacing="0" bgcolor="#4b4b4b">
+<table border="3" cellpadding="6" cellspacing="0" bgcolor="#4b4b4b" style="width:100%;">
 <tr>
 <td align="center">
 <font size="1" color="#ffffff" face="Courier New"><b>VISITOR COUNT</b></font><br>
@@ -122,13 +103,13 @@ var s=String(total); while(s.length<6) s="0"+s; document.write(s);*/
 </tr>
 </table>
 <br>
-<table border="2" cellpadding="4" cellspacing="0" bgcolor="#c8c8c8" width="100%">
+<table border="2" cellpadding="4" cellspacing="0" bgcolor="#c8c8c8" width="100%" style="width:100%;">
 <tr><td align="center"><b>Made with<br>Github!!</b></td></tr>
 <tr><td align="center"><b>Best Viewed<br>in Netscape<br>Navigator</b></td></tr>
 </table>
 </td>
 <td width="230" bgcolor="#c8c8c8">
-<table width="100%" border="0" cellpadding="2" cellspacing="0" bgcolor="#4b4b4b">
+<table width="100%" border="0" cellpadding="2" cellspacing="0" bgcolor="#4b4b4b" style="width:100%;">
 <tr>
 <td align="center">
 <font face="Comic Sans MS, Arial Black" size="5" color="#ffffff"><b>Other Creations</b></font>
@@ -178,7 +159,7 @@ Languages: <b><font color="#4b4b4b">HTML, CSS, JS, XML, PHP</font></b><br>
 </tr>
 </table>
 <br>
-<table width="760" border="0" cellpadding="0" cellspacing="0">
+<table width="760" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
 <tr>
 <td bgcolor="#4b4b4b">
 <marquee scrollamount="3" direction="right">
@@ -190,11 +171,11 @@ Languages: <b><font color="#4b4b4b">HTML, CSS, JS, XML, PHP</font></b><br>
 </tr>
 </table>
 <br>
-<table width="760" border="0" cellpadding="8" cellspacing="0" bgcolor="#4b4b4b">
+<table width="760" border="0" cellpadding="8" cellspacing="0" bgcolor="#4b4b4b" style="width:100%;">
 <tr>
 <td align="center">
 <font size="1" color="#c8c8c8" face="Arial, sans-serif">
-&#169; A.t.A. Tech Wiki &mdash; 2024 &mdash;
+&#169; A.t.A. Projects, Websites, &amp; Games &mdash; 2024 &mdash;
 <script>
 var d = new Date();
 document.write(d.getFullYear());
@@ -211,43 +192,5 @@ at <b>800&#215;600</b> resolution<br>
 </tr>
 </table>
 </center>
-</div>
-</div>
-
-<script type="text/javascript">
-(function() {
-var baseWidth = 760;
-var maxScale = 1.4;
-
-function scalePage() {
-  var screenWidth = document.body.clientWidth || window.innerWidth;
-  var scale = screenWidth / baseWidth;
-
-  if (scale > maxScale) scale = maxScale;
-
-  var container = document.getElementById('scale-container');
-
-  if (container && container.style) {
-    container.style.position = 'relative';
-    container.style.left = '50%';
-    container.style.width = baseWidth + 'px';
-
-    container.style.transform = 'translateX(-50%) scale(' + scale + ')';
-
-    container.style.height = (document.body.scrollHeight / scale) + 'px';
-  }
-}
-
-  if (window.addEventListener) {
-    window.addEventListener('resize', scalePage, false);
-    window.addEventListener('load', scalePage, false);
-  } else if (window.attachEvent) {
-    window.attachEvent('onresize', scalePage);
-    window.attachEvent('onload', scalePage);
-  } else {
-    window.onload = scalePage;
-  }
-})();
-</script>
 </body>
 </html>
