@@ -15,15 +15,8 @@ html, body {
   width: 760px;
 }
 
-/* Modern browsers scale everything */
-@media screen {
 #scale-container {
-  transform-origin: top center;
-  text-align: center; 
   transform-origin: top left;
-  position: absolute;
-  left: 50%;
-}
 }
 </style>
 </head>
@@ -234,12 +227,12 @@ at <b>800&#215;600</b> resolution<br>
     var container = document.getElementById('scale-container');
 
     if (container && container.style) {
-container.style.transform = 'translateX(-50%) scale(' + scale + ')';
-container.style.left = '50%';
-container.style.position = 'relative';
-ontainer.style.width = baseWidth + 'px';
+      container.style.position = 'relative';
+      container.style.left = '50%';
+      container.style.width = baseWidth + 'px';
 
-      /* 🔥 THIS FIXES SCROLL/HEIGHT */
+      container.style.transform = 'translateX(-50%) scale(' + scale + ')';
+
       container.style.height = (document.body.scrollHeight / scale) + 'px';
     }
   }
@@ -255,4 +248,5 @@ ontainer.style.width = baseWidth + 'px';
   }
 })();
 </script>
+</body>
 </html>
