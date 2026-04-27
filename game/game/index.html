@@ -2982,41 +2982,80 @@ gameState.issacLydiaBond += 50;
         { label: "Wait for the food to arrive", next: 190 }
     ]
 },
-    
-// 186 - 
+
+// 190 - Waiting for Dinner
+{
+    text: function() {
+        if (gameState.lastMallAttackerEatenBy === "lirael") {
+            // Lirael ate the lady - more detailed
+            return "The family settles in to wait for the food to arrive. Lirael sits gracefully on the couch, her belly still noticeably rounded and firm from swallowing the woman in the mall. She places both hands on the swell, closes her eyes, and begins to channel her magic. A soft, radiant violet shimmer spreads across her midsection, pulsing gently like moonlight on water. You can hear the low, melodic hum of her power at work as the contents inside her are rapidly broken down and absorbed. Her belly shrinks smoothly and elegantly, the heavy weight converting into soft, feminine curves — her hips and breasts becoming subtly fuller, her waist remaining elegantly defined. The process is quiet and controlled, accompanied only by faint, wet internal gurgles that gradually fade into silence.\n\nWhen it’s done, Lirael opens her golden eyes, looking calm and refreshed, a faint glow lingering on her skin.\n\n\"Much better,\" she says softly, her voice smooth and composed. \"She was… quite filling.\"\n\nEmily giggles. Your mother looks slightly uncomfortable but says nothing. Lydia watches with wide, fascinated eyes, her soft brown gaze fixed on the subtle changes to Lirael’s figure.";
+
+        } 
+        else if (gameState.lastMallAttackerEatenBy === "emily") {
+            // Emily ate the lady - brutal and erotic (kept as previously refined)
+            return "The family settles in to wait for the food to arrive. Emily lounges on the couch, her belly still heavily swollen and taut from swallowing the woman in the mall. Suddenly, her stomach lets out a deep, violent growl that vibrates through the room. Emily’s eyes flutter half-closed in raw pleasure as her powerful stomach muscles begin to contract with savage force.\n\nWet, brutal *CRUNCH-GLORP-CRACK* sounds echo loudly as her belly violently squeezes and grinds the woman inside. You can hear the sickening snap of bones breaking, the wet squelch of flesh being pulped, and the heavy sloshing of thick chyme as everything is crushed into a messy slurry. Emily bites her lip hard, letting out a low, throaty moan that sends a shiver through the room. Her cheeks flush deeply, her breathing quickens, and her hands roam greedily over her swelling curves as her body rapidly absorbs the woman’s mass.\n\nHer breasts grow heavier and rounder, straining against her shirt. Her hips and ass thicken with plush, soft fat. Her thighs press together, becoming fuller and softer. The air fills with the pungent, acrid scent of digestion as her belly visibly shrinks, the violent churning slowing into wet, satisfied gurgles.\n\nWhen it’s over, Emily lets out a long, shuddering sigh of ecstasy, her newly enhanced body looking even more voluptuous and erotic. She runs her hands slowly over her enlarged breasts and wide hips, clearly savoring the sensation.\n\n\"Mmm… that felt so good,\" she purrs, voice husky. \"She fought hard… but she melted so nicely.\"\n\nYour mother looks slightly pale. Your father just sighs deeply. Lirael watches with calm interest. Lydia stares with wide, shocked eyes.";
+
+        } 
+        else {
+            // Lydia ate the lady (least likely) - more detailed
+            return "The family settles in to wait for the food to arrive. Lydia sits quietly on the couch, her belly still noticeably rounded from swallowing the woman in the mall. She looks embarrassed and unsure, her soft brown eyes downcast. After a few moments, her stomach lets out a strange, melodic hum — almost musical, like distant chimes mixed with a low, resonant vibration. The sound is softer and more ethereal than the others, carrying a faint glow that pulses gently under her skin.\n\nHer belly begins to shrink steadily, the process graceful yet powerful, as if her elven physiology is actively harnessing and absorbing the latent magic within the woman. You can see subtle changes ripple across her body — her hips becoming slightly wider and softer, her chest gently filling out, her skin taking on a healthier, warmer golden-brown tone. The absorption feels almost reverent, accompanied by faint, sparkling sounds like distant wind chimes and the soft *shhhlick* of matter being converted.\n\nLydia blushes deeply, her long pointed ears twitching as she whispers, \"I… I think it’s almost done. My kind… we absorb things differently. We take the magic… and make it part of us.\"\n\nYour mother looks fascinated. Your father raises an eyebrow. Lirael nods with quiet understanding. Emily grins.";
+
+        }
+
+        // Common continuation - everyone continues waiting and talking
+        return "\n\nThe family continues waiting for the delivery to arrive. The conversation drifts lightly between bites of leftover snacks and casual talk. Emily teases Lydia about school starting soon, your mother asks Lirael gentle questions about what she wants to learn first about the modern world, and your father occasionally chimes in with practical advice.\n\nLydia listens quietly, still adjusting to the warmth and chaos of this new family. Lirael remains graceful and observant, occasionally offering soft insights.\n\nThe mood is strangely peaceful despite everything that has happened. For the first time in days, the house feels like it’s settling into a new, albeit unusual, normal.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Continue waiting for the food", next: 191 }
+    ]
+},
+
+// 191 - Food Delivery Arrives
+{
+    text: function() {
+        return "The doorbell finally rings, cutting through the quiet conversation. Your father stands with a tired sigh and heads to the door, wallet in hand.\n\nThe delivery driver is a tall, voluptuous woman with sun-kissed skin, long dark hair tied back in a ponytail, and a figure that fills out her uniform in generous, eye-catching ways — wide hips, a full chest, and thick thighs that make her work pants look painted on. She balances several heavy bags of Chinese food with practiced ease and offers a friendly smile.\n\n\"Order for Byrd?\" she says, holding out the bags. \"That’ll be $87.40.\"\n\nAs your father reaches for the bags, Emily — still hungry despite everything she’s already eaten — suddenly stands up from the couch. Her eyes lock onto the food with single-minded focus. She takes one eager step forward… and trips slightly on the edge of the rug.\n\nInstead of catching herself, her body reacts on pure instinct. Her mouth opens wide as she lunges, missing the food entirely and instead engulfing the delivery woman’s head and shoulders in one swift, powerful motion.\n\nThe woman’s surprised gasp is cut short as Emily’s throat stretches dramatically around her. Wet, greedy gulps echo through the living room as Emily swallows the curvaceous driver down, her lips stretching tightly over the woman’s generous chest and wide hips. The delivery woman’s legs kick once in the air before disappearing with a final, heavy *GLORP*.\n\nEmily sits back down heavily, her belly surging outward into a massive, sloshing dome that rests on her lap and spills onto the couch. The outline of the delivery woman is clearly visible, squirming inside as loud, wet gurgles fill the room.\n\nEmily burps softly, looking only mildly surprised.\n\n\"…I really need to stop doing that,\" she mutters, though she doesn’t sound particularly remorseful.\n\nThe bags of Chinese food sit untouched on the floor. Inside Emily’s stomach, the woman’s muffled struggles mix with the loud, sloppy sounds of digestion.\n\nLirael raises an eyebrow, looking mildly impressed. Your parents stare in stunned silence once again.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "React to what just happened", next: 192 }
+    ]
+},
+// 214 - 
 {
     text: function() {
 return ""
 },
     location: " - ",
     choices: [
-        { label: "", next: 187 }
+        { label: "", next: 215 }
     ]
 },
 
 
 
-/* Create 184, have it start with everyone sitting at the table for a while and then Emily's stomach let's out an obnoxious growl and crushes and fully absorb's Lira in one fell swoop, causing Emily to size up again, but not to the point where her clothes will not properly fit her. */
 
-// 187 - 
+// 215 - 
 {
     text: function() {
 return ""
 },
     location: " - ",
     choices: [
-        { label: "", next: 188 }
+        { label: "", next: 216 }
     ]
 },
 
-// 188 - 
+// 216 - 
 {
     text: function() {
 return ""
 },
     location: " - ",
     choices: [
-        { label: "", next: 189 }
+        { label: "", next: 217 }
     ]
 },
     
