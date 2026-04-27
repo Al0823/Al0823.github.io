@@ -278,7 +278,6 @@ nextTrainer: "",
 lastActionText: "",
 checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false },
     
-    // Existing Core Variables (from your original code)
     liraelFreed: false,
     liraelFreedMethod: 0,
     hasKey: false,
@@ -293,8 +292,8 @@ checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false,
     knowliraelmilk: false,
     liraateattacker: false,
     liraEaten: false,
-    
-    // Day Flags & Other Variables (from your original code)
+liraEatenMethod: 0,   // 0 = not eaten, 1 = eaten at food court, 2 = eaten earlier
+
     liraelFedComfort: false,
     liratoldenergyreadings: false,
     liratolddisappearances: false,
@@ -2241,6 +2240,7 @@ var passages = [
         // 5% rare event - Lira tries to intervene
         if (Math.random() < 0.05) {
             gameState.liraEaten = true;
+gameState.liraEatenMethod = 2;
             return baseText + "As Emily reaches the woman’s wide hips, Lira suddenly steps in and tries to pull the delivery woman back out by her legs.\n\n\"Wait, Emily—!\" Lira says, grabbing the woman’s ankles.\n\nBut the momentum is too strong. Emily’s powerful swallow continues, and Lira is yanked forward. With a surprised yelp, Lira’s head and shoulders slide straight into Emily’s mouth along with the delivery woman.\n\nEmily’s eyes widen in surprise, but she can’t stop the reflexive gulp. She swallows both of them down in one long, heavy motion. Her throat bulges massively as the two bodies slide inside her.\n\nEmily sits in place, unable to move. Her stomach is now enormously swollen, resting heavily on the floor and spreading out in front of her. She can barely reach her hands over the top of the massive, gurgling dome.\n\nInside, loud, wet gurgles and muffled struggles can be heard as both the delivery woman and Lira begin to break down.\n\nLirael raises an eyebrow, looking both impressed and slightly concerned.\n\nYour parents stare in stunned silence.";
         }
 
@@ -2785,11 +2785,10 @@ var passages = [
     },
     location: "Local Mall - Food Court (Afternoon)",
     choices: [
-        { label: "Continue eating and talking", next: 183, condition: () => !gameState.liraEaten },
-{ label: "Continue eating and talking", next: 184, condition: () => gameState.liraEaten }
+        { label: "Continue eating and talking", next: 183}
     ]
 },
-/*
+
 // 183 - At the Food Court
 {
     text: function() {
@@ -2800,43 +2799,45 @@ var passages = [
         } 
         else {
             // Normal version - Lira was not eaten (yet)
-            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\nThe table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
-           gameState.liraEaten = true;
+            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\n// Set the new game state variable
+            gameState.liraEaten = true;
+            gameState.liraEatenMethod = 1;  // 1 = eaten at food court
+
+            The table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
 
         }
     },
     location: "Local Mall - Food Court (Afternoon)",
     choices: [
-        { label: "Continue", next: 184,  }
-    ]
-},
-    
-*/
-// 183 - At the Food Court
-{
-    text: function() {
-            // Rare version - Lira was already eaten by Emily earlier
-            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lydia nibbles quietly on her pretzel, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nThe conversation drifts lightly between bites — Emily pointing out funny signs, your mother asking Lydia gentle questions about what she likes, and Lirael listening intently as she learns more about the modern world. For a brief moment, the weight of the previous night feels a little lighter as the family simply enjoys the meal together.";
-   },
-    location: "Local Mall - Food Court (Afternoon)",
-    choices: [
-        { label: "Continue", next: 185}
+        { label: "Continue", next: 184 }
     ]
 },
 
-// 184
+// 184 - After the Food Court Meal
 {
     text: function() {
-// Normal version - Lira was not eaten (yet)
-            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\nThe table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
+        if (gameState.liraEaten && gameState.liraEatenMethod === 1) {
+            // Just eaten at food court
+            return "Everyone sits at the table for a while after Emily swallows Lira. Emily’s belly lets out an obnoxious, loud growl. There’s a series of wet, crushing *GLORP-CRUNCH* sounds from inside as Lira is fully absorbed in one swift, powerful motion. Emily’s body surges slightly, her curves filling out a bit more, but not enough to ruin her new clothes.\n\nShe lets out a satisfied sigh and pats her stomach.\n\n\"There she goes,\" Emily says casually. \"All gone now.\"\n\nThe family sits in stunned silence for a moment. Your mother looks slightly pale. Your father just sighs and shakes his head.\n\nLirael remains calm, observing everything with quiet interest.\n\nLydia, still new to all of this, stares with wide, soft brown eyes but says nothing.\n\nAfter a few more minutes, your father stands up.\n\n\"Alright,\" he says. \"That’s enough for today. Let’s head home.\"\n\nThe family + Lydia and Lirael gather their bags and leave the food court together, the weight of another strange event settling over them as they walk back to the van.";
 
+        } 
+        else if (gameState.liraEaten) {
+            // Lira was eaten earlier
+            return "Everyone sits at the table for a while, the noise of the food court fading into background chatter. Emily is still rubbing her belly contentedly. Lydia nibbles quietly on her pretzel, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nThe conversation drifts lightly between bites — Emily pointing out funny signs, your mother asking Lydia gentle questions about what she likes, and Lirael listening intently as she learns more about the modern world. For a brief moment, the weight of the previous night feels a little lighter as the family simply enjoys the meal together.\n\nAfter a few more minutes, your father stands up.\n\n\"Alright,\" he says. \"That’s enough for today. Let’s head home.\"\n\nThe family + Lydia and Lirael gather their bags and leave the food court together, the weight of the day’s events settling over them as they walk back to the van.";
 
+        } 
+        else {
+            // Normal version - Lira was not eaten at all
+            return "Everyone sits at the table for a while, the noise of the food court fading into background chatter. Emily is still rubbing her belly contentedly. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAfter a few more minutes, your father stands up.\n\n\"Alright,\" he says. \"That’s enough for today. Let’s head home.\"\n\nThe family + Lydia and Lirael gather their bags and leave the food court together, the weight of the day’s events settling over them as they walk back to the van.";
+
+        }
     },
     location: "Local Mall - Food Court (Afternoon)",
     choices: [
-        { label: "Continue", next: 185, effect: () => {gameState.liraEaten = true;}  }
+        { label: "Head home", next: 185 }
     ]
 },
+    
 
 // 186 - 
 {
