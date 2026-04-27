@@ -293,6 +293,7 @@ checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false,
     liraateattacker: false,
     liraEaten: false,
 liraEatenMethod: 0,   // 0 = not eaten, 1 = eaten at food court, 2 = eaten earlier
+lastMallAttackerEatenBy: 0, // 0 = not eaten, 1 = eaten by Lirael, 2 = eaten by Emily, 3 = eaten by Lydia
 
     liraelFedComfort: false,
     liratoldenergyreadings: false,
@@ -2799,11 +2800,12 @@ gameState.liraEatenMethod = 2;
         } 
         else {
             // Normal version - Lira was not eaten (yet)
-            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\n// Set the new game state variable
+            return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\nThe table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
+                // Set the new game state variable
             gameState.liraEaten = true;
             gameState.liraEatenMethod = 1;  // 1 = eaten at food court
 
-            The table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
+            
 
         }
     },
@@ -2837,8 +2839,111 @@ gameState.liraEatenMethod = 2;
         { label: "Head home", next: 185 }
     ]
 },
-    
 
+// 185 - Leaving the Mall
+{
+    text: function() {
+        let rand = Math.random();
+
+        if (rand < 0.5) {
+            // Most likely: Lirael intervenes
+            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Lirael moves with lightning speed. Her hand shoots out, gripping the woman’s shoulder and yanking you free from her grasp in one smooth motion. In the same instant, Lirael opens her own mouth and swallows the surprised woman whole in a swift, practiced gulp. Her throat bulges noticeably as the woman slides down, and Lirael’s belly swells with a heavy *GLORP*.\n\nLirael calmly adjusts her robe and continues walking as if nothing happened.\n\n\"Unacceptable behavior,\" she says mildly. \"One should not attempt to eat another’s companion in public.\"\n\nEmily giggles. Your father just sighs. Lydia stares with wide eyes, clearly still getting used to this new world.\n\nThe group continues toward the parking lot without further incident, the weight of another strange event added to the day.";
+gameState.lastMallAttackerEatenBy = 1;
+gameState.liraelBond += 50;
+        } 
+        else if (rand < 0.8) {
+            // Medium likelihood: Emily intervenes
+            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Emily reacts on pure instinct. She lunges forward, rips you out of the woman’s grasp with surprising strength, and immediately swallows the attacker whole in one greedy motion. Her throat bulges dramatically as the woman slides down, and Emily’s belly swells with a loud *GLORP*, pushing out against her new clothes.\n\nEmily burps softly and pats her stomach with a satisfied grin.\n\n\"Mine,\" she says simply.\n\nYour father groans. Lirael raises an eyebrow. Lydia looks shocked but stays quiet.\n\nThe group continues toward the parking lot, another unexpected meal added to the day.";
+gameState.lastMallAttackerEatenBy = 2;
+gameState.issacEmilyBond += 50;
+        } 
+        else {
+            // Least likely: Lydia intervenes
+            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Lydia — acting on pure instinct and fear — darts forward. With surprising speed for someone so new to this world, she rips you out of the woman’s grasp and swallows the attacker whole in one desperate gulp. Her throat bulges noticeably as the woman slides down, and Lydia’s belly swells with a heavy *GLORP*.\n\nLydia stands there, eyes wide, looking shocked at what she just did. She gently rubs her now-rounded stomach, clearly surprised by her own actions.\n\n\"I… I’m sorry,\" she whispers. \"I didn’t mean to…\"\n\nLirael places a reassuring hand on Lydia’s shoulder. Your father just sighs deeply.\n\nThe group continues toward the parking lot, another unexpected meal added to the day.";
+gameState.lastMallAttackerEatenBy = 3;
+gameState.issacLydiaBond += 50;
+        }
+    },
+    location: "Local Mall (Afternoon)",
+    choices: [
+        { label: "Head home", next: 186 }
+    ]
+},
+
+// 186 - Heading Home from the Mall
+{
+    text: function() {
+        if (gameState.lastMallAttackerEatenBy = 1) {
+            // Lirael ate the lady
+            return "The drive home is quieter than the trip to the mall. Lirael sits in the back row, her belly now noticeably larger and rounder after swallowing the random woman. She rests a hand on the swell, gently rubbing it as it gurgles softly.\n\n\"She was quite impulsive,\" Lirael comments calmly. \"Attempting to eat someone in public is both rude and foolish.\"\n\nEmily giggles from the middle row, still rubbing her own belly. Lydia sits quietly beside Lirael, occasionally glancing at Lirael’s swollen middle with a mix of awe and nervousness.\n\nYour mother looks back from the passenger seat.\n\n\"We really need to be more careful when we go out,\" she says. \"This is getting out of hand.\"\n\nYour father keeps his eyes on the road but mutters, \"At least no one saw it happen.\"\n\nThe van pulls into the driveway as the sun begins to set. Everyone gathers their shopping bags and heads inside, the weight of another strange day settling over the family.";
+
+        } 
+        else if (gameState.lastMallAttackerEatenBy = 2) {
+            // Emily ate the lady
+            return "The drive home is quieter than the trip to the mall. Emily sits in the middle row, her belly now noticeably larger and rounder after swallowing the random woman. She rubs it with a satisfied grin, the new clothes already straining slightly against her expanded curves.\n\n\"She went down easy,\" Emily says casually. \"I didn’t even mean to… it just happened.\"\n\nLirael watches with mild amusement. Lydia sits quietly, eyes wide as she glances at Emily’s swollen belly.\n\nYour mother looks back from the passenger seat, clearly concerned.\n\n\"Emily, honey… we really need to work on those instincts,\" she says.\n\nYour father grips the steering wheel tighter but says nothing, just sighing deeply as he pulls into the driveway.\n\nEveryone gathers their shopping bags and heads inside, the weight of another strange day settling over the family.";
+
+        } 
+        else {
+            // Lydia ate the lady (least likely)
+            return "The drive home is quieter than the trip to the mall. Lydia sits in the back row, her belly now noticeably rounded and heavy after swallowing the random woman. She looks shocked and embarrassed, gently holding her stomach as it gurgles loudly.\n\n\"I… I didn’t mean to,\" she whispers, her soft brown eyes wide with panic. \"She tried to eat him and I just… reacted.\"\n\nLirael places a reassuring hand on Lydia’s shoulder.\n\n\"You protected Isaac,\" she says gently. \"That is nothing to be ashamed of.\"\n\nEmily grins from the middle row. \"Welcome to the club.\"\n\nYour mother looks back, clearly worried. Your father just sighs and focuses on driving.\n\nThe van pulls into the driveway as the sun begins to set. Everyone gathers their shopping bags and heads inside, the weight of another strange day settling over the family.";
+
+        }
+    },
+    location: "Byrd Family Home - Driveway (Evening)",
+    choices: [
+        { label: "Enter the house", next: 187 }
+    ]
+},
+    
+// 187 - Back Home After the Mall
+{
+    text: function() {
+        if (gameState.lastMallAttackerEatenBy = 1) {
+            // Lirael ate the lady
+            return "The family piles out of the van with their many shopping bags and heads inside the house. Lirael’s belly is still noticeably rounded and heavy from swallowing the random woman in the mall. She walks with a slight, graceful waddle, one hand resting lightly on the swell as it gurgles softly.\n\nOnce everyone is inside, Lirael sets her bags down and turns to the group with calm composure.\n\n\"Today was… educational,\" she says. \"I learned much about modern clothing, food, and social customs. Thank you for allowing me to experience it with you.\"\n\nEmily flops onto the couch, rubbing her own belly. \"Yeah, it was fun. Even with the random lady trying to eat Isaac.\"\n\nYour mother sighs, looking exhausted. \"We really need to be more careful when we go out. This is getting ridiculous.\"\n\nYour father sets the bags down and nods toward the living room.\n\n\"Let’s all sit down for a bit,\" he says. \"We still have a lot to talk about regarding tomorrow and… everything else.\"\n\nLydia stays close to Lirael, still adjusting to the chaotic new world she’s found herself in.";
+
+        } 
+        else if (gameState.lastMallAttackerEatenBy = 2) {
+            // Emily ate the lady
+            return "The family piles out of the van with their many shopping bags and heads inside the house. Emily’s belly is noticeably larger and rounder after swallowing the random woman in the mall. She walks with a satisfied sway, occasionally patting her swollen middle as it gurgles loudly.\n\nOnce everyone is inside, Emily flops onto the couch with a content sigh, her new clothes straining slightly against her expanded curves.\n\n\"That was a good trip,\" she says, rubbing her belly. \"Even with the random lady trying to eat Isaac. She went down easy.\"\n\nYour mother sighs, looking exhausted. \"Emily… we really need to work on those instincts. This is getting ridiculous.\"\n\nYour father sets the bags down and nods toward the living room.\n\n\"Let’s all sit down for a bit,\" he says. \"We still have a lot to talk about regarding tomorrow and… everything else.\"\n\nLydia stays close to Lirael, staring at Emily’s swollen belly with wide, nervous eyes.";
+
+        } 
+        else {
+            // Lydia ate the lady (least likely)
+            return "The family piles out of the van with their many shopping bags and heads inside the house. Lydia’s belly is noticeably rounded and heavy after swallowing the random woman in the mall. She walks shyly, one hand resting on her stomach as it gurgles loudly.\n\nOnce everyone is inside, Lydia sits down carefully on the couch, looking embarrassed and overwhelmed.\n\n\"I… I’m sorry,\" she whispers. \"I didn’t mean to eat her. She tried to eat Isaac and I just… reacted.\"\n\nLirael places a reassuring hand on Lydia’s shoulder.\n\n\"You protected him,\" she says gently. \"That is nothing to be ashamed of.\"\n\nYour mother sighs, looking exhausted. \"This is getting ridiculous. We can’t keep having random people getting eaten every time we go out.\"\n\nYour father sets the bags down and nods toward the living room.\n\n\"Let’s all sit down for a bit,\" he says. \"We still have a lot to talk about regarding tomorrow and… everything else.\"";
+
+        }
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Continue the conversation", next: 188 }
+    ]
+},
+
+// 188 - Evening Conversation
+{
+    text: function() {
+        return "The family settles into the living room, shopping bags scattered around the floor. The weight of the day’s strange events lingers, but the conversation slowly turns toward practical matters and the days ahead.\n\nYour father leans forward in his chair, looking at everyone.\n\n\"We still need to figure out a few things,\" he says. \"Lydia, you’re staying with us for now. We’ll get you enrolled in school starting September 4th. It’ll help you blend in and give you some normalcy. We already talked about this earlier — we’ll handle the paperwork and keep your background simple.\"\n\nLydia nods quietly, her soft brown eyes showing a mix of nervousness and cautious hope.\n\nEmily, still lounging on the couch, chimes in with a grin.\n\n\"I can help show you around school. It’s not that bad. And don’t worry too much about… accidents. Eating people in public happens sometimes — especially if someone gets too aggressive or hungry. It’s not unheard of in the workforce either. We’ll just be careful.\"\n\nYour mother sighs but nods in agreement.\n\n\"We’ll keep things low-key,\" she says. \"No drawing attention.\"\n\nLirael, sitting gracefully beside you, speaks next.\n\n\"I agree. School for Lydia is a good step. As for my experiments with Emily’s stomach capacity… I believe it would be best to reschedule them for tomorrow. Tonight has been eventful enough. I will also work with Emily on controlling her instincts tomorrow. Swallowing people in public can happen, but it is still risky and best avoided when possible.\"\n\nEmily blushes slightly but nods.\n\n\"Yeah… that might be smart.\"\n\nYour father rubs his temples.\n\n\"Between school for Lydia, training for Emily, and teaching Lirael about the modern world… tomorrow is going to be busy.\"\n\nLydia looks around at the family, her soft brown eyes glistening with cautious hope.\n\n\"Thank you,\" she says quietly. \"For not sending me back. For giving me a name… and a chance.\"\n\nThe conversation continues late into the evening, covering school registration, how to keep Lydia’s identity hidden, and balancing the strange new realities of their household. For the first time, the family feels like they’re facing the future together — strange as it may be.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Order out for dinner", next: 189 }
+    ]
+},
+
+// 189 - Ordering Out for Dinner
+{
+    text: function() {
+        return "As the evening deepens and the conversation winds down, your mother looks around at the tired faces and sighs.\n\n\"I don’t think any of us feel like cooking tonight,\" she says. \"Let’s just order out. Chinese? Pizza again? Or something else?\"\n\nEmily immediately perks up. \"Chinese sounds good. Extra dumplings.\"\n\nYour father pulls out his phone and starts scrolling through delivery apps.\n\n\"We’ll get a bit of everything,\" he says. \"Lydia, is there anything you like? Or anything you can’t eat?\"\n\nLydia blinks, still getting used to being asked for her opinion.\n\n\"I… I do not know,\" she says softly. \"In the castle, we ate very little. Anything is fine.\"\n\nLirael smiles gently at her.\n\n\"Then we shall order a variety,\" she says. \"You can try what you like.\"\n\nThe family spends the next few minutes deciding on the order and placing it. Once the food is ordered, everyone settles in to wait. Emily flips on the TV, flipping through channels while Lydia watches with wide-eyed curiosity at the moving images and bright colors. Lirael sits beside you, occasionally asking quiet questions about the shows and how people live in this world.\n\nThe house feels strangely peaceful as the family waits for dinner to arrive, the events of the long day slowly settling around them.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Wait for the food to arrive", next: 190 }
+    ]
+},
+    
 // 186 - 
 {
     text: function() {
