@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+	<!--ok I have made many more changes, now I need you to finish implementing something I started, I would like you to move all of the Bonds to the Relationships field and also make it a proper menu where once you open it, it shows all of the people you know with their names as clickable buttons, once one of these buttons is clicked, it hides the rest of the names and shows you like a little brief of the person, including their name, their relationship status with you in the form of ten hearts(caps at 200 numerical value max and -200 minimum and 20 per heart or broken heart if negative, use &#10084; for the positive number hearts, &#9825; for the standard hearts(like if the user's relationship status with someone is 100, the first five hearts would be &#10084; and the last 5 would be &#9825;), and &#128148; for broken hearts), A description of them(like how they act and look, including their predatory skills and where they stand in the social hierarchy at school(if they are in school with the player)), then have their grade/class (9-12, Freshman-Senior), age, if you have their phone number or not, some other details, and their history as a predator, also add gamestate values for meeting people(only do so if it is by name, that is what counts as meeting them), change status to be more about how good the player is with strength, endurance, stamina, health, skill for escaping from a predator(might have to add some of those things if they are not in gamestate), also add a whole new thing called Encounters or Vore Encounters which tracks who the user has escaped from and also if the user has participated in any class labs or demonstrations, also add a class schedule which will remain blank for now(12 periods).-->
 <head>
 <meta charset="UTF-8">
 <title>A.t.A. Projects, Websites, and Games - The Demon and I</title>
@@ -3422,10 +3423,10 @@ function openModal(type) {
         content.innerHTML = `<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>`;
     } else if (type === 'about') {
         title.textContent = "THE DEMON AND I";
-        content.innerHTML = `<p>A text-based erotic adventure<br>Isaac Byrd & the trapped she-demon</p>`;
+        content.innerHTML = `<p>Sorry! This is still Indev!</p>`;
     } else if (type === 'relationships') {
         title.textContent = "Relationships";
-        content.innerHTML = `<p>Sorry! This is still indev</p>`;
+        content.innerHTML = `<p>Sorry! This is still Indev</p>`;
     }
     modal.style.display = "flex";
 }
