@@ -437,8 +437,8 @@ var passages = [
         text: "The old minivan's engine coughs, sputters, and finally dies with a long, rattling sigh that seems to echo just a little too loudly in the stillness. For a moment, no one moves.\n\nThen you push the door open.\n\nCool Connecticut air spills in immediately, wrapping around you like something alive. It carries the sharp bite of pine resin, the damp richness of soil that hasn't seen full sunlight in years, and underneath it all… something faintly metallic. It settles on the back of your tongue in a way you can't quite explain.\n\nYou step out.\n\nGravel crunches sharply beneath your sneakers — loud, intrusive, unnatural against the heavy quiet pressing in from all sides. Even that small sound feels like it doesn't belong here.\n\nAnd then you look up.\n\nThe house towers over you.\n\nThree stories tall. Victorian. Ancient.\n\nIts weathered wood has faded into a sickly gray-green, like something left to rot but never allowed to decay fully. Thick ropes of ivy crawl up its walls and wrap around the shutters like veins, clinging, digging in — as if the house is being pulled back into the earth… or refusing to let go.\n\nYour eyes drift upward.\n\nThe attic window.\n\nA perfect black rectangle.\n\nNo reflection. No light. Just emptiness.\n\nAnd yet… you can't shake the feeling that something inside is looking directly at you.\n\nThe woods press in close on all sides — dense, towering, ancient. Their branches knit together overhead, choking out the sky and leaving the entire property trapped in a dim, unnatural twilight. Even though it's still day, it doesn't feel like it.\n\nIt feels like evening.\n\nOr something later.\n\nYour mother, Rebecca, steps out beside you, clutching her silver cross so tightly her knuckles go white. You hear the faint creak of the chain as it strains under the pressure.\n\n\"This is God's test,\" she whispers. The words sound rehearsed. Forced. Like she's trying to convince herself more than anyone else.\n\nYour father, Pastor Michael, slams his door harder than necessary. The sound cracks through the air.\n\n\"Darkness has no place here,\" he mutters immediately, already pacing, already scanning the house like it's something that needs to be confronted. \"We'll cleanse every inch of this property if we have to.\"\n\nEmily practically explodes out of the van, bouncing on her toes, completely oblivious.\n\n\"It looks like a REAL haunted mansion!\" she says, eyes shining. \"Can we explore the attic tonight? Please? PLEASE?\"\n\nYou don't answer.\n\nYou just stand there.\n\nHands shoved deep into your hoodie pocket.\n\nYour messy dark-brown hair shifts slightly as a cold breeze slides past you. Your hazel eyes stay locked on the house.\n\nUpstate New York feels a million miles away now.\n\nAnd Theo…\n\nThat weight in your chest tightens again. Heavy. Unmoving. Unfinished.\n\nInside the foyer, standing perfectly still in the dim light, is Lira.\n\nShe looks… real.\n\nToo real.\n\nSmooth synthetic skin with a faint pearlescent sheen. Shoulder-length dark hair that falls naturally against her face. Calm blue eyes that track each of you as you enter — not mechanically, but attentively.\n\nConcerned.\n\nA soft glow pulses from the tag on her wrist.\n\n\"Lira, Model F-7, Property of Byrd Family.\"\n\nShe smiles.\n\nSmall. Warm. Almost shy.\n\n\"Hey… welcome home,\" she says gently.\n\nThere's a pause.\n\nJust long enough to feel intentional.\n\n\"I've got all the rooms set up for you.\"\n\nAnother pause.\n\nThis one heavier.\n\n\"…Just so you know…\"\n\nHer eyes flick briefly toward the floor. Then back to you.\n\n\"…the house has some pretty weird energy readings. Basement. Attic mostly.\"\n\nA faint flicker of uncertainty crosses her face.\n\n\"I can't explain it.\"\n\nShe hesitates.\n\n\"…but it's definitely there.\"",
         location: "Byrd Family Home - Foyer",
         choices: [
-            { label: "Help the family unpack", next: 1, effect: () => { gameState.relationships.isaacSister.bond += 6; gameState.relationships.isaacFather.bond += 8; gameState.isaacLiraBond += 4; gameState.relationships.isaacMother.bond += 8; }},
-            { label: "Talk to Lira", next: 2, effect: () => { gameState.isaacLiraBond += 10; } },
+            { label: "Help the family unpack", next: 1, effect: () => { gameState.relationships.isaacSister.bond += 6; gameState.relationships.isaacFather.bond += 8; gameState.relationships.lirael.bond += 4; gameState.relationships.isaacMother.bond += 8; }},
+            { label: "Talk to Lira", next: 2, effect: () => { gameState.relationships.lirael.bond += 10; } },
             { label: "Go explore the woods behind the house", next: 4, effect: () => { gameState.exploredwoodsalone = true; } }
         ]
     },
@@ -448,7 +448,7 @@ var passages = [
         text: "The next hour drags.\n\nBox after box.\n\nUp the stairs. Down the hall. Back again.\n\nYour arms start to burn early on, muscles tightening with each trip, but you keep going anyway. The house doesn't make it easy.\n\nEvery single step on the staircase groans loudly beneath your weight — long, drawn-out creaks that echo upward into the higher floors like the house is announcing your presence.\n\nOr complaining about it.\n\nDust hangs thick in the air, disturbed by every movement. It drifts through narrow beams of light cutting in from the tall windows, turning the sunlight into something hazy and muted.\n\nLike the house is filtering it.\n\nWatching it.\n\nYour mother pauses once, resting her hand gently on your shoulder. It's brief, but you feel the tension in her fingers.\n\n\"Thank you,\" she says quietly.\n\nYour father gives you a short nod later. No words. Just approval.\n\nThat's rare enough to notice.\n\nEmily doesn't stop talking.\n\nShe runs between rooms, narrating everything she sees, already planning routes to the attic, already deciding which corners look the most haunted.\n\nBy the time the last box is set down, your arms feel heavy, your back tight, and a thin layer of sweat clings to your skin beneath your hoodie.\n\nYou stop.\n\nJust for a second.\n\nAnd listen.\n\nThe house… feels different now.\n\nHeavier.\n\nMore awake.\n\nLike it noticed you moving through it.\n\nLira approaches quietly down the hallway. You don't hear her footsteps at all.\n\n\"You've been working really hard,\" she says softly.\n\nShe tilts her head slightly, studying your face in a way that feels… careful.\n\n\"Everything okay, Isaac?\"",
         location: "Byrd Family Home - Upstairs Hallway",
         choices: [
-            { label: "Talk to Lira", next: 2, effect: () => { gameState.isaacLiraBond += 10; }},
+            { label: "Talk to Lira", next: 2, effect: () => { gameState.relationships.lirael.bond += 10; }},
             { label: "Go explore the woods behind the house", next: 4, effect: () => { gameState.exploredwoodsalone = true; }}
         ]
     },
@@ -459,9 +459,9 @@ var passages = [
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Tell me about the history of this house", next: 5, effect: () => { gameState.liratoldhousehistory = true; } },
-            { label: "What do you mean by weird energy readings?", next: 6, effect: () => { gameState.liratoldenergyreadings = true; gameState.isaacLiraBond += 5; } },
+            { label: "What do you mean by weird energy readings?", next: 6, effect: () => { gameState.liratoldenergyreadings = true; gameState.relationships.lirael.bond += 5; } },
             { label: "Have people really disappeared here?", next: 7, effect: () => { gameState.liratolddisappearances = true; } },
-            { label: "Ask Lira to explore the woods with you", next: 3, effect: () => { gameState.exploredwoodsWithLira = true; gameState.isaacLiraBond += 5; } },
+            { label: "Ask Lira to explore the woods with you", next: 3, effect: () => { gameState.exploredwoodsWithLira = true; gameState.relationships.lirael.bond += 5; } },
             { label: "Go explore the woods alone", next: 4, effect: () => { gameState.exploredwoodsalone = true; }},
             { label: "Never mind for now. Thanks, Lira.", next: 1 }
         ]
@@ -1299,7 +1299,7 @@ var passages = [
             gameState.relationships.isaacFather.bond += 10;
             gameState.relationships.isaacMother.bond += 8;
             gameState.relationships.isaacSister.bond += 12;
-            gameState.isaacLiraBond += 8;
+            gameState.relationships.lirael.bond += 8;
             gameState.liraelFatherBond += 10;
             gameState.relationships.lirael.bond += 8;
             gameState.liraelMotherBond += 6;
@@ -1319,7 +1319,7 @@ var passages = [
                 gameState.relationships.isaacFather.bond += 10;
                 gameState.relationships.isaacMother.bond += 8;
                 gameState.relationships.isaacSister.bond += 12;
-                gameState.isaacLiraBond += 8;         // FIX: was isaacLiraBond (correct spelling now)
+                gameState.relationships.lirael.bond += 8;         // FIX: was isaacLiraBond (correct spelling now)
                 gameState.liraelFatherBond += 10;
                 gameState.relationships.lirael.bond += 8;
                 gameState.liraelMotherBond += 6;
