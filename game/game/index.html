@@ -208,6 +208,7 @@ background-color:#8B0000;
 <div class="panel-section">
 <div class="panel-title">MENU</div>
 <div class="panel-button" onclick="openModal('stats')">View Stats</div>
+<div class="panel-button" onclick="openModal('relationships')">Relationships</div>
 <div class="panel-button" onclick="openModal('options')">Options</div>
 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
 <div class="panel-button" onclick="restartGame()">Restart Game</div>
@@ -3023,6 +3024,222 @@ gameState.issacLydiaBond += 50;
         { label: "React to what just happened", next: 192 }
     ]
 },
+
+// 192 - Reaction to the Delivery Incident
+{
+    text: function() {
+        return "The living room falls into a stunned silence, broken only by the loud, wet gurgles and muffled struggles coming from Emily’s massively swollen belly. The delivery woman’s form is clearly visible as a large, squirming bulge, her curves pressing outward against Emily’s stretched skin.\n\nYour father is the first to speak, staring at the enormous dome resting on Emily’s lap.\n\n\"Emily… you just ate the food delivery driver,\" he says slowly, voice strained.\n\nEmily leans back on the couch, both hands gently rubbing the heavy, sloshing mass, looking only mildly sheepish.\n\n\"I tripped,\" she says, as if that explains everything. \"And then… well, she was right there. She smelled really good too — like fried rice and soy sauce.\"\n\nYour mother’s face is pale. \"Emily, honey… we can’t keep doing this every time someone brings food to the door.\"\n\nYour father sighs deeply, then looks directly at Lirael.\n\n\"Lirael,\" he says firmly, \"Emily’s training to control her appetite and instincts needs to happen tomorrow. This can’t keep happening.\"\n\nLirael nods respectfully, her expression calm and composed.\n\n\"I understand,\" she says. \"I will prioritize working with Emily on controlling her swallowing instincts tomorrow.\"\n\nEmily blushes but doesn’t argue, still gently rubbing her swollen belly as it continues to gurgle loudly.\n\nLydia sits frozen on the couch, her soft brown eyes wide with shock as she stares at the squirming bulge in Emily’s stomach. She clutches her half-cloaking stone tightly, clearly still trying to process this new reality.\n\nThe family sits in awkward silence for a moment longer. Lirael remains composed, watching everything with quiet interest, while the reality of yet another unexpected meal settles over the room.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Continue the evening", next: 193 }
+    ]
+},
+
+// 193 - Winding Down the Evening
+{
+    text: function() {
+        return "The awkward silence lingers for a few more moments before your mother stands up, clearly trying to move past the latest incident.\n\n\"Well… the food is still here,\" she says, forcing a small smile. \"Let’s at least eat before it gets cold.\"\n\nThe family slowly gathers around the table again. Emily, still rubbing her swollen belly, eagerly opens the bags and starts passing out containers. The smell of fried rice, dumplings, and stir-fried vegetables fills the room, momentarily masking the earlier tension.\n\nLirael sits gracefully beside you, occasionally glancing at Emily’s belly with quiet interest as it continues to gurgle and work on its latest meal. Lydia sits across from her, still wrapped in the blanket, picking at her food with hesitant bites while stealing curious glances at everyone.\n\nYour father eats in relative silence, occasionally shooting concerned looks toward Emily and Lydia. Your mother tries to keep the conversation light, asking Lirael simple questions about what she thought of the mall and the clothes they bought.\n\nLirael answers thoughtfully, her golden eyes bright with genuine curiosity.\n\n\"The variety was astonishing,\" she says. \"The colors, the different materials… I look forward to learning more about how people choose what to wear and why certain styles are preferred.\"\n\nEmily, between bites, chimes in with a grin.\n\n\"We can do a fashion show tomorrow after training. I’ll show you what looks good on you, Lydia.\"\n\nLydia blushes but gives a tiny, shy smile, slowly warming to the idea of being included.\n\nYour father eventually pushes his plate away and leans back in his chair.\n\n\"Tomorrow is going to be a full day,\" he says. \"School stuff for Lydia, training for Emily, and teaching Lirael more about how things work here. Let’s try to enjoy the rest of the evening.\"\n\nThe conversation drifts between bites — Emily teasing Lydia about school starting soon, your mother asking Lirael gentle questions about what she wants to learn first about the modern world, and your father occasionally chipping in with practical advice. For a little while, the family simply sits together, eating Chinese food and making small talk, the weight of the day’s events momentarily lifted.";
+
+    },
+    location: "Byrd Family Home - Living Room / Kitchen (Evening)",
+    choices: [
+        { label: "Continue the conversation", next: 194 }
+    ]
+},
+
+// 194 - Rapid Digestion at the Table
+{
+    text: function() {
+        return "The family continues eating and talking, the conversation drifting between light topics and small plans for the next day. Emily is halfway through her second container of fried rice when her stomach suddenly lets out a deep, aggressive growl.\n\nHer eyes widen slightly as her belly begins to churn violently. Loud, wet *GLORP-CRUNCH-SQUELCH* sounds echo from her midsection as the Chinese food delivery girl is rapidly broken down inside her. The digestion is fast and intense — you can see the large bulge in Emily’s stomach visibly shrinking and softening, the woman’s form distorting and collapsing as powerful stomach muscles crush and grind her into a thick, sloppy slurry. Wet, heavy sloshing and cracking sounds fill the room as bones snap and flesh dissolves, the mass quickly converting into nutrient-rich chyme that her body eagerly absorbs.\n\nEmily lets out a low, shaky breath, her cheeks flushing as the rapid absorption sends a wave of sensation through her body. Her curves swell noticeably — her breasts growing heavier and rounder, her hips and thighs thickening with plush new padding. The strong, acrid scent of digestion briefly fills the air before fading.\n\nWhen it’s over, Emily lets out a long sigh, her belly now only softly rounded. She gently rubs her newly enhanced figure and notes with mild surprise, \"My clothes are a little less loose than they were.\"\n\nYour mother looks slightly pale and pushes her plate away. Your father just sighs deeply, shaking his head. Lirael watches with calm interest. Lydia stares with wide, shocked eyes, clutching her blanket tighter.\n\nThe table falls quiet for a moment before your father clears his throat.\n\n\"Well… at least the food was good,\" he mutters, trying to bring some normalcy back to the evening.";
+
+    },
+    location: "Byrd Family Home - Living Room / Kitchen (Evening)",
+    choices: [
+        { label: "Continue the evening", next: 195 }
+    ]
+},
+
+// 195 - Finishing Dinner and Moving to the Living Room
+{
+    text: function() {
+        return "The family finishes the rest of the Chinese food in relative silence, the earlier tension slowly easing as everyone focuses on their meal. Emily eats with her usual enthusiasm, occasionally rubbing her newly softened belly as it settles. Lirael eats gracefully, still observing everything with quiet curiosity. Lydia nibbles tentatively, clearly still adjusting to the idea of having plenty of food and a safe place to eat it.\n\nYour mother eventually pushes her plate away and stands up, stretching her back.\n\n\"That’s enough for tonight,\" she says. \"Let’s move to the living room and relax a bit before bed.\"\n\nEveryone gathers their plates and helps clean up the table. Once the leftovers are put away and the dishes are stacked in the sink, the family migrates to the living room. Emily flops onto the couch, pulling the giant blanket over herself again. Your father sinks into his usual armchair. Your mother sits on the loveseat, looking tired but relieved the day is winding down.\n\nLirael sits gracefully beside you on the couch, her posture elegant even after everything that has happened. Lydia hesitates for a moment before sitting on the other end of the couch, still wrapped in her blanket, her soft brown eyes darting around the room as if she’s afraid it might all disappear.\n\nThe living room feels warm and familiar, the lights dimmed and the TV turned on low in the background. For a little while, the conversation stays light and scattered — comments about the food, small observations about the day, and occasional questions from Lirael about how things work in the modern world.\n\nEmily yawns widely, her potbelly rising and falling with the motion.\n\n\"Today was weird,\" she says with a sleepy grin. \"But at least we got new clothes out of it.\"\n\nYour father chuckles softly. \"We’ll deal with the rest tomorrow. For now… let’s just try to enjoy the quiet.\"\n\nThe family sits together in the living room, the weight of the day slowly lifting as they unwind in each other’s company.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Continue relaxing with the family", next: 196 }
+    ]
+},
+
+// 196 - Lirael Explains the Experiments
+{
+    text: function() {
+        return "The family continues relaxing in the living room, the TV humming softly in the background. Emily is half-dozing under her blanket, her potbelly rising and falling with slow, satisfied breaths. Lydia sits quietly beside her, still adjusting to the warmth and safety of the space. Your parents look tired but content, the earlier chaos of the day beginning to fade.\n\nLirael, sitting gracefully beside you, suddenly speaks up, her voice calm and measured.\n\n\"Now that I have seen Emily in action enough,\" she says, \"I would like to explain the experiments I have in mind.\"\n\nEveryone turns their attention to her. Lirael continues without hesitation.\n\n\"I would like to test whether Emily is what is known as an Apex — a human with more powerful vore and digestion capabilities than the average human. I would also like to test her maximum capacity. These tests will help me understand the limits and potential of her abilities.\"\n\nShe turns her golden eyes toward your father, her tone respectful but direct.\n\n\"Would it be acceptable to do this this evening, or would tomorrow morning be better?\"\n\nYour father leans back in his chair, rubbing his chin as he considers the request. Your mother glances at Emily, who has perked up at the mention of testing her abilities. Lydia listens quietly, her soft brown eyes wide with curiosity.\n\nThe room waits for your father's response.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Wait for your father's response", next: 197 }
+    ]
+},
+
+// 197 - Lirael's Experiment Plan
+{
+    text: function() {
+        return "Your father leans back in his chair, rubbing his chin as he considers Lirael’s request. The room is quiet, everyone waiting for his decision. After a long moment, he lets out a slow breath and nods reluctantly.\n\n\"Fine,\" he says. \"We’ll do it this evening. But we keep it controlled. No going overboard.\"\n\nLirael bows her head respectfully, clearly pleased with the approval.\n\n\"Thank you,\" she says. \"I will be careful. Let me explain how I intend to test Emily’s capacity.\"\n\nShe turns her golden eyes to the family, her voice calm and precise.\n\n\"I will create a clone of myself — a temporary construct made from my own essence. Emily will eat and eventually digest the clone. Once the clone is inside her, I will have it grow to larger and larger sizes, gradually increasing the strain on Emily’s stomach. Emily will give me the signal when she reaches her current limit, and I will stop the growth. This will allow me to measure her maximum capacity safely and without permanent harm.\"\n\nEmily’s eyes widen with a mix of excitement and nervousness. She sits up straighter on the couch, her hand instinctively moving to her belly.\n\n\"So… I’ll be eating a version of you?\" she asks. \"And it’ll get bigger and bigger inside me?\"\n\nLirael nods.\n\n\"Yes. The clone will feel real to you, but it is not truly me. It is an extension of my will. When the test is complete, I can dissolve it at any time.\"\n\nYour mother looks a little uneasy but doesn’t object. Your father crosses his arms, clearly not thrilled but accepting the necessity.\n\nLydia watches the exchange with wide, soft brown eyes, still trying to process the casual way the family discusses such things.\n\nLirael looks at Emily with a gentle, reassuring smile.\n\n\"Are you ready to begin?\" she asks.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Watch the experiment begin", next: 198 }
+    ]
+},
+
+// 198 - The Experiment Begins
+{
+    text: function() {
+        return "The family moves outside into the open space in the backyard, the evening air cool and still. Lirael leads everyone to a clear grassy area away from the house and turns to face the group.\n\n\"Please stand back and look away for a minute,\" she says calmly. \"I need a moment to prepare.\"\n\nEveryone steps back and turns around. Behind them, there is a soft rustle of fabric and a faint violet glow. When Lirael speaks again, her voice is slightly different — deeper, more resonant.\n\n\"You may turn back now.\"\n\nWhen the family turns around, Lirael is standing at her full 12'0\" height. She has changed into one of the more revealing outfits bought earlier — a sleek, form-fitting top and shorts that accentuate her curves. The outfit has grown with her, perfectly fitted thanks to the magic she had already imbued into all her new clothes.\n\nLirael gives a small, graceful nod.\n\n\"Thank you,\" she says. \"Now, to begin the test.\"\n\nWith a soft violet glow surrounding her hands, Lirael focuses her magic. A shimmering copy of herself materializes beside her — an exact carbon copy, identical in every detail, from her golden eyes to the subtle curves of her 12'0\" frame.\n\nThe clone stands motionless, waiting.\n\nLirael turns to Emily with a gentle smile.\n\n\"Emily, what is your favorite food?\" she asks.\n\nEmily thinks for a second, then answers with a grin.\n\n\"Ice cream. Strawberry cheesecake ice cream, specifically.\"\n\nLirael nods. With another wave of her hand and a burst of violet light, she causes several large scoops of strawberry cheesecake ice cream to materialize, covering the clone from head to toe in thick, creamy, sticky ice cream.\n\nThe clone now stands there, completely coated and dripping with the sweet dessert.\n\nLirael steps away from the clone and gestures for everyone except Emily to move back further.\n\n\"Everyone else, please step away from the clone,\" she says. \"Emily… go ahead and eat the clone. Take your time. When you feel you have reached your current limit, give me the signal and I will stop the growth.\"\n\nEmily stares at the ice-cream-covered clone, her eyes lighting up with a mix of hunger and excitement.";
+
+    },
+    location: "Byrd Family Home - Backyard (Evening)",
+    choices: [
+        { label: "Watch Emily eat the clone", next: 199 }
+    ]
+},
+
+// 199 - Emily Eats the Clone
+{
+    text: function() {
+        return "Emily stares at the ice-cream-covered clone for a moment, her eyes bright with a mix of hunger and curiosity. The clone stands motionless, thick strawberry cheesecake ice cream slowly dripping down its 12'0\" frame.\n\nSomething in Emily seems to snap. Her instincts take over completely. With a low, hungry sound, she lunges forward, mouth opening impossibly wide. She doesn’t hesitate or try to be careful — she simply devours. Her lips stretch around the clone’s head and shoulders, the sweet, sticky ice cream making wet, sloppy sounds as she greedily gulps down the massive construct. Her throat bulges dramatically, expanding to accommodate the clone’s broad chest and wide hips in powerful, uncontrolled swallows.\n\nEmily’s hands grip the clone’s sides, pulling it deeper into her mouth with raw, instinctual need. Loud, messy *GLUCK-GLUCK-GLORP* sounds fill the backyard as she forces the rest of the 12'0\" clone down her throat in one continuous, ravenous motion. Her belly surges outward violently as the massive form slides inside her, expanding rapidly until it is the size of a single room, extending far out in front of her.\n\nWhen the last of the clone disappears with a final, heavy *GLORP*, Emily doesn’t look strained at all. She simply lowers herself to the ground with a contented sigh, sitting cross-legged as her enormous stomach spreads out massively before her, dominating the backyard like a living, gurgling hill. The stretched skin is taut and glossy, and her belly is incredibly noisy — loud, wet *GLORP-GURGLE-SQUELCH* sounds rumble continuously from deep inside as it begins working on the giant meal.\n\nEmily rests both hands on her gigantic dome, looking relaxed and satisfied, a small, dreamy smile on her face.\n\nLirael watches with calm, focused interest. She raises one hand, preparing to begin increasing the clone’s size inside Emily.\n\n\"Whenever you are ready,\" Lirael says gently, \"give me the signal and I will start growing the clone. Tell me when you reach your current limit.\"\n\nEmily nods lazily, still gently rubbing the massive, noisy orb resting in front of her.";
+
+    },
+    location: "Byrd Family Home - Backyard (Evening)",
+    choices: [
+        { label: "Watch the experiment continue", next: 200 }
+    ]
+},
+
+// 200 - Testing Emily's Limits
+{
+    text: function() {
+        return "Emily sits on the grass with her enormous, room-sized belly spread out in front of her, the stretched skin taut and glossy. She gently rubs the top of the massive dome, listening to the loud, constant *GLORP-GURGLE-SQUELCH* sounds rumbling from deep inside as her stomach works hard on the giant clone.\n\nAfter a few moments, she looks up at Lirael with a determined but relaxed expression.\n\n\"I’m ready,\" Emily says. \"You can slowly start increasing the clone’s size. Let’s see how far I can go.\"\n\nLirael nods, raising one hand. A soft violet glow surrounds her fingers as she begins to channel her magic into the clone inside Emily.\n\nThe effect is immediate. Emily’s belly starts to grow — slowly at first, then faster as Lirael gradually increases the clone’s size. The loud gurgles become even louder and more frantic, turning into deep, thunderous *GLORRRRP-GLORRRRP-SQUELCH-CRACK* sounds as her stomach strains to contain the rapidly expanding mass. The huge dome swells outward in all directions, pushing across the backyard until it is the size of the entire house, towering over the grass and casting a massive shadow.\n\nEmily’s eyes are half-lidded, her breathing steady but heavy as she focuses on the overwhelming fullness. Her hands rest on the vast, warm surface of her belly, feeling it vibrate and rumble violently beneath her palms. The sounds are almost deafening now — a constant, chaotic symphony of wet churning, stretching, and crushing as her stomach fights to handle the colossal meal.\n\nThe family watches in stunned silence from a safe distance. Your father’s face is tight with concern. Your mother has one hand over her mouth. Lydia stands frozen, soft brown eyes wide with disbelief. Lirael remains focused, carefully monitoring Emily’s reactions.\n\nEmily lets out a long, shaky breath, her voice slightly strained but still controlled.\n\n\"Okay… okay, that’s my limit,\" she says, patting the gigantic, house-sized belly. \"Stop… stop here.\"\n\nLirael immediately ceases the growth. The violet glow fades from her hand as Emily’s stomach continues to roar and churn noisily, struggling to process the immense clone inside her.";
+
+    },
+    location: "Byrd Family Home - Backyard (Evening)",
+    choices: [
+        { label: "Continue watching", next: 201 }
+    ]
+},
+
+// 201 - Emily's Limit
+{
+    text: function() {
+        return "Emily’s house-sized belly dominates the backyard, a massive, taut, gurgling dome that rises high above the grass and casts a long shadow in the evening light. The sounds coming from inside are almost deafening — a constant, thunderous roar of *GLORRRRP-GLORRRRP-SQUELCH-CRACK-GRIND* as her stomach fights desperately to contain and process the colossal clone. The stretched skin vibrates visibly with every powerful contraction, the sheer scale making the air itself seem to hum with the noise.\n\nEmily sits on the ground, both hands resting on the warm, trembling surface in front of her. She looks focused but not overwhelmed, breathing steadily as she feels the immense pressure and fullness.\n\nLirael stands a short distance away, her golden eyes sharp and attentive, carefully monitoring every sound and movement.\n\n\"You are doing very well,\" Lirael says calmly. \"This is already far beyond what most humans could handle. Your capacity as an Apex is remarkable.\"\n\nYour father stands frozen a few yards back, staring at the colossal belly with a mixture of awe and deep concern.\n\n\"Jesus Christ…\" he mutters under his breath.\n\nYour mother has one hand over her mouth, eyes wide. Lydia stands beside her, soft brown eyes huge with disbelief, her hands clutching the edge of her blanket tightly.\n\nEmily lets out a long, slow breath and gently pats the enormous, roaring dome.\n\n\"This is… a lot,\" she admits, her voice slightly strained but still steady. \"I can feel it pushing against every limit I have. But… I think I can hold it. For now.\"\n\nLirael nods, clearly impressed.\n\n\"Then we will stop here for today,\" she says. \"You have given me excellent data. We can continue testing another time, when you are ready to push even further.\"\n\nEmily nods, still gently rubbing the massive, noisy belly that now fills most of the backyard. The family stands in stunned silence, watching the living mountain of a stomach churn and rumble with terrifying power.\n\nThe experiment has reached its limit for the evening.";
+
+    },
+    location: "Byrd Family Home - Backyard (Evening)",
+    choices: [
+        { label: "Continue", next: 202 }
+    ]
+},
+
+// 202 - Confirming the Apex
+{
+    text: function() {
+        return "The family slowly approaches Emily, still awed by the sheer scale of her belly. One by one, they sit down on the grass around the massive, house-sized dome — your father to the left, your mother to the right, Lydia hesitantly beside Lirael, and you next to Emily. The ground vibrates faintly with every deep, thunderous churn from inside her stomach.\n\nLirael kneels gracefully beside the enormous, taut surface and places both hands on it, feeling the violent rumbling beneath her palms. After a moment, she looks up at the family with calm certainty.\n\n\"There is no doubt,\" she declares. \"Emily is definitely an Apex. Her capacity, her digestion speed, and her ability to handle such extreme sizes far exceed that of a normal human. This is rare and powerful.\"\n\nEmily lets out a tired but proud laugh, gently patting the top of her gigantic belly.\n\n\"Cool,\" she says simply. \"Does that mean I win at vore?\"\n\nThe family sits together on the grass, the evening air cool and still. For a little while, they simply relax in the backyard, the tension of the day easing as they talk quietly about nothing in particular — the clothes they bought, how strange the mall was for Lirael, and what school might be like for Lydia.\n\nThen, without warning, Emily’s stomach lets out a loud, deep, ominous roar — a long, powerful *GRRRRRROOOOOOAAAAAN* that shakes the ground beneath everyone. The massive, house-sized dome suddenly goes soft all at once, the taut surface sagging and becoming loose and pillowy as the enormous clone inside loses all structural integrity in one sudden collapse. The contents turn into a vast, heavy slurry, sloshing loudly inside her, but the belly does not shrink or begin absorbing yet. It simply sits there, enormous and soft, spreading out even further across the grass like a giant, quivering waterbed.\n\nEmily’s eyes widen slightly as she feels the sudden change.\n\n\"Whoa… okay, that was intense,\" she says, pressing both hands into the now-mushy, sloshing mass. \"It just… turned to mush all at once.\"\n\nLirael’s expression sharpens with interest as she places a hand on the softened surface, feeling the heavy, liquid weight shift beneath her touch.\n\nThe family stares at the colossal, soft belly in stunned silence.";
+
+    },
+    location: "Byrd Family Home - Backyard (Evening)",
+    choices: [
+        { label: "Continue watching", next: 203 }
+    ]
+},
+
+// 203 - Emily's Absorption
+{
+    text: function() {
+        return "The family relaxes on the grass for a while longer, the evening air cool and calm around Emily’s enormous, soft, house-sized belly. The massive dome spreads out across the lawn like a living hill, still gurgling and shifting heavily with the liquefied remains of the clone inside. Conversation is light and sporadic — your mother asking Lydia gentle questions about her favorite colors, your father occasionally commenting on how strange the day has been, and Lirael quietly observing everything with calm interest.\n\nThen, without warning, Emily’s stomach lets out a series of loud, wet, chaotic sounds — deep *GLORP-GLORP-SQUELCH-BLORP* noises that rumble through the backyard as the mush of the clone begins to be rapidly absorbed. The huge, pillowy mass starts to shrink and firm up as Emily’s body greedily pulls the nutrients inward.\n\nEmily’s eyes flutter as the absorption intensifies. Her already strained new outfit — one of the outfits bought earlier that day — suddenly gives way. With a loud series of *RIP-RIP-RRRRIP* sounds, the fabric practically explodes off her body, tearing apart at the seams as her figure surges outward. Her breasts, hips, thighs, and ass swell dramatically with the incoming mass, leaving her completely naked on the grass for a moment before the growth slows.\n\nWhen the absorption finishes, Emily is left with a large, watermelon-sized belly, round and taut. Shortly after, her stomach lets out a bubbly, wet gurgle, and she releases a long, loud, messy fart that echoes across the backyard.\n\nHer belly then shrinks further, settling at half the size of a whole watermelon — still prominent and soft, but far more manageable.\n\nLirael raises her hand and materializes all the new outfits that were bought earlier that day. With a soft violet glow, she uses her magic to resize every piece to perfectly fit Emily’s newly enhanced body. She hands Emily a simple but comfortable outfit.\n\n\"Here,\" Lirael says with a gentle smile. \"These should fit you now.\"\n\nEmily, still flushed from the intense absorption, gladly takes the clothes and quickly puts them on. The new outfit hugs her significantly curvier figure perfectly.\n\nLirael then shrinks herself down smoothly to match Emily’s current height, keeping her own 1:1 body proportions. She stands beside Emily for a moment, comparing their figures.\n\n\"Your body is about halfway to looking like my own,\" Lirael observes calmly. \"The potential is there.\"\n\nWith another soft shimmer, Lirael grows back to her comfortable 6'1\" height, her golden eyes warm as she looks at the family.";
+
+    },
+    location: "Byrd Family Home - Backyard (Evening)",
+    choices: [
+        { label: "Continue", next: 204 }
+    ]
+},
+
+// 204 - Heading to Bed
+{
+    text: function() {
+        return "With the experiments and the chaotic events of the day finally winding down, your father stands up and stretches.\n\n\"Alright,\" he says. \"It’s late. Let’s all head inside and get some rest. Tomorrow is going to be another long day.\"\n\nThe family begins to gather their things and move toward the house. Emily yawns widely, still adjusting to her newly enhanced curves, and heads upstairs to her room. Your parents follow shortly after, exchanging quiet goodnights.\n\nYou, Lirael, and Lydia start walking toward your room together. As you reach the doorway, Lydia hesitates for a moment, then speaks up in a small, shy voice.\n\n\"Um… if it’s okay,\" she says, clutching the edge of her blanket, \"I’d like to stay with the two of you tonight. I… I don’t want to be alone right now.\"\n\nLirael glances at you, then gives Lydia a gentle, reassuring smile.\n\n\"Of course,\" she says softly. \"Come with us.\"\n\nThe three of you enter your room. Lirael closes the door behind you all with a quiet click. She first reaches up and removes the cloaking stone necklace from around her neck, placing it carefully on the nightstand. Then she slips off her silk robe, leaving herself in just her undergarments, and climbs into bed.\n\nShe opens her arms and pulls you in first, wrapping her long, smooth limbs tightly around you. She holds you close, pressing your entire face deep into the soft, warm, heavy swell of her bosom, submerging you completely in her comforting warmth and scent. At the same time, she reaches out with one arm and gently pulls Lydia in from the other side, effectively sandwiching you tightly between their bodies. Lydia curls up against your back, her smaller frame pressing warmly into you, while Lirael’s powerful arms encircle both of you, holding you securely in place.\n\nLirael’s full, soft breasts envelop your face, the smooth skin warm and slightly damp from the day’s heat. You can feel her steady heartbeat thumping gently against your cheek and the subtle rise and fall of her chest with each breath. Lydia’s smaller, softer body molds against your back, her breathing quick and nervous at first before slowly evening out.\n\nThe three of you lie together in the bed, wrapped in a tight, warm embrace. The house grows quiet around you as the long, strange day finally begins to fade.";
+
+    },
+    location: "Isaac's Bedroom (Night)",
+    choices: [
+        { label: "Continue", next: 205 }
+    ]
+},
+
+// 205 - Falling Asleep
+{
+    text: function() {
+        return "You lie sandwiched between Lirael and Lydia, the warmth of their bodies enveloping you completely. Lydia’s smaller, softer frame presses gently against your back, her breathing slow and steady as she drifts off. Lirael holds you tightly from the front, her long limbs wrapped around you, your face still buried deep in the soft, warm swell of her bosom. The steady thump of her heartbeat and the gentle rise and fall of her chest should be soothing, but your mind refuses to quiet.\n\nThe events of the day replay endlessly — the training, the swallowing, the rapid changes to Emily’s body, the elven girl in the basement, the shopping trip, the food court incident, and everything else. Your thoughts race, making sleep feel impossible.\n\nLirael notices. She shifts slightly, her hand sliding up to gently stroke your hair. Her voice is a soft, warm whisper against the top of your head.\n\n\"You are thinking too much,\" she murmurs. \"Let me help you.\"\n\nShe begins to hum a low, melodic tune — ancient and soothing, like a lullaby from a forgotten time. The sound vibrates gently through her chest, resonating directly into you. At the same time, she channels a faint trace of her violet magic, letting it flow into you like a warm, calming wave. The tension in your muscles slowly melts away, your racing thoughts growing quieter and more distant.\n\nLirael continues to hold you tightly, her fingers threading through your hair in slow, rhythmic strokes, her body a steady anchor of warmth and safety. The gentle humming and the soft magical current gradually pull you under, like sinking into a deep, peaceful ocean.\n\nYour eyelids grow heavier. The last thing you feel is Lirael’s heartbeat against your cheek and the gentle press of her breasts as she holds you close, keeping you safe between her and Lydia.\n\nSleep finally claims you.";
+
+    },
+    location: "Isaac's Bedroom (Night)",
+    choices: [
+        { label: "End the day", next: 206 }
+    ]
+},
+
+// 206 - Orientation Day
+{
+    text: function() {
+        return "Morning light filters through the curtains as you stir awake. Before you can even sit up, Lirael’s strong arms slide beneath you. She is already fully dressed in one of her new outfits — a sleek, elegant blouse and fitted pants that hug her 6'1\" cloaked form perfectly. The cloaking stone rests around her neck, keeping her appearance convincingly human.\n\nWith effortless grace, she lifts you from the bed, cradling you against her chest as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, a small smile on her lips. \"Today is orientation day. Let me take you downstairs.\"\n\nStill half-asleep, you don’t protest as she carries you out of the room and down the stairs. Her body is warm and steady, her steps smooth and silent. She brings you into the living room and gently sets you down on the couch where the rest of your family is already waiting.\n\nYour mother is sipping coffee, your father is reviewing some papers, and Emily is already dressed and looking surprisingly energetic for the early hour. Lydia sits quietly beside her, wearing one of the new outfits Lirael had sewn, looking nervous but trying to hide it.\n\nYour father looks up as Lirael sets you down.\n\n\"Today is orientation day at school,\" he says. \"It’s an open house, meet-the-teachers, and campus tour all in one. Lydia was enrolled online yesterday, so she’ll be joining you and Emily. Lirael will be there too — I made sure with the school that she’s assigned as an aide specifically to watch over you, Emily, or Lydia. No one else.\"\n\nLirael nods respectfully.\n\n\"I will ensure everyone stays safe,\" she says calmly.\n\nEmily grins, clearly excited.\n\n\"This is going to be interesting,\" she says. \"New school, new faces, and Lydia’s first day. Plus Lirael as our personal aide? Should be fun.\"\n\nLydia fidgets with the hem of her new shirt, her soft brown eyes darting around the room.\n\n\"I… I have never been to a human school before,\" she admits quietly. \"Will it be very different?\"\n\nYour mother gives her a reassuring smile.\n\n\"We’ll all be there with you,\" she says. \"It’ll be okay.\"\n\nLirael stands tall and composed, ready for the day ahead.\n\n\"Shall we go?\" she asks, looking at the group.";
+
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { label: "Head to school for orientation", next: 207 }
+    ]
+},
+
+// 207 - Heading to School
+{
+    text: function() {
+        return "The family finishes getting ready quickly. Emily grabs her bag, still adjusting to how her new curvier figure feels in the fresh clothes. Lydia stands nervously by the door, clutching the strap of a small backpack your mother had given her, clearly anxious about her first day at a human school. Lirael stands tall and composed in her 6'1\" cloaked form, wearing one of her new outfits that fits her perfectly.\n\nYour father jingles the car keys.\n\n\"Alright, everyone in the van,\" he says. \"Let’s get going before traffic gets bad.\"\n\nThe group piles into the family van. Your father takes the driver’s seat, your mother sits in the passenger side, and the rest of you squeeze into the back and middle rows. Emily sits in the middle row with you, while Lirael and Lydia take the back row. The van feels comfortably full as your father starts the engine and pulls out of the driveway.\n\nThe drive to school is relatively quiet. Emily occasionally points out landmarks to Lydia and Lirael, trying to explain what they are. Lydia listens with wide, soft brown eyes, still overwhelmed by the sheer number of cars, buildings, and people. Lirael asks thoughtful questions about the school system and what to expect during orientation.\n\nYour father glances in the rearview mirror.\n\n\"Remember,\" he says, \"Lirael is officially there as an aide assigned to watch over you three. Stick close to her if anything feels off. And Lydia — try to stay calm. We’ll handle any questions about your background.\"\n\nLydia nods nervously, fiddling with the half-cloaking stone hidden under her shirt.\n\nAfter a short drive, the van pulls into the school parking lot. The campus is bustling with students and parents attending the orientation day — open house, meet-the-teachers, and campus tours all happening at once. The main building looms ahead, flags waving in the morning breeze.\n\nYour father parks and turns off the engine.\n\n\"Here we are,\" he says. \"Let’s do this.\"";
+
+    },
+    location: "School Parking Lot (Morning)",
+    choices: [
+        { label: "Enter the school for orientation", next: 208 }
+    ]
+},
+
+// 208 - Entering the School
+{
+    text: function() {
+        return "The family makes its way from the parking lot toward the main entrance of the school. The building is alive with activity — parents and new students milling about, colorful banners welcoming everyone to orientation day, and the general buzz of voices and footsteps echoing in the hallways.\n\nJust inside the entrance, there is a long table set up with two upperclassmen greeting and welcoming new students. They are some of the most trusted upperclassmen chosen to help on orientation day so that the teachers and staff can focus on where they’re needed most.\n\nYou all wait patiently in line to sign in. When it’s finally your turn, you step up to the table and say, \"I thought returning students wouldn’t be present today.\"\n\nOne of the upperclassmen — a very busty girl with long auburn hair and a friendly smile — looks up from her clipboard. Her name tag reads “Molly.”\n\n\"Oh, we’re not here as students today,\" Molly explains cheerfully. \"The upperclassmen with the best track record when it comes to eating students are offered to help out on orientation day. We’re the ones who are well-behaved and don’t really eat students unless it’s self-defense, the prey is willing, or we’re protecting another student from their predator. So they trust us to be here and keep things smooth.\"\n\nShe gives you a wink and slides the sign-in sheet toward you.\n\n\"Don’t worry, we’re on our best behavior today. Welcome back!\"\n\nLirael, standing beside you in her 6'1\" cloaked form, watches the exchange with quiet interest. Lydia stays close, looking nervous but trying to stay composed. Emily grins at Molly, clearly amused by the explanation.\n\nYour father signs the sheet for Lydia and hands it back.\n\n\"Alright,\" he says. \"Let’s get this orientation started.\"";
+
+    },
+    location: "School - Main Entrance (Morning)",
+    choices: [
+        { label: "Continue with orientation", next: 209 }
+    ]
+},
+
+// 209 - Orientation Begins
+{
+    text: function() {
+        return "After signing in, the group is directed toward the main gymnasium where the orientation activities are centered. The large space is filled with tables representing different clubs, departments, and grade levels. Trusted upperclassmen are stationed around the room, answering questions and handing out information packets. A big digital screen on the far wall displays the day’s schedule: open house, meet-the-teachers sessions, and guided campus tours running in rotations.\n\nYour father looks around and nods toward one of the information tables.\n\n\"Let’s start with the campus tour first,\" he suggests. \"That way we can get Lydia familiar with the layout.\"\n\nLirael stays close to you, Emily, and Lydia, her presence calm and protective as she observes everything with quiet interest. Lydia walks between you and Lirael, her soft brown eyes wide as she takes in the crowded gymnasium and the sheer number of people. She keeps one hand lightly touching the half-cloaking stone hidden under her shirt, clearly still nervous about being in such a public human space for the first time.\n\nEmily seems right at home in the energetic atmosphere, looking around with excitement.\n\nAs the group joins a guided tour line, one of the upperclassmen — a friendly senior girl named Sophia with long wavy chestnut hair, bright hazel eyes, and a confident, welcoming smile — greets the new faces.\n\n\"Welcome to orientation!\" Sophia says brightly. \"We’ll be taking a full walkthrough of the campus shortly. Feel free to ask any questions along the way.\"\n\nLirael leans slightly toward you and whispers, \"This is all very organized. I am curious to see how the classes are structured.\"\n\nLydia stays quiet but attentive, sticking close as the tour begins to move through the hallways. The school feels large and bustling, with lockers lining the walls, colorful posters advertising clubs, and the distant sound of students laughing and talking.\n\nYour father keeps a watchful eye on the group, making sure no one wanders too far. Your mother walks beside Lydia, occasionally pointing out things to help her feel more comfortable.\n\nThe tour guide leads the group through the main academic wing, explaining the layout of classrooms, the library, the cafeteria, and the outdoor sports fields. Every so often, the guide pauses to let students and parents ask questions.\n\nAs you walk, Emily nudges you with her elbow and whispers, \"This is going to be interesting with Lydia here… and Lirael watching over us like a personal bodyguard.\"\n\nThe orientation day is well underway, and the day still holds many more introductions and discoveries.";
+
+    },
+    location: "School - Gymnasium & Campus Tour (Morning)",
+    choices: [
+        { label: "Continue with the tour", next: 210 }
+    ]
+},
 // 214 - 
 {
     text: function() {
@@ -3206,6 +3423,9 @@ function openModal(type) {
     } else if (type === 'about') {
         title.textContent = "THE DEMON AND I";
         content.innerHTML = `<p>A text-based erotic adventure<br>Isaac Byrd & the trapped she-demon</p>`;
+    } else if (type === 'relationships') {
+        title.textContent = "Relationships";
+        content.innerHTML = `<p>Sorry! This is still indev</p>`;
     }
     modal.style.display = "flex";
 }
