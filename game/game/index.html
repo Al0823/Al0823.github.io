@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-	<!--ok I have made many more changes, now I need you to finish implementing something I started, I would like you to move all of the Bonds to the Relationships field and also make it a proper menu where once you open it, it shows all of the people you know with their names as clickable buttons, once one of these buttons is clicked, it hides the rest of the names and shows you like a little brief of the person, including their name, their relationship status with you in the form of ten hearts(caps at 200 numerical value max and -200 minimum and 20 per heart or broken heart if negative, use &#10084; for the positive number hearts, &#9825; for the standard hearts(like if the user's relationship status with someone is 100, the first five hearts would be &#10084; and the last 5 would be &#9825;), and &#128148; for broken hearts), A description of them(like how they act and look, including their predatory skills and where they stand in the social hierarchy at school(if they are in school with the player)), then have their grade/class (9-12, Freshman-Senior), age, if you have their phone number or not, some other details, and their history as a predator, also add gamestate values for meeting people(only do so if it is by name, that is what counts as meeting them), change status to be more about how good the player is with strength, endurance, stamina, health, skill for escaping from a predator(might have to add some of those things if they are not in gamestate), also add a whole new thing called Encounters or Vore Encounters which tracks who the user has escaped from and also if the user has participated in any class labs or demonstrations, also add a class schedule which will remain blank for now(12 periods).-->
 <head>
 <meta charset="UTF-8">
 <title>A.t.A. Projects, Websites, and Games - The Demon and I</title>
@@ -1521,12 +1520,12 @@ var passages = [
         { label: "Begin the escape training", next: 143, effect: () => {gameState.trainingTurnCount = 0, 
             gameState.inStomach = true, 
             gameState.currentPredator = "lira",        // Lira (AI) is the predator
-            gameState.preyHealth = 999,
+            gameState.preyHealth = 100,
             gameState.preyStamina = 100,
             gameState.digestionProgress = 0,
             gameState.acidStage = 0,
             gameState.predHealth = 90,
-            gameState.predDefense = 3,
+            gameState.predDefense = 6,
             gameState.trainingSessionCount += 1;} }
     ]
 },
@@ -1543,7 +1542,7 @@ var passages = [
             gameState.digestionProgress = 0;
             gameState.acidStage = 0;
             gameState.predHealth = 90;
-            gameState.predDefense = 3;
+            gameState.predDefense = 6;
             gameState.trainingSessionCount += 1;
             gameState.escapeTrainingProgress = Math.min(100, gameState.escapeTrainingProgress + 12);
             gameState.checkpointShown = { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false };
