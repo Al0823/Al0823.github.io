@@ -211,7 +211,6 @@ background-color:#8B0000;
 <div class="panel-button" onclick="openModal('options')">Options</div>
 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
 <div class="panel-button" onclick="restartGame()">Restart Game</div>
-<div class="panel-button" onclick="openModal('about')">About</div>
 </div>
 </div>
 <div id="main-content">
@@ -521,10 +520,7 @@ function openModal(type) {
     } else if (type === 'system') {
         title.textContent = "SAVE / LOAD";
         content.innerHTML = `<div class="modal-button" onclick="saveGame()">Save Game</div><div class="modal-button" onclick="loadGame()">Load Game</div>`;
-    } else if (type === 'about') {
-        title.textContent = "THE DEMON AND I";
-        content.innerHTML = `<p>A text-based erotic adventure<br>Isaac Byrd & the trapped she-demon</p>`;
-    }
+    } 
     modal.style.display = "flex";
 }
 
