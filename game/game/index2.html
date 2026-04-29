@@ -388,7 +388,7 @@ lirael: {
 { text: "She says that she mainly feeds on the feeling of comfort of people instead of eating them and having them pad out her body.", unlocked: false }, // 7, set in passage 13 leading to 14
 { text: "She has stated that she can eat people Orally which was established earlier, Anally, or unbirth them. She has also hinted at other abilities involving her breasts.", unlocked: false }, // 8, set in passage 77
 { text: "She was once a human that was alive during the Hartford Witch Hunts, was killed during one of the hunts and ended up in the sloth district.", unlocked: false }, // 9, set in passage 132
-{ text: "She has an infinite supply of Breastmilk, you found out when she Breastfed you for 3 hours and only switching breasts to give you a minute to breathe, doing all of this while completely straddling you. It was originally supposed to just be a cuddle session, but Lirael wanted this instead and the both of you definitely enjoyed doing that more than you would have if you were just cuddling.", unlocked: false }, // 10, set in passage 122
+{ text: "She has an infinite supply of Breastmilk, you found out when she Breastfed you for 3 hours and only switching breasts to give you a second to breathe, doing all of this while completely straddling you. It was originally supposed to just be a cuddle session, but Lirael wanted this instead and the both of you definitely enjoyed doing that more than you would have if you were just cuddling.", unlocked: false }, // 10, set in passage 122
     ],
     grade: "N/A",
     age: "Unknown (appears mid-20s)",
@@ -409,10 +409,10 @@ Lydia: {
     details: [
         { text: "She was formerly known only as F-2, a castle slave in her original hidden kingdom.", unlocked: false }, // 0, Set in passage 167
         { text: "She was brought back from extinction by an Emperor who wanted to harness elven magic.", unlocked: false }, // 1, Set in passage 167
-        { text: "She is still learning how to interact with humans and modern society.", unlocked: false }, // 2, Set in passage
-        { text: "She possesses some latent magical ability, though she was never properly trained.", unlocked: false }, // 3, Set in passage
-        { text: "She is slowly warming up to the family and beginning to feel safe.", unlocked: false }, // 4, Set in passage
-{ text: "She has a cloaking stone, which makes her look indistinguishable from a normal human.", unlocked: false }, // 5, Set in passage
+        { text: "She is still learning how to interact with humans and modern society.", unlocked: false }, // 2, Set in passage 206
+        { text: "She possesses some latent magical ability, though she was never properly trained.", unlocked: false }, // 3, Set in passage 174
+        { text: "She is slowly warming up to the family and beginning to feel safe.", unlocked: false }, // 4, Set in passage 183
+{ text: "She has a cloaking stone, which makes her look indistinguishable from a normal human.", unlocked: false }, // 5, Set in passage 175
     ],
     grade: "Sophomore",
     age: 15,
@@ -432,8 +432,8 @@ lira: {
 { text: "She is an artificial human piloting a synthetic body and does not need to eat or do anything humans need to for survival.", unlocked: true }, // 0, set in beginning
 { text: "She has been monitoring the house and has noticed unusual energy readings, especially in the basement and attic.", unlocked: false }, // 1, set in passage 2 going to passage 5
 { text: "She is protective of the family and tries to keep them safe.", unlocked: true }, // 2, set in beginning
-{ text: "She was eaten by Emily while trying to stop her from eating a pizza delivery girl, which proved unsuccessful and got her eaten too.", unlocked: false }, // 3, set in passage 
-{ text: "She was eaten by Emily at the food court.", unlocked: false }, // 3, set in passage 
+{ text: "She was eaten by Emily while trying to stop her from eating a pizza delivery girl, which proved unsuccessful and got her eaten too.", unlocked: false }, // 3, set in passage 147 
+{ text: "She was eaten by Emily at the food court.", unlocked: false }, // 4, set in passage 183
     ],
     grade: "N/A",
     age: "N/A (AI)",
@@ -2461,6 +2461,7 @@ var passages = [
         if (Math.random() < 0.15) {
             gameState.liraEaten = true;
 gameState.liraEatenMethod = 2;
+setDetail("lira", 3);
             return baseText + "As Emily reaches the woman’s wide hips, Lira suddenly steps in and tries to pull the delivery woman back out by her legs.\n\n\"Wait, Emily—!\" Lira says, grabbing the woman’s ankles.\n\nBut the momentum is too strong. Emily’s powerful swallow continues, and Lira is yanked forward. With a surprised yelp, Lira’s head and shoulders slide straight into Emily’s mouth along with the delivery woman.\n\nEmily’s eyes widen in surprise, but she can’t stop the reflexive gulp. She swallows both of them down in one long, heavy motion. Her throat bulges massively as the two bodies slide inside her.\n\nEmily sits in place, unable to move. Her stomach is now enormously swollen, resting heavily on the floor and spreading out in front of her. She can barely reach her hands over the top of the massive, gurgling dome.\n\nInside, loud, wet gurgles and muffled struggles can be heard as both the delivery woman and Lira begin to break down.\n\nLirael raises an eyebrow, looking both impressed and slightly concerned.\n\nYour parents stare in stunned silence.";
         } else {
 
@@ -2881,7 +2882,7 @@ revealRelationship("Lydia", {
 {
     text: function() {
         return "Your father nods slowly, absorbing everything F-2 has said. He leans forward slightly, resting his elbows on his knees, and speaks in a calm but firm tone.\n\n\"Alright. So this Emperor brought your people back just to use your power. That sounds like a whole lot of trouble we don’t need right now. But you’re here, and you’re not going back. That’s what matters.\"\n\nHe glances at Lirael, then at you, before continuing.\n\n\"We’ll need to be careful. If this Emperor is looking for runaway slaves, we can’t have anyone sniffing around our house. For now, you stay hidden. No going outside alone. No drawing attention. We’ll figure out a long-term plan later.\"\n\nF-2 nods quickly, relief washing over her soft brown eyes. She still looks fragile and scared, but the terror from the basement has eased into cautious hope.\n\nEmily, unable to stay quiet any longer, leans forward with wide-eyed curiosity.\n\n\"So… you’re really from a hidden kingdom? That’s so cool. Do you have magic? Like, real magic?\"\n\nF-2 hesitates, then gives a tiny nod.\n\n\"A little… but I was never taught much. Slaves weren’t allowed to use it.\"\n\nLirael watches the exchange quietly, her expression thoughtful. Your mother reaches over and gently squeezes your father’s hand, clearly still processing everything.\n\nThe conversation continues, slow and careful, as the family begins to accept that their home now shelters yet another unusual guest.";
-
+setDetail("Lydia", 3);
     },
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
@@ -2893,7 +2894,7 @@ revealRelationship("Lydia", {
 {
     text: function() {
         return "The conversation about the Emperor and the hidden kingdom gradually slows. Your father leans back in his chair, rubbing his chin thoughtfully.\n\n\"We can talk more about all that later,\" he says. \"Right now, we’ve got more immediate things to handle.\"\n\nLirael nods in agreement. She reaches up and removes the cloaking stone necklace from around her neck. With a deliberate motion, she breaks the stone cleanly in half. One piece she keeps for herself, the other she holds out to F-2.\n\n\"Here,\" Lirael says gently. \"This will hide your ears and make you appear human to outsiders. It is not as strong as a full stone, but it will protect you for now.\"\n\nF-2 hesitates, then accepts the half-stone with trembling hands. She slips the cord over her head. A faint violet shimmer runs over her body as her pointed ears shorten and round out, making her look fully human.\n\nLirael puts her own half-stone back on. The shimmer returns, but it is weaker now. Her skin tone shifts to a more human shade, and her horns vanish, but her golden eyes remain unchanged — no longer turning hazel.\n\n\"The stone is split,\" Lirael explains calmly. \"It is weaker for me now, but it will suffice.\"\n\nEmily watches with wide eyes, clearly fascinated.\n\nF-2 stares down at the half-stone resting against her chest, then looks up at everyone with soft brown eyes full of cautious hope.\n\n\"If… if I may choose a name,\" she says quietly, \"I would like to be called… Lydia.\"\n\nYour mother smiles warmly.\n\n\"Lydia is a lovely name,\" she says. \"Welcome, Lydia.\"\n\nYour father nods in agreement.\n\n\"Alright, Lydia. We’ll figure out the rest as we go. But first — clothes. Emily’s wardrobe is ruined, Lirael only has that silk robe, and you have nothing but rags. We’re going shopping today.\"\n\nLirael inclines her head gracefully.\n\n\"I would be grateful to learn more about the modern world while we are out. Stores, money, how people choose clothes… all of it.\"\n\nEmily grins, already excited.\n\n\"This is going to be fun. We can teach you about malls, credit cards, and fashion all at once!\"\n\nThe mood in the room lightens just a little as everyone begins to prepare for the outing. As the conversation shifts toward the day ahead, your mother looks at Lydia with gentle concern and adds:\n\n\"One more thing, Lydia. You should be careful around Emily’s mouth. She has… abilities and instincts that make her swallow things when she gets excited or hungry. It’s not on purpose, but it happens. So just… keep a little distance from her face until we all get used to this.\"\n\nLydia’s eyes widen slightly, but she nods quickly, clutching the half-stone around her neck.";
-
+setDetail("Lydia", 5);
     },
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
@@ -3008,7 +3009,8 @@ revealRelationship("Lydia", {
     },
     location: "Local Mall - Food Court (Afternoon)",
     choices: [
-        { label: "Continue eating and talking", next: 183}
+        { label: "Continue eating and talking", next: 183, effect: () => {
+setDetail("Lydia", 4);}}
     ]
 },
 
@@ -3026,7 +3028,7 @@ revealRelationship("Lydia", {
                 // Set the new game state variable
             gameState.liraEaten = true;
             gameState.liraEatenMethod = 1;  // 1 = eaten at food court
-
+setDetail("lira", 4);
             
 
         }
@@ -3379,7 +3381,7 @@ changeBond("Lydia", 50);
 {
     text: function() {
         return "Morning light filters through the curtains as you stir awake. Before you can even sit up, Lirael’s strong arms slide beneath you. She is already fully dressed in one of her new outfits — a sleek, elegant blouse and fitted pants that hug her 6'1\" cloaked form perfectly. The cloaking stone rests around her neck, keeping her appearance convincingly human.\n\nWith effortless grace, she lifts you from the bed, cradling you against her chest as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, a small smile on her lips. \"Today is orientation day. Let me take you downstairs.\"\n\nStill half-asleep, you don’t protest as she carries you out of the room and down the stairs. Her body is warm and steady, her steps smooth and silent. She brings you into the living room and gently sets you down on the couch where the rest of your family is already waiting.\n\nYour mother is sipping coffee, your father is reviewing some papers, and Emily is already dressed and looking surprisingly energetic for the early hour. Lydia sits quietly beside her, wearing one of the new outfits Lirael had sewn, looking nervous but trying to hide it.\n\nYour father looks up as Lirael sets you down.\n\n\"Today is orientation day at school,\" he says. \"It’s an open house, meet-the-teachers, and campus tour all in one. Lydia was enrolled online yesterday, so she’ll be joining you and Emily. Lirael will be there too — I made sure with the school that she’s assigned as an aide specifically to watch over you, Emily, or Lydia. No one else.\"\n\nLirael nods respectfully.\n\n\"I will ensure everyone stays safe,\" she says calmly.\n\nEmily grins, clearly excited.\n\n\"This is going to be interesting,\" she says. \"New school, new faces, and Lydia’s first day. Plus Lirael as our personal aide? Should be fun.\"\n\nLydia fidgets with the hem of her new shirt, her soft brown eyes darting around the room.\n\n\"I… I have never been to a human school before,\" she admits quietly. \"Will it be very different?\"\n\nYour mother gives her a reassuring smile.\n\n\"We’ll all be there with you,\" she says. \"It’ll be okay.\"\n\nLirael stands tall and composed, ready for the day ahead.\n\n\"Shall we go?\" she asks, looking at the group.";
-
+setDetail("Lydia", 2);
     },
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
@@ -3467,7 +3469,6 @@ return ""
     }
 ];
 
-// GLOBAL TRACKING
 let currentRelationshipOpen = null;
 
 
