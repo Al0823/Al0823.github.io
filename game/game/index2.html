@@ -347,9 +347,9 @@ issacSister: {
 { text: "She has a habit of exploring the house and yard, always looking for something interesting to do.", unlocked: true }, // 1, set from beginning
 { text: "She is close with you and often tries to drag you into her adventures or schemes.", unlocked: true }, // 2, set from beginning
 { text: "She is starting to show signs of increased appetite and unusual instincts, though she doesn't fully understand them yet.", unlocked: true }, // 3, set from beginning
-{ text: "Her body has begun to change with the more people she eats, becoming noticeably curvier, softer, and more mature-looking.", unlocked: false }, // 4, set in passage
+{ text: "Her body has begun to change with the more people she eats, becoming noticeably curvier, softer, and more mature-looking.", unlocked: false }, // 4, set in passage 157
 { text: "She is being encouraged by Lirael to embrace her intense predatory instincts and large appetite", unlocked: false }, // 5, set in passage 134
-{ text: "She is an Apex Human, which means she has predatory capabilities way better than that of a normal human", unlocked: false }, // 6, set in passage
+{ text: "She is an Apex Human, which means she has predatory capabilities way better than that of a normal human", unlocked: false }, // 6, set in passage 202
     ],
     grade: "None",
     age: 16,
@@ -375,14 +375,15 @@ lirael: {
     description: "Lirael is an ancient and powerful being who appears as a tall she-demon with smooth, pale lavender skin that has a faint iridescent sheen. She has long, flowing silver-white hair that cascades down her back, striking golden eyes, and small, elegant black horns that curve gracefully from her forehead. Her body is voluptuous and powerfully built — she possesses massive, heavy breasts, a narrow waist that flares into extremely wide hips, a thick, plush ass, and long, strong legs. She carries herself with graceful, lazy confidence and radiates an aura of ancient, sensual authority.",
     details: [
 { text: "She possesses powerful magic, vore, and digestion abilities. She also has very advanced and large knowledge in all of these subjects.", unlocked: false }, // 0, set in passage 13
-{ text: "She prefers not to eat people unlike other demons, though implies that might eat someone if they are willing, if they are posing a threat to her or someone she cares about, or upset her greatly.", unlocked: false }, // 1, set in passage
+{ text: "She prefers not to eat people unlike other demons, though implies that might eat someone if they are willing, if they are posing a threat to her or someone she cares about, or upset her greatly.", unlocked: false }, // 1, set in passage 12 going to 13
 { text: "She is patient and protective toward Isaac, often acting as a guide and guardian.", unlocked: false }, // 2, set in passage
 { text: "She is very interested in learning about the modern world and human customs.", unlocked: false }, // 3, set in passage
 { text: "She is helping the family navigate the dangers and opportunities that come with vore abilities.", unlocked: false }, // 4, set in passage
 { text: "She has a cloaking stone, which makes her look human enough to where outsiders will not suspect anything", unlocked: false }, // 5, set in passage
-{ text: "She has stated that she is capable of eating people, you think she may have other abilities but you are unsure right now.", unlocked: false }, // 6, set in passage 13
+{ text: "She has stated that she is capable of eating people, but chooses not to do it very often", unlocked: false }, // 6, set in passage 13
 { text: "She says that she mainly feeds on the feeling of comfort of people instead of eating them and having them pad out her body.", unlocked: false }, // 7, set in passage 13 leading to 14
-{ text: "She has stated that she can eat people Orally, Anally, or unbirth them. She has also hinted at other abilities involving her breasts.", unlocked: false }, // 8, set in passage 77
+{ text: "She has stated that she can eat people Orally which was established earlier, Anally, or unbirth them. She has also hinted at other abilities involving her breasts.", unlocked: false }, // 8, set in passage 77
+{ text: "She was once a human that was alive during the Hartford Witch Hunts, was killed during one.", unlocked: false }, // 9, set in passage 
     ],
     grade: "N/A",
     age: "Unknown (appears mid-20s)",
@@ -423,11 +424,11 @@ lira: {
     met: true,
     description: "Lira is the family's synthetic AI companion. She has smooth synthetic skin with a faint pearlescent sheen, shoulder-length dark hair, and calm blue eyes. She is helpful, attentive, and appears genuinely concerned about the family's well-being.",
     details: [
-        { text: "She is an artificial human piloting a synthetic body and does not need to eat for survival.", unlocked: true },
-        { text: "She has been monitoring the house and has noticed unusual energy readings, especially in the basement and attic.", unlocked: false },
-        { text: "She is protective of the family and tries to keep them safe.", unlocked: true },
-{ text: "She was eaten by Emily while trying to stop her from eating a pizza delivery girl, which proved unsuccessful and got her eaten too.", unlocked: false },
-        { text: "She was eaten by Emily at the food court.", unlocked: false },
+{ text: "She is an artificial human piloting a synthetic body and does not need to eat or do anything humans need to for survival.", unlocked: true }, // 0, set in beginning
+{ text: "She has been monitoring the house and has noticed unusual energy readings, especially in the basement and attic.", unlocked: false }, // 1, set in passage 2 going to passage 5
+{ text: "She is protective of the family and tries to keep them safe.", unlocked: true }, // 2, set in beginning
+{ text: "She was eaten by Emily while trying to stop her from eating a pizza delivery girl, which proved unsuccessful and got her eaten too.", unlocked: false }, // 3, set in passage 
+{ text: "She was eaten by Emily at the food court.", unlocked: false }, // 3, set in passage 
     ],
     grade: "N/A",
     age: "N/A (AI)",
@@ -2660,7 +2661,7 @@ return "You politely turned away to give her privacy. After a minute, Lirael ris
     },
     location: "Byrd Family Home - Living Room (Late Evening)",
     choices: [
-        { label: "Continue", next: 158 }
+        { label: "Continue", next: 158, effect: () => {setDetail("issacSister", 4);} }
     ]
 },
 
@@ -3314,7 +3315,7 @@ gameState.relationships.Lydia.bond += 50;
     },
     location: "Byrd Family Home - Backyard (Evening)",
     choices: [
-        { label: "Continue", next: 202 }
+        { label: "Continue", next: 202, effect: () => {setDetail("issacSister", 6);}  }
     ]
 },
 
