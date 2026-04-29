@@ -407,12 +407,12 @@ Lydia: {
     met: false,
     description: "Lydia is a young elven girl who was found hiding in the basement. She has long brown hair, soft brown eyes, skin a little lighter than golden brown, and a well-developed figure for her age. She appears to be about 15 years old and is very shy and nervous around humans.",
     details: [
-        { text: "She was formerly known only as F-2, a castle slave in her original hidden kingdom.", unlocked: false },
-        { text: "She was brought back from extinction by an Emperor who wanted to harness elven magic.", unlocked: false },
-        { text: "She is still learning how to interact with humans and modern society.", unlocked: false },
-        { text: "She possesses some latent magical ability, though she was never properly trained.", unlocked: false },
-        { text: "She is slowly warming up to the family and beginning to feel safe.", unlocked: false },
-{ text: "She has a cloaking stone, which makes her look indistinguishable from a normal human.", unlocked: false },
+        { text: "She was formerly known only as F-2, a castle slave in her original hidden kingdom.", unlocked: false }, // 0, Set in passage 167
+        { text: "She was brought back from extinction by an Emperor who wanted to harness elven magic.", unlocked: false }, // 1, Set in passage 167
+        { text: "She is still learning how to interact with humans and modern society.", unlocked: false }, // 2, Set in passage
+        { text: "She possesses some latent magical ability, though she was never properly trained.", unlocked: false }, // 3, Set in passage
+        { text: "She is slowly warming up to the family and beginning to feel safe.", unlocked: false }, // 4, Set in passage
+{ text: "She has a cloaking stone, which makes her look indistinguishable from a normal human.", unlocked: false }, // 5, Set in passage
     ],
     grade: "Sophomore",
     age: 15,
@@ -2788,7 +2788,10 @@ return "You politely turned away to give her privacy. After a minute, Lirael ris
 {
     text: function() {
         return "The elven girl flinches when your father speaks, pressing herself even harder against the wall. For a long moment she says nothing, her soft brown eyes darting between the three of you in pure terror. Lirael remains perfectly still, her presence calm and non-threatening.\n\nFinally, the girl swallows hard and speaks in a trembling, accented voice that sounds both ancient and young at the same time.\n\n\"I… I am from a nearby kingdom,\" she whispers. \"Hidden under veil magic. My kind… we went extinct long ago. But the Emperor brought us back. He wanted to learn how we harnessed power… even though we are mostly human.\"\n\nShe hugs her knees tighter to her chest, her long pointed ears twitching nervously.\n\n\"I was a castle slave. I do not have a name. They only called me… F-2.\"\n\nHer voice cracks on the last word. She looks down at the floor, tears welling in her soft brown eyes.\n\n\"Please… do not send me back. I ran away when the veil weakened. I do not want to be a slave anymore.\"\n\nEveryone waits in tense silence for your father's response.";
-
+revealRelationship("Lydia", {
+    details: [0, 1],
+    history: [0]
+});
     },
     location: "Byrd Family Home - Basement (Night)",
     choices: [
@@ -2837,7 +2840,7 @@ return "You politely turned away to give her privacy. After a minute, Lirael ris
     text: function() {
         if (gameState.liraEaten) {
             // Rare version - Emily ate Lira (the AI)
-            return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Issac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity. Emily will not be doing escape training today.";
+            return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Issac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity. Emily will not be doing escape training anymore, since Lira is gone.";
         } 
         else {
             // Normal version - Emily did not eat Lira
