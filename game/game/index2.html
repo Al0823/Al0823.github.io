@@ -296,9 +296,6 @@ issacLydiaBond: 0,
 // ===== RELATIONSHIPS SYSTEM =====
 relationships: {
 
-// ======================
-// CHARACTER DESCRIPTIONS (Accurate to Early Story + Full Progression)
-// ======================
 
 issacMother: {
     name: "Rebecca Byrd",
@@ -306,11 +303,11 @@ issacMother: {
     met: true,
     description: "Your mother, a kind and level-headed woman in her early forties. She has shoulder-length auburn hair, soft green eyes, and a warm, approachable presence. Having just moved into this new house with her family, she is doing her best to stay positive and create a sense of normalcy.",
     details: [
-        { text: "She is a stay-at-home Mom.", unlocked: true },
-        { text: "She has a habit of making tea whenever she feels anxious or overwhelmed.", unlocked: true },
-        { text: "She is trying her best to keep the family grounded after the move.", unlocked: true },
-        { text: "She has always been the emotional anchor of the family.", unlocked: true },
-        { text: "She is becoming more accepting of the strange new realities in the house.", unlocked: false },
+        { text: "She is a stay-at-home Mom.", unlocked: true }, // 0, set from beginning
+        { text: "She has a habit of making tea whenever she feels anxious or overwhelmed.", unlocked: true }, // 1, set from beginning
+        { text: "She is trying her best to keep the family grounded after the move.", unlocked: true }, // 2, set from beginning
+        { text: "She has always been the emotional anchor of the family.", unlocked: true }, // 3, set from beginning
+        { text: "She is becoming more accepting of the strange new realities in the house.", unlocked: false }, // 4, set in passage 181
     ],
     grade: "None",
     age: 42,
@@ -326,11 +323,11 @@ issacFather: {
     met: true,
     description: "Your father, a practical and somewhat gruff man in his mid-forties. He has short dark hair with a touch of gray at the temples, sharp brown eyes, and a sturdy build. Having just moved the family into this new house, he is focused on settling in and providing stability.",
     details: [
-        { text: "He was a pastor before the move and still carries a strong sense of moral responsibility and faith.", unlocked: true },
-        { text: "He works in construction management and values hard work and common sense above most things.", unlocked: true },
-        { text: "He is protective of his family, especially his children.", unlocked: true },
-        { text: "He has a habit of rubbing his temples or sighing deeply when faced with situations he can't easily fix.", unlocked: true },
-        { text: "The rapid and bizarre events unfolding in the house are beginning to test his patience and worldview.", unlocked: false },
+{ text: "He was a pastor before the move and still carries a strong sense of moral responsibility and faith.", unlocked: true }, // 0, set from beginning
+{ text: "He works in construction management and values hard work and common sense above most things.", unlocked: true }, // 1, set from beginning
+{ text: "He is protective of his family, especially his children.", unlocked: true }, // 2, set from beginning
+{ text: "He has a habit of rubbing his temples or sighing deeply when faced with situations he can't easily fix.", unlocked: true }, // 3, set from beginning
+{ text: "The rapid and bizarre events unfolding in the house are beginning to test his patience and worldview.", unlocked: false }, // 4, set in passage 168
     ],
     grade: "None",
     age: 45,
@@ -346,13 +343,13 @@ issacSister: {
     met: true,
     description: "Your younger sister, a cheerful and energetic teenage girl with shoulder-length light brown hair, bright hazel eyes, and a playful smile. Having just moved into this new house with the family, she is excited about the change of scenery and is trying to make the best of it.",
     details: [
-        { text: "She is still adjusting to the new house and the recent move, but she seems more enthusiastic about it than the rest of the family.", unlocked: true },
-        { text: "She has a habit of exploring the house and yard, always looking for something interesting to do.", unlocked: true },
-        { text: "She is close with you and often tries to drag you into her adventures or schemes.", unlocked: true },
-        { text: "She is starting to show signs of increased appetite and unusual instincts, though she doesn't fully understand them yet.", unlocked: true },
-        { text: "Her body has begun to change with the more people she eats, becoming noticeably curvier, softer, and more mature-looking.", unlocked: false },
-        { text: "She is showing signs of increased appetite and intense predatory instincts, Lirael is encouraging her to express them", unlocked: false },
-        { text: "She is an Apex Human, which means she has predatory capabilities way better than that of a normal human", unlocked: false },
+{ text: "She is still adjusting to the new house and the recent move, but she seems more enthusiastic about it than the rest of the family.", unlocked: true }, // 0, set from beginning
+{ text: "She has a habit of exploring the house and yard, always looking for something interesting to do.", unlocked: true }, // 1, set from beginning
+{ text: "She is close with you and often tries to drag you into her adventures or schemes.", unlocked: true }, // 2, set from beginning
+{ text: "She is starting to show signs of increased appetite and unusual instincts, though she doesn't fully understand them yet.", unlocked: true }, // 3, set from beginning
+{ text: "Her body has begun to change with the more people she eats, becoming noticeably curvier, softer, and more mature-looking.", unlocked: false }, // 4, set in passage
+{ text: "She is being encouraged by Lirael to embrace her intense predatory instincts and large appetite", unlocked: false }, // 5, set in passage 134
+{ text: "She is an Apex Human, which means she has predatory capabilities way better than that of a normal human", unlocked: false }, // 6, set in passage
     ],
     grade: "None",
     age: 16,
@@ -360,8 +357,8 @@ issacSister: {
     predatorHistory: [
         { text: "To your knowledge, she has eaten no one.", known: false },
 { text: "She ate one of her classmates when she was in Kindergarten, she also ate the Teacher shortly after.", known: true },
-{ text: "She ate her Kindergarten teacher for trying to make her vomit up her classmate after Emily had eaten her classmate.", known: true },
-{ text: "She ate Grimmold after Lirael failed to keep him down vomited him up.", known: false },
+{ text: "She ate her Kindergarten teacher for trying to make her vomit up her classmate after she had eaten her classmate.", known: true },
+{ text: "She ate Grimmold after Lirael failed to keep him down vomited him into her mouth.", known: false },
         { text: "She accidentally ate a pizza delivery woman during a moment of hunger.", known: false },
 { text: "She swallowed Lira after Lira tried to stop her from eating a pizza delivery woman", known: false },
         { text: "She swallowed Lira after she offered her the rest of her food at the food court.", known: false },
@@ -374,13 +371,18 @@ issacSister: {
 lirael: {
     name: "Lirael",
     bond: 0,
-    met: true,
-    description: "Lirael is a tall, graceful woman with long silver-white hair and striking golden eyes. She carries herself with calm authority and seems very interested in Isaac and his family.",
+    met: false,
+    description: "Lirael is an ancient and powerful being who appears as a tall she-demon with smooth, pale lavender skin that has a faint iridescent sheen. She has long, flowing silver-white hair that cascades down her back, striking golden eyes, and small, elegant black horns that curve gracefully from her forehead. Her body is voluptuous and powerfully built — she possesses massive, heavy breasts, a narrow waist that flares into extremely wide hips, a thick, plush ass, and long, strong legs. She carries herself with graceful, lazy confidence and radiates an aura of ancient, sensual authority.",
     details: [
-        { text: "She possesses powerful magic, vore, and digestion abilities. She also has very advanced and large knowledge of all of these subjects.", unlocked: false },
-        { text: "She is patient and protective toward Isaac, often acting as a guide and guardian.", unlocked: false },
-        { text: "She is very interested in learning about the modern world and human customs.", unlocked: false },
-        { text: "She is helping the family navigate the dangers and opportunities that come with vore abilities.", unlocked: false },
+{ text: "She possesses powerful magic, vore, and digestion abilities. She also has very advanced and large knowledge in all of these subjects.", unlocked: false }, // 0, set in passage 13
+{ text: "She prefers not to eat people unlike other demons, though implies that might eat someone if they are willing, if they are posing a threat to her or someone she cares about, or upset her greatly.", unlocked: false }, // 1, set in passage
+{ text: "She is patient and protective toward Isaac, often acting as a guide and guardian.", unlocked: false }, // 2, set in passage
+{ text: "She is very interested in learning about the modern world and human customs.", unlocked: false }, // 3, set in passage
+{ text: "She is helping the family navigate the dangers and opportunities that come with vore abilities.", unlocked: false }, // 4, set in passage
+{ text: "She has a cloaking stone, which makes her look human enough to where outsiders will not suspect anything", unlocked: false }, // 5, set in passage
+{ text: "She has stated that she is capable of eating people, you think she may have other abilities but you are unsure right now.", unlocked: false }, // 6, set in passage 13
+{ text: "She says that she mainly feeds on the feeling of comfort of people instead of eating them and having them pad out her body.", unlocked: false }, // 7, set in passage 13 leading to 14
+{ text: "She has stated that she can eat people Orally, Anally, or unbirth them. She has also hinted at other abilities involving her breasts.", unlocked: false }, // 8, set in passage 77
     ],
     grade: "N/A",
     age: "Unknown (appears mid-20s)",
@@ -404,6 +406,7 @@ Lydia: {
         { text: "She is still learning how to interact with humans and modern society.", unlocked: false },
         { text: "She possesses some latent magical ability, though she was never properly trained.", unlocked: false },
         { text: "She is slowly warming up to the family and beginning to feel safe.", unlocked: false },
+{ text: "She has a cloaking stone, which makes her look indistinguishable from a normal human.", unlocked: false },
     ],
     grade: "Sophomore",
     age: 15,
@@ -421,7 +424,7 @@ lira: {
     description: "Lira is the family's synthetic AI companion. She has smooth synthetic skin with a faint pearlescent sheen, shoulder-length dark hair, and calm blue eyes. She is helpful, attentive, and appears genuinely concerned about the family's well-being.",
     details: [
         { text: "She is an artificial human piloting a synthetic body and does not need to eat for survival.", unlocked: true },
-        { text: "She has been monitoring the house and has noticed unusual energy readings, especially in the basement and attic.", unlocked: true },
+        { text: "She has been monitoring the house and has noticed unusual energy readings, especially in the basement and attic.", unlocked: false },
         { text: "She is protective of the family and tries to keep them safe.", unlocked: true },
 { text: "She was eaten by Emily while trying to stop her from eating a pizza delivery girl, which proved unsuccessful and got her eaten too.", unlocked: false },
         { text: "She was eaten by Emily at the food court.", unlocked: false },
@@ -559,7 +562,7 @@ var passages = [
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Tell me about the history of this house", next: 5, effect: () => { gameState.liratoldhousehistory = true; } },
-            { label: "What do you mean by weird energy readings?", next: 6, effect: () => { gameState.liratoldenergyreadings = true; gameState.relationships.lira.bond += 5; } },
+            { label: "What do you mean by weird energy readings?", next: 6, effect: () => { gameState.liratoldenergyreadings = true; gameState.relationships.lira.bond += 5; setDetail("lira", 1); } },
             { label: "Have people really disappeared here?", next: 7, effect: () => { gameState.liratolddisappearances = true; } },
             { label: "Ask Lira to explore the woods with you", next: 3, effect: () => { gameState.exploredwoodsWithLira = true; gameState.relationships.lira.bond += 5; } },
             { label: "Go explore the woods alone", next: 4, effect: () => { gameState.exploredwoodsalone = true; }},
@@ -613,7 +616,10 @@ var passages = [
     { text: "Your room doesn't feel like yours yet.\n\nThe bed is unfamiliar.\n\nThe air smells faintly of dust and old wood.\n\nYou lie down anyway.\n\nStaring up at the cracked ceiling.\n\nWaiting for sleep to come.\n\nIt doesn't.\n\n---\n\nAt first, it's just small things.\n\nA creak somewhere down the hall.\n\nThe faint shift of wood settling.\n\nNormal.\n\nExplainable.\n\nThen it changes.\n\nThe sounds become… deliberate.\n\nMeasured.\n\nFootsteps that don't quite sound like footsteps.\n\nScratching that moves.\n\nNot in one place.\n\nBut from wall… to wall.\n\nSlowly.\n\nLike something exploring.\n\nYour chest tightens slightly.\n\nYou stay still.\n\nListening.\n\nA whisper drifts through the darkness.\n\nToo soft to make out.\n\nToo clear to ignore.\n\nYour breath slows.\n\nYou focus.\n\nTry to hear it again.\n\nNothing.\n\nThen—\n\nAnother.\n\nCloser this time.\n\nYou sit up.\n\nThe silence that follows feels worse than the noise.\n\nHeavier.\n\nExpectant.\n\nMinutes pass.\n\nOr maybe longer.\n\nTime feels… stretched here.\n\nEventually, the unease becomes too much.\n\nLying here isn't helping.\n\nIt's making it worse.", location: "Issac's Bedroom", choices: [{ label: "Sneak down to the basement", next: 10 }, { label: "Go up to the attic instead", next: 12 }] },
 
     // 12 - Attic Discovery
-    { text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratching.\n\nNot loud.\n\nBut persistent.\n\nYour body tenses before your mind fully catches up.\n\nYou're already sitting up.\n\nAlready listening.\n\nIt doesn't stop.\n\n---\n\nThe attic ladder creaks loudly as you pull it down.\n\nToo loudly.\n\nYou pause.\n\nWait.\n\nNothing reacts.\n\nSo you climb.\n\n---\n\nThe attic air hits you immediately.\n\nHot.\n\nStale.\n\nThick with the smell of aged paper, dust, mothballs… and something faintly rotten beneath it all.\n\nYour flashlight beam cuts through the darkness in a narrow cone.\n\nShapes emerge slowly.\n\nOld trunks.\n\nBroken furniture.\n\nCovered paintings leaning against the walls like they were turned away on purpose.\n\nEvery movement stirs dust into the air, making it feel harder to breathe.\n\nThe scratching stops.\n\nJust as suddenly as it started.\n\n---\n\nYou step further in.\n\nCareful.\n\nQuiet.\n\nYour elbow bumps into something.\n\nA heavy wooden box shifts—\n\nAnd something falls.\n\n*THUD.*\n\nThe sound is sharp.\n\nToo loud.\n\nYou freeze.\n\nWait.\n\nNothing.\n\nSlowly, you look down.\n\nA thick, leather-bound book lies open at your feet.\n\nIts pages are yellowed with age.\n\nThe spine cracked.\n\nThe title…\n\nFaded, but still readable.\n\n**Ars Goetia, Safe Summoning Rites for Companions and Bound Servants**\n\nYour stomach tightens slightly.\n\nYou kneel.\n\nFlip a page.\n\nDiagrams.\n\nCircles.\n\nInstructions.\n\nDetailed.\n\nPrecise.\n\nFamiliar.\n\nToo familiar.\n\nThen you see them.\n\nTwo items tucked between the pages.\n\nYour breath catches.\n\nTheo's drawing.\n\nThe one you've kept with you since he disappeared.\n\nAnd beside it—\n\nA lock of long, perfectly preserved black hair.\n\nIt shouldn't still look like that.\n\nBut it does.\n\nUntouched by time.\n\nWaiting.", location: "Attic", choices: [{ label: "Head down to the Basement and use Theo's drawing", next: 13, effect: () => { gameState.pathChosen = "Lirael"; gameState.statsUnlocked = true; }}, { label: "Head down to the Basement and use the lock of ancient black hair", next: 999, effect: () => { gameState.pathChosen = "Morgana"; }}] },
+    { text: "The sound comes again.\n\nDirectly above you.\n\nA slow… uneven scratching.\n\nNot loud.\n\nBut persistent.\n\nYour body tenses before your mind fully catches up.\n\nYou're already sitting up.\n\nAlready listening.\n\nIt doesn't stop.\n\n---\n\nThe attic ladder creaks loudly as you pull it down.\n\nToo loudly.\n\nYou pause.\n\nWait.\n\nNothing reacts.\n\nSo you climb.\n\n---\n\nThe attic air hits you immediately.\n\nHot.\n\nStale.\n\nThick with the smell of aged paper, dust, mothballs… and something faintly rotten beneath it all.\n\nYour flashlight beam cuts through the darkness in a narrow cone.\n\nShapes emerge slowly.\n\nOld trunks.\n\nBroken furniture.\n\nCovered paintings leaning against the walls like they were turned away on purpose.\n\nEvery movement stirs dust into the air, making it feel harder to breathe.\n\nThe scratching stops.\n\nJust as suddenly as it started.\n\n---\n\nYou step further in.\n\nCareful.\n\nQuiet.\n\nYour elbow bumps into something.\n\nA heavy wooden box shifts—\n\nAnd something falls.\n\n*THUD.*\n\nThe sound is sharp.\n\nToo loud.\n\nYou freeze.\n\nWait.\n\nNothing.\n\nSlowly, you look down.\n\nA thick, leather-bound book lies open at your feet.\n\nIts pages are yellowed with age.\n\nThe spine cracked.\n\nThe title…\n\nFaded, but still readable.\n\n**Ars Goetia, Safe Summoning Rites for Companions and Bound Servants**\n\nYour stomach tightens slightly.\n\nYou kneel.\n\nFlip a page.\n\nDiagrams.\n\nCircles.\n\nInstructions.\n\nDetailed.\n\nPrecise.\n\nFamiliar.\n\nToo familiar.\n\nThen you see them.\n\nTwo items tucked between the pages.\n\nYour breath catches.\n\nTheo's drawing.\n\nThe one you've kept with you since he disappeared.\n\nAnd beside it—\n\nA lock of long, perfectly preserved black hair.\n\nIt shouldn't still look like that.\n\nBut it does.\n\nUntouched by time.\n\nWaiting.", location: "Attic", choices: [{ label: "Head down to the Basement and use Theo's drawing", next: 13, effect: () => { gameState.pathChosen = "Lirael"; gameState.statsUnlocked = true; /*setDetail("lirael", 0); setDetail("lirael", 6); setDetail("lirael", 1);*/ revealRelationship("lirael", {
+    details: [0, 1, 6],
+    history: [0]
+}); }}, { label: "Head down to the Basement and use the lock of ancient black hair", next: 999, effect: () => { gameState.pathChosen = "Morgana"; }}] },
 
     // 13 - Lirael First Meeting / Return Visit
     {
@@ -627,7 +633,7 @@ var passages = [
         },
         location: "Basement - Containment Circle",
         choices: [
-            { label: "Ask her who she really is and why she answered", next: 14, effect: () => { gameState.conversationOptionsUsed++; }},
+            { label: "Ask her who she really is and why she answered", next: 14, effect: () => { gameState.conversationOptionsUsed++; setDetail("lirael", 7); }},
             { label: "Tell her about Theo and why you summoned her", next: 15, effect: () => { gameState.conversationOptionsUsed++; }},
             { label: "Ask if she can actually bring Theo back", next: 16, effect: () => { gameState.conversationOptionsUsed++; }},
             { label: "Offer her the granola bar from your pocket", next: 17, effect: () => { gameState.relationships.lirael.bond += 18; gameState.theoResurrectionProgress += 10; gameState.liraelFedComfort = true; gameState.gaveGranola = true; gameState.conversationOptionsUsed++; }},
@@ -659,7 +665,7 @@ var passages = [
     { text: "Curiosity wins over caution. You slowly extend your hand toward the glowing violet line. Your fingers hover just above the barrier for a moment, then you push forward.\n\nThe instant your fingertips cross the carved line, a sharp, searing burning sensation explodes across your skin — like plunging your hand into molten metal. White-hot pain shoots up your arm. You yank your hand back with a gasp, stumbling away from the circle.\n\nYour fingers are bright red and throbbing, but the skin is intact. The circle had only given you a warning burn, not full vaporization.\n\nLirael watches with half-lidded amusement. \"See? Even for someone like you it's not completely safe yet. The circle doesn't like being tested.\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }, { label: "Ask if your sister Emily could enter the circle", next: 21, condition: () => !gameState.askedAboutEmily }] },
 
     // 21 - Asking about Emily and Lira the AI
-    { text: "Lirael's golden eyes sparkle with lazy interest as you ask about your sister and the AI.\n\n\"Your little sister Emily is only twelve,\" she says, her voice a slow, velvety drawl. \"She's definitely young enough. Her body is still changing rapidly — that makes the circle far more likely to accept her without burning her. She could probably walk right in.\"\n\nShe tilts her head, looking almost amused. \"As for Lira, the Human AI… she's not fully human. Her synthetic body and energy signature are different. Most containment circles treat AIs like objects or tools, so she could probably enter without being vaporized — but she'd still be bound by the same rules once inside. She couldn't leave unless the circle is lifted.\"\n\nLirael smiles sleepily. \"So… thinking about bringing someone else in here with me?\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }, { label: "Ask if you could safely enter the circle", next: 20, condition: () => !gameState.askedAboutSelf }] },
+    { text: "Lirael's golden eyes sparkle with lazy interest as you ask about your sister and the AI.\n\n\"Your little sister Emily is only fourteen,\" she says, her voice a slow, velvety drawl. \"She's definitely young enough. Her body is still changing rapidly — that makes the circle far more likely to accept her without burning her. She could probably walk right in.\"\n\nShe tilts her head, looking almost amused. \"As for Lira, the Human AI… she's not fully human. Her synthetic body and energy signature are different. Most containment circles treat AIs like objects or tools, so she could probably enter without being vaporized — but she might be bound by the same rules once inside. She couldn't leave unless the circle is lifted.\"\n\nLirael smiles sleepily. \"So… thinking about bringing someone else in here with me?\"", location: "Basement - Containment Circle", choices: [{ label: "Continue talking to Lirael", next: 13 }, { label: "Ask if you could safely enter the circle", next: 20, condition: () => !gameState.askedAboutSelf }] },
 
     // 22 - Say goodbye and sneak back upstairs
     {
@@ -925,13 +931,13 @@ var passages = [
     { text: "When you return, you don't bring a single object.\n\nYou bring intention.\n\nPieces. Components. Materials.\n\nEnough to suggest something larger could be made from them.\n\nThe moment Lirael sees them, the air in the basement changes.\n\nNot violently.\n\nBut sharply.\n\nHer smile fades.\n\n\"…You chose this,\" she says quietly.\n\nIt is not a question.\n\nShe leans forward slightly, golden eyes fixed on the items with intense focus.\n\nThen she exhales.\n\nSlow.\n\nCareful.\n\n\"That could work,\" she murmurs.\n\nA pause.\n\n\"But you understand what that means, don't you?\"\n\nHer gaze lifts to you.\n\nHeavier now.\n\nMore grounded.\n\n\"If I step outside that circle safely… I will no longer be bound to it.\"\n\nAnother pause.\n\nThe faintest smile returns — but it is different now.\n\nLess playful.\n\nMore real.\n\n\"And then your family will have to decide what I am to them.\"\n\nThe basement feels smaller than before.\n\nNot because it changed.\n\nBecause something inside it just became negotiable.", location: "Basement - Containment Circle", choices: [{ label: "Proceed with building the ritual together", next: 75 }, { label: "Stop and rethink your choice", next: 65 }] },
 
     // 75 - The Ritual Offer
-    { text: "You return to the basement carrying the items you chose upstairs. The violet light of the containment circle has dimmed to a soft, pulsing glow, as if the circle itself is waiting.\n\nLirael is sitting up now, her staggering twelve-foot frame curled with careful grace against the invisible barrier. Her pale lavender skin still looks slightly dulled from the earlier prayers, but her golden eyes brighten the moment she sees what you're holding.\n\nThe air feels thicker here — warmer, heavier, almost expectant. That familiar sweet, musky scent of warm vanilla wraps around you like an invisible embrace.\n\nLirael's voice comes low and velvety, laced with genuine surprise.\n\n\"…You really brought them. Most humans would have run by now.\"\n\nShe shifts slowly, the thin black silk sliding over her heavy curves as she leans forward.\n\n\"Before we begin, let me remind you what this means. Once we complete this ritual, the basement circle will break. I will be able to step outside it… but I will still be bound to Hartford and the surrounding woods.\"\n\nHer gaze locks onto yours.\n\n\"Are you ready for that, Issac? Because once we start… there's no pretending anymore.\"", location: "Basement - Containment Circle", choices: [{ label: "Yes — let's begin the ritual", next: 83 }, { label: "Ask her what it will really be like when she's free", next: 77 }, { label: "I need more time to think", next: 32 }] },
+    { text: "You return to the basement carrying the items you chose upstairs. The violet light of the containment circle has dimmed to a soft, pulsing glow, as if the circle itself is waiting.\n\nLirael is sitting up now, her staggering twelve-foot frame curled with careful grace against the invisible barrier. Her pale lavender skin still looks slightly dulled from the earlier prayers, but her golden eyes brighten the moment she sees what you're holding.\n\nThe air feels thicker here — warmer, heavier, almost expectant. That familiar sweet, musky scent of warm vanilla wraps around you like an invisible embrace.\n\nLirael's voice comes low and velvety, laced with genuine surprise.\n\n\"…You really brought them. Most humans would have run by now.\"\n\nShe shifts slowly, the thin black silk sliding over her heavy curves as she leans forward.\n\n\"Before we begin, let me remind you what this means. Once we complete this ritual, the basement circle will break. I will be able to step outside it… but I will still be bound to Hartford and the surrounding woods.\"\n\nHer gaze locks onto yours.\n\n\"Are you ready for that, Issac? Because once we start… there's no pretending anymore.\"", location: "Basement - Containment Circle", choices: [{ label: "Yes — let's begin the ritual", next: 83 }, { label: "Ask her what it will really be like when she's free", next: 77, effect: () => { setDetail("lirael", 8);  } }, { label: "I need more time to think", next: 32 }] },
 
     // 76 - Ritual in Progress
-    { text: "The two of you work together in silence at first.\n\nLirael guides you with soft, patient instructions — a word here, a gesture there. Her voice stays low, stripped of its usual teasing warmth. This is something deliberate. Something sacred.\n\nYou move the items into their precise positions along the outer ring of runes. As each one settles, the carved lines pulse with violet light, flaring and fading like a slow breath. The warmth of comfort makes the glow brighter, the personal memory weaves faint threads of silver through the runes, and the protective symbol throbs like a heartbeat.\n\nLirael watches from inside the barrier, her expression focused, serious… almost tender. Her massive twelve-foot frame trembles slightly as the barrier begins to thin.\n\n\"You're doing well,\" she murmurs. \"…It's working. I can feel the edges loosening.\"\n\nFor the first time, her hand presses against the barrier and it yields — just a little. Warm lavender skin brushes the air near your fingers.\n\nThe circle's hum deepens. The air grows heavy, charged with the weight of something about to change that cannot be unchanged.\n\nYou pause with the last item in your hand.\n\nOne placement left.", location: "Basement - Containment Circle", choices: [{ label: "Place the final item and complete the ritual", next: 78, effect: () => { gameState.relationships.lirael.bond += 15; gameState.supernaturalAffinity += 10; }}, { label: "Pause — ask her one more question before you finish", next: 77 }] },
+    { text: "The two of you work together in silence at first.\n\nLirael guides you with soft, patient instructions — a word here, a gesture there. Her voice stays low, stripped of its usual teasing warmth. This is something deliberate. Something sacred.\n\nYou move the items into their precise positions along the outer ring of runes. As each one settles, the carved lines pulse with violet light, flaring and fading like a slow breath. The warmth of comfort makes the glow brighter, the personal memory weaves faint threads of silver through the runes, and the protective symbol throbs like a heartbeat.\n\nLirael watches from inside the barrier, her expression focused, serious… almost tender. Her massive twelve-foot frame trembles slightly as the barrier begins to thin.\n\n\"You're doing well,\" she murmurs. \"…It's working. I can feel the edges loosening.\"\n\nFor the first time, her hand presses against the barrier and it yields — just a little. Warm lavender skin brushes the air near your fingers.\n\nThe circle's hum deepens. The air grows heavy, charged with the weight of something about to change that cannot be unchanged.\n\nYou pause with the last item in your hand.\n\nOne placement left.", location: "Basement - Containment Circle", choices: [{ label: "Place the final item and complete the ritual", next: 78, effect: () => { gameState.relationships.lirael.bond += 15; gameState.supernaturalAffinity += 10; }}, { label: "Pause — ask her one more question before you finish", next: 77, effect: () => { setDetail("lirael", 8); } }] },
 
     // 77 - What it will be like when she's free
-    { text: "Lirael's expression shifts — something between patience and quiet amusement.\n\nShe leans back slightly inside the barrier, her twelve-foot frame moving with lazy grace as the silk settles over her curves.\n\n\"When this circle is gone,\" she says softly, \"I will still be bound to the thin spot between realms. That weak boundary covers all of Hartford and the woods surrounding it. I won't be able to leave… but within these borders, I will finally be free to move with you.\"\n\nHer golden eyes are steady, unguarded.\n\n\"I can be anywhere in this town. I can walk the streets at night when no one is out, sit in the woods where the veil is thinnest, and feel the whole place breathe around me. I can visit you… not from below a basement floor, not through stone and runes. Just… there. When you need me.\"\n\nShe pauses, then continues more openly, her voice dropping into something almost husky:\n\n\"I'll finally be able to use my full abilities without this damn barrier limiting me. I can swallow people whole — pulling them down my throat and into my stomach, or take them through my ass, or pull them deep into my womb and keep them there as long as I want. Every person I eat and digest will pad out my body… making my breasts, hips, and ass even fuller and softer.\"\n\nAs she speaks, she gives her chest a slow, subtle bounce, the heavy curves shifting under the silk with deliberate ease. \"And I have… other ways of indulging you,\" she murmurs with a knowing little smile. \"Things you'll discover with me once I'm free.\"\n\nHer voice softens again as she holds your gaze.\n\n\"There are still things I can't do without more strength. Theo is one of them. The dead realm is far, and I'll need to feed deeply before I can reach him. But being free of this circle means I can be with you while I build that strength.\"\n\nShe gives you a slow, tired smile.\n\n\"That matters. To both of us. And I would rather be limited here with you than completely free somewhere else.\"", location: "Basement - Containment Circle", choices: [{ label: "Begin the ritual — you're ready", next: 76 }, { label: "Ask her to wait — you need to think", next: 65 }] },
+    { text: "Lirael's expression shifts — something between patience and quiet amusement.\n\nShe leans back slightly inside the barrier, her twelve-foot frame moving with lazy grace as the silk settles over her curves.\n\n\"When this circle is gone,\" she says softly, \"I will still be bound to the thin spot between realms. That weak boundary covers all of Hartford and the woods surrounding it. I won't be able to leave… but within these borders, I will finally be free to move with you.\"\n\nHer golden eyes are steady, unguarded.\n\n\"I can be anywhere in this town. I can walk the streets at night when no one is out, sit in the woods where the veil is thinnest, and feel the whole place breathe around me. I can visit you… not from below a basement floor, not through stone and runes. Just… there. When you need me.\"\n\nShe pauses, then continues more openly, her voice dropping into something almost husky:\n\n\"I'll finally be able to use my full abilities without this damn barrier limiting me. I can swallow people whole — pulling them down my throat and into my stomach, or take them through my ass and eventually into my stomach that way, or pull them deep into my womb and keep them there as long as I want. Every person I eat and digest, or unbirth and absorb in my womb will pad out my body… making my breasts, hips, and ass even fuller and softer.\"\n\nAs she speaks, she gives her chest a slow, subtle bounce, the heavy curves shifting under the silk with deliberate ease. \"And I have… other ways of indulging you,\" she murmurs with a knowing little smile. \"Things you'll discover with me once I'm free.\"\n\nHer voice softens again as she holds your gaze.\n\n\"There are still things I can't do without more strength. Theo is one of them. The dead realm is far, and I'll need to feed deeply before I can reach him. But being free of this circle means I can be with you while I build that strength.\"\n\nShe gives you a slow, tired smile.\n\n\"That matters. To both of us. And I would rather be limited here with you than completely free somewhere else.\"", location: "Basement - Containment Circle", choices: [{ label: "Begin the ritual — you're ready", next: 76 }, { label: "Ask her to wait — you need to think", next: 65 }] },
 
     // 78 - Ritual complete — Lirael freed (Method 1: voluntary ritual)
     // FIX: liraelFreed and liraelFreedMethod set inside choice effects (not passage-level)
@@ -966,7 +972,7 @@ var passages = [
     { text: "Lirael's golden eyes gleam with slow, sensual interest as you ask the question. She leans forward slightly, her massive twelve-foot frame towering even while seated, the thin silk robes shifting over her voluptuous curves.\n\n\"Closer?\" she purrs, voice dropping into a deep, velvety drawl that seems to vibrate through your chest. \"There are many ways we could become closer, little human…\"\n\nShe runs one soft hand slowly down her own body, palm gliding over the heavy swell of her breasts and lower across her soft stomach.\n\n\"I could let you step inside the circle once the bond is strong enough. I could wrap you in my warmth… hold you against me… let you feel what true comfort feels like when a she-demon like me gives herself fully.\"\n\nHer smile turns lazy and teasing.\n\n\"Or I could come to you… once I'm free to move within the town. I could shrink down to a more… manageable size and lie beside you in your bed. Or stay this big and let you rest against me like a living pillow.\"\n\nShe tilts her head, golden eyes half-lidded with promise.\n\n\"The closer you let yourself get to me… the more I can give you. Comfort. Pleasure. Safety. Even help with Theo. But it all starts with you letting go… and trusting me.\"\n\nShe watches you carefully, her voice softening.\n\n\"So tell me, Issac… how close do you want to get?\"", location: "Basement - Containment Circle", choices: [{ label: "Tell her you want to get much closer", next: 65, effect: () => { gameState.relationships.lirael.bond += 20; }}, { label: "Ask what she means by stepping inside the circle", next: 91 }, { label: "Continue talking about other things", next: 32 }] },
 
     // 83 - Ritual Final Confirmation
-    { text: "Lirael watches you with steady golden eyes as you prepare to place the items.\n\nThe violet light pulses slowly, as if the circle itself knows something important is about to happen.\n\n\"This is your last chance to turn back,\" she says quietly, her usual lazy teasing gone. \"Once the ritual is complete, the barrier will fall. I will be free to move within this town… and things between us will never be the same.\"\n\nShe leans slightly closer to the edge of the barrier.\n\n\"Are you sure you want to do this, Issac?\"", location: "Basement - Containment Circle", choices: [{ label: "I'm sure — begin the ritual", next: 76, effect: () => { gameState.relationships.lirael.bond += 12; gameState.supernaturalAffinity += 10; }}, { label: "Tell me again what freedom will be like", next: 77 }, { label: "I need more time", next: 32 }] },
+    { text: "Lirael watches you with steady golden eyes as you prepare to place the items.\n\nThe violet light pulses slowly, as if the circle itself knows something important is about to happen.\n\n\"This is your last chance to turn back,\" she says quietly, her usual lazy teasing gone. \"Once the ritual is complete, the barrier will fall. I will be free to move within this town… and things between us will never be the same.\"\n\nShe leans slightly closer to the edge of the barrier.\n\n\"Are you sure you want to do this, Issac?\"", location: "Basement - Containment Circle", choices: [{ label: "I'm sure — begin the ritual", next: 76, effect: () => { gameState.relationships.lirael.bond += 12; gameState.supernaturalAffinity += 10; }}, { label: "Tell me again what freedom will be like", next: 77, effect: () => { setDetail("lirael", 8); } }, { label: "I need more time", next: 32 }] },
 
     // 84 - Father Rushes Down to the Basement
     {
@@ -1536,7 +1542,7 @@ var passages = [
         if (gameState.lastChoiceLabel === "Try to work as team to get Lirael inside") {
             
             const successChance = Math.random();
-            const success = successChance > 0.75; // 75% chance of success
+            const success = successChance > 0.35; // 35% chance of success
             
             if (success) {
                 gameState.whoAteGrimmold = "lirael";
@@ -1557,7 +1563,8 @@ var passages = [
     },
     location: "Byrd Family Home - Living Room (Evening)",
     choices: [
-        { label: "Sit down on the couch and listen to the conversation", next: 135 }
+        { label: "Sit down on the couch and listen to the conversation", next: 135, effect: () => { setDetail("issacSister", 5); setDetail("issacSister", 3, false); }
+								 }
     ]
 },
 
@@ -2444,17 +2451,17 @@ var passages = [
 
         let baseText = "A little while later, the doorbell rings. Your father gets up to answer it.\n\nThe pizza delivery person is a very curvy and voluptuous woman in her mid-20s. She has wide hips, a thick ass, and a large, heavy chest that strains against her delivery uniform. She’s carrying a tall stack of at least ten pizza boxes.\n\n\"Ten large pizzas?\" she says cheerfully, balancing the heavy stack. \"That’ll be $148.50.\"\n\nEmily’s eyes light up at the sight of the mountain of pizza. Without thinking, she suddenly lunges forward from the couch, stomach still gurgling, trying to grab the boxes.\n\nShe misses.\n\nInstead, her mouth opens wide and she instinctively swallows the curvaceous delivery woman head-first in one powerful motion. As the woman slides in, Emily reaches up and tears the woman’s tight top open with both hands, exposing her large, soft breasts. Emily lets out a pleased hum as she savors the woman’s sweet, slightly salty flavor.\n\nWet, greedy gulps echo through the room as Emily swallows the thick, plush body down. Her throat bulges dramatically as the delivery woman’s heavy chest and wide hips stretch her mouth and throat. Emily takes her time, clearly enjoying the taste.\n\n";
 
-        // 5% rare event - Lira tries to intervene
-        if (Math.random() < 0.05) {
+        // 15% rare event - Lira tries to intervene
+        if (Math.random() < 0.15) {
             gameState.liraEaten = true;
 gameState.liraEatenMethod = 2;
             return baseText + "As Emily reaches the woman’s wide hips, Lira suddenly steps in and tries to pull the delivery woman back out by her legs.\n\n\"Wait, Emily—!\" Lira says, grabbing the woman’s ankles.\n\nBut the momentum is too strong. Emily’s powerful swallow continues, and Lira is yanked forward. With a surprised yelp, Lira’s head and shoulders slide straight into Emily’s mouth along with the delivery woman.\n\nEmily’s eyes widen in surprise, but she can’t stop the reflexive gulp. She swallows both of them down in one long, heavy motion. Her throat bulges massively as the two bodies slide inside her.\n\nEmily sits in place, unable to move. Her stomach is now enormously swollen, resting heavily on the floor and spreading out in front of her. She can barely reach her hands over the top of the massive, gurgling dome.\n\nInside, loud, wet gurgles and muffled struggles can be heard as both the delivery woman and Lira begin to break down.\n\nLirael raises an eyebrow, looking both impressed and slightly concerned.\n\nYour parents stare in stunned silence.";
-        }
+        } else {
 
-        // Normal 95% path
+        // Normal 85% path
            gameState.liraEaten = false;
         return baseText + "Emily reaches the woman’s wide hips and continues swallowing with a satisfied moan. With a final heavy *GLORP*, the curvaceous delivery woman disappears completely into Emily’s stomach.\n\nEmily sits back for a moment, then slowly waddles over to the couch, her massively swollen belly now so large and heavy that it barely hovers above the ground, swaying and sloshing with every step. She lowers herself onto the cushions with a tired but satisfied sigh, both hands gently rubbing the enormous, gurgling dome resting on her lap and spilling onto the couch. Her shirt has ridden up completely, sitting bunched at the very top of her massive belly like a crop top, leaving the smooth, stretched skin fully exposed.\n\n\"Mmm… she tasted really good,\" Emily murmurs, licking her lips. \"And we still have all the pizza!\"\n\nThe stack of ten pizza boxes sits forgotten on the floor. Inside Emily’s stomach, loud, wet gurgles and muffled struggles can be heard as the curvaceous woman begins to break down.\n\nLirael raises an eyebrow, looking both impressed and amused.\n\nYour parents stare in stunned silence.";
-
+}
     },
     location: "Byrd Family Home - Living Room (Late Evening)",
     choices: [
@@ -2559,13 +2566,13 @@ gameState.liraEatenMethod = 2;
         let intro = "Once you’re far enough into the backyard and completely out of sight of the house, Lirael stops and lets out a shaky breath. Even in her cloaked 6'1\" human appearance, her usual calm composure is clearly strained.\n\nShe closes her eyes for a moment. A soft violet shimmer runs over her body as she grows back to her full 12'0\" height, towering over you once more. Her belly — still noticeably rounded from what she ate yesterday — looks even more prominent at this scale.\n\nWithout a word, she reaches up and undoes the tie of her silk robe. She shrugs it off her shoulders and tosses it aside onto the grass, leaving her completely bare under the moonlight.\n\n";
 
         // Version depending on what Lirael ate
-        if (gameState.liraelAteGrimmold) {
+        if (gameState.whoAteGrimmold === "emily") {
             // Lirael ate Grimmold
             return intro + "Her belly — still noticeably rounded and heavy from fully digesting Grimmold and the burglar yesterday — lets out another low, ominous growl.\n\n\"I need to use the bathroom,\" she says, her voice tight and urgent. \"Right now.\"\n\nShe takes a few steps away from you, then pauses and glances back over her shoulder. Her cheeks have the faintest hint of color.\n\n\"You… can watch if you want,\" she adds softly, almost hesitantly. \"I will not mind.\"\n\nShe turns away again, lowering herself into a squat on the grass. Her belly hangs heavily between her thighs as another deep, rumbling sound echoes from inside her. She looks back at you one last time, waiting to see what you’ll do.";
         } 
         else {
             // Default: Lirael ate the burglar
-            return intro + "Her belly — still slightly rounded from the burglar she ate yesterday — lets out another low, ominous growl.\n\n\"I need to use the bathroom,\" she says, her voice tight and urgent. \"Right now.\"\n\nShe takes a few steps away from you, then pauses and glances back over her shoulder. Her cheeks have the faintest hint of color.\n\n\"You… can watch if you want,\" she adds softly, almost hesitantly. \"I will not mind.\"\n\nShe turns away again, lowering herself into a squat on the grass. Her belly hangs heavily between her thighs as another deep, rumbling sound echoes from inside her. She looks back at you one last time, waiting to see what you’ll do.";
+            return intro +  "Her belly — still noticeably rounded and heavy from fully digesting Grimmold and the burglar yesterday — lets out another low, ominous growl.\n\n\"I need to use the bathroom,\" she says, her voice tight and urgent. \"Right now.\"\n\nShe takes a few steps away from you, then pauses and glances back over her shoulder. Her cheeks have the faintest hint of color.\n\n\"You… can watch if you want,\" she adds softly, almost hesitantly. \"I will not mind.\"\n\nShe turns away again, lowering herself into a squat on the grass. Her belly hangs heavily between her thighs as another deep, rumbling sound echoes from inside her. She looks back at you one last time, waiting to see what you’ll do.";
         }
     },
     location: "Byrd Family Home - Backyard (Late Evening)",
@@ -2580,24 +2587,24 @@ gameState.liraEatenMethod = 2;
     text: function() {
         // Watch variant
         if (gameState.lastChoiceLabel === "Stay and watch") {
-            if (gameState.liraelAteGrimmold) {
-                // Watch + ate Grimmold + burglar
-                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her massive belly hangs heavily between her thick thighs, still noticeably rounded and heavy from fully digesting both Grimmold and the burglar.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a very large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her massive belly now visibly smaller.\n\nShe remains composed, her hazel eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
+            if (gameState.whoAteGrimmold === "emily") {
+// Watch + ate only burglar
+return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her belly — still slightly rounded from the burglar she ate yesterday — hangs heavily between her thick thighs.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her belly now visibly smaller.\n\nShe remains composed, her hazel eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
             } 
             else {
-                // Watch + ate only burglar
-                return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her belly — still slightly rounded from the burglar she ate yesterday — hangs heavily between her thick thighs.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her belly now visibly smaller.\n\nShe remains composed, her hazel eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
+// Watch + ate Grimmold + burglar
+return "You decide to stay and watch. Lirael, now towering at 12'0\", lowers herself into a squat on the grass. Her massive belly hangs heavily between her thick thighs, still noticeably rounded and heavy from fully digesting both Grimmold and the burglar.\n\nShe lets out a soft sigh of relief as she begins to relieve herself. A long, thunderous *FRRRRRRRRTTTTTTTTT* rips out first, followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark, steaming mass splatters noisily onto the grass, rapidly building into a very large, sloppy pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *SQUUUUUURCH* and *BLORP-BLORP* noises. The strong, acrid smell fills the air as the noisy, messy excretion continues with wet, gurgling bursts.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief, her massive belly now visibly smaller.\n\nShe remains composed, her hazel eyes half-closed in concentration, though her cheeks show a faint blush. She glances at you once but says nothing as she finishes.";
             }
         } 
         // Turn away variant
         else {
-            if (gameState.liraelAteGrimmold) {
-                // Turn away + ate Grimmold + burglar
-                return "You politely turn away to give her privacy. Behind you, Lirael lowers herself into a squat on the grass. You hear a long, thunderous *FRRRRRRRRTTTTTTTTT* followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* and *SQUUUUUURCH* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark mass splatters noisily onto the grass, forming a very large, steaming pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *BLORP-BLORP* noises. The strong, acrid smell drifts on the night air as the noisy, wet excretion continues.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief.\n\nAfter a minute, Lirael’s voice comes softly:\n\n\"You may turn back now… it is done.\"";
+            if (gameState.whoAteGrimmold === "emily") {
+// Turn away + ate only burglar
+                return "You politely turn away to give her privacy. Behind you, Lirael lowers herself into a squat on the grass. You hear a long, thunderous *FRRRRRRRRTTTTTTTTT* followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* and *SQUUUUUURCH* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark mass splatters noisily onto the grass, forming a large, steaming pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *BLORP-BLORP* noises. The strong, acrid smell drifts on the night air as the noisy, wet excretion continues.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief.\n\nAfter a minute, Lirael’s voice comes softly:\n\n\"You may turn back now… it is done.\"";
             } 
             else {
-                // Turn away + ate only burglar
-                return "You politely turn away to give her privacy. Behind you, Lirael lowers herself into a squat on the grass. You hear a long, thunderous *FRRRRRRRRTTTTTTTTT* followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* and *SQUUUUUURCH* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark mass splatters noisily onto the grass, forming a large, steaming pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *BLORP-BLORP* noises. The strong, acrid smell drifts on the night air as the noisy, wet excretion continues.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief.\n\nAfter a minute, Lirael’s voice comes softly:\n\n\"You may turn back now… it is done.\"";
+// Turn away + ate Grimmold + burglar
+return "You politely turn away to give her privacy. Behind you, Lirael lowers herself into a squat on the grass. You hear a long, thunderous *FRRRRRRRRTTTTTTTTT* followed by a series of loud, sloppy *SPLORCH-SPLORCH-SQUELCH-GLORP* and *SQUUUUUURCH* sounds as thick, pungent sludge explodes out of her in heavy, messy waves. The dark mass splatters noisily onto the grass, forming a very large, steaming pile. One or two visible bones from the burglar slowly slide out within the mush, accompanied by wet *BLORP-BLORP* noises. The strong, acrid smell drifts on the night air as the noisy, wet excretion continues.\n\nAfter several long moments, the sounds gradually slow and then stop. Lirael lets out a final soft sigh of relief.\n\nAfter a minute, Lirael’s voice comes softly:\n\n\"You may turn back now… it is done.\"";
             }
         }
     },
@@ -2612,24 +2619,24 @@ gameState.liraEatenMethod = 2;
     text: function() {
         if (gameState.lastChoiceLabel === "Stay and watch") {
             // Player chose to watch
-            if (gameState.liraelAteGrimmold) {
-                // Watched + Lirael ate Grimmold + burglar
-                return "You stayed and watched the entire process. Lirael rises gracefully from her squat, her belly now noticeably smaller and softer after relieving herself. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"All physical remains of the burglar and Grimmold are now out of me,\" she says softly. \"What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
+            if (gameState.whoAteGrimmold === "emily") {
+ // Watched + Lirael ate only burglar
+return "You stayed and watched the entire process. Lirael rises gracefully from her squat, her belly now noticeably smaller and softer after relieving herself. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"All physical remains of the burglar are now out of me,\" she says softly. \"What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
             } 
             else {
-                // Watched + Lirael ate only burglar
-                return "You stayed and watched the entire process. Lirael rises gracefully from her squat, her belly now noticeably smaller and softer after relieving herself. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"All physical remains of the burglar are now out of me,\" she says softly. \"What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
+                // Watched + Lirael ate Grimmold + burglar
+                return "You stayed and watched the entire process. Lirael rises gracefully from her squat, her belly now noticeably smaller and softer after relieving herself. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"All physical remains of the burglar and Grimmold are now out of me,\" she says softly. \"What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
             }
         } 
         else {
             // Player chose to turn away
-            if (gameState.liraelAteGrimmold) {
-                // Turned away + Lirael ate Grimmold + burglar
-                return "You politely turned away to give her privacy. After a minute, Lirael rises gracefully from her squat, her belly now noticeably smaller and softer. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"Thank you for giving me privacy,\" she says softly. \"All physical remains of the burglar and Grimmold are now out of me. What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
-            } 
-            else {
+            if (gameState.whoAteGrimmold === "emily") {
                 // Turned away + Lirael ate only burglar
                 return "You politely turned away to give her privacy. After a minute, Lirael rises gracefully from her squat, her belly now noticeably smaller and softer. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"Thank you for giving me privacy,\" she says softly. \"All physical remains of the burglar are now out of me. What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
+            } 
+            else {
+// Turned away + Lirael ate Grimmold + burglar
+return "You politely turned away to give her privacy. After a minute, Lirael rises gracefully from her squat, her belly now noticeably smaller and softer. She picks up her silk robe from the grass, shakes it once, and slips it back on, tying it loosely around her waist.\n\nShe turns to face you, her hazel eyes calm once more, though a faint flush still lingers on her cheeks.\n\n\"Thank you for giving me privacy,\" she says softly. \"All physical remains of the burglar and Grimmold are now out of me. What my body could not turn into waste… is now part of me.\" She gives her rear a small, deliberate shake, causing her newly softened and curvier hips to jiggle slightly. \"You can see the difference, can't you?\"\n\nThe night air feels cooler now. Lirael studies your face for a moment, as if searching for your reaction.\n\n\"Do you… have any questions?\" she asks, her tone gentle but curious.";
             }
         }
     },
@@ -2791,7 +2798,7 @@ gameState.liraEatenMethod = 2;
     },
     location: "Byrd Family Home - Basement (Night)",
     choices: [
-        { label: "Help the elven girl upstairs", next: 169 }
+        { label: "Help the elven girl upstairs", next: 169, effect: () => { setDetail("issacFather", 4); } }
     ]
 },
 
@@ -2962,7 +2969,7 @@ gameState.liraEatenMethod = 2;
     },
     location: "Local Mall - Clothing Store (Morning)",
     choices: [
-        { label: "Continue helping with the shopping", next: 181 }
+        { label: "Continue helping with the shopping", next: 181, effect: () => {setDetail("issacMother", 4);}  }
     ]
 },
 
@@ -3187,7 +3194,7 @@ gameState.relationships.Lydia.bond += 50;
     },
     location: "Byrd Family Home - Living Room (Evening)",
     choices: [
-        { label: "React to what just happened", next: 192 }
+        { label: "React to what just happened", next: 192, effect: () => { setDetail("issacMother", 4); } }
     ]
 },
 
