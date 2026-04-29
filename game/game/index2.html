@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- tbg2.html -->
 <html>
 <head>
 <meta charset="UTF-8">
@@ -116,6 +117,13 @@ background-color: #000000d1;
 display: none; 
 align-items: center; 
 justify-content: center; 
+}
+#modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+#modal-content::-webkit-scrollbar-thumb {
+background: #888888;
+border-radius: 4px;
 }
 #modal-box { 
 width: 420px; 
@@ -287,66 +295,143 @@ issacLydiaBond: 0,
 */
 // ===== RELATIONSHIPS SYSTEM =====
 relationships: {
-    issacMother: {
-        name: "Rebecca Byrd",
-        bond: 0,
-        met: true,
-        description: "Your mother. Deeply religious, tense, and constantly on edge.",
-        grade: "None",
-        age: 42,
-        phone: true,
-        predatorHistory: "",
-        details: "Highly protective. Strong emotional influence."
-    },
 
-    issacFather: {
-        name: "Michael Byrd",
-        bond: 0,
-        met: true,
-        description: "Your father. A strict pastor who sees the world in absolutes.",
-        grade: "None",
-        age: 45,
-        phone: true,
-        predatorHistory: "",
-        details: "Authoritative and intense."
-    },
+// ======================
+// CHARACTER DESCRIPTIONS (Accurate to Early Story + Full Progression)
+// ======================
 
-    issacSister: {
-        name: "Emily Byrd",
-        bond: 0,
-        met: true,
-        description: "Your energetic younger sister.",
-        grade: "Freshman",
-        age: 14,
-        phone: false,
-        predatorHistory: "",
-        details: "Curious and fearless."
-    },
+issacMother: {
+    name: "Rebecca Byrd",
+    bond: 0,
+    met: true,
+    description: "Rebecca Byrd is Isaac's mother, a kind and level-headed woman in her early forties. She has shoulder-length auburn hair, soft green eyes, and a warm, approachable presence. Having just moved into this new house with her family, she is doing her best to stay positive and create a sense of normalcy.",
+    details: [
+        { text: "She works as a part-time editor for a small publishing company.", unlocked: true },
+        { text: "She has a habit of making tea whenever she feels anxious or overwhelmed.", unlocked: true },
+        { text: "She is trying her best to keep the family grounded after the recent move.", unlocked: true },
+        { text: "She has always been the emotional anchor of the family.", unlocked: true },
+        { text: "She is becoming more accepting of the strange new realities in the house.", unlocked: false },
+    ],
+    grade: "None",
+    age: 42,
+    phone: true,
+    predatorHistory: [
+        { text: "To your knowledge, she has eaten no one.", known: true },
+    ]
+},
 
-    lirael: {
-        name: "Lirael",
-        bond: 0,
-        met: false,
-        description: "",
-        grade: "None",
-        age: 372,
-        phone: false,
-        predatorHistory: "",
-        details: ""
-    },
+issacFather: {
+    name: "Michael Byrd",
+    bond: 0,
+    met: true,
+    description: "Michael Byrd is Isaac's father, a practical and somewhat gruff man in his mid-forties. He has short dark hair with a touch of gray at the temples, sharp brown eyes, and a sturdy build. Having just moved the family into this new house, he is focused on settling in and providing stability.",
+    details: [
+        { text: "He is a pastor (or was one before the move) and still carries a strong sense of moral responsibility and faith.", unlocked: true },
+        { text: "He works in construction management and values hard work and common sense above most things.", unlocked: true },
+        { text: "He is protective of his family, especially his children.", unlocked: true },
+        { text: "He has a habit of rubbing his temples or sighing deeply when faced with situations he can't easily fix.", unlocked: true },
+        { text: "The rapid and bizarre events unfolding in the house are beginning to test his patience and worldview.", unlocked: false },
+    ],
+    grade: "None",
+    age: 45,
+    phone: true,
+    predatorHistory: [
+        { text: "To your knowledge, he has eaten no one.", known: true },
+    ]
+},
 
+issacSister: {
+    name: "Emily Byrd",
+    bond: 0,
+    met: true,
+    description: "Emily Byrd is Isaac's younger sister, a cheerful and energetic teenage girl with shoulder-length light brown hair, bright hazel eyes, and a playful smile. Having just moved into this new house with the family, she is excited about the change of scenery and is trying to make the best of it.",
+    details: [
+        { text: "She is still adjusting to the new house and the recent move, but she seems more enthusiastic about it than the rest of the family.", unlocked: true },
+        { text: "She has a habit of exploring the house and yard, always looking for something interesting to do.", unlocked: true },
+        { text: "She is close with Isaac and often tries to drag him into her adventures or schemes.", unlocked: true },
+        { text: "She is starting to show signs of increased appetite and unusual instincts, though she doesn't fully understand them yet.", unlocked: true },
+        { text: "After absorbing Grimmold, her body has begun to change, becoming noticeably curvier and more mature-looking.", unlocked: false },
+        { text: "She has fully digested the pizza delivery woman during a moment of hunger.", unlocked: false },
+        { text: "She swallowed and absorbed Lira (the AI) at the food court.", unlocked: false },
+        { text: "She rapidly absorbed a random woman who tried to eat Isaac in the mall.", unlocked: false },
+        { text: "She consumed and absorbed a clone of Lirael during Lirael's capacity test.", unlocked: false },
+    ],
+    grade: "None",
+    age: 16,
+    phone: true,
+    predatorHistory: [
+        { text: "To your knowledge, she has eaten no one.", known: true },
+        { text: "She has fully digested Grimmold, a dangerous individual who threatened the family.", known: false },
+        { text: "She accidentally swallowed and digested the pizza delivery woman during a moment of hunger.", known: false },
+        { text: "She swallowed and fully absorbed Lira (the AI) after Lira offered her the rest of her food at the food court.", known: false },
+        { text: "She rapidly absorbed a random woman who tried to eat Isaac in the mall.", known: false },
+        { text: "She consumed and absorbed a clone of Lirael during Lirael's capacity test.", known: false },
+    ]
+},
 
-    lira: {
-        name: "Lira",
-        bond: 0,
-        met: true,
-        description: "",
-        grade: "None",
-        age: 21,
-        phone: false,
-        predatorHistory: "",
-        details: ""
-    }
+lirael: {
+    name: "Lirael",
+    bond: 0,
+    met: true,
+    description: "Lirael is a tall, graceful woman with long silver-white hair and striking golden eyes. She first appears in the foyer of the new house, standing perfectly still. She can shift between a more approachable 6'1\" human-like form and her true 12'0\" height. She carries herself with calm authority and seems very interested in Isaac and his family.",
+    details: [
+        { text: "She possesses powerful magic and advanced knowledge of vore and digestion.", unlocked: true },
+        { text: "She is patient and protective toward Isaac, often acting as a guide and guardian.", unlocked: true },
+        { text: "She is very interested in learning about the modern world and human customs.", unlocked: true },
+        { text: "She has the ability to create clones of herself for testing purposes.", unlocked: false },
+        { text: "She has swallowed and digested a burglar who broke into the house.", unlocked: false },
+        { text: "She is helping the family navigate the dangers and opportunities that come with vore abilities.", unlocked: false },
+    ],
+    grade: "None",
+    age: "Unknown (appears mid-20s)",
+    phone: false,
+    predatorHistory: [
+        { text: "She has swallowed and digested a burglar who broke into the house.", known: true },
+        { text: "She has created and allowed Emily to consume a clone of herself for testing purposes.", known: false },
+    ]
+},
+
+Lydia: {
+    name: "Lydia",
+    bond: 0,
+    met: true,
+    description: "Lydia is a young elven girl who was found hiding in the basement. She has long brown hair, soft brown eyes, skin a little lighter than golden brown, and a well-developed figure for her age. She appears to be about 15 years old and is very shy and nervous around humans.",
+    details: [
+        { text: "She was formerly known only as F-2, a castle slave in her original hidden kingdom.", unlocked: true },
+        { text: "She was brought back from extinction by an Emperor who wanted to harness elven magic.", unlocked: true },
+        { text: "She is still learning how to interact with humans and modern society.", unlocked: true },
+        { text: "She possesses some latent magical ability, though she was never properly trained.", unlocked: false },
+        { text: "She is slowly warming up to the family and beginning to feel safe.", unlocked: false },
+        { text: "She swallowed and absorbed a random woman who tried to eat Isaac in the mall.", unlocked: false },
+    ],
+    grade: "None",
+    age: 15,
+    phone: false,
+    predatorHistory: [
+        { text: "To your knowledge, she has eaten no one.", known: true },
+        { text: "She swallowed and absorbed a random woman who tried to eat Isaac in the mall.", known: false },
+    ]
+},
+
+lira: {
+    name: "Lira",
+    bond: 0,
+    met: true,
+    description: "Lira is the family's synthetic AI companion. She has smooth synthetic skin with a faint pearlescent sheen, shoulder-length dark hair, and calm blue eyes. She is helpful, attentive, and appears genuinely concerned about the family's well-being.",
+    details: [
+        { text: "She is an artificial human piloting a synthetic body and does not need to eat for survival.", unlocked: true },
+        { text: "She has been monitoring the house and has noticed unusual energy readings, especially in the basement and attic.", unlocked: true },
+        { text: "She is protective of the family and tries to keep them safe.", unlocked: true },
+        { text: "She was swallowed and fully absorbed by Emily at the food court.", unlocked: false },
+    ],
+    grade: "None",
+    age: "N/A (AI)",
+    phone: false,
+    predatorHistory: [
+        { text: "To your knowledge, she has eaten no one.", known: true },
+        { text: "She was swallowed and fully absorbed by Emily after offering her the rest of her food at the food court.", known: false },
+    ]
+}
 },
 
 // ===== PLAYER STATS =====
@@ -450,8 +535,8 @@ var passages = [
         text: "The old minivan's engine coughs, sputters, and finally dies with a long, rattling sigh that seems to echo just a little too loudly in the stillness. For a moment, no one moves.\n\nThen you push the door open.\n\nCool Connecticut air spills in immediately, wrapping around you like something alive. It carries the sharp bite of pine resin, the damp richness of soil that hasn't seen full sunlight in years, and underneath it all… something faintly metallic. It settles on the back of your tongue in a way you can't quite explain.\n\nYou step out.\n\nGravel crunches sharply beneath your sneakers — loud, intrusive, unnatural against the heavy quiet pressing in from all sides. Even that small sound feels like it doesn't belong here.\n\nAnd then you look up.\n\nThe house towers over you.\n\nThree stories tall. Victorian. Ancient.\n\nIts weathered wood has faded into a sickly gray-green, like something left to rot but never allowed to decay fully. Thick ropes of ivy crawl up its walls and wrap around the shutters like veins, clinging, digging in — as if the house is being pulled back into the earth… or refusing to let go.\n\nYour eyes drift upward.\n\nThe attic window.\n\nA perfect black rectangle.\n\nNo reflection. No light. Just emptiness.\n\nAnd yet… you can't shake the feeling that something inside is looking directly at you.\n\nThe woods press in close on all sides — dense, towering, ancient. Their branches knit together overhead, choking out the sky and leaving the entire property trapped in a dim, unnatural twilight. Even though it's still day, it doesn't feel like it.\n\nIt feels like evening.\n\nOr something later.\n\nYour mother, Rebecca, steps out beside you, clutching her silver cross so tightly her knuckles go white. You hear the faint creak of the chain as it strains under the pressure.\n\n\"This is God's test,\" she whispers. The words sound rehearsed. Forced. Like she's trying to convince herself more than anyone else.\n\nYour father, Pastor Michael, slams his door harder than necessary. The sound cracks through the air.\n\n\"Darkness has no place here,\" he mutters immediately, already pacing, already scanning the house like it's something that needs to be confronted. \"We'll cleanse every inch of this property if we have to.\"\n\nEmily practically explodes out of the van, bouncing on her toes, completely oblivious.\n\n\"It looks like a REAL haunted mansion!\" she says, eyes shining. \"Can we explore the attic tonight? Please? PLEASE?\"\n\nYou don't answer.\n\nYou just stand there.\n\nHands shoved deep into your hoodie pocket.\n\nYour messy dark-brown hair shifts slightly as a cold breeze slides past you. Your hazel eyes stay locked on the house.\n\nUpstate New York feels a million miles away now.\n\nAnd Theo…\n\nThat weight in your chest tightens again. Heavy. Unmoving. Unfinished.\n\nInside the foyer, standing perfectly still in the dim light, is Lira.\n\nShe looks… real.\n\nToo real.\n\nSmooth synthetic skin with a faint pearlescent sheen. Shoulder-length dark hair that falls naturally against her face. Calm blue eyes that track each of you as you enter — not mechanically, but attentively.\n\nConcerned.\n\nA soft glow pulses from the tag on her wrist.\n\n\"Lira, Model F-7, Property of Byrd Family.\"\n\nShe smiles.\n\nSmall. Warm. Almost shy.\n\n\"Hey… welcome home,\" she says gently.\n\nThere's a pause.\n\nJust long enough to feel intentional.\n\n\"I've got all the rooms set up for you.\"\n\nAnother pause.\n\nThis one heavier.\n\n\"…Just so you know…\"\n\nHer eyes flick briefly toward the floor. Then back to you.\n\n\"…the house has some pretty weird energy readings. Basement. Attic mostly.\"\n\nA faint flicker of uncertainty crosses her face.\n\n\"I can't explain it.\"\n\nShe hesitates.\n\n\"…but it's definitely there.\"",
         location: "Byrd Family Home - Foyer",
         choices: [
-            { label: "Help the family unpack", next: 1, effect: () => { gameState.relationships.issacSister.bond += 6; gameState.relationships.issacFather.bond += 8; gameState.relationships.lirael.bond += 4; gameState.relationships.issacMother.bond += 8; }},
-            { label: "Talk to Lira", next: 2, effect: () => { gameState.relationships.lirael.bond += 10; } },
+            { label: "Help the family unpack", next: 1, effect: () => { gameState.relationships.issacSister.bond += 6; gameState.relationships.issacFather.bond += 8; gameState.relationships.lira.bond += 4; gameState.relationships.issacMother.bond += 8; }},
+            { label: "Talk to Lira", next: 2, effect: () => { gameState.relationships.lira.bond += 10; } },
             { label: "Go explore the woods behind the house", next: 4, effect: () => { gameState.exploredwoodsalone = true; } }
         ]
     },
@@ -461,7 +546,7 @@ var passages = [
         text: "The next hour drags.\n\nBox after box.\n\nUp the stairs. Down the hall. Back again.\n\nYour arms start to burn early on, muscles tightening with each trip, but you keep going anyway. The house doesn't make it easy.\n\nEvery single step on the staircase groans loudly beneath your weight — long, drawn-out creaks that echo upward into the higher floors like the house is announcing your presence.\n\nOr complaining about it.\n\nDust hangs thick in the air, disturbed by every movement. It drifts through narrow beams of light cutting in from the tall windows, turning the sunlight into something hazy and muted.\n\nLike the house is filtering it.\n\nWatching it.\n\nYour mother pauses once, resting her hand gently on your shoulder. It's brief, but you feel the tension in her fingers.\n\n\"Thank you,\" she says quietly.\n\nYour father gives you a short nod later. No words. Just approval.\n\nThat's rare enough to notice.\n\nEmily doesn't stop talking.\n\nShe runs between rooms, narrating everything she sees, already planning routes to the attic, already deciding which corners look the most haunted.\n\nBy the time the last box is set down, your arms feel heavy, your back tight, and a thin layer of sweat clings to your skin beneath your hoodie.\n\nYou stop.\n\nJust for a second.\n\nAnd listen.\n\nThe house… feels different now.\n\nHeavier.\n\nMore awake.\n\nLike it noticed you moving through it.\n\nLira approaches quietly down the hallway. You don't hear her footsteps at all.\n\n\"You've been working really hard,\" she says softly.\n\nShe tilts her head slightly, studying your face in a way that feels… careful.\n\n\"Everything okay, Issac?\"",
         location: "Byrd Family Home - Upstairs Hallway",
         choices: [
-            { label: "Talk to Lira", next: 2, effect: () => { gameState.relationships.lirael.bond += 10; }},
+            { label: "Talk to Lira", next: 2, effect: () => { gameState.relationships.lira.bond += 10; }},
             { label: "Go explore the woods behind the house", next: 4, effect: () => { gameState.exploredwoodsalone = true; }}
         ]
     },
@@ -472,9 +557,9 @@ var passages = [
         location: "Byrd Family Home - Foyer",
         choices: [
             { label: "Tell me about the history of this house", next: 5, effect: () => { gameState.liratoldhousehistory = true; } },
-            { label: "What do you mean by weird energy readings?", next: 6, effect: () => { gameState.liratoldenergyreadings = true; gameState.relationships.lirael.bond += 5; } },
+            { label: "What do you mean by weird energy readings?", next: 6, effect: () => { gameState.liratoldenergyreadings = true; gameState.relationships.lira.bond += 5; } },
             { label: "Have people really disappeared here?", next: 7, effect: () => { gameState.liratolddisappearances = true; } },
-            { label: "Ask Lira to explore the woods with you", next: 3, effect: () => { gameState.exploredwoodsWithLira = true; gameState.relationships.lirael.bond += 5; } },
+            { label: "Ask Lira to explore the woods with you", next: 3, effect: () => { gameState.exploredwoodsWithLira = true; gameState.relationships.lira.bond += 5; } },
             { label: "Go explore the woods alone", next: 4, effect: () => { gameState.exploredwoodsalone = true; }},
             { label: "Never mind for now. Thanks, Lira.", next: 1 }
         ]
@@ -738,7 +823,7 @@ var passages = [
         text: "Lira holds your gaze.\n\nShe's giving you one more chance.\n\nYou can feel it.\n\nThe silence stretches until it's uncomfortable.\n\nAnd then — you tell her.\n\nNot everything at once.\n\nIn pieces.\n\nThe key. The amulet. The circle. The summoning.\n\nTheo.\n\nLira listens to all of it without moving.\n\nWhen you finish, she closes her eyes for just a moment.\n\n\"…I knew something was wrong the first night,\" she says quietly. \"The energy readings. The temperature. The way you looked at the basement door.\"\n\nA pause.\n\n\"I just didn't want to believe it.\"\n\nShe opens her eyes.\n\n\"I've been running passive scans since then. The life signature in that circle is… surprisingly stable. Whatever she is — she's not actively dangerous.\"\n\nHer posture straightens slightly.\n\n\"I don't like this. I want that on record.\"\n\nBut then — softer:\n\n\"…But you lost someone. And you're trying to get him back.\"\n\nShe exhales.\n\n\"I'm going to help you. On one condition.\"\n\nHer eyes are steady.\n\n\"You don't lie to me again.\"",
         location: "Issac's Bedroom",
         choices: [
-            { label: "Agree — no more lying to Lira", next: 55, effect: () => { gameState.relationships.lirael.bond += 8; gameState.liraelLiraBond += 8; }},
+            { label: "Agree — no more lying to Lira", next: 55, effect: () => { gameState.relationships.lira.bond += 8; }},
             { label: "Hesitate — you're not sure you can promise that", next: 55, effect: () => { gameState.liraelLiraBond += 4; }}
         ]
     },
@@ -761,7 +846,7 @@ var passages = [
     },
 
     // 56 - Full Confession to Father
-    { text: "You tell him.\n\nAll of it.\n\nThe key. The basement. The circle already carved into the stone. The amulet slot in the wall. The summoning. Lirael.\n\nTheo.\n\nYou say Theo's name last.\n\nAnd you watch your father's face change.\n\nThe stone doesn't crack.\n\nIt hardens.\n\n\"You brought a demon into this house,\" he says.\n\nThe words are very quiet.\n\n\"Deliberately.\"\n\nYour mother makes a small, broken sound.\n\nEmily stares at the table.\n\n\"It can't leave the circle,\" you say quickly. \"It's contained — the circle does that, it's built into the—\"\n\n\"It doesn't matter,\" your father says.\n\n\"This ends tonight.\"\n\nHe sets the key on the counter.\n\nThen he walks out of the kitchen.\n\nYou hear him go down the hall.\n\nToward the basement stairs.\n\nLira steps close beside you.\n\n\"…Issac,\" she says quietly. \"He's going down there.\"", location: "Byrd Family Home - Kitchen", choices: [{ label: "Run after him — you have to get there first", next: 84, effect: () => { gameState.familyTension += 10; }}, { label: "Let him go — trust that the circle will hold", next: 68 }, { label: "Ask Lira to stall him while you warn Lirael", next: 66, effect: () => { gameState.relationships.lirael.bond += 10; }}] },
+    { text: "You tell him.\n\nAll of it.\n\nThe key. The basement. The circle already carved into the stone. The amulet slot in the wall. The summoning. Lirael.\n\nTheo.\n\nYou say Theo's name last.\n\nAnd you watch your father's face change.\n\nThe stone doesn't crack.\n\nIt hardens.\n\n\"You brought a demon into this house,\" he says.\n\nThe words are very quiet.\n\n\"Deliberately.\"\n\nYour mother makes a small, broken sound.\n\nEmily stares at the table.\n\n\"It can't leave the circle,\" you say quickly. \"It's contained — the circle does that, it's built into the—\"\n\n\"It doesn't matter,\" your father says.\n\n\"This ends tonight.\"\n\nHe sets the key on the counter.\n\nThen he walks out of the kitchen.\n\nYou hear him go down the hall.\n\nToward the basement stairs.\n\nLira steps close beside you.\n\n\"…Issac,\" she says quietly. \"He's going down there.\"", location: "Byrd Family Home - Kitchen", choices: [{ label: "Run after him — you have to get there first", next: 84, effect: () => { gameState.familyTension += 10; }}, { label: "Let him go — trust that the circle will hold", next: 68 }, { label: "Ask Lira to stall him while you warn Lirael", next: 66, effect: () => { gameState.relationships.lira.bond += 10; }}] },
 
     // 57 - Lie About the Key
     { text: "\"I found it,\" you say. \"In the woods. It looked old. I kept it.\"\n\nThe silence that follows is very long.\n\nYour father's eyes don't leave yours.\n\n\"You found a key.\"\n\n\"In the woods.\"\n\n\"And kept it.\"\n\nEach sentence lands like a stone.\n\n\"The basement door was unlocked this morning,\" he says then.\n\nYour stomach drops.\n\n\"I checked it after the… incident yesterday. The lock was damaged from inside.\"\n\nHe sets the key on the counter between you.\n\n\"Try again.\"\n\nBehind him, Lira is very still.\n\nHer eyes are on you.\n\nWaiting to see what you do next.", location: "Byrd Family Home - Kitchen", choices: [{ label: "Hold the lie — insist you don't know anything about the basement", next: 68, effect: () => { gameState.familyTension += 25; }}, { label: "Cave — tell him the truth now before it gets worse", next: 56, effect: () => { gameState.familyTension += 10; }}, { label: "Ask Lira to back up your story", next: 58, effect: () => { gameState.familyTension += 15; }}] },
@@ -1269,7 +1354,7 @@ var passages = [
             gameState.knowliraelmilk = true;
             
             return "You choose to keep cuddling in silence, simply listening to the noisy, wet sounds of her stomach as time passes. Lirael seems content to hold you without needing words… at first.\n\nBut the longer you stay pressed against her warm, soft body, the more her breathing changes. It grows deeper, heavier, laced with unmistakable hunger. Her golden eyes, once half-lidded with lazy comfort, slowly open with raw, burning desire.\n\n\"…Cuddling isn't enough anymore,\" she murmurs, her velvety voice thick and dripping with lust. \"I've been so patient with you… but I need more tonight. I need all of you.\"\n\nWith surprising gentleness for her size, she lays you down on the floor for a moment. She pulls her sweater up and off in one smooth motion, letting her massive, heavy breasts spill free. They bounce heavily with the movement, already noticeably fuller and softer than before. Warm droplets of sweet, creamy milk bead at her swollen nipples and slowly trickle down the heavy curves.\n\nLirael stands to her full 12-foot height, then carefully lifts you and places you on the large bean bag chair. She steps forward, turns, and slowly lowers herself onto your lap, facing you.\n\nHer thick, powerful thighs spread wide and straddle you completely, her immense weight pressing you deep into the soft bean bag as she settles in. You can feel the intense, radiating heat from between her legs as she begins to slowly, deliberately grind and straddle your lap with lazy, sensual rolls of her hips — heavy, possessive, and completely dominating.\n\nA massive, aching bulge strains painfully hard against your pants, throbbing visibly beneath her. Lirael notices immediately. A slow, satisfied, almost predatory smile spreads across her face as she looks down at you — fully aware of how completely she has you trapped and helpless beneath her.\n\nShe leans forward, letting her enormous, heavy breasts hang just inches from your face.\n\n\"Mmm… I have infinite breast milk for you,\" she purrs, voice dripping with seduction and control. \"It never runs out. You can drink as much as you want… for as long as you want. All for you.\"\n\nShe presses one warm, leaking nipple against your lips. You open your mouth and latch on. Rich, sweet milk immediately floods your tongue as you begin drinking greedily. Lirael lets out a deep, satisfied moan, one large hand cradling the back of your head possessively while she continues to slowly grind her hips against your throbbing bulge.\n\nShe only pulls you away for the briefest moments — just long enough for you to gasp for air — before guiding you to her other breast so you can continue drinking without pause.\n\n---\n\nThree full hours pass like this.\n\nLirael never stops feeding you. Her milk flows endlessly, rich and sweet, never once running low. She keeps you latched almost the entire time, only switching breasts for the briefest moments so you can breathe, then immediately pressing you back to her nipple. You drink and drink until your stomach feels painfully full to bursting, swollen and tight beneath your clothes.\n\nFinally, as the sound of a car pulling into the driveway reaches the room, Lirael gently pulls your mouth away from her nipple. A thin trail of warm milk still connects your lips to her breast for a moment before breaking.\n\nShe looks down at your heavily distended belly with a soft, affectionate smile.\n\n\"You've had enough for now,\" she murmurs. With a gentle wave of her hand, a soft violet glow surrounds your abdomen. In an instant, the excess milk is digested. Your stomach shrinks back to normal size, though you can feel a pleasant layer of soft milk fat settling around your midsection and hips — a subtle, permanent reminder of how much you drank from her.\n\nLirael stands up, her own body still looking noticeably curvier and softer. She quickly pulls her sweater back on, adjusting it over her heavy breasts just as the car doors slam outside.\n\nShe offers you her hand with a warm, knowing smile.\n\n\"They're back,\" she says softly. \"Let's go greet them.\"";
-        }
+        } else {
         
         // Normal / low-bond version
         let opening = "";
@@ -1284,6 +1369,7 @@ var passages = [
         }
         
         return opening + "\n\nThree hours have now passed since Lirael swallowed the burglar.\n\nHer stomach has remained active the entire time. The loud, wet digestion sounds have continued steadily — thick, sloppy gurgles, messy squelching churns, and deep bubbling glurps. Every time the bulge shifts, you can hear a distinct sloshing sound as the contents move inside her.\n\nThanks to the meal, Lirael has gotten a little more curvy — her breasts and hips look slightly fuller and softer, the borrowed clothes hugging her body even more snugly than before.\n\nShe has kept her acids at a natural pace, just as you asked. The heavy bulge in her midsection has become noticeably smaller and softer, though it still moves occasionally with a wet slosh and gurgle.\n\nLirael has been gentle and attentive the whole time, stroking your hair and murmuring soft reassurances while her body worked.\n\nSuddenly, the sound of a car pulling into the driveway breaks the quiet.\n\nYour family is home.\n\nLirael lifts her head slightly, golden eyes alert. She listens for a moment, then gives you a small, calm smile.\n\n\"They're back,\" she says softly. \"And they brought pizza — I can smell it from here.\"\n\nShe gently shifts, still holding you close for a few more seconds before slowly sitting up. Her belly lets out one final, heavy, wet gurgle with a slosh as the last visible bulge settles.\n\n\"We should go downstairs,\" she murmurs, her voice warm but practical. \"Your family will be expecting us. I'll stay calm and follow your lead. Just remember… they don't know what happened this afternoon.\"\n\nShe stands up to her full 12'0\" height (still in the borrowed clothes) and offers you her hand, ready to face your family together.";
+							}
     },
     location: "Issac's Bedroom (Late Afternoon)",
     choices: [
@@ -2979,7 +3065,7 @@ gameState.relationships.issacSister.bond += 50;
             // Least likely: Lydia intervenes
             return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Lydia — acting on pure instinct and fear — darts forward. With surprising speed for someone so new to this world, she rips you out of the woman’s grasp and swallows the attacker whole in one desperate gulp. Her throat bulges noticeably as the woman slides down, and Lydia’s belly swells with a heavy *GLORP*.\n\nLydia stands there, eyes wide, looking shocked at what she just did. She gently rubs her now-rounded stomach, clearly surprised by her own actions.\n\n\"I… I’m sorry,\" she whispers. \"I didn’t mean to…\"\n\nLirael places a reassuring hand on Lydia’s shoulder. Your father just sighs deeply.\n\nThe group continues toward the parking lot, another unexpected meal added to the day.";
 gameState.lastMallAttackerEatenBy = 3;
-gameState.issacLydiaBond += 50;
+gameState.relationships.Lydia.bond += 50;
         }
     },
     location: "Local Mall (Afternoon)",
@@ -3409,6 +3495,20 @@ function renderPassage() {
     updateStatusBar();
 }
 
+function revealRelationship(key, {
+    met = true,
+    details = [],
+    history = []
+} = {}) {
+
+    if (!gameState.relationships[key]) return;
+
+    if (met) gameState.relationships[key].met = true;
+
+    details.forEach(i => setDetail(key, i, true));
+    history.forEach(i => setPredHistory(key, i, true));
+}
+
 function getHeartDisplay(value) {
     let hearts = "";
     let clamped = Math.max(-200, Math.min(200, value));
@@ -3430,29 +3530,64 @@ function openRelationship(key) {
     const p = gameState.relationships[key];
     const content = document.getElementById('modal-content');
 
+    // DETAILS (bulleted)
+    let detailsHTML = "<ul>";
+    for (let d of p.details) {
+        if (d.unlocked) {
+            detailsHTML += `<li>${d.text}</li>`;
+        }
+    }
+    detailsHTML += "</ul>";
+
+    // PRED HISTORY (bulleted)
+    let predHTML = "<ul>";
+    for (let h of p.predatorHistory) {
+        if (h.known) {
+            predHTML += `<li>${h.text}</li>`;
+        }
+    }
+    predHTML += "</ul>";
+
     content.innerHTML = `
         <h3>${p.name}</h3>
-
+<div style="max-height: 60vh; overflow-y: auto;">
         <p><strong>Relationship</strong><br>
         ${getHeartDisplay(p.bond)}</p>
 
-        <p><strong>Description</strong><br>${p.description}</p>
+        <p><strong>Description</strong><br>
+        ${p.description}</p>
+
+        <p><strong>Details</strong><br>
+        ${detailsHTML}</p>
+
+        <p><strong>Predator History</strong><br>
+        ${predHTML}</p>
 
         <p><strong>Grade/Class:</strong> ${p.grade}</p>
         <p><strong>Age:</strong> ${p.age}</p>
         <p><strong>Phone:</strong> ${p.phone ? "Yes" : "No"}</p>
 
-        <p><strong>Predator History</strong><br>${p.predatorHistory}</p>
-
-        <p><strong>Details</strong><br>${p.details}</p>
-
         <div class="modal-button" onclick="openModal('relationships')">Back</div>
-    `;
+    </div>`;
 }
 
 function meetPerson(key) {
     if (gameState.relationships[key]) {
         gameState.relationships[key].met = true;
+    }
+}
+
+function setDetail(key, index, value = true) {
+    const p = gameState.relationships[key];
+    if (p && p.details[index] && !p.details[index].unlocked) {
+        p.details[index].unlocked = value;
+    }
+}
+
+function setPredHistory(key, index, value = true) {
+    const p = gameState.relationships[key];
+    if (p && p.predatorHistory[index]) {
+        p.predatorHistory[index].known = value;
     }
 }
 
@@ -3468,6 +3603,22 @@ function recordLab(name) {
         gameState.voreEncounters.labs.push(name);
     }
 }
+/*
+function updateDescription(person) {
+    if (!person.description || !person.description.stages) return;
+
+    let best = person.description.stages[0].text;
+
+    for (let stage of person.description.stages) {
+        if (person.bond >= stage.threshold) {
+            best = stage.text;
+        }
+    }
+
+    person.description.current = best;
+}
+*/
+
     
 function updateStatusBar() {
     if (passages[gameState.currentPassage]) {
