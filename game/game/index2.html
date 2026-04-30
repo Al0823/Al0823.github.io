@@ -490,7 +490,8 @@ predHealth: 100,
     lastSwallowedBy: "",// Last predator who swallowed the player
 lastActionText: "",
 checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false },
-    
+gameState.deathCause = null;
+gameState.isDead = false;    
     liraelFreed: false,
     liraelFreedMethod: 0,
     hasKey: false,
@@ -1779,12 +1780,39 @@ setPredHistory("issasSister", 3);
         gameState.digestionProgress += 2 + gameState.acidStage;
 
         let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${gameState.digestionProgress}% | **Acid Stage:** ${gameState.acidStage} | **Lira's Stomach Health:** ${gameState.predHealth}`;
-
+/*
         let digestionText = "";
         if (gameState.acidStage === 0) digestionText = "The stomach walls gently churn around you.";
         else if (gameState.acidStage === 1) digestionText = "The acids are starting to tingle against your skin.";
         else if (gameState.acidStage === 2) digestionText = "The burning sensation is getting stronger.";
         else if (gameState.acidStage === 3) digestionText = "@@color:red;The acids are painful now.@@";
+*/
+
+const stage = getDigestionStage(gameState.digestionProgress);
+
+let digestionText = "";
+
+switch (stage.name) {
+    case "Stable":
+        digestionText = "The stomach walls gently churn around you.";
+        break;
+
+    case "Coating":
+        digestionText = "A slick layer of digestive fluids coats your body.";
+        break;
+
+    case "Burning":
+        digestionText = "The acids begin to burn against your skin.";
+        break;
+
+    case "Breaking Down":
+        digestionText = "@@color:orange;Your body is starting to weaken under the acids.@@";
+        break;
+
+    case "Critical":
+        digestionText = "@@color:red;The acids are overwhelming. You are close to being digested.@@";
+        break;
+}
 
         // Checkpoint messages
         let checkpointText = "";
@@ -3502,6 +3530,27 @@ return ""
         { label: "", next: 217 }
     ]
 },
+
+// 998 
+{
+    text: function() {
+        if (gameState.deathCause === "digested") {
+            return "Your struggles finally cease as the digestive process completes.\n\n**You have been digested.**";
+        } else {
+            return "Your vision fades and your strength gives out.\n\n**You have died.**";
+        }
+    },
+    location: "Game Over",
+    choices: [
+        {
+            label: "Restart",
+            next: 0,
+            effect: () => {
+                location.reload();
+            }
+        }
+    ]
+},
     
     // 999 - Game End / Content Boundary
 
@@ -3551,7 +3600,12 @@ function renderPassage() {
                 }
             }
 
-            if (choice.effect) choice.effect();
+if (choice.effect) choice.effect();
+
+if (checkDeath()) {
+    renderPassage();
+    return;
+}
 
             refreshRelationshipUI();
 
@@ -3719,6 +3773,49 @@ function recordLab(name) {
     }
 }
 
+function applyDigestionEffects() {
+    const stage = getDigestionStage(gameState.digestionProgress);
+
+    switch (stage.name) {
+        case "Coating":
+            gameState.preyHealth -= 2;
+            break;
+
+        case "Burning":
+            gameState.preyHealth -= 5;
+            break;
+
+        case "Breaking Down":
+            gameState.preyHealth -= 8;
+            gameState.preyStamina -= 4;
+            break;
+
+        case "Critical":
+            gameState.preyHealth -= 12;
+            gameState.preyStamina -= 8;
+            break;
+    }
+}
+
+function checkDeath() {
+    // Digestion death
+    if (gameState.digestionProgress >= 100) {
+        gameState.isDead = true;
+        gameState.deathCause = "digested";
+        gameState.currentPassage = 998;
+        return true;
+    }
+
+    // Health death
+    if (gameState.preyHealth <= 0) {
+        gameState.isDead = true;
+        gameState.deathCause = "dead";
+        gameState.currentPassage = 998;
+        return true;
+    }
+
+    return false;
+}
 
 // STATUS BAR 
 function updateStatusBar() {
