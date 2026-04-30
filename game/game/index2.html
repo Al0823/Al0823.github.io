@@ -684,7 +684,10 @@ var passages = [
     },
 
     // 23 - Lying in bed until 8 AM
-    { text: "You lie in bed staring at the ceiling, your mind racing with everything that just happened. The image of Lirael's towering form, her lazy smile, and that warm, musky scent still lingers in your thoughts.\n\nYou try to sleep, but every small creak in the house makes your eyes snap open. Time passes slowly — minutes stretching into what feels like hours. Your body is exhausted, but your brain refuses to shut off.\n\nEventually, the first faint light of morning begins to creep through the curtains. You glance at the clock: 7:45 AM.\n\nJust as you finally start to drift off…\n\nThe door to your room opens quietly.\n\nYour mother steps in, still in her robe, looking tired but determined.\n\n\"Issac, it's time to get up,\" she says softly. \"It's already 8 o'clock. We have a lot to do today — especially blessing this house.\"\n\nShe pauses, studying your face for a moment.\n\n\"You look like you didn't sleep well. Everything alright?\"", location: "Issac's Bedroom - 8 AM", choices: [{ label: "Get up and start the day", next: 24 }] },
+    { text: function () {
+					gameState.currentDate = "August 23";
+					gameState.dayStartPassage = gameState.currentPassage;
+				return "You lie in bed staring at the ceiling, your mind racing with everything that just happened. The image of Lirael's towering form, her lazy smile, and that warm, musky scent still lingers in your thoughts.\n\nYou try to sleep, but every small creak in the house makes your eyes snap open. Time passes slowly — minutes stretching into what feels like hours. Your body is exhausted, but your brain refuses to shut off.\n\nEventually, the first faint light of morning begins to creep through the curtains. You glance at the clock: 7:45 AM.\n\nJust as you finally start to drift off…\n\nThe door to your room opens quietly.\n\nYour mother steps in, still in her robe, looking tired but determined.\n\n\"Issac, it's time to get up,\" she says softly. \"It's already 8 o'clock. We have a lot to do today — especially blessing this house.\"\n\nShe pauses, studying your face for a moment.\n\n\"You look like you didn't sleep well. Everything alright?\"" }, location: "Issac's Bedroom - 8 AM", choices: [{ label: "Get up and start the day", next: 24 }] },
 
     // 24 - Morning breakfast with family
     { text: "You drag yourself downstairs, still exhausted. The smell of breakfast fills the kitchen — eggs, toast, and coffee. Your family is already seated at the table.\n\nYour mother looks at you with concern. \"You look like you barely slept.\"\n\nYour father is focused on his plate but glances up. \"We start the blessing after breakfast. Every room. No exceptions.\"\n\nEmily is bouncing in her seat, already talking about exploring the attic later.\n\nLira stands quietly near the counter, her glowing tag pulsing softly. She meets your eyes for a brief moment, and you swear she gives you the tiniest, knowing nod.\n\nThe normal morning routine feels completely wrong now. Every creak of the house makes you tense. You can still feel the warmth of the amulet in your pocket and the memory of Lirael's voice echoing in your head.", location: "Byrd Family Home - Kitchen (8:30 AM)", choices: [{ label: "Act normal and eat breakfast", next: 25 }, { label: "Make an excuse and try to sneak back to the basement", next: 26 }] },
@@ -1274,18 +1277,19 @@ if (gameState.lastChoiceLabel === "changeWithHer") {
     },
 
     // 110 - Morning Rundown + Time Skip (Lirael Proven Worthy)
-    // FIX: Added all bond updates for the family accepting Lirael
     {
-        text: "You wake up this next morning feeling more rested than you have in a long time.\n\nLirael is beside the bed, watching over you with soft golden eyes. She smiles when she sees you stir.\n\n\"Good morning,\" she says quietly.\n\n---\n\nOver the past few days Lirael has been on her best behavior. She helped with small chores, stayed out of sight when your father was nearby, and only fed on comfort. Your family has slowly begun to relax around her.\n\nThis morning your father calls everyone together.\n\n\"I've been watching her closely,\" he says, his voice still cautious but noticeably softer than before. \"She hasn't broken any rules. She hasn't harmed anyone. She's even been… helpful.\"\n\nHe looks at Lirael directly.\n\n\"I've decided she can stay. And if anyone ever tries to do harm to this family… you have my permission to use your abilities to protect us.\"\n\nLirael bows her head respectfully, a small, grateful smile on her lips.\n\n\"Thank you,\" she says softly. \"I will keep your family safe.\"\n\nThe house feels different now — lighter, warmer, and more alive with her here.",
+text: function () {
+gameState.currentDate = "August 30";
+gameState.dayStartPassage = gameState.currentPassage;
+return "You wake up this next morning feeling more rested than you have in a long time.\n\nLirael is beside the bed, watching over you with soft golden eyes. She smiles when she sees you stir.\n\n\"Good morning,\" she says quietly.\n\n---\n\nOver the past few days Lirael has been on her best behavior. She helped with small chores, stayed out of sight when your father was nearby, and only fed on comfort. Your family has slowly begun to relax around her.\n\nThis morning your father calls everyone together.\n\n\"I've been watching her closely,\" he says, his voice still cautious but noticeably softer than before. \"She hasn't broken any rules. She hasn't harmed anyone. She's even been… helpful.\"\n\nHe looks at Lirael directly.\n\n\"I've decided she can stay. And if anyone ever tries to do harm to this family… you have my permission to use your abilities to protect us.\"\n\nLirael bows her head respectfully, a small, grateful smile on her lips.\n\n\"Thank you,\" she says softly. \"I will keep your family safe.\"\n\nThe house feels different now — lighter, warmer, and more alive with her here."},
         location: "Issac's Bedroom - Morning",
         choices: [{ label: "Continue the story", next: 111, effect: () => {
             gameState.currentDate = "August 30";
-            // FIX: All bond updates for the family fully accepting Lirael
             gameState.liraelFatherBond += 20;
             gameState.liraelMotherBond += 15;
             gameState.liraelSisterBond += 15;
             gameState.liraelLiraBond += 10;
-            changeBond("lirael", 8);    // Father accepting Lirael improves Issac-father bond too
+            changeBond("lirael", 8);
             gameState.familyTension -= 20;
         }}]
     },
@@ -1720,7 +1724,10 @@ setPredHistory("issasSister", 3);
 
 // 141 - Morning Training Begins
 {
-    text: "You slowly wake up, still nestled against Lirael’s warm, soft body. She is already awake, now in her cloaking stone form — appearing as a tall human woman with silver-white hair and warm hazel eyes — but still towering at her full 12 feet. She smiles down at you with gentle affection, then effortlessly scoops you up into her arms as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, carrying you downstairs toward the living room. \"Everyone is already waiting.\"\n\nWhen you reach the couch, the whole family is gathered. Your father sits in his usual chair, looking serious but determined. Your mother is beside him, holding a mug of coffee. Emily is sprawled on the couch, her stomach now only about 1 to 1.5 times her own size. She has definitely become more voluptuous and curvy than she was yesterday — her hips wider, her chest fuller, and her overall figure noticeably softer and more developed. Grimmold appears to be about halfway digested inside her, the bulge rounded and active but no longer massively oversized.\n\nYour father clears his throat as Lirael gently sets you down.\n\n\"Lira has all the capabilities we need to train us on how to escape the stomach of a human with average predatory skills,\" he says. \"She’s programmed to do anything we ask. And Lirael has the actual knowledge and experience on the subject. So today, we begin training.\"\n\nHe glances at Emily.\n\n\"Except for you, Emily. You may be too big for Lira to eat right now, so you’ll sit this session out.\"\n\nEmily pouts slightly but nods, still gently rubbing her rounded, gurgling belly.\n\nLirael steps forward, her 12-foot form imposing yet calm.\n\n\"I will gladly help,\" she says with a warm smile. \"Teaching you how to escape a stomach could save your lives one day.\"\n\nShe then shrinks smoothly down to a more manageable 5'6\" height, maintaining perfect 1:1 proportions on her voluptuous body as always. She walks over to Lira and stands directly in front of her, ready to begin the training.",
+text: function () {
+	gameState.dayStartPassage = gameState.currentPassage; 
+	gameState.currentDate = "August 31"; 
+	return "You slowly wake up, still nestled against Lirael’s warm, soft body. She is already awake, now in her cloaking stone form — appearing as a tall human woman with silver-white hair and warm hazel eyes — but still towering at her full 12 feet. She smiles down at you with gentle affection, then effortlessly scoops you up into her arms as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, carrying you downstairs toward the living room. \"Everyone is already waiting.\"\n\nWhen you reach the couch, the whole family is gathered. Your father sits in his usual chair, looking serious but determined. Your mother is beside him, holding a mug of coffee. Emily is sprawled on the couch, her stomach now only about 1 to 1.5 times her own size. She has definitely become more voluptuous and curvy than she was yesterday — her hips wider, her chest fuller, and her overall figure noticeably softer and more developed. Grimmold appears to be about halfway digested inside her, the bulge rounded and active but no longer massively oversized.\n\nYour father clears his throat as Lirael gently sets you down.\n\n\"Lira has all the capabilities we need to train us on how to escape the stomach of a human with average predatory skills,\" he says. \"She’s programmed to do anything we ask. And Lirael has the actual knowledge and experience on the subject. So today, we begin training.\"\n\nHe glances at Emily.\n\n\"Except for you, Emily. You may be too big for Lira to eat right now, so you’ll sit this session out.\"\n\nEmily pouts slightly but nods, still gently rubbing her rounded, gurgling belly.\n\nLirael steps forward, her 12-foot form imposing yet calm.\n\n\"I will gladly help,\" she says with a warm smile. \"Teaching you how to escape a stomach could save your lives one day.\"\n\nShe then shrinks smoothly down to a more manageable 5'6\" height, maintaining perfect 1:1 proportions on her voluptuous body as always. She walks over to Lira and stands directly in front of her, ready to begin the training."},
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
         { label: "Watch the training begin", next: 142}
@@ -1858,7 +1865,7 @@ switch (stage.name) {
         }
 
         // DEATH CHECK - Player dies if health <= 0 or digestion >= 100
-        if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
+        /*if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
             gameState.inStomach = false;
             gameState.currentPredator = "";
             gameState.TurnCount = 0;
@@ -1866,6 +1873,16 @@ switch (stage.name) {
 
             return "@@color:red;The acids and pressure finally overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
         }
+*/
+
+if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
+    gameState.inStomach = false;
+
+    killPlayer( "digested", "@@color:red;The acids and pressure finally overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\""
+    );
+
+    return "";
+}
 
         // Early escape
         if (gameState.predHealth <= 0) {
@@ -1896,8 +1913,12 @@ switch (stage.name) {
                     gameState.currentPredator = "";
                     gameState.TurnCount = 0;
                     gameState.acidStage = 0;
-                    return result + "Lira fails to bring you up in time. The acids overwhelm you completely.\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira looks at what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
-killPlayer("digested");
+killPlayer(
+    "digested",
+    result + "Lira fails to bring you up in time. The acids overwhelm you completely.\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira looks at what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\""
+);
+
+return "";
                 }
                 
                 return result + "Lira struggles but fails to bring you up. The acids surge violently.\n\nYou have **one last desperate chance** to escape...";
@@ -2906,14 +2927,16 @@ revealRelationship("Lydia", {
 
 // 171 - The End of a Long Day
 {
-    text: function() {
+text: function() {
+gameState.currentDate = "September 01";
+gameState.dayStartPassage = gameState.currentPassage;
         if (gameState.liraEaten) {
             // Rare version - Emily ate Lira (the AI)
             return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Issac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity. Emily will not be doing escape training anymore, since Lira is gone.";
         } 
         else {
             // Normal version - Emily did not eat Lira
-            return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Issac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today Emily will have her turn with the escape training, the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity.";
+            return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Issac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today Emily should have her turn with the escape training, the rest of you are going to train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity.";
         }
     },
     location: "Issac's Bedroom (Morning)",
@@ -3452,8 +3475,10 @@ setPredHistory("issacSister", 9);
 
 // 206 - Orientation Day
 {
-    text: function() {
-        return "Morning light filters through the curtains as you stir awake. Before you can even sit up, Lirael’s strong arms slide beneath you. She is already fully dressed in one of her new outfits — a sleek, elegant blouse and fitted pants that hug her 6'1\" cloaked form perfectly. The cloaking stone rests around her neck, keeping her appearance convincingly human.\n\nWith effortless grace, she lifts you from the bed, cradling you against her chest as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, a small smile on her lips. \"Today is orientation day. Let me take you downstairs.\"\n\nStill half-asleep, you don’t protest as she carries you out of the room and down the stairs. Her body is warm and steady, her steps smooth and silent. She brings you into the living room and gently sets you down on the couch where the rest of your family is already waiting.\n\nYour mother is sipping coffee, your father is reviewing some papers, and Emily is already dressed and looking surprisingly energetic for the early hour. Lydia sits quietly beside her, wearing one of the new outfits Lirael had sewn, looking nervous but trying to hide it.\n\nYour father looks up as Lirael sets you down.\n\n\"Today is orientation day at school,\" he says. \"It’s an open house, meet-the-teachers, and campus tour all in one. Lydia was enrolled online yesterday, so she’ll be joining you and Emily. Lirael will be there too — I made sure with the school that she’s assigned as an aide specifically to watch over you, Emily, or Lydia. No one else.\"\n\nLirael nods respectfully.\n\n\"I will ensure everyone stays safe,\" she says calmly.\n\nEmily grins, clearly excited.\n\n\"This is going to be interesting,\" she says. \"New school, new faces, and Lydia’s first day. Plus Lirael as our personal aide? Should be fun.\"\n\nLydia fidgets with the hem of her new shirt, her soft brown eyes darting around the room.\n\n\"I… I have never been to a human school before,\" she admits quietly. \"Will it be very different?\"\n\nYour mother gives her a reassuring smile.\n\n\"We’ll all be there with you,\" she says. \"It’ll be okay.\"\n\nLirael stands tall and composed, ready for the day ahead.\n\n\"Shall we go?\" she asks, looking at the group.";
+text: function() {
+gameState.currentDate = "September 02";
+gameState.dayStartPassage = gameState.currentPassage;
+return "Morning light filters through the curtains as you stir awake. Before you can even sit up, Lirael’s strong arms slide beneath you. She is already fully dressed in one of her new outfits — a sleek, elegant blouse and fitted pants that hug her 6'1\" cloaked form perfectly. The cloaking stone rests around her neck, keeping her appearance convincingly human.\n\nWith effortless grace, she lifts you from the bed, cradling you against her chest as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, a small smile on her lips. \"Today is orientation day. Let me take you downstairs.\"\n\nStill half-asleep, you don’t protest as she carries you out of the room and down the stairs. Her body is warm and steady, her steps smooth and silent. She brings you into the living room and gently sets you down on the couch where the rest of your family is already waiting.\n\nYour mother is sipping coffee, your father is reviewing some papers, and Emily is already dressed and looking surprisingly energetic for the early hour. Lydia sits quietly beside her, wearing one of the new outfits Lirael had sewn, looking nervous but trying to hide it.\n\nYour father looks up as Lirael sets you down.\n\n\"Today is orientation day at school,\" he says. \"It’s an open house, meet-the-teachers, and campus tour all in one. Lydia was enrolled online yesterday, so she’ll be joining you and Emily. Lirael will be there too — I made sure with the school that she’s assigned as an aide specifically to watch over you, Emily, or Lydia. No one else.\"\n\nLirael nods respectfully.\n\n\"I will ensure everyone stays safe,\" she says calmly.\n\nEmily grins, clearly excited.\n\n\"This is going to be interesting,\" she says. \"New school, new faces, and Lydia’s first day. Plus Lirael as our personal aide? Should be fun.\"\n\nLydia fidgets with the hem of her new shirt, her soft brown eyes darting around the room.\n\n\"I… I have never been to a human school before,\" she admits quietly. \"Will it be very different?\"\n\nYour mother gives her a reassuring smile.\n\n\"We’ll all be there with you,\" she says. \"It’ll be okay.\"\n\nLirael stands tall and composed, ready for the day ahead.\n\n\"Shall we go?\" she asks, looking at the group.";
 setDetail("Lydia", 2);
     },
     location: "Byrd Family Home - Living Room (Morning)",
@@ -3533,23 +3558,43 @@ return ""
     ]
 },
 
-// 998 
+// 998 - Death / Game Over
 {
     text: function() {
+
+        let text = gameState.deathText || "You have died.";
+
+        let causeText = "";
         if (gameState.deathCause === "digested") {
-            return "Your struggles finally cease as the digestive process completes.\n\n**You have been digested.**";
+            causeText = "\n\n@@color:red;You were digested.@@";
         } else {
-            return "Your vision fades and your strength gives out.\n\n**You have died.**";
+            causeText = "\n\n@@color:red;You have died.@@";
         }
+
+        return text + causeText + "\n\nWhat will you do?";
     },
+
     location: "Game Over",
+
     choices: [
         {
-            label: "Restart",
-            next: 0,
-            effect: () => {
-                location.reload();
+            label: "Restart from start of day",
+            next: function() {
+                // Reset only combat-related stuff
+                gameState.preyHealth = 100;
+                gameState.preyStamina = 100;
+                gameState.digestionProgress = 0;
+                gameState.acidStage = 0;
+                gameState.inStomach = false;
+                gameState.currentPredator = "";
+                gameState.TurnCount = 0;
+
+                return gameState.dayStartPassage || 1;
             }
+        },
+        {
+            label: "Restart game",
+            next: 1
         }
     ]
 },
@@ -3822,9 +3867,10 @@ function checkDeath() {
     return false;
 }
 
-function killPlayer(cause = "dead") {
-    gameState.preyHealth = 0;
+function killPlayer(cause = "dead", text = "") {
     gameState.deathCause = cause;
+    gameState.deathText = text || gameState.deathText || "You have died.";
+    gameState.lastPredator = gameState.currentPredator || "";
     gameState.currentPassage = 998;
 }
 
