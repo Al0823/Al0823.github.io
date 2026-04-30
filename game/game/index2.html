@@ -3660,7 +3660,9 @@ if (checkDeath()) {
             refreshRelationshipUI();
 
             gameState.lastPassage = gameState.currentPassage;
-            gameState.currentPassage = choice.next;
+gameState.currentPassage = (typeof choice.next === "function")
+    ? choice.next()
+    : choice.next;
             renderPassage();
         };
         choicesDiv.appendChild(btn);
