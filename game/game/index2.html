@@ -1772,12 +1772,13 @@ setPredHistory("issasSister", 3);
         }
 
         // Health ticks down every turn, scaled by acidStage
-        let healthLoss = 4 + (gameState.acidStage * 3);
-        gameState.preyHealth -= healthLoss;
+ /*       let healthLoss = 4 + (gameState.acidStage * 3);
+        gameState.preyHealth -= healthLoss; */
         if (gameState.preyHealth < 0) gameState.preyHealth = 0;
 
         // Digestion always progresses
         gameState.digestionProgress += 2 + gameState.acidStage;
+								applyDigestionEffects();
 
         let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${gameState.digestionProgress}% | **Acid Stage:** ${gameState.acidStage} | **Lira's Stomach Health:** ${gameState.predHealth}`;
 /*
