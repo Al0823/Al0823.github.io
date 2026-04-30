@@ -490,8 +490,8 @@ predHealth: 100,
     lastSwallowedBy: "",// Last predator who swallowed the player
 lastActionText: "",
 checkpointShown: { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false },
-gameState.deathCause = null;
-gameState.isDead = false;    
+deathCause: null,
+isDead: false,    
     liraelFreed: false,
     liraelFreedMethod: 0,
     hasKey: false,
@@ -1897,6 +1897,7 @@ switch (stage.name) {
                     gameState.TurnCount = 0;
                     gameState.acidStage = 0;
                     return result + "Lira fails to bring you up in time. The acids overwhelm you completely.\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira looks at what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
+killPlayer("digested");
                 }
                 
                 return result + "Lira struggles but fails to bring you up. The acids surge violently.\n\nYou have **one last desperate chance** to escape...";
@@ -3567,6 +3568,9 @@ let currentRelationshipOpen = null;
 
 // RENDERING 
 function renderPassage() {
+	if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
+    gameState.currentPassage = 998;
+}
     gameState.visitedPassages[gameState.currentPassage] = true;
 
     var p = passages[gameState.currentPassage];
@@ -3816,6 +3820,12 @@ function checkDeath() {
     }
 
     return false;
+}
+
+function killPlayer(cause = "dead") {
+    gameState.preyHealth = 0;
+    gameState.deathCause = cause;
+    gameState.currentPassage = 998;
 }
 
 // STATUS BAR 
