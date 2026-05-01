@@ -1025,7 +1025,7 @@ var passages = [
             }
             return "Your father takes a step closer to the circle, raising his cross.\n\n\"Demon! In the name of the Lord, I command you to release my son and leave this house!\"\n\nLirael tilts her head slightly, studying him with half-lidded golden eyes.\n\n\"Your prayers burn, priest,\" she says softly. \"But they cannot banish me. Your son summoned me willingly.\"";
         },
-        // FIX: static choices array (not function)
+    location: "Basement - Containment Circle (Family Present)",
         choices: [
             { label: "Try to calm Lirael down before she does something drastic", next: 86, condition: () => gameState.liraelFreed && gameState.familyTension >= 40, effect: () => { changeBond("lirael", 15); }},
             { label: "Tell your father to back off — she's protecting you", next: 86, condition: () => gameState.liraelFreed && gameState.familyTension >= 40, effect: () => { gameState.familyTension += 25; }},
@@ -1033,6 +1033,7 @@ var passages = [
             { label: "Confess everything", next: 87, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) },
             { label: "Try to de-escalate", next: 88, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) },
             { label: "Stand your ground beside her", next: 89, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) },
+            
             { label: "Ask Lirael to speak and prove she is not a threat", next: 90, condition: () => !(gameState.liraelFreed && gameState.familyTension >= 40) }
         ]
     },
@@ -1186,8 +1187,8 @@ var passages = [
         text: "You quickly go upstairs and return with a pair of grey sweatpants and a black turtleneck sweater that you think might just barely fit her current size.\n\nLirael's golden eyes brighten as you hand them to her. She holds the clothes up, examining them with clear interest.\n\n\"These look comfortable,\" she says, a small smile curving her lips. \"Thank you, Issac.\"\n\nShe runs her fingers over the fabric, then tilts her head slightly.\n\n\"They're just barely my size right now… Would you like to come with me while I change, or would you rather stay here while I go somewhere private and come back?\"",
         location: "Byrd Family Home - Living Room",
         choices: [
-            { label: "Go with her while she changes", next: 105, effect: () => { gameState.lastChoiceLabel = "changeWithHer"; changeBond("lirael", 100); }},
-            { label: "Stay here while she changes and comes back", next: 105, effect: () => { gameState.lastChoiceLabel = "changeAlone"; }}
+            { label: "Go with her while she changes", next: 105, effect: () => { gameState.lastChoiceLabel = "changeWithHer"; changeBond("lirael", 50); }},
+            { label: "Stay here while she changes and comes back", next: 105, effect: () => { gameState.lastChoiceLabel = "changeAlone"; changeBond("lirael", 25); }}
         ]
     },
 
@@ -1759,7 +1760,35 @@ text: function () {
 // 143 - Issac's Escape Training Session
 {
     text: function() {
+console.log("Entering passage 143");
         // Initialize on first entry
+								if (gameState.TurnCount === undefined) {
+    gameState.TurnCount = 0;
+            gameState.inStomach = true;
+            gameState.currentPredator = "lira";
+            gameState.preyHealth = 100;
+            gameState.preyStamina = 100;
+            gameState.digestionProgress = 0;
+            gameState.acidStage = 0;
+            gameState.predHealth = 90;
+            gameState.predDefense = 6;
+            gameState.trainingSessionCount += 1;
+gameState.lastChoiceLabel = "";
+}
+
+// SAFETY GUARDS
+if (!gameState.checkpointShown) {
+    gameState.checkpointShown = {
+        pred75:false,pred50:false,pred25:false,
+        player75:false,player50:false,player25:false,
+        acid1:false,acid2:false,acid3:false
+    };
+}
+
+if (gameState.preyResilience === undefined) {
+    gameState.preyResilience = 0;
+}
+/*
         if (gameState.TurnCount === undefined) {
             gameState.TurnCount = 0;
             gameState.inStomach = true;
@@ -1775,7 +1804,7 @@ text: function () {
             gameState.checkpointShown = { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false };
             gameState.lastChoiceLabel = "";
         }
-
+*/
         gameState.TurnCount += 1;
 
         // Acid stage increases every 3 turns
@@ -1819,11 +1848,11 @@ switch (stage.name) {
         break;
 
     case "Breaking Down":
-        digestionText = "@@color:orange;Your body is starting to weaken under the acids.@@";
+        digestionText = "Your body is starting to weaken under the acids.";
         break;
 
     case "Critical":
-        digestionText = "@@color:red;The acids are overwhelming. You are close to being digested.@@";
+        digestionText = "The acids are overwhelming. You are close to being digested.";
         break;
 }
 
@@ -1883,7 +1912,7 @@ switch (stage.name) {
 if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
     gameState.inStomach = false;
 
-    killPlayer( "digested", "@@color:red;The acids and pressure finally overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\""
+    killPlayer( "digested", "The acids and pressure finally overwhelm you completely.\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\""
     );
 
     return "";
@@ -3524,56 +3553,26 @@ setDetail("Lydia", 2);
     },
     location: "School - Gymnasium & Campus Tour (Morning)",
     choices: [
-        { label: "Continue with the tour", next: 210 }
-    ]
-},
-// 214 - 
-{
-    text: function() {
-return ""
-},
-    location: " - ",
-    choices: [
-        { label: "", next: 215 }
+        { label: "Continue with the tour", next: 211 }
     ]
 },
 
-
-
-
-// 215 - 
+// 210 - Death / Game Over
 {
     text: function() {
-return ""
-},
-    location: " - ",
-    choices: [
-        { label: "", next: 216 }
-    ]
-},
 
-// 216 - 
-{
-    text: function() {
-return ""
-},
-    location: " - ",
-    choices: [
-        { label: "", next: 217 }
-    ]
-},
-
-// 998 - Death / Game Over
-{
-    text: function() {
+if (gameState.deathCause === undefined) {
+gameState.deathCause = "digested";	
+            causeText = "\n\nYou were digested.";
+        }
 
         let text = gameState.deathText || "You have died.";
 
         let causeText = "";
         if (gameState.deathCause === "digested") {
-            causeText = "\n\n@@color:red;You were digested.@@";
+            causeText = "\n\nYou were digested.";
         } else {
-            causeText = "\n\n@@color:red;You have died.@@";
+            causeText = "\n\nYou have died.";
         }
 
         return text + causeText + "\n\nWhat will you do?";
@@ -3599,7 +3598,7 @@ return ""
         },
         {
             label: "Restart game",
-            next: 1
+            next: 0
         }
     ]
 },
@@ -3615,11 +3614,19 @@ return ""
 
 let currentRelationshipOpen = null;
 
+const DIGESTION_STAGES = [
+    { threshold: 0,   name: "Stable" },
+    { threshold: 20,  name: "Coating" },
+    { threshold: 40,  name: "Burning" },
+    { threshold: 60,  name: "Breaking Down" },
+    { threshold: 80,  name: "Critical" },
+    { threshold: 100, name: "Digested" }
+];
 
 // RENDERING 
 function renderPassage() {
 	if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
-    gameState.currentPassage = 998;
+    gameState.currentPassage = 210;
 }
     gameState.visitedPassages[gameState.currentPassage] = true;
 
@@ -3830,6 +3837,18 @@ function recordLab(name) {
     }
 }
 
+function getDigestionStage(progress) {
+    let stage = DIGESTION_STAGES[0];
+
+    for (let s of DIGESTION_STAGES) {
+        if (progress >= s.threshold) {
+            stage = s;
+        }
+    }
+
+    return stage;
+}
+
 function applyDigestionEffects() {
     const stage = getDigestionStage(gameState.digestionProgress);
 
@@ -3859,7 +3878,7 @@ function checkDeath() {
     if (gameState.digestionProgress >= 100) {
         gameState.isDead = true;
         gameState.deathCause = "digested";
-        gameState.currentPassage = 998;
+        gameState.currentPassage = 210;
         return true;
     }
 
@@ -3867,7 +3886,7 @@ function checkDeath() {
     if (gameState.preyHealth <= 0) {
         gameState.isDead = true;
         gameState.deathCause = "dead";
-        gameState.currentPassage = 998;
+        gameState.currentPassage = 210;
         return true;
     }
 
@@ -3878,7 +3897,7 @@ function killPlayer(cause = "dead", text = "") {
     gameState.deathCause = cause;
     gameState.deathText = text || gameState.deathText || "You have died.";
     gameState.lastPredator = gameState.currentPredator || "";
-    gameState.currentPassage = 998;
+    gameState.currentPassage = 210;
 }
 
 // STATUS BAR 
