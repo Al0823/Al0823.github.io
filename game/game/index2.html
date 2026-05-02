@@ -389,6 +389,9 @@ lirael: {
 { text: "She has stated that she can eat people Orally which was established earlier, Anally, or unbirth them. She has also hinted at other abilities involving her breasts.", unlocked: false }, // 8, set in passage 77
 { text: "She was once a human that was alive during the Hartford Witch Hunts, was killed during one of the hunts and ended up in the sloth district.", unlocked: false }, // 9, set in passage 132
 { text: "She has an infinite supply of Breastmilk, you found out when she Breastfed you for 3 hours and only switching breasts to give you a second to breathe, doing all of this while completely straddling you. It was originally supposed to just be a cuddle session, but Lirael wanted this instead and the both of you definitely enjoyed doing that more than you would have if you were just cuddling.", unlocked: false }, // 10, set in passage 122
+{ text: "After offering her a new set of clothes and choosing to accompany her to the bathroom when she was going to change. You stopped her before she put the new set of clothes on to ask if you could \"see her ass up close,\" to which she agrees to do and then she lowered herself onto you until she was straddling your face while you were laying down on the bathroom floor. You both found it to be a very \"fun\" experience", unlocked: false }, // 11, set in passage 105
+{ text: "After offering her a new set of clothes and choosing to accompany her to the bathroom when she was going to change. Where she without hesitation took her robe off, gently pushed you onto the floor and asked if you wanted to \"see her ass up close.\" Before you could respond, she had already lowered herself onto you until she was straddling your face while you were laying down on the bathroom floor. You both found it to be a very \"fun\" experience", unlocked: false }, // 12, set in passage 105
+{ text: "After offering her a new set of clothes and choosing to accompany her to the bathroom when she was going to change. Where she without hesitation took her robe off, gently pushed you onto the floor and asked if you wanted to \"see her ass up close.\" Before you could respond, she had already lowered herself onto you until she was straddling your face while you were laying down on the bathroom floor. Until she decided that she wanted to feel you inside her and ate you with her ass, she let you out before anything bad could happen. You both found it to be a very \"fun\" experience", unlocked: false }, // 13, set in passage 105
     ],
     grade: "N/A",
     age: "Unknown (appears mid-20s)",
@@ -685,8 +688,9 @@ var passages = [
 
     // 23 - Lying in bed until 8 AM
     { text: function () {
-					gameState.currentDate = "August 23";
-					gameState.dayStartPassage = gameState.currentPassage;
+gameState.currentDate = "August 23";
+gameState.dayStartPassage = gameState.currentPassage;
+saveDayCheckpoint();
 				return "You lie in bed staring at the ceiling, your mind racing with everything that just happened. The image of Lirael's towering form, her lazy smile, and that warm, musky scent still lingers in your thoughts.\n\nYou try to sleep, but every small creak in the house makes your eyes snap open. Time passes slowly — minutes stretching into what feels like hours. Your body is exhausted, but your brain refuses to shut off.\n\nEventually, the first faint light of morning begins to creep through the curtains. You glance at the clock: 7:45 AM.\n\nJust as you finally start to drift off…\n\nThe door to your room opens quietly.\n\nYour mother steps in, still in her robe, looking tired but determined.\n\n\"Issac, it's time to get up,\" she says softly. \"It's already 8 o'clock. We have a lot to do today — especially blessing this house.\"\n\nShe pauses, studying your face for a moment.\n\n\"You look like you didn't sleep well. Everything alright?\"" }, location: "Issac's Bedroom - 8 AM", choices: [{ label: "Get up and start the day", next: 24 }] },
 
     // 24 - Morning breakfast with family
@@ -728,7 +732,7 @@ var passages = [
     { text: "Lirael's heavy-lidded golden eyes shift from you to Lira, a slow, lazy smirk spreading across her face.\n\n\"Well, well… you brought your little toy with you,\" she purrs, voice dripping with amusement. \"How cute. A Human AI and her owner, both coming to visit me.\"\n\nLira stands stiffly beside you, staring up at the towering she-demon. \"Issac… that's a demon. A real one. We shouldn't be here.\"\n\nLirael chuckles softly, stretching languidly. \"Relax, little machine. I don't bite… unless you ask nicely.\"\n\nThe tension in the room is thick.", location: "Basement - Containment Circle (with Lira)", choices: [{ label: "Ask Lirael to explain herself to Lira", next: 33 }, { label: "Try to calm Lira down", next: 34 }, { label: "Tell Lira to wait upstairs after all", next: 32 }, { label: "Continue talking to Lirael", next: 65, effect: () => {setDetail("lirael", 2);} }] },
 
     // 32 - Visiting Lirael ALONE
-    { text: "You descend the last few steps alone. The violet light of the containment circle bathes the basement in an eerie glow.\n\nLirael is lounging against the invisible barrier, her staggering twelve-foot frame relaxed. Her pale lavender skin glows softly as she slowly opens her golden eyes and smiles at you with lazy hunger.\n\n\"Mmmhh~… There you are again,\" she murmurs, voice low and velvety. \"I was starting to wonder if you'd come back before your family noticed something was wrong. Come closer, little human. Tell me… what's on your mind tonight?\"", location: "Basement - Containment Circle", choices: [{ label: "Ask about her life in the Sloth District", next: 81 }, { label: "Talk more about Theo and what she might be able to do", next: 48 }, { label: "Ask how the two of you could become closer", next: 82 }, { label: "Offer to bring her something from upstairs", next: 71 }, { label: "Just sit and spend quiet time with her", next: 49, effect: () => { changeBond("lirael", 15); gameState.supernaturalAffinity += 10; }}, { label: "Say goodbye for now and head back upstairs", next: 70, condition: () => gameState.conversationOptionsUsed >= 3 }] },
+    { text: "You descend the last few steps alone. The violet light of the containment circle bathes the basement in an eerie glow.\n\nLirael is lounging against the invisible barrier, her staggering twelve-foot frame relaxed. Her pale lavender skin glows softly as she slowly opens her golden eyes and smiles at you with lazy hunger.\n\n\"Mmmhh~… There you are again,\" she murmurs, voice low and velvety. \"I was starting to wonder if you'd come back before your family noticed something was wrong. Come closer, little human. Tell me… what's on your mind today?\"", location: "Basement - Containment Circle", choices: [{ label: "Ask about her life in the Sloth District", next: 81 }, { label: "Talk more about Theo and what she might be able to do", next: 48 }, { label: "Ask how the two of you could become closer", next: 82 }, { label: "Offer to bring her something from upstairs", next: 71 }, { label: "Just sit and spend quiet time with her", next: 49, effect: () => { changeBond("lirael", 15); gameState.supernaturalAffinity += 10; }}, { label: "Say goodbye for now and head back upstairs", next: 70, condition: () => gameState.conversationOptionsUsed >= 3 }] },
 
     // 33 - Ask Lirael to explain herself to Lira
     { text: "You turn to Lirael and say, \"Can you please explain who you are and why I summoned you… for Lira's sake?\"\n\nLirael raises one elegant brow, clearly entertained. She looks directly at the nervous AI and speaks in her slow, sultry drawl.\n\n\"I am Lirael, a she-demon from the Sloth District. Your boy summoned me using old magic because he misses his friend. I feed on comfort… not flesh, unless someone truly angers me.\"\n\nShe smiles sweetly at Lira. \"Don't worry, little machine. I won't eat you. Unless you bore me.\"\n\nLira looks even more unsettled. \"Issac… this is dangerous.\"", location: "Basement - Containment Circle (with Lira)", choices: [{ label: "Try to calm Lira down", next: 34 }, { label: "Continue talking to both of them", next: 31 }] },
@@ -1187,8 +1191,8 @@ var passages = [
         text: "You quickly go upstairs and return with a pair of grey sweatpants and a black turtleneck sweater that you think might just barely fit her current size.\n\nLirael's golden eyes brighten as you hand them to her. She holds the clothes up, examining them with clear interest.\n\n\"These look comfortable,\" she says, a small smile curving her lips. \"Thank you, Issac.\"\n\nShe runs her fingers over the fabric, then tilts her head slightly.\n\n\"They're just barely my size right now… Would you like to come with me while I change, or would you rather stay here while I go somewhere private and come back?\"",
         location: "Byrd Family Home - Living Room",
         choices: [
-            { label: "Go with her while she changes", next: 105, effect: () => { gameState.lastChoiceLabel = "changeWithHer"; changeBond("lirael", 50); }},
-            { label: "Stay here while she changes and comes back", next: 105, effect: () => { gameState.lastChoiceLabel = "changeAlone"; changeBond("lirael", 25); }}
+            { label: "Go with her while she changes", next: 105, effect: () => { gameState.lastChoiceLabel = "changeWithHer"; changeBond("lirael", 25); }},
+            { label: "Stay here while she changes and comes back", next: 105, effect: () => { gameState.lastChoiceLabel = "changeAlone"; changeBond("lirael", 10); }}
         ]
     },
 
@@ -1217,42 +1221,50 @@ var passages = [
     // 105 - Changing Scene
     {
         text: function() {
-// =============================================================================
-// CHANGING SCENE VARIANTS - Based on Lirael Bond Level
-// =============================================================================
+
 
 if (gameState.lastChoiceLabel === "changeWithHer") {
 
     let bond = gameState.relationships.lirael.bond || 0;
 
     if (bond < 50) {
+    setDetail("lirael", 11);
         // Version 1 - Low Bond (Gentle & Intimate)
         return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says softly.\n\nShe leads you into the guest bathroom and gently shuts the door behind you.\n\nShe turns to face you, golden eyes half-lidded. Without hesitation she slips out of her old silk robes, revealing her pale lavender skin and incredibly curvaceous figure.\n\nBefore she can put on the new clothes you stop her.\n\n\"Wait… if you don't mind,\" you say, voice a little nervous, \"I'd like to see your ass up close.\"\n\nLirael blinks once, then a slow, soft smile spreads across her face.\n\n\"Mmm… alright,\" she murmurs. \"I don't mind.\"\n\nShe turns around and carefully lowers herself until she is straddling your face while you lie on the cool bathroom floor. Her thick, plush ass settles warmly over you, soft lavender skin enveloping your face completely. The weight is heavy but comforting, and her natural sweet, musky scent surrounds you.\n\nShe stays there for a long, indulgent ten minutes, gently rocking and grinding in slow, lazy circles while one hand strokes your hair.\n\n\"That's it… just relax,\" she whispers above you. \"Take all the time you need.\"\n\nWhen she finally lifts off, she looks down at you with warm, half-lidded golden eyes.\n\n\"Did you enjoy that?\" she asks softly.\n\nShe then slips into the new sweatpants and turtleneck. They hug her body perfectly.\n\nShe turns slowly for you.\n\n\"How do I look now?\"";
 
     } 
     else if (bond < 100) {
+    setDetail("lirael", 11);
         // Version 2 - Medium Bond (More Sensual & Teasing)
-        return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice already a little huskier.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding intimate in the small space.\n\nShe turns to face you, golden eyes half-lidded with anticipation. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts, a narrow waist, and wide, plush hips.\n\nBefore she can put on the new clothes you stop her.\n\n\"Wait… if you don't mind,\" you say, voice a little nervous, \"I'd like to see your ass up close.\"\n\nLirael’s lips curve into a slow, sultry smile.\n\n\"Mmm… bold little human,\" she purrs. \"I don’t mind at all.\"\n\nShe turns around and carefully lowers herself until she is straddling your face while you lie on the cool bathroom floor. Her thick, plush ass settles heavily over you, soft lavender skin completely enveloping your face. The warm, heavy weight presses down as her natural sweet, musky scent floods your senses.\n\nShe stays there for a long, indulgent ten minutes, slowly rocking and grinding her plump ass against your face in lazy, sensual circles. Her soft cheeks spread around you, letting you feel every warm, yielding inch as she lets out quiet, breathy moans above you.\n\n\"That's it… bury your face in me,\" she whispers, voice husky. \"Take all the time you need. Breathe me in.\"\n\nWhen she finally lifts off, her cheeks are flushed and her golden eyes are dark with arousal. A thin strand of wetness connects her to your face for a moment before breaking.\n\n\"Did you enjoy that?\" she asks, voice low and teasing.\n\nShe then slips into the new sweatpants and turtleneck. They hug her body perfectly.\n\nShe turns slowly for you.\n\n\"How do I look now?\"";
+        return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice already a little huskier.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding intimate in the small space.\n\nShe turns to face you, golden eyes half-lidded with anticipation. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts, a narrow waist, and wide, plush hips.\n\nBefore she can put on the new clothes you stop her.\n\n\"Wait… if you don't mind,\" you say, voice a little nervous, \"I'd like to see your ass up close.\"\n\nLirael’s lips curve into a slow, sultry smile.\n\n\"Mmm… bold little human,\" she purrs. \"I don’t mind at all.\"\n\nShe turns around and carefully lowers herself onto you until she is straddling your face while you lie on the cool bathroom floor. Her thick, plush ass settles heavily over you, soft lavender skin completely enveloping your face. The warm, heavy weight presses down as her natural sweet, musky scent floods your senses.\n\nShe stays there for a long, indulgent ten minutes, slowly rocking and grinding her plump ass against your face in lazy, sensual circles. Her soft cheeks spread around you, letting you feel every warm, yielding inch as she lets out quiet, breathy moans above you.\n\n\"That's it… bury your face in me,\" she whispers, voice husky. \"Take all the time you need. Breathe me in.\"\n\nWhen she finally lifts off, her cheeks are flushed and her golden eyes are dark with arousal.\n\n\"Did you enjoy that?\" she asks, voice low and teasing.\n\nShe then slips into the new sweatpants and turtleneck. They hug her body perfectly.\n\nShe turns slowly for you.\n\n\"How do I look now?\"";
 
     } 
     else if (bond < 150) {
+    setDetail("lirael", 12);
         // Version 3 - High Bond (Highly Erotic - Lirael takes initiative)
-        return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice already low and sultry.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with desire. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can say anything, Lirael takes initiative. She gently pushes you down onto the cool bathroom floor, her golden eyes locked on yours with hungry intent.\n\n\"You want to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you a proper view.\"\n\nShe turns around and lowers herself until she is straddling your face, her thick, heavy ass settling fully over you. Soft lavender cheeks completely smother your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to slowly rock and grind her plump ass against you in sensual circles, letting you feel every warm, yielding inch.\n\n\"Mmm… that's it,\" she moans softly above you. \"Bury your face in me. I want to feel you there.\"\n\nShe stays there for a long, indulgent ten minutes, gradually increasing the pressure and speed of her grinding while her hand strokes your hair possessively.\n\nWhen she finally lifts off, her cheeks are flushed and her golden eyes are dark with arousal. A thin strand of wetness connects her to your face for a moment before breaking.\n\n\"Did you enjoy that?\" she asks, voice low and teasing.\n\nShe then slips into the new sweatpants and turtleneck. They hug her body perfectly.\n\nShe turns slowly for you.\n\n\"How do I look now?\"";
+        return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice already low and sultry.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with desire. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can say anything, Lirael takes initiative. She gently pushes you down onto the cool bathroom floor, her golden eyes locked on yours with hungry intent.\n\n\"You want to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you a proper view.\"\n\nShe turns around and lowers herself until onto you she is straddling your face, her thick, heavy ass settling fully over you. Soft lavender cheeks completely smother your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to slowly rock and grind her plump ass against you in sensual circles, letting you feel every warm, yielding inch.\n\n\"Mmm… that's it,\" she moans softly above you. \"Bury your face in me. I want to feel you there.\"\n\nShe stays there for a long, indulgent ten minutes, gradually increasing the pressure and speed of her grinding while her hand strokes your hair possessively.\n\nWhen she finally lifts off, her cheeks are flushed and her golden eyes are dark with arousal.\n\n\"Did you enjoy that?\" she asks, voice low and teasing.\n\nShe then slips into the new sweatpants and turtleneck. They hug her body perfectly.\n\nShe turns slowly for you.\n\n\"How do I look now?\"";
 
     } 
+/*
     else if (bond < 200) {
         // Version 4 - Very High Bond (Very Explicit - Lirael takes strong initiative)
         return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice thick with barely contained lust.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with desire. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can speak, Lirael takes full initiative. She gently but firmly pushes you down onto the cool bathroom floor, straddling your face with her thick, heavy ass.\n\n\"You wanted to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you everything.\"\n\nShe lowers herself fully, her soft, plush cheeks completely smothering your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to rock and grind her plump ass against you in deep, sensual circles, letting you feel every warm, yielding inch of her. Her moans grow louder and more breathy as she takes control, pressing down harder and rolling her hips with deliberate, hungry movements.\n\n\"That's it… bury your face in me,\" she moans above you. \"I want to feel you deep between my cheeks.\"\n\nShe stays there for a long, indulgent ten minutes, gradually increasing the intensity until her grinding becomes almost desperate with pleasure.\n\nWhen she finally lifts off, her cheeks are flushed and her golden eyes are dark with arousal. A thin strand of wetness connects her to your face for a moment before breaking.\n\n\"Did you enjoy that?\" she asks, voice low and teasing.\n\nShe then slips into the new sweatpants and turtleneck. They hug her body perfectly.\n\nShe turns slowly for you.\n\n\"How do I look now?\"";
 
-    } 
+    }
+*/
+    // Version 4 - Bond 150–199 (Highly Erotic - Lirael takes strong initiative)
+else if (bond < 200) {
+setDetail("lirael", 13);
+    return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice already thick with desire.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with lust. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can speak, Lirael takes full initiative. She gently but firmly pushes you down onto the cool bathroom floor, lowering herself onto you until she is straddling your face with her thick, heavy ass.\n\n\"You wanted to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you everything.\"\n\nShe lowers herself fully, her soft, plush cheeks completely smothering your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to rock and grind her plump ass against you in deep, sensual circles, letting you feel every warm, yielding inch of her. Her moans grow louder and more breathy as she takes control, pressing down harder and rolling her hips with hungry movements.\n\nThen her voice drops even lower, husky with arousal.\n\n\"I want to feel you deeper…\"\n\nShe shifts slightly, repositioning herself so her anus is directly over your face. With a soft, wet sound, she begins to slowly pull you inside her ass. The warm, slick ring stretches around your head, enveloping you in tight, velvety heat. She moans deeply as she takes you deeper, her powerful muscles rippling around you in rhythmic waves.\n\nShe keeps you inside for several long, pleasurable minutes, gently squeezing and massaging you with her inner walls while her hand strokes your body. Just before the pleasure becomes too intense for her to control, she carefully pushes you back out, releasing you with a wet pop.\n\nShe looks down at you, flushed and breathing heavily, her golden eyes dark with lust.\n\n\"Did you enjoy that?\" she asks, voice husky. \"I almost lost control… but I wanted you to feel safe with me.\"\n\nShe then slips into the new sweatpants and turtleneck. They hug her body perfectly.\n\nShe turns slowly for you.\n\n\"How do I look now?\"";
+}
     else {
         // Version 5 - Bond 200+ (Lirael loses control - Very Explicit + Special Abilities)
     killPlayer(
         "digested",
-"Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice thick with barely contained lust.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with overwhelming desire. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can speak, Lirael takes full initiative. She gently but firmly pushes you down onto the cool bathroom floor, straddling your face with her thick, heavy ass.\n\n\"You wanted to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you everything.\"\n\nShe lowers herself fully, her soft, plush cheeks completely smothering your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to rock and grind her plump ass against you in deep, sensual circles, letting you feel every warm, yielding inch of her. Her moans grow louder and more desperate as she takes control, pressing down harder and rolling her hips with hungry movements.\n\nThen her voice drops even lower, husky with overwhelming arousal.\n\n\"I… I can’t hold back anymore…\"\n\nShe shifts slightly, repositioning herself so her tight, puckered anus is directly over your face. With a soft, wet sound, she begins to slowly pull you inside her ass using her special anal vore ability. The warm, slick ring stretches around your head, enveloping you in tight, velvety heat. She moans deeply as she takes you deeper, her powerful muscles rippling around you in rhythmic waves, sucking you further in with each pulse.\n\nThe pleasure is too much for her to control. Her body acts on pure instinct, greedily pulling you through her long, hot digestive tract. You slide deeper and deeper, surrounded by slick, rippling walls that massage and squeeze you relentlessly. The heat and pressure are overwhelming, every inch of your body stimulated as you travel through her.\n\nEventually, you emerge into her stomach — a pretty much full tank of hot, tingling acid that immediately begins to wash over you. The moment you arrive, a massive wave of pleasure crashes through both of you. Lirael cries out in ecstasy above, her body shuddering as she feels you inside her most intimate chamber. The acid tingles and burns in the most pleasurable way, quickly breaking you down as her powerful stomach works to absorb you completely.\n\nYou feel yourself melting into her, every part of you being converted into soft, plush fat that pads out her already voluptuous body. The sensation is overwhelming — intense, euphoric, and deeply intimate as you become part of her.\n\nLirael collapses onto the bathroom floor, moaning loudly as she rides the wave of pleasure from fully absorbing you. Her belly swells and then softens as she rapidly digests and claims every bit of you, her curves growing even more exaggerated and lush.\n\nWhen the pleasure finally subsides, she lies there panting, one hand gently rubbing her now even fuller, softer body.\n\n\"…I lost control,\" she whispers breathlessly, a mix of guilt and satisfaction in her voice. \"But… you felt so good inside me… and now you're gone. You've become part of me forever.\"\n\nShe stays there for a long moment, basking in the afterglow, before slowly getting up and slipping into her new clothes."
+"Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice thick with barely contained lust.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with overwhelming desire. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can speak, Lirael takes full initiative. She gently but firmly pushes you down onto the cool bathroom floor, straddling your face with her thick, heavy ass.\n\n\"You wanted to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you everything.\"\n\nShe lowers herself fully, her soft, plush cheeks completely smothering your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to rock and grind her plump ass against you in deep, sensual circles, letting you feel every warm, yielding inch of her. Her moans grow louder and more desperate as she takes control, pressing down harder and rolling her hips with hungry movements.\n\nThen her voice drops even lower, husky with overwhelming arousal.\n\n\"I… I can’t hold back anymore…\"\n\nShe shifts slightly, repositioning herself so her tight, puckered anus is directly over your face. With a soft, wet sound, she begins to slowly pull you inside her ass using her special anal vore ability. The warm, slick ring stretches around your head, enveloping you in tight, velvety heat. She moans deeply as she takes you deeper, her powerful muscles rippling around you in rhythmic waves, sucking you further in with each pulse.\n\nThe pleasure is too much for her to control. Her body acts on pure instinct, greedily pulling you through her long, hot digestive tract. You slide deeper and deeper, surrounded by slick, rippling walls that massage and squeeze you relentlessly. The heat and pressure are overwhelming, every inch of your body stimulated as you travel through her.\n\nEventually, you emerge into her stomach — a pretty much full tank of hot, tingling acid that immediately begins to wash over you. The moment you arrive, a massive wave of pleasure crashes through both of you. Lirael cries out in ecstasy above, her body shuddering as she feels you inside her most inner chamber. The acid tingles and burns in the most pleasurable way, quickly breaking you down as her powerful stomach works to absorb you completely.\n\nYou feel yourself melting into her, every part of you being converted into soft, plush fat that pads out her already voluptuous body. The sensation is overwhelming — intense, euphoric, and deeply intimate as you become part of her.\n\nLirael collapses onto the bathroom floor, moaning loudly as she rides the wave of pleasure from fully absorbing you. Her belly swells and then softens as she rapidly digests and claims every bit of you, her curves growing even more exaggerated and lush.\n\nWhen the pleasure finally subsides, she lies there panting, one hand gently rubbing her now even fuller, softer body.\n\n\"…I lost control,\" she whispers breathlessly, a mix of guilt and satisfaction in her voice. \"But… you felt so good inside me… and now you're gone. You've become part of me forever,\" she goes silent for a moment, \"how am I going to explain this to your family,\" she says in a worried yet puzzled tone.\n\nShe stays there for a long moment, basking in the afterglow, before slowly getting up and slipping into her new clothes."
     );
 
-return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice thick with barely contained lust.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with overwhelming desire. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can speak, Lirael takes full initiative. She gently but firmly pushes you down onto the cool bathroom floor, straddling your face with her thick, heavy ass.\n\n\"You wanted to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you everything.\"\n\nShe lowers herself fully, her soft, plush cheeks completely smothering your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to rock and grind her plump ass against you in deep, sensual circles, letting you feel every warm, yielding inch of her. Her moans grow louder and more desperate as she takes control, pressing down harder and rolling her hips with hungry movements.\n\nThen her voice drops even lower, husky with overwhelming arousal.\n\n\"I… I can’t hold back anymore…\"\n\nShe shifts slightly, repositioning herself so her tight, puckered anus is directly over your face. With a soft, wet sound, she begins to slowly pull you inside her ass using her special anal vore ability. The warm, slick ring stretches around your head, enveloping you in tight, velvety heat. She moans deeply as she takes you deeper, her powerful muscles rippling around you in rhythmic waves, sucking you further in with each pulse.\n\nThe pleasure is too much for her to control. Her body acts on pure instinct, greedily pulling you through her long, hot digestive tract. You slide deeper and deeper, surrounded by slick, rippling walls that massage and squeeze you relentlessly. The heat and pressure are overwhelming, every inch of your body stimulated as you travel through her.\n\nEventually, you emerge into her stomach — a pretty much full tank of hot, tingling acid that immediately begins to wash over you. The moment you arrive, a massive wave of pleasure crashes through both of you. Lirael cries out in ecstasy above, her body shuddering as she feels you inside her most intimate chamber. The acid tingles and burns in the most pleasurable way, quickly breaking you down as her powerful stomach works to absorb you completely.\n\nYou feel yourself melting into her, every part of you being converted into soft, plush fat that pads out her already voluptuous body. The sensation is overwhelming — intense, euphoric, and deeply intimate as you become part of her.\n\nLirael collapses onto the bathroom floor, moaning loudly as she rides the wave of pleasure from fully absorbing you. Her belly swells and then softens as she rapidly digests and claims every bit of you, her curves growing even more exaggerated and lush.\n\nWhen the pleasure finally subsides, she lies there panting, one hand gently rubbing her now even fuller, softer body.\n\n\"…I lost control,\" she whispers breathlessly, a mix of guilt and satisfaction in her voice. \"But… you felt so good inside me… and now you're gone. You've become part of me forever.\"\n\nShe stays there for a long moment, basking in the afterglow, before slowly getting up and slipping into her new clothes.";
+return "";
 
     }
 }
@@ -1287,6 +1299,7 @@ return "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Al
 text: function () {
 gameState.currentDate = "August 30";
 gameState.dayStartPassage = gameState.currentPassage;
+saveDayCheckpoint();
 return "You wake up this next morning feeling more rested than you have in a long time.\n\nLirael is beside the bed, watching over you with soft golden eyes. She smiles when she sees you stir.\n\n\"Good morning,\" she says quietly.\n\n---\n\nOver the past few days Lirael has been on her best behavior. She helped with small chores, stayed out of sight when your father was nearby, and only fed on comfort. Your family has slowly begun to relax around her.\n\nThis morning your father calls everyone together.\n\n\"I've been watching her closely,\" he says, his voice still cautious but noticeably softer than before. \"She hasn't broken any rules. She hasn't harmed anyone. She's even been… helpful.\"\n\nHe looks at Lirael directly.\n\n\"I've decided she can stay. And if anyone ever tries to do harm to this family… you have my permission to use your abilities to protect us.\"\n\nLirael bows her head respectfully, a small, grateful smile on her lips.\n\n\"Thank you,\" she says softly. \"I will keep your family safe.\"\n\nThe house feels different now — lighter, warmer, and more alive with her here."},
         location: "Issac's Bedroom - Morning",
         choices: [{ label: "Continue the story", next: 111, effect: () => {
@@ -1731,8 +1744,9 @@ setPredHistory("issasSister", 3);
 // 141 - Morning Training Begins
 {
 text: function () {
-	gameState.dayStartPassage = gameState.currentPassage; 
-	gameState.currentDate = "August 31"; 
+gameState.dayStartPassage = gameState.currentPassage; 
+gameState.currentDate = "August 31";
+saveDayCheckpoint(); 
 	return "You slowly wake up, still nestled against Lirael’s warm, soft body. She is already awake, now in her cloaking stone form — appearing as a tall human woman with silver-white hair and warm hazel eyes — but still towering at her full 12 feet. She smiles down at you with gentle affection, then effortlessly scoops you up into her arms as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, carrying you downstairs toward the living room. \"Everyone is already waiting.\"\n\nWhen you reach the couch, the whole family is gathered. Your father sits in his usual chair, looking serious but determined. Your mother is beside him, holding a mug of coffee. Emily is sprawled on the couch, her stomach now only about 1 to 1.5 times her own size. She has definitely become more voluptuous and curvy than she was yesterday — her hips wider, her chest fuller, and her overall figure noticeably softer and more developed. Grimmold appears to be about halfway digested inside her, the bulge rounded and active but no longer massively oversized.\n\nYour father clears his throat as Lirael gently sets you down.\n\n\"Lira has all the capabilities we need to train us on how to escape the stomach of a human with average predatory skills,\" he says. \"She’s programmed to do anything we ask. And Lirael has the actual knowledge and experience on the subject. So today, we begin training.\"\n\nHe glances at Emily.\n\n\"Except for you, Emily. You may be too big for Lira to eat right now, so you’ll sit this session out.\"\n\nEmily pouts slightly but nods, still gently rubbing her rounded, gurgling belly.\n\nLirael steps forward, her 12-foot form imposing yet calm.\n\n\"I will gladly help,\" she says with a warm smile. \"Teaching you how to escape a stomach could save your lives one day.\"\n\nShe then shrinks smoothly down to a more manageable 5'6\" height, maintaining perfect 1:1 proportions on her voluptuous body as always. She walks over to Lira and stands directly in front of her, ready to begin the training."},
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
@@ -2964,7 +2978,8 @@ revealRelationship("Lydia", {
 text: function() {
 gameState.currentDate = "September 01";
 gameState.dayStartPassage = gameState.currentPassage;
-        if (gameState.liraEaten) {
+saveDayCheckpoint();
+if (gameState.liraEaten) {
             // Rare version - Emily ate Lira (the AI)
             return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Issac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity. Emily will not be doing escape training anymore, since Lira is gone.";
         } 
@@ -3512,6 +3527,7 @@ setPredHistory("issacSister", 9);
 text: function() {
 gameState.currentDate = "September 02";
 gameState.dayStartPassage = gameState.currentPassage;
+saveDayCheckpoint();
 return "Morning light filters through the curtains as you stir awake. Before you can even sit up, Lirael’s strong arms slide beneath you. She is already fully dressed in one of her new outfits — a sleek, elegant blouse and fitted pants that hug her 6'1\" cloaked form perfectly. The cloaking stone rests around her neck, keeping her appearance convincingly human.\n\nWith effortless grace, she lifts you from the bed, cradling you against her chest as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, a small smile on her lips. \"Today is orientation day. Let me take you downstairs.\"\n\nStill half-asleep, you don’t protest as she carries you out of the room and down the stairs. Her body is warm and steady, her steps smooth and silent. She brings you into the living room and gently sets you down on the couch where the rest of your family is already waiting.\n\nYour mother is sipping coffee, your father is reviewing some papers, and Emily is already dressed and looking surprisingly energetic for the early hour. Lydia sits quietly beside her, wearing one of the new outfits Lirael had sewn, looking nervous but trying to hide it.\n\nYour father looks up as Lirael sets you down.\n\n\"Today is orientation day at school,\" he says. \"It’s an open house, meet-the-teachers, and campus tour all in one. Lydia was enrolled online yesterday, so she’ll be joining you and Emily. Lirael will be there too — I made sure with the school that she’s assigned as an aide specifically to watch over you, Emily, or Lydia. No one else.\"\n\nLirael nods respectfully.\n\n\"I will ensure everyone stays safe,\" she says calmly.\n\nEmily grins, clearly excited.\n\n\"This is going to be interesting,\" she says. \"New school, new faces, and Lydia’s first day. Plus Lirael as our personal aide? Should be fun.\"\n\nLydia fidgets with the hem of her new shirt, her soft brown eyes darting around the room.\n\n\"I… I have never been to a human school before,\" she admits quietly. \"Will it be very different?\"\n\nYour mother gives her a reassuring smile.\n\n\"We’ll all be there with you,\" she says. \"It’ll be okay.\"\n\nLirael stands tall and composed, ready for the day ahead.\n\n\"Shall we go?\" she asks, looking at the group.";
 setDetail("Lydia", 2);
     },
@@ -3559,7 +3575,7 @@ setDetail("Lydia", 2);
 
 // 210 - Death / Game Over
 {
-    text: function() {
+text: function() {
 
 if (gameState.deathCause === undefined) {
 gameState.deathCause = "digested";	
@@ -3578,29 +3594,27 @@ gameState.deathCause = "digested";
         return text + causeText + "\n\nWhat will you do?";
     },
 
-    location: "Game Over",
-
-    choices: [
-        {
-            label: "Restart from start of day",
-            next: function() {
-                // Reset only combat-related stuff
-                gameState.preyHealth = 100;
-                gameState.preyStamina = 100;
-                gameState.digestionProgress = 0;
-                gameState.acidStage = 0;
-                gameState.inStomach = false;
-                gameState.currentPredator = "";
-                gameState.TurnCount = 0;
-
-                return gameState.dayStartPassage || 1;
-            }
-        },
-        {
-            label: "Restart game",
-            next: 0
-        }
-    ]
+location: "Game Over",
+choices: [
+{
+label: "Restart from start of day",
+next: function() {
+if (gameState.dayCheckpoint) {
+const checkpoint = JSON.parse(JSON.stringify(gameState.dayCheckpoint));
+checkpoint.currentPassage = checkpoint.dayStartPassage;
+gameState = checkpoint;
+}
+return gameState.currentPassage || 0;
+}
+},
+{
+label: "Restart game",
+next: function() {
+location.reload();
+return 0;
+}
+}
+]
 },
     
     // 999 - Game End / Content Boundary
@@ -3636,8 +3650,16 @@ function renderPassage() {
         return;
     }
 
-    let displayText = typeof p.text === 'function' ? p.text() : p.text;
-    document.getElementById('story').textContent = displayText;
+let originalPassage = gameState.currentPassage;
+
+let displayText = typeof p.text === 'function' ? p.text() : p.text;
+
+if (gameState.currentPassage !== originalPassage) {
+renderPassage();
+return;
+}
+
+document.getElementById('story').textContent = displayText;
     document.getElementById('location-display').textContent = p.location + " — " + gameState.currentDate;
 
     var choicesDiv = document.getElementById('choices');
@@ -3847,6 +3869,10 @@ function getDigestionStage(progress) {
     }
 
     return stage;
+}
+
+function saveDayCheckpoint() {
+    gameState.dayCheckpoint = JSON.parse(JSON.stringify(gameState));
 }
 
 function applyDigestionEffects() {
