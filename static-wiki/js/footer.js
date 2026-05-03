@@ -1,0 +1,8 @@
+(function setFooterText() {
+  const dateSpan = document.getElementById("dateTime");
+  if (dateSpan) {
+    const currentYear = new Date().getFullYear();
+    const fullDate = new Date().toLocaleString();
+    dateSpan.textContent = `Copyright A.t.A. Projects, Websites, and Games 2025-${currentYear}`;
+  }
+})();

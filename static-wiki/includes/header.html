@@ -1,30 +1,22 @@
 <header>
 
-  <link id="mainStylesheet" rel="stylesheet" href="/css/style.css">
+  <link id="mainStylesheet" rel="stylesheet" href="">
 		<!--<audio autoplay loop> <source src="/audio/latenight.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>-->
 <audio autoplay loop> <source src="/audio/bgmusic.mp3" type="audio/mpeg"> Your browser does not support the audio element. </audio>
 
   <div class="header">
-   Javascript Wiki
+A.t.A. Tech Wiki
   </div>
 
+<div id="google_translate_element" style="display:none;"></div>
 
+<script type="text/javascript" src="/static-wiki/js/lang.js"></script>
 
-  <script>
-    window.vars.WEBSITETITLE = "A.t.A. Tech Wiki";
-    function updatePageTitle() {
-      const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
-      const fullTitle = window.vars.WEBSITETITLE + (pageTitle ? " - " + pageTitle : "");
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-      document.title = fullTitle;
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-      const titleEl = document.getElementById("pageTitle");
-      if (titleEl) titleEl.textContent = fullTitle;
-    }
+<script type="text/javascript" src="/static-wiki/js/theme.js"></script>
 
-    if (window.vars.CSSVAR) {
-      const mainLink = document.getElementById("mainStylesheet");
-      mainLink.href = window.vars.CSSVAR + "style.css";
-    }
-  </script>
+  <script type="text/javascript" src="/static-wiki/js/header.js"></script>
 </header>

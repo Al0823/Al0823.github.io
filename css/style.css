@@ -108,6 +108,8 @@ padding: 1rem  !Important;
 border-right: 1px solid var(--border);
 }
 
+
+
 nav ul { 
 list-style: none; 
 }
@@ -115,9 +117,14 @@ nav ul li {
 margin-bottom: .75rem; 
 }
 
-a {
+nav a {
 text-decoration: none;
 color: var(--link);
+}
+
+nav a.activenav {
+font-weight: bold;
+color: #ff0000;
 }
 
 nav a:hover, .dropdown:hover .dropbtn {

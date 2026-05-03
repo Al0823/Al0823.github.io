@@ -1,0 +1,41 @@
+<nav>
+  <item>
+    <title>Homepage</title>
+    <pathname>index.html</pathname>
+    <admin>0</admin>
+    <status>1</status>
+    <sortorder>10</sortorder>
+  </item>
+
+  <item>
+    <title>Admin</title>
+    <pathname>26wiki26/index.html</pathname>
+    <admin>0</admin>
+    <status>1</status>
+    <sortorder>20</sortorder>
+  </item>
+
+  <item>
+    <title>Content Page List</title>
+    <pathname>content/index.html</pathname>
+    <admin>0</admin>
+    <status>1</status>
+    <sortorder>25</sortorder>
+  </item>
+
+  <item>
+    <title>Login</title>
+    <pathname>login/index.html</pathname>
+    <admin>2</admin>
+    <status>1</status>
+    <sortorder>30</sortorder>
+  </item>
+
+  <item>
+    <title>User Settings</title>
+    <pathname>settings.html</pathname>
+    <admin>0</admin>
+    <status>1</status>
+    <sortorder>40</sortorder>
+  </item>
+</nav>
