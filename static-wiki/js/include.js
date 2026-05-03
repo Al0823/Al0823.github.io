@@ -48,4 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Page title
   if (typeof updatePageTitle === "function") updatePageTitle();
+
+  // Signal that all includes are in the DOM (theme.js uses this to bind #themeSelect)
+  document.dispatchEvent(new Event("includesLoaded"));
 });
