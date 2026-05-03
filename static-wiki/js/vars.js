@@ -1,7 +1,7 @@
 window.vars = {
 
 INCVAR: "/static-wiki/includes/",
-DBVAR: "/static-wiki/databases/",
+DBVAR: "/static-wiki/data/",
 JSVAR: "/static-wiki/js/",
 CSSVAR: "/css/",
 IMGVAR: "/static-wiki/images/",
