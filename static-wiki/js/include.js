@@ -9,8 +9,18 @@ async function loadInclude(id, file) {
   }
 }
 
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error("Failed to load script: " + src));
+    document.head.appendChild(s);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
-  const { INCVAR, DBVAR, DEBUGVAR } = window.vars;
+  const { INCVAR, DBVAR, JSVAR, DEBUGVAR } = window.vars;
 
   await loadInclude("header", INCVAR + "header.html");
   await loadInclude("nav",    INCVAR + "nav.html");
@@ -22,8 +32,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("loadNav() not found — make sure nav.js is loaded before include.js");
   }
 
-  if (typeof window.setFooterText === "function") {
-    window.setFooterText();
+  if (typeof window.setFooterText !== "function") {
+    await loadScript(JSVAR + "footer.js");
+  }
+  window.setFooterText();
+
+  if (typeof window.googleTranslateElementInit === "function") {
+    await loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit");
   }
 
   if (DEBUGVAR) {
