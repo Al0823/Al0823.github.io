@@ -1,5 +1,5 @@
 async function loadNav() {
-  const response = await fetch('nav.xml');
+  const response = await fetch('/static-wiki/data/nav.xml');
   const text = await response.text();
   const parser = new DOMParser();
   const xml = parser.parseFromString(text, "text/xml");
@@ -7,11 +7,10 @@ async function loadNav() {
   const items = Array.from(xml.getElementsByTagName("item"));
 
   // Simulated variables (replace with real auth logic)
-  const admin = getAdminLevel();   // 0, 1, 2
-  const user = getUser();          // null or username
+  const admin = getAdminLevel();
+  const user = getUser();
   const studentCookie = getCookie("Student");
 
-  // Filter + sort
   const filtered = items
     .map(item => ({
       title: item.getElementsByTagName("title")[0].textContent,
@@ -28,7 +27,6 @@ async function loadNav() {
 
   filtered.forEach(item => {
 
-    // ADMIN = 2 logic (login/logout swap)
     if (item.admin === 2) {
       if (!user) {
         addLink(nav, item, currentPath);
@@ -38,18 +36,15 @@ async function loadNav() {
       return;
     }
 
-    // ADMIN = 0 (normal links)
     if (item.admin === 0) {
       addLink(nav, item, currentPath);
     }
   });
 
-  // Admin include (adminVAR=1)
   if (admin === 1) {
     addCustomLink(nav, "Admin Panel", "admin/index.html", currentPath);
   }
 
-  // Cookie-based DEV links
   if (studentCookie === "2559" || studentCookie === "1055") {
     addCustomLink(nav, "DEV PAGE", "/dev/index.html", currentPath);
   }
@@ -71,13 +66,12 @@ function addCustomLink(nav, title, path, currentPath) {
   nav.appendChild(a);
 }
 
-// ---- Helpers ----
 function getAdminLevel() {
   return 0; // replace with real logic
 }
 
 function getUser() {
-  return null; // replace with real login system
+  return null;
 }
 
 function getCookie(name) {
