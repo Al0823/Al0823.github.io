@@ -40,7 +40,7 @@ function runDebug() {
 
   jsDebugDiv.innerHTML = debugVarNames
     .map((name, i) => `${i}&nbsp;&nbsp;<b>${name}</b> = ${getValue(name)}`)
-    .join("<br><hr>");
+    .join("<br><br><hr><br>");
 
   function getAllCSSVars() {
     const found = [];
@@ -64,7 +64,7 @@ function runDebug() {
     ? allVars.map((name, i) => {
         const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
         return `${i}&nbsp;&nbsp;<b>${name}</b> = ${value}`;
-      }).join("<br><hr><br><br>")
+      }).join("<br><br><hr><br>")
     : "(no CSS custom properties found on :root)";
 }
 
