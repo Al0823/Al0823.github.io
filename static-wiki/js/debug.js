@@ -1,83 +1,67 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-  const jsDebugDiv = document.getElementById("js-debug");
+function runDebug() {
+  const jsDebugDiv  = document.getElementById("js-debug");
   const cssDebugDiv = document.getElementById("css-debug");
+  if (!jsDebugDiv || !cssDebugDiv) return;
 
-const debugVarNames = [
- "vars.PATHVAR",
-  "vars.CSSVAR",
-  "vars.INCVAR",
-  "vars.DBVAR",
-  "vars.JSVAR",
-"vars.UTILVAR",
-"vars.SECRETVAR",
-"vars.ASSETSVAR",
-  "vars.DEBUGVAR",
-  "vars.WEBSITETITLE",
-"localStorage.site-language",
-  "localStorage.site-theme",
-  "document.documentElement.classList.value",
-  "screen.width",
-  "screen.height"
-];
+  const debugVarNames = [
+    "vars.PATHVAR",
+    "vars.CSSVAR",
+    "vars.INCVAR",
+    "vars.DBVAR",
+    "vars.JSVAR",
+    "vars.UTILVAR",
+    "vars.SECRETVAR",
+    "vars.ASSETSVAR",
+    "vars.DEBUGVAR",
+    "vars.WEBSITETITLE",
+    "localStorage.site-language",
+    "localStorage.site-theme",
+    "document.documentElement.classList.value",
+    "screen.width",
+    "screen.height"
+  ];
 
-function getValue(path) {
-  // Handle localStorage specially
-  if (path.startsWith("localStorage.")) {
-    const key = path.split(".")[1];
-    return localStorage.getItem(key);
+  function getValue(path) {
+    if (path.startsWith("localStorage.")) {
+      return localStorage.getItem(path.slice("localStorage.".length)) ?? "null";
+    }
+    try {
+      return path.split(".").reduce((obj, key) => obj?.[key], window) ?? "undefined";
+    } catch {
+      return "error";
+    }
   }
 
-  return path.split(".").reduce((obj, key) => obj?.[key], window);
-}
-
-function updateJSDebug() {
   jsDebugDiv.innerHTML = debugVarNames
-    .map((name, i) => {
-      let value;
-
-      try {
-        value = getValue(name);
-      } catch {
-        value = "undefined";
-      }
-
-      return `${i}, <b>${name}</b> = ${value}`;
-    })
+    .map((name, i) => `${i}, <b>${name}</b> = ${getValue(name)}`)
     .join("<br><br><hr><br>");
-}
-
-  updateJSDebug();
 
   function getAllCSSVars() {
     const vars = [];
-
     for (const sheet of document.styleSheets) {
       try {
         for (const rule of sheet.cssRules) {
           if (rule.selectorText === ":root") {
             for (const prop of rule.style) {
-              if (prop.startsWith("--")) {
-                vars.push(prop);
-              }
+              if (prop.startsWith("--")) vars.push(prop);
             }
           }
         }
       } catch (e) {}
     }
-
     return vars;
   }
 
   const allVars = getAllCSSVars();
+  cssDebugDiv.innerHTML = allVars.length
+    ? allVars
+        .map((name, i) => {
+          const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+          return `${i}, <b>${name}</b> = ${value}`;
+        })
+        .join("<br><br><hr><br>")
+    : "(no CSS variables found)";
+}
 
-  cssDebugDiv.innerHTML = allVars
-    .map((name, i) => {
-      const value = getComputedStyle(document.documentElement)
-        .getPropertyValue(name)
-        .trim();
-      return `${i}, <b>${name}</b> = ${value}`;
-    })
-    .join("<br><br><hr><br>");
-
-});
+window.runDebug = runDebug;
+runDebug();
