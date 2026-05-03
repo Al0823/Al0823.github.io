@@ -64,7 +64,7 @@ function runDebug() {
     ? allVars.map((name, i) => {
         const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
         return `${i}&nbsp;&nbsp;<b>${name}</b> = ${value}`;
-      }).join("<br><hr>")
+      }).join("<br><hr><br><br>")
     : "(no CSS custom properties found on :root)";
 }
 
