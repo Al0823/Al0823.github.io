@@ -70,6 +70,7 @@ function addCustomLink(nav, title, path, currentPath) {
     a.classList.add("activenav");
   }
   nav.appendChild(a);
+nav.appendChild(document.createElement("br"));
 }
 
 function getAdminLevel() {
