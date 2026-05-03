@@ -1,6 +1,8 @@
 window.vars = {
 
 PATHVAR: "/static-wiki/",
+
+return PATHVAR,
 INCVAR: PATHVAR + "includes/",
 DEVPATHVAR: "/citi/coding/2026/2/ak/myproject/wikiinfo/",
 DBVAR: PATHVAR + "databases/",
