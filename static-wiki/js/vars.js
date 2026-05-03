@@ -1,14 +1,12 @@
 window.vars = {
 
-PATHVAR: "/static-wiki/",
-
 INCVAR: "/static-wiki/includes/",
-DEVPATHVAR: "/citi/coding/2026/2/ak/myproject/wikiinfo/",
-DBVAR: PATHVAR + "databases/",
+DBVAR: "/static-wiki/databases/",
+JSVAR: "/static-wiki/js/",
 CSSVAR: "/css/",
-IMGVAR: PATHVAR + "images/",
-wikiadminVAR: PATHVAR + "26wiki26/",
-CONTENTVAR: PATHVAR + "content/pages/",
+IMGVAR: "/static-wiki/images/",
+wikiadminVAR: "/static-wiki/26wiki26/",
+CONTENTVAR: "/static-wiki/content/pages/",
 DEBUGVAR: 1,
 WEBSITETITLE: "A.t.A. Tech Wiki"
 };
