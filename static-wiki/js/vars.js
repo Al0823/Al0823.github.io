@@ -3,7 +3,7 @@ window.vars = {
 PATHVAR: "/static-wiki/",
 
 return PATHVAR,
-INCVAR: PATHVAR + "includes/",
+INCVAR: "/static-wiki/includes/",
 DEVPATHVAR: "/citi/coding/2026/2/ak/myproject/wikiinfo/",
 DBVAR: PATHVAR + "databases/",
 CSSVAR: "/css/",
