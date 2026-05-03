@@ -1,3 +1,5 @@
+// debug.js — run after debug.html is in the DOM (called explicitly by include.js)
+
 function runDebug() {
   const jsDebugDiv  = document.getElementById("js-debug");
   const cssDebugDiv = document.getElementById("css-debug");
@@ -24,6 +26,7 @@ function runDebug() {
       const val = localStorage.getItem(path.slice("localStorage.".length));
       return val !== null ? val : "(not set)";
     }
+    // Special cases that can't be cleanly dot-walked from window
     if (path === "document.documentElement.className") {
       return document.documentElement.className || "(none)";
     }
@@ -42,6 +45,7 @@ function runDebug() {
     .map((name, i) => `${i}&nbsp;&nbsp;<b>${name}</b> = ${getValue(name)}`)
     .join("<br><hr>");
 
+  // CSS custom properties
   function getAllCSSVars() {
     const found = [];
     for (const sheet of document.styleSheets) {
@@ -54,6 +58,7 @@ function runDebug() {
           }
         }
       } catch (e) {
+        // Cross-origin sheet, skip
       }
     }
     return found;
