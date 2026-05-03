@@ -16,61 +16,7 @@
 <main>
 <div id="nav"></div>
 <article>
-<form method="GET" action="[thisurl]">
-  <input type="text" name="searchTitle" placeholder="Search pages by title..." value="[hideif [searchTitle]^searchtitle][searchtitle][/hideif]">
-  <input type="submit" value="Search">
-  
-  [if !blank=[searchTitle]]
-    <a href="[thisurl]">Clear</a>
-  [/if]
-</form>
-
-<br><br>
-
-
-
-
-[if ("[searchTitle]" ^ "searchTitle")]
-
-[else]
-
-
-  [search db=[dbVAR]pages.db&EQSTATUSDATArq=1&woTITLEdatarq=[searchTitle]&TITLESORT=1]
-
-    <b>[numfound]</b> result(s) found for "<b>[searchTitle]</b>"<br><br>
-
-
-    [founditems]
-
-      [showif [admin]=0]
-        <a href="[PATHVAR]content/pagedetail.html?SKUVAR=[SKU]">[TITLE]</a><br><br>
-      [/showif]
-
-    [/founditems]
-
-  [/search]
-
-[/else]
-
-[then]
-
-  [search db=[dbVAR]pages.db&EQSTATUSDATArq=1&TITLESORT=1]
-
-
-    [founditems]
-
-      [showif [admin]=0]
-        <a href="[PATHVAR]content/pagedetail.html?SKUVAR=[SKU]">[TITLE]</a><br><br>
-      [/showif]
-
-    [/founditems]
-
-  [/search]
-[/then]
-[/if]
-
-<br><br>
-<a class="activenav" href="[PATHVAR]content/pub/index.html">Public Content Admin</a><br><br>
+This is the main page of the Wiki, from here you can get to the different pages of the website.
 </article>
 </main>
 <footer id="footer"></footer>

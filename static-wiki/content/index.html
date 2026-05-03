@@ -1,15 +1,21 @@
-[include file=../includes/vars.inc]
-<html>
-[text]PAGETITLE=PUB PAGES INDEX[/text]
-[include file=[INCVAR]header.inc]
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>var PAGETITLE = "Homepage";</script>
+<title id="pageTitle"></title>
+<script src="/static-wiki/js/vars.js"></script>
+<script src="/static-wiki/js/theme.js"></script>
+<script src="/static-wiki/js/nav.js"></script>
+<script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header>
+<div id="header">A.t.A. Tech Wiki</div>
+</header>
 <main>
-[include file=[INCVAR]nav.inc]
-
+<div id="nav"></div>
 <article>
-
-
 <form method="GET" action="[thisurl]">
   <input type="text" name="searchTitle" placeholder="Search pages by title..." value="[hideif [searchTitle]^searchtitle][searchtitle][/hideif]">
   <input type="submit" value="Search">
@@ -65,35 +71,6 @@
 
 <br><br>
 <a class="activenav" href="[PATHVAR]content/pub/index.html">Public Content Admin</a><br><br>
-
-
-
-
-
-</article>
-</main>
-[closedatabase db=[DBVAR]pages.db]
-[include file=[incVAR]/footer.inc]
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<script>var PAGETITLE = "Homepage";</script>
-<title id="pageTitle"></title>
-<script src="/static-wiki/js/vars.js"></script>
-<script src="/static-wiki/js/theme.js"></script>
-<script src="/static-wiki/js/nav.js"></script>
-<script src="/static-wiki/js/include.js"></script>
-</head>
-<body>
-<header>
-<div id="header">A.t.A. Tech Wiki</div>
-</header>
-<main>
-<div id="nav"></div>
-<article>
-This is the main page of the Wiki, from here you can get to the different pages of the website.
 </article>
 </main>
 <footer id="footer"></footer>
