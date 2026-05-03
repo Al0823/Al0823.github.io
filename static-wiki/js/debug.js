@@ -16,52 +16,58 @@ function runDebug() {
     "vars.WEBSITETITLE",
     "localStorage.site-language",
     "localStorage.site-theme",
-    "document.documentElement.classList.value",
+    "document.documentElement.className",
     "screen.width",
     "screen.height"
   ];
 
   function getValue(path) {
     if (path.startsWith("localStorage.")) {
-      return localStorage.getItem(path.slice("localStorage.".length)) ?? "null";
+      const val = localStorage.getItem(path.slice("localStorage.".length));
+      return val !== null ? val : "(not set)";
+    }
+    if (path === "document.documentElement.className") {
+      return document.documentElement.className || "(none)";
     }
     try {
-      return path.split(".").reduce((obj, key) => obj?.[key], window) ?? "undefined";
-    } catch {
-      return "error";
+      const val = path.split(".").reduce((obj, key) => {
+        if (obj === undefined || obj === null) return undefined;
+        return obj[key];
+      }, window);
+      return val !== undefined && val !== null ? val : "(not set)";
+    } catch (e) {
+      return "(error: " + e.message + ")";
     }
   }
 
   jsDebugDiv.innerHTML = debugVarNames
-    .map((name, i) => `${i}, <b>${name}</b> = ${getValue(name)}`)
-    .join("<br><br><hr><br>");
+    .map((name, i) => `${i}&nbsp;&nbsp;<b>${name}</b> = ${getValue(name)}`)
+    .join("<br><hr>");
 
   function getAllCSSVars() {
-    const vars = [];
+    const found = [];
     for (const sheet of document.styleSheets) {
       try {
         for (const rule of sheet.cssRules) {
           if (rule.selectorText === ":root") {
             for (const prop of rule.style) {
-              if (prop.startsWith("--")) vars.push(prop);
+              if (prop.startsWith("--")) found.push(prop);
             }
           }
         }
-      } catch (e) {}
+      } catch (e) {
+      }
     }
-    return vars;
+    return found;
   }
 
   const allVars = getAllCSSVars();
   cssDebugDiv.innerHTML = allVars.length
-    ? allVars
-        .map((name, i) => {
-          const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-          return `${i}, <b>${name}</b> = ${value}`;
-        })
-        .join("<br><br><hr><br>")
-    : "(no CSS variables found)";
+    ? allVars.map((name, i) => {
+        const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        return `${i}&nbsp;&nbsp;<b>${name}</b> = ${value}`;
+      }).join("<br><hr>")
+    : "(no CSS custom properties found on :root)";
 }
 
 window.runDebug = runDebug;
-runDebug();

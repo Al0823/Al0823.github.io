@@ -45,9 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const debugArea = document.getElementById("debugInclude");
     if (debugArea) {
       await loadInclude("debugInclude", INCVAR + "debug.html");
-      if (typeof window.runDebug !== "function") {
-        await loadScript(JSVAR + "debug.js");
-      }
+      await loadScript(JSVAR + "debug.js");
       window.runDebug();
     }
   }
