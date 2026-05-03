@@ -1,4 +1,4 @@
-async function loadNav() {
+/*async function loadNav() {
   const response = await fetch('/static-wiki/data/nav.xml');
   const text = await response.text();
   const parser = new DOMParser();
@@ -79,6 +79,53 @@ function getCookie(name) {
     .split("; ")
     .find(row => row.startsWith(name + "="))
     ?.split("=")[1];
+}
+
+loadNav();*/
+
+async function loadNav() {
+  try {
+    console.log("Loading nav.xml...");
+
+    const response = await fetch("/static-wiki/data/nav.xml");
+
+    if (!response.ok) {
+      throw new Error("HTTP error: " + response.status);
+    }
+
+    const text = await response.text();
+    console.log("XML loaded:", text);
+
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, "text/xml");
+
+    const items = xml.getElementsByTagName("item");
+
+    console.log("Items found:", items.length);
+
+    const nav = document.getElementById("mainNav");
+
+    if (!nav) {
+      throw new Error("Nav container #mainNav not found");
+    }
+
+    for (let i = 0; i < items.length; i++) {
+      const title = items[i].getElementsByTagName("title")[0]?.textContent;
+      const path = items[i].getElementsByTagName("pathname")[0]?.textContent;
+
+      console.log("Adding:", title, path);
+
+      const a = document.createElement("a");
+      a.href = path;
+      a.textContent = title;
+
+      nav.appendChild(a);
+      nav.appendChild(document.createElement("br"));
+    }
+
+  } catch (err) {
+    console.error("NAV ERROR:", err);
+  }
 }
 
 loadNav();
