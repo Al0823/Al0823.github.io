@@ -1,10 +1,7 @@
 async function loadNav() {
   try {
     const response = await fetch(window.vars.DBVAR + "nav.xml");
-
-    if (!response.ok) {
-      throw new Error("HTTP error: " + response.status);
-    }
+    if (!response.ok) throw new Error("HTTP error: " + response.status);
 
     const text = await response.text();
     const parser = new DOMParser();
@@ -21,8 +18,8 @@ async function loadNav() {
       .filter(i => i.status === 1)
       .sort((a, b) => a.sort - b.sort);
 
-    const nav = document.getElementById("mainNav");
-    if (!nav) throw new Error("Nav container #mainNav not found");
+    const list = document.getElementById("mainNavList");
+    if (!list) throw new Error("Nav list #mainNavList not found");
 
     const currentPath = window.location.pathname;
     const admin = getAdminLevel();
@@ -31,26 +28,24 @@ async function loadNav() {
 
     items.forEach(item => {
       if (item.admin === 2) {
-        // Login/logout toggle
         if (!user) {
-          addCustomLink(nav, item.title, item.path, currentPath);
+          addCustomLink(list, item.title, item.path, currentPath);
         } else {
-          addCustomLink(nav, "Logout", item.path + "?action=logout", currentPath);
+          addCustomLink(list, "Logout", item.path + "?action=logout", currentPath);
         }
         return;
       }
-
       if (item.admin === 0) {
-        addLink(nav, item, currentPath);
+        addLink(list, item, currentPath);
       }
     });
 
     if (admin === 1) {
-      addCustomLink(nav, "Admin Panel", "admin/index.html", currentPath);
+      addCustomLink(list, "Admin Panel", "admin/index.html", currentPath);
     }
 
     if (studentCookie === "2559" || studentCookie === "1055") {
-      addCustomLink(nav, "DEV PAGE", "/dev/index.html", currentPath);
+      addCustomLink(list, "DEV PAGE", "/dev/index.html", currentPath);
     }
 
   } catch (err) {
@@ -58,28 +53,24 @@ async function loadNav() {
   }
 }
 
-function addLink(nav, item, currentPath) {
-  addCustomLink(nav, item.title, item.path, currentPath);
+function addLink(list, item, currentPath) {
+  addCustomLink(list, item.title, item.path, currentPath);
 }
 
-function addCustomLink(nav, title, path, currentPath) {
+function addCustomLink(list, title, path, currentPath) {
+  const li = document.createElement("li");
   const a = document.createElement("a");
   a.href = path;
   a.textContent = title;
   if (currentPath.includes(path)) {
-    a.classList.add("activenav");
+    li.classList.add("activenav");
   }
-  nav.appendChild(a);
-nav.appendChild(document.createElement("br"));
+  li.appendChild(a);
+  list.appendChild(li);
 }
 
-function getAdminLevel() {
-  return 0; // replace with real logic
-}
-
-function getUser() {
-  return null; // replace with real logic
-}
+function getAdminLevel() { return 0; }
+function getUser()       { return null; }
 
 function getCookie(name) {
   return document.cookie
@@ -88,5 +79,4 @@ function getCookie(name) {
     ?.split("=")[1];
 }
 
-// Exposed so include.js can call it after nav.html is in the DOM
 window.loadNav = loadNav;

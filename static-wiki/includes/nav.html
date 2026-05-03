@@ -1,3 +1,47 @@
-<nav id="mainNav"></nav>
+<style>
+  #mainNav {
+    display: block;
+    width: 180px;
+    flex-shrink: 0;
+  }
+
+  #mainNavList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #mainNavList li {
+    border-bottom: 1px solid #00000014;
+  }
+
+  #mainNavList li:first-child {
+    border-top: 1px solid #00000014;
+  }
+
+  #mainNavList li a {
+    display: block;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: inherit;
+    font-size: 0.95rem;
+    transition: background 0.15s;
+  }
+
+  #mainNavList li a:hover {
+    background: #0000000f;
+  }
+
+  #mainNavList li.activenav a {
+    font-weight: bold;
+    background: #0000000a;
+    border-left: 3px solid currentColor;
+    padding-left: 11px;
+  }
+</style>
+
+<nav id="mainNav">
+  <ul id="mainNavList"></ul>
+</nav>
 
 <script src="/static-wiki/js/nav.js"></script>
