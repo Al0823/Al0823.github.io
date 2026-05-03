@@ -12,34 +12,40 @@ async function loadInclude(id, file) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Load header and nav first
-  await loadInclude("header", window.vars.INCVAR + "header.html");
-  await loadInclude("nav", window.vars.INCVAR + "nav.html");
-  await loadInclude("footer", window.vars.INCVAR + "footer.html");
+  const { INCVAR, DBVAR, DEBUGVAR } = window.vars;
 
-  // Populate footer date/time
+  // Load structural includes
+  await loadInclude("header", INCVAR + "header.html");
+  await loadInclude("nav",    INCVAR + "nav.html");
+  await loadInclude("footer", INCVAR + "footer.html");
+
+  // Now that nav.html is in the DOM, populate it
+  // nav.js must be loaded before include.js (add it to <head> or top of <body>)
+  if (typeof window.loadNav === "function") {
+    await window.loadNav();
+  } else {
+    console.error("loadNav() not found — make sure nav.js is loaded before include.js");
+  }
+
+  // Footer date/time
   const footerEl = document.getElementById("footerText");
   if (footerEl) {
     const now = new Date();
-    const dateStr = now.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    const timeStr = now.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-    });
-
-    footerEl.textContent = "Copyright " + dateStr + " - " + timeStr;
+    footerEl.textContent =
+      "Copyright " +
+      now.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) +
+      " - " +
+      now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
   }
 
-  // Load debug section if DEBUGVAR is true
-  if (window.vars?.DEBUGVAR) {
+  // Debug include
+  if (DEBUGVAR) {
     const debugArea = document.getElementById("debugArea");
     if (debugArea) {
-      await loadInclude("debugArea", window.vars.INCVAR + "debug.html");
+      await loadInclude("debugArea", INCVAR + "debug.html");
     }
   }
+
+  // Page title
+  if (typeof updatePageTitle === "function") updatePageTitle();
 });
