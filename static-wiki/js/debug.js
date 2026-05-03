@@ -10,8 +10,8 @@ function runDebug() {
     "vars.DBVAR",
     "vars.JSVAR",
     "vars.UTILVAR",
-    "vars.SECRETVAR",
-    "vars.ASSETSVAR",
+/*    "vars.SECRETVAR",
+    "vars.ASSETSVAR",*/
     "vars.DEBUGVAR",
     "vars.WEBSITETITLE",
     "localStorage.site-language",
