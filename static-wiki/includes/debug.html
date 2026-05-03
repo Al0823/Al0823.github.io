@@ -27,3 +27,53 @@ border: 2px solid #c8c8c8;
 </div>
 </div>
 <script type="text/javascript" src="/static-wiki/js/debug.js"></script>
+<!--
+<style>
+	/*
+  #debugInclude {
+    margin: 1rem;
+    padding: 1rem;
+    border: 2px dashed #ff9900;
+    background: rgba(255, 153, 0, 0.08);
+    font-family: monospace;
+    font-size: 0.8rem;
+  }
+  #debugInclude h4 {
+    margin: 0 0 0.5rem 0;
+    color: #ff9900;
+  }
+  #debugInclude table { border-collapse: collapse; width: 100%; }
+  #debugInclude td { padding: 2px 8px; vertical-align: top; }
+  #debugInclude td:first-child { color: #888888; white-space: nowrap; }
+		*/
+</style>
+
+<h4>⚙ DEBUG</h4>
+<table id="debugTable"></table>
+
+<script>
+	/*
+(function () {
+  const rows = [
+    ["Page",       window.location.pathname],
+    ["PAGETITLE",  typeof PAGETITLE !== "undefined" ? PAGETITLE : "(not set)"],
+    ["DEBUGVAR",   window.vars?.DEBUGVAR],
+    ["INCVAR",     window.vars?.INCVAR],
+    ["DBVAR",      window.vars?.DBVAR],
+    ["JSVAR",      window.vars?.JSVAR],
+    ["CSSVAR",     window.vars?.CSSVAR],
+    ["Theme",      localStorage.getItem("site-theme") || "(not set)"],
+    ["Language",   localStorage.getItem("site-language") || "(not set)"],
+    ["User agent", navigator.userAgent],
+    ["Time",       new Date().toLocaleString()],
+  ];
+  const table = document.getElementById("debugTable");
+  rows.forEach(([key, val]) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${key}</td><td>${val}</td>`;
+    table.appendChild(tr);
+  });
+})();
+</script>
+*/
+-->

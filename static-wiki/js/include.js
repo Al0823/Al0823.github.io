@@ -42,9 +42,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (DEBUGVAR) {
-    const debugArea = document.getElementById("debugArea");
+    const debugArea = document.getElementById("debugInclude");
     if (debugArea) {
-      await loadInclude("debugArea", INCVAR + "debug.html");
+      await loadInclude("debugInclude", INCVAR + "debug.html");
     }
   }
 
