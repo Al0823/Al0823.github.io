@@ -16,51 +16,100 @@
   <div id="nav"></div>
   <article>
     <style>
-      .login-flex { display:flex; flex-wrap:nowrap; gap:20px; }
-      .login-flex > div { flex:1; padding:16px; border:1px solid #ccc; }
-      .login-flex fieldset { border:none; padding:0; }
-      .login-flex legend { font-weight:bold; font-size:1.1rem; margin-bottom:12px; }
-      .login-flex label { display:block; margin-top:8px; }
+      .login-wrap { max-width: 800px; }
+      .login-flex { display: flex; flex-wrap: nowrap; gap: 20px; }
+      .login-flex > div { flex: 1; padding: 16px; border: 1px solid #ccc; }
+      .login-flex fieldset { border: none; padding: 0; margin: 0; }
+      .login-flex legend { font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; display: block; }
+      .login-flex label { display: block; margin-top: 10px; font-size: 0.9rem; }
       .login-flex input[type=text],
       .login-flex input[type=email],
-      .login-flex input[type=password] { width:100%; box-sizing:border-box; padding:6px; margin-top:4px; }
-      .login-flex input[type=submit] { margin-top:12px; width:150px; }
-      .err { color:red; margin-top:8px; }
+      .login-flex input[type=password] { width: 100%; box-sizing: border-box; padding: 6px 8px; margin-top: 4px; }
+      .login-flex button { margin-top: 14px; padding: 7px 20px; cursor: pointer; }
+      .err  { color: red;   margin-top: 8px; font-size: 0.9rem; min-height: 1.2em; }
+      .succ { color: green; margin-top: 8px; font-size: 0.9rem; min-height: 1.2em; }
+
+      /* Logged-in panel */
+      #loggedInPanel { display: none; padding: 16px; border: 1px solid #ccc; max-width: 380px; }
+      #loggedInPanel h3 { margin: 0 0 10px 0; }
+      #loggedInPanel p  { margin: 4px 0; font-size: 0.9rem; }
+      #loggedInPanel button { margin-top: 12px; padding: 7px 20px; cursor: pointer; }
     </style>
 
-    <div class="login-flex">
-      <div>
-        <fieldset>
-          <legend>Already a member? — Log in</legend>
-          <label>Username:<input type="text" id="loginUname" placeholder="Username"></label>
-          <label>Password:<input type="password" id="loginPword" placeholder="Password"></label>
-          <input type="submit" value="Log In" onclick="handleLogin()">
-          <div class="err" id="loginErr"></div>
-        </fieldset>
-      </div>
-      <div>
-        <fieldset>
-          <legend>Become a Member — Sign Up</legend>
-          <label>First name:<input type="text" id="signupFname" placeholder="First Name"></label>
-          <label>Last name:<input type="text" id="signupLname" placeholder="Last Name"></label>
-          <label>Email:<input type="email" id="signupEmail" placeholder="Email"></label>
-          <label>Username:<input type="text" id="signupUname" placeholder="Username"></label>
-          <label>Password:<input type="password" id="signupPword" placeholder="Password"></label>
-          <input type="submit" value="Sign Up" onclick="handleSignup()">
-          <div class="err" id="signupErr"></div>
-        </fieldset>
+    <!-- Shown when already logged in -->
+    <div id="loggedInPanel">
+      <h3>You are logged in</h3>
+      <p>Username: <b id="liUname"></b></p>
+      <p>Name: <b id="liName"></b></p>
+      <p>Admin: <b id="liAdmin"></b></p>
+      <br>
+      <a href="index.html?action=logout"><button>Log Out</button></a>
+    </div>
+
+    <!-- Shown when logged out -->
+    <div class="login-wrap" id="loginPanel">
+      <div class="login-flex">
+        <div>
+          <fieldset>
+            <legend>Already a member? — Log in</legend>
+            <label>Username:
+              <input type="text" id="loginUname" placeholder="Username" autocomplete="username">
+            </label>
+            <label>Password:
+              <input type="password" id="loginPword" placeholder="Password" autocomplete="current-password">
+            </label>
+            <button onclick="handleLogin()">Log In</button>
+            <div class="err"  id="loginErr"></div>
+            <div class="succ" id="loginSucc"></div>
+          </fieldset>
+        </div>
+
+        <div>
+          <fieldset>
+            <legend>Become a Member — Sign Up</legend>
+            <label>First name:
+              <input type="text" id="signupFname" placeholder="First Name" autocomplete="given-name">
+            </label>
+            <label>Last name:
+              <input type="text" id="signupLname" placeholder="Last Name" autocomplete="family-name">
+            </label>
+            <label>Email:
+              <input type="email" id="signupEmail" placeholder="Email" autocomplete="email">
+            </label>
+            <label>Username:
+              <input type="text" id="signupUname" placeholder="Username" autocomplete="off">
+            </label>
+            <label>Password:
+              <input type="password" id="signupPword" placeholder="Password" autocomplete="new-password">
+            </label>
+            <label>Confirm password:
+              <input type="password" id="signupPword2" placeholder="Confirm Password" autocomplete="new-password">
+            </label>
+            <button onclick="handleSignup()">Sign Up</button>
+            <div class="err"  id="signupErr"></div>
+            <div class="succ" id="signupSucc"></div>
+          </fieldset>
+        </div>
       </div>
     </div>
 
     <script>
-      // If already logged in, go home
-      document.addEventListener("includesLoaded", () => {
-        if (isLoggedIn()) window.location.href = window.vars.PATHVAR + "index.html";
-
-        // Handle logout action
+      document.addEventListener("includesLoaded", function() {
+        // Handle logout action before checking login state
         if (new URLSearchParams(location.search).get("action") === "logout") {
           logout();
           window.location.href = window.vars.PATHVAR + "index.html";
+          return;
+        }
+
+        const user = getUser();
+        if (user) {
+          // Show logged-in state instead of the login form
+          document.getElementById("loginPanel").style.display   = "none";
+          document.getElementById("loggedInPanel").style.display = "";
+          document.getElementById("liUname").textContent  = user.UNAME;
+          document.getElementById("liName").textContent   = user.FNAME + " " + user.LNAME;
+          document.getElementById("liAdmin").textContent  = user.ADMIN === "1" ? "Yes" : "No";
         }
       });
 
@@ -68,34 +117,63 @@
         const uname = document.getElementById("loginUname").value.trim();
         const pword = document.getElementById("loginPword").value;
         const err   = document.getElementById("loginErr");
-        err.textContent = "";
-        if (!uname || !pword) { err.textContent = "Please enter username and password."; return; }
+        const succ  = document.getElementById("loginSucc");
+        err.textContent  = "";
+        succ.textContent = "";
+
+        if (!uname || !pword) { err.textContent = "Please enter your username and password."; return; }
+
         try {
-          await login(uname, pword);
-          window.location.href = window.vars.PATHVAR + "index.html";
-        } catch (e) {
+          const user = await login(uname, pword);
+          succ.textContent = "Logged in as " + user.UNAME + ". Redirecting...";
+          setTimeout(function() {
+            window.location.href = window.vars.PATHVAR + "index.html";
+          }, 800);
+        } catch(e) {
           err.textContent = e.message;
         }
       }
 
       async function handleSignup() {
-        const fname = document.getElementById("signupFname").value.trim();
-        const lname = document.getElementById("signupLname").value.trim();
-        const email = document.getElementById("signupEmail").value.trim();
-        const uname = document.getElementById("signupUname").value.trim();
-        const pword = document.getElementById("signupPword").value;
-        const err   = document.getElementById("signupErr");
-        err.textContent = "";
-        if (!fname || !lname || !email || !uname || !pword) {
+        const fname  = document.getElementById("signupFname").value.trim();
+        const lname  = document.getElementById("signupLname").value.trim();
+        const email  = document.getElementById("signupEmail").value.trim();
+        const uname  = document.getElementById("signupUname").value.trim();
+        const pword  = document.getElementById("signupPword").value;
+        const pword2 = document.getElementById("signupPword2").value;
+        const err    = document.getElementById("signupErr");
+        const succ   = document.getElementById("signupSucc");
+        err.textContent  = "";
+        succ.textContent = "";
+
+        if (!fname || !lname || !email || !uname || !pword || !pword2) {
           err.textContent = "All fields are required."; return;
         }
+        if (pword !== pword2) {
+          err.textContent = "Passwords do not match."; return;
+        }
+        if (pword.length < 4) {
+          err.textContent = "Password must be at least 4 characters."; return;
+        }
+
         try {
-          await signup(fname, lname, email, uname, pword);
-          window.location.href = window.vars.PATHVAR + "index.html";
-        } catch (e) {
+          const user = await signup(fname, lname, email, uname, pword);
+          succ.textContent = "Account created! Welcome, " + user.UNAME + ". Redirecting...";
+          setTimeout(function() {
+            window.location.href = window.vars.PATHVAR + "index.html";
+          }, 800);
+        } catch(e) {
           err.textContent = e.message;
         }
       }
+
+      // Allow pressing Enter to submit
+      document.addEventListener("keydown", function(e) {
+        if (e.key !== "Enter") return;
+        const active = document.activeElement;
+        if (active && active.closest("#loginPanel .login-flex > div:first-child")) handleLogin();
+        if (active && active.closest("#loginPanel .login-flex > div:last-child"))  handleSignup();
+      });
     </script>
   </article>
 </main>
