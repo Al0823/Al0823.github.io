@@ -11,5 +11,5 @@
 
     if (window.vars.CSSVAR) {
       const mainLink = document.getElementById("mainStylesheet");
-      mainLink.href = window.vars.CSSVAR + "style.css?v=1.1";
+      mainLink.href = window.vars.CSSVAR + "style.css?v=1.2";
     }
