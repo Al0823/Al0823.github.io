@@ -35,7 +35,7 @@ window.vars = (function() {
 
 APIVAR: "https://wiki-worker.akonyswoodard.workers.dev"
 
-    DEBUGVAR: true,
+    DEBUGVAR: true;
     WEBSITETITLE: "A.t.A. Tech Wiki",
   };
 

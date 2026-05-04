@@ -13,7 +13,7 @@ function runDebug() {
     "vars.wikiadminVAR",
     "vars.DEBUGVAR",
     "vars.WEBSITETITLE",
-    "vars.WEBSITETITLE",
+    "vars.APIVAR",
     "localStorage.site-language",
     "localStorage.site-theme",
     "document.documentElement.className",
