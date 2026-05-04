@@ -1,4 +1,4 @@
-async function loadInclude(id, file) {
+/*async function loadInclude(id, file) {
   try {
     const res = await fetch(file);
     if (!res.ok) throw new Error(`Failed to load ${file}: ${res.status}`);
@@ -56,8 +56,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.dispatchEvent(new Event("includesLoaded"));
 });
-
-/*async function loadInclude(id, file) {
+*/
+async function loadInclude(id, file) {
   try {
     const res = await fetch(file);
     if (!res.ok) throw new Error(`Failed to load ${file}: ${res.status}`);
@@ -112,4 +112,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (typeof updatePageTitle === "function") updatePageTitle();
 
   document.dispatchEvent(new Event("includesLoaded"));
-});*/
+});
