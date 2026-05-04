@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit");
   }
 
-  if (DEBUGVAR) {
+  if (DEBUGVAR === true) {
     const debugArea = document.getElementById("debugInclude");
     if (debugArea) {
       await loadInclude("debugInclude", INCVAR + "debug.html");
