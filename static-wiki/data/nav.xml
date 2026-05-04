@@ -1,7 +1,7 @@
 <nav>
   <item>
     <title>Homepage</title>
-    <pathname>index.html</pathname>
+    <pathname>/static-wiki/index.html</pathname>
     <admin>0</admin>
     <status>1</status>
     <sortorder>10</sortorder>
@@ -9,7 +9,7 @@
 
   <item>
     <title>Admin</title>
-    <pathname>26wiki26/index.html</pathname>
+    <pathname>/static-wiki/26wiki26/index.html</pathname>
     <admin>0</admin>
     <status>1</status>
     <sortorder>20</sortorder>
@@ -17,7 +17,7 @@
 
   <item>
     <title>Content Page List</title>
-    <pathname>content/index.html</pathname>
+    <pathname>/static-wiki/content/index.html</pathname>
     <admin>0</admin>
     <status>1</status>
     <sortorder>25</sortorder>
@@ -25,7 +25,7 @@
 
   <item>
     <title>Login</title>
-    <pathname>login/index.html</pathname>
+    <pathname>/static-wiki/login/index.html</pathname>
     <admin>2</admin>
     <status>1</status>
     <sortorder>30</sortorder>
@@ -33,7 +33,7 @@
 
   <item>
     <title>User Settings</title>
-    <pathname>settings.html</pathname>
+    <pathname>/static-wiki/settings.html</pathname>
     <admin>0</admin>
     <status>1</status>
     <sortorder>40</sortorder>
