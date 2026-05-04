@@ -1,79 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<script>var PAGETITLE = "Homepage";</script>
-<title id="pageTitle"></title>
-<script src="/static-wiki/js/vars.js"></script>
-<script src="/static-wiki/js/theme.js"></script>
-<script src="/static-wiki/js/nav.js"></script>
-<script src="/static-wiki/js/include.js"></script>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Content Pages";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
 </head>
 <body>
-<header>
-<div id="header">A.t.A. Tech Wiki</div>
-</header>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
 <main>
-<div id="nav"></div>
-<article>
-<form method="GET" action="[thisurl]">
-  <input type="text" name="searchTitle" placeholder="Search pages by title..." value="[hideif [searchTitle]^searchtitle][searchtitle][/hideif]">
-  <input type="submit" value="Search">
-  
-  [if !blank=[searchTitle]]
-    <a href="[thisurl]">Clear</a>
-  [/if]
-</form>
-
-<br><br>
-
-
-
-
-[if ("[searchTitle]" ^ "searchTitle")]
-
-[else]
-
-
-  [search db=[dbVAR]pages.db&EQSTATUSDATArq=1&woTITLEdatarq=[searchTitle]&TITLESORT=1]
-
-    <b>[numfound]</b> result(s) found for "<b>[searchTitle]</b>"<br><br>
-
-
-    [founditems]
-
-      [showif [admin]=0]
-        <a href="[PATHVAR]content/pagedetail.html?SKUVAR=[SKU]">[TITLE]</a><br><br>
-      [/showif]
-
-    [/founditems]
-
-  [/search]
-
-[/else]
-
-[then]
-
-  [search db=[dbVAR]pages.db&EQSTATUSDATArq=1&TITLESORT=1]
-
-
-    [founditems]
-
-      [showif [admin]=0]
-        <a href="[PATHVAR]content/pagedetail.html?SKUVAR=[SKU]">[TITLE]</a><br><br>
-      [/showif]
-
-    [/founditems]
-
-  [/search]
-[/then]
-[/if]
-
-<br><br>
-<a class="activenav" href="[PATHVAR]content/pub/index.html">Public Content Admin</a><br><br>
-</article>
+  <div id="nav"></div>
+  <article>
+    <form id="searchForm" onsubmit="handleSearch(event)">
+      <input type="text" id="searchInput" placeholder="Search pages by title...">
+      <input type="submit" value="Search">
+      <span id="clearBtn" style="display:none">
+        &nbsp;<a href="index.html">Clear</a>
+      </span>
+    </form>
+    <br>
+    <div id="pageListContainer"></div>
+  </article>
 </main>
 <footer id="footer"></footer>
 <div id="debugInclude"></div>
+
+<script>
+  const q = new URLSearchParams(location.search).get("search") ?? "";
+  if (q) {
+    document.getElementById("searchInput").value = q;
+    document.getElementById("clearBtn").style.display = "";
+  }
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const val = document.getElementById("searchInput").value.trim();
+    location.href = val ? "index.html?search=" + encodeURIComponent(val) : "index.html";
+  }
+
+  document.addEventListener("includesLoaded", () => loadPageList("pageListContainer", q));
+</script>
 </body>
 </html>

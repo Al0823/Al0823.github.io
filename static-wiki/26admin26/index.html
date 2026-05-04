@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Admin";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <script>document.addEventListener("includesLoaded", () => requireAdmin());</script>
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="pages/index.html">Manage Pages</a></li>
+      <li><a href="members/index.html">Manage Members</a></li>
+    </ul>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+</body>
+</html>

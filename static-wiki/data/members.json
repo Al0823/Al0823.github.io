@@ -1,0 +1,57 @@
+[
+  {
+    "SKU": "1",
+    "FNAME": "Aloysius",
+    "LNAME": "Konys-Merrill",
+    "EMAIL": "akonyswoodard@gmail.com",
+    "UNAME": "akonysmerrill",
+    "ADMIN": "1",
+    "CREATEDATE": "12/11/2025",
+    "MODDATE": "05/04/2026",
+    "STATUS": "1"
+  },
+  {
+    "SKU": "2",
+    "FNAME": "Alex",
+    "LNAME": "Mccombie",
+    "EMAIL": "mac@gmail.com",
+    "UNAME": "mac",
+    "ADMIN": "1",
+    "CREATEDATE": "01/06/2026",
+    "MODDATE": "01/06/2026",
+    "STATUS": "1"
+  },
+  {
+    "SKU": "3",
+    "FNAME": "John",
+    "LNAME": "Pork",
+    "EMAIL": "XDDCC@gmail.com",
+    "UNAME": "JohnPork",
+    "ADMIN": "0",
+    "CREATEDATE": "01/07/2026",
+    "MODDATE": "01/07/2026",
+    "STATUS": "1"
+  },
+  {
+    "SKU": "5",
+    "FNAME": "John",
+    "LNAME": "Pork",
+    "EMAIL": "jpork@citiboces.net",
+    "UNAME": "jpork",
+    "ADMIN": "0",
+    "CREATEDATE": "03/13/2026",
+    "MODDATE": "03/13/2026",
+    "STATUS": "1"
+  },
+  {
+    "SKU": "6",
+    "FNAME": "j",
+    "LNAME": "j",
+    "EMAIL": "j@h.com",
+    "UNAME": "j",
+    "ADMIN": "0",
+    "CREATEDATE": "03/13/2026",
+    "MODDATE": "03/13/2026",
+    "STATUS": "1"
+  }
+]

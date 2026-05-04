@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Admin - Edit Member";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <script>document.addEventListener("includesLoaded", () => requireAdmin());</script>
+    <h2>Edit Member</h2>
+    <label>First name:<br><input type="text" id="fname"></label><br><br>
+    <label>Last name:<br><input type="text" id="lname"></label><br><br>
+    <label>Email:<br><input type="email" id="email"></label><br><br>
+    <label>Username:<br><input type="text" id="uname"></label><br><br>
+    <label>Password:<br><input type="password" id="pword"></label><br><br>
+    <label>Admin:
+      <select id="admin"><option value="0">No</option><option value="1">Yes</option></select>
+    </label><br><br>
+    <label>Status:
+      <select id="status"><option value="1">Active</option><option value="0">Inactive</option></select>
+    </label><br><br>
+    <button onclick="handleEdit()">Save Changes</button>
+    <a href="index.html" style="margin-left:12px">Cancel</a>
+    <div id="err" style="color:red;margin-top:8px"></div>
+    <script>
+      const sku = new URLSearchParams(location.search).get("sku");
+      document.addEventListener("includesLoaded", async () => {
+        requireAdmin();
+        try {
+          const members = await adminGetMembers();
+          const m = members.find(m => m.SKU === sku);
+          if (!m) { document.getElementById("err").textContent = "Member not found."; return; }
+          document.getElementById("fname").value  = m.FNAME;
+          document.getElementById("lname").value  = m.LNAME;
+          document.getElementById("email").value  = m.EMAIL;
+          document.getElementById("uname").value  = m.UNAME;
+          document.getElementById("admin").value  = m.ADMIN;
+          document.getElementById("status").value = m.STATUS;
+        } catch(e) { document.getElementById("err").textContent = e.message; }
+      });
+      async function handleEdit() {
+        const err = document.getElementById("err");
+        err.textContent = "";
+        try {
+          await adminEditMember(sku, {
+            FNAME:  document.getElementById("fname").value.trim(),
+            LNAME:  document.getElementById("lname").value.trim(),
+            EMAIL:  document.getElementById("email").value.trim(),
+            UNAME:  document.getElementById("uname").value.trim(),
+            PWORD:  document.getElementById("pword").value || undefined,
+            ADMIN:  document.getElementById("admin").value,
+            STATUS: document.getElementById("status").value,
+          });
+          window.location.href = "index.html";
+        } catch(e) { err.textContent = e.message; }
+      }
+    </script>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+</body>
+</html>

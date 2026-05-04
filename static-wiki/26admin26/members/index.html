@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Admin - Members";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <script>document.addEventListener("includesLoaded", () => requireAdmin());</script>
+    <h2>Members Admin</h2>
+    <a href="add.html">+ Add New</a> &nbsp; <a href="../index.html">← Admin Home</a><br><br>
+    <div id="tableContainer">Loading...</div>
+    <script>
+      document.addEventListener("includesLoaded", async () => {
+        requireAdmin();
+        const action = new URLSearchParams(location.search).get("action");
+        const sku    = new URLSearchParams(location.search).get("sku");
+        if (action === "delete" && sku) {
+          if (confirm("Delete record #" + sku + "?")) {
+            try { await adminDeleteMember(sku); } catch(e) { alert(e.message); }
+            location.href = "index.html";
+          }
+        }
+        try {
+          const records = await adminGetMembers();
+          renderTable(records);
+        } catch(err) {
+          document.getElementById("tableContainer").innerHTML = '<p class="error">' + esc(err.message) + '</p>';
+        }
+      });
+      function renderTable(records) {
+        const c = document.getElementById("tableContainer");
+        if (!records.length) { c.innerHTML = "<p>No records found.</p>"; return; }
+        const keys = Object.keys(records[0]);
+        c.innerHTML = '<table border="1" style="width:100%"><tr>' +
+          keys.map(k => '<th>' + esc(k) + '</th>').join('') +
+          '<th></th><th></th></tr>' +
+          records.map(r =>
+            '<tr>' +
+            keys.map(k => '<td>' + esc(r[k]) + '</td>').join('') +
+            '<td><a href="edit.html?sku=' + r.SKU + '">Edit</a></td>' +
+            '<td><a href="index.html?action=delete&sku=' + r.SKU + '">Delete</a></td>' +
+            '</tr>'
+          ).join('') + '</table>';
+      }
+    </script>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+</body>
+</html>

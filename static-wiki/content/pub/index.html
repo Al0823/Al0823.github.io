@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "My Pages";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <h2>My Pages</h2>
+    <a href="add.html">+ Add New Page</a><br><br>
+    <div id="pageTable">Loading...</div>
+    <script>
+      document.addEventListener("includesLoaded", async () => {
+        requireLogin();
+        const container = document.getElementById("pageTable");
+        try {
+          const pages = await pubGetPages();
+          if (pages.length === 0) { container.innerHTML = "<p>You have no pages yet.</p>"; return; }
+
+          const action = new URLSearchParams(location.search).get("action");
+          const sku    = new URLSearchParams(location.search).get("sku");
+          if (action === "delete" && sku) {
+            if (confirm("Delete this page?")) {
+              await pubDeletePage(sku);
+              location.href = "index.html";
+            }
+          }
+
+          container.innerHTML = `
+            <table border="1" style="width:100%">
+              <tr><th>SKU</th><th>Title</th><th>Created</th><th>Modified</th><th>Status</th><th></th><th></th></tr>
+              ${pages.map(p => `
+              <tr>
+                <td>${esc(p.SKU)}</td>
+                <td><a href="${window.vars.PATHVAR}content/pagedetail.html?sku=${p.SKU}">${esc(p.TITLE)}</a></td>
+                <td>${esc(p.CREATEDATE)}</td>
+                <td>${esc(p.MODDATE)}</td>
+                <td>${p.STATUS === "1" ? "Active" : "Disabled"}</td>
+                <td><a href="edit.html?sku=${p.SKU}">Edit</a></td>
+                <td><a href="index.html?action=delete&sku=${p.SKU}" onclick="return confirm('Delete this page?')">Delete</a></td>
+              </tr>`).join("")}
+            </table>`;
+        } catch (err) {
+          container.innerHTML = `<p class="error">${esc(err.message)}</p>`;
+        }
+      });
+    </script>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+</body>
+</html>

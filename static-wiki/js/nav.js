@@ -22,13 +22,12 @@ async function loadNav() {
     if (!list) throw new Error("Nav list #mainNavList not found");
 
     const currentPath = window.location.pathname;
-    const admin = getAdminLevel();
-    const user  = getUser();
-    const studentCookie = getCookie("Student");
+    const siteBase    = (window.vars?.PATHVAR ?? "/static-wiki/").replace(/\/?$/, "/");
 
-    // Base path for the site root — ensures nav links work from any subfolder.
-    // PATHVAR should be an absolute path like "/static-wiki/" in vars.js.
-    const siteBase = (window.vars?.PATHVAR ?? "/static-wiki/").replace(/\/?$/, "/");
+    let user = null;
+    try { user = JSON.parse(localStorage.getItem("authUser")); } catch {}
+    const loggedIn = !!user;
+    const admin    = user?.ADMIN === "1";
 
     function toAbsolute(path) {
       if (path.startsWith("/") || path.startsWith("http")) return path;
@@ -37,10 +36,10 @@ async function loadNav() {
 
     items.forEach(item => {
       if (item.admin === 2) {
-        if (!user) {
+        if (!loggedIn) {
           addCustomLink(list, item.title, toAbsolute(item.path), currentPath);
         } else {
-          addCustomLink(list, "Logout", toAbsolute(item.path) + "?action=logout", currentPath);
+          addCustomLink(list, "Logout", toAbsolute("login/index.html") + "?action=logout", currentPath);
         }
         return;
       }
@@ -49,11 +48,13 @@ async function loadNav() {
       }
     });
 
-    if (admin === 1) {
-      addCustomLink(list, "Admin Panel", siteBase + "26wiki26/index.html", currentPath);
+    if (loggedIn) {
+      addCustomLink(list, "My Pages", siteBase + "content/pub/index.html", currentPath);
     }
-
-    if (studentCookie === "2559" || studentCookie === "1055") {
+    if (admin) {
+      addCustomLink(list, "Admin", siteBase + "26wiki26/index.html", currentPath);
+    }
+    if (user?.SKU === "1" || getCookie("Student") === "2559" || getCookie("Student") === "1055") {
       addCustomLink(list, "DEV PAGE", "/dev/index.html", currentPath);
     }
 
@@ -64,24 +65,16 @@ async function loadNav() {
 
 function addCustomLink(list, title, path, currentPath) {
   const li = document.createElement("li");
-  const a = document.createElement("a");
+  const a  = document.createElement("a");
   a.href = path;
   a.textContent = title;
-  if (currentPath.includes(path)) {
-    li.classList.add("activenav");
-  }
+  if (currentPath.includes(path)) li.classList.add("activenav");
   li.appendChild(a);
   list.appendChild(li);
 }
 
-function getAdminLevel() { return 0; }
-function getUser()       { return null; }
-
 function getCookie(name) {
-  return document.cookie
-    .split("; ")
-    .find(row => row.startsWith(name + "="))
-    ?.split("=")[1];
+  return document.cookie.split("; ").find(r => r.startsWith(name + "="))?.split("=")[1];
 }
 
 window.loadNav = loadNav;

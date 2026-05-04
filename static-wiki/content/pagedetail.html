@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Content Page";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <div id="pageContent">Loading...</div>
+
+    <hr>
+    <h3>Comments</h3>
+    <div id="commentsList"></div>
+
+    <div id="commentForm" style="display:none">
+      <h3>Add a Comment</h3>
+      <textarea id="commentInput" style="width:100%;height:100px" placeholder="Write a comment..."></textarea><br><br>
+      <button onclick="handleCommentSubmit()">Post Comment</button>
+      <span id="commentError" style="color:red;margin-left:10px"></span>
+    </div>
+    <div id="commentLoginMsg"></div>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+
+<script>
+  const sku = getSkuFromUrl();
+
+  document.addEventListener("includesLoaded", async () => {
+    if (!sku) {
+      document.getElementById("pageContent").innerHTML = "<p>No page specified.</p>";
+      return;
+    }
+    await loadPageDetail(sku);
+    const userSku = localStorage.getItem("userSKU");
+    if (userSku) {
+      document.getElementById("commentForm").style.display = "";
+    } else {
+      document.getElementById("commentLoginMsg").innerHTML =
+        '<p>To add a comment, please <a href="/static-wiki/login/index.html">log in</a>.</p>';
+    }
+  });
+
+  async function handleCommentSubmit() {
+    const comment = document.getElementById("commentInput").value.trim();
+    const errEl   = document.getElementById("commentError");
+    errEl.textContent = "";
+    if (!comment) { errEl.textContent = "Comment cannot be empty."; return; }
+    try {
+      await submitComment(sku, comment);
+      document.getElementById("commentInput").value = "";
+      await loadComments(sku, document.getElementById("commentsList"));
+    } catch (err) {
+      errEl.textContent = err.message;
+    }
+  }
+</script>
+</body>
+</html>

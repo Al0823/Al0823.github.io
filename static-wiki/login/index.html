@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Login";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <style>
+      .login-flex { display:flex; flex-wrap:nowrap; gap:20px; }
+      .login-flex > div { flex:1; padding:16px; border:1px solid #ccc; }
+      .login-flex fieldset { border:none; padding:0; }
+      .login-flex legend { font-weight:bold; font-size:1.1rem; margin-bottom:12px; }
+      .login-flex label { display:block; margin-top:8px; }
+      .login-flex input[type=text],
+      .login-flex input[type=email],
+      .login-flex input[type=password] { width:100%; box-sizing:border-box; padding:6px; margin-top:4px; }
+      .login-flex input[type=submit] { margin-top:12px; width:150px; }
+      .err { color:red; margin-top:8px; }
+    </style>
+
+    <div class="login-flex">
+      <div>
+        <fieldset>
+          <legend>Already a member? — Log in</legend>
+          <label>Username:<input type="text" id="loginUname" placeholder="Username"></label>
+          <label>Password:<input type="password" id="loginPword" placeholder="Password"></label>
+          <input type="submit" value="Log In" onclick="handleLogin()">
+          <div class="err" id="loginErr"></div>
+        </fieldset>
+      </div>
+      <div>
+        <fieldset>
+          <legend>Become a Member — Sign Up</legend>
+          <label>First name:<input type="text" id="signupFname" placeholder="First Name"></label>
+          <label>Last name:<input type="text" id="signupLname" placeholder="Last Name"></label>
+          <label>Email:<input type="email" id="signupEmail" placeholder="Email"></label>
+          <label>Username:<input type="text" id="signupUname" placeholder="Username"></label>
+          <label>Password:<input type="password" id="signupPword" placeholder="Password"></label>
+          <input type="submit" value="Sign Up" onclick="handleSignup()">
+          <div class="err" id="signupErr"></div>
+        </fieldset>
+      </div>
+    </div>
+
+    <script>
+      // If already logged in, go home
+      document.addEventListener("includesLoaded", () => {
+        if (isLoggedIn()) window.location.href = window.vars.PATHVAR + "index.html";
+
+        // Handle logout action
+        if (new URLSearchParams(location.search).get("action") === "logout") {
+          logout();
+          window.location.href = window.vars.PATHVAR + "index.html";
+        }
+      });
+
+      async function handleLogin() {
+        const uname = document.getElementById("loginUname").value.trim();
+        const pword = document.getElementById("loginPword").value;
+        const err   = document.getElementById("loginErr");
+        err.textContent = "";
+        if (!uname || !pword) { err.textContent = "Please enter username and password."; return; }
+        try {
+          await login(uname, pword);
+          window.location.href = window.vars.PATHVAR + "index.html";
+        } catch (e) {
+          err.textContent = e.message;
+        }
+      }
+
+      async function handleSignup() {
+        const fname = document.getElementById("signupFname").value.trim();
+        const lname = document.getElementById("signupLname").value.trim();
+        const email = document.getElementById("signupEmail").value.trim();
+        const uname = document.getElementById("signupUname").value.trim();
+        const pword = document.getElementById("signupPword").value;
+        const err   = document.getElementById("signupErr");
+        err.textContent = "";
+        if (!fname || !lname || !email || !uname || !pword) {
+          err.textContent = "All fields are required."; return;
+        }
+        try {
+          await signup(fname, lname, email, uname, pword);
+          window.location.href = window.vars.PATHVAR + "index.html";
+        } catch (e) {
+          err.textContent = e.message;
+        }
+      }
+    </script>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+</body>
+</html>

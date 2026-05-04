@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Admin - Add Page";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <script>document.addEventListener("includesLoaded", () => requireAdmin());</script>
+    <h2>Add Page</h2>
+    <label>Title:<br><input type="text" id="title" style="width:100%;box-sizing:border-box"></label><br><br>
+    <label>Author SKU:<br><input type="text" id="r_members" style="width:120px"></label><br><br>
+    <label>Status:
+      <select id="status"><option value="1">Active</option><option value="0">Disabled</option></select>
+    </label><br><br>
+    <label>Body (HTML allowed):<br>
+      <textarea id="bodycopy" style="width:100%;height:300px;box-sizing:border-box"></textarea>
+    </label><br><br>
+    <button onclick="handleAdd()">Add Page</button>
+    <a href="index.html" style="margin-left:12px">Cancel</a>
+    <div id="err" style="color:red;margin-top:8px"></div>
+    <script>
+      async function handleAdd() {
+        const err = document.getElementById("err");
+        err.textContent = "";
+        try {
+          await adminAddPage({
+            title:     document.getElementById("title").value.trim(),
+            bodycopy:  document.getElementById("bodycopy").value.trim(),
+            r_members: document.getElementById("r_members").value.trim(),
+            status:    document.getElementById("status").value,
+          });
+          window.location.href = "index.html";
+        } catch(e) { err.textContent = e.message; }
+      }
+    </script>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+</body>
+</html>

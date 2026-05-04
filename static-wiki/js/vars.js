@@ -31,7 +31,9 @@ window.vars = (function() {
     
     UTILVAR: PATHVAR + "utils/",
 
-APIVAR: "https://static-wiki-api.YOUR_SUBDOMAIN.workers.dev"
+    wikiadminVAR: PATHVAR + "26admin16/",
+
+APIVAR: "https://wiki-worker.akonyswoodard.workers.dev"
 
     DEBUGVAR: true,
     WEBSITETITLE: "A.t.A. Tech Wiki",

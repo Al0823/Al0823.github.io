@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Edit Page";</script>
+  <title id="pageTitle"></title>
+  <script src="/static-wiki/js/vars.js"></script>
+  <script src="/static-wiki/js/theme.js"></script>
+  <script src="/static-wiki/js/nav.js"></script>
+  <script src="/static-wiki/js/content.js"></script>
+  <script src="/static-wiki/js/include.js"></script>
+</head>
+<body>
+<header><div id="header">A.t.A. Tech Wiki</div></header>
+<main>
+  <div id="nav"></div>
+  <article>
+    <h2>Edit Page</h2>
+    <label>Title:<br><input type="text" id="title" style="width:100%;box-sizing:border-box"></label><br><br>
+    <label>Body (HTML allowed):<br>
+      <textarea id="bodycopy" style="width:100%;height:300px;box-sizing:border-box"></textarea>
+    </label><br><br>
+    <button onclick="handleEdit()">Save Changes</button>
+    <a href="index.html" style="margin-left:12px">Cancel</a>
+    <div id="err" style="color:#ff0000; margin-top:8px"></div>
+    <script>
+      const sku = new URLSearchParams(location.search).get("sku");
+      document.addEventListener("includesLoaded", async () => {
+        requireLogin();
+        if (!sku) { document.getElementById("err").textContent = "No page specified."; return; }
+        try {
+          const pages = await pubGetPages();
+          const page  = pages.find(p => p.SKU === sku);
+          if (!page) { document.getElementById("err").textContent = "Page not found or not yours."; return; }
+          document.getElementById("title").value    = page.TITLE;
+          document.getElementById("bodycopy").value = page.BODYCOPY;
+        } catch (e) { document.getElementById("err").textContent = e.message; }
+      });
+      async function handleEdit() {
+        const title    = document.getElementById("title").value.trim();
+        const bodycopy = document.getElementById("bodycopy").value.trim();
+        const err      = document.getElementById("err");
+        err.textContent = "";
+        if (!title || !bodycopy) { err.textContent = "Title and body are required."; return; }
+        try {
+          await pubEditPage(sku, title, bodycopy);
+          window.location.href = "index.html";
+        } catch (e) { err.textContent = e.message; }
+      }
+    </script>
+  </article>
+</main>
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+</body>
+</html>
