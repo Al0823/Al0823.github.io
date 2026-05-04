@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Booleans Tutorial"</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Booleans Tutorial</h2>
+    <p>A <strong>Boolean</strong> represents one of two values: <code>true</code> or <code>false</code>. Booleans are mainly used for decision-making in code.</p>
+
+				<div class="fs-15">The Boolean Data Type</div><br><br>
+<div class="fs-10">In JavaScript, a Boolean is a primitive data type that can only have one of two values:
+<br><br>
+true or false
+<br><br>
+The Boolean value of an expression is the basis for all JavaScript comparisons and conditions.</div><br><br>
+
+				<div class="fs-15">Key Boolean Characteristics</div><br><br>
+<div class="fs-10">
+	<ul>
+		<li>true and false are boolean data types</li>
+		<li>true and false are the only possible boolean values</li>
+		<li>true and false must be written in lowercase</li>
+		<li>true and false must be written without quotes</li>
+		</ul>
+	</div><br><br>
+
+<div class="fs-15">Boolean Use Cases</div><br><br>
+<div class="fs-10">
+Very often, in programming, you will need a data type that can represent one of two values, like:<br><br>
+	<ul>
+		<li>yes or no</li>
+		<li>on or off</li>
+		<li>true and false</li>
+		</ul><br><br>
+		Boolean values are fundamental for logical operations and control flow in JavaScript programming.
+	</div><br><br>
+
+<div class="fs-15">Comparisons</div><br><br>
+<div class="fs-10">
+All JavaScript comparison operators (like ==, !=, <, >) return true or false from the comparison.
+<br><br>
+Given that x = 5, the table below explains comparison:<br><br>
+	<ul>
+		<li>Description	Example	Returns</li>
+		<li>Equal to	(x == 8)	false</li>
+		<li>Not equal to	(x != 8)	true</li>
+				<li>Greater than	(x > 8)	false</li>
+		<li>Less than	(x < 8)	true</li>
+		</ul>
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 5;
+document.getElementById("demo").innerHTML = (x == 8);
+</textarea><br><br>
+
+<div class="fs-15">Conditions</div><br><br>
+<div class="fs-10">
+Booleans are extensively used in if statements to determine the code blocks to execute based on the logic.<br><br>
+	<ul>
+		<li>if (day == "Monday")	true or false</li>
+		<li>if (salary > 9000)	true or false</li>
+		<li>if (age < 18)	true or false</li>
+		</ul>
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+const hour = new Date().getHours(); 
+let greeting;
+
+if (hour < 18) {
+  greeting = "Good day!";
+} else {
+  greeting = "Good evening!";
+}
+
+document.getElementById("demo").innerHTML = greeting;
+</textarea><br><br>
+
+<div class="fs-15">Loops</div><br><br>
+<div class="fs-10">
+Booleans are extensively used in loops to determine conditions for looping.<br><br>
+	<ul>
+		<li>For loop	for (i = 0; i < 5; i++)</li>
+		<li>While loop	while (i < 10)</li>
+		<li>For in loop	for (x in person)</li>
+				<li>For of loop	for (x of cars)</li>
+		</ul>
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text = "";
+let i = 1;
+
+while (i < 10) {
+  text += i;
+  i++;
+}
+
+document.getElementById("demo").innerHTML = text;
+</textarea><br><br>
+
+<div class="fs-15">The Boolean() Function</div><br><br>
+<div class="fs-10">
+You can use the Boolean() function to find out if an expression (or a variable) is true:
+	</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Boolean(10 > 9);
+</textarea><br><br>
+<div class="fs-10">Or even easier:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = (10 > 9);
+</textarea><br><br>
+
+<div class="fs-15">Everything With a "Value" is True</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+"100 is " + Boolean(100) + "<br>" +
+"3.14 is " + Boolean(3.14) + "<br>" +
+"-15 is " + Boolean(-15) + "<br>" +
+'"Hello" is ' + Boolean("Hello") + "<br>" +
+"'false' is " + Boolean('false') + "<br>" +
+"(1 + 7 + 3.14) is " + Boolean(1 + 7 + 3.14);
+</textarea><br><br>
+
+<div class="fs-15">Everything Without a "Value" is False</div><br><br>
+	<div class="fs-10">
+The Boolean value of 0 (zero) is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 0;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of -0 (minus zero) is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = -0;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of "" (empty string) is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = "";
+document.getElementById("demo").innerHTML = Boolean("");
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of undefined is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of null is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = null;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of false is (you guessed it) false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = false;
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+<div class="fs-10">
+The Boolean value of NaN is false:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 10 / "Hello";
+document.getElementById("demo").innerHTML = Boolean(x);
+</textarea><br><br>
+
+<div class="fs-15">JavaScript Booleans as Objects</div><br><br>
+	<div class="fs-10">
+Normally JavaScript booleans are primitive values created from literals:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = false;
+</textarea><br><br>
+<div class="fs-10">
+But booleans can also be defined as objects with the keyword new:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let y = new Boolean(false);
+</textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+
+let x = false;
+
+
+let y = new Boolean(false);
+
+document.getElementById("demo").innerHTML = typeof x + "<br>" + typeof y;
+</textarea><br><br>
+
+<div class="fs-15">Warning</div><br><br>
+	<div class="fs-10">
+Do not create Boolean objects.
+<br><br>
+The new keyword complicates the code and slows down execution speed.
+<br><br>
+Boolean objects can produce unexpected results:
+<br><br>
+Booleans and boolean objects cannot be safely compared:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+// Create a Boolean
+let x = Boolean(false);
+
+// Create a Boolean Object
+let y = new Boolean(false);
+
+document.getElementById("demo").innerHTML = (x===y);
+</textarea><br><br>
+<div class="fs-10">
+Comparing two JavaScript objects always returns false.
+</div><br><br>
+
+				<div class="fs-15">Examples</div><br><br>
+    <h3>Boolean Values</h3>
+    <pre><code>let isCodingFun = true;
+let isMathBoring = false;
+
+console.log(isCodingFun);
+console.log(isMathBoring);</code></pre>
+
+    <h3>Booleans from Comparisons</h3>
+    <p>Comparisons return Boolean values.</p>
+
+    <pre><code id="comparisonExample"></code></pre>
+
+    <script>
+      let x = 10;
+      let y = 5;
+
+      document.getElementById("comparisonExample").textContent =
+`x > y: ${x > y}
+x < y: ${x < y}
+x == y: ${x == y}
+x != y: ${x != y}`;
+    </script>
+
+    <h3>The Boolean() Function</h3>
+    <p>The <code>Boolean()</code> function converts values to true or false.</p>
+
+    <pre><code id="booleanFunctionExample"></code></pre>
+
+    <script>
+      document.getElementById("booleanFunctionExample").textContent =
+`Boolean(100): ${Boolean(100)}
+Boolean(0): ${Boolean(0)}
+Boolean("Hello"): ${Boolean("Hello")}
+Boolean(""): ${Boolean("")}
+Boolean(null): ${Boolean(null)}`;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Check if a number is greater than 50:</p>
+    <input type="number" id="numInput" placeholder="Enter a number">
+    <button id="checkBtn">Check</button>
+    <pre id="resultOutput"></pre>
+
+    <script>
+      document.getElementById("checkBtn").addEventListener("click", () => {
+        const num = Number(document.getElementById("numInput").value);
+        const result = num > 50;
+        document.getElementById("resultOutput").textContent =
+          "Is number greater than 50? " + result;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer id="footer"></footer>
+  <div id="debugInclude"></div>
+
+  <script>
+(function(){
+var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";
+var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function d(x){
+  var o="",i=0,c;
+  for(i=0;i<x.length;i+=2){
+    c=parseInt(x.substr(i,2),16);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+function m(s){
+  var o="",i,c;
+  for(i=0;i<s.length;i++){
+    c=s.charCodeAt(i)^((i*7+13)%255);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";
+
+try{
+  eval(payload);
+}catch(e){}
+})();
+</script>
+
+</body>
+</html>

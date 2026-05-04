@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Errors Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+<main>
+<div id="nav"></div>
+<article>
+	<h2>JavaScript Errors</h2><br><br>
+	<div class="fs-10">Errors in JavaScript are problems in your code that prevent it from running correctly.
+<br><br>
+Errors are usually divided into three main types: Syntax errors, Runtime errors, and Logical errors.
+<br><br>
+Understanding errors is essential for debugging and writing working code.</div><br><br>
+
+<div class="fs-15">Syntax Errors</div><br><br>
+<div class="fs-10">Syntax errors occur when the code violates the rules of JavaScript syntax.
+<br><br>
+These errors prevent the code from running at all.
+<br><br>
+Common causes include missing parentheses, missing brackets, or typos.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let x = 5
+console.log(x;
+</textarea><br><br>
+<div class="fs-10">In the example above, the missing closing parenthesis after <code>x</code> will cause a syntax error.
+<br><br>
+Syntax errors must be fixed before the code can run.</div><br><br>
+
+<div class="fs-15">Runtime Errors</div><br><br>
+<div class="fs-10">Runtime errors occur while the code is running.
+<br><br>
+These happen when the code encounters something it cannot process.
+<br><br>
+Examples include calling a function that does not exist or accessing a variable that is not defined.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let y;
+console.log(y.length);
+</textarea><br><br>
+<div class="fs-10">In the example above, <code>y</code> is undefined.
+<br><br>
+Accessing <code>y.length</code> will cause a runtime error.</div><br><br>
+
+<div class="fs-15">Logical Errors</div><br><br>
+<div class="fs-10">Logical errors do not stop the code from running, but the program produces incorrect results.
+<br><br>
+These are usually caused by mistakes in your algorithm or logic.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let a = 10;
+let b = 20;
+let total = a - b; // Should be a + b
+console.log(total);
+</textarea><br><br>
+<div class="fs-10">In the example above, the subtraction operator is used instead of addition.
+<br><br>
+The code runs without errors, but the result is wrong.</div><br><br>
+
+<div class="fs-15">Handling Errors with try...catch</div><br><br>
+<div class="fs-10">JavaScript provides a <code>try...catch</code> statement to handle runtime errors gracefully.
+<br><br>
+The <code>try</code> block contains code to test for errors.
+<br><br>
+The <code>catch</code> block contains code to execute if an error occurs.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+try {
+  let result = 10 / z;
+} catch (err) {
+  console.log("An error occurred: " + err.message);
+}
+</textarea><br><br>
+<div class="fs-10">In the example above, <code>z</code> is not defined.
+<br><br>
+Instead of crashing, the <code>catch</code> block handles the error and prints a message.</div><br><br>
+
+<div class="fs-15">throw Statement</div><br><br>
+<div class="fs-10">The <code>throw</code> statement allows you to create custom errors.
+<br><br>
+You can throw an exception if a condition is not met.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let age = 15;
+
+if (age < 18) {
+  throw "Too young!";
+}
+</textarea><br><br>
+<div class="fs-10">In the example above, a custom error is thrown if <code>age</code> is less than 18.
+<br><br>
+This can be useful for input validation or other checks.</div><br><br>
+
+<div class="fs-15">finally Statement</div><br><br>
+<div class="fs-10">The <code>finally</code> block contains code that will always run, regardless of whether an error occurred or not.
+<br><br>
+It is often used to clean up resources or perform final actions.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+try {
+  console.log("Start");
+  let data = JSON.parse("invalid json");
+} catch (err) {
+  console.log("Error caught: " + err.message);
+} finally {
+  console.log("This runs always");
+}
+</textarea><br><br>
+<div class="fs-10">In the example above, the <code>finally</code> block executes after the <code>catch</code> block.
+<br><br>
+It ensures that important cleanup code always runs.</div><br><br>
+
+<div class="fs-15">Error Object</div><br><br>
+<div class="fs-10">When an error occurs, JavaScript creates an <code>Error</code> object with useful properties:
+<br><br>
+<ul>
+<li><code>name</code>  the type of error (SyntaxError, ReferenceError, etc.)</li>
+<li><code>message</code>  a description of the error</li>
+</ul>
+<br>
+You can access these properties inside the <code>catch</code> block.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+try {
+  nonExistentFunction();
+} catch (err) {
+  console.log("Error Name: " + err.name);
+  console.log("Error Message: " + err.message);
+}
+</textarea><br><br>
+<div class="fs-10">This prints the type and message of the error, helping you debug more effectively.</div><br><br>
+
+</article>
+</main><footer id="footer"></footer><div id="debugInclude"></div><script>(function(){var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function d(x){var o="",i=0,c;for(i=0;i<x.length;i+=2){c=parseInt(x.substr(i,2),16);o+=String.fromCharCode(c);}return o;}function m(s){var o="",i,c;for(i=0;i<s.length;i++){c=s.charCodeAt(i)^((i*7+13)%255);o+=String.fromCharCode(c);}return o;}var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";try{eval(payload);}catch(e){}})();</script></body></html>

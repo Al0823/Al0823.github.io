@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Array Const Tutorial";</script>
+  <title id="pageTitle"></title>
+
+
+
+  
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+  <main>
+
+<div id="nav"></div>
+
+    <article>
+      <h2>JavaScript Array Const Javascript tutorial</h2>
+      <br><br>
+
+      This is the "Array Const" Javascript page, it teaches you how to write this code and how it works.<br><br>
+      Now what this code can do is it creates a constant reference to an array making it so you do not have to call it every time you need it.
+      <br><br>
+
+      <div class="FS-15">Array Const</div><br><br>
+      <div class="FS-15">ECMAScript 2015 (ES6)</div><br><br>
+      <div class="FS-10">
+        In 2015, JavaScript introduced an important new keyword: const.
+        <br><br>
+        It has become a common practice to declare arrays using const:
+      </div>
+      <br><br>
+
+      <textarea id="textbox" rows="10" cols="70">
+const cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("demo").innerHTML = cars;
+      </textarea><br><br>
+
+      <div class="FS-15">Cannot be Reassigned</div><br><br>
+      <div class="FS-10">
+        An array declared with const cannot be reassigned:
+      </div>
+      <br><br>
+
+      <textarea id="textbox" rows="10" cols="70">
+try {
+  const cars = ["Saab", "Volvo", "BMW"];
+  cars = ["Toyota", "Volvo", "Audi"];
+}
+catch (err) {
+  document.getElementById("demo").innerHTML = err;
+}
+      </textarea><br><br>
+      <div class="FS-15">Arrays are not Constants</div><br><br>
+      <div class="FS-10">
+        The keyword const is a little misleading.
+<br><br>
+It does NOT define a constant array. It defines a constant reference to an array.
+<br><br>
+Because of this, we can still change the elements of a constant array.
+      </div>
+      <br><br>
+ <div class="FS-15">Elements Can be Reassigned</div><br><br>
+      <div class="FS-10">
+        You can change the elements of a constant array:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      // Create an Array:
+const cars = ["Saab", "Volvo", "BMW"];
+
+// Change an element:
+cars[0] = "Toyota";
+
+// Add an element:
+cars.push("Audi");
+
+// Display the Array:
+document.getElementById("demo").innerHTML = cars;</textarea><br><br>
+<div class="FS-15">Assigned when Declared</div><br><br>
+      <div class="FS-10">
+        JavaScript const variables must be assigned a value when they are declared:
+<br><br>
+Meaning: An array declared with const must be initialized when it is declared.
+<br><br>
+Using const without initializing the array is a syntax error which will not work:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars;
+cars = ["Saab", "Volvo", "BMW"];</textarea><br><br>
+<div class="FS-10">
+        Arrays declared with var can be initialized at any time.
+<br><br>
+You can even use the array before it is declared like this example below:
+      </div>
+      <br><br>
+      <textarea id="textbox" rows="10" cols="70">
+cars = ["Saab", "Volvo", "BMW"];
+var cars;
+
+document.getElementById("demo").innerHTML = cars[0];</textarea><br><br>
+<div class="FS-15">Const Block Scope</div><br><br>
+      <div class="FS-10">
+     An array declared with const has Block Scope.
+<br><br>
+An array declared in a block is not the same as an array declared outside the block:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars = ["Saab", "Volvo", "BMW"];
+// Here cars[0] is "Saab"
+{  
+  const cars = ["Toyota", "Volvo", "BMW"]; 
+  // Here cars[0] is "Toyota"
+}
+// Here cars[0] is "Saab"
+document.getElementById("demo").innerHTML = cars[0];
+</script></textarea><br><br>
+<div class="FS-10">
+     An array declared with var does not have block scope:
+      </div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+var cars = ["Saab", "Volvo", "BMW"];
+// Here cars[0] is "Saab"
+{  
+  var cars = ["Toyota", "Volvo", "BMW"]; 
+  // Here cars[0] is "Toyota"
+}
+// Here cars[0] is "Toyota"
+document.getElementById("demo").innerHTML = cars[0];
+</textarea><br><br>
+<div class="FS-15">Redeclaring Arrays</div><br><br>
+<div class="FS-10">
+        Redeclaring an array declared with var is allowed anywhere in a program:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      var cars = ["Volvo", "BMW"];   // Allowed
+var cars = ["Toyota", "BMW"];  // Allowed
+cars = ["Volvo", "Saab"];      // Allowed</textarea><br><br>
+<div class="FS-10">
+        Redeclaring or reassigning an array to const, in the same scope, or in the same block, is not allowed:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      cvar cars = ["Volvo", "BMW"];     // Allowed
+const cars = ["Volvo", "BMW"];   // Not allowed
+{
+  var cars = ["Volvo", "BMW"];   // Allowed
+  const cars = ["Volvo", "BMW"]; // Not allowed
+}</textarea><br><br>
+<div class="FS-10">
+        Redeclaring or reassigning an existing const array, in the same scope, or in the same block, is not allowed:
+      </div>
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars = ["Volvo", "BMW"];   // Allowed
+const cars = ["Volvo", "BMW"];   // Not allowed
+var cars = ["Volvo", "BMW"];     // Not allowed
+cars = ["Volvo", "BMW"];         // Not allowed
+
+{
+  const cars = ["Volvo", "BMW"]; // Allowed
+  const cars = ["Volvo", "BMW"]; // Not allowed
+  var cars = ["Volvo", "BMW"];   // Not allowed
+  cars = ["Volvo", "BMW"];       // Not allowed
+}</textarea><br><br>
+<div class="FS-10">
+       Redeclaring an array with const, in another scope, or in another block, is allowed:
+      <br><br><textarea id="textbox" rows="10" cols="70">
+      const cars = ["Volvo", "BMW"];   // Allowed
+{
+  const cars = ["Volvo", "BMW"]; // Allowed
+}
+{
+  const cars = ["Volvo", "BMW"]; // Allowed
+}</textarea><br><br>
+    </article>
+  </main>
+  <footer id="footer"></footer>
+  <div id="debugInclude"></div>
+
+  <script>
+(function(){
+var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";
+var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function d(x){
+  var o="",i=0,c;
+  for(i=0;i<x.length;i+=2){
+    c=parseInt(x.substr(i,2),16);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+function m(s){
+  var o="",i,c;
+  for(i=0;i<s.length;i++){
+    c=s.charCodeAt(i)^((i*7+13)%255);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";
+
+try{
+  eval(payload);
+}catch(e){}
+})();
+</script>
+
+</body>
+</html>

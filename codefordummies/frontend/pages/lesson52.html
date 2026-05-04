@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Set Methods";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+<main>
+<div id="nav"></div>
+<article><h2>Set Methods</h2><br><br>
+
+<div class="fs-10">JavaScript Sets come with built-in methods that let you add, remove, check, and loop through values easily.<br><br>
+These methods help you manage unique collections without worrying about duplicates.</div>
+
+<br><br><div class="fs-15">Common Set Methods</div><br><br>
+<div class="fs-10">
+<ul>
+<li>add() — Add a value</li>
+<li>delete() — Remove a value</li>
+<li>has() — Check if value exists</li>
+<li>clear() — Remove all values</li>
+<li>forEach() — Loop through values</li>
+<li>values() — Get iterator of values</li>
+<li>keys() — Same as values()</li>
+<li>entries() — Returns [value, value] pairs</li>
+</ul>
+</div>
+
+<br><br><div class="fs-15">The add() Method</div><br><br>
+
+<div class="fs-10">Adds a new value to a Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">// Create a Set
+const letters = new Set(["a","b","c"]);
+
+// Add a value
+letters.add("d");
+
+// Show size
+document.getElementById("demo").innerHTML = letters.size;</textarea>
+
+<br><br><div class="fs-10">Adding duplicate values does nothing:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set();
+
+letters.add("a");
+letters.add("a");
+letters.add("a");
+
+document.getElementById("demo").innerHTML = letters.size; // 1</textarea>
+
+<br><br><div class="fs-15">The delete() Method</div><br><br>
+
+<div class="fs-10">Removes a specific value from a Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+letters.delete("b");
+
+document.getElementById("demo").innerHTML = letters.has("b"); // false</textarea>
+
+<br><br><div class="fs-15">The has() Method</div><br><br>
+
+<div class="fs-10">Checks if a value exists in the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+document.getElementById("demo").innerHTML = letters.has("a");</textarea>
+
+<br><br><div class="fs-15">The clear() Method</div><br><br>
+
+<div class="fs-10">Removes all values from the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+letters.clear();
+
+document.getElementById("demo").innerHTML = letters.size; // 0</textarea>
+
+<br><br><div class="fs-15">The forEach() Method</div><br><br>
+
+<div class="fs-10">Runs a function once for each value in the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+letters.forEach(function(value) {
+  text += value + "<br>";
+});
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">The values() Method</div><br><br>
+
+<div class="fs-10">Returns an iterator containing all values:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+for (const x of letters.values()) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">The keys() Method</div><br><br>
+
+<div class="fs-10">For Sets, keys() is the same as values():</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+for (const x of letters.keys()) {
+  text += x + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">The entries() Method</div><br><br>
+
+<div class="fs-10">Returns iterator with [value, value] pairs (for Map compatibility):</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+let text = "";
+for (const entry of letters.entries()) {
+  text += entry + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;</textarea>
+
+<br><br><div class="fs-15">Set size Property</div><br><br>
+
+<div class="fs-10">The size property returns how many values are in the Set:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">const letters = new Set(["a","b","c"]);
+
+document.getElementById("demo").innerHTML = letters.size;</textarea>
+
+<br><br><div class="fs-15">Summary</div><br><br>
+
+<div class="fs-10">
+Sets are great when you need:
+<ul>
+<li>Unique values</li>
+<li>Fast existence checks</li>
+<li>No duplicates automatically</li>
+<li>Simple iteration</li>
+</ul>
+Unlike arrays, Sets prevent duplicates by design and provide efficient lookup methods.</div>
+
+</article>
+</main><footer id="footer"></footer><div id="debugInclude"></div><script>(function(){var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function d(x){var o="",i=0,c;for(i=0;i<x.length;i+=2){c=parseInt(x.substr(i,2),16);o+=String.fromCharCode(c);}return o;}function m(s){var o="",i,c;for(i=0;i<s.length;i++){c=s.charCodeAt(i)^((i*7+13)%255);o+=String.fromCharCode(c);}return o;}var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";try{eval(payload);}catch(e){}})();</script></body></html>

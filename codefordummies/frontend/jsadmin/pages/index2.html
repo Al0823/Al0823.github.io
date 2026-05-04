@@ -1,0 +1,109 @@
+[include file=../../includes/vars.inc]
+<html>
+
+
+[include file=[INCVAR]header.inc]
+<body>
+
+ <main> 
+ [include file=[INCVAR]nav.inc]
+ 
+<div class="big, fs-15">
+ 
+ [text]dbname=[dbvar]pages.db[/text]
+   
+[showif [action]=disable]
+[replace db=[dbname]&eqskudatarq=[skuvar]]status=0[/replace]
+[redirect [thisurl]]
+[/showif]
+
+[showif [action]=enable]
+[replace db=[dbname]&eqskudatarq=[skuvar]]status=1[/replace]
+[redirect [thisurl]]
+[/showif]
+
+[showif [action]=create]
+
+[copyfile from=[pathvar]/templates/lessontemplate.html&to=[pathvar]pages/lesson[skuvar].html]
+[append db=[dbname]&autonumber=sku]r_nav=[skuvar]&status=1[/append]
+[redirect [thisurl]]
+[/showif]
+
+
+ 
+ 
+ 
+
+[search db=[macvar]nav.db&neskudatarq=fa&sortordersort=1&sortordertype=num&weeksumm=T]
+	[founditems]
+			[week]<br>
+		[search db=[macvar]nav.db&eqweekdatarq=[week]&sortordersort=1&sortordertype=num]
+			[founditems]
+
+
+[search db=[dbname]&eqr_navdatarq=[sku]]
+	[founditems]
+[text]defaction=enable[/text]
+[showif [status]=1][text]defaction=disable[/text][/showif]
+[title] - - <a [showif [defaction]=enable]style="color: rgb(111, 190, 141);"[/showif] [showif [defaction]=disable]style="color: rgb(211, 49, 49);"[/showif] href="[thisurl]?action=[defaction]&skuvar=[sku]">[defaction]</a><br>
+[/founditems]
+
+[showif [numfound]=0][title] - - <a href="[thisurl]?action=create&skuvar=[sku]">Create</a><br>[/showif]
+
+[/search]
+
+[/founditems][/search]
+[/founditems][/search]
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ [!]
+[search db=[DBVAR][DBNAME]&neSKUdatarq=FA&SKUSORT=1&SKUtype=num]
+[numfound] records found<br>
+    <a href="add.html">Add New Record</a><br>
+
+<div class="grid-container">
+[SHOWIF [action]=disable]
+[replace db=[DBVAR]pages.db&eqSKUdatarq=[SKUVAR]][!]
+[/!]STATUS=0[!]
+[/!][/replace]
+[redirect [thisurl]]
+[/showif]
+
+[SHOWIF [action]=enable]
+[replace db=[DBVAR]pages.db&eqSKUdatarq=[SKUVAR]][!]
+[/!]STATUS=1[!]
+[/!][/replace]
+[redirect [thisurl]]
+[/showif]
+
+[founditems]
+<div><a href=[PAGEVAR][PAGEURL]>[PAGEURL]</a></div>
+
+[SHOWIF [STATUS]=1]
+
+<a href="[thisurl]?action=disable&SKUVAR=[SKU]">Disable</a><br>
+[/SHOWIF]
+
+[SHOWIF [STATUS]=0]
+
+<a href="[thisurl]?action=enable&SKUVAR=[SKU]">Enable</a><br>
+[/SHOWIF]
+
+[/founditems]
+</div>
+[/search]
+[/!]
+</div>
+ </main> 
+
+[include file=[INCVAR]footer.inc]

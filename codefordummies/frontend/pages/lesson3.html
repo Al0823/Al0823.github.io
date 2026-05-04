@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Output Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+<article><h2>Outputs</h2><br><br>
+
+<div class="fs-10">
+JavaScript can "display" data in different ways. These are called outputs.<br><br>
+JavaScript has several methods to output data, depending on where and how you want to show it.
+</div>
+
+<br><br>
+<div class="fs-15">JavaScript Display Possibilities</div><br><br>
+
+<div class="fs-10">
+JavaScript can display data using:<br><br>
+<ul>
+<li>Writing into an HTML element (innerHTML)</li>
+<li>Writing into the HTML output (document.write())</li>
+<li>Writing into an alert box (window.alert())</li>
+<li>Writing into the browser console (console.log())</li>
+</ul>
+</div>
+
+<br><br>
+<div class="fs-15">Using innerHTML</div><br><br>
+
+<div class="fs-10">
+To access an HTML element, JavaScript can use the <code>document.getElementById()</code> method.<br><br>
+The <code>innerHTML</code> property defines the HTML content:
+</div>
+
+<br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+document.getElementById("demo").innerHTML = "Hello World!";
+</script>
+
+</body>
+</html>
+</textarea>
+
+<br><br>
+<div class="fs-10">
+Changing <code>innerHTML</code> is a common way to display data in web pages.
+</div>
+
+<br><br>
+<div class="fs-15">Using document.write()</div><br><br>
+
+<div class="fs-10">
+For testing purposes, it is convenient to use <code>document.write()</code>:
+</div>
+
+<br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+document.write("Hello World!");
+</script>
+
+</body>
+</html>
+</textarea>
+
+<br><br>
+<div class="fs-10">
+Using <code>document.write()</code> after an HTML document is loaded will delete all existing HTML.
+</div>
+
+<br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="document.write('Hello World!')">Click Me</button>
+
+</body>
+</html>
+</textarea>
+
+<br><br>
+<div class="fs-15">Using window.alert()</div><br><br>
+
+<div class="fs-10">
+You can use an alert box to display data:
+</div>
+
+<br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+window.alert("Hello World!");
+</script>
+
+</body>
+</html>
+</textarea>
+
+<br><br>
+<div class="fs-10">
+You can skip the <code>window</code> keyword because it is the global object:
+</div>
+
+<br><br>
+<textarea id="textbox" rows="10" cols="70">
+alert("Hello World!");
+</textarea>
+
+<br><br>
+<div class="fs-15">Using console.log()</div><br><br>
+
+<div class="fs-10">
+For debugging purposes, you can use <code>console.log()</code> to display data in the browser console.
+</div>
+
+<br><br>
+<textarea id="textbox" rows="10" cols="70">
+console.log("Hello World!");
+</textarea>
+
+<br><br>
+<div class="fs-10">
+Open the browser console (usually with F12) to see the result.
+</div>
+
+<br><br>
+<div class="fs-15">Printing with JavaScript</div><br><br>
+
+<div class="fs-10">
+JavaScript does not have a built-in print object or print methods.<br><br>
+The only exception is calling the browser print function using <code>window.print()</code>.
+</div>
+
+<br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="window.print()">Print this page</button>
+
+</body>
+</html>
+</textarea>
+
+<br><br>
+<div class="fs-10">
+This will open the browser’s print dialog.
+</div>
+
+<br><br>
+</article>
+</main><footer id="footer"></footer><div id="debugInclude"></div><script>(function(){var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function d(x){var o="",i=0,c;for(i=0;i<x.length;i+=2){c=parseInt(x.substr(i,2),16);o+=String.fromCharCode(c);}return o;}function m(s){var o="",i,c;for(i=0;i<s.length;i++){c=s.charCodeAt(i)^((i*7+13)%255);o+=String.fromCharCode(c);}return o;}var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";try{eval(payload);}catch(e){}})();</script></body></html>

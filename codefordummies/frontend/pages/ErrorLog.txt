@@ -1,0 +1,4 @@
+02/04/2026	13:29:52	SHOWPAGE	170.158.039.008	Error: Error: expected [/FUNCTIONSPACE], but found [/input] instead	/citi/coding/2026/2/ak/javascript/pages/lesson33.html	/var/www/html/citi/coding/2026/2/ak/javascript/pages/lesson33.html
+02/04/2026	13:32:12	SHOWPAGE	170.158.039.008	Error: Error: expected [/FUNCTIONSPACE], but found [/input] instead	/citi/coding/2026/2/ak/javascript/pages/lesson33.html	/var/www/html/citi/coding/2026/2/ak/javascript/pages/lesson33.html
+02/04/2026	13:34:50	SHOWPAGE	170.158.039.008	Error: Error: expected [/FUNCTIONSPACE], but found [/input] instead	/citi/coding/2026/2/ak/javascript/pages/lesson33.html	/var/www/html/citi/coding/2026/2/ak/javascript/pages/lesson33.html
+02/04/2026	13:41:13	SHOWPAGE	170.158.039.008	Error: Error: expected [/FUNCTIONSPACE], but found [/input] instead	/citi/coding/2026/2/ak/javascript/pages/lesson33.html	/var/www/html/citi/coding/2026/2/ak/javascript/pages/lesson33.html

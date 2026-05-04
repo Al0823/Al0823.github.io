@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>var PAGETITLE = "Admin";</script>
+  <title id="pageTitle"></title>
+  <script src="../../includes/vars.js"></script>
+
+  <style>
+    body { font-family: sans-serif;}
+    h3 { margin-top: 20px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+    .item { margin-left: 20px; margin-bottom: 6px; }
+    button { cursor: pointer; margin-left: 10px; }
+    .enabled { color: rgb(111, 190, 141); }
+    .disabled { color: rgb(211, 49, 49); }
+    .create { color: rgb(50, 50, 211); }
+  </style>
+</head>
+
+<body>
+<header id="header"></header>
+
+<main>
+  <div id="nav"></div>
+
+  <div class="big">
+    <h2>Wiki Navigation Admin</h2>
+    <div id="nav-admin"></div>
+    <button id="download-json">Download Updated pages.json</button>
+  </div>
+</main>
+
+<footer id="footer"></footer>
+<div id="debugInclude"></div>
+
+<!-- Load nav-admin.js -->
+<script src="../../includes/nav-admin.js"></script>
+
+<script>
+  // Load HTML includes asynchronously
+  async function loadInclude(id, file) {
+    try {
+      const res = await fetch(file);
+      if (!res.ok) throw new Error(`Failed to load ${file}: ${res.status}`);
+      const html = await res.text();
+      const container = document.getElementById(id);
+      if (!container) return;
+      container.innerHTML = html;
+
+      // Execute any scripts inside the included HTML
+      container.querySelectorAll("script").forEach(oldScript => {
+        const newScript = document.createElement("script");
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        document.body.appendChild(newScript);
+        oldScript.remove();
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // Load header, nav, footer, debug
+  loadInclude("header", window.vars.INCVAR + "header.html").then(() => {
+    if (typeof updatePageTitle === "function") updatePageTitle();
+  });
+  loadInclude("nav", window.vars.INCVAR + "nav.html");
+  loadInclude("footer", window.vars.INCVAR + "footer.html");
+  if (window.vars.DEBUGVAR) {
+    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+  }
+
+  // Download pages.json
+  document.getElementById('download-json').addEventListener('click', async () => {
+    try {
+      const res = await fetch('/data/pages.json');
+      const data = await res.json();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'pages.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Failed to download pages.json', err);
+      alert('Failed to download pages.json. Check console.');
+    }
+  });
+</script>
+
+</body>
+</html>

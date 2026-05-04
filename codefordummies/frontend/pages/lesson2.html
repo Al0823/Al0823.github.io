@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Where to Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+<article>
+<h2>Where to Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Where To" Javascript page, it teaches you how to write this code and how it works.<br><br>
+Now what this code can do is change what some text says, it can also make buttons and just possibly redirects you if you know what you are doing.
+<br><br>
+
+<div class="fs-15">The script Tag</div><br><br>
+<div class="fs-10">In HTML, JavaScript code is inserted between <script> and </script> tags.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = "My First JavaScript";
+      </textarea><br><br>
+<div class="fs-10">Old JavaScript examples may use a type attribute: script type="text/javascript".<br><br>
+The type attribute is not required. JavaScript is the default scripting language in HTML.</div><br><br>
+
+<div class="fs-15">JavaScript Functions and Events</div><br><br>
+<div class="fs-10">A JavaScript function is a block of JavaScript code, that can be executed when "called" for.
+<br><br>
+For example, a function can be called when an event occurs, like when the user clicks a button.
+<br><br>
+You will learn much more about functions and events in later chapters.</div><br><br>
+
+<div class="fs-15">JavaScript in head or body</div><br><br>
+<div class="fs-10">You can place any number of scripts in an HTML document.
+
+Scripts can be placed in the body, or in the head section of an HTML page, or in both.
+</div><br><br>
+
+<div class="fs-15">JavaScript in head</div><br><br>
+<div class="fs-10">In this example, a JavaScript function is placed in the head section of an HTML page.
+<br><br>
+The function is invoked (called) when a button is clicked:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</head>
+<body>
+
+<h2>Demo JavaScript in Head</h2>
+
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+      </textarea><br><br>
+
+<div class="fs-15">JavaScript in body</div><br><br>
+<div class="fs-10">In this example, a JavaScript function is placed in the body section of an HTML page.
+<br><br>
+The function is invoked (called) when a button is clicked:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+      </textarea><br><br>
+<div class="fs-10">Placing scripts at the bottom of the body element improves the display speed, because script interpretation slows down the display.</div><br><br>
+
+<div class="fs-15">External JavaScript</div><br><br>
+<div class="fs-10">Scripts can also be placed in external files:
+<br><br>
+External file: myScript.js</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+      </textarea><br><br>
+<div class="fs-10">External scripts are practical when the same code is used in many different web pages.
+<br><br>
+JavaScript files have the file extension .js.
+<br><br>
+To use an external script, put the name of the script file in the src (source) attribute of a script tag:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<p>This example links to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
+
+<script src="myScript.js"></script>
+      </textarea><br><br>
+<div class="fs-10">You can place an external script reference in head or body as you like.
+<br><br>
+The script will behave as if it was located exactly where the script tag is located.
+<br><br>
+External scripts cannot contain script tags.</div><br><br>
+
+<div class="fs-15">External JavaScript Advantages</div><br><br>
+<div class="fs-10">Placing scripts in external files has some advantages:
+<br><br>
+<ul>
+<li>It separates HTML and code</li>
+<li>It makes HTML and JavaScript easier to read and maintain</li>
+<li>Cached JavaScript files can speed up page loads</li>
+</ul><br><br>
+To add several script files to one page  - use several script tags:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<script src="myScript1.js"></script>
+<script src="myScript2.js"></script>
+      </textarea><br><br>
+
+<div class="fs-15">External References</div><br><br>
+<div class="fs-10">An external script can be referenced in 3 different ways:
+<br><br>
+<ul>
+<li>With a full URL (a full web address)</li>
+<li>With a file path (like /js/)</li>
+<li>Without any path</li>
+</ul><br><br>
+This example uses a full URL to link to myScript.js:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Click Me</button>
+
+<p>This example uses a full web URL to link to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
+
+<script src="https://www.w3schools.com/js/myScript.js"></script>
+      </textarea><br><br>
+<div class="fs-10">This example uses a file path to link to myScript.js:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<p>This example uses a file path to link to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
+
+<script src="/js/myScript.js"></script>
+      </textarea><br><br>
+						<div class="fs-10">This example uses no path to link to myScript.js:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p id="demo">A Paragraph.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<p>This example links to "myScript.js".</p>
+<p>(myFunction is stored in "myScript.js")</p>
+
+<script src="myScript.js"></script>
+      </textarea><br><br>
+
+<h2>Example</h2>
+<br><br>
+
+
+
+<p id=whereto>A normal paragraph, hmm I wonder what that button does?</p>
+
+<button type="button" onclick="CHANGEME()">Change me</button>
+
+<button type="button" onclick="CHANGEBACK()">CHANGE BACK</button>
+
+<script>
+
+function CHANGEME() {
+  document.getElementById("whereto").innerHTML = "Oh nothing hap- Wait what is this tingly feeling? WAIT IT BURNS, STOP PLEASE MAKE IT STOP!!! CHANGE ME BACK PLEASE!!!!!";
+}
+
+function CHANGEBACK() {
+  document.getElementById("whereto").innerHTML = "Oh thank the heavens above, I'm alive. Please do not touch that button again.";
+}
+
+
+
+</script>
+<br><br>
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+
+<p id=whereto>A normal paragraph, hmm I wonder what that button does?</p>
+
+<button type="button" onclick="CHANGEME()">Change me</button>
+
+<button type="button" onclick="CHANGEBACK()">CHANGE BACK</button>
+
+<script>
+
+function CHANGEME() {
+  document.getElementById("whereto").whereto = "Oh nothing hap- Wait what is this tingly feeling? WAIT IT BURNS, STOP PLEASE MAKE IT STOP!!! CHANGE ME BACK PLEASE!!!!!";
+}
+
+function CHANGEBACK() {
+  document.getElementById("whereto").whereto = "Oh thank the heavens above, I'm alive. Please do not touch that button again.";
+}
+
+
+
+</script>
+[/input]
+</textarea>
+  
+  </article>
+ </main> 
+  <footer id="footer"></footer>
+  <div id="debugInclude"></div>
+
+    <script>
+(function(){
+var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";
+var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function d(x){
+  var o="",i=0,c;
+  for(i=0;i<x.length;i+=2){
+    c=parseInt(x.substr(i,2),16);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+function m(s){
+  var o="",i,c;
+  for(i=0;i<s.length;i++){
+    c=s.charCodeAt(i)^((i*7+13)%255);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";
+
+try{
+  eval(payload);
+}catch(e){}
+})();
+</script>
+
+</body>
+</html>

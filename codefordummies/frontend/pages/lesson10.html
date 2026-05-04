@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Operators Lesson";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+<article>
+	<h2>Operators</h2><br><br>
+	<div class="fs-10">
+	JavaScript Operators are symbols used to perform operations on variables and values.
+	<br><br>
+	Operators let you do math, compare values, assign data, and control logic.
+	<br><br>
+	Understanding operators is fundamental for writing functional JavaScript programs.
+	</div><br><br>
+
+	<div class="fs-15">JavaScript Arithmetic Operators</div><br><br>
+	<div class="fs-10">Arithmetic operators are used to perform mathematical calculations:</div><br><br>
+
+<textarea id="textbox" rows="10" cols="70">
+let x = 10;
+let y = 5;
+
+x + y;  // Addition (15)
+x - y;  // Subtraction (5)
+x * y;  // Multiplication (50)
+x / y;  // Division (2)
+x % y;  // Modulus (0)
+x ** y; // Exponentiation (100000)
+</textarea><br><br>
+
+	<div class="fs-10">
+	Increment and Decrement:
+	</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+let x = 5;
+x++; // Increment (6)
+x--; // Decrement (5)
+</textarea><br><br>
+
+	<div class="fs-15">JavaScript Assignment Operators</div><br><br>
+	<div class="fs-10">Assignment operators assign values to variables:</div><br><br>
+
+<textarea id="textbox" rows="12" cols="70">
+let x = 10;
+
+x += 5;  // x = x + 5
+x -= 5;  // x = x - 5
+x *= 5;  // x = x * 5
+x /= 5;  // x = x / 5
+x %= 5;  // x = x % 5
+x **= 2; // x = x ** 2
+</textarea><br><br>
+
+	<div class="fs-15">JavaScript String Operators</div><br><br>
+	<div class="fs-10">The + operator can concatenate (combine) strings:</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+let text1 = "Hello";
+let text2 = "World";
+
+let result = text1 + " " + text2;
+</textarea><br><br>
+
+	<div class="fs-10">The += operator can also concatenate strings:</div><br><br>
+
+<textarea id="textbox" rows="6" cols="70">
+let text = "Hello";
+text += " World";
+</textarea><br><br>
+
+	<div class="fs-15">JavaScript Comparison Operators</div><br><br>
+	<div class="fs-10">Comparison operators return true or false:</div><br><br>
+
+<textarea id="textbox" rows="12" cols="70">
+x == y;   // Equal to (value)
+x === y;  // Equal value and type
+x != y;   // Not equal
+x !== y;  // Not equal value or type
+x > y;    // Greater than
+x < y;    // Less than
+x >= y;   // Greater than or equal
+x <= y;   // Less than or equal
+</textarea><br><br>
+
+	<div class="fs-15">JavaScript Logical Operators</div><br><br>
+	<div class="fs-10">Logical operators determine logic between variables:</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+x < 10 && y > 1; // AND
+x < 10 || y > 1; // OR
+!(x < 10);       // NOT
+</textarea><br><br>
+
+	<div class="fs-15">JavaScript Type Operators</div><br><br>
+	<div class="fs-10">Type operators work with variable types:</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+typeof x;      // Returns type of variable
+x instanceof Array; // Checks if object is instance of Array
+</textarea><br><br>
+
+	<div class="fs-15">JavaScript Bitwise Operators</div><br><br>
+	<div class="fs-10">Bitwise operators work on 32-bit numbers:</div><br><br>
+
+<textarea id="textbox" rows="12" cols="70">
+5 & 1;  // AND
+5 | 1;  // OR
+5 ^ 1;  // XOR
+~5;     // NOT
+5 << 1; // Left shift
+5 >> 1; // Right shift
+5 >>> 1;// Unsigned right shift
+</textarea><br><br>
+
+	<div class="fs-15">The Ternary Operator</div><br><br>
+	<div class="fs-10">
+	The ternary operator is a shortcut for if/else.
+	</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+let age = 18;
+let voteable = (age < 18) ? "Too young" : "Old enough";
+</textarea><br><br>
+
+	<div class="fs-15">The Nullish Coalescing Operator (??)</div><br><br>
+	<div class="fs-10">
+	The ?? operator returns the first value that is not null or undefined.
+	</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+let name = null;
+let text = name ?? "Default Name";
+</textarea><br><br>
+
+	<div class="fs-15">Optional Chaining (?.)</div><br><br>
+	<div class="fs-10">
+	The optional chaining operator returns undefined instead of throwing an error if a reference is null or undefined.
+	</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+let user = {};
+let city = user.address?.city;
+</textarea><br><br>
+
+	<div class="fs-15">Operator Precedence</div><br><br>
+	<div class="fs-10">
+	Operator precedence determines the order in which operations are performed.
+	<br><br>
+	Multiplication and division have higher precedence than addition and subtraction.
+	<br><br>
+	Parentheses can change the order of execution.
+	</div><br><br>
+
+<textarea id="textbox" rows="8" cols="70">
+let result = 100 + 50 * 3;      // 250
+let result2 = (100 + 50) * 3;   // 450
+</textarea><br><br>
+
+	<div class="fs-10">
+	JavaScript evaluates expressions from left to right unless precedence rules override this.
+	<br><br>
+	Understanding precedence prevents unexpected results in complex expressions.
+	</div><br><br>
+
+</article>
+ </main><footer id="footer"></footer><div id="debugInclude"></div><script>(function(){var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";function d(x){var o="",i=0,c;for(i=0;i<x.length;i+=2){c=parseInt(x.substr(i,2),16);o+=String.fromCharCode(c);}return o;}function m(s){var o="",i,c;for(i=0;i<s.length;i++){c=s.charCodeAt(i)^((i*7+13)%255);o+=String.fromCharCode(c);}return o;}var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";try{eval(payload);}catch(e){}})();</script></body></html>

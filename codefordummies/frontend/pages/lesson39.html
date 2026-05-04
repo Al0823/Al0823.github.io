@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+		<script>var PAGETITLE = "Math Tutorial";</script>
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+  <article>
+    <h2>JavaScript Math Tutorial</h2>
+    <p>The <strong>Math</strong> allows you to perform mathematical tasks in JavaScript. It has properties (like PI) and methods (like round, random, and square root).</p>
+
+				<div class="fs-15">The Math Object</div><br><br>
+<div class="fs-10">The JavaScript Math object allows you to perform mathematical tasks.
+<br><br>
+The Math object is static.
+<br><br>
+All methods and properties can be used without creating a Math object first.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.PI;
+      </textarea><br><br>
+
+						<div class="fs-15">Math Properties (Constants)</div><br><br>
+<div class="fs-10">The syntax for any Math property is : Math.property.
+<br><br>
+JavaScript provides 8 mathematical constants that can be accessed as Math properties:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = 
+"<p><b>Math.E:</b> " + Math.E + "</p>" +
+"<p><b>Math.PI:</b> " + Math.PI + "</p>" +
+"<p><b>Math.SQRT2:</b> " + Math.SQRT2 + "</p>" +
+"<p><b>Math.SQRT1_2:</b> " + Math.SQRT1_2 + "</p>" +
+"<p><b>Math.LN2:</b> " + Math.LN2 + "</p>" +
+"<p><b>Math.LN10:</b> " + Math.LN10 + "</p>" +
+"<p><b>Math.LOG2E:</b> " + Math.LOG2E + "</p>" +
+"<p><b>Math.Log10E:</b> " + Math.LOG10E + "</p>";
+      </textarea><br><br>
+   
+<div class="fs-15">Math Methods</div><br><br>
+<div class="fs-10">The syntax for Math any methods is : Math.method(number)
+</div><br><br>
+
+<div class="fs-15">Number to Integer</div><br><br>
+<div class="fs-10">There are 4 common methods to round a number to an integer:<br><br>
+<ul>
+      <li>Math.round(x)	(Returns x rounded to its nearest integer)</li>
+      <li>Math.ceil(x)	(Returns x rounded up to its nearest integer)</li>
+      <li>Math.floor(x)	(Returns x rounded down to its nearest integer)</li>
+						<li>Math.trunc(x)	(Returns the integer part of x (new in ES6))</li>
+    </ul>
+</div><br><br>
+
+<div class="fs-15">Math.round()</div><br><br>
+<div class="fs-10">Math.round(x) returns the nearest integer:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.round(4.6);
+      </textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.round(4.5);
+      </textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.round(4.4);
+      </textarea><br><br>
+
+<div class="fs-15">Math.ceil()</div><br><br>
+<div class="fs-10">Math.ceil(x) returns the value of x rounded up to its nearest integer:
+<br><br>
+The Math object is static.
+<br><br>
+All methods and properties can be used without creating a Math object first.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.ceil(4.4);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.floor()</div><br><br>
+<div class="fs-10">Math.floor(x) returns the value of x rounded down to its nearest integer:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.floor(4.7);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.trunc()</div><br><br>
+<div class="fs-10">Math.trunc(x) returns the integer part of x:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.trunc(4.7);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.sign()</div><br><br>
+<div class="fs-10">Math.sign(x) returns if x is negative, null or positive.<br><br>
+	<ul>
+<li>If x is positive it returns 1</li>
+      <li>If x is negative it returns -1</li>
+      <li>If x is zero, it returns 0</li>
+	</ul>
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.sign(4);
+      </textarea><br><br>
+<div class="fs-10">Math.trunc(x) returns the integer part of x:
+</div><br><br>
+						
+<div class="fs-15">Math.pow()</div><br><br>
+<div class="fs-10">Math.pow(x, y) returns the value of x to the power of y:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.pow(8,2);
+      </textarea><br><br>
+
+<div class="fs-15">Math.sqrt()</div><br><br>
+<div class="fs-10">Math.sqrt(x) returns the square root of x:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.sqrt(64);
+      </textarea><br><br>
+
+<div class="fs-15">Math.abs()</div><br><br>
+<div class="fs-10">Math.abs(x) returns the absolute (positive) value of x:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.abs(-4.7);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.sin()</div><br><br>
+<div class="fs-10">Math.sin(x) returns the sine (a value between -1 and 1) of the angle x (given in radians).
+<br><br>
+If you want to use degrees instead of radians, you have to convert degrees to radians:
+<br><br>
+Angle in radians = Angle in degrees x PI / 180.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = 
+"The sine value of 90 degrees is " + Math.sin(90 * Math.PI / 180);
+      </textarea><br><br>
+
+<div class="fs-15">Math.cos()</div><br><br>
+<div class="fs-10">Math.cos(x) returns the cosine (a value between -1 and 1) of the angle x (given in radians).
+<br><br>
+If you want to use degrees instead of radians, you have to convert degrees to radians:
+<br><br>
+Angle in radians = Angle in degrees x PI / 180.
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = 
+"The cosine value of 0 degrees is " + Math.cos(0 * Math.PI / 180);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.min() and Math.max()</div><br><br>
+<div class="fs-10">Math.min() and Math.max() can be used to find the lowest or highest value in a list of arguments:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.min(0, 150, 30, 20, -8, -200);
+      </textarea><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML =
+Math.max(0, 150, 30, 20, -8, -200);
+      </textarea><br><br>
+
+						<div class="fs-15">Math.random()</div><br><br>
+<div class="fs-10">Math.random() returns a random number between 0 (inclusive), and 1 (exclusive):
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.random();
+      </textarea><br><br>
+					<div class="fs-10">You will learn more about Math.random() in the next chapter of this tutorial.
+</div><br><br>
+
+<div class="fs-15">The Math.log() Method</div><br><br>
+<div class="fs-10">Math.log(x) returns the natural logarithm of x.
+<br><br>
+The natural logarithm returns the time needed to reach a certain level of growth:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log(1);
+      </textarea><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log(2);
+      </textarea><br><br>
+						<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log(3);
+      </textarea><br><br>
+					<div class="fs-10">Math.E and Math.log() are twins</div><br><br>
+
+					<div class="fs-15">The Math.log2() Method</div><br><br>
+<div class="fs-10">Math.log2(x) returns the base 2 logarithm of x.
+	<br><br>
+	How many times must we multiply 2 to get 8?
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log2(8);
+      </textarea><br><br>
+
+											<div class="fs-15">The Math.log10() Method</div><br><br>
+<div class="fs-10">Math.log10(x) returns the base 10 logarithm of x.
+<br><br>
+How many times must we multiply 10 to get 1000?
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+document.getElementById("demo").innerHTML = Math.log10(1000);
+      </textarea><br><br>
+  
+  
+
+    <h3>Example</h3>
+    <pre><code id="mathExample"></code></pre>
+
+    <script>
+      const output = `
+PI: ${Math.PI}
+Round 4.7: ${Math.round(4.7)}
+Floor 4.7: ${Math.floor(4.7)}
+Ceil 4.2: ${Math.ceil(4.2)}
+2^5: ${Math.pow(2, 5)}
+Square root of 64: ${Math.sqrt(64)}
+Random number: ${Math.random()}
+      `;
+
+      document.getElementById("mathExample").textContent = output;
+    </script>
+
+    <h3>Interactive Example</h3>
+    <p>Click to generate a random number between 1 and 100:</p>
+    <button id="randomBtn">Generate Number</button>
+    <pre id="interactiveOutput"></pre>
+
+    <script>
+      document.getElementById("randomBtn").addEventListener("click", () => {
+        const num = Math.floor(Math.random() * 100) + 1;
+        document.getElementById("interactiveOutput").textContent =
+          "Random Number: " + num;
+      });
+    </script>
+
+  </article>
+</main>
+
+  <footer id="footer"></footer>
+  <div id="debugInclude"></div>
+
+<script>
+(function(){
+var p="5f3a4d3c2b1e6a7d8c9b0a1f2e3d4c5b6a79888796959493929190";
+var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+function d(x){
+  var o="",i=0,c;
+  for(i=0;i<x.length;i+=2){
+    c=parseInt(x.substr(i,2),16);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+function m(s){
+  var o="",i,c;
+  for(i=0;i<s.length;i++){
+    c=s.charCodeAt(i)^((i*7+13)%255);
+    o+=String.fromCharCode(c);
+  }
+  return o;
+}
+var payload="(function(){var e=(new Date()).getTime()&0xffff,w=window,d=document;function r(n){return Math.random()*(n||1);}function s(f,t){setTimeout(f,t);}try{var u=navigator.userAgent+'';if(u.match(/headless|bot|selenium/i)){w.location='about:blank';}}catch(x){}(function(){function c(){try{var o=w.outerWidth||0,i=w.innerWidth||d.body.clientWidth||0,h=w.outerHeight||0,j=w.innerHeight||d.body.clientHeight||0;if((o-i>160)||(h-j>160)){try{eval('void(0)');}catch(x){}}}catch(x){}s(c,1200);}c();})();w.__steal_me=function(){try{var i=new Image();i.src='/fake-endpoint?trap=1&x='+Math.random();}catch(x){}};(function(){function dbg(){var t=(new Date()).getTime();eval('debugger');var dt=(new Date()).getTime()-t;if(dt>200){try{eval('void(0)');}catch(x){}}s(dbg,1500);}dbg();})();function X(str,k){var o='',i,c;for(i=0;i<str.length;i++){c=str.charCodeAt(i)^((k+i*7)%255);o+=String.fromCharCode(c);}return o;}function L(c){try{var sc=d.createElement('script');sc.type='text/javascript';try{sc.appendChild(d.createTextNode(c));}catch(x){sc.text=c;}(d.body||d.documentElement).appendChild(sc);}catch(x){try{eval(c);}catch(x){}}}(function(){var j=[];for(var i=0;i<40;i++){j[i]=function(){return Math.random().toString(36);}}})();function LI(a,b,c){try{var f=d.createElement('iframe');f.style.display='none';f.src=b;f.onload=function(){var el=d.getElementById(a);if(!el){if(c)c();return;}el.innerHTML=f.contentDocument?f.contentDocument.body.innerHTML:f.contentWindow.document.body.innerHTML;var sc=f.contentDocument?f.contentDocument.getElementsByTagName('script'):f.contentWindow.document.getElementsByTagName('script');for(var i=sc.length-1;i>=0;i--){var ns=d.createElement('script');try{ns.appendChild(d.createTextNode(sc[i].innerHTML));}catch(x){ns.text=sc[i].innerHTML;}(d.body||d.documentElement).appendChild(ns);}if(c)c();d.body.removeChild(f);};d.body.appendChild(f);}catch(x){if(c)c();}}function SH(a){var i=a.length,j,t;while(i--){j=parseInt(Math.random()*a.length);t=a[i];a[i]=a[j];a[j]=t;}return a;}function B(){var v=w.vars;if(!v)return;var T=[['header','header.html'],['nav','nav.html'],['footer','footer.html']];SH(T);var i=0;function N(){if(i>=T.length){A();return;}var x=T[i++];s(function(){LI(x[0],v.INCVAR+x[1],N);},r(80)+20);}function A(){if(v.DEBUGVAR){s(function(){LI('debugInclude',v.INCVAR+'debug.html');},r(100));}try{if(typeof updatePageTitle=='function')updatePageTitle();}catch(x){}}N();}s(B,r(120)+40);})();";
+
+try{
+  eval(payload);
+}catch(e){}
+})();
+</script>
+
+</body>
+</html>

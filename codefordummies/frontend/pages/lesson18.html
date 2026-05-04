@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle"></title>
+  <script src="../includes/vars.js"></script>
+</head>
+
+<body>
+<header>
+  <div id="header">Javascript Wiki</div>
+</header>
+
+<main>
+  <div id="nav"></div>
+
+<article>
+<h2>Object Display Javascript tutorial</h2>
+<br><br>
+
+
+This is the "Object Display" Javascript page, it teaches you how to write this code and how it works.
+<br><br>
+Now what an "Object display" is in Javascript is it is basically how you present the data inside a Javascript object.
+<br><br>
+
+<textarea id="textbox" name="textbox" rows="30" cols="70">
+[input]
+<DIV CLASS="FS-15">Displaying OBJECT Properties</DIV>
+<br>
+<DIV CLASS="FS-10">An Object's properties can be added in a string.</DIV>
+<br>
+<p id="OBJECTS10"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Properties
+let text = person.name + ", " + person.age + ", " + person.city;
+
+document.getElementById("OBJECTS10").innerHTML = text;
+</script>
+<BR>
+[/input]
+</textarea>
+
+
+
+
+<h2>Examples</h2>
+<br><br>
+
+
+
+<DIV CLASS="FS-15">Displaying OBJECT Properties</DIV>
+<br>
+<DIV CLASS="FS-10">An Object's properties can be added in a string.</DIV>
+<br>
+<p id="OBJECTS10"></p>
+
+<script>
+// Create an Object
+const person = {
+  name: "Aloysius",
+  age: 17,
+  city: "New York"
+};
+
+// Display Properties
+let text = person.name + ", " + person.age + ", " + person.city;
+
+document.getElementById("OBJECTS10").innerHTML = text;
+</script>
+<BR>
+
+
+
+  </article>
+ </main> 
+<footer id="footer"></footer>
+
+<div id="debugInclude"></div>
+
+<script>
+
+  (function loadCSS() {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "../../css/style.css?v=" + Date.now();
+    document.head.appendChild(link);
+  })();
+
+
+  document.getElementById("pageTitle").textContent =
+    window.vars.WEBSITETITLE + " - JavaScript Dates Tutorial";
+
+  
+  async function loadInclude(id, file) {
+    const res = await fetch(file);
+    const html = await res.text();
+    const container = document.getElementById(id);
+    container.innerHTML = html;
+
+
+    container.querySelectorAll("script").forEach(oldScript => {
+      const newScript = document.createElement("script");
+      if (oldScript.src) {
+        newScript.src = oldScript.src;
+      } else {
+        newScript.textContent = oldScript.textContent;
+      }
+      document.body.appendChild(newScript);
+      oldScript.remove();
+    });
+  }
+
+
+  loadInclude("header", window.vars.INCVAR + "header.html");
+  loadInclude("nav", window.vars.INCVAR + "nav.html");
+  loadInclude("footer", window.vars.INCVAR + "footer.html");
+  if (window.vars.DEBUGVAR) {
+    loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
+  }
+</script>
+</body>
+</html>
