@@ -79,7 +79,14 @@ function loadScript(src) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const { INCVAR, DBVAR, JSVAR, DEBUGVAR } = window.vars;
+  /*const { INCVAR, DBVAR, JSVAR, DEBUGVAR } = window.vars;*/
+
+if (!window.vars) {
+  console.error("window.vars is not defined. Check vars.js load order.");
+  return;
+}
+
+const { INCVAR, DBVAR, JSVAR, DEBUGVAR } = window.vars;
 
   await loadInclude("header", INCVAR + "header.html");
   await loadInclude("nav",    INCVAR + "nav.html");
