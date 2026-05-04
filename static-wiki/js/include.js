@@ -81,9 +81,9 @@ function loadScript(src) {
 document.addEventListener("DOMContentLoaded", async () => {
   const { INCVAR, DBVAR, JSVAR, DEBUGVAR } = window.vars;
 
-  await loadInclude("header", INCVAR + "header.html");
-  await loadInclude("nav",    INCVAR + "nav.html");
-  await loadInclude("footer", INCVAR + "footer.html");
+  await loadInclude("header", /*INCVAR +*/ "/static-wiki/includes/header.html");
+  await loadInclude("nav",    /*INCVAR + */"/static-wiki/includes/nav.html");
+  await loadInclude("footer", /*INCVAR +*/ "/static-wiki/includes/footer.html");
 
   if (typeof window.loadNav === "function") {
     await window.loadNav();
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (DEBUGVAR === true) {
     const debugArea = document.getElementById("debugInclude");
     if (debugArea) {
-      await loadInclude("debugInclude", INCVAR + "debug.html");
+      await loadInclude("debugInclude", /*INCVAR +*/ "/static-wiki/includes/debug.html");
       await loadScript(JSVAR + "debug.js");
       window.runDebug();
     }
