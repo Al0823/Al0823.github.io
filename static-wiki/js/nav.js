@@ -26,22 +26,31 @@ async function loadNav() {
     const user  = getUser();
     const studentCookie = getCookie("Student");
 
+    // Base path for the site root — ensures nav links work from any subfolder.
+    // PATHVAR should be an absolute path like "/static-wiki/" in vars.js.
+    const siteBase = (window.vars?.PATHVAR ?? "/static-wiki/").replace(/\/?$/, "/");
+
+    function toAbsolute(path) {
+      if (path.startsWith("/") || path.startsWith("http")) return path;
+      return siteBase + path;
+    }
+
     items.forEach(item => {
       if (item.admin === 2) {
         if (!user) {
-          addCustomLink(list, item.title, item.path, currentPath);
+          addCustomLink(list, item.title, toAbsolute(item.path), currentPath);
         } else {
-          addCustomLink(list, "Logout", item.path + "?action=logout", currentPath);
+          addCustomLink(list, "Logout", toAbsolute(item.path) + "?action=logout", currentPath);
         }
         return;
       }
       if (item.admin === 0) {
-        addLink(list, item, currentPath);
+        addCustomLink(list, item.title, toAbsolute(item.path), currentPath);
       }
     });
 
     if (admin === 1) {
-      addCustomLink(list, "Admin Panel", "admin/index.html", currentPath);
+      addCustomLink(list, "Admin Panel", siteBase + "26wiki26/index.html", currentPath);
     }
 
     if (studentCookie === "2559" || studentCookie === "1055") {
@@ -51,10 +60,6 @@ async function loadNav() {
   } catch (err) {
     console.error("NAV ERROR:", err);
   }
-}
-
-function addLink(list, item, currentPath) {
-  addCustomLink(list, item.title, item.path, currentPath);
 }
 
 function addCustomLink(list, title, path, currentPath) {
