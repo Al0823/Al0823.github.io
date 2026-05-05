@@ -221,6 +221,7 @@ letter-spacing: 2px;
 <div class="panel-section">
 <div class="panel-title">MENU</div>
 <div class="panel-button" onclick="openModal('stats')">View Stats</div>
+<div class="panel-button" onclick="openModal('encounters')">Encounters</div>
 <div class="panel-button" onclick="openModal('relationships')">Relationships</div>
 <div class="panel-button" onclick="openModal('options')">Options</div>
 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
@@ -459,8 +460,14 @@ playerStats: {
 
 // VORE ENCOUNTERS 
 voreEncounters: {
-    eatenBy: [],   // predators who successfully ate the player
-    labs: []       // class/lab participation
+    eatenBy: {
+        // example:
+        // lira: { count: 1, entries: ["She swallowed you during training..."] }
+    },
+    labs: {
+        // example:
+        // digestionLab1: { entries: ["You observed a digestion demo..."] }
+    }
 },
 
 // ===== CLASS SCHEDULE =====
@@ -1785,7 +1792,7 @@ console.log("Entering passage 143");
     gameState.TurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "lira";
-												recordVoreEvent("lira");
+recordVoreEvent("lira", "Lira swallowed you as part of a controlled training session.");
             gameState.preyHealth = 100;
             gameState.preyStamina = 100;
             gameState.digestionProgress = 0;
@@ -3865,21 +3872,39 @@ function refreshRelationshipUI() {
 
 
 // VORE TRACKING 
-function recordVoreEvent(predatorKey) {
+function recordVoreEvent(predatorKey, text = "") {
 
     if (!predatorKey) return;
 
-    if (!gameState.voreEncounters.eatenBy.includes(predatorKey)) {
-        gameState.voreEncounters.eatenBy.push(predatorKey);
+    if (!gameState.voreEncounters.eatenBy[predatorKey]) {
+        gameState.voreEncounters.eatenBy[predatorKey] = {
+            count: 0,
+            entries: []
+        };
+    }
+
+    let entry = gameState.voreEncounters.eatenBy[predatorKey];
+
+    entry.count++;
+
+    if (text && text.trim() !== "") {
+        entry.entries.push(text);
     }
 }
+function recordLab(key, text = "") {
 
-function recordLab(name) {
-    if (!gameState.voreEncounters.labs.includes(name)) {
-        gameState.voreEncounters.labs.push(name);
+    if (!key) return;
+
+    if (!gameState.voreEncounters.labs[key]) {
+        gameState.voreEncounters.labs[key] = {
+            entries: []
+        };
+    }
+
+    if (text && text.trim() !== "") {
+        gameState.voreEncounters.labs[key].entries.push(text);
     }
 }
-
 function getDigestionStage(progress) {
     let stage = DIGESTION_STAGES[0];
 
@@ -4303,21 +4328,57 @@ Lab Participation: ${gameState.voreEncounters.labs.length}
     } else if (type === 'about') {
         title.textContent = "THE DEMON AND I";
         content.innerHTML = `<p>Sorry! This is still Indev!</p>`;
-    } else if (type === 'relationships') {
-    title.textContent = "Relationships";
+    } else if (type === "encounters") {
 
-    let html = "";
+    let html = `<h3>Encounters</h3>
+    <div style="max-height: 60vh; overflow-y: auto;">`;
 
-    for (let key in gameState.relationships) {
-        let p = gameState.relationships[key];
-        if (!p.met) continue;
+    // ===== EATEN BY =====
+    html += `<h4>Eaten By</h4>`;
 
-        html += `<div class="modal-button" onclick="openRelationship('${key}')">${p.name}</div>`;
+    const eaten = gameState.voreEncounters.eatenBy;
+
+    if (!eaten || Object.keys(eaten).length === 0) {
+        html += `<p>No encounters yet.</p>`;
+    } else {
+        for (let key in eaten) {
+            const p = gameState.relationships[key];
+            let name = p ? p.name : key;
+            let data = eaten[key];
+
+            html += `<div style="margin-bottom:10px;">
+                <strong>${name} (${data.count})</strong>
+                <ul>
+                    ${data.entries.map(e => `<li>${e}</li>`).join("")}
+                </ul>
+            </div>`;
+        }
     }
 
-    content.innerHTML = html || "<p>No known relationships.</p>";
+    // ===== LABS =====
+    html += `<h4>Labs / Demonstrations</h4>`;
+
+    const labs = gameState.voreEncounters.labs;
+
+    if (!labs || Object.keys(labs).length === 0) {
+        html += `<p>No labs recorded.</p>`;
+    } else {
+        for (let key in labs) {
+            let data = labs[key];
+
+            html += `<div style="margin-bottom:10px;">
+                <strong>${key}</strong>
+                <ul>
+                    ${data.entries.map(e => `<li>${e}</li>`).join("")}
+                </ul>
+            </div>`;
+        }
+    }
+
+    html += `</div>`;
+    content.innerHTML = html;
+    return;
 }
-    modal.style.display = "flex";
 }
 
 function closeModal() {
