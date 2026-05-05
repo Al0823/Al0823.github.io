@@ -4,45 +4,78 @@ function runDebug() {
   if (!jsDebugDiv || !cssDebugDiv) return;
 
   const debugVarNames = [
+    // ── vars.js ──────────────────────────────────────────────
     "vars.PATHVAR",
-    "vars.CSSVAR",
     "vars.INCVAR",
     "vars.DBVAR",
     "vars.JSVAR",
-    "vars.UTILVAR",
+    "vars.CSSVAR",
+    "vars.IMGVAR",
     "vars.wikiadminVAR",
+    "vars.CONTENTVAR",
+    "vars.APIVAR",
     "vars.DEBUGVAR",
     "vars.WEBSITETITLE",
-    "vars.APIVAR",
-    "localStorage.site-language",
-    "localStorage.site-theme",
+
+    // ── Page context ──────────────────────────────────────────
+    "PAGETITLE",
+    "document.title",
     "document.documentElement.className",
+    "window.location.href",
+    "window.location.pathname",
+
+    // ── Auth state (content.js / localStorage) ────────────────
+    "localStorage.authToken",
+    "localStorage.authUser",
+
+    // ── Settings (theme.js / lang.js) ─────────────────────────
+    "localStorage.site-theme",
+    "localStorage.site-language",
+
+    // ── Screen ────────────────────────────────────────────────
     "screen.width",
-    "screen.height"
+    "screen.height",
+    "window.devicePixelRatio",
   ];
 
   function getValue(path) {
+    // localStorage keys may contain hyphens so can't be dot-walked
     if (path.startsWith("localStorage.")) {
       const val = localStorage.getItem(path.slice("localStorage.".length));
-      return val !== null ? val : "(not set)";
+      return val !== null ? truncate(val) : "(not set)";
     }
-    if (path === "document.documentElement.className") {
-      return document.documentElement.className || "(none)";
-    }
+    // Special cases that live on objects not reachable cleanly via window
+    if (path === "document.title")                      return document.title || "(not set)";
+    if (path === "document.documentElement.className")  return document.documentElement.className || "(none)";
+    if (path === "window.location.href")                return window.location.href;
+    if (path === "window.location.pathname")            return window.location.pathname;
+    if (path === "window.devicePixelRatio")             return window.devicePixelRatio;
     try {
       const val = path.split(".").reduce((obj, key) => {
-        if (obj === undefined || obj === null) return undefined;
+        if (obj === null || obj === undefined) return undefined;
         return obj[key];
       }, window);
-      return val !== undefined && val !== null ? val : "(not set)";
-    } catch (e) {
+      return (val !== undefined && val !== null) ? truncate(String(val)) : "(not set)";
+    } catch(e) {
       return "(error: " + e.message + ")";
     }
   }
 
+  // Truncate long values (e.g. authToken) so they don't break layout
+  function truncate(str) {
+    return str.length > 80 ? str.slice(0, 80) + "…" : str;
+  }
+
   jsDebugDiv.innerHTML = debugVarNames
-    .map((name, i) => `${i}&nbsp;&nbsp;<b>${name}</b> = ${getValue(name)}`)
+    .map((name, i) => {
+      const val      = getValue(name);
+      const isMissing = val === "(not set)" || val === "(none)";
+      const style    = isMissing ? "color:#999" : "";
+      return `<span style="${style}">${i}&nbsp;&nbsp;<b>${name}</b> = ${val}</span>`;
+    })
     .join("<br><hr>");
+
+  // ── CSS custom properties ──────────────────────────────────
 
   function getAllCSSVars() {
     const found = [];
@@ -55,7 +88,8 @@ function runDebug() {
             }
           }
         }
-      } catch (e) {
+      } catch(e) {
+        // Cross-origin sheet — skip
       }
     }
     return found;
