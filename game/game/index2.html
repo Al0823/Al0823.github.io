@@ -460,13 +460,22 @@ playerStats: {
 
 // VORE ENCOUNTERS 
 voreEncounters: {
-    eatenBy: {
-        // example:
-        // lira: { count: 1, entries: ["She swallowed you during training..."] }
+eatenBy: {
+        // lira example
+        lira: {
+            count: 0,
+            entries: [
+                { text: "Lira swallowed you during a training session set up by Lirael.", unlocked: false },
+
+            ]
+        }
     },
     labs: {
-        // example:
-        // digestionLab1: { entries: ["You observed a digestion demo..."] }
+        digestionDemo1: {
+            entries: [
+                { text: "You observed a controlled digestion demonstration.", unlocked: false }
+            ]
+        }
     }
 },
 
@@ -1792,7 +1801,7 @@ console.log("Entering passage 143");
     gameState.TurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "lira";
-recordVoreEvent("lira", "Lira swallowed you as part of a controlled training session.");
+recordVoreEvent("lira", 0);
             gameState.preyHealth = 100;
             gameState.preyStamina = 100;
             gameState.digestionProgress = 0;
@@ -3872,37 +3881,28 @@ function refreshRelationshipUI() {
 
 
 // VORE TRACKING 
-function recordVoreEvent(predatorKey, text = "") {
+function recordVoreEvent(predatorKey, entryIndex = null) {
 
     if (!predatorKey) return;
 
-    if (!gameState.voreEncounters.eatenBy[predatorKey]) {
-        gameState.voreEncounters.eatenBy[predatorKey] = {
-            count: 0,
-            entries: []
-        };
-    }
+    let p = gameState.voreEncounters.eatenBy[predatorKey];
+    if (!p) return;
 
-    let entry = gameState.voreEncounters.eatenBy[predatorKey];
+    // increment total encounters
+    p.count++;
 
-    entry.count++;
-
-    if (text && text.trim() !== "") {
-        entry.entries.push(text);
+    // unlock specific entry if provided
+    if (entryIndex !== null && p.entries[entryIndex]) {
+        p.entries[entryIndex].unlocked = true;
     }
 }
-function recordLab(key, text = "") {
+function recordLab(key, entryIndex = null) {
 
-    if (!key) return;
+    let l = gameState.voreEncounters.labs[key];
+    if (!l) return;
 
-    if (!gameState.voreEncounters.labs[key]) {
-        gameState.voreEncounters.labs[key] = {
-            entries: []
-        };
-    }
-
-    if (text && text.trim() !== "") {
-        gameState.voreEncounters.labs[key].entries.push(text);
+    if (entryIndex !== null && l.entries[entryIndex]) {
+        l.entries[entryIndex].unlocked = true;
     }
 }
 function getDigestionStage(progress) {
@@ -4342,17 +4342,21 @@ Lab Participation: ${gameState.voreEncounters.labs.length}
         html += `<p>No encounters yet.</p>`;
     } else {
         for (let key in eaten) {
-            const p = gameState.relationships[key];
-            let name = p ? p.name : key;
-            let data = eaten[key];
+    const p = gameState.relationships[key];
+    let name = p ? p.name : key;
+    let data = eaten[key];
 
-            html += `<div style="margin-bottom:10px;">
-                <strong>${name} (${data.count})</strong>
-                <ul>
-                    ${data.entries.map(e => `<li>${e}</li>`).join("")}
-                </ul>
-            </div>`;
+    const unlockedEntries = data.entries.filter(e => e.unlocked);
+
+    html += `<div style="margin-bottom:10px;">
+        <strong>${name} (${data.count})</strong>
+        ${
+            unlockedEntries.length
+            ? `<ul>${unlockedEntries.map(e => `<li>${e.text}</li>`).join("")}</ul>`
+            : `<p>No details unlocked yet.</p>`
         }
+    </div>`;
+}
     }
 
     // ===== LABS =====
