@@ -1275,10 +1275,10 @@ return "";
         },
         location: "Guest Bathroom",
         choices: [{ label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeAlone", effect: () => { gameState.lastChoiceLabel = ""; }},
- {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 50, effect: () => { gameState.lastChoiceLabel = ""; }},
-{label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 100, effect: () => { gameState.lastChoiceLabel = ""; }},
- {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 150, effect: () => { gameState.lastChoiceLabel = ""; }},
-	 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 200, effect: () => { gameState.lastChoiceLabel = ""; }}
+ {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 50, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 11); }},
+{label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 100, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 11); }},
+ {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 150, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 12); }},
+	 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 200, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 13); }}
 								]
     },
 
@@ -1785,6 +1785,7 @@ console.log("Entering passage 143");
     gameState.TurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "lira";
+												recordVoreEvent("lira");
             gameState.preyHealth = 100;
             gameState.preyStamina = 100;
             gameState.digestionProgress = 0;
@@ -3852,10 +3853,25 @@ function refreshRelationshipUI() {
 
 
 // VORE TRACKING 
-function recordVoreEvent(name) {
-    if (!gameState.voreEncounters.eatenBy.includes(name)) {
-        gameState.voreEncounters.eatenBy.push(name);
+function recordVoreEvent(predatorKey) {
+
+    if (!predatorKey) return;
+
+    // Track unique predators who have eaten the player
+    if (!gameState.voreEncounters.eatenBy.includes(predatorKey)) {
+        gameState.voreEncounters.eatenBy.push(predatorKey);
     }
+
+    // Optional: track total times eaten
+    if (!gameState.voreEncounters.timesEaten) {
+        gameState.voreEncounters.timesEaten = {};
+    }
+
+    if (!gameState.voreEncounters.timesEaten[predatorKey]) {
+        gameState.voreEncounters.timesEaten[predatorKey] = 0;
+    }
+
+    gameState.voreEncounters.timesEaten[predatorKey]++;
 }
 
 function recordLab(name) {
