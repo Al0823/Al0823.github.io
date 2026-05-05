@@ -3857,21 +3857,9 @@ function recordVoreEvent(predatorKey) {
 
     if (!predatorKey) return;
 
-    // Track unique predators who have eaten the player
     if (!gameState.voreEncounters.eatenBy.includes(predatorKey)) {
         gameState.voreEncounters.eatenBy.push(predatorKey);
     }
-
-    // Optional: track total times eaten
-    if (!gameState.voreEncounters.timesEaten) {
-        gameState.voreEncounters.timesEaten = {};
-    }
-
-    if (!gameState.voreEncounters.timesEaten[predatorKey]) {
-        gameState.voreEncounters.timesEaten[predatorKey] = 0;
-    }
-
-    gameState.voreEncounters.timesEaten[predatorKey]++;
 }
 
 function recordLab(name) {
