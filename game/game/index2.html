@@ -1274,7 +1274,12 @@ return "";
             return "Lirael's golden eyes brighten as you hand her the clothes. She changes quickly and returns looking more comfortable than before.";
         },
         location: "Guest Bathroom",
-        choices: [{ label: "Continue", next: 100, effect: () => { gameState.lastChoiceLabel = ""; }}]
+        choices: [{ label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeAlone", effect: () => { gameState.lastChoiceLabel = ""; }},
+ {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 50, effect: () => { gameState.lastChoiceLabel = ""; }},
+{label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 100, effect: () => { gameState.lastChoiceLabel = ""; }},
+ {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 150, effect: () => { gameState.lastChoiceLabel = ""; }},
+	 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 200, effect: () => { gameState.lastChoiceLabel = ""; }}
+								]
     },
 
     // 106 - Show her the bean bag chair
