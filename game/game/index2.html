@@ -471,6 +471,7 @@ eatenBy: {
         }
     },
     labs: {
+					 count: 0,
         digestionDemo1: {
             entries: [
                 { text: "You observed a controlled digestion demonstration.", unlocked: false }
@@ -3735,10 +3736,25 @@ gameState.currentPassage = (typeof choice.next === "function")
         };
         choicesDiv.appendChild(btn);
     });
-
+applyRelationshipDecay();
     updateStatusBar();
 }
 
+function normalizeEncounters() {
+    if (!gameState.voreEncounters) {
+        gameState.voreEncounters = { eatenBy: {}, labs: {} };
+    }
+
+    // Fix eatenBy
+    if (Array.isArray(gameState.voreEncounters.eatenBy)) {
+        gameState.voreEncounters.eatenBy = {};
+    }
+
+    // Fix labs
+    if (Array.isArray(gameState.voreEncounters.labs)) {
+        gameState.voreEncounters.labs = {};
+    }
+}
 
 // RELATIONSHIP HELPERS 
 function revealRelationship(key, {
@@ -3785,6 +3801,23 @@ function changeBond(key, amount) {
     p.bond = Math.max(-200, Math.min(200, p.bond + amount));
 
     refreshRelationshipUI();
+}
+
+function applyRelationshipDecay() {
+
+    for (let key in gameState.relationships) {
+        let r = gameState.relationships[key];
+
+        if (!r || typeof r.bond !== "number") continue;
+
+        // Only decay if above 100
+        if (r.bond > 100) {
+            r.bond -= 1;
+
+            // Safety clamp (in case something weird happens)
+            if (r.bond < 100) r.bond = 100;
+        }
+    }
 }
 
 
@@ -3881,40 +3914,47 @@ function refreshRelationshipUI() {
 
 
 // VORE TRACKING 
-function recordVoreEvent(predatorKey, entryIndex = null) {
+function recordVoreEvent(key, text = "") {
+    normalizeEncounters();
 
-    if (!predatorKey) return;
+    const eaten = gameState.voreEncounters.eatenBy;
 
-    let p = gameState.voreEncounters.eatenBy[predatorKey];
-    if (!p) return;
+    if (!eaten[key]) {
+        eaten[key] = {
+            count: 0,
+            entries: []
+        };
+    }
 
-    // increment total encounters
-    p.count++;
+    eaten[key].count++;
 
-    // unlock specific entry if provided
-    if (entryIndex !== null && p.entries[entryIndex]) {
-        p.entries[entryIndex].unlocked = true;
+    if (text) {
+        eaten[key].entries.push({
+            text: text,
+            unlocked: true
+        });
     }
 }
-function recordLab(key, entryIndex = null) {
+function recordLab(key, text = "") {
+    normalizeEncounters();
 
-    let l = gameState.voreEncounters.labs[key];
-    if (!l) return;
+    const labs = gameState.voreEncounters.labs;
 
-    if (entryIndex !== null && l.entries[entryIndex]) {
-        l.entries[entryIndex].unlocked = true;
-    }
-}
-function getDigestionStage(progress) {
-    let stage = DIGESTION_STAGES[0];
-
-    for (let s of DIGESTION_STAGES) {
-        if (progress >= s.threshold) {
-            stage = s;
-        }
+    if (!labs[key]) {
+        labs[key] = {
+            count: 0,
+            entries: []
+        };
     }
 
-    return stage;
+    labs[key].count++;
+
+    if (text) {
+        labs[key].entries.push({
+            text: text,
+            unlocked: true
+        });
+    }
 }
 
 function saveDayCheckpoint() {
@@ -4054,242 +4094,9 @@ document.addEventListener('keydown', (e) => {
         toggleAdminPanel();
     }
 });
-/*
-// RENDERING 
-function renderPassage() {
-    gameState.visitedPassages[gameState.currentPassage] = true;
-
-    var p = passages[gameState.currentPassage];
-    if (!p) {
-        document.getElementById('story').textContent = "Error: passage " + gameState.currentPassage + " not found.";
-        return;
-    }
-
-    let displayText = typeof p.text === 'function' ? p.text() : p.text;
-    document.getElementById('story').textContent = displayText;
-    document.getElementById('location-display').textContent = p.location + " — " + gameState.currentDate;
-
-    var choicesDiv = document.getElementById('choices');
-    choicesDiv.innerHTML = '';
-
-    let visibleChoices = p.choices.filter(choice => {
-        const used = gameState.usedChoices[gameState.currentPassage] || [];
-        if (used.includes(choice.label)) return false;
-        if (choice.condition && !choice.condition()) return false;
-        return true;
-    });
-
-    visibleChoices.forEach((choice) => {
-        var btn = document.createElement('button');
-        btn.textContent = choice.label;
-        btn.onclick = () => {
-            if (choice.next !== gameState.currentPassage) {
-                if (!gameState.usedChoices[gameState.currentPassage])
-                    gameState.usedChoices[gameState.currentPassage] = [];
-                if (!gameState.usedChoices[gameState.currentPassage].includes(choice.label)) {
-                    gameState.usedChoices[gameState.currentPassage].push(choice.label);
-                }
-            }
-            if (choice.effect) choice.effect();
-            gameState.lastPassage = gameState.currentPassage;
-            gameState.currentPassage = choice.next;
-            renderPassage();
-        };
-        choicesDiv.appendChild(btn);
-    });
-
-    updateStatusBar();
-}
-
-function revealRelationship(key, {
-    met = true,
-    details = [],
-    history = []
-} = {}) {
-
-    if (!gameState.relationships[key]) return;
-
-    if (met) gameState.relationships[key].met = true;
-
-    details.forEach(i => setDetail(key, i, true));
-    history.forEach(i => setPredHistory(key, i, true));
-}
-
-function getHeartDisplay(value) {
-    let hearts = "";
-    let clamped = Math.max(-200, Math.min(200, value));
-    let filled = Math.floor(Math.abs(clamped) / 20);
-
-    for (let i = 0; i < 10; i++) {
-        if (i < filled) {
-            hearts += clamped >= 0 ? "&#10084;" : "&#128148;";
-        } else {
-            hearts += "&#9825;";
-        }
-    }
-
-    return hearts;
-}
-
-function openRelationship(key) {
-
-    const p = gameState.relationships[key];
-    const content = document.getElementById('modal-content');
-
-    let detailsHTML = "<ul>";
-    for (let d of p.details) {
-        if (d.unlocked) {
-            detailsHTML += `<li>${d.text}</li>`;
-        }
-    }
-    detailsHTML += "</ul>";
-
-    const knownHistory = p.predatorHistory
-        .map((h, i) => ({ ...h, index: i }))
-        .filter(h => h.known);
-
-    const hasRealHistory = knownHistory.some(h => h.index !== 0);
-
-    const finalHistory = knownHistory.filter(h => {
-        if (h.index === 0 && hasRealHistory) return false;
-        return true;
-    });
-
-    const predHTML = finalHistory.length
-        ? `<ul>${finalHistory.map(h => `<li>${h.text}</li>`).join("")}</ul>`
-        : `<p>No history unlocked yet.</p>`;
-
-    content.innerHTML = `
-        <h3>${p.name}</h3>
-        <div style="max-height: 60vh; overflow-y: auto;">
-
-        <p><strong>Relationship</strong><br>
-        ${getHeartDisplay(p.bond)}</p>
-
-        <p><strong>Description</strong><br>
-        ${p.description}</p>
-
-        <p><strong>Details</strong><br>
-        ${detailsHTML}</p>
-
-        <p><strong>Predator History</strong><br>
-        ${predHTML}</p>
-
-        <p><strong>Grade/Class:</strong> ${p.grade}</p>
-        <p><strong>Age:</strong> ${p.age}</p>
-        <p><strong>Phone:</strong> ${p.phone ? "Yes" : "No"}</p>
-
-        <div class="modal-button" onclick="openModal('relationships')">Back</div>
-        </div>
-    `;
-}
-
-function meetPerson(key) {
-    if (gameState.relationships[key]) {
-        gameState.relationships[key].met = true;
-    }
-}
-
-function setDetail(key, index, value = true) {
-    const p = gameState.relationships[key];
-    if (p && p.details[index] && !p.details[index].unlocked) {
-        p.details[index].unlocked = value;
-    }
-}
-
-function setPredHistory(key, index, value = true) {
-    const p = gameState.relationships[key];
-    if (p && p.predatorHistory[index]) {
-        p.predatorHistory[index].known = value;
-    }
-}
-
-function recordVoreEvent(name) {
-
-    if (!gameState.voreEncounters.eatenBy.includes(name)) {
-        gameState.voreEncounters.eatenBy.push(name);
-    }
-}
-
-function recordLab(name) {
-    if (!gameState.voreEncounters.labs.includes(name)) {
-        gameState.voreEncounters.labs.push(name);
-    }
-}
-
-    
-function updateStatusBar() {
-    if (passages[gameState.currentPassage]) {
-        document.getElementById('status-bar').textContent = `Location: ${passages[gameState.currentPassage].location} — ${gameState.currentDate}`;
-    }
-}
-
-// ================ ADMIN PANEL ================
-function toggleAdminPanel() {
-    const panel = document.getElementById('admin-panel');
-    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
-    if (panel.style.display === 'block') refreshAdminPanel();
-}
-
-function refreshAdminPanel() {
-    const container = document.getElementById('state-list');
-    container.innerHTML = '';
-    for (let key in gameState) {
-        const value = gameState[key];
-        const row = document.createElement('div');
-        row.style.margin = '8px 0';
-        row.style.padding = '8px';
-        row.style.background = '#222222';
-        row.style.borderRadius = '4px';
-        row.innerHTML = `
-            <strong>${key}:</strong> 
-            <input type="text" value="${value}" 
-                   onchange="updateGameState('${key}', this.value)" 
-                   style="background:#333333; color:#dddddd; border:none; padding:4px; width:65%;">
-        `;
-        container.appendChild(row);
-    }
-}
-
-function updateGameState(key, newValue) {
-    const current = gameState[key];
-    if (typeof current === 'number') gameState[key] = Number(newValue);
-    else if (typeof current === 'boolean') gameState[key] = (newValue.toLowerCase() === 'true');
-    else gameState[key] = newValue;
-    refreshAdminPanel();
-}
-
-function quickSet(key, value) {
-    gameState[key] = value;
-    refreshAdminPanel();
-    alert(`Set ${key} = ${value}`);
-}
-
-function jumpToPassage() {
-    const num = parseInt(document.getElementById('jump-input').value);
-    if (!isNaN(num) && passages[num]) {
-        gameState.currentPassage = num;
-        toggleAdminPanel();
-        renderPassage();
-    } else {
-        alert("Invalid passage number!");
-    }
-}
-
-function resetGameState() {
-    if (confirm("Reset ALL game state?")) location.reload();
-}
-
-// Hotkey: Ctrl + Shift + A
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
-        e.preventDefault();
-        toggleAdminPanel();
-    }
-});
-*/
 // ================ MODALS ================
 function openModal(type) {
+	normalizeEncounters();
     var modal = document.getElementById('modal');
     var title = document.getElementById('modal-title');
     var content = document.getElementById('modal-content');
@@ -4315,8 +4122,8 @@ Health: ${gameState.playerStats.health}<br>
 Escape Skill: ${gameState.playerStats.escapeSkill}<br><br>
 
 <h3>Vore Encounters</h3>
-Eaten By: ${gameState.voreEncounters.eatenBy.length}<br>
-Lab Participation: ${gameState.voreEncounters.labs.length}
+Eaten By: ${Object.keys(gameState.voreEncounters.eatenBy || {}).length}
+Lab Participation: ${Object.keys(gameState.voreEncounters.labs || {}).length}
 `;
         }
     } else if (type === 'options') {
@@ -4328,61 +4135,96 @@ Lab Participation: ${gameState.voreEncounters.labs.length}
     } else if (type === 'about') {
         title.textContent = "THE DEMON AND I";
         content.innerHTML = `<p>Sorry! This is still Indev!</p>`;
-    } else if (type === "encounters") {
+    } else if (type === "relationships") {
+
+    title.textContent = "RELATIONSHIPS";
+
+    let html = `<div style="max-height:60vh; overflow-y:auto;">`;
+
+    const rels = gameState.relationships;
+
+    for (let key in rels) {
+        const p = rels[key];
+
+        if (!p.met) continue;
+
+        html += `
+            <div class="modal-button" onclick="openRelationship('${key}')">
+                ${p.name}
+            </div>
+        `;
+    }
+
+    html += `</div>`;
+
+    content.innerHTML = html;
+
+} else if (type === 'encounters') {
+
+    title.textContent = "ENCOUNTERS";
 
     let html = `<h3>Encounters</h3>
     <div style="max-height: 60vh; overflow-y: auto;">`;
 
-    // ===== EATEN BY =====
-    html += `<h4>Eaten By</h4>`;
+    const eaten = gameState.voreEncounters.eatenBy || {};
 
-    const eaten = gameState.voreEncounters.eatenBy;
-
-    if (!eaten || Object.keys(eaten).length === 0) {
+    if (Object.keys(eaten).length === 0) {
         html += `<p>No encounters yet.</p>`;
     } else {
         for (let key in eaten) {
-    const p = gameState.relationships[key];
-    let name = p ? p.name : key;
-    let data = eaten[key];
 
-    const unlockedEntries = data.entries.filter(e => e.unlocked);
+            const p = gameState.relationships[key];
+            let name = p ? p.name : key;
+            let data = eaten[key] || {};
 
-    html += `<div style="margin-bottom:10px;">
-        <strong>${name} (${data.count})</strong>
-        ${
-            unlockedEntries.length
-            ? `<ul>${unlockedEntries.map(e => `<li>${e.text}</li>`).join("")}</ul>`
-            : `<p>No details unlocked yet.</p>`
+            let entries = Array.isArray(data.entries) ? data.entries : [];
+
+            let unlocked = entries.filter(e => e && e.unlocked);
+
+            html += `<div style="margin-bottom:10px;">
+                <strong>${name} (${data.count || 0})</strong>
+                ${
+                    unlocked.length
+                    ? `<ul>${unlocked.map(e => `<li>${e.text}</li>`).join("")}</ul>`
+                    : `<p>No details unlocked yet.</p>`
+                }
+            </div>`;
         }
-    </div>`;
-}
     }
 
     // ===== LABS =====
     html += `<h4>Labs / Demonstrations</h4>`;
 
-    const labs = gameState.voreEncounters.labs;
+    const labs = gameState.voreEncounters.labs || {};
 
-    if (!labs || Object.keys(labs).length === 0) {
+    if (Object.keys(labs).length === 0) {
         html += `<p>No labs recorded.</p>`;
     } else {
         for (let key in labs) {
-            let data = labs[key];
+
+            let data = labs[key] || {};
+            let entries = Array.isArray(data.entries) ? data.entries : [];
+
+            let unlocked = entries.filter(e => e && e.unlocked);
 
             html += `<div style="margin-bottom:10px;">
                 <strong>${key}</strong>
-                <ul>
-                    ${data.entries.map(e => `<li>${e}</li>`).join("")}
-                </ul>
+                ${
+                    unlocked.length
+                    ? `<ul>${unlocked.map(e => `<li>${e.text}</li>`).join("")}</ul>`
+                    : `<p>No details unlocked yet.</p>`
+                }
             </div>`;
         }
     }
 
     html += `</div>`;
     content.innerHTML = html;
+
     return;
 }
+
+    modal.style.display = "flex";
 }
 
 function closeModal() {
