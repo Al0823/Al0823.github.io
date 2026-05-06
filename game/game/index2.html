@@ -221,7 +221,8 @@ letter-spacing: 2px;
 <div class="panel-section">
 <div class="panel-title">MENU</div>
 <div class="panel-button" onclick="openModal('stats')">View Stats</div>
-<div class="panel-button" onclick="openModal('encounters')">Encounters</div>
+<!--<div class="panel-button" onclick="openModal('encounters')">Encounters</div>-->
+<div class="panel-button" onclick="console.log('CLICKED'); openModal('encounters')">Encounters</div>
 <div class="panel-button" onclick="openModal('relationships')">Relationships</div>
 <div class="panel-button" onclick="openModal('options')">Options</div>
 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
@@ -452,16 +453,36 @@ molly: {
     name: "Molly",
     bond: 0,
     met: false,
-    description: "",
-    details: [
-{ text: "", unlocked: false },  // 0, set in passage 
+    description: "Molly is a friendly and upbeat upperclassman who speaks in a cheerful, reassuring tone and seems comfortable interacting with new students; Even when explaining the school’s more unusual rules. Her playful attitude — including the occasional wink — suggests she enjoys keeping things light, but she also comes across as responsible and well-behaved, trusted enough by the school to help run events. She has long auburn hair and a noticeably curvy figure, carrying herself with an easy confidence that makes her approachable.",
+ details: [
+    { unlocked: false, text: "You met her at the front entrance during orientation, where she was helping students sign in." }, // 0
 
-    ],
+    { unlocked: false, text: "She is one of the upperclassmen trusted to help during events due to her good behavior." }, // 1
+
+    { unlocked: false, text: "She has a friendly, playful attitude and seems used to talking to new students." } // 2
+],
     grade: "Senior",
     age: "17-18",
     phone: false,
     predatorHistory: [
         { text: "You have not seen her eat anyone, but she has implied she has. But to your knowledge of what you have seen of her, she has eaten no one.", known: true }, // 0, set when meeting her
+{ text: "", known: false }, // 1, set in passage 
+    ]
+},
+sophia: {
+    name: "Sophia",
+    bond: 0,
+    met: false,
+    description: "Sophia is a confident senior who speaks clearly and keeps things organized, guiding students through the school with an easy, practiced flow. Her tone is friendly but composed, and she seems completely comfortable explaining both normal school activities and its more dangerous aspects without hesitation. She has long wavy chestnut hair, bright hazel eyes, and a self-assured presence that naturally draws attention. She appears experienced and knowledgeable about how the school operates, especially when it comes to its more unusual rules.",
+    details: [
+{ text: "You met her on orientation day, where she was your tour guide", unlocked: false },  // 0, set in passage 
+ { unlocked: false, text: "She is one of the upperclassmen trusted to help during events due to her good behavior." }, // 1
+    ],
+    grade: "Senior",
+    age: "17-18",
+    phone: false,
+    predatorHistory: [
+        { text: "To your knowledge of what you have seen of her, she has eaten no one.", known: true }, // 0, set when meeting her
 { text: "", known: false }, // 1, set in passage 
     ]
 }
@@ -476,7 +497,8 @@ playerStats: {
     escapeSkill: 0,
 },
 
-// VORE ENCOUNTERS 
+// VORE ENCOUNTERS
+/* 
 voreEncounters: {
 eatenBy: {
         // lira example
@@ -496,6 +518,28 @@ eatenBy: {
             ]
         }
     }
+},
+*/
+voreEncounters: {
+    eatenBy: [
+        {
+            id: "lirael101",
+            unlocked: false,
+            text: "Lirael ate you with her ass after a trip to the bathroom with her turned into an intimate facesitting session, though she let you out before anything could happen."
+        },
+        {
+            id: "lira",
+            unlocked: false,
+            text: "Lira ate you during a training session set up by Lirael"
+        }
+    ],
+    labs: [
+        {
+            id: "lab_intro",
+            unlocked: false,
+            text: "You participated in your first controlled vore demonstration."
+        }
+    ]
 },
 
 // ===== CLASS SCHEDULE =====
@@ -1655,7 +1699,7 @@ setPredHistory("lirael", 2);
             else {
                 gameState.whoAteGrimmold = "emily";
                 return "You suggest that the family should work together as a team to help Lirael get back inside despite her current condition.\n\n\"We can do this together,\" you say. \"We'll help her move carefully so no one gets hurt.\"\n\nEveryone begins coordinating, but halfway across the yard Lirael suddenly freezes. Her golden eyes widen and she lets out a strained gasp.\n\n\"Wait— I can’t… hold him…\" she manages before her body convulses violently.\n\nWith a loud, wet retching sound, Lirael vomits Grimmold straight into Emily’s open mouth. The creature is barely digested at all — mostly intact, covered in thick, sticky slime, still weakly thrashing and glowing faintly blue.\n\nEmily doesn’t hesitate. Her eyes flash with strong predatory instinct. She grabs Lirael’s hips to steady her, tilts her head back, and begins swallowing in powerful, continuous gulps. Her small throat bulges dramatically as she forces the slimy, skeletal mass down. She presses her hands firmly against Lirael’s belly, helping to push more of Grimmold out and into her own mouth.\n\nWet, sloppy sounds fill the yard as Emily actively swallows the barely-digested demon. It takes nearly ten long minutes. Emily never once pulls away — her predatory instincts fully on display as she works to take every last piece. By the end, all of Grimmold has been transferred into Emily’s stomach. Her belly is now massively swollen, easily 2–3 times her own 5'2\" body size, protruding about 6 feet in front of her and actually touching the ground while the rest of her body remains unchanged for now.\n\nThe sounds coming from Emily’s stomach are incredibly loud and wet — constant heavy *GLORPS*, thick bubbling *GLUUUURKS*, messy sloshing, loud squelching gurgles, and deep, sloppy churns as Grimmold thrashes weakly inside the tight, stretched space.\n\nLirael collapses to her knees, now empty and panting. A violet glow suddenly surges around her as she grows back to her full 12-foot height. Without hesitation, she gently scoops up Emily — carefully supporting the girl’s enormous, ground-dragging belly — and carries her inside the house.\n\nLirael lowers Emily onto the large couch in the living room, the child’s massive stomach resting heavily on her lap and spilling onto the cushions. Emily continues to gently rub her hugely distended belly with both hands, a small, satisfied smile on her face.\n\nLirael looks at Emily with clear admiration.\n\n\"Issac was not exaggerating,\" she says softly, voice full of awe. \"You are a human child that is only about 5'2\"… and you just ate a demon that was nearly 15 feet tall. You have extraordinary predatory abilities, Emily.\"";
-setPredHistory("issasSister", 3);
+setPredHistory("issacSister", 3);
             }
         } 
         else if (gameState.lastChoiceLabel === "Suggest Lirael quick-digests Grimmold so that we all can go inside now") {
@@ -1820,7 +1864,7 @@ console.log("Entering passage 143");
     gameState.TurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "lira";
-recordVoreEvent("lira", 0);
+recordVoreEvent("lira", "Lira swallowed you during a training session set up by Lirael.");
             gameState.preyHealth = 100;
             gameState.preyStamina = 100;
             gameState.digestionProgress = 0;
@@ -3599,7 +3643,7 @@ setDetail("Lydia", 2);
     location: "School - Main Entrance (Morning)",
     choices: [
         { label: "Continue with orientation", next: 209, effect: () => {revealRelationship("molly", {
-    details: [0, 1],
+    details: [0, 1, 2],
     history: [0]
 });} }
     ]
@@ -3613,7 +3657,10 @@ setDetail("Lydia", 2);
     },
     location: "School - Gymnasium & Campus Tour (Morning)",
     choices: [
-        { label: "Continue with the tour", next: 211 }
+        { label: "Continue with the tour", next: 211, effect: () => {revealRelationship("sophia", {
+    details: [0, 1, 2],
+    history: [0]
+});} }
     ]
 },
 
@@ -3664,7 +3711,7 @@ return 0;
 // 211 - Campus Tour
 {
     text: function() {
-        return "The group follows Sophia through the bustling hallways as she begins the guided campus tour. The senior upperclassman is energetic and friendly, pointing out key locations with enthusiasm.\n\n\"This is the main academic wing,\" Sophia explains, gesturing down a long corridor lined with lockers and colorful posters. \"Most of your core classes will be here. The library is just around the corner — it's a great place to study… or hide from people if you need to.\"\n\nShe gives a playful wink, clearly aware of the school's unique social dynamics.\n\nLirael walks beside you, her golden eyes scanning everything with quiet fascination. She occasionally leans in to ask you soft questions about what the different rooms are used for.\n\nLydia stays very close to Lirael, her soft brown eyes wide as she takes in the crowded hallways and the sheer number of students. She keeps one hand lightly touching the half-cloaking stone hidden under her shirt, clearly still nervous about being in such a public human space for the first time.\n\nEmily walks with a confident bounce in her step, already chatting casually with Sophia.\n\nAs the tour continues, Sophia leads everyone through the cafeteria, the gymnasium, the outdoor sports fields, and finally the arts wing. She answers questions patiently, especially when Lirael asks about how classes are structured or what the school rules are regarding… unusual incidents.\n\n\"We have a pretty relaxed policy on that stuff,\" Sophia says with a knowing smile. \"As long as no one gets hurt on purpose and it doesn't disrupt class too much, the staff tends to look the other way. But try not to eat anyone in the middle of a lecture.\"\n\nShe pauses, then adds with a more serious tone:\n\n\"Oh, and one more thing — watch out for the Freshman Friday Fright. It happens on the first Friday of the school year. Upperclassmen tend to… pick away at the freshmen. Only about half of the new students make it through the day at most. So stick together, stay aware, and maybe keep close to someone who knows how to handle themselves.\"\n\nEmily grins, clearly intrigued. Lydia looks visibly nervous. Lirael simply nods, filing the information away.\n\nBy the time the tour wraps up, everyone has a much better sense of the campus layout. Sophia hands out maps and information packets before waving goodbye.\n\n\"Welcome to the school!\" she says cheerfully. \"See you all on the first day!\"\n\nYour father looks around at the group as you stand in the main lobby.\n\n\"Well… that was informative,\" he says. \"Let's head home and talk about how we're going to handle all this.\"";
+        return "The group follows Sophia through the bustling hallways as she begins the guided campus tour. The senior upperclassman is energetic and friendly, pointing out key locations with enthusiasm.\n\n\"This is the main academic wing,\" Sophia explains, gesturing down a long corridor lined with lockers and colorful posters. \"Most of your core classes will be here. The library is just around the corner — it's a great place to study… or hide from people if you need to.\"\n\nShe gives a playful wink, clearly aware of the school's unique social dynamics.\n\nLirael walks beside you, her golden eyes scanning everything with quiet fascination. She occasionally leans in to ask you soft questions about what the different rooms are used for.\n\nLydia stays very close to Lirael, her soft brown eyes wide as she takes in the crowded hallways and the sheer number of students. She keeps one hand lightly touching the half-cloaking stone hidden under her shirt, clearly still nervous about being in such a public human space for the first time.\n\nEmily walks with a confident bounce in her step, already chatting casually with Sophia.\n\nAs the tour continues, Sophia leads everyone through the cafeteria, the gymnasium, the outdoor sports fields, the arts wing, and finally the Science Wing; Which also has has the Survival classroom, the Escapism classroom, Intro to Vore, and other classrooms in that area. She answers questions patiently, especially when Lirael asks about how classes are structured or what the school rules are regarding… unusual incidents.\n\n\"We have a pretty relaxed policy on that stuff,\" Sophia says with a knowing smile. \"As long as no one gets hurt on purpose and it doesn't disrupt class too much, the staff tends to look the other way. But try not to eat anyone in the middle of a lecture.\"\n\nShe pauses, then adds with a more serious tone:\n\n\"Oh, and one more thing — watch out for the Freshman Friday Fright. It happens on the first Friday of the school year. Upperclassmen tend to… pick away at the freshmen. Only about half of the new students make it through the day at most. So stick together, stay aware, and maybe keep close to someone who knows how to handle themselves.\"\n\nEmily grins, clearly intrigued. Lydia looks visibly nervous. Lirael simply nods, filing the information away.\n\nBy the time the tour wraps up, everyone has a much better sense of the campus layout. Sophia hands out maps and information packets before waving goodbye.\n\n\"Welcome to the school!\" she says cheerfully. \"See you all on the first day!\"\n\nYour father looks around at the group as you stand in the main lobby.\n\n\"Well… that was informative,\" he says. \"Let's head home and talk about how we're going to handle all this.\"";
 
     },
     location: "School - Campus Tour (Morning)",
@@ -3676,15 +3723,137 @@ return 0;
 // 212 - Heading Home from Orientation
 {
     text: function() {
-        return "The orientation activities wind down as the afternoon sun begins to dip lower in the sky. After the campus tour, meet-the-teachers sessions, and collecting various packets and schedules, the family gathers near the main entrance.\n\nYour father looks visibly relieved to be leaving.\n\n\"Alright, that’s enough for one day,\" he says, adjusting the stack of papers in his hands. \"Let’s head home before anything else happens.\"\n\nLirael stays close to you, Emily, and Lydia as the group walks back toward the parking lot. Lydia walks quietly between you and Lirael, still processing everything she’s seen. Her soft brown eyes occasionally dart around at the other students, but she seems a little less overwhelmed than when you first arrived.\n\nEmily is buzzing with energy, already talking about which clubs she wants to join and how she’s going to survive Freshman Friday Fright.\n\n\"Half the freshmen make it? Challenge accepted,\" she says with a grin, patting her belly.\n\nYour mother gives her a tired but fond look. \"Emily, please try not to eat half your class on the first week.\"\n\nLirael walks gracefully beside you, her 6'1\" cloaked form moving with quiet poise. She occasionally glances at Lydia with a gentle, protective expression.\n\nAs everyone loads back into the van, your father starts the engine and pulls out of the parking lot. The ride home is a mix of quiet reflection and light conversation — mostly Emily chatting about the school layout and Lirael asking thoughtful questions about what daily school life is like.\n\nLydia sits quietly, occasionally nodding along, still adjusting to the idea of attending a human school in just a few days.\n\nWhen the van finally pulls into the driveway, the sun is beginning to set. The house looks the same as when you left it, but after the long day it feels a little more like home.\n\nYour father turns off the engine and sighs.\n\n\"We’ll talk more about everything over dinner,\" he says. \"For now… let’s get inside.\"";
+        return "The orientation activities wind down as the afternoon sun begins to dip lower in the sky. After the campus tour, meet-the-teachers sessions, and collecting various packets and schedules, the family gathers near the main entrance.\n\nYour father looks visibly relieved to be leaving.\n\n\"Alright, that’s enough for one day,\" he says, adjusting the stack of papers in his hands. \"Let’s head home before anything else happens.\"\n\nLirael stays close to you, Emily, and Lydia as the group walks back toward the parking lot. Lydia walks quietly between you and Lirael, still processing everything she’s seen. Her soft brown eyes occasionally dart around at the other students, but she seems a little less overwhelmed than when you first arrived.\n\nEmily is buzzing with energy, already talking about which clubs she wants to join and how she’s going to survive Freshman Friday Fright.\n\n\"Half the freshmen make it? Challenge accepted,\" she says with a grin, patting her belly.\n\nYour mother gives her a tired but fond look. \"Emily, please try not to eat half your class on the first week.\"\n\nLirael walks gracefully beside you, her 6'1\" cloaked form moving with quiet poise. She occasionally glances at Lydia with a gentle, protective expression.\n\nAs everyone loads back into the van, your father starts the engine and pulls out of the parking lot. The ride home is a mix of quiet reflection and light conversation — mostly Emily chatting about the school layout and Lirael asking thoughtful questions about what daily school life is like.\n\nLydia sits quietly, occasionally nodding along, still adjusting to the idea of attending a human school just tomorrow.\n\nWhen the van finally pulls into the driveway, the sun is beginning to set. The house looks the same as when you left it, but after the long day it feels a little more like home.\n\nYour father turns off the engine and sighs.\n\n\"We’ll talk more about everything over dinner,\" he says. \"For now… let’s get inside.\"";
 
     },
     location: "Byrd Family Home - Driveway (Late Afternoon)",
     choices: [
-        { label: "Go inside the house", next: 213 }
+        { label: "Go inside the house", next: 213, effect: () => {gameState.relationships.molly.phone = true;} }
     ]
 },
     
+// 213 - Back Home and Dinner Plans
+{
+    text: function() {
+        return "Once everyone is inside the house, your father sets down a stack of papers on the kitchen table. He sorts through them and hands each of you a printed schedule.\n\n\"Here,\" he says. \"These are your individual schedules for school. Lydia, we got you enrolled online yesterday, so you're all set. Make sure you look them over tonight.\"\n\nYou, Emily, and Lydia take your schedules. Emily immediately starts scanning hers with interest while Lydia holds hers carefully, looking a little overwhelmed but grateful.\n\nYour father leans against the counter.\n\n\"Now… about dinner. I think most of us could go for some pizza.\"\n\nEmily perks up immediately.\n\n\"Actually… can I have something from Peep-O's instead?\" she asks with a hopeful grin.\n\nYour father raises an eyebrow. \"Peep-O's?\"\n\n\"Yeah! It's this place where the meals are people who literally sign up for it,\" Emily explains casually. \"They have a whole menu of willing prey. It's super popular with people who have strong appetites like me. The food is always fresh and… enthusiastic.\"\n\nLirael, who had been quietly listening, tilts her head with genuine curiosity.\n\n\"That sounds interesting,\" she says. \"If Emily is ordering from there, may I get something from Peep-O's as well? I would like to try it.\"\n\nYour father sighs but doesn’t argue, pulling out his phone to place the orders.\n\n\"Fine. Pizza for the rest of us. Peep-O's for Emily and Lirael.\"\n\nThe family settles into the living room to wait for the food to arrive. Emily flips on the TV, flipping through channels while Lydia watches with wide-eyed curiosity. Lirael sits gracefully beside you, occasionally asking soft questions about the shows and how people live in this world.\n\nThe conversation drifts lightly — Emily teasing Lydia about school starting soon, your mother asking Lirael gentle questions about what she wants to learn first about the modern world, and your father occasionally chipping in with practical advice.\n\nLydia listens quietly, still adjusting to the warmth and chaos of this new family. For a little while, the house feels strangely peaceful as everyone waits for dinner.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Wait for the food", next: 214 }
+    ]
+},
+
+// 214 - Waiting for Dinner
+{
+    text: function() {
+        return "The family continues waiting for the food to arrive. The conversation drifts lightly between bites of leftover snacks and casual talk. Emily teases Lydia about school starting soon, your mother asks Lirael gentle questions about what she wants to learn first about the modern world, and your father occasionally chimes in with practical advice.\n\nLydia listens quietly, still adjusting to the warmth and chaos of this new family. Lirael remains graceful and observant, occasionally offering soft insights.\n\nAfter a while, you turn to Lirael and ask about something that has been on your mind.\n\n\"What was your idea for us training with a real predator?\"\n\nLirael tilts her head slightly, her golden eyes calm.\n\n\"I was planning to either act as the predator myself, or have Emily take that role,\" she explains. \"It would be a controlled session to help everyone practice escape techniques and learn how to handle a real threat. But it is entirely up to all of you whether we do it or not.\"\n\nThe room grows a little quieter as everyone considers her words.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Have Emily be the predator", next: 215, effect: () => { gameState.lastChoiceLabel= "Have Emily be the predator"; }},
+        { label: "Have Lirael be the predator", next: 215, effect: () => { gameState.currentPredator = "Have Lirael be the predator"; }},
+        { label: "Don't do the predator training", next: 215}
+    ]
+},
+
+// 215 - Predator Training Decision
+{
+    text: function() {
+        if (gameState.lastChoiceLabel === "Have Emily be the predator") {
+    killPlayer(
+        "digested",
+"The family gathers in the living room after dinner. Emily looks excited but a little nervous as everyone agrees to let her be the predator for the training session.\n\n\"Okay… I'll try to be gentle,\" she says, though her voice already carries a hungry edge.\n\nOne by one, she swallows them. First you, then your mother, your father, Lirael, and finally Lydia. The struggles are desperate but ultimately futile. Emily's powerful stomach crushes in on all of you after about thirty minutes of chaotic movement. The loud, wet *CRUNCH-GLORP-SQUELCH* sounds echo through the living room as bones snap and bodies are pulped into thick chyme. Emily becomes a human-demon-elf hybrid, her body growing far more curvy and soft than Lirael ever was. The absorption is total and fatal.\n\nEmily sits alone on the couch, gently rubbing her massively swollen, gurgling belly with a satisfied but slightly guilty expression. Her new figure is breathtakingly voluptuous — her breasts, hips, and ass have swelled dramatically, making her look even more exaggeratedly curvy than Lirael at her full size.\n\n\"…I didn't mean for it to end like that,\" she whispers softly, still rubbing her belly as the last gurgles slowly fade."
+    );
+
+return "";
+
+        } 
+        else if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
+            // Lirael as predator - non-fatal version
+            return "The family gathers in the living room after dinner. Lirael nods gracefully when everyone agrees to let her be the predator for the training session.\n\nShe swallows the entire family one by one — you, your mother, your father, Emily, and Lydia. Inside her massive stomach, everyone struggles for about forty-five minutes, but the movements have almost no effect on her. Eventually, Lirael chooses to let everyone out herself, opening her mouth and gently releasing the soaked but alive family members onto the living room floor.\n\nShe looks at the group with a calm, slightly amused expression.\n\n\"You all fought well,\" she says. \"But you still have much to learn.\"";
+
+        } 
+        else {
+            // No predator training
+            return "After some discussion in the living room, the family decides not to do the predator training tonight. Everyone is exhausted from the long day, and it feels wiser to rest instead.\n\nThe conversation shifts back to lighter topics as the family continues waiting for the food to arrive.";
+
+        }
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Continue", next: 216 }
+    ]
+},
+
+// 216 - Peep-O's Delivery
+{
+    text: function() {
+        if (gameState.trainingPredator === "lirael") {
+            // Coming from Lirael predator training
+            return "The family continues waiting in the living room after the intense training session with Lirael. Everyone is still processing what just happened when the doorbell rings.\n\nA large van pulls up outside with the words \"Peep-O's\" painted boldly on the side in bright, playful lettering. The back doors open, and fifteen extremely curvy, soft-looking, voluptuous women step out. Fourteen of them are dressed in super short shorts and tiny crop tops that barely contain their massive breasts and wide hips, their bodies jiggling with every step. The fifteenth woman, dressed more modestly in a company uniform, carries a clipboard and smiles cheerfully at the house.\n\n\"Peep-O's delivery!\" she calls out brightly. \"We have a very enthusiastic group ready for you tonight!\"";
+
+        } 
+        else {
+            // Coming from no training version
+            return "The family continues waiting in the living room, the earlier conversation about skipping predator training still lingering. Everyone is relaxing when the doorbell rings.\n\nA large van pulls up outside with the words \"Peep-O's\" painted boldly on the side in bright, playful lettering. The back doors open, and fifteen extremely curvy, soft-looking, voluptuous women step out. Fourteen of them are dressed in super short shorts and tiny crop tops that barely contain their massive breasts and wide hips, their bodies jiggling with every step. The fifteenth woman, dressed more modestly in a company uniform, carries a clipboard and smiles cheerfully at the house.\n\n\"Peep-O's delivery!\" she calls out brightly. \"We have a very enthusiastic group ready for you tonight!\"";
+
+        }
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Answer the door", next: 217 }
+    ]
+},
+
+// 217 - Peep-O's Delivery
+{
+    text: function() {
+        return "The doorbell rings again. Lirael stands up gracefully and walks over to answer it. She opens the door with a calm, welcoming smile.\n\nFifteen extremely curvy, soft-looking, voluptuous women stand on the porch. Fourteen of them are dressed in super short shorts and tiny crop tops that strain against their massive breasts and wide, plush hips. The fifteenth woman, dressed in a company uniform, smiles professionally while holding a clipboard.\n\nLirael welcomes them all inside with elegant politeness.\n\n\"Please, come in,\" she says warmly. \"We’ve been expecting you.\"\n\nAs the women file into the living room, you glance over at Emily. She is visibly struggling to contain herself — her eyes are wide, her breathing slightly heavier, and she keeps shifting on the couch while staring hungrily at the group of curvaceous delivery women.\n\nOnce all fourteen volunteers are inside with the family, the most curvy, voluptuous, and soft-looking one steps forward. Her body is breathtaking — enormous, heavy breasts that strain against her tiny top, an impossibly narrow waist, and hips and ass so thick and plush they jiggle with every small movement. She looks at Lirael and Emily with a calm, professional smile.\n\n\"Who is dining tonight?\" she asks politely.\n\nLirael gestures gracefully toward herself and Emily.\n\n\"Myself and Emily will be the predators tonight,\" she says smoothly, glancing over at Emily.\n\nThe woman nods, then explains in a clear, practiced tone:\n\n\"Company policy allows us to choose who we want to be our pred, as long as the person is a customer and as long as all preds get a fair share if there are multiple.\"\n\nBoth Lirael and Emily respond with a nod.\n\nThe fourteen women quickly organize themselves. After a brief moment of discussion and sizing each other up, they form two neat lines of seven. Emily ends up with noticeably more of the curvier, softer, and more voluptuous women in her line.\n\nThe absolute curviest one — the one who originally asked the question — now stands at the front of Emily’s line. She looks down at Emily with a calm, almost eager expression and says softly:\n\n\"I am ready when you are.\"";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { label: "Watch what happens next", next: 218 }
+    ]
+},
+
+// 218 - The Meal Begins
+{
+    text: function() {
+        return "The fourteen women stand in two neat lines in the living room. Emily’s eyes are practically glowing with hunger as she steps forward toward her group of seven. Without much preamble, she begins eating them quickly and ravenously. She grabs the first woman, opens her mouth wide, and swallows her head and shoulders in one powerful motion, moaning softly as she tries to savor the flavor even while gulping her down at a rapid pace. Her throat bulges dramatically as she works her way through the curvaceous volunteers, her belly swelling outward with each greedy swallow. She’s clearly trying to enjoy their taste, but her instincts make her eat fast and messy, loud *GLUCK-GLUCK-GLORP* sounds filling the room as she devours them one after another.\n\nLirael, on the other hand, eats with more grace and control. She takes her time with each woman, savoring them slowly, but she still moves slightly faster than Emily overall. She gently lifts the first volunteer, tilts her head back, and swallows her smoothly and deliberately, her golden eyes half-lidded in pleasure. Her belly grows steadily, but she stops after her fourth woman, leaving three still standing in her line.\n\nBy the time Emily finishes her last volunteer with a final, satisfied gulp, her belly is massively swollen and noisy. Lirael steps forward calmly, her own belly rounded but far more manageable.\n\n\"Come,\" Lirael says softly to you and the remaining three women. \"Let us take this to the bathroom. It will be more private there.\"\n\nWithout drawing attention from the rest of the family, Lirael guides you and the last three volunteers upstairs to the bathroom, closing the door quietly behind you all.";
+
+    },
+    location: "Byrd Family Home - Living Room → Upstairs Bathroom (Evening)",
+    choices: [
+        { label: "Continue", next: 219 }
+    ]
+},
+
+// 219 - Lirael's Private Meal
+{
+    text: function() {
+        return "Once the bathroom door is locked, Lirael turns to the three voluptuous women with a predatory, confident smirk. Without a word, she reaches up and slowly removes every piece of her clothing, letting her clothes fall to the floor. Her 6'1\" cloaked human form is fully revealed — smooth, pale skin, massive heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement. She stands there completely naked, exuding raw sensual power.\n\nThe three women stare in awe and arousal, their cheeks flushing.\n\nLirael’s golden eyes gleam as she looks them over.\n\n\"Which hole would you prefer?\" she asks, voice low and teasing. \"Oral vore… anal vore… or unbirth?\"\n\nThe first woman, breathing heavily, whispers, \"Oral… please.\"\n\nThe second bites her lip and says, \"Anal… I want to feel it.\"\n\nThe third, already trembling with anticipation, murmurs, \"Unbirth… I want to go back inside.\"\n\nLirael’s smirk widens. With effortless grace and power, she begins all three at once. She lifts the first woman and swallows her head-first in one smooth, practiced motion, her throat bulging dramatically as she gulps her down. At the same time, she lowers herself and pulls the second woman toward her thick, puckered anus, slowly sucking her inside with powerful contractions. Simultaneously, she spreads her legs and guides the third woman head-first into her slick, warm vagina, pulling her deep inside her womb.\n\nThe bathroom fills with wet, sloppy sounds — loud *GLUCK-GLUCK-GLORP* from her throat, deep squelching from her ass, and slick, rhythmic sucking from her vagina. All three women disappear into Lirael at the same time, her belly, ass, and womb swelling noticeably as she claims them.\n\nLirael lets out a long, satisfied moan, then gracefully sits down on the bathroom floor, her legs spread. Her belly is now heavily rounded from the three women inside her, and her body looks even more voluptuous than before.\n\nShe looks at you with half-lidded golden eyes, a sultry smile on her lips, and crooks a finger, signaling for you to come to her.";
+
+    },
+    location: "Upstairs Bathroom (Evening)",
+    choices: [
+        { label: "Go to Lirael", next: 220 }
+    ]
+},
+
+// 220 - Intimate Moment with Lirael
+{
+    text: function() {
+        return "You stand up and walk over to Lirael, settling down on the bathroom floor right beside her. Your rock-hard cock is visibly straining against your pants, throbbing with need as you sit next to her massively swollen belly. Even from this close, you can hear the faint, muffled moans and wet, rhythmic gurgles of all seven women still squirming and enjoying themselves inside her — their pleasurable sounds vibrating through her warm, taut skin.\n\nLirael looks right at you, her golden eyes dark with lust and deep affection. A slow, sultry smile spreads across her lips.\n\n\"Encore,\" she purrs softly, voice thick with desire.\n\nWithout waiting, she gently but firmly pulls your face forward, pressing your mouth against one of her full, heavy breasts. Her dark nipple is already leaking warm, sweet milk. You instinctively latch on and begin to drink, sucking greedily as the rich, creamy liquid flows steadily into your mouth.\n\nLirael lets out a low, throaty moan of pleasure, one hand cradling the back of your head while the other moves downward. She skillfully undresses you, pulling your pants and underwear down in one smooth motion, freeing your throbbing, rock-hard cock. Her soft hand immediately wraps around your shaft, stroking you with slow, sensual rhythm as you continue nursing from her leaking nipple.\n\n\"Mmm… good boy,\" she whispers huskily, her voice dripping with arousal. \"Drink from me while I take care of you down here…\"\n\nHer fingers move with expert confidence, pumping your cock while you suckle deeply from her breast. Her massive, gurgling belly — filled with seven women who are clearly enjoying their digestion — presses warmly and heavily against your side. The wet, rhythmic sounds of their pleasure mix with Lirael’s soft moans, creating an intensely erotic symphony around you.\n\nLirael holds you close, her body warm and soft, completely in control as she pleasures you, her milk flowing freely into your mouth as her hand works your cock with loving, teasing strokes.";
+
+    },
+    location: "Upstairs Bathroom (Evening)",
+    choices: [
+        { label: "Continue", next: 221 }
+    ]
+},
     // 999 - Game End / Content Boundary
 
     {
@@ -3704,7 +3873,14 @@ const DIGESTION_STAGES = [
     { threshold: 80,  name: "Critical" },
     { threshold: 100, name: "Digested" }
 ];
-
+function getDigestionStage(progress) {
+    for (let i = DIGESTION_STAGES.length - 1; i >= 0; i--) {
+        if (progress >= DIGESTION_STAGES[i].threshold) {
+            return DIGESTION_STAGES[i];
+        }
+    }
+    return DIGESTION_STAGES[0];
+}
 // RENDERING 
 function renderPassage() {
 	if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
@@ -3775,17 +3951,39 @@ applyRelationshipDecay();
 
 function normalizeEncounters() {
     if (!gameState.voreEncounters) {
-        gameState.voreEncounters = { eatenBy: {}, labs: {} };
+        gameState.voreEncounters = { eatenBy: [], labs: [] };
     }
-
-    // Fix eatenBy
-    if (Array.isArray(gameState.voreEncounters.eatenBy)) {
-        gameState.voreEncounters.eatenBy = {};
+    if (!Array.isArray(gameState.voreEncounters.eatenBy)) {
+        gameState.voreEncounters.eatenBy = [];
     }
+    if (!Array.isArray(gameState.voreEncounters.labs)) {
+        gameState.voreEncounters.labs = [];
+    }
+}
 
-    // Fix labs
-    if (Array.isArray(gameState.voreEncounters.labs)) {
-        gameState.voreEncounters.labs = {};
+function fixVoreEncounters() {
+    if (!gameState.voreEncounters) {
+        gameState.voreEncounters = { eatenBy: [], labs: [] };
+    }
+    if (!Array.isArray(gameState.voreEncounters.eatenBy)) {
+        gameState.voreEncounters.eatenBy = [];
+    }
+    if (!Array.isArray(gameState.voreEncounters.labs)) {
+        gameState.voreEncounters.labs = [];
+    }
+}
+
+function unlockEncounter(index) {
+    const list = gameState.voreEncounters.eatenBy;
+    if (list && list[index] && !list[index].unlocked) {
+        list[index].unlocked = true;
+    }
+}
+
+function unlockLab(index) {
+    const list = gameState.voreEncounters.labs;
+    if (list && list[index] && !list[index].unlocked) {
+        list[index].unlocked = true;
     }
 }
 
@@ -3947,6 +4145,7 @@ function refreshRelationshipUI() {
 
 
 // VORE TRACKING 
+/*
 function recordVoreEvent(key, text = "") {
     normalizeEncounters();
 
@@ -3988,8 +4187,38 @@ function recordLab(key, text = "") {
             unlocked: true
         });
     }
-}
+}*/
 
+function recordVoreEvent(name, text = "") {
+    if (!gameState.voreEncounters) {
+        gameState.voreEncounters = { eatenBy: [], labs: [] };
+    }
+
+    if (!Array.isArray(gameState.voreEncounters.eatenBy)) {
+        gameState.voreEncounters.eatenBy = [];
+    }
+
+    gameState.voreEncounters.eatenBy.push({
+        name: name,
+        text: text,
+        unlocked: true
+    });
+}
+function recordLab(name, text = "") {
+    if (!gameState.voreEncounters) {
+        gameState.voreEncounters = { eatenBy: [], labs: [] };
+    }
+
+    if (!Array.isArray(gameState.voreEncounters.labs)) {
+        gameState.voreEncounters.labs = [];
+    }
+
+    gameState.voreEncounters.labs.push({
+        name: name,
+        text: text,
+        unlocked: true
+    });
+}
 function saveDayCheckpoint() {
     gameState.dayCheckpoint = JSON.parse(JSON.stringify(gameState));
 }
@@ -4129,7 +4358,14 @@ document.addEventListener('keydown', (e) => {
 });
 // ================ MODALS ================
 function openModal(type) {
+	try{
+	 fixVoreEncounters();
 	normalizeEncounters();
+if (!gameState.voreEncounters) {
+    gameState.voreEncounters = { eatenBy: {}, labs: {} };
+}
+
+
     var modal = document.getElementById('modal');
     var title = document.getElementById('modal-title');
     var content = document.getElementById('modal-content');
@@ -4196,68 +4432,52 @@ Lab Participation: ${Object.keys(gameState.voreEncounters.labs || {}).length}
 
     title.textContent = "ENCOUNTERS";
 
-    let html = `<h3>Encounters</h3>
-    <div style="max-height: 60vh; overflow-y: auto;">`;
+    let html = `<div style="max-height: 60vh; overflow-y: auto;">`;
 
-    const eaten = gameState.voreEncounters.eatenBy || {};
+    const eaten = gameState.voreEncounters.eatenBy || [];
+    const labs = gameState.voreEncounters.labs || [];
 
-    if (Object.keys(eaten).length === 0) {
-        html += `<p>No encounters yet.</p>`;
+    const unlockedEaten = eaten.filter(e => e && e.unlocked);
+    const unlockedLabs = labs.filter(e => e && e.unlocked);
+
+    // ===== EATEN BY =====
+    html += `<h4>Eaten / Digested</h4>`;
+
+    if (unlockedEaten.length === 0) {
+        html += `<p>You have not been eaten yet.</p>`;
     } else {
-        for (let key in eaten) {
-
-            const p = gameState.relationships[key];
-            let name = p ? p.name : key;
-            let data = eaten[key] || {};
-
-            let entries = Array.isArray(data.entries) ? data.entries : [];
-
-            let unlocked = entries.filter(e => e && e.unlocked);
-
-            html += `<div style="margin-bottom:10px;">
-                <strong>${name} (${data.count || 0})</strong>
-                ${
-                    unlocked.length
-                    ? `<ul>${unlocked.map(e => `<li>${e.text}</li>`).join("")}</ul>`
-                    : `<p>No details unlocked yet.</p>`
-                }
-            </div>`;
-        }
+        html += `<ul>`;
+        unlockedEaten.forEach(e => {
+            html += `<li>${e.text}</li>`;
+        });
+        html += `</ul>`;
     }
 
     // ===== LABS =====
     html += `<h4>Labs / Demonstrations</h4>`;
 
-    const labs = gameState.voreEncounters.labs || {};
-
-    if (Object.keys(labs).length === 0) {
-        html += `<p>No labs recorded.</p>`;
+    if (unlockedLabs.length === 0) {
+        html += `<p>No lab participation recorded.</p>`;
     } else {
-        for (let key in labs) {
-
-            let data = labs[key] || {};
-            let entries = Array.isArray(data.entries) ? data.entries : [];
-
-            let unlocked = entries.filter(e => e && e.unlocked);
-
-            html += `<div style="margin-bottom:10px;">
-                <strong>${key}</strong>
-                ${
-                    unlocked.length
-                    ? `<ul>${unlocked.map(e => `<li>${e.text}</li>`).join("")}</ul>`
-                    : `<p>No details unlocked yet.</p>`
-                }
-            </div>`;
-        }
+        html += `<ul>`;
+        unlockedLabs.forEach(e => {
+            html += `<li>${e.text}</li>`;
+        });
+        html += `</ul>`;
     }
 
     html += `</div>`;
     content.innerHTML = html;
 
-    return;
+  return;
 }
 
     modal.style.display = "flex";
+
+   } catch (e) {
+        console.error("MODAL CRASH:", e);
+        alert("Modal crashed: " + e.message);
+    }
 }
 
 function closeModal() {
