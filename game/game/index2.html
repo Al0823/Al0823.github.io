@@ -129,7 +129,9 @@ border-radius: 4px;
 width: 420px; 
 background-color: #101010; 
 border: 3px solid #505050; 
-padding: 18px; 
+padding: 18px;
+max-height: 85vh;
+overflow-y: auto;
 }
 #modal-title { 
 color: #ffcc00; 
@@ -608,6 +610,7 @@ lastMallAttackerEatenBy: 0, // 0 = not eaten, 1 = eaten by Lirael, 2 = eaten by 
     firstVisitTo100: true,
     kitchenBanned: false,
     pathChosen: "",
+inTrainingSession: false,
 };
 
 // Set random bonds only once when starting a new game
@@ -1355,9 +1358,10 @@ return "";
         location: "Guest Bathroom",
         choices: [{ label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeAlone", effect: () => { gameState.lastChoiceLabel = ""; }},
  {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 50, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 11); }},
-{label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 100, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 11); }},
- {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 150, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 12); }},
-	 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 200, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 13); }}
+{label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond >= 50 && gameState.relationships.lirael.bond < 100, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 11); }},
+ {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond >= 100 && gameState.relationships.lirael.bond < 150, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 12); }},
+	 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond >= 150 && gameState.relationships.lirael.bond < 200, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 13); }}
+
 								]
     },
 
@@ -1843,7 +1847,7 @@ saveDayCheckpoint();
     text: "Lira stands ready in the center of the living room, her synthetic body perfectly still as she prepares to act as the predator for the demonstration.\n\nLirael, now at her comfortable 5'6\" height, steps forward with a calm, confident smile.\n\n\"I will demonstrate first,\" she says. \"Watch closely.\"\n\nShe walks straight up to Lira, turns around, and allows the AI to swallow her whole. Lira opens her mouth wide and smoothly takes Lirael in, her throat bulging visibly as the 5'6\" she-demon slides down. Within moments, Lirael is fully inside Lira’s stomach, creating a large, rounded bulge in the AI’s midsection.\n\nThe family watches in tense silence.\n\nExactly three minutes later, Lira suddenly doubles over with a loud, wet *GLORP*. Lirael forces her way back up in one smooth, powerful motion, emerging head-first from Lira’s mouth and landing gracefully on her feet, completely unharmed and barely even disheveled.\n\nLirael wipes her mouth with the back of her hand and turns to the family, adopting a clear, instructional tone.\n\n\"Escaping a stomach is about making your predator nauseous enough to vomit you back up,\" she explains. \"You cannot force the esophageal sphincter open directly, but you can create intense internal pressure and discomfort through targeted struggling. Here are the core maneuvers:\n\n1. **Vigorous full-body thrashing** — kick, punch, and twist your entire body as hard as possible to slam against the stomach walls. This creates sudden, chaotic movement that often triggers the predator's gag reflex.\n\n2. **Targeted pressure on sensitive areas** — focus your hands or feet on the upper stomach wall or near the esophageal sphincter area. Push, knead, or strike repeatedly to build localized nausea and force retching.\n\n3. **Rolling and contorting** — curl into a ball and then explosively uncurl, or roll side-to-side inside the stomach. This shifts your weight dramatically and increases the chances of overwhelming the predator's balance and digestion.\n\nShe demonstrates the motions in the air with her hands, showing the forceful, energetic movements.\n\n\"However, there are risks to failed escape attempts. If your struggling is too weak or poorly timed, it may accelerate digestion instead of triggering vomiting. A larger predator can also clench their stomach muscles to counteract your movements, causing the stomach to churn more violently and flood with additional acids as a natural reaction to resistance. In extreme cases, excessive thrashing against a tight stomach can cause you physical harm — bruising, disorientation, or even temporary paralysis from pressure on nerves.\"\n\n\"Size dynamics remain critical. A smaller predator with a tighter stomach is often **harder** to escape from because your movements have less room to build effective pressure. A larger predator with a more spacious stomach is usually **easier** to nauseate because you have more leverage and momentum for vigorous struggling. Your own size and strength relative to your predator will determine how quickly you can induce vomiting — and how dangerous failure can be.\"\n\nLirael looks around at everyone, her golden eyes warm but serious.\n\n\"Would anyone like to try?\"\n\nYour father steps forward, arms crossed, and nods toward you.\n\n\"Issac should go first.\"",
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
-        { label: "Begin the escape training", next: 143, effect: () => {gameState.TurnCount = 0, 
+        { label: "Begin the escape training", next: 143, /*effect: () => {gameState.TurnCount = 0, 
             gameState.inStomach = true, 
             gameState.currentPredator = "lira",        // Lira (AI) is the predator
             gameState.preyHealth = 100,
@@ -1852,7 +1856,7 @@ saveDayCheckpoint();
             gameState.acidStage = 0,
             gameState.predHealth = 90,
             gameState.predDefense = 6,
-            gameState.trainingSessionCount += 1;} }
+            gameState.trainingSessionCount += 1;}*/ }
     ]
 },
 // 143 - Issac's Escape Training Session
@@ -1860,8 +1864,9 @@ saveDayCheckpoint();
     text: function() {
 console.log("Entering passage 143");
         // Initialize on first entry
-								if (gameState.TurnCount === undefined) {
-    gameState.TurnCount = 0;
+if (!gameState.inTrainingSession) {
+    gameState.inTrainingSession = true;
+            gameState.TurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "lira";
 recordVoreEvent("lira", "Lira swallowed you during a training session set up by Lirael.");
@@ -2093,7 +2098,8 @@ return "";
         { label: "Rest", next: 143, effect: () => { gameState.preyStamina = Math.min(100, gameState.preyStamina + 15); gameState.lastChoiceLabel = "Rest"; }},
         { label: "Ask Lirael to end the session", next: 144, effect: () => { 
             gameState.inStomach = false;
-            gameState.currentPredator = "";/*
+            gameState.currentPredator = "";
+             gameState.inTrainingSession = false;/*
             gameState.TurnCount = 0;
             gameState.acidStage = 0;*/
         }}
@@ -2600,6 +2606,7 @@ return "";
 
         // Reset training variables
         gameState.inStomach = false;
+        gameState.inTrainingSession = false;
         gameState.currentPredator = "";
         gameState.TurnCount = 0;
         gameState.acidStage = 0;
@@ -3753,9 +3760,10 @@ return 0;
     location: "Byrd Family Home - Living Room (Evening)",
     choices: [
         { label: "Have Emily be the predator", next: 215, effect: () => { gameState.lastChoiceLabel= "Have Emily be the predator"; }},
-        { label: "Have Lirael be the predator", next: 215, effect: () => { gameState.currentPredator = "Have Lirael be the predator"; }},
+{ label: "Have Lirael be the predator", next: 215, effect: () => { gameState.lastChoiceLabel = "Have Lirael be the predator"; }},
         { label: "Don't do the predator training", next: 215}
     ]
+    
 },
 
 // 215 - Predator Training Decision
@@ -3790,7 +3798,7 @@ return "";
 // 216 - Peep-O's Delivery
 {
     text: function() {
-        if (gameState.trainingPredator === "lirael") {
+if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
             // Coming from Lirael predator training
             return "The family continues waiting in the living room after the intense training session with Lirael. Everyone is still processing what just happened when the doorbell rings.\n\nA large van pulls up outside with the words \"Peep-O's\" painted boldly on the side in bright, playful lettering. The back doors open, and fifteen extremely curvy, soft-looking, voluptuous women step out. Fourteen of them are dressed in super short shorts and tiny crop tops that barely contain their massive breasts and wide hips, their bodies jiggling with every step. The fifteenth woman, dressed more modestly in a company uniform, carries a clipboard and smiles cheerfully at the house.\n\n\"Peep-O's delivery!\" she calls out brightly. \"We have a very enthusiastic group ready for you tonight!\"";
 
@@ -3929,7 +3937,7 @@ document.getElementById('story').textContent = displayText;
             }
 
 if (choice.effect) choice.effect();
-
+applyRelationshipDecay();
 if (checkDeath()) {
     renderPassage();
     return;
@@ -3945,7 +3953,7 @@ gameState.currentPassage = (typeof choice.next === "function")
         };
         choicesDiv.appendChild(btn);
     });
-applyRelationshipDecay();
+
     updateStatusBar();
 }
 
@@ -4362,7 +4370,7 @@ function openModal(type) {
 	 fixVoreEncounters();
 	normalizeEncounters();
 if (!gameState.voreEncounters) {
-    gameState.voreEncounters = { eatenBy: {}, labs: {} };
+    gameState.voreEncounters = { eatenBy: [], labs: [] };
 }
 
 
@@ -4391,8 +4399,8 @@ Health: ${gameState.playerStats.health}<br>
 Escape Skill: ${gameState.playerStats.escapeSkill}<br><br>
 
 <h3>Vore Encounters</h3>
-Eaten By: ${Object.keys(gameState.voreEncounters.eatenBy || {}).length}
-Lab Participation: ${Object.keys(gameState.voreEncounters.labs || {}).length}
+Eaten By: ${Object.keys(gameState.voreEncounters.eatenBy || []).length}
+Lab Participation: ${Object.keys(gameState.voreEncounters.labs || []).length}
 `;
         }
     } else if (type === 'options') {
@@ -4441,7 +4449,7 @@ Lab Participation: ${Object.keys(gameState.voreEncounters.labs || {}).length}
     const unlockedLabs = labs.filter(e => e && e.unlocked);
 
     // ===== EATEN BY =====
-    html += `<h4>Eaten / Digested</h4>`;
+    html += `<h4>Eaten</h4>`;
 
     if (unlockedEaten.length === 0) {
         html += `<p>You have not been eaten yet.</p>`;
@@ -4469,7 +4477,6 @@ Lab Participation: ${Object.keys(gameState.voreEncounters.labs || {}).length}
     html += `</div>`;
     content.innerHTML = html;
 
-  return;
 }
 
     modal.style.display = "flex";
