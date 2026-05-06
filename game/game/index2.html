@@ -278,6 +278,7 @@ letter-spacing: 2px;
 
 <script>
 // ================ GAME STATE ================
+
 var gameState = {
     currentPassage: 0,
     lastPassage: 0,
@@ -524,23 +525,12 @@ eatenBy: {
 */
 voreEncounters: {
     eatenBy: [
-        {
-            id: "lirael101",
-            unlocked: false,
-            text: "Lirael ate you with her ass after a trip to the bathroom with her turned into an intimate facesitting session, though she let you out before anything could happen."
-        },
-        {
-            id: "lira",
-            unlocked: false,
-            text: "Lira ate you during a training session set up by Lirael"
-        }
+{ text: "Lirael ate you with her ass after a trip to the bathroom with her turned into an intimate facesitting session, though she let you out before anything could happen.", unlocked: false}, // 0, set in passage 105-4
+        { text: "Lira ate you during a training session set up by Lirael", unlocked: false }, // 1, set in 143
+{ text: "Lirael ate you and your family after you all agreed to train with a real predator, that predator being her, though she let you all out 45 minutes later before anything could happen.", unlocked: false}, // 2, set in passage 215
     ],
     labs: [
-        {
-            id: "lab_intro",
-            unlocked: false,
-            text: "You participated in your first controlled vore demonstration."
-        }
+{ text: "You participated in your first controlled vore demonstration.", unlocked: false }
     ]
 },
 
@@ -624,7 +614,7 @@ if (!gameState.bondsInitialized && gameState.currentPassage === 0) {
     gameState.bondsInitialized = true;
 }
 
-
+const BASE_GAME_STATE = JSON.parse(JSON.stringify(gameState));
 
 var passages = [
     // 0 - Arrival
@@ -764,7 +754,7 @@ var passages = [
         text: "You take a deep breath and look up at the towering she-demon.\n\n\"I… should head back upstairs before anyone wakes up,\" you say quietly. \"It's getting late.\"\n\nLirael tilts her head, a lazy, almost disappointed smile on her lips.\n\n\"Aww… already? Fine. Go rest, little human. I'll be right here… waiting for you.\"\n\nShe gives you one last slow, sultry wink before you turn away.\n\nYou carefully make your way back up the basement stairs, heart still racing. The house is completely silent except for the occasional creak of old wood. You lock the basement door behind you with the rusty key, then quietly sneak back to your bedroom.\n\nBy the time you slip under the covers, the clock reads 5:07 AM.\n\nExhaustion finally hits you, but your mind is still spinning with everything that just happened.",
         location: "Issac's Bedroom - 5 AM",
         choices: [
-            { label: "Try to get some sleep", next: 23, effect: () => { gameState.currentDate = "August 23"; }}
+            { label: "Try to get some sleep", next: 23, effect: () => { gameState.currentDate = "August 23"; setDayCheckpoint(); }}
         ]
     },
 
@@ -772,7 +762,6 @@ var passages = [
     { text: function () {
 gameState.currentDate = "August 23";
 gameState.dayStartPassage = gameState.currentPassage;
-saveDayCheckpoint();
 				return "You lie in bed staring at the ceiling, your mind racing with everything that just happened. The image of Lirael's towering form, her lazy smile, and that warm, musky scent still lingers in your thoughts.\n\nYou try to sleep, but every small creak in the house makes your eyes snap open. Time passes slowly — minutes stretching into what feels like hours. Your body is exhausted, but your brain refuses to shut off.\n\nEventually, the first faint light of morning begins to creep through the curtains. You glance at the clock: 7:45 AM.\n\nJust as you finally start to drift off…\n\nThe door to your room opens quietly.\n\nYour mother steps in, still in her robe, looking tired but determined.\n\n\"Issac, it's time to get up,\" she says softly. \"It's already 8 o'clock. We have a lot to do today — especially blessing this house.\"\n\nShe pauses, studying your face for a moment.\n\n\"You look like you didn't sleep well. Everything alright?\"" }, location: "Issac's Bedroom - 8 AM", choices: [{ label: "Get up and start the day", next: 24 }] },
 
     // 24 - Morning breakfast with family
@@ -1346,8 +1335,6 @@ setDetail("lirael", 13);
 "Lirael gives you a warm, slightly shy smile and takes your hand.\n\n\"Alright… come with me then,\" she says, her voice thick with barely contained lust.\n\nShe leads you into the guest bathroom and gently shuts the door behind you, the click of the lock sounding final in the small space.\n\nShe turns to face you, golden eyes dark with overwhelming desire. Without hesitation she slips out of her old silk robes, letting them fall to the floor and revealing her pale lavender skin and incredibly curvaceous figure — massive, heavy breasts with dark nipples, a narrow waist that flares into extremely wide, plush hips, and a thick, juicy ass that jiggles slightly with every movement.\n\nBefore you can speak, Lirael takes full initiative. She gently but firmly pushes you down onto the cool bathroom floor, straddling your face with her thick, heavy ass.\n\n\"You wanted to see my ass up close?\" she purrs, voice dripping with lust. \"Then let me give you everything.\"\n\nShe lowers herself fully, her soft, plush cheeks completely smothering your face as her natural sweet, musky scent overwhelms your senses. She immediately begins to rock and grind her plump ass against you in deep, sensual circles, letting you feel every warm, yielding inch of her. Her moans grow louder and more desperate as she takes control, pressing down harder and rolling her hips with hungry movements.\n\nThen her voice drops even lower, husky with overwhelming arousal.\n\n\"I… I can’t hold back anymore…\"\n\nShe shifts slightly, repositioning herself so her tight, puckered anus is directly over your face. With a soft, wet sound, she begins to slowly pull you inside her ass using her special anal vore ability. The warm, slick ring stretches around your head, enveloping you in tight, velvety heat. She moans deeply as she takes you deeper, her powerful muscles rippling around you in rhythmic waves, sucking you further in with each pulse.\n\nThe pleasure is too much for her to control. Her body acts on pure instinct, greedily pulling you through her long, hot digestive tract. You slide deeper and deeper, surrounded by slick, rippling walls that massage and squeeze you relentlessly. The heat and pressure are overwhelming, every inch of your body stimulated as you travel through her.\n\nEventually, you emerge into her stomach — a pretty much full tank of hot, tingling acid that immediately begins to wash over you. The moment you arrive, a massive wave of pleasure crashes through both of you. Lirael cries out in ecstasy above, her body shuddering as she feels you inside her most inner chamber. The acid tingles and burns in the most pleasurable way, quickly breaking you down as her powerful stomach works to absorb you completely.\n\nYou feel yourself melting into her, every part of you being converted into soft, plush fat that pads out her already voluptuous body. The sensation is overwhelming — intense, euphoric, and deeply intimate as you become part of her.\n\nLirael collapses onto the bathroom floor, moaning loudly as she rides the wave of pleasure from fully absorbing you. Her belly swells and then softens as she rapidly digests and claims every bit of you, her curves growing even more exaggerated and lush.\n\nWhen the pleasure finally subsides, she lies there panting, one hand gently rubbing her now even fuller, softer body.\n\n\"…I lost control,\" she whispers breathlessly, a mix of guilt and satisfaction in her voice. \"But… you felt so good inside me… and now you're gone. You've become part of me forever,\" she goes silent for a moment, \"how am I going to explain this to your family,\" she says in a worried yet puzzled tone.\n\nShe stays there for a long moment, basking in the afterglow, before slowly getting up and slipping into her new clothes."
     );
 
-return "";
-
     }
 }
             if (gameState.lastChoiceLabel === "changeAlone") {
@@ -1360,7 +1347,7 @@ return "";
  {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond < 50, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 11); }},
 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond >= 50 && gameState.relationships.lirael.bond < 100, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 11); }},
  {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond >= 100 && gameState.relationships.lirael.bond < 150, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 12); }},
-	 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond >= 150 && gameState.relationships.lirael.bond < 200, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 13); }}
+	 {label: "Continue", next: 100, condition: () => gameState.lastChoiceLabel === "changeWithHer" && gameState.relationships.lirael.bond >= 150 && gameState.relationships.lirael.bond < 200, effect: () => { gameState.lastChoiceLabel = ""; setDetail("lirael", 13); unlockEncounter("eatenBy", 0); }}
 
 								]
     },
@@ -1379,7 +1366,7 @@ return "";
     {
         text: "You lie in bed, eyes growing heavy. Lirael quietly rises from the bean bag chair and walks over to you. She sits on the edge of the bed, then gently pulls you into her arms, cradling your head against her soft, warm chest.\n\nHer pale lavender skin is incredibly comforting. One large hand strokes your hair slowly while the other rests protectively on your back.\n\n\"Sleep, little human,\" she whispers, voice soft and velvety. \"I've got you.\"\n\nYou drift off to sleep wrapped safely in her embrace.",
         location: "Issac's Bedroom - Night",
-        choices: [{ label: "End the day", next: 110, effect: () => { changeBond("lirael", 20); gameState.supernaturalAffinity += 8; }}]
+        choices: [{ label: "End the day", next: 110, effect: () => { changeBond("lirael", 20); gameState.supernaturalAffinity += 8; setDayCheckpoint(110); }}]
     },
 
     // 110 - Morning Rundown + Time Skip (Lirael Proven Worthy)
@@ -1387,7 +1374,7 @@ return "";
 text: function () {
 gameState.currentDate = "August 30";
 gameState.dayStartPassage = gameState.currentPassage;
-saveDayCheckpoint();
+
 return "You wake up this next morning feeling more rested than you have in a long time.\n\nLirael is beside the bed, watching over you with soft golden eyes. She smiles when she sees you stir.\n\n\"Good morning,\" she says quietly.\n\n---\n\nOver the past few days Lirael has been on her best behavior. She helped with small chores, stayed out of sight when your father was nearby, and only fed on comfort. Your family has slowly begun to relax around her.\n\nThis morning your father calls everyone together.\n\n\"I've been watching her closely,\" he says, his voice still cautious but noticeably softer than before. \"She hasn't broken any rules. She hasn't harmed anyone. She's even been… helpful.\"\n\nHe looks at Lirael directly.\n\n\"I've decided she can stay. And if anyone ever tries to do harm to this family… you have my permission to use your abilities to protect us.\"\n\nLirael bows her head respectfully, a small, grateful smile on her lips.\n\n\"Thank you,\" she says softly. \"I will keep your family safe.\"\n\nThe house feels different now — lighter, warmer, and more alive with her here."},
         location: "Issac's Bedroom - Morning",
         choices: [{ label: "Continue the story", next: 111, effect: () => {
@@ -1825,7 +1812,7 @@ setPredHistory("issacSister", 3);
     },
     location: "Issac's Bedroom (Late Night)",
     choices: [
-        { label: "End the day", next: 141, effect: () => { gameState.currentDate = "August 31";} }
+        { label: "End the day", next: 141, effect: () => { gameState.currentDate = "August 31"; setDayCheckpoint(141); } }
     ]
 },
 
@@ -1834,7 +1821,7 @@ setPredHistory("issacSister", 3);
 text: function () {
 gameState.dayStartPassage = gameState.currentPassage; 
 gameState.currentDate = "August 31";
-saveDayCheckpoint(); 
+
 	return "You slowly wake up, still nestled against Lirael’s warm, soft body. She is already awake, now in her cloaking stone form — appearing as a tall human woman with silver-white hair and warm hazel eyes — but still towering at her full 12 feet. She smiles down at you with gentle affection, then effortlessly scoops you up into her arms as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, carrying you downstairs toward the living room. \"Everyone is already waiting.\"\n\nWhen you reach the couch, the whole family is gathered. Your father sits in his usual chair, looking serious but determined. Your mother is beside him, holding a mug of coffee. Emily is sprawled on the couch, her stomach now only about 1 to 1.5 times her own size. She has definitely become more voluptuous and curvy than she was yesterday — her hips wider, her chest fuller, and her overall figure noticeably softer and more developed. Grimmold appears to be about halfway digested inside her, the bulge rounded and active but no longer massively oversized.\n\nYour father clears his throat as Lirael gently sets you down.\n\n\"Lira has all the capabilities we need to train us on how to escape the stomach of a human with average predatory skills,\" he says. \"She’s programmed to do anything we ask. And Lirael has the actual knowledge and experience on the subject. So today, we begin training.\"\n\nHe glances at Emily.\n\n\"Except for you, Emily. You may be too big for Lira to eat right now, so you’ll sit this session out.\"\n\nEmily pouts slightly but nods, still gently rubbing her rounded, gurgling belly.\n\nLirael steps forward, her 12-foot form imposing yet calm.\n\n\"I will gladly help,\" she says with a warm smile. \"Teaching you how to escape a stomach could save your lives one day.\"\n\nShe then shrinks smoothly down to a more manageable 5'6\" height, maintaining perfect 1:1 proportions on her voluptuous body as always. She walks over to Lira and stands directly in front of her, ready to begin the training."},
     location: "Byrd Family Home - Living Room (Morning)",
     choices: [
@@ -1869,7 +1856,7 @@ if (!gameState.inTrainingSession) {
             gameState.TurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "lira";
-recordVoreEvent("lira", "Lira swallowed you during a training session set up by Lirael.");
+unlockEncounter("eatenBy", 1);
             gameState.preyHealth = 100;
             gameState.preyStamina = 100;
             gameState.digestionProgress = 0;
@@ -3018,14 +3005,14 @@ return "You politely turned away to give her privacy. After a minute, Lirael ris
 {
     text: function() {
         return "The elven girl flinches when your father speaks, pressing herself even harder against the wall. For a long moment she says nothing, her soft brown eyes darting between the three of you in pure terror. Lirael remains perfectly still, her presence calm and non-threatening.\n\nFinally, the girl swallows hard and speaks in a trembling, accented voice that sounds both ancient and young at the same time.\n\n\"I… I am from a nearby kingdom,\" she whispers. \"Hidden under veil magic. My kind… we went extinct long ago. But the Emperor brought us back. He wanted to learn how we harnessed power… even though we are mostly human.\"\n\nShe hugs her knees tighter to her chest, her long pointed ears twitching nervously.\n\n\"I was a castle slave. I do not have a name. They only called me… F-2.\"\n\nHer voice cracks on the last word. She looks down at the floor, tears welling in her soft brown eyes.\n\n\"Please… do not send me back. I ran away when the veil weakened. I do not want to be a slave anymore.\"\n\nEveryone waits in tense silence for your father's response.";
-revealRelationship("Lydia", {
-    details: [0, 1],
-    history: [0]
-});
     },
+
     location: "Byrd Family Home - Basement (Night)",
     choices: [
-        { label: "Wait for your father's response", next: 168 }
+        { label: "Wait for your father's response", next: 168, effect: () => {revealRelationship("Lydia", {
+    details: [0, 1],
+    history: [0]
+});} }
     ]
 },
 
@@ -3061,7 +3048,7 @@ revealRelationship("Lydia", {
     },
     location: "Issac's Bedroom (Night)",
     choices: [
-        { label: "End the day", next: 171, effect: () => { gameState.currentDate = "September 01";} }
+        { label: "End the day", next: 171, effect: () => { gameState.currentDate = "September 01"; setDayCheckpoint(171);} }
     ]
 },
 
@@ -3070,7 +3057,7 @@ revealRelationship("Lydia", {
 text: function() {
 gameState.currentDate = "September 01";
 gameState.dayStartPassage = gameState.currentPassage;
-saveDayCheckpoint();
+
 if (gameState.liraEaten) {
             // Rare version - Emily ate Lira (the AI)
             return "You drift off to sleep wrapped in Lirael’s warm embrace, her steady heartbeat and gentle breathing the last things you register before exhaustion claims you completely.\n\nThe night passes quietly. No further noises disturb the house. For the first time in what feels like forever, the Byrd family sleeps under one roof with a strange but growing sense of unity — even with all the chaos, danger, and changes that have entered their lives.\n\nWhen morning finally comes, soft sunlight filters through the curtains of your room. Lirael is still beside you, her body curled protectively around yours. She stirs slightly as you wake, her golden eyes opening slowly. She offers you a small, peaceful smile.\n\n\"Good morning, Issac,\" she whispers.\n\nDown the hall, you can already hear faint sounds of the family beginning to stir. Today the rest of you will train with a real predator, and Lirael will conduct her experiments with Emily’s stomach capacity. Emily will not be doing escape training anymore, since Lira is gone.";
@@ -3257,37 +3244,25 @@ setDetail("Lydia", 4);}}
         else {
             // Normal version - Lira was not eaten (yet)
             return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\nThe table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
-                // Set the new game state variable
-            gameState.liraEaten = true;
-            gameState.liraEatenMethod = 1;  // 1 = eaten at food court
-setDetail("lira", 4);
-setPredHistory("issacSister", 6);
+ 
 
         }
     },
     location: "Local Mall - Food Court (Afternoon)",
     choices: [
-        { label: "Continue", next: 184 }
+{ label: "Continue", next: 184, effect: () => { gameState.liraEaten = true; gameState.liraEatenMethod = 1; setDetail("lira", 4); setPredHistory("issacSister", 6);} }
     ]
 },
 
 // 184 - After the Food Court Meal
 {
     text: function() {
-        if (gameState.liraEaten && gameState.liraEatenMethod === 1) {
+        if (gameState.liraEatenMethod === 1) {
             // Just eaten at food court
             return "Everyone sits at the table for a while after Emily swallows Lira. Emily’s belly lets out an obnoxious, loud growl. There’s a series of wet, crushing *GLORP-CRUNCH* sounds from inside as Lira is fully absorbed in one swift, powerful motion. Emily’s body surges slightly, her curves filling out a bit more, but not enough to ruin her new clothes.\n\nShe lets out a satisfied sigh and pats her stomach.\n\n\"There she goes,\" Emily says casually. \"All gone now.\"\n\nThe family sits in stunned silence for a moment. Your mother looks slightly pale. Your father just sighs and shakes his head.\n\nLirael remains calm, observing everything with quiet interest.\n\nLydia, still new to all of this, stares with wide, soft brown eyes but says nothing.\n\nAfter a few more minutes, your father stands up.\n\n\"Alright,\" he says. \"That’s enough for today. Let’s head home.\"\n\nThe family + Lydia and Lirael gather their bags and leave the food court together, the weight of another strange event settling over them as they walk back to the van.";
 
-        } 
-        else if (gameState.liraEaten) {
-            // Lira was eaten earlier
-            return "Everyone sits at the table for a while, the noise of the food court fading into background chatter. Emily is still rubbing her belly contentedly. Lydia nibbles quietly on her pretzel, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nThe conversation drifts lightly between bites — Emily pointing out funny signs, your mother asking Lydia gentle questions about what she likes, and Lirael listening intently as she learns more about the modern world. For a brief moment, the weight of the previous night feels a little lighter as the family simply enjoys the meal together.\n\nAfter a few more minutes, your father stands up.\n\n\"Alright,\" he says. \"That’s enough for today. Let’s head home.\"\n\nThe family + Lydia and Lirael gather their bags and leave the food court together, the weight of the day’s events settling over them as they walk back to the van.";
-
-        } 
-        else {
-            // Normal version - Lira was not eaten at all
-            return "Everyone sits at the table for a while, the noise of the food court fading into background chatter. Emily is still rubbing her belly contentedly. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAfter a few more minutes, your father stands up.\n\n\"Alright,\" he says. \"That’s enough for today. Let’s head home.\"\n\nThe family + Lydia and Lirael gather their bags and leave the food court together, the weight of the day’s events settling over them as they walk back to the van.";
-
+        } else {
+return "Everyone sits at the table for a while, the noise of the food court fading into background chatter. Emily is still rubbing her belly contentedly. Lydia nibbles quietly on her pretzel, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nThe conversation drifts lightly between bites — Emily pointing out funny signs, your mother asking Lydia gentle questions about what she likes, and Lirael listening intently as she learns more about the modern world. For a brief moment, the weight of the previous night feels a little lighter as the family simply enjoys the meal together.\n\nAfter a few more minutes, your father stands up.\n\n\"Alright,\" he says. \"That’s enough for today. Let’s head home.\"\n\nThe family + Lydia and Lirael gather their bags and leave the food court together, the weight of the day’s events settling over them as they walk back to the van.";
         }
     },
     location: "Local Mall - Food Court (Afternoon)",
@@ -3332,12 +3307,12 @@ setPredHistory("Lydia", 1);
 // 186 - Heading Home from the Mall
 {
     text: function() {
-        if (gameState.lastMallAttackerEatenBy = 1) {
+        if (gameState.lastMallAttackerEatenBy === 1) {
             // Lirael ate the lady
             return "The drive home is quieter than the trip to the mall. Lirael sits in the back row, her belly now noticeably larger and rounder after swallowing the random woman. She rests a hand on the swell, gently rubbing it as it gurgles softly.\n\n\"She was quite impulsive,\" Lirael comments calmly. \"Attempting to eat someone in public is both rude and foolish.\"\n\nEmily giggles from the middle row, still rubbing her own belly. Lydia sits quietly beside Lirael, occasionally glancing at Lirael’s swollen middle with a mix of awe and nervousness.\n\nYour mother looks back from the passenger seat.\n\n\"We really need to be more careful when we go out,\" she says. \"This is getting out of hand.\"\n\nYour father keeps his eyes on the road but mutters, \"At least no one saw it happen.\"\n\nThe van pulls into the driveway as the sun begins to set. Everyone gathers their shopping bags and heads inside, the weight of another strange day settling over the family.";
 
         } 
-        else if (gameState.lastMallAttackerEatenBy = 2) {
+        else if (gameState.lastMallAttackerEatenBy === 2) {
             // Emily ate the lady
             return "The drive home is quieter than the trip to the mall. Emily sits in the middle row, her belly now noticeably larger and rounder after swallowing the random woman. She rubs it with a satisfied grin, the new clothes already straining slightly against her expanded curves.\n\n\"She went down easy,\" Emily says casually. \"I didn’t even mean to… it just happened.\"\n\nLirael watches with mild amusement. Lydia sits quietly, eyes wide as she glances at Emily’s swollen belly.\n\nYour mother looks back from the passenger seat, clearly concerned.\n\n\"Emily, honey… we really need to work on those instincts,\" she says.\n\nYour father grips the steering wheel tighter but says nothing, just sighing deeply as he pulls into the driveway.\n\nEveryone gathers their shopping bags and heads inside, the weight of another strange day settling over the family.";
 
@@ -3357,12 +3332,12 @@ setPredHistory("Lydia", 1);
 // 187 - Back Home After the Mall
 {
     text: function() {
-        if (gameState.lastMallAttackerEatenBy = 1) {
+        if (gameState.lastMallAttackerEatenBy === 1) {
             // Lirael ate the lady
             return "The family piles out of the van with their many shopping bags and heads inside the house. Lirael’s belly is still noticeably rounded and heavy from swallowing the random woman in the mall. She walks with a slight, graceful waddle, one hand resting lightly on the swell as it gurgles softly.\n\nOnce everyone is inside, Lirael sets her bags down and turns to the group with calm composure.\n\n\"Today was… educational,\" she says. \"I learned much about modern clothing, food, and social customs. Thank you for allowing me to experience it with you.\"\n\nEmily flops onto the couch, rubbing her own belly. \"Yeah, it was fun. Even with the random lady trying to eat Issac.\"\n\nYour mother sighs, looking exhausted. \"We really need to be more careful when we go out. This is getting ridiculous.\"\n\nYour father sets the bags down and nods toward the living room.\n\n\"Let’s all sit down for a bit,\" he says. \"We still have a lot to talk about regarding tomorrow and… everything else.\"\n\nLydia stays close to Lirael, still adjusting to the chaotic new world she’s found herself in.";
 
         } 
-        else if (gameState.lastMallAttackerEatenBy = 2) {
+        else if (gameState.lastMallAttackerEatenBy === 2) {
             // Emily ate the lady
             return "The family piles out of the van with their many shopping bags and heads inside the house. Emily’s belly is noticeably larger and rounder after swallowing the random woman in the mall. She walks with a satisfied sway, occasionally patting her swollen middle as it gurgles loudly.\n\nOnce everyone is inside, Emily flops onto the couch with a content sigh, her new clothes straining slightly against her expanded curves.\n\n\"That was a good trip,\" she says, rubbing her belly. \"Even with the random lady trying to eat Issac. She went down easy.\"\n\nYour mother sighs, looking exhausted. \"Emily… we really need to work on those instincts. This is getting ridiculous.\"\n\nYour father sets the bags down and nods toward the living room.\n\n\"Let’s all sit down for a bit,\" he says. \"We still have a lot to talk about regarding tomorrow and… everything else.\"\n\nLydia stays close to Lirael, staring at Emily’s swollen belly with wide, nervous eyes.";
 
@@ -3610,7 +3585,7 @@ setPredHistory("issacSister", 9);
     },
     location: "Issac's Bedroom (Night)",
     choices: [
-        { label: "End the day", next: 206, effect: () => { gameState.currentDate = "September 02";}}
+        { label: "End the day", next: 206, effect: () => { gameState.currentDate = "September 02"; setDayCheckpoint(206);}}
     ]
 },
 
@@ -3619,7 +3594,7 @@ setPredHistory("issacSister", 9);
 text: function() {
 gameState.currentDate = "September 02";
 gameState.dayStartPassage = gameState.currentPassage;
-saveDayCheckpoint();
+
 return "Morning light filters through the curtains as you stir awake. Before you can even sit up, Lirael’s strong arms slide beneath you. She is already fully dressed in one of her new outfits — a sleek, elegant blouse and fitted pants that hug her 6'1\" cloaked form perfectly. The cloaking stone rests around her neck, keeping her appearance convincingly human.\n\nWith effortless grace, she lifts you from the bed, cradling you against her chest as if you weigh nothing.\n\n\"Good morning,\" she murmurs softly, a small smile on her lips. \"Today is orientation day. Let me take you downstairs.\"\n\nStill half-asleep, you don’t protest as she carries you out of the room and down the stairs. Her body is warm and steady, her steps smooth and silent. She brings you into the living room and gently sets you down on the couch where the rest of your family is already waiting.\n\nYour mother is sipping coffee, your father is reviewing some papers, and Emily is already dressed and looking surprisingly energetic for the early hour. Lydia sits quietly beside her, wearing one of the new outfits Lirael had sewn, looking nervous but trying to hide it.\n\nYour father looks up as Lirael sets you down.\n\n\"Today is orientation day at school,\" he says. \"It’s an open house, meet-the-teachers, and campus tour all in one. Lydia was enrolled online yesterday, so she’ll be joining you and Emily. Lirael will be there too — I made sure with the school that she’s assigned as an aide specifically to watch over you, Emily, or Lydia. No one else.\"\n\nLirael nods respectfully.\n\n\"I will ensure everyone stays safe,\" she says calmly.\n\nEmily grins, clearly excited.\n\n\"This is going to be interesting,\" she says. \"New school, new faces, and Lydia’s first day. Plus Lirael as our personal aide? Should be fun.\"\n\nLydia fidgets with the hem of her new shirt, her soft brown eyes darting around the room.\n\n\"I… I have never been to a human school before,\" she admits quietly. \"Will it be very different?\"\n\nYour mother gives her a reassuring smile.\n\n\"We’ll all be there with you,\" she says. \"It’ll be okay.\"\n\nLirael stands tall and composed, ready for the day ahead.\n\n\"Shall we go?\" she asks, looking at the group.";
 setDetail("Lydia", 2);
     },
@@ -3675,41 +3650,55 @@ setDetail("Lydia", 2);
 {
 text: function() {
 
-if (gameState.deathCause === undefined) {
-gameState.deathCause = "digested";	
-            causeText = "\n\nYou were digested.";
-        }
+    let text = gameState.deathText || "You have died.";
 
-        let text = gameState.deathText || "You have died.";
+    let causeText = "";
+    if (gameState.deathCause === "digested") {
+        causeText = "\n\nYou were digested.";
+    } else {
+        causeText = "\n\nYou have died.";
+    }
 
-        let causeText = "";
-        if (gameState.deathCause === "digested") {
-            causeText = "\n\nYou were digested.";
-        } else {
-            causeText = "\n\nYou have died.";
-        }
+    return text + causeText + "\n\nWhat will you do?";
+},
 
-        return text + causeText + "\n\nWhat will you do?";
-    },
 
 location: "Game Over",
 choices: [
 {
 label: "Restart from start of day",
 next: function() {
-if (gameState.dayCheckpoint) {
-const checkpoint = JSON.parse(JSON.stringify(gameState.dayCheckpoint));
-checkpoint.currentPassage = checkpoint.dayStartPassage;
-gameState = checkpoint;
-}
-return gameState.currentPassage || 0;
+
+    if (!gameState.dayCheckpoint) return 0;
+
+    // Deep clone safely
+    const checkpoint = JSON.parse(JSON.stringify(gameState.dayCheckpoint));
+
+    // FULL reset (preserve structure)
+    Object.keys(gameState).forEach(k => delete gameState[k]);
+    Object.assign(gameState, checkpoint);
+
+    // Ensure correct starting passage
+    gameState.currentPassage = gameState.dayStartPassage || 0;
+
+    // Clean transient combat/death flags
+gameState.isDead = false;
+    gameState.inStomach = false;
+    gameState.currentPredator = "";
+    gameState.TurnCount = 0;
+    gameState.acidStage = 0;
+    gameState.preyHealth = gameState.playerStats?.health || 100;
+    gameState.digestionProgress = 0;
+    gameState.deathCause = "";
+    gameState.deathText = "";
+
+    return gameState.currentPassage;
 }
 },
 {
 label: "Restart game",
 next: function() {
-location.reload();
-return 0;
+    location.reload();
 }
 }
 ]
@@ -3760,7 +3749,7 @@ return 0;
     location: "Byrd Family Home - Living Room (Evening)",
     choices: [
         { label: "Have Emily be the predator", next: 215, effect: () => { gameState.lastChoiceLabel= "Have Emily be the predator"; }},
-{ label: "Have Lirael be the predator", next: 215, effect: () => { gameState.lastChoiceLabel = "Have Lirael be the predator"; }},
+{ label: "Have Lirael be the predator", next: 215, effect: () => { gameState.lastChoiceLabel = "Have Lirael be the predator"; unlockEncounter("eatenBy", 2); }},
         { label: "Don't do the predator training", next: 215}
     ]
     
@@ -3891,8 +3880,13 @@ function getDigestionStage(progress) {
 }
 // RENDERING 
 function renderPassage() {
-	if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
+/*if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
     gameState.currentPassage = 210;
+}*/
+
+if (gameState.currentPassage !== 210 && checkDeath()) {
+    renderPassage();
+    return;
 }
     gameState.visitedPassages[gameState.currentPassage] = true;
 
@@ -3938,7 +3932,7 @@ document.getElementById('story').textContent = displayText;
 
 if (choice.effect) choice.effect();
 applyRelationshipDecay();
-if (checkDeath()) {
+if (!gameState.isDead && checkDeath()) {
     renderPassage();
     return;
 }
@@ -3981,7 +3975,7 @@ function fixVoreEncounters() {
     }
 }
 
-function unlockEncounter(index) {
+/*function unlockEncounter(index) {
     const list = gameState.voreEncounters.eatenBy;
     if (list && list[index] && !list[index].unlocked) {
         list[index].unlocked = true;
@@ -3990,6 +3984,13 @@ function unlockEncounter(index) {
 
 function unlockLab(index) {
     const list = gameState.voreEncounters.labs;
+    if (list && list[index] && !list[index].unlocked) {
+        list[index].unlocked = true;
+    }
+}*/
+
+function unlockEncounter(type, index) {
+    const list = gameState.voreEncounters[type];
     if (list && list[index] && !list[index].unlocked) {
         list[index].unlocked = true;
     }
@@ -4153,7 +4154,6 @@ function refreshRelationshipUI() {
 
 
 // VORE TRACKING 
-/*
 function recordVoreEvent(key, text = "") {
     normalizeEncounters();
 
@@ -4195,7 +4195,7 @@ function recordLab(key, text = "") {
             unlocked: true
         });
     }
-}*/
+}
 
 function recordVoreEvent(name, text = "") {
     if (!gameState.voreEncounters) {
@@ -4231,6 +4231,12 @@ function saveDayCheckpoint() {
     gameState.dayCheckpoint = JSON.parse(JSON.stringify(gameState));
 }
 
+function setDayCheckpoint(startPassage) {
+    gameState.dayStartPassage = startPassage;
+
+    // Deep clone entire state
+    gameState.dayCheckpoint = JSON.parse(JSON.stringify(gameState));
+}
 function applyDigestionEffects() {
     const stage = getDigestionStage(gameState.digestionProgress);
 
@@ -4256,19 +4262,17 @@ function applyDigestionEffects() {
 }
 
 function checkDeath() {
-    // Digestion death
-    if (gameState.digestionProgress >= 100) {
+    if (gameState.isDead) return false; 
+
+    if (gameState.preyHealth <= 0) {
+        killPlayer("dead", "Your body gives out under the strain.");
         gameState.isDead = true;
-        gameState.deathCause = "digested";
-        gameState.currentPassage = 210;
         return true;
     }
 
-    // Health death
-    if (gameState.preyHealth <= 0) {
+    if (gameState.digestionProgress >= 100) {
+        killPlayer("digested", "The acids finally dissolve you completely.");
         gameState.isDead = true;
-        gameState.deathCause = "dead";
-        gameState.currentPassage = 210;
         return true;
     }
 
@@ -4276,6 +4280,8 @@ function checkDeath() {
 }
 
 function killPlayer(cause = "dead", text = "") {
+	gameState.preyHealth = 0;
+gameState.digestionProgress = 100;
     gameState.deathCause = cause;
     gameState.deathText = text || gameState.deathText || "You have died.";
     gameState.lastPredator = gameState.currentPredator || "";
@@ -4461,7 +4467,7 @@ Lab Participation: ${Object.keys(gameState.voreEncounters.labs || []).length}
         html += `</ul>`;
     }
 
-    // ===== LABS =====
+    // LABS 
     html += `<h4>Labs / Demonstrations</h4>`;
 
     if (unlockedLabs.length === 0) {
@@ -4506,11 +4512,18 @@ function loadGame() {
         alert("No save file found.");
     }
 }
-
+/*
 function restartGame() {
     if (confirm("Restart the entire story from the beginning?")) {
         location.reload();
     }
+}*/
+function restartGame() {
+    if (!confirm("Restart the entire game?")) return;
+
+    gameState = JSON.parse(JSON.stringify(BASE_GAME_STATE));
+
+    renderPassage();
 }
 
 window.onload = function() {
