@@ -1,14 +1,16 @@
-<footer>
+<!--https://al0823.github.io/codefordummies/frontend/includes/footer.html-->
+
 <span id="dateTime"></span>
 
 <script>
 (function setFooterText() {
   const dateSpan = document.getElementById("dateTime");
+
   if (dateSpan) {
     const currentYear = new Date().getFullYear();
-    const fullDate = new Date().toLocaleString();
-    dateSpan.innerHTML = `&copy; A.t.A. Projects, Websites and Games 2024-${currentYear}`;
+
+    dateSpan.innerHTML =
+      `&copy; A.t.A. Projects, Websites and Games 2024-${currentYear}`;
   }
 })();
 </script>
-</footer>
