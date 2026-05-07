@@ -142,6 +142,7 @@ color: var(--text-invert);
 text-align: center;
 padding: 15px 10px;
 border-top: 1px solid var(--divider);
+min-height: 50px;
 }
 
 
