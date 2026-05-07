@@ -106,6 +106,7 @@ width: 300px  !Important;
 background: var(--bg-soft);
 padding: 1rem  !Important;
 border-right: 1px solid var(--border);
+box-sizing: border-box;
 }
 
 
