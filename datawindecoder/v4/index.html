@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>data.win Decoder</title>
+<style>
+:root {
+  --bg: #0d0d0f;
+  --bg2: #141418;
+  --bg3: #1b1b22;
+  --bg4: #222229;
+  --border: #ffffff14;
+  --border2: #ffffff24;
+  --accent: #7c6af7;
+  --accent2: #5b51c4;
+  --text: #e8e6f0;
+  --text2: #9d9baf;
+  --text3: #5e5c72;
+  --green: #4ec994;
+  --amber: #f5a623;
+  --red: #f06060;
+  --teal: #3fc8c0;
+  --pink: #e87db8;
+  --mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --sans: 'Inter', system-ui, sans-serif;
+  --r: 8px;
+  --r2: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+
+
+#app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+#header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 16px; flex-shrink: 0; background: var(--bg2); }
+#header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.02em; color: var(--text); }
+#header .sub { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+#main { display: flex; flex: 1; overflow: hidden; }
+
+
+#drop-screen { display: flex; align-items: center; justify-content: center; flex: 1; }
+#drop-zone { border: 2px dashed var(--border2); border-radius: 20px; padding: 60px 80px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; max-width: 500px; width: 100%; }
+#drop-zone:hover, #drop-zone.drag-over { border-color: var(--accent); background: #7c6af712; }
+#drop-zone .icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+#drop-zone h2 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+#drop-zone p { color: var(--text2); font-size: 13px; margin-bottom: 20px; }
+#drop-zone label { cursor: pointer; display: inline-block; background: var(--accent); color: #ffffff; padding: 8px 20px; border-radius: var(--r); font-size: 13px; font-weight: 500; transition: background 0.15s; }
+#drop-zone label:hover { background: var(--accent2); }
+#file-input { display: none; }
+
+/* ── Workspace ── */
+#workspace { display: none; flex: 1; overflow: hidden; }
+#workspace.show { display: flex; }
+
+/* sidebar */
+#sidebar { width: 260px; flex-shrink: 0; border-right: 1px solid var(--border); display: flex; flex-direction: column; background: var(--bg2); overflow: hidden; }
+#sidebar-top { padding: 10px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+#sidebar-top span { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); }
+#sidebar-top button { font-size: 11px; color: var(--accent); background: none; border: none; cursor: pointer; padding: 2px 6px; }
+#chunk-list { flex: 1; overflow-y: auto; padding: 6px 0; }
+.chunk-item { display: flex; align-items: center; gap: 8px; padding: 6px 14px; cursor: pointer; transition: background 0.1s; user-select: none; }
+.chunk-item:hover { background: #ffffff0a; }
+.chunk-item.active { background: #7c6af726; }
+.chunk-item .tag { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; width: 44px; flex-shrink: 0; }
+.chunk-item .meta { font-size: 11px; color: var(--text3); }
+
+/* panel */
+#panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+#panel-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--bg2); flex-shrink: 0; gap: 2px; padding: 0 16px; }
+.tab { padding: 9px 14px; font-size: 12px; font-weight: 500; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; transition: color 0.15s; }
+.tab:hover { color: var(--text2); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+#panel-body { flex: 1; overflow: auto; padding: 16px 20px; }
+
+/* summary view */
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.stat-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 14px; }
+.stat-card .label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+.stat-card .value { font-size: 20px; font-weight: 600; color: var(--text); font-family: var(--mono); }
+.stat-card .sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* chunk detail */
+.detail-section { margin-bottom: 24px; }
+.detail-section h3 { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.kv-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.kv-table tr + tr td { border-top: 1px solid var(--border); }
+.kv-table td { padding: 6px 8px; vertical-align: top; }
+.kv-table td:first-child { color: var(--text2); width: 38%; font-family: var(--mono); font-size: 12px; }
+.kv-table td:last-child { color: var(--text); word-break: break-all; }
+
+/* hex view */
+#hex-view { font-family: var(--mono); font-size: 12px; white-space: pre; line-height: 1.8; color: var(--text2); }
+#hex-view .offset { color: var(--text3); display: inline-block; width: 70px; }
+#hex-view .hex-bytes { color: var(--teal); display: inline-block; width: 320px; }
+#hex-view .ascii { color: var(--text2); }
+
+/* sprite grid */
+.sprite-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.sprite-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: border-color 0.15s; }
+.sprite-card:hover { border-color: var(--border2); }
+.sprite-card canvas { display: block; image-rendering: pixelated; border-radius: 4px; background: repeating-conic-gradient(#333333 0% 25%, #222222 0% 50%) 0 0 / 16px 16px; }
+.sprite-card .sname { font-size: 11px; color: var(--text3); max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* audio list */
+.audio-list { display: flex; flex-direction: column; gap: 8px; }
+.audio-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); padding: 10px 14px; display: flex; align-items: center; gap: 12px; }
+.audio-item .aidx { font-family: var(--mono); font-size: 11px; color: var(--text3); width: 28px; }
+.audio-item .aname { flex: 1; font-size: 13px; color: var(--text); }
+.audio-item .asize { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+.audio-item audio { flex: 1; height: 28px; }
+.audio-item audio::-webkit-media-controls-panel { background: var(--bg4); }
+
+/* string list */
+.string-search { width: 100%; padding: 7px 10px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--r); color: var(--text); font-size: 13px; margin-bottom: 12px; outline: none; font-family: var(--sans); }
+.string-search:focus { border-color: var(--accent); }
+.string-list { display: flex; flex-direction: column; gap: 2px; }
+.string-row { display: flex; gap: 10px; padding: 5px 8px; border-radius: 5px; background: var(--bg3); font-size: 12px; }
+.string-row .si { color: var(--text3); font-family: var(--mono); width: 40px; flex-shrink: 0; }
+.string-row .sv { color: var(--text); word-break: break-all; }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--r); color: var(--text2); font-size: 12px; cursor: pointer; transition: background 0.15s, color 0.15s; font-family: var(--sans); }
+.btn:hover { background: var(--bg4); color: var(--text); }
+.btn.primary { background: var(--accent); border-color: transparent; color: #ffffff; }
+.btn.primary:hover { background: var(--accent2); }
+
+/* badge */
+.badge { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+.badge-gms1 { background: #4ec99426; color: var(--green); }
+.badge-gms2 { background: #7c6af733; color: #a99eff; }
+.badge-unk  { background: #f5a62326; color: var(--amber); }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #ffffff33; }
+
+/* chunk tag colors */
+.tag-GEN8,.tag-OPTN { color: var(--green); }
+.tag-STRG,.tag-TAGS { color: var(--teal); }
+.tag-TXTR,.tag-TPAG,.tag-SPRT { color: var(--pink); }
+.tag-AUDO,.tag-SNDS,.tag-EMBI { color: var(--amber); }
+.tag-ROOM,.tag-BGND,.tag-PATH,.tag-OBJT,.tag-SCPT,.tag-FUNC { color: var(--accent); }
+.tag-FONT,.tag-TMLN,.tag-SHDR,.tag-GLOB,.tag-EXTN,.tag-LANG,.tag-VARI,.tag-CODE { color: var(--text2); }
+.tag-FORM { color: #ffffff; font-size: 11px; }
+
+.empty { color: var(--text3); font-size: 13px; padding: 20px 0; }
+.toolbar { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <div style="display:flex;flex-direction:column;gap:2px;flex:1">
+      <h1>data.win Decoder</h1>
+      <div class="sub" id="file-info">GameMaker Studio data.win parser · Drop a file to begin</div>
+    </div>
+    <button class="btn" id="new-file-btn" style="display:none">Open new file</button>
+<button class="btn" id="export-json-btn" style="display:none">Export JSON</button>
+<button class="btn" id="export-assets-btn" style="display:none">Export Assets</button>
+<button class="btn primary" id="export-all-btn" style="display:none">Export Everything</button>
+  </div>
+
+  <div id="main">
+    <div id="drop-screen">
+      <div id="drop-zone">
+        <div class="icon">🎮</div>
+        <h2>Drop your data.win file</h2>
+        <p>Works with GameMaker Studio 1.x and 2.x<br>All parsing happens locally in your browser</p>
+        <label for="file-input">Browse file</label>
+        <input type="file" id="file-input" accept=".win,.unx,.ios,.droid">
+      </div>
+    </div>
+
+    <div id="workspace">
+      <div id="sidebar">
+        <div id="sidebar-top">
+          <span>Chunks</span>
+          <button id="collapse-all">Collapse</button>
+        </div>
+        <div id="chunk-list"></div>
+      </div>
+      <div id="panel">
+        <div id="panel-tabs"></div>
+        <div id="panel-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+class Reader {
+  constructor(buffer) {
+    this.view = new DataView(buffer);
+    this.buf = buffer;
+    this.pos = 0;
+  }
+  seek(p) { this.pos = p; }
+  tell() { return this.pos; }
+  remaining() { return this.view.byteLength - this.pos; }
+  u8()  { return this.view.getUint8(this.pos++); }
+  u16() { const v = this.view.getUint16(this.pos, true); this.pos += 2; return v; }
+  u32() { const v = this.view.getUint32(this.pos, true); this.pos += 4; return v; }
+  i32() { const v = this.view.getInt32(this.pos, true);  this.pos += 4; return v; }
+  f32() { const v = this.view.getFloat32(this.pos, true); this.pos += 4; return v; }
+  f64() { const v = this.view.getFloat64(this.pos, true); this.pos += 8; return v; }
+  tag() { const bytes=[]; for(let i=0;i<4;i++) bytes.push(this.u8()); return String.fromCharCode(...bytes); }
+  str(len) {
+    const bytes = new Uint8Array(this.buf, this.pos, len);
+    this.pos += len;
+    return new TextDecoder().decode(bytes);
+  }
+  cstr() {
+    let s=''; let b;
+    while(this.pos < this.view.byteLength && (b=this.u8()) !== 0) s += String.fromCharCode(b);
+    return s;
+  }
+  nullstr(offset) {
+    let s='', p=offset;
+    while(p < this.view.byteLength) {
+      const b = this.view.getUint8(p++);
+      if(b===0) break;
+      s += String.fromCharCode(b);
+    }
+    return s;
+  }
+  slice(offset, len) { return this.buf.slice(offset, offset+len); }
+  bytes(len) { const b=new Uint8Array(this.buf, this.pos, len); this.pos+=len; return b; }
+  peek32(off) { return this.view.getUint32(off, true); }
+}
+
+const parsers = {};
+
+parsers.GEN8 = (r, start, len) => {
+  r.seek(start);
+  const d = {};
+  d.debug     = r.u32();
+  d.bytecode  = r.u32();
+  d.filename_offset = r.u32();
+  d.config_offset   = r.u32();
+  d.last_obj  = r.i32();
+  d.last_tile = r.i32();
+  d.game_id   = r.u32();
+  d.unknown1  = r.u32();
+  d.unknown2  = r.u32();
+  d.unknown3  = r.u32();
+  d.name_offset = r.u32();
+  d.major     = r.u32();
+  d.minor     = r.u32();
+  d.release   = r.u32();
+  d.build     = r.u32();
+  d.back_width  = r.u32();
+  d.back_height = r.u32();
+  d.info       = r.u32();
+  d.license_md5 = Array.from(r.bytes(16)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  d.license_crc32 = r.u32();
+  d.timestamp  = r.u32();
+  d.display_name_offset = r.u32();
+  d.active_targets = r.u32();
+  try {
+    if(d.filename_offset) d.filename = r.nullstr(d.filename_offset);
+    if(d.name_offset)     d.name     = r.nullstr(d.name_offset);
+    if(d.display_name_offset) d.display_name = r.nullstr(d.display_name_offset);
+    if(d.config_offset)   d.config   = r.nullstr(d.config_offset);
+  } catch(e) {}
+  return d;
+};
+
+parsers.STRG = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const strings = offsets.map(off => {
+    try {
+      r.seek(off);
+      const slen = r.u32();
+      return r.str(slen);
+    } catch(e) { return ''; }
+  });
+  return { count, strings };
+};
+
+parsers.TXTR = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const entries = [];
+  for(let i=0;i<count;i++) {
+    const info = r.u32();
+    const dataOff = r.u32();
+    entries.push({ info, dataOff });
+  }
+  return { count, entries };
+};
+
+parsers.AUDO = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const tracks = offsets.map((off,idx) => {
+    try {
+      r.seek(off);
+      const alen = r.u32();
+      return { index: idx, offset: off, length: alen, dataOffset: r.tell() };
+    } catch(e) { return { index: idx, offset: off, length: 0, dataOffset: 0 }; }
+  });
+  return { count, tracks };
+};
+
+parsers.SPRT = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const sprites = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const width    = r.u32();
+      const height   = r.u32();
+      const marginL  = r.i32();
+      const marginR  = r.i32();
+      const marginT  = r.i32();
+      const marginB  = r.i32();
+      const unknown1 = r.u32();
+      const unknown2 = r.u32();
+      const origin_x = r.i32();
+      const origin_y = r.i32();
+      const tpag_count = r.u32();
+      const tpag_offsets = [];
+      for(let i=0;i<tpag_count;i++) tpag_offsets.push(r.u32());
+      const name = r.nullstr(name_off);
+      return { name, width, height, marginL, marginR, marginT, marginB, origin_x, origin_y, tpag_offsets, tpag_count };
+    } catch(e) { return { name:'?', width:0, height:0, tpag_count:0, tpag_offsets:[] }; }
+  });
+  return { count, sprites };
+};
+
+parsers.TPAG = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const pages = offsets.map(off => {
+    try {
+      r.seek(off);
+      return {
+        x: r.u16(), y: r.u16(), w: r.u16(), h: r.u16(),
+        render_x: r.u16(), render_y: r.u16(),
+        bound_w: r.u16(), bound_h: r.u16(),
+        sprite_w: r.u16(), sprite_h: r.u16(),
+        sheet_id: r.u16(), unknown: r.u16()
+      };
+    } catch(e) { return null; }
+  });
+  return { count, pages };
+};
+
+parsers.ROOM = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const rooms = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const caption_off = r.u32();
+      const width = r.u32();
+      const height = r.u32();
+      const speed = r.u32();
+      const persistent = r.u32();
+      const color = r.u32();
+      const show_color = r.u32();
+      const name = r.nullstr(name_off);
+      return { name, width, height, speed, persistent, color, show_color };
+    } catch(e) { return { name:'?', width:0, height:0 }; }
+  });
+  return { count, rooms };
+};
+
+parsers.OBJT = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const objects = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const sprite_idx = r.i32();
+      const visible = r.u32();
+      const solid = r.u32();
+      const depth = r.i32();
+      const persistent = r.u32();
+      const parent_obj = r.i32();
+      const mask_spr = r.i32();
+      const name = r.nullstr(name_off);
+      return { name, sprite_idx, visible, solid, depth, persistent, parent_obj, mask_spr };
+    } catch(e) { return { name:'?' }; }
+  });
+  return { count, objects };
+};
+
+parsers.FONT = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const fonts = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const sys_name_off = r.u32();
+      const em_size = r.u32();
+      const bold = r.u32();
+      const italic = r.u32();
+      const range_start = r.u16();
+      const charset = r.u16();
+      const anti_alias = r.u16();
+      const range_end = r.u16();
+      const tpag_off = r.u32();
+      const scale_x = r.f32();
+      const scale_y = r.f32();
+      return { name: r.nullstr(name_off), sys_name: r.nullstr(sys_name_off), em_size, bold:!!bold, italic:!!italic, anti_alias, range_start, range_end, scale_x, scale_y };
+    } catch(e) { return { name:'?' }; }
+  });
+  return { count, fonts };
+};
+
+parsers.BGND = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const bgs = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const transparent = r.u32();
+      const smooth = r.u32();
+      const preload = r.u32();
+      const tpag_off = r.u32();
+      return { name: r.nullstr(name_off), transparent:!!transparent, smooth:!!smooth, preload:!!preload };
+    } catch(e) { return { name:'?' }; }
+  });
+  return { count, bgs };
+};
+
+parsers.PATH = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const paths = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const smooth = r.u32();
+      const closed = r.u32();
+      const precision = r.u32();
+      const point_count = r.u32();
+      return { name: r.nullstr(name_off), smooth:!!smooth, closed:!!closed, precision, point_count };
+    } catch(e) { return { name:'?' }; }
+  });
+  return { count, paths };
+};
+
+parsers.SCPT = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const scripts = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const code_id = r.u32();
+      return { name: r.nullstr(name_off), code_id };
+    } catch(e) { return { name:'?' }; }
+  });
+  return { count, scripts };
+};
+
+parsers.SNDS = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  const offsets = [];
+  for(let i=0;i<count;i++) offsets.push(r.u32());
+  const sounds = offsets.map(off => {
+    try {
+      r.seek(off);
+      const name_off = r.u32();
+      const flags = r.u32();
+      const type_off = r.u32();
+      const file_off = r.u32();
+      const unknown = r.u32();
+      const volume = r.f32();
+      const pitch = r.f32();
+      const audio_id = r.i32();
+      return {
+        name: r.nullstr(name_off),
+        flags,
+        file_type: type_off ? r.nullstr(type_off) : '',
+        file_name: file_off ? r.nullstr(file_off) : '',
+        volume, pitch, audio_id,
+        embedded: !!(flags & 1),
+        compressed: !!(flags & 2),
+        streamed: !!(flags & 8)
+      };
+    } catch(e) { return { name:'?' }; }
+  });
+  return { count, sounds };
+};
+
+parsers.VARI = (r, start, len) => {
+  r.seek(start);
+  const var_count = r.u32();
+  const var_max_local = r.u32();
+  return { var_count, var_max_local };
+};
+
+parsers.EMBI = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  return { count };
+};
+
+parsers.TAGS = (r, start, len) => {
+  r.seek(start);
+  // GMS2 only — tag count
+  try {
+    const count = r.u32();
+    return { count };
+  } catch(e) { return {}; }
+};
+
+parsers.LANG = (r, start, len) => {
+  r.seek(start);
+  try {
+    const unknown = r.u32();
+    const count = r.u32();
+    return { unknown, count };
+  } catch(e) { return {}; }
+};
+
+parsers.GLOB = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  return { count };
+};
+
+parsers.SHDR = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  return { count };
+};
+
+parsers.EXTN = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  return { count };
+};
+
+parsers.TMLN = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  return { count };
+};
+
+parsers.FUNC = (r, start, len) => {
+  r.seek(start);
+  const fn_count = r.u32();
+  const local_count = r.u32();
+  return { fn_count, local_count };
+};
+
+parsers.CODE = (r, start, len) => {
+  r.seek(start);
+  const count = r.u32();
+  return { count };
+};
+
+parsers.OPTN = (r, start, len) => {
+  r.seek(start);
+  const unknown = r.u32();
+  const unknown2 = r.u32();
+  const info = r.u32();
+  return { unknown, unknown2, info };
+};
+
+function decode(buffer) {
+  const r = new Reader(buffer);
+  const magic = r.tag();
+  if(magic !== 'FORM') throw new Error('Not a valid data.win — expected FORM signature');
+  const total_len = r.u32();
+  const form = { magic, total_len, chunks: [] };
+
+  while(r.remaining() > 8) {
+    const chunkTag = r.tag();
+    const chunkLen = r.u32();
+    const chunkStart = r.tell();
+    if(chunkLen > r.remaining() + 8) break;
+    const data = {};
+    data._raw_offset = chunkStart - 8;
+    data._raw_length = chunkLen;
+    if(parsers[chunkTag]) {
+      try {
+        Object.assign(data, parsers[chunkTag](r, chunkStart, chunkLen));
+      } catch(e) {
+        data._parse_error = e.message;
+      }
+    }
+    form.chunks.push({ tag: chunkTag, len: chunkLen, start: chunkStart, data });
+    r.seek(chunkStart + chunkLen);
+  }
+  const gen8 = form.chunks.find(c=>c.tag==='GEN8');
+  let version = 'Unknown';
+  let versionClass = 'badge-unk';
+  if(gen8 && gen8.data.major !== undefined) {
+    const hasTAGS = form.chunks.some(c=>c.tag==='TAGS');
+    if(hasTAGS || (gen8.data.major >= 2)) { version='GMS 2.x'; versionClass='badge-gms2'; }
+    else { version='GMS 1.x'; versionClass='badge-gms1'; }
+  }
+
+  return { form, reader: r, version, versionClass };
+}
+function hexDump(buffer, start, len, maxRows=128) {
+  const view = new Uint8Array(buffer, start, Math.min(len, maxRows*16));
+  let out = '';
+  for(let row=0; row < Math.ceil(view.length/16); row++) {
+    const off = start + row*16;
+    const slice = view.slice(row*16, row*16+16);
+    const hex = Array.from(slice).map(b=>b.toString(16).padStart(2,'0')).join(' ');
+    const pad = hex.padEnd(47,' ');
+    const asc = Array.from(slice).map(b=>(b>=0x20&&b<0x7f)?String.fromCharCode(b):'.').join('');
+    out += `<span class="offset">${off.toString(16).padStart(8,'0')}</span>  <span class="hex-bytes">${pad}</span>  <span class="ascii">${asc}</span>\n`;
+  }
+  if(len > maxRows*16) out += `<span class="offset">...</span>  <span style="color:var(--text3)">${(len-maxRows*16).toLocaleString()} more bytes</span>\n`;
+  return out;
+}
+
+async function loadTexture(buffer, txtrChunk) {
+  const imgs = [];
+
+  if(!txtrChunk)
+    return imgs;
+
+  for(const entry of txtrChunk.data.entries) {
+
+    const off = entry.dataOff;
+
+    if(!off || off <= 0 || off >= buffer.byteLength) {
+      imgs.push(null);
+      continue;
+    }
+
+    const sig = new Uint8Array(buffer, off, 16);
+
+    // PNG
+    if(
+      sig[0]===0x89 &&
+      sig[1]===0x50 &&
+      sig[2]===0x4E &&
+      sig[3]===0x47
+    ) {
+
+      const dv = new DataView(buffer);
+
+      let p = off + 8;
+
+      while(p < buffer.byteLength - 4) {
+
+        const cl = dv.getUint32(p, false);
+
+        const type = String.fromCharCode(
+          dv.getUint8(p+4),
+          dv.getUint8(p+5),
+          dv.getUint8(p+6),
+          dv.getUint8(p+7)
+        );
+
+        p += 12 + cl;
+
+        if(type === 'IEND')
+          break;
+      }
+
+      const pngData = buffer.slice(off, p);
+
+      imgs.push({
+        type:'png',
+        blob:new Blob([pngData], {type:'image/png'})
+      });
+
+      continue;
+    }
+
+    // DDS
+    if(
+      sig[0]===0x44 &&
+      sig[1]===0x44 &&
+      sig[2]===0x53
+    ) {
+
+      console.warn('DDS texture found');
+
+      imgs.push({
+        type:'dds',
+        blob:new Blob(
+          [buffer.slice(off)],
+          {type:'application/octet-stream'}
+        )
+      });
+
+      continue;
+    }
+
+    imgs.push(null);
+  }
+
+  return imgs;
+}
+function exportTextures() {
+
+  if(!state?.textures?.length) {
+    alert('No textures loaded');
+    return;
+  }
+
+  state.textures.forEach((tex, i) => {
+
+    if(!tex)
+      return;
+
+    let ext = tex.type;
+
+    downloadBlob(
+      tex.blob,
+      `texture_${i}.${ext}`
+    );
+  });
+}
+function exportAudio() {
+  const audo = state.form.chunks.find(c => c.tag === 'AUDO');
+  const snds = state.form.chunks.find(c => c.tag === 'SNDS');
+
+  if(!audo) {
+    alert('No audio chunk found');
+    return;
+  }
+
+  audo.data.tracks.forEach((track, i) => {
+    if(track.length <= 0) return;
+
+    const data = state.buffer.slice(
+      track.dataOffset,
+      track.dataOffset + track.length
+    );
+
+    const ext = detectAudioExt(data);
+const sound = snds?.data?.sounds?.[i];
+
+const name =
+  sound?.file_name ||
+  sound?.name ||
+  `audio_${i}`;
+
+    downloadBlob(
+      new Blob([data]),
+      `${name}.${ext}`
+    );
+  });
+}
+function exportStrings() {
+  const strg = state.form.chunks.find(c => c.tag === 'STRG');
+
+  if(!strg) {
+    alert('No strings found');
+    return;
+  }
+
+  const txt = strg.data.strings.join('\n');
+
+  downloadBlob(
+    new Blob([txt], { type:'text/plain' }),
+    'strings.txt'
+  );
+}
+async function exportEverything() {
+  const zip = new JSZip();
+
+  const baseName = (state.filename || 'game')
+    .replace(/\.[^.]+$/, '');
+
+  // JSON
+  const out = {
+    filename: state.filename,
+    version: state.version,
+    chunks: state.form.chunks.map(c => ({
+      tag: c.tag,
+      size: c.len,
+      data: c.data
+    }))
+  };
+
+  zip.file(
+    'project.json',
+    JSON.stringify(out, null, 2)
+  );
+
+  // Strings
+  const strg = state.form.chunks.find(c => c.tag === 'STRG');
+
+  if(strg) {
+    zip.file(
+      'strings/strings.txt',
+      strg.data.strings.join('\n')
+    );
+  }
+
+  // Audio
+  const audo = state.form.chunks.find(c => c.tag === 'AUDO');
+  const snds = state.form.chunks.find(c => c.tag === 'SNDS');
+
+  if(audo) {
+    audo.data.tracks.forEach((track, i) => {
+      if(track.length <= 0) return;
+
+      const data = state.buffer.slice(
+        track.dataOffset,
+        track.dataOffset + track.length
+      );
+
+      const ext = detectAudioExt(data);
+const sound = snds?.data?.sounds?.[i];
+
+const name =
+  sound?.file_name ||
+  sound?.name ||
+  `audio_${i}`;
+
+      zip.file(`audio/${name}.${ext}`, data);
+    });
+  }
+
+  // Textures
+  for(let i=0;i<state.textures.length;i++) {
+    const url = state.textures[i];
+
+    if(!url) continue;
+
+    const blob = await fetch(url).then(r => r.blob());
+
+    zip.file(`textures/texture_${i}.png`, blob);
+  }
+
+  // Sprites metadata
+}
+
+let state = null;
+
+function fmt(n) {
+  if(n>=1024*1024) return (n/1024/1024).toFixed(1)+' MB';
+  if(n>=1024) return (n/1024).toFixed(1)+' KB';
+  return n+' B';
+}
+
+const chunkColors = {
+  GEN8:'#4ec994',STRG:'#3fc8c0',TXTR:'#e87db8',TPAG:'#e87db8',SPRT:'#e87db8',
+  AUDO:'#f5a623',SNDS:'#f5a623',EMBI:'#f5a623',ROOM:'#a99eff',BGND:'#a99eff',
+  PATH:'#a99eff',OBJT:'#a99eff',SCPT:'#a99eff',FUNC:'#a99eff',
+  FONT:'#9d9baf',TMLN:'#9d9baf',SHDR:'#9d9baf',GLOB:'#9d9baf',
+  EXTN:'#9d9baf',LANG:'#9d9baf',VARI:'#9d9baf',CODE:'#9d9baf',
+  TAGS:'#3fc8c0',OPTN:'#4ec994',FORM:'#fff'
+};
+
+function renderSidebar() {
+  const list = document.getElementById('chunk-list');
+  list.innerHTML = '';
+  const { form, version, versionClass } = state;
+
+  const sumItem = document.createElement('div');
+  sumItem.className = 'chunk-item active';
+  sumItem.dataset.idx = '-1';
+  sumItem.innerHTML = `<span class="tag" style="color:#fff">FORM</span><span class="meta">Summary</span>`;
+  sumItem.onclick = () => { selectChunk(-1); updateActive(-1); };
+  list.appendChild(sumItem);
+
+  form.chunks.forEach((chunk, idx) => {
+    const item = document.createElement('div');
+    item.className = 'chunk-item';
+    item.dataset.idx = idx;
+    const color = chunkColors[chunk.tag] || '#9d9baf';
+    item.innerHTML = `<span class="tag" style="color:${color}">${chunk.tag}</span><span class="meta">${fmt(chunk.len)}</span>`;
+    item.onclick = () => { selectChunk(idx); updateActive(idx); };
+    list.appendChild(item);
+  });
+}
+
+function updateActive(idx) {
+  document.querySelectorAll('.chunk-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.idx == idx);
+  });
+}
+
+function setTabs(tabs, activeName, renderFn) {
+  const tabBar = document.getElementById('panel-tabs');
+  tabBar.innerHTML = '';
+  tabs.forEach(name => {
+    const t = document.createElement('div');
+    t.className = 'tab' + (name===activeName?' active':'');
+    t.textContent = name;
+    t.onclick = () => { renderFn(name); };
+    tabBar.appendChild(t);
+  });
+}
+
+function selectChunk(idx) {
+  if(idx===-1) { renderSummary(); return; }
+  const chunk = state.form.chunks[idx];
+  renderChunkDetail(chunk, idx);
+}
+
+function renderSummary() {
+  const { form, version, versionClass, buffer, filename } = state;
+  const gen8 = form.chunks.find(c=>c.tag==='GEN8');
+  const strg = form.chunks.find(c=>c.tag==='STRG');
+  const txtr = form.chunks.find(c=>c.tag==='TXTR');
+  const sprt = form.chunks.find(c=>c.tag==='SPRT');
+  const audo = form.chunks.find(c=>c.tag==='AUDO');
+  const room = form.chunks.find(c=>c.tag==='ROOM');
+  const objt = form.chunks.find(c=>c.tag==='OBJT');
+  const font = form.chunks.find(c=>c.tag==='FONT');
+  const bgnd = form.chunks.find(c=>c.tag==='BGND');
+
+  setTabs(['Overview', 'Chunks'], 'Overview', n => { if(n==='Overview') renderSummary(); else renderChunkTable(); });
+  activateTab('Overview');
+
+  const body = document.getElementById('panel-body');
+  body.innerHTML = `
+    <div class="summary-grid">
+      ${card('File size', fmt(buffer.byteLength))}
+      ${card('Chunks', form.chunks.length)}
+      ${card('Engine', `<span class="badge ${versionClass}">${version}</span>`)}
+      ${gen8?.data.name ? card('Game name', esc(gen8.data.name)) : ''}
+      ${gen8?.data.major !== undefined ? card('Version', `${gen8.data.major}.${gen8.data.minor}.${gen8.data.release}.${gen8.data.build}`) : ''}
+      ${txtr ? card('Textures', txtr.data.count) : ''}
+      ${sprt ? card('Sprites', sprt.data.count) : ''}
+      ${audo ? card('Audio tracks', audo.data.count) : ''}
+      ${room ? card('Rooms', room.data.count) : ''}
+      ${objt ? card('Objects', objt.data.count) : ''}
+      ${font ? card('Fonts', font.data.count) : ''}
+      ${strg ? card('Strings', strg.data.count) : ''}
+      ${gen8?.data.back_width ? card('Resolution', `${gen8.data.back_width} × ${gen8.data.back_height}`) : ''}
+    </div>
+    ${gen8?.data.display_name ? `<div style="margin-bottom:16px;font-size:13px;color:var(--text2)">Display name: <strong style="color:var(--text)">${esc(gen8.data.display_name)}</strong></div>` : ''}
+    ${gen8?.data.filename ? `<div style="margin-bottom:8px;font-size:12px;color:var(--text3);font-family:var(--mono)">${esc(gen8.data.filename)}</div>` : ''}
+    <div class="detail-section">
+      <h3>Chunk map</h3>
+      <div style="font-family:var(--mono);font-size:12px;color:var(--text2);line-height:2">
+        ${form.chunks.map(c=>{
+          const color = chunkColors[c.tag]||'#9d9baf';
+          return `<span style="display:inline-flex;align-items:center;gap:8px;margin:3px 8px 3px 0;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:2px 10px;cursor:pointer" onclick="selectChunkByTag('${c.tag}')">`+
+            `<span style="color:${color};font-weight:600">${c.tag}</span>`+
+            `<span style="color:var(--text3)">${fmt(c.len)}</span>`+
+            `</span>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+function renderChunkTable() {
+  activateTab('Chunks');
+  const body = document.getElementById('panel-body');
+  const { form } = state;
+  body.innerHTML = `
+    <table class="kv-table" style="margin-top:0">
+      <thead><tr style="border-bottom:1px solid var(--border2)">
+        <td style="color:var(--text3);font-weight:600;padding:6px 8px">Tag</td>
+        <td style="color:var(--text3);font-weight:600;padding:6px 8px">Offset</td>
+        <td style="color:var(--text3);font-weight:600;padding:6px 8px">Size</td>
+        <td style="color:var(--text3);font-weight:600;padding:6px 8px">Items</td>
+      </tr></thead>
+      <tbody>
+        ${form.chunks.map((c,i)=>{
+          const color = chunkColors[c.tag]||'#9d9baf';
+          const count = c.data.count !== undefined ? c.data.count : (c.data.entries ? c.data.entries.length : '—');
+          return `<tr style="cursor:pointer" onclick="selectChunkByIdx(${i})">
+            <td><span style="color:${color};font-family:var(--mono);font-weight:600">${c.tag}</span></td>
+            <td>0x${c.data._raw_offset.toString(16).toUpperCase()}</td>
+            <td>${fmt(c.len)}</td>
+            <td>${count}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
+
+function card(label, value) {
+  return `<div class="stat-card"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+}
+
+window.selectChunkByTag = (tag) => {
+  const idx = state.form.chunks.findIndex(c=>c.tag===tag);
+  if(idx>=0) { selectChunk(idx); updateActive(idx); }
+};
+window.selectChunkByIdx = (idx) => { selectChunk(idx); updateActive(idx); };
+
+function renderChunkDetail(chunk, idx) {
+  const tabs = ['Info', 'Content', 'Hex'];
+  setTabs(tabs, 'Info', name => renderChunkTab(chunk, idx, name));
+  activateTab('Info');
+  renderChunkTab(chunk, idx, 'Info');
+}
+
+function activateTab(name) {
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active', t.textContent===name);
+  });
+}
+
+function renderChunkTab(chunk, idx, tabName) {
+  activateTab(tabName);
+  const body = document.getElementById('panel-body');
+  if(tabName==='Hex') {
+    body.innerHTML = `<div id="hex-view">${hexDump(state.buffer, chunk.start-8, chunk.len+8)}</div>`;
+    return;
+  }
+  if(tabName==='Info') {
+    const d = chunk.data;
+    const skip = new Set(['_raw_offset','_raw_length','_parse_error','entries','tracks','sprites','pages','strings','rooms','objects','fonts','sounds','paths','scripts','bgs']);
+    const rows = Object.entries(d)
+      .filter(([k])=>!skip.has(k))
+      .map(([k,v])=>`<tr><td>${esc(k)}</td><td>${esc(String(v))}</td></tr>`)
+      .join('');
+    body.innerHTML = `
+      <div class="detail-section">
+        <h3>${chunk.tag} — ${fmt(chunk.len)} at 0x${chunk.data._raw_offset.toString(16).toUpperCase()}</h3>
+        ${d._parse_error ? `<div style="color:var(--red);font-size:12px;margin-bottom:12px">Parse error: ${esc(d._parse_error)}</div>` : ''}
+        <table class="kv-table"><tbody>${rows || '<tr><td colspan="2" class="empty">No parsed fields</td></tr>'}</tbody></table>
+      </div>`;
+    return;
+  }
+  renderChunkContent(chunk, body);
+}
+
+function renderChunkContent(chunk, body) {
+  const { form, buffer, reader } = state;
+  switch(chunk.tag) {
+    case 'STRG': renderSTRG(chunk, body); break;
+    case 'TXTR': renderTXTR(chunk, body); break;
+    case 'SPRT': renderSPRT(chunk, body); break;
+    case 'AUDO': renderAUDO(chunk, body); break;
+    case 'SNDS': renderSNDS(chunk, body); break;
+    case 'ROOM': renderList(chunk, body, 'rooms', ['name','width','height','speed']); break;
+    case 'OBJT': renderList(chunk, body, 'objects', ['name','sprite_idx','depth','visible','solid']); break;
+    case 'FONT': renderList(chunk, body, 'fonts', ['name','sys_name','em_size','bold','italic']); break;
+    case 'BGND': renderList(chunk, body, 'bgs', ['name','transparent','smooth']); break;
+    case 'PATH': renderList(chunk, body, 'paths', ['name','smooth','closed','precision','point_count']); break;
+    case 'SCPT': renderList(chunk, body, 'scripts', ['name','code_id']); break;
+    case 'TPAG': renderTPAG(chunk, body); break;
+    case 'GEN8': renderGEN8(chunk, body); break;
+    default:
+      body.innerHTML = `<div class="empty">No rich view for ${chunk.tag}. Use the Info or Hex tab.</div>`;
+  }
+}
+
+function renderGEN8(chunk, body) {
+  const d = chunk.data;
+  body.innerHTML = `
+    <div class="detail-section"><h3>Game info</h3>
+    <table class="kv-table"><tbody>
+      ${d.name?`<tr><td>Game name</td><td>${esc(d.name)}</td></tr>`:''}
+      ${d.display_name?`<tr><td>Display name</td><td>${esc(d.display_name)}</td></tr>`:''}
+      ${d.filename?`<tr><td>Source file</td><td>${esc(d.filename)}</td></tr>`:''}
+      ${d.config?`<tr><td>Config</td><td>${esc(d.config)}</td></tr>`:''}
+      <tr><td>GM version</td><td>${d.major}.${d.minor}.${d.release}.${d.build}</td></tr>
+      <tr><td>Game ID</td><td>${d.game_id}</td></tr>
+      <tr><td>Resolution</td><td>${d.back_width} × ${d.back_height}</td></tr>
+      <tr><td>Bytecode ver</td><td>${d.bytecode}</td></tr>
+      <tr><td>License MD5</td><td style="font-family:var(--mono);font-size:11px">${d.license_md5}</td></tr>
+      <tr><td>License CRC32</td><td style="font-family:var(--mono)">0x${(d.license_crc32>>>0).toString(16).toUpperCase()}</td></tr>
+      ${d.timestamp?`<tr><td>Timestamp</td><td>${new Date(d.timestamp*1000).toUTCString()}</td></tr>`:''}
+    </tbody></table></div>`;
+}
+
+function renderSTRG(chunk, body) {
+  const { strings } = chunk.data;
+  body.innerHTML = `<input class="string-search" id="str-search" placeholder="Filter strings…" oninput="filterStrings()">
+    <div class="string-list" id="str-list">${strings.map((s,i)=>`<div class="string-row"><span class="si">${i}</span><span class="sv">${esc(s)}</span></div>`).join('')}</div>`;
+  window._strings = strings;
+  window.filterStrings = () => {
+    const q = document.getElementById('str-search').value.toLowerCase();
+    const list = document.getElementById('str-list');
+    list.innerHTML = window._strings
+      .map((s,i)=>({s,i}))
+      .filter(({s})=>s.toLowerCase().includes(q))
+      .map(({s,i})=>`<div class="string-row"><span class="si">${i}</span><span class="sv">${esc(s)}</span></div>`)
+      .join('');
+  };
+}
+
+function renderTXTR(chunk, body) {
+  const { textures } = state;
+  if(!textures || !textures.length) {
+    body.innerHTML = `<div class="empty">Textures not yet loaded — reopen file.</div>`; return;
+  }
+  body.innerHTML = `<div class="toolbar"><span style="color:var(--text3);font-size:12px">${chunk.data.count} texture sheets</span></div>
+    <div class="sprite-grid" id="txtr-grid"></div>`;
+  const grid = document.getElementById('txtr-grid');
+  textures.forEach((tex, i) => {
+    const card = document.createElement('div');
+    card.className = 'sprite-card';
+    if(tex && tex.type === 'png') {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, 160/img.width, 120/img.height);
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.width*scale);
+        c.height = Math.round(img.height*scale);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        c.style.maxWidth='160px'; c.style.maxHeight='120px';
+        card.insertBefore(c, card.firstChild);
+        card.title = `${img.width}×${img.height}`;
+      };
+      img.src = URL.createObjectURL(tex.blob);
+    } else {
+      const ph = document.createElement('div');
+      ph.style.cssText = 'width:80px;height:60px;background:var(--bg3);border-radius:4px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:11px';
+      ph.textContent = 'N/A';
+      card.appendChild(ph);
+    }
+    card.innerHTML += `<div class="sname">Sheet #${i}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+function renderSPRT(chunk, body) {
+  const { sprites } = chunk.data;
+  body.innerHTML = `<input class="string-search" id="spr-search" placeholder="Filter sprites…" oninput="filterSprites()">
+    <table class="kv-table" id="spr-table"><thead><tr style="border-bottom:1px solid var(--border2)">
+      <td style="font-weight:600;color:var(--text3);padding:6px 8px">#</td>
+      <td style="font-weight:600;color:var(--text3);padding:6px 8px">Name</td>
+      <td style="font-weight:600;color:var(--text3);padding:6px 8px">Size</td>
+      <td style="font-weight:600;color:var(--text3);padding:6px 8px">Frames</td>
+      <td style="font-weight:600;color:var(--text3);padding:6px 8px">Origin</td>
+    </tr></thead>
+    <tbody id="spr-body">${sprites.map((s,i)=>`<tr>
+      <td>${i}</td><td>${esc(s.name)}</td><td>${s.width}×${s.height}</td>
+      <td>${s.tpag_count}</td><td>${s.origin_x},${s.origin_y}</td>
+    </tr>`).join('')}</tbody></table>`;
+  window._sprites = sprites;
+  window.filterSprites = () => {
+    const q = document.getElementById('spr-search').value.toLowerCase();
+    document.getElementById('spr-body').innerHTML = window._sprites
+      .map((s,i)=>({s,i})).filter(({s})=>s.name.toLowerCase().includes(q))
+      .map(({s,i})=>`<tr><td>${i}</td><td>${esc(s.name)}</td><td>${s.width}×${s.height}</td><td>${s.tpag_count}</td><td>${s.origin_x},${s.origin_y}</td></tr>`)
+      .join('');
+  };
+}
+
+function renderAUDO(chunk, body) {
+  const { tracks } = chunk.data;
+  const snds = state.form.chunks.find(c=>c.tag==='SNDS');
+  body.innerHTML = `<div class="audio-list" id="audio-list"></div>`;
+  const list = document.getElementById('audio-list');
+  tracks.forEach((t,i) => {
+    const snd = snds?.data.sounds?.[i];
+    const name = snd?.name || `Track ${i}`;
+    const item = document.createElement('div');
+    item.className = 'audio-item';
+    item.innerHTML = `<span class="aidx">${i}</span><span class="aname">${esc(name)}</span><span class="asize">${fmt(t.length)}</span>`;
+    if(t.length > 0 && t.dataOffset > 0 && t.dataOffset + t.length <= state.buffer.byteLength) {
+      const data = state.buffer.slice(t.dataOffset, t.dataOffset + t.length);
+      const sig = new Uint8Array(data,0,4);
+      let mime = 'audio/wav';
+      if(sig[0]===0x4f&&sig[1]===0x67) mime='audio/ogg';
+      else if(sig[0]===0xff&&(sig[1]&0xe0)===0xe0) mime='audio/mpeg';
+      else if(sig[0]===0x49&&sig[1]===0x44&&sig[2]===0x33) mime='audio/mpeg';
+      const blob = new Blob([data], {type: mime});
+      const url = URL.createObjectURL(blob);
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.src = url;
+      item.appendChild(audio);
+    } else {
+      const note = document.createElement('span');
+      note.style.cssText='font-size:11px;color:var(--text3)';
+      note.textContent = 'No embedded data';
+      item.appendChild(note);
+    }
+    list.appendChild(item);
+  });
+}
+
+function renderSNDS(chunk, body) {
+  const { sounds } = chunk.data;
+  body.innerHTML = `<table class="kv-table"><thead><tr style="border-bottom:1px solid var(--border2)">
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">#</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Name</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">File</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Vol</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Flags</td>
+  </tr></thead><tbody>
+    ${sounds.map((s,i)=>`<tr>
+      <td>${i}</td><td>${esc(s.name)}</td><td>${esc(s.file_name||'—')}</td>
+      <td>${(s.volume*100).toFixed(0)}%</td>
+      <td style="font-size:11px;color:var(--text3)">${[s.embedded?'emb':'',s.compressed?'cmp':'',s.streamed?'str':''].filter(Boolean).join(' ')||'—'}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+function renderTPAG(chunk, body) {
+  const { pages } = chunk.data;
+  body.innerHTML = `<div style="font-size:12px;color:var(--text3);margin-bottom:12px">${pages.length} texture page entries</div>
+    <table class="kv-table"><thead><tr style="border-bottom:1px solid var(--border2)">
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">#</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Sheet</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Src XY</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Src WH</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Render XY</td>
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">Sprite WH</td>
+  </tr></thead><tbody>
+    ${pages.filter(Boolean).map((p,i)=>`<tr>
+      <td>${i}</td><td>${p.sheet_id}</td><td>${p.x},${p.y}</td>
+      <td>${p.w}×${p.h}</td><td>${p.render_x},${p.render_y}</td><td>${p.sprite_w}×${p.sprite_h}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+function renderList(chunk, body, key, fields) {
+  const items = chunk.data[key] || [];
+  if(!items.length) { body.innerHTML = `<div class="empty">No ${key} found.</div>`; return; }
+  body.innerHTML = `<table class="kv-table"><thead><tr style="border-bottom:1px solid var(--border2)">
+    <td style="font-weight:600;color:var(--text3);padding:6px 8px">#</td>
+    ${fields.map(f=>`<td style="font-weight:600;color:var(--text3);padding:6px 8px">${f}</td>`).join('')}
+  </tr></thead><tbody>
+    ${items.map((item,i)=>`<tr><td>${i}</td>${fields.map(f=>`<td>${esc(String(item[f]??'—'))}</td>`).join('')}</tr>`).join('')}
+  </tbody></table>`;
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function downloadBlob(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+}
+
+function detectAudioExt(data) {
+
+  const sig = new Uint8Array(data, 0, 16);
+
+  // OGG
+  if(
+    sig[0]===0x4F &&
+    sig[1]===0x67 &&
+    sig[2]===0x67 &&
+    sig[3]===0x53
+  ) {
+    return 'ogg';
+  }
+
+  // WAV
+  if(
+    sig[0]===0x52 &&
+    sig[1]===0x49 &&
+    sig[2]===0x46 &&
+    sig[3]===0x46
+  ) {
+    return 'wav';
+  }
+
+  // MP3 ID3
+  if(
+    sig[0]===0x49 &&
+    sig[1]===0x44 &&
+    sig[2]===0x33
+  ) {
+    return 'mp3';
+  }
+
+  // MP3 frame sync
+  if(
+    sig[0]===0xFF &&
+    (sig[1] & 0xE0)===0xE0
+  ) {
+    return 'mp3';
+  }
+
+  // FLAC
+  if(
+    sig[0]===0x66 &&
+    sig[1]===0x4C &&
+    sig[2]===0x61 &&
+    sig[3]===0x43
+  ) {
+    return 'flac';
+  }
+
+  return 'bin';
+}
+
+function exportJSON() {
+  const { form, version, filename } = state;
+  const out = {
+    filename, version,
+    chunks: form.chunks.map(c => ({
+      tag: c.tag,
+      offset: c.data._raw_offset,
+      size: c.len,
+      data: (() => {
+        const d = Object.assign({}, c.data);
+        delete d._raw_offset; delete d._raw_length;
+        // don't export raw audio buffers
+        if(d.tracks) d.tracks = d.tracks.map(t=>({index:t.index,offset:t.offset,length:t.length}));
+        return d;
+      })()
+    }))
+  };
+  const blob = new Blob([JSON.stringify(out,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (filename||'data').replace(/\.[^.]+$/,'')+'_decoded.json';
+  a.click();
+}
+
+
+async function loadFile(file) {
+  const buffer = await file.arrayBuffer();
+  let result;
+  try { result = decode(buffer); }
+  catch(e) { alert('Failed to parse: ' + e.message); return; }
+  const { form, version, versionClass } = result;
+  const txtrChunk = form.chunks.find(c=>c.tag==='TXTR');
+  let textures = [];
+  try { textures = await loadTexture(buffer, txtrChunk); } catch(e) {}
+
+  state = { ...result, buffer, textures, filename: file.name };
+
+  document.getElementById('drop-screen').style.display = 'none';
+  const ws = document.getElementById('workspace');
+  ws.classList.add('show');
+  document.getElementById('file-info').innerHTML = `${esc(file.name)} &nbsp;·&nbsp; <span class="badge ${versionClass}">${version}</span> &nbsp;·&nbsp; ${fmt(buffer.byteLength)}`;
+  document.getElementById('new-file-btn').style.display = '';
+document.getElementById('export-json-btn').style.display = '';
+document.getElementById('export-assets-btn').style.display = '';
+document.getElementById('export-all-btn').style.display = '';
+
+  renderSidebar();
+  selectChunk(-1);
+}
+
+// ─── Events ───
+document.getElementById('file-input').addEventListener('change', e => {
+  if(e.target.files[0]) loadFile(e.target.files[0]);
+});
+document.getElementById('export-json-btn')
+  .addEventListener('click', exportJSON);
+
+
+document.getElementById('export-assets-btn')
+  .addEventListener('click', () => {
+    exportTextures();
+    exportAudio();
+    exportStrings();
+  });
+
+
+document.getElementById('export-all-btn')
+  .addEventListener('click', exportEverything);
+document.getElementById('new-file-btn').addEventListener('click', () => {
+  document.getElementById('drop-screen').style.display = '';
+  document.getElementById('workspace').classList.remove('show');
+  document.getElementById('new-file-btn').style.display = 'none';
+document.getElementById('export-json-btn').style.display = 'none';
+document.getElementById('export-assets-btn').style.display = 'none';
+document.getElementById('export-all-btn').style.display = 'none';
+  document.getElementById('file-info').textContent = 'GameMaker Studio data.win parser · Drop a file to begin';
+  state = null;
+});
+
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if(f) loadFile(f);
+});
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  const f = e.dataTransfer.files[0];
+  if(f) loadFile(f);
+});
+</script>
+</body>
+</html>
