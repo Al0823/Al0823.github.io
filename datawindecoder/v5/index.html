@@ -824,16 +824,10 @@ async function buildTextureImages() {
 
     const tex = state.textures[i];
 
-    if(!tex || tex.type !== 'png') {
-imgs.push({
-  type:'raw',
-  blob:new Blob(
-    [buffer.slice(off)],
-    {type:'application/octet-stream'}
-  )
-});
-      continue;
-    }
+if(!tex || tex.type !== 'png') {
+  imgs.push(null);
+  continue;
+}
 
     const img = new Image();
 
@@ -903,8 +897,8 @@ async function exportSprites() {
 
     sprite.frames.forEach((frameRef, frameIndex) => {
 
-      const page =
-        tpag.data.pages[frameRef];
+const page =
+tpag.data.pages[frameRef % tpag.data.pages.length];
 
       if(!page)
         return;
@@ -1068,9 +1062,18 @@ const name =
 
     if(!url) continue;
 
-    const blob = await fetch(url).then(r => r.blob());
+for(let i=0;i<state.textures.length;i++) {
 
-    zip.file(`textures/texture_${i}.png`, blob);
+  const tex = state.textures[i];
+
+  if(!tex)
+    continue;
+
+  zip.file(
+    `textures/texture_${i}.${tex.type}`,
+    tex.blob
+  );
+}
   }
 
   // Sprites metadata
@@ -1367,14 +1370,14 @@ function renderSPRT(chunk, body) {
     </tr></thead>
     <tbody id="spr-body">${sprites.map((s,i)=>`<tr>
       <td>${i}</td><td>${esc(s.name)}</td><td>${s.width}×${s.height}</td>
-      <td>${s.tpag_count}</td><td>${s.origin_x},${s.origin_y}</td>
+      <td>${s.frame_count}</td><td>${s.origin_x},${s.origin_y}</td>
     </tr>`).join('')}</tbody></table>`;
   window._sprites = sprites;
   window.filterSprites = () => {
     const q = document.getElementById('spr-search').value.toLowerCase();
     document.getElementById('spr-body').innerHTML = window._sprites
       .map((s,i)=>({s,i})).filter(({s})=>s.name.toLowerCase().includes(q))
-      .map(({s,i})=>`<tr><td>${i}</td><td>${esc(s.name)}</td><td>${s.width}×${s.height}</td><td>${s.tpag_count}</td><td>${s.origin_x},${s.origin_y}</td></tr>`)
+      .map(({s,i})=>`<tr><td>${i}</td><td>${esc(s.name)}</td><td>${s.width}×${s.height}</td><td>${s.frame_count}</td><td>${s.origin_x},${s.origin_y}</td></tr>`)
       .join('');
   };
 }
