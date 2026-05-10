@@ -17,7 +17,7 @@
   <div id="nav"></div>
 
 <article>
-	<h2>Const</h2><br><br>
+	<h2>JavaScript Const</h2><br><br>
 
 	<div class="fs-10">
 A "const" in JavaScript is used to declare variables that cannot be reassigned.
@@ -43,7 +43,7 @@ You cannot declare a const without a value.
 This will cause an error:</div><br><br>
 
 <textarea id="textbox" rows="10" cols="70">
-const x; // ❌ Error
+const x; // Error
 x = 5;
 </textarea><br><br>
 
@@ -55,7 +55,7 @@ Trying to assign a new value will cause an error.</div><br><br>
 
 <textarea id="textbox" rows="10" cols="70">
 const x = 10;
-x = 20; // ❌ Error
+x = 20; // Error
 </textarea><br><br>
 
 	<div class="fs-10">
@@ -89,7 +89,7 @@ cars[0] = "Toyota";
 cars.push("Audi");
 
 // Not allowed
-cars = ["Toyota", "Volvo", "Audi"]; // ❌ Error
+cars = ["Toyota", "Volvo", "Audi"]; // Error
 </textarea><br><br>
 
 
@@ -106,7 +106,7 @@ car.color = "red";
 car.owner = "Shay";
 
 // Not allowed
-car = { type: "Volvo" }; // ❌ Error
+car = { type: "Volvo" }; // Error
 </textarea><br><br>
 
 
@@ -118,8 +118,8 @@ Avoid var in modern JavaScript.</div><br><br>
 
 <textarea id="textbox" rows="10" cols="70">
 const a = 1; // cannot change
-let b = 2;   // can change
-var c = 3;   // old way (function scoped)
+let b = 2; // can change
+var c = 3; // old way (function scoped)
 </textarea><br><br>
 
 
@@ -129,8 +129,8 @@ Const variables must be assigned when declared.
 This is different from let and var, which can be declared first and assigned later.</div><br><br>
 
 <textarea id="textbox" rows="10" cols="70">
-const x = 5; // ✅ Valid
-let y;       // ✅ Valid
+const x = 5; // Valid
+let y;       // Valid
 y = 10;
 </textarea><br><br>
 
@@ -157,7 +157,7 @@ You cannot redeclare const variables in the same scope.</div><br><br>
 
 <textarea id="textbox" rows="10" cols="70">
 const x = 10;
-const x = 20; // ❌ Error
+const x = 20; // Error
 </textarea><br><br>
 
 	<div class="fs-10">
@@ -179,7 +179,7 @@ This means you cannot use it before declaration.</div><br><br>
 
 <textarea id="textbox" rows="10" cols="70">
 console.log(x);
-const x = 5; // ❌ ReferenceError
+const x = 5; // ReferenceError
 </textarea><br><br>
 
 	<div class="fs-10">
