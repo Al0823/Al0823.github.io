@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+<script>var PAGETITLE = "Javascript - Functions tutorial";</script>
   <title id="pageTitle"></title>
+<script src="https://al0823.github.io/codefordummies/frontend/utils/pathfix.js"></script>
   <script src="../includes/vars.js"></script>
 </head>
 
 <body>
 <header>
-  <div id="header">Javascript Wiki</div>
+  <div id="header"></div>
 </header>
 
 <main>
@@ -322,6 +324,7 @@ document.getElementById("FUNCTIONS8").innerHTML = greet("Aloysius", 17);
 <p id="FUNCTIONS9"></p>
 
 <script>
+
 let text = "The temperature is " + toCelsius(77) + " Celsius.";
 document.getElementById("FUNCTIONS9").innerHTML = text;
 
@@ -339,8 +342,10 @@ function toCelsius(fahrenheit) {
 
 <div id="debugInclude"></div>
 
-<script>
+<script src="https://al0823.github.io/codefordummies/frontend/utils/include.js"></script>
 
+<script>
+/*
   (function loadCSS() {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -379,6 +384,7 @@ function toCelsius(fahrenheit) {
   if (window.vars.DEBUGVAR) {
     loadInclude("debugInclude", window.vars.INCVAR + "debug.html");
   }
+*/
 </script>
 </body>
 </html>
