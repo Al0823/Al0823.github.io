@@ -1880,23 +1880,7 @@ if (!gameState.checkpointShown) {
 if (gameState.preyResilience === undefined) {
     gameState.preyResilience = 0;
 }
-/*
-        if (gameState.TurnCount === undefined) {
-            gameState.TurnCount = 0;
-            gameState.inStomach = true;
-            gameState.currentPredator = "lira";
-            gameState.preyHealth = 100;
-            gameState.preyStamina = 100;
-            gameState.digestionProgress = 0;
-            gameState.acidStage = 0;
-            gameState.predHealth = 90;
-            gameState.predDefense = 6;
-            gameState.trainingSessionCount += 1;
-            gameState.escapeTrainingProgress = Math.min(100, gameState.escapeTrainingProgress + 12);
-            gameState.checkpointShown = { pred75: false, pred50: false, pred25: false, player75: false, player50: false, player25: false, acid1: false, acid2: false, acid3: false };
-            gameState.lastChoiceLabel = "";
-        }
-*/
+
         gameState.TurnCount += 1;
 
         // Acid stage increases every 3 turns
@@ -1905,8 +1889,7 @@ if (gameState.preyResilience === undefined) {
         }
 
         // Health ticks down every turn, scaled by acidStage
- /*       let healthLoss = 4 + (gameState.acidStage * 3);
-        gameState.preyHealth -= healthLoss; */
+
         if (gameState.preyHealth < 0) gameState.preyHealth = 0;
 
         // Digestion always progresses
@@ -1914,13 +1897,7 @@ if (gameState.preyResilience === undefined) {
 								applyDigestionEffects();
 
         let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${gameState.digestionProgress}% | **Acid Stage:** ${gameState.acidStage} | **Lira's Stomach Health:** ${gameState.predHealth}`;
-/*
-        let digestionText = "";
-        if (gameState.acidStage === 0) digestionText = "The stomach walls gently churn around you.";
-        else if (gameState.acidStage === 1) digestionText = "The acids are starting to tingle against your skin.";
-        else if (gameState.acidStage === 2) digestionText = "The burning sensation is getting stronger.";
-        else if (gameState.acidStage === 3) digestionText = "@@color:red;The acids are painful now.@@";
-*/
+
 
 const stage = getDigestionStage(gameState.digestionProgress);
 
@@ -1991,15 +1968,7 @@ switch (stage.name) {
         }
 
         // DEATH CHECK - Player dies if health <= 0 or digestion >= 100
-        /*if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
-            gameState.inStomach = false;
-            gameState.currentPredator = "";
-            gameState.TurnCount = 0;
-            gameState.acidStage = 0;
 
-            return "@@color:red;The acids and pressure finally overwhelm you completely.@@\n\nLira absorbs your mass into her synthetic body, padding out her artificial curves and making her figure noticeably fuller.\n\nYou have been fully digested.\n\nLira quickly forces out what remains. Lirael looks concerned. \"That... was not supposed to happen even in training.\"";
-        }
-*/
 
 if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
     gameState.inStomach = false;
@@ -2087,9 +2056,7 @@ return "";
         { label: "Ask Lirael to end the session", next: 144, effect: () => { 
             gameState.inStomach = false;
             gameState.currentPredator = "";
-             gameState.inTrainingSession = false;/*
-            gameState.TurnCount = 0;
-            gameState.acidStage = 0;*/
+             gameState.inTrainingSession = false;
         }}
     ]
 },
@@ -3837,19 +3804,331 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
     },
     location: "Upstairs Bathroom (Evening)",
     choices: [
-        { label: "Go to Lirael", next: 220 }
+        { label: "Go to Lirael", next: 220, effect: () => { changeBond("lirael", 25); } }
     ]
 },
 
 // 220 - Intimate Moment with Lirael
 {
     text: function() {
-        return "You stand up and walk over to Lirael, settling down on the bathroom floor right beside her. Your rock-hard cock is visibly straining against your pants, throbbing with need as you sit next to her massively swollen belly. Even from this close, you can hear the faint, muffled moans and wet, rhythmic gurgles of all seven women still squirming and enjoying themselves inside her — their pleasurable sounds vibrating through her warm, taut skin.\n\nLirael looks right at you, her golden eyes dark with lust and deep affection. A slow, sultry smile spreads across her lips.\n\n\"Encore,\" she purrs softly, voice thick with desire.\n\nWithout waiting, she gently but firmly pulls your face forward, pressing your mouth against one of her full, heavy breasts. Her dark nipple is already leaking warm, sweet milk. You instinctively latch on and begin to drink, sucking greedily as the rich, creamy liquid flows steadily into your mouth.\n\nLirael lets out a low, throaty moan of pleasure, one hand cradling the back of your head while the other moves downward. She skillfully undresses you, pulling your pants and underwear down in one smooth motion, freeing your throbbing, rock-hard cock. Her soft hand immediately wraps around your shaft, stroking you with slow, sensual rhythm as you continue nursing from her leaking nipple.\n\n\"Mmm… good boy,\" she whispers huskily, her voice dripping with arousal. \"Drink from me while I take care of you down here…\"\n\nHer fingers move with expert confidence, pumping your cock while you suckle deeply from her breast. Her massive, gurgling belly — filled with seven women who are clearly enjoying their digestion — presses warmly and heavily against your side. The wet, rhythmic sounds of their pleasure mix with Lirael’s soft moans, creating an intensely erotic symphony around you.\n\nLirael holds you close, her body warm and soft, completely in control as she pleasures you, her milk flowing freely into your mouth as her hand works your cock with loving, teasing strokes.";
+        return "You stand up and walk over to Lirael, settling down on the bathroom floor right beside her. Your rock-hard cock is visibly straining against your pants, throbbing with need as you sit next to her massively swollen belly. Even from this close, you can hear the faint, muffled moans and wet, rhythmic gurgles of all seven women still squirming and enjoying themselves inside her — their pleasurable sounds vibrating through her warm, taut skin.\n\nLirael looks right at you, her golden eyes dark with lust and deep affection. A slow, sultry smile spreads across her lips.\n\n\"Encore,\" she purrs softly, voice thick with desire.\n\nWithout waiting, she gently but firmly pulls your face forward, pressing your mouth against one of her full, heavy breasts. Her dark nipple is already leaking warm, sweet milk. You instinctively latch on and begin to drink, sucking greedily as the rich, creamy liquid flows steadily into your mouth.\n\nLirael lets out a low, throaty moan of pleasure, one hand cradling the back of your head while the other moves downward. She skillfully undresses you, pulling your pants and underwear down in one smooth motion, freeing your throbbing, rock-hard cock. Her soft hand immediately wraps around your shaft, stroking you with slow, sensual rhythm as you continue nursing from her leaking nipple.\n\n\"Mmm… good boy,\" she whispers huskily, her voice dripping with arousal. \"Drink from me while I take care of you down here…\"\n\nHer fingers move with expert confidence, pumping your cock while you suckle deeply from her breast. Her massive, gurgling belly — filled with seven women who are clearly enjoying their current situation — presses warmly and heavily against your side. The wet, rhythmic sounds of their pleasure mix with Lirael’s soft moans, creating an intensely erotic symphony around you.\n\nLirael holds you close, her body warm and soft, completely in control as she pleasures you, her milk flowing freely into your mouth as her hand works your cock with loving, teasing strokes.";
 
     },
     location: "Upstairs Bathroom (Evening)",
     choices: [
-        { label: "Continue", next: 221 }
+        { label: "Continue", next: 221, effect: () => { changeBond("lirael", 25); } }
+    ]
+},
+
+// 221 - Continuing the Intimate Moment
+{
+    text: function() {
+        return "The intimate moment stretches on for a long, blissful ten minutes. Lirael holds you close, her hand stroking your throbbing cock with slow, sensual rhythm while you continue to nurse greedily from her leaking nipple. Warm, sweet milk flows steadily into your mouth as her massive, gurgling belly — filled with seven women still moaning in pleasure inside her — presses warmly against your side. Her soft moans and the wet, rhythmic sounds of her prey mix together, creating an intensely erotic atmosphere in the small bathroom.\n\nLirael’s breathing grows heavier, her golden eyes half-lidded with pleasure as she watches you suckle from her breast and thrust into her hand. She occasionally leans down to whisper filthy, affectionate words into your ear, encouraging you to drink more and enjoy her body.\n\nEventually, she lets out a long, satisfied sigh and gently pulls your mouth away from her nipple. A thin strand of milk connects your lips to her breast for a moment before breaking. She looks at you with warm, lust-filled eyes and smiles softly.\n\n\"That was wonderful,\" she murmurs, voice husky. \"But we should probably join the rest of the family in the living room before they notice we’ve been gone for too long.\"\n\nShe reluctantly releases your cock and begins getting dressed, slipping back into her new outfit. You start dressing yourself as well, still breathing heavily and flushed from the intense pleasure. Lirael gives you one last affectionate look before opening the bathroom door.\n\n\"Come,\" she says softly, taking your hand. \"Let’s go back to the others.\"";
+
+    },
+    location: "Upstairs Bathroom (Evening)",
+    choices: [
+        { label: "Return to the living room with Lirael", next: 222, effect: () => { changeBond("lirael", 20); } }
+    ]
+},
+
+// 222 - Returning from the Bathroom
+{
+    text: function() {
+        return "You and Lirael quietly slip back into the living room, hand in hand. Your face still feels warm, and your legs are a little unsteady after the intense session in the bathroom. Lirael looks perfectly composed as always, though her cloaked figure seems slightly softer and more curvaceous than before — the seven willing women now steadily digesting inside her.\n\nShe gives your hand one last gentle squeeze before releasing it as you both rejoin the others.\n\nEmily is sprawled lazily across the large couch, her own massively swollen belly resting heavily on her lap and spilling onto the cushions. She’s gently rubbing slow circles over the noisy, gurgling dome with a satisfied, half-lidded expression. The seven women she devoured are still very much active inside her, producing loud, wet glorps and occasional muffled moans.\n\nYour mother and father are sitting on the loveseat, trying (and mostly failing) to look casual while the pizza boxes sit unopened on the coffee table. Lydia is curled up in the armchair with her blanket, occasionally stealing wide-eyed glances at both Emily’s and Lirael’s swollen middles.\n\nLirael gracefully lowers herself onto the couch right beside Emily, then gently pulls you down to sit between them. Emily immediately leans against your side with a content sigh, her huge, warm, churning belly pressing softly into your arm and lap.\n\n\"Took you guys long enough,\" Emily murmurs with a lazy grin, not even bothering to hide the playful accusation in her voice.\n\nLirael simply smiles, one arm draping casually behind you on the couch, her fingers lightly tracing your shoulder.\n\n\"We were… taking care of a few things,\" she says smoothly, her golden eyes half-lidded with lingering satisfaction.\n\nYour father clears his throat awkwardly and reaches for a pizza box.\n\n\"Pizza’s here,\" he says, clearly trying to move the conversation along. \"Let’s eat while it’s still hot.\"\n\nYour mother gives you and Lirael a long, knowing look but ultimately says nothing, simply opening one of the boxes. The rich smell of fresh pizza fills the living room, mixing strangely with the faint, musky scent of digestion already in the air.\n\nLydia watches everything with quiet fascination, still adjusting to how casually chaotic this household has become.";
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { 
+            label: "Eat pizza and relax with the family", 
+            next: 223,
+            effect: () => { 
+                changeBond("lirael", 12); 
+                changeBond("issacSister", 8); 
+            } 
+        },
+    ]
+},
+
+// 223 - Pizza and an Important Realization
+{
+    text: function() {
+        return "Everyone settles in comfortably. You, your mother, your father, and Lydia all enjoy slices of hot pizza while Emily and Lirael remain lounging on the couch with their heavily stuffed bellies. Emily’s massive, gurgling dome rests heavily across her lap and part of the couch, constantly shifting and sloshing as she digests her seven volunteers. Lirael’s own belly is noticeably rounded and full — now containing seven women after her private session in the bathroom.\n\nThe warm smell of pizza fills the room, creating a strangely peaceful atmosphere despite the loud, wet glorps, churns, and occasional soft moans coming from both girls’ stomachs.\n\nLirael is quietly eating a small slice when she suddenly pauses. Her golden eyes soften as a thought occurs to her. She gently lowers the pizza and turns toward Emily with a calm, almost gentle expression.\n\n\"Emily,\" she says softly, her voice smooth and relaxed as always. \"I hope you don’t mind me asking… have you been going outside to release the remains like I suggested the other day? The bones, specifically.\"\n\nShe tilts her head slightly, one hand resting lightly atop her own full, rounded belly.\n\n\"I need them. The skeletal remains still carry faint traces of life force. If I collect and prepare them properly, it will help bring us another step closer to reaching Theo. So… have you been doing that, or have the bones simply stayed inside you?\"\n\nThe room grows noticeably quieter, save for the constant noisy digestion sounds coming from both Lirael and Emily.\n\nEmily pauses with a slice of pizza halfway to her mouth. Your father stops chewing. Your mother lowers her slice, looking concerned. Lydia pulls her blanket a little tighter, eyes wide.\n\nLirael simply watches Emily with patient, calm curiosity, waiting for her answer.";
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { 
+            label: "Wait for Emily's answer", 
+            next: 224,
+            effect: () => { 
+                changeBond("lirael", 8); 
+                changeBond("issacSister", 5); 
+            } 
+        }
+    ]
+},
+// 224 - Emily's Answer
+{
+    text: function() {
+        return "Emily shifts a little on the couch, her massive belly sloshing heavily with the movement. Her cheeks flush with a rare shy expression as she glances around at everyone before looking back at Lirael.\n\n\"Umm… yeah,\" she says quietly, sounding a bit embarrassed. \"I’ve been going outside like you told me to. Usually at night when everyone’s asleep. I’ve been doing it in the woods behind the house… it feels weird doing it in the bathroom.\"\n\nShe rubs slow circles over the top of her enormous, gurgling belly, looking slightly flustered but honest.\n\nLirael’s golden eyes soften with approval. She gives Emily a gentle, warm smile and nods.\n\n\"Good. I’m glad you’ve been listening,\" she says calmly, her voice smooth and reassuring. \"I will go check the backyard and woods soon to collect the bones. The more intact remains I can gather, the stronger the ritual components will be for Theo.\"\n\nShe gently pats her own rounded belly, which lets out a deep, satisfied glorp.\n\n\"I’ll handle it discreetly. There’s no need for anyone to worry.\"\n\nYour father lets out a long, tired sigh but doesn’t argue. Your mother simply nods slowly, still processing everything. Lydia stays quiet, blinking rapidly as she tries to absorb yet another strange new detail about her new family.\n\nEmily relaxes a little and takes another bite of pizza, though her face remains faintly pink. The loud, constant digestion noises from both girls continue to fill the living room as everyone slowly returns to eating.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { 
+            label: "Offer to go with Lirael to collect the bones", 
+            next: 225,
+            effect: () => { 
+                changeBond("lirael", 20); 
+                gameState.theoResurrectionProgress += 10;
+            } 
+        },
+        { 
+            label: "Say nothing", 
+            next: 226,
+            effect: () => { 
+                changeBond("lirael", 15); 
+                gameState.theoResurrectionProgress += 10;
+            } 
+        },
+    ]
+},
+
+// 225 - Offering to Help
+{
+    text: function() {
+        return "You speak up before the conversation can move on.\n\n\"I can go with you to help collect the bones when you check later,\" you offer.\n\nLirael turns to you, her golden eyes softening with clear affection. A gentle, slightly amused smile spreads across her lips as she reaches over and lightly brushes her fingers along your cheek.\n\n\"That is very sweet of you,\" she says warmly, her voice soft and caring. \"But I would rather you not. You would have to dig through rather large amounts of… well, feces to find the usable bones. I do not want you getting sick right before school starts.\"\n\nShe gives your hand a gentle squeeze.\n\n\"I can handle it myself. It is nothing new to me. You should rest and prepare for tomorrow.\"\n\nEmily lets out a small embarrassed laugh while still rubbing her massive belly. Your parents exchange awkward glances but say nothing.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { 
+            label: "Continue relaxing with the family", 
+            next: 226,
+            effect: () => { 
+                changeBond("lirael", 18); 
+            } 
+        }
+    ]
+},
+
+// 226 - Family Conversation and Schedules
+{
+    text: function() {
+        let introText = gameState.lastPassage === 225 
+            ? "After Lirael gently turns down your offer, the conversation slowly shifts back to a more relaxed tone." 
+            : "The conversation continues after Emily’s answer.";
+
+        return introText + " The family settles back into eating pizza while the loud, constant gurgles from Emily and Lirael fill the background.\n\nYour father eventually wipes his hands and reaches for a folder on the table.\n\n\"Since school starts tomorrow,\" he says, pulling out several printed sheets, \"here are your class schedules. Make sure you look them over tonight.\"\n\nHe hands one to you, Emily, and Lydia.\n\nYou look down at your own schedule:\n\n**Junior Year Schedule**\n\n- Period 1: English Literature\n- Period 2: Study Hall\n- Period 3: U.S. History\n- Period 4: Algebra II\n- Period 5: Lunch \n- Period 6: Study Hall \n- Period 7: Anatomy & Physiology\n- Period 8: Escapism & Prey Tactics\n- Period 9: Intro to Vore\n- Period 10: Chemistry\n- Period 11: Physical Education\n- Period 12: Survival & Self-Defense\n\nYour father continues speaking while you read:\n\n\"It’s going to be an adjustment, especially with… everything else going on. Just stay together, stay aware, and try not to draw too much attention.\"\n\nAs the conversation continues — mostly about what to expect on the first day, how Lydia should behave, and reminders to be careful — Emily’s belly suddenly grows much louder. Deep, powerful sounds rumble from her massive dome: loud *GLORRRRP… GLOOORSH… BLORP-BLORP… GLUUUURGLE… GRRROOAAAN* noises echo through the living room as her stomach kicks into overdrive.\n\nEmily shifts uncomfortably on the couch, one hand resting on the side of her enormous, churning belly as she tries to focus on her pizza.\n\n\"Jeez… it’s getting really loud,\" she mutters, her face turning slightly red.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { 
+            label: "Comment on Emily's loud stomach", 
+            next: 227,
+            effect: () => { changeBond("issacSister", 8); } 
+        },
+        { 
+            label: "Keep relaxing and finish eating", 
+            next: 228,
+            effect: () => { 
+                changeBond("lirael", 10); 
+                changeBond("issacMother", 5); 
+            } 
+        }
+    ]
+},
+
+// 227 - Teasing Emily
+{
+    text: function() {
+        return "Feeling playful, you look over at your heavily stuffed sister and grin.\n\n\"I bet you couldn’t eat me right now even if you wanted to,\" you tease. \"You’re way too full to even move properly.\"\n\nEmily’s head snaps toward you. Despite her enormous, loudly gurgling belly, a mischievous spark lights up in her eyes. She slowly sits up a little straighter, her massive dome sloshing heavily as she does.\n\n\"Wanna bet?\" she says with a dangerous, excited grin, licking her lips.\n\nThe rest of the family goes quiet. Lirael raises an amused eyebrow while your parents look mildly alarmed.";
+
+    },
+    location: "Byrd Family Home - Living Room (Evening)",
+    choices: [
+        { 
+            label: "Yes — I bet you can't", 
+            next: 229,
+            effect: () => { 
+                // Setup for Emily vore scene
+                gameState.inStomach = true;
+                gameState.currentPredator = "Emily";
+                gameState.lastSwallowedBy = "Emily";
+                unlockEncounter("eatenBy", 1); // Update if needed
+            } 
+        },
+        { 
+            label: "No, never mind", 
+            next: 230,
+            effect: () => { 
+                changeBond("issacSister", 12); 
+            } 
+        }
+    ]
+},
+
+// 228 - Keep Relaxing and Finish Eating
+{
+    text: function() {
+        return "The family continues eating in a relatively relaxed atmosphere. The constant deep *GLORRRRP… GLOOORSH… GLUUUURGLE… BLORP-BLORP* sounds from Emily’s enormous stomach provide an oddly rhythmic background noise as she digests her seven volunteers. Lirael sits gracefully beside you, occasionally rubbing her own rounded belly with slow, satisfied circles.\n\nYour father eventually finishes his slice and leans back in his chair.\n\n\"Alright,\" he says with a tired sigh. \"It’s getting late. Big day tomorrow with school starting. Everyone should get some rest.\"\n\nYour mother nods in agreement and starts cleaning up the empty pizza boxes. Lydia yawns softly, looking quite worn out from the long day. Emily remains sprawled on the couch, still lazily rubbing her huge, active gut.\n\nLirael leans over toward you and speaks softly near your ear, her voice warm and inviting:\n\n\"Would you like Lydia to join us again tonight, or should it just be the two of us?\"";
+
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { 
+            label: "Have Lydia join us again", 
+            next: 231,
+            effect: () => { 
+                changeBond("lirael", 10); 
+                changeBond("liraelLydiaBond", 12); 
+            } 
+        },
+        { 
+            label: "Just you and Lirael tonight", 
+            next: 232,
+            effect: () => { 
+                changeBond("lirael", 18); 
+            } 
+        }
+    ]
+},
+// 229 - Emily Encounter (Vore Scene)
+{
+    text: function() {
+
+        // Initialize encounter on first entry
+        if (!gameState.inStomach) {
+            gameState.TurnCount = 0;
+            gameState.inStomach = true;
+            gameState.currentPredator = "emily";
+            gameState.lastSwallowedBy = "emily";
+
+            gameState.preyHealth = 100;
+            gameState.preyStamina = 100;
+            gameState.digestionProgress = 0;
+            gameState.acidStage = 0;
+
+            gameState.predHealth = 200;
+            gameState.predDefense = 20;
+
+            gameState.lastChoiceLabel = "";
+        }
+
+        gameState.TurnCount++;
+
+        // Acid increases every 3 turns
+        if (gameState.TurnCount % 3 === 0) {
+            gameState.acidStage = Math.min(3, gameState.acidStage + 1);
+        }
+
+        // Passive digestion
+        gameState.digestionProgress += 3 + gameState.acidStage;
+
+        if (gameState.preyHealth < 0) gameState.preyHealth = 0;
+
+        let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${gameState.digestionProgress}% | **Acid Stage:** ${gameState.acidStage}`;
+
+        let digestionText = "";
+        if (gameState.acidStage === 0) digestionText = "Warm walls churn around you.";
+        else if (gameState.acidStage === 1) digestionText = "Digestive fluids begin to coat your body.";
+        else if (gameState.acidStage === 2) digestionText = "The acids burn more intensely.";
+        else if (gameState.acidStage === 3) digestionText = "The stomach burns fiercely around you.";
+
+        let actionText = "";
+        if (gameState.lastChoiceLabel) {
+            actionText = `You attempt to ${gameState.lastChoiceLabel.toLowerCase()}.\n`;
+        }
+
+        // Death check (keep consistent with your engine)
+        if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
+            killPlayer("digested", "Emily's stomach finishes its work.");
+            return gameState.deathText;
+        }
+
+        return "You are trapped inside **Emily's** stomach.\n\n" +
+               status + "\n\n" +
+               digestionText + "\n\n" +
+               actionText +
+               "What will you do?";
+    },
+
+    location: "Inside Emily",
+    choices: [
+        {
+            label: "Struggle Conservatively",
+            next: 229,
+            effect: () => {
+                gameState.preyStamina -= 7;
+                gameState.predHealth -= Math.max(0, Math.floor(Math.random()*4)+4 - gameState.predDefense);
+                gameState.lastChoiceLabel = "Struggle Conservatively";
+            }
+        },
+        {
+            label: "Struggle",
+            next: 229,
+            effect: () => {
+                gameState.preyStamina -= 12;
+                gameState.predHealth -= Math.max(0, Math.floor(Math.random()*6)+7 - gameState.predDefense);
+                gameState.lastChoiceLabel = "Struggle";
+            }
+        },
+        {
+            label: "Struggle Aggressively",
+            next: 229,
+            effect: () => {
+                gameState.preyStamina -= 20;
+                gameState.preyHealth -= 6;
+                gameState.predHealth -= Math.max(0, Math.floor(Math.random()*9)+12 - Math.round(gameState.predDefense*0.6));
+                gameState.lastChoiceLabel = "Struggle Aggressively";
+            }
+        },
+        {
+            label: "Brace Yourself",
+            next: 229,
+            effect: () => {
+                gameState.preyStamina -= 8;
+                gameState.preyHealth += 8;
+                gameState.lastChoiceLabel = "Brace Yourself";
+            }
+        },
+        {
+            label: "Rest",
+            next: 229,
+            effect: () => {
+                gameState.preyStamina = Math.min(100, gameState.preyStamina + 15);
+                gameState.lastChoiceLabel = "Rest";
+            }
+        }
+    ]
+},
+// 230 - Evening Winds Down
+{
+    text: function() {
+        let variation = "";
+        
+        if (gameState.lastPassage === 227) {
+            variation = "After you back down from the bet, Emily gives you a smug grin and playfully pokes her massive belly. \"Maybe next time,\" she teases.";
+        } else {
+            variation = "You decide to keep things calm and continue relaxing.";
+        }
+
+        return variation + " The family finishes the rest of the pizza as Emily’s huge belly continues to roar with deep, wet *GLORRRRP… GLOOORSH… GLUUUURGLE… BLORP-BLORP* sounds.\n\nEventually your father stands up and stretches.\n\n\"Big day tomorrow. Everyone get some rest,\" he says.\n\nYour parents head upstairs. Emily stays on the couch, still gently rubbing her gurgling gut. Lydia looks exhausted but happy.\n\nLirael leans close to you and speaks softly:\n\n\"Would you like Lydia to join us again tonight, or should it be just the two of us?\"";
+
+    },
+    location: "Byrd Family Home - Living Room (Late Evening)",
+    choices: [
+        { 
+            label: "Have Lydia join us again", 
+            next: 231,
+            effect: () => { changeBond("liraelLydiaBond", 12); } 
+        },
+        { 
+            label: "Just you and Lirael tonight", 
+            next: 232,
+            effect: () => { changeBond("lirael", 15); } 
+        }
     ]
 },
     // 999 - Game End / Content Boundary
