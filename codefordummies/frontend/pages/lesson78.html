@@ -14,9 +14,125 @@
 <div id="nav"></div>
 <article>
 	<Div class="fs-15">HTML Elements</Div><br><br>
-	<Div class="fs-10">The HTML element is everything from the start tag to the end tag<br><br>
-	
-	</Div><br><br>
+	<Div class="fs-10">The HTML element is everything from the start tag to the end tag:<br><br>
+	<div class="fs-12"><code><tagname>Content goes here...</tagname></code></div><br><br>
+	<div class="fs-10">Some examples of HTML elements are:</Div><br><br>
+<div class="fs-12">
+<code><h1>My First Heading</h1></code><br><br>
+<code><p>My first paragraph.</p></code>
+</div><br><br>
+<div class="fs-10"> Some HTML elements have no content (like the <code><br></code> element). These elements are called empty elements. Empty elements do not have an end tag.</div><br><br>
+<div class="fs-15">Nested HTML Elements</div><br><br>
+<div class="fs-10">HTML elements can be nested (this means that elements can contain other elements).
+<br><br>
+All HTML documents consist of nested HTML elements.
+<br><br>
+The following example contains four HTML elements (<code><html></code>, <code><body></code>, <code><h1></code> and <code><p></code>):</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-15">Example Explained</div><br><br>
+<div class="fs-10">The <code><html></code> element is the root element and it defines the whole HTML document.
+<br><br>
+It has a start tag <code><html></code> and an end tag <code></html></code>.
+
+Then, inside the <code><html></code> element there is a <code><body></code> element:
+
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+</body>
+</textarea><br><br>
+<div class="fs-10">
+	The <code><body></code> element defines the document's body.
+<br><br>
+It has a start tag <code><body></code> and an end tag <code></body></code>.
+<br><br>
+Then, inside the <code><body></code> element there are two other elements: <code><h1></code> and <code><p></code>:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-10">
+	The <code><h1></code> element defines a heading.
+<br><br>
+It has a start tag <code><h1></code> and an end tag <code><h1></code>:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-10">The <code><h1></code> element defines a heading.
+<br><br>
+It has a start tag <code><h1></code> and an end tag <code><h1></code>:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<h1>My First Heading</h1>
+</textarea><br><br>
+<div class="fs-10">The <code><p></code> element defines a paragraph.
+<br><br>
+It has a start tag <code><p></code> and an end tag <code></p></code>:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<p>My First Paragraph</p>
+</textarea><br><br>
+<div class="fs-15">Never Skip the End Tag</div><br><br>
+<div class="fs-10">Some HTML elements will display correctly, even if you forget the end tag:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body> 
+
+<p>This is a paragraph.
+<p>This is a paragraph.
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-10"><b>However, never rely on this! Unexpected results and errors may occur if you forget the end tag!</b></div><br><br>
+<div class="fs-15">Empty HTML Elements</div><br><br>
+<div class="fs-10">HTML elements with no content are called empty elements.
+<br><br>
+The <code><br></code> tag defines a line break, and is an empty element without a closing tag:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body> 
+
+<p>This is a <br> paragraph with a line break.</p>
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-15">HTML is Not Case Sensitive</div><br><br>
+<div class="fs-10">HTML tags are not case sensitive: <P> means the same as <p>.
+
+The HTML standard does not require lowercase tags, but lowercase is needed for stricter document types like XHTML.</div><br><br>
 </article>
 </main>
 <footer id="footer"></footer>
