@@ -223,8 +223,8 @@ letter-spacing: 2px;
 <div class="panel-section">
 <div class="panel-title">MENU</div>
 <div class="panel-button" onclick="openModal('stats')">View Stats</div>
-<!--<div class="panel-button" onclick="openModal('encounters')">Encounters</div>-->
-<div class="panel-button" onclick="console.log('CLICKED'); openModal('encounters')">Encounters</div>
+<div id="schedule" class="panel-button" onclick="openModal('schedule')" style="display:none;">Class Schedule</div>
+<div class="panel-button" openModal('encounters')">Encounters</div>
 <div class="panel-button" onclick="openModal('relationships')">Relationships</div>
 <div class="panel-button" onclick="openModal('options')">Options</div>
 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
@@ -4370,7 +4370,7 @@ gameState.currentPassage = (typeof choice.next === "function")
         };
         choicesDiv.appendChild(btn);
     });
-
+refreshScheduleButton();
     updateStatusBar();
 }
 
@@ -4397,20 +4397,6 @@ function fixVoreEncounters() {
         gameState.voreEncounters.labs = [];
     }
 }
-
-/*function unlockEncounter(index) {
-    const list = gameState.voreEncounters.eatenBy;
-    if (list && list[index] && !list[index].unlocked) {
-        list[index].unlocked = true;
-    }
-}
-
-function unlockLab(index) {
-    const list = gameState.voreEncounters.labs;
-    if (list && list[index] && !list[index].unlocked) {
-        list[index].unlocked = true;
-    }
-}*/
 
 function unlockEncounter(type, index) {
     const list = gameState.voreEncounters[type];
@@ -4793,7 +4779,17 @@ document.addEventListener('keydown', (e) => {
         toggleAdminPanel();
     }
 });
-// ================ MODALS ================
+
+function refreshScheduleButton() {
+    const scheduleButton = document.getElementById('schedule');
+
+    if (!scheduleButton) return;
+
+    scheduleButton.style.display = gameState.hasschedule
+        ? 'block'
+        : 'none';
+}
+//  MODALS 
 function openModal(type) {
 	try{
 	 fixVoreEncounters();
@@ -4831,6 +4827,19 @@ Escape Skill: ${gameState.playerStats.escapeSkill}<br><br>
 Eaten By: ${Object.keys(gameState.voreEncounters.eatenBy || []).length}
 Lab Participation: ${Object.keys(gameState.voreEncounters.labs || []).length}
 `;
+								}
+        } else if (type === 'schedule') {
+        title.textContent = "School Bell Schedule";
+        if (gameState.currentschoolyear === "2024-2025" && gameState.currentsemester === "Fall") {
+            content.innerHTML = "<p>Sorry this is still Indev!</p>";
+        } else if (gameState.currentschoolyear === "2024-2025" && gameState.currentsemester === "Spring") {
+            content.innerHTML = "<p>Sorry this is still Indev!</p>";
+        } else if (gameState.currentschoolyear === "2025-2026" && gameState.currentsemester === "Fall") {
+            content.innerHTML = "<p>Sorry this is still Indev!</p>";
+        } else if (gameState.currentschoolyear === "2025-2026" && gameState.currentsemester === "Spring") {
+            content.innerHTML = "<p>Sorry this is still Indev!</p>";
+        } else {
+            content.innerHTML = `You do not have school right now dingus, you are on break!`;
         }
     } else if (type === 'options') {
         title.textContent = "OPTIONS";
