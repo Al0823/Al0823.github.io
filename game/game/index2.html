@@ -539,8 +539,8 @@ voreEncounters: {
     ]
 },
 
-// ===== CLASS SCHEDULE =====
-classSchedule: ["","","","","","","","","","","",""],
+/*  CLASS SCHEDULE
+classSchedule: ["","","","","","","","","","","",""],*/
     
     // Vore / Prey System - Training (Safe)
     inStomach: false,
@@ -550,10 +550,10 @@ classSchedule: ["","","","","","","","","","","",""],
     digestionProgress: 0,
     escapeTrainingProgress: 0,
     escapeSkillIssac: 0,
-    escapeSkillFather: 0,
+    /*escapeSkillFather: 0,
     escapeSkillMother: 0,
     escapeSkillEmily: 0,
-    escapeSkillLira: 0,
+    escapeSkillLira: 0,*/
     trainingSessionCount: 0,
 TurnCount: 0,      // Current turn in the training session
     acidStage: 0,              // 0 = mild, 1 = moderate, 2 = strong, 3 = critical
@@ -606,6 +606,9 @@ lastMallAttackerEatenBy: 0, // 0 = not eaten, 1 = eaten by Lirael, 2 = eaten by 
     kitchenBanned: false,
     pathChosen: "",
 inTrainingSession: false,
+hasschedule: false,
+currentschoolyear: "2024-2025",
+currentsemester: "Fall",
 };
 
 // Set random bonds only once when starting a new game
@@ -759,7 +762,7 @@ var passages = [
         text: "You take a deep breath and look up at the towering she-demon.\n\n\"I… should head back upstairs before anyone wakes up,\" you say quietly. \"It's getting late.\"\n\nLirael tilts her head, a lazy, almost disappointed smile on her lips.\n\n\"Aww… already? Fine. Go rest, little human. I'll be right here… waiting for you.\"\n\nShe gives you one last slow, sultry wink before you turn away.\n\nYou carefully make your way back up the basement stairs, heart still racing. The house is completely silent except for the occasional creak of old wood. You lock the basement door behind you with the rusty key, then quietly sneak back to your bedroom.\n\nBy the time you slip under the covers, the clock reads 5:07 AM.\n\nExhaustion finally hits you, but your mind is still spinning with everything that just happened.",
         location: "Issac's Bedroom - 5 AM",
         choices: [
-            { label: "Try to get some sleep", next: 23, effect: () => { gameState.currentDate = "August 23"; setDayCheckpoint(23); }}
+            { label: "Try to get some sleep", next: 23, effect: () => { gameState.currentDate = "August 23"; setDayCheckpoint(23); saveDayCheckpoint(); }}
         ]
     },
 
@@ -1372,7 +1375,7 @@ unlockEncounter("eatenBy", 0);
     {
         text: "You lie in bed, eyes growing heavy. Lirael quietly rises from the bean bag chair and walks over to you. She sits on the edge of the bed, then gently pulls you into her arms, cradling your head against her soft, warm chest.\n\nHer pale lavender skin is incredibly comforting. One large hand strokes your hair slowly while the other rests protectively on your back.\n\n\"Sleep, little human,\" she whispers, voice soft and velvety. \"I've got you.\"\n\nYou drift off to sleep wrapped safely in her embrace.",
         location: "Issac's Bedroom - Night",
-        choices: [{ label: "End the day", next: 110, effect: () => { changeBond("lirael", 20); gameState.supernaturalAffinity += 8; setDayCheckpoint(110); }}]
+        choices: [{ label: "End the day", next: 110, effect: () => { changeBond("lirael", 20); gameState.supernaturalAffinity += 8; setDayCheckpoint(110); saveDayCheckpoint();}}]
     },
 
     // 110 - Morning Rundown + Time Skip (Lirael Proven Worthy)
@@ -1818,7 +1821,7 @@ setPredHistory("issacSister", 3);
     },
     location: "Issac's Bedroom (Late Night)",
     choices: [
-        { label: "End the day", next: 141, effect: () => { gameState.currentDate = "August 31"; setDayCheckpoint(141); } }
+        { label: "End the day", next: 141, effect: () => { gameState.currentDate = "August 31"; setDayCheckpoint(141); saveDayCheckpoint(); } }
     ]
 },
 
@@ -3021,7 +3024,7 @@ return "You politely turned away to give her privacy. After a minute, Lirael ris
     },
     location: "Issac's Bedroom (Night)",
     choices: [
-        { label: "End the day", next: 171, effect: () => { gameState.currentDate = "September 01"; setDayCheckpoint(171);} }
+        { label: "End the day", next: 171, effect: () => { gameState.currentDate = "September 01"; setDayCheckpoint(171); saveDayCheckpoint();} }
     ]
 },
 
@@ -3564,7 +3567,7 @@ setPredHistory("issacSister", 9);
     },
     location: "Issac's Bedroom (Night)",
     choices: [
-        { label: "End the day", next: 206, effect: () => { gameState.currentDate = "September 02"; setDayCheckpoint(206);}}
+        { label: "End the day", next: 206, effect: () => { gameState.currentDate = "September 02"; setDayCheckpoint(206); saveDayCheckpoint();}}
     ]
 },
 
@@ -3943,9 +3946,7 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
         { 
             label: "Keep relaxing and finish eating", 
             next: 228,
-            effect: () => { 
-                changeBond("lirael", 10); 
-                changeBond("issacMother", 5); 
+            effect: () => {changeBond("lirael", 10);  changeBond("issacMother", 5); gameState.hasschedule = true;
             } 
         }
     ]
@@ -4218,38 +4219,14 @@ setDetail("lirael", 14);
     text: function() {
         if (gameState.lastPassage === 231) {
             // Came from sleeping with both Lirael and Lydia
-            return "You slowly wake up feeling incredibly warm and comfortable, still nestled between Lirael and Lydia. Both girls are still pressed tightly against you — Lirael’s massive, soft breasts pillowing your head, and Lydia’s smaller, warm body curled against your back.\n\nLirael is the first to stir. She kisses the top of your head affectionately and gently untangles herself from the pile.\n\n\"Good morning,\" she purrs softly, stretching her voluptuous body. \"Today is the first day of school. We should get ready.\"\n\nThe three of you reluctantly get out of bed. Lirael helps you and Lydia pick out your clothes for the day. She personally adjusts Lydia’s uniform with careful hands, making sure the shy elf looks presentable. Once everyone is dressed, you all look surprisingly normal on the surface — though Lirael’s cloaked 6'1\" human form still carries an undeniable aura of elegance and power.\n\nLirael smiles at both of you, looking proud.\n\n\"You both look wonderful,\" she says warmly. \"Ready to head downstairs? Emily and your parents are probably waiting.\"";
+            return "You wake up feeling pleasantly smothered and warm. Your head is completely engulfed between Lirael’s massive, incredibly soft breasts — the heavy, pillowy flesh pressing firmly around your face and ears, leaving you wrapped in her warm scent and the steady rhythm of her heartbeat. The rest of her voluptuous body is practically draped over you, her thick thighs, wide hips, and soft belly gently but heavily pinning you down in a comforting, possessive crush that feels anything but painful.\n\nLirael has clearly become even more curvaceous overnight. After fully digesting and absorbing the seven willing women, her body has grown noticeably softer and more voluptuous — her breasts are even larger and heavier, her hips wider, and her ass plush and thick. The only part of her that hasn’t yet turned to padding is a smooth, rounded potbelly that still contains the bones of her meal, slowly making their way through her system.\n\nLirael stirs with a lazy, satisfied purr and finally lifts her chest just enough for you to breathe properly. She smiles down at you warmly.\n\n\"Good morning,\" she murmurs, voice still husky with sleep. \"Did you enjoy your pillow?\"\n\nShe gently untangles herself and helps both you and Lydia get up. After a quick cleanup, Lirael assists you both in getting dressed for the first day of school. Once everyone is ready, she admires both of you with clear pride.\n\n\"You both look wonderful. Shall we head downstairs? Emily and your parents are likely waiting.\"";
 
         } else {
             // Came from sleeping with just Lirael (unbirth)
-            return "You wake up with a start, feeling cold and slightly disoriented. You’re lying naked on the bathroom floor, a small puddle of warm fluids beneath you. Lirael is standing above you, gracefully slipping back into her elegant outfit for the day.\n\nShe looks down at you with a satisfied, slightly mischievous smile.\n\n\"Good morning,\" she says smoothly. \"I kept you nice and safe inside me all night… but it was time to let you out. You were getting a little too comfortable in my womb.\"\n\nShe helps you up and hands you a towel, then assists you in getting dressed for school. Once you’re both ready, she gives you a soft kiss on the forehead.\n\n\"Today is the first day of school for you, Emily, and Lydia. I will be acting as your official aide. Let’s go downstairs and join the others.\"";
+            return "You wake up with a sudden shiver, lying naked and slightly damp on the bathroom floor. Lirael is standing over you, gracefully getting dressed in her elegant outfit for the day. She has become significantly curvier and softer after absorbing the seven women — her breasts are noticeably larger and heavier, her hips wider and plush, and her ass thick and jiggly. The only remaining evidence of her meal is a smooth, rounded potbelly that still holds the bones slowly processing through her system.\n\nShe looks down at you with a satisfied, slightly mischievous smile.\n\n\"Good morning,\" she says smoothly. \"I kept you nice and safe inside my womb all night… but it was time to let you out for school.\"\n\nShe helps you up, dries you off, and assists you in getting dressed. Once you’re both ready, she gives you a soft kiss on the forehead.\n\n\"Today is the first day of school for you, Emily, and Lydia. I will be acting as your official aide. Let’s go downstairs.\"";
         }
 
-        // Common ending for both paths
-        return "\n\nYou, Lirael" + (gameState.lastPassage === 231 ? ", and Lydia" : "") + " step out of the bedroom and head toward the stairs, ready for the first official day at your new school.";
-    },
-    location: "Issac's Bedroom → Upstairs Hallway (Morning)",
-    choices: [
-        { 
-            label: "Head downstairs", 
-            next: 234,
-            effect: () => { gameState.currentDate = "September 03"; setDayCheckpoint(234); } 
-        }
-    ]
-},
-// 233 - Morning of the First Day
-{
-    text: function() {
-        if (gameState.lastPassage === 231) {
-            // Came from sleeping with both Lirael and Lydia
-            return "You slowly wake up feeling incredibly warm and comfortable, still nestled between Lirael and Lydia. Both girls are still pressed tightly against you — Lirael’s massive, soft breasts pillowing your head, and Lydia’s smaller, warm body curled against your back.\n\nLirael is the first to stir. She kisses the top of your head affectionately and gently untangles herself from the pile.\n\n\"Good morning,\" she purrs softly, stretching her voluptuous body. \"Today is the first day of school. We should get ready.\"\n\nThe three of you reluctantly get out of bed. Lirael helps you and Lydia pick out your clothes for the day. She personally adjusts Lydia’s uniform with careful hands, making sure the shy elf looks presentable. Once everyone is dressed, you all look surprisingly normal on the surface — though Lirael’s cloaked 6'1\" human form still carries an undeniable aura of elegance and power.\n\nLirael smiles at both of you, looking proud.\n\n\"You both look wonderful,\" she says warmly. \"Ready to head downstairs? Emily and your parents are probably waiting.\"";
-
-        } else {
-            // Came from sleeping with just Lirael (unbirth)
-            return "You wake up with a start, feeling cold and slightly disoriented. You’re lying naked on the bathroom floor, a small puddle of warm fluids beneath you. Lirael is standing above you, gracefully slipping back into her elegant outfit for the day.\n\nShe looks down at you with a satisfied, slightly mischievous smile.\n\n\"Good morning,\" she says smoothly. \"I kept you nice and safe inside me all night… but it was time to let you out. You were getting a little too comfortable in my womb.\"\n\nShe helps you up and hands you a towel, then assists you in getting dressed for school. Once you’re both ready, she gives you a soft kiss on the forehead.\n\n\"Today is the first day of school for you, Emily, and Lydia. I will be acting as your official aide. Let’s go downstairs and join the others.\"";
-        }
-
-        // Common ending for both paths
+        // Common ending
         return "\n\nYou, Lirael" + (gameState.lastPassage === 231 ? ", and Lydia" : "") + " step out into the hall and head toward the stairs, ready for the first official day at your new school.";
     },
     location: "Issac's Bedroom → Upstairs Hallway (Morning)",
@@ -4257,8 +4234,42 @@ setDetail("lirael", 14);
         { 
             label: "Head downstairs", 
             next: 234,
+            effect: () => {gameState.currentDate = "September 03"; setDayCheckpoint(234); saveDayCheckpoint();} 
+        }
+    ]
+},
+// 234 - Downstairs Morning Gathering
+{
+    text: function() {
+        return "You, Lirael" + (gameState.lastPassage === 231 ? ", and Lydia" : "") + " descend the stairs and enter the living room. The rest of the family is already gathered and waiting.\n\nYour parents are dressed and ready, though both look visibly anxious about the first official day of school. Your father is sipping coffee while reviewing some documents, and your mother keeps fidgeting with her cross necklace. Emily is still lounging on the couch in her pajamas, but she has changed dramatically overnight.\n\nAfter fully digesting and absorbing the seven curvaceous women, Emily’s body has become significantly more voluptuous. Her breasts have grown much larger and heavier, straining against her pajama top, while her hips have widened dramatically and her ass has become thick, plush, and noticeably rounder. She now carries herself with a naturally seductive sway even while relaxing.\n\nThe most striking feature is her belly — it hasn’t fully flattened yet. A large, bumpy potbelly still protrudes outward, the clear outlines of numerous bones visibly pressing against the stretched skin from within as they slowly make their way through her system.\n\nEmily looks up as you all enter and grins lazily, patting her bone-filled potbelly.\n\n\"Morning,\" she says, stretching so her enhanced chest jiggles. \"You guys ready for the first day?\"\n\nYour father sets his coffee down and stands up.\n\n\"We should get going soon,\" he says, trying to sound composed. \"This is a big day.\"";
+
+    },
+    location: "Byrd Family Home - Living Room (Morning)",
+    choices: [
+        { 
+            label: "Head out to school", 
+            next: 235,
             effect: () => { 
-                gameState.currentDate = "September 03"; 
+                changeBond("lirael", 8); 
+                changeBond("issacSister", 10); 
+            } 
+        }
+    ]
+},
+// 235 - Heading to School
+{
+    text: function() {
+        return "Emily stretches one last time on the couch, her large, bumpy potbelly shifting noticeably as the bones inside continue their slow journey.\n\n\"Alright, alright… I’m going,\" she says with a yawn. She hops up and quickly heads upstairs to get changed.\n\nA few minutes later she comes bounding back down wearing an oversized sweater and a pair of sweatpants. Both garments are now dangerously tight on her newly enhanced body. The sweater stretches obscenely across her much larger, heavier breasts, while the sweatpants hug her dramatically widened hips and thick, plush ass like a second skin, leaving very little to the imagination.\n\nShe gives everyone a quick spin, clearly enjoying how her new curves strain against the fabric.\n\n\"Ready!\" she announces cheerfully.\n\nThe whole family heads out the front door and piles into the minivan. Your father takes the driver’s seat, your mother sits in the passenger side, while you, Emily, Lydia, and Lirael squeeze into the back rows. Lirael’s own voluptuous body takes up a good amount of space, her rounded, bumpy potbelly resting comfortably on her lap.\n\nAs the van pulls out of the driveway and starts heading toward school, your father glances in the rearview mirror.\n\n\"Remember,\" he says seriously, \"stay together, stay alert, and listen to Lirael if anything feels off. This is a new school with… new rules.\"\n\nEmily grins from her seat, still gently rubbing her potbelly.\n\n\"This is gonna be fun,\" she says excitedly.\n\nLirael sits gracefully beside you, one hand resting protectively on your thigh as the van drives down the wooded road toward your first official day of school.";
+
+    },
+    location: "Byrd Family Minivan (Morning)",
+    choices: [
+        { 
+            label: "Arrive at school", 
+            next: 236,
+            effect: () => { 
+                changeBond("issacSister", 8); 
+                changeBond("lirael", 10); 
             } 
         }
     ]
