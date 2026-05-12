@@ -374,6 +374,7 @@ issacSister: {
         { text: "She ate a random woman who tried to eat you during a family trip to the mall.", known: false }, // 7, set in passage 185
 { text: "She tripped and accidentally ate a Chinese food delivery woman during a moment of hunger.", known: false }, // 8, set in passage 191
         { text: "She ate a clone of Lirael during the capacity test Lirael set up for her.", known: false }, // 9, set in passage 199
+{ text: "She ate 7 women from a Peep-O's order.", unlocked: false }, // 10
     ]
 },
 
@@ -397,6 +398,7 @@ lirael: {
 { text: "After offering her a new set of clothes and choosing to accompany her to the bathroom when she was going to change. You stopped her before she put the new set of clothes on to ask if you could \"see her ass up close,\" to which she agrees to do and then she lowered herself onto you until she was straddling your face while you were laying down on the bathroom floor. You both found it to be a very \"fun\" experience", unlocked: false }, // 11, set in passage 105
 { text: "After offering her a new set of clothes and choosing to accompany her to the bathroom when she was going to change. Where she without hesitation took her robe off, gently pushed you onto the floor and asked if you wanted to \"see her ass up close.\" Before you could respond, she had already lowered herself onto you until she was straddling your face while you were laying down on the bathroom floor. You both found it to be a very \"fun\" experience", unlocked: false }, // 12, set in passage 105
 { text: "After offering her a new set of clothes and choosing to accompany her to the bathroom when she was going to change. Where she without hesitation took her robe off, gently pushed you onto the floor and asked if you wanted to \"see her ass up close.\" Before you could respond, she had already lowered herself onto you until she was straddling your face while you were laying down on the bathroom floor. Until she decided that she wanted to feel you inside her and ate you with her ass, she let you out before anything bad could happen. You both found it to be a very \"fun\" experience", unlocked: false }, // 13, set in passage 105
+{ text: "She ate 6 women and unbirthed 1 from a Peep-O's order in the bathroom with you watching, she then proceeded to have you drink from her while she sat there and stroked your cock", unlocked: false }, // 14
     ],
     grade: "N/A",
     age: "Unknown (appears mid-20s)",
@@ -3211,6 +3213,10 @@ setDetail("Lydia", 4);}}
         } 
         else {
             // Normal version - Lira was not eaten (yet)
+gameState.liraEaten = true; 
+gameState.liraEatenMethod = 1; 
+setDetail("lira", 4); 
+setPredHistory("issacSister", 6);
             return "The food court buzzes with life around you as everyone settles in with their trays. Emily attacks her food with enthusiasm, her potbelly still softly rounded. Lira sits beside Lirael, quietly eating her pretzel with small, precise bites. Lydia stays close to Lirael, nibbling on her own food, slowly relaxing as the warm food and casual atmosphere help her feel a little safer.\n\nLirael takes small, graceful bites of her own food, her golden eyes scanning the bustling crowd with quiet fascination. She occasionally asks soft questions about the different foods, the noise, and how people seem so relaxed in such a crowded place.\n\nYour mother watches the group with a mix of exhaustion and quiet affection. Your father eats in silence, occasionally glancing at Lydia to make sure she’s okay.\n\nEmily leans back in her chair, patting her belly with a satisfied sigh.\n\n\"This is actually kind of nice,\" she says. \"Just… normal mall food after everything that’s happened.\"\n\nLydia looks up from her pretzel, her soft brown eyes still a little wary but warming.\n\n\"I have never… eaten like this,\" she says quietly. \"In the castle, we were given very little. This is… good.\"\n\nLirael smiles gently at her.\n\n\"Then enjoy it,\" she says. \"You are safe here. No one will take this away from you.\"\n\nAs the meal winds down, Lira pushes her mostly finished tray toward Emily with a small smile.\n\n\"Here,\" she says. \"You seem hungrier than I am. You can have the rest.\"\n\nEmily’s eyes light up. Without thinking, she leans forward and swallows Lira whole in one smooth, practiced motion, along with the remaining food on the tray. Her throat bulges noticeably as Lira slides down, and her belly swells again with a loud *GLORP*.\n\nEmily sits back with a satisfied sigh, rubbing her newly enlarged stomach.\n\n\"Thanks, Lira,\" she says casually. \"You tasted pretty good.\"\n\nThe table falls silent for a beat as the rest of the family processes what just happened. Lirael simply watches with calm curiosity.";
  
 
@@ -3218,7 +3224,7 @@ setDetail("Lydia", 4);}}
     },
     location: "Local Mall - Food Court (Afternoon)",
     choices: [
-{ label: "Continue", next: 184, effect: () => { gameState.liraEaten = true; gameState.liraEatenMethod = 1; setDetail("lira", 4); setPredHistory("issacSister", 6);} }
+{ label: "Continue", next: 184 }
     ]
 },
 
@@ -3246,24 +3252,26 @@ return "Everyone sits at the table for a while, the noise of the food court fadi
 
         if (rand < 0.5) {
             // Most likely: Lirael intervenes
-            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Lirael moves with lightning speed. Her hand shoots out, gripping the woman’s shoulder and yanking you free from her grasp in one smooth motion. In the same instant, Lirael opens her own mouth and swallows the surprised woman whole in a swift, practiced gulp. Her throat bulges noticeably as the woman slides down, and Lirael’s belly swells with a heavy *GLORP*.\n\nLirael calmly adjusts her robe and continues walking as if nothing happened.\n\n\"Unacceptable behavior,\" she says mildly. \"One should not attempt to eat another’s companion in public.\"\n\nEmily giggles. Your father just sighs. Lydia stares with wide eyes, clearly still getting used to this new world.\n\nThe group continues toward the parking lot without further incident, the weight of another strange event added to the day.";
-gameState.lastMallAttackerEatenBy = 1;
+            gameState.lastMallAttackerEatenBy = 1;
 changeBond("lirael", 50);
 setPredHistory("lirael", 3);
+            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Lirael moves with lightning speed. Her hand shoots out, gripping the woman’s shoulder and yanking you free from her grasp in one smooth motion. In the same instant, Lirael opens her own mouth and swallows the surprised woman whole in a swift, practiced gulp. Her throat bulges noticeably as the woman slides down, and Lirael’s belly swells with a heavy *GLORP*.\n\nLirael calmly adjusts her robe and continues walking as if nothing happened.\n\n\"Unacceptable behavior,\" she says mildly. \"One should not attempt to eat another’s companion in public.\"\n\nEmily giggles. Your father just sighs. Lydia stares with wide eyes, clearly still getting used to this new world.\n\nThe group continues toward the parking lot without further incident, the weight of another strange event added to the day.";
         } 
         else if (rand < 0.8) {
             // Medium likelihood: Emily intervenes
-            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Emily reacts on pure instinct. She lunges forward, rips you out of the woman’s grasp with surprising strength, and immediately swallows the attacker whole in one greedy motion. Her throat bulges dramatically as the woman slides down, and Emily’s belly swells with a loud *GLORP*, pushing out against her new clothes.\n\nEmily burps softly and pats her stomach with a satisfied grin.\n\n\"Mine,\" she says simply.\n\nYour father groans. Lirael raises an eyebrow. Lydia looks shocked but stays quiet.\n\nThe group continues toward the parking lot, another unexpected meal added to the day.";
 gameState.lastMallAttackerEatenBy = 2;
 changeBond("issacSister", 50);
 setPredHistory("issacSister", 7);
+            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Emily reacts on pure instinct. She lunges forward, rips you out of the woman’s grasp with surprising strength, and immediately swallows the attacker whole in one greedy motion. Her throat bulges dramatically as the woman slides down, and Emily’s belly swells with a loud *GLORP*, pushing out against her new clothes.\n\nEmily burps softly and pats her stomach with a satisfied grin.\n\n\"Mine,\" she says simply.\n\nYour father groans. Lirael raises an eyebrow. Lydia looks shocked but stays quiet.\n\nThe group continues toward the parking lot, another unexpected meal added to the day.";
+
         } 
         else {
             // Least likely: Lydia intervenes
-            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Lydia — acting on pure instinct and fear — darts forward. With surprising speed for someone so new to this world, she rips you out of the woman’s grasp and swallows the attacker whole in one desperate gulp. Her throat bulges noticeably as the woman slides down, and Lydia’s belly swells with a heavy *GLORP*.\n\nLydia stands there, eyes wide, looking shocked at what she just did. She gently rubs her now-rounded stomach, clearly surprised by her own actions.\n\n\"I… I’m sorry,\" she whispers. \"I didn’t mean to…\"\n\nLirael places a reassuring hand on Lydia’s shoulder. Your father just sighs deeply.\n\nThe group continues toward the parking lot, another unexpected meal added to the day.";
 gameState.lastMallAttackerEatenBy = 3;
 changeBond("Lydia", 50);
 setPredHistory("Lydia", 1);
+            return "The group gathers their many shopping bags and begins walking toward the mall exit. The afternoon crowd has thinned slightly, but the mall is still busy.\n\nAs you walk past a quieter side corridor, a random woman in her thirties suddenly lunges from behind, grabbing you around the waist and opening her mouth wide to swallow you.\n\nBefore she can even get you off the ground, Lydia — acting on pure instinct and fear — darts forward. With surprising speed for someone so new to this world, she rips you out of the woman’s grasp and swallows the attacker whole in one desperate gulp. Her throat bulges noticeably as the woman slides down, and Lydia’s belly swells with a heavy *GLORP*.\n\nLydia stands there, eyes wide, looking shocked at what she just did. She gently rubs her now-rounded stomach, clearly surprised by her own actions.\n\n\"I… I’m sorry,\" she whispers. \"I didn’t mean to…\"\n\nLirael places a reassuring hand on Lydia’s shoulder. Your father just sighs deeply.\n\nThe group continues toward the parking lot, another unexpected meal added to the day.";
+
         }
     },
     location: "Local Mall (Afternoon)",
@@ -3349,12 +3357,12 @@ setPredHistory("Lydia", 1);
 // 190 - Waiting for Dinner
 {
     text: function() {
-        if (gameState.lastMallAttackerEatenBy === "lirael") {
+        if (gameState.lastMallAttackerEatenBy === 1) {
             // Lirael ate the lady - more detailed
             return "The family settles in to wait for the food to arrive. Lirael sits gracefully on the couch, her belly still noticeably rounded and firm from swallowing the woman in the mall. She places both hands on the swell, closes her eyes, and begins to channel her magic. A soft, radiant violet shimmer spreads across her midsection, pulsing gently like moonlight on water. You can hear the low, melodic hum of her power at work as the contents inside her are rapidly broken down and absorbed. Her belly shrinks smoothly and elegantly, the heavy weight converting into soft, feminine curves — her hips and breasts becoming subtly fuller, her waist remaining elegantly defined. The process is quiet and controlled, accompanied only by faint, wet internal gurgles that gradually fade into silence.\n\nWhen it’s done, Lirael opens her golden eyes, looking calm and refreshed, a faint glow lingering on her skin.\n\n\"Much better,\" she says softly, her voice smooth and composed. \"She was… quite filling.\"\n\nEmily giggles. Your mother looks slightly uncomfortable but says nothing. Lydia watches with wide, fascinated eyes, her soft brown gaze fixed on the subtle changes to Lirael’s figure.";
 
         } 
-        else if (gameState.lastMallAttackerEatenBy === "emily") {
+        else if (gameState.lastMallAttackerEatenBy === 2) {
             // Emily ate the lady - brutal and erotic (kept as previously refined)
             return "The family settles in to wait for the food to arrive. Emily lounges on the couch, her belly still heavily swollen and taut from swallowing the woman in the mall. Suddenly, her stomach lets out a deep, violent growl that vibrates through the room. Emily’s eyes flutter half-closed in raw pleasure as her powerful stomach muscles begin to contract with savage force.\n\nWet, brutal *CRUNCH-GLORP-CRACK* sounds echo loudly as her belly violently squeezes and grinds the woman inside. You can hear the sickening snap of bones breaking, the wet squelch of flesh being pulped, and the heavy sloshing of thick chyme as everything is crushed into a messy slurry. Emily bites her lip hard, letting out a low, throaty moan that sends a shiver through the room. Her cheeks flush deeply, her breathing quickens, and her hands roam greedily over her swelling curves as her body rapidly absorbs the woman’s mass.\n\nHer breasts grow heavier and rounder, straining against her shirt. Her hips and ass thicken with plush, soft fat. Her thighs press together, becoming fuller and softer. The air fills with the pungent, acrid scent of digestion as her belly visibly shrinks, the violent churning slowing into wet, satisfied gurgles.\n\nWhen it’s over, Emily lets out a long, shuddering sigh of ecstasy, her newly enhanced body looking even more voluptuous and erotic. She runs her hands slowly over her enlarged breasts and wide hips, clearly savoring the sensation.\n\n\"Mmm… that felt so good,\" she purrs, voice husky. \"She fought hard… but she melted so nicely.\"\n\nYour mother looks slightly pale. Your father just sighs deeply. Lirael watches with calm interest. Lydia stares with wide, shocked eyes.";
 
@@ -3828,7 +3836,7 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
     },
     location: "Upstairs Bathroom (Evening)",
     choices: [
-        { label: "Return to the living room with Lirael", next: 222, effect: () => { changeBond("lirael", 20); } }
+        { label: "Return to the living room with Lirael", next: 222, effect: () => { changeBond("lirael", 20); setPredHistory("issacSister", 10); setPredHistory("lirael", 14); } }
     ]
 },
 
@@ -3950,15 +3958,7 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
     choices: [
         { 
             label: "Yes — I bet you can't", 
-            next: 229,
-            effect: () => { 
-                // Setup for Emily vore scene
-                gameState.inStomach = true;
-                gameState.currentPredator = "Emily";
-                gameState.lastSwallowedBy = "Emily";
-                unlockEncounter("eatenBy", 1); // Update if needed
-            } 
-        },
+            next: 229 },
         { 
             label: "No, never mind", 
             next: 230,
@@ -3994,113 +3994,152 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
         }
     ]
 },
-// 229 - Emily Encounter (Vore Scene)
+// 229 - Inside Emily's Stomach (Full Immersive Scene)
 {
     text: function() {
-
-        // Initialize encounter on first entry
         if (!gameState.inStomach) {
-            gameState.TurnCount = 0;
             gameState.inStomach = true;
             gameState.currentPredator = "emily";
             gameState.lastSwallowedBy = "emily";
-
+            gameState.TurnCount = 0;
             gameState.preyHealth = 100;
             gameState.preyStamina = 100;
             gameState.digestionProgress = 0;
             gameState.acidStage = 0;
-
             gameState.predHealth = 200;
             gameState.predDefense = 20;
-
+            gameState.checkpointShown = {
+                pred75: false, pred50: false, pred25: false,
+                player75: false, player50: false, player25: false,
+                acid1: false, acid2: false, acid3: false
+            };
             gameState.lastChoiceLabel = "";
         }
 
         gameState.TurnCount++;
 
-        // Acid increases every 3 turns
         if (gameState.TurnCount % 3 === 0) {
             gameState.acidStage = Math.min(3, gameState.acidStage + 1);
         }
-
-        // Passive digestion
-        gameState.digestionProgress += 3 + gameState.acidStage;
-
+        gameState.digestionProgress += 3 + (gameState.acidStage * 2);
         if (gameState.preyHealth < 0) gameState.preyHealth = 0;
 
-        let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${gameState.digestionProgress}% | **Acid Stage:** ${gameState.acidStage}`;
+        let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${Math.floor(gameState.digestionProgress)}% | **Acid Stage:** ${gameState.acidStage}`;
 
-        let digestionText = "";
-        if (gameState.acidStage === 0) digestionText = "Warm walls churn around you.";
-        else if (gameState.acidStage === 1) digestionText = "Digestive fluids begin to coat your body.";
-        else if (gameState.acidStage === 2) digestionText = "The acids burn more intensely.";
-        else if (gameState.acidStage === 3) digestionText = "The stomach burns fiercely around you.";
+        let sceneDesc = "You are trapped deep inside your younger sister Emily’s sweltering, powerful stomach.\n\n";
 
-        let actionText = "";
-        if (gameState.lastChoiceLabel) {
-            actionText = `You attempt to ${gameState.lastChoiceLabel.toLowerCase()}.\n`;
+        if (gameState.TurnCount === 1) {
+            sceneDesc += "The bet ended exactly as Emily wanted. With an eager, mischievous grin, she lunged forward and stretched her mouth impossibly wide. In seconds, her hot, slick lips sealed over your head and shoulders. Her powerful throat rippled and squeezed around you with frightening strength, dragging you down in long, wet, greedy gulps. You felt every tight contraction as you slid helplessly through her esophagus until you finally dropped with a heavy, wet splash into her already overstuffed belly.\n\n";
+
+            sceneDesc += "The inside of Emily’s stomach is a chaotic, humid hell of digestion. The air is thick, heavy, and reeks of acids and half-digested food. Most of the seven curvaceous women she devoured earlier have already been broken down into a thick, pinkish-tan slop of chyme and stomach gunk that sloshes noisily with every movement. Torn pieces of clothing, long strands of hair, and softened bones float lazily in the viscous fluid.\n\n";
+
+            sceneDesc += "You landed directly on top of the last mostly-intact woman — a voluptuous delivery driver. The force of your arrival pushed her completely under the rising tide of powerful digestive acids. She thrashed desperately for a few horrifying seconds before going completely still beneath you, fully submerged and killed almost instantly by the brutal environment of your sister’s stomach.\n\n";
         }
 
-        // Death check (keep consistent with your engine)
+        const stage = getDigestionStage(gameState.digestionProgress);
+        switch (stage.name) {
+            case "Stable":
+                sceneDesc += "The fleshy, pink walls slowly knead and massage your body in lazy, rhythmic waves. Warm digestive fluids lap at your skin, tingling but not yet truly painful. The sheer size and power of Emily’s stomach is overwhelming — you’re little more than another piece of food inside her.";
+                break;
+            case "Coating":
+                sceneDesc += "Thick, sticky strands of mucus and potent enzymes cling heavily to your body and clothes. The walls press and slide against you with increasing insistence, coating every inch of you in warm, tingling fluids as the digestion process accelerates.";
+                break;
+            case "Burning":
+                sceneDesc += "The acids have grown much stronger. They sting and burn wherever they touch bare skin, sending sharp prickles across your body. The muscular walls squeeze and grind against you with growing aggression, as if Emily’s stomach is becoming more eager to claim you.";
+                break;
+            case "Breaking Down":
+                sceneDesc += "Emily’s stomach is now in full predatory mode. Heavy, powerful contractions crush and churn everything inside her. The thick soup of melted women sloshes violently around you as the walls knead and grind relentlessly, trying to break you down into more nutrients for her already voluptuous body.";
+                break;
+            case "Critical":
+                sceneDesc += "The stomach has become a merciless cauldron of destruction. Scorching hot acids rise high around you while the thick, muscular walls crush inward with brutal force. Every movement sends waves of burning pain through your body. You can feel yourself starting to weaken rapidly — you won’t survive much longer in here.";
+                break;
+        }
+
+        let actionText = "\n\n";
+        if (gameState.lastChoiceLabel) {
+            actionText += `You attempt to ${gameState.lastChoiceLabel.toLowerCase()} against the slick, churning walls. `;
+        }
+
+        const emilyAction = ["giggles excitedly","rubs her massive belly","squeezes firmly","shakes her gut","teases you"][Math.floor(Math.random()*5)];
+        
+        if (emilyAction === "giggles excitedly")
+            actionText += "Emily lets out a bright, playful giggle from the outside world. The sound vibrates through her massive belly, making the fleshy walls tremble and bounce around you joyfully.";
+        else if (emilyAction === "rubs her massive belly")
+            actionText += "You feel Emily’s warm hand press firmly against the outside of her hugely swollen belly. She rubs slow, affectionate circles directly over the bulge you create, gently massaging you through layers of fat and muscle.";
+        else if (emilyAction === "squeezes firmly")
+            actionText += "Emily playfully flexes her powerful stomach muscles. The thick, spongy walls suddenly squeeze inward with surprising strength, compressing you tightly in a hot, wet, crushing embrace.";
+        else if (emilyAction === "shakes her gut")
+            actionText += "Emily shakes her massively distended belly from side to side with glee. You’re thrown around violently inside the thick, sloshing soup of chyme and melted prey, tumbling helplessly in the oppressive heat.";
+        else if (emilyAction === "teases you")
+            actionText += "Emily’s teasing, slightly husky voice echoes through the fleshy walls, clearly enjoying herself. \"Mmm~ You feel really good squirming around in there, bro. Keep moving like that… it feels amazing.\"";
+
+        let checkpointText = "";
+        if (gameState.acidStage === 1 && !gameState.checkpointShown.acid1) {
+            checkpointText += "\n\nThe tingling has become a steady burning sensation...";
+            gameState.checkpointShown.acid1 = true;
+        }
+        if (gameState.acidStage === 2 && !gameState.checkpointShown.acid2) {
+            checkpointText += "\n\nThe acids are growing dangerously strong now.";
+            gameState.checkpointShown.acid2 = true;
+        }
+        if (gameState.acidStage === 3 && !gameState.checkpointShown.acid3) {
+            checkpointText += "\n\n@@color:red;The stomach is now extremely hostile and painful! You need to get out soon!@@";
+            gameState.checkpointShown.acid3 = true;
+        }
+
         if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
-            killPlayer("digested", "Emily's stomach finishes its work.");
+            killPlayer("digested", 
+`Emily’s powerful stomach finally claims you completely.
+
+The churning becomes savage and unrelenting. Scorching acids surge around you as the thick, muscular walls crush inward with devastating force. Your struggles grow weaker and weaker until they stop entirely. The last thing you hear is Emily letting out a long, satisfied moan as her belly glorps loudly around your dissolving form.
+
+You have been fully digested by your own sister.
+
+---
+
+**Later that night…**
+
+Emily lounges on the couch, gently rubbing her now significantly smaller but still softly rounded belly with a mix of satisfaction and slight guilt. Her body has grown even more voluptuous — her breasts are noticeably heavier and rounder, her hips and ass have become plush and thick, and her thighs press together softly.
+
+Lirael sits beside her, gently stroking her hair.
+
+\"You really should be more careful,\" Lirael murmurs.
+
+Emily blushes and looks down at her enhanced curves.
+
+\"…I know. But he felt really good going down… and even better melting.\"`);
             return gameState.deathText;
         }
 
-        return "You are trapped inside **Emily's** stomach.\n\n" +
-               status + "\n\n" +
-               digestionText + "\n\n" +
-               actionText +
-               "What will you do?";
+        return sceneDesc + "\n\n" + status + checkpointText + actionText + "\n\nWhat will you do?";
     },
-
-    location: "Inside Emily",
+    location: "Inside Emily's Stomach",
     choices: [
-        {
-            label: "Struggle Conservatively",
-            next: 229,
-            effect: () => {
-                gameState.preyStamina -= 7;
-                gameState.predHealth -= Math.max(0, Math.floor(Math.random()*4)+4 - gameState.predDefense);
-                gameState.lastChoiceLabel = "Struggle Conservatively";
-            }
-        },
-        {
-            label: "Struggle",
-            next: 229,
-            effect: () => {
-                gameState.preyStamina -= 12;
-                gameState.predHealth -= Math.max(0, Math.floor(Math.random()*6)+7 - gameState.predDefense);
-                gameState.lastChoiceLabel = "Struggle";
-            }
-        },
-        {
-            label: "Struggle Aggressively",
-            next: 229,
-            effect: () => {
-                gameState.preyStamina -= 20;
-                gameState.preyHealth -= 6;
-                gameState.predHealth -= Math.max(0, Math.floor(Math.random()*9)+12 - Math.round(gameState.predDefense*0.6));
-                gameState.lastChoiceLabel = "Struggle Aggressively";
-            }
-        },
-        {
-            label: "Brace Yourself",
-            next: 229,
-            effect: () => {
-                gameState.preyStamina -= 8;
-                gameState.preyHealth += 8;
-                gameState.lastChoiceLabel = "Brace Yourself";
-            }
-        },
-        {
-            label: "Rest",
-            next: 229,
-            effect: () => {
-                gameState.preyStamina = Math.min(100, gameState.preyStamina + 15);
-                gameState.lastChoiceLabel = "Rest";
-            }
-        }
+        { label: "Struggle Conservatively", next: 229, effect: () => {
+            gameState.preyStamina -= 7;
+            gameState.predHealth -= Math.max(0, Math.floor(Math.random()*5)+5 - gameState.predDefense);
+            gameState.lastChoiceLabel = "Struggle Conservatively";
+        }},
+        { label: "Struggle", next: 229, effect: () => {
+            gameState.preyStamina -= 13;
+            gameState.predHealth -= Math.max(0, Math.floor(Math.random()*7)+9 - gameState.predDefense);
+            gameState.lastChoiceLabel = "Struggle";
+        }},
+        { label: "Struggle Aggressively", next: 229, effect: () => {
+            gameState.preyStamina -= 22;
+            gameState.preyHealth -= 8;
+            gameState.predHealth -= Math.max(0, Math.floor(Math.random()*12)+15 - Math.round(gameState.predDefense*0.6));
+            gameState.lastChoiceLabel = "Struggle Aggressively";
+        }},
+        { label: "Brace Yourself", next: 229, effect: () => {
+            gameState.preyStamina -= 9;
+            gameState.preyHealth += 15;
+            gameState.lastChoiceLabel = "Brace Yourself";
+        }},
+        { label: "Rest", next: 229, effect: () => {
+            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
+            gameState.lastChoiceLabel = "Rest";
+        }},
     ]
 },
 // 230 - Evening Winds Down
@@ -4128,6 +4167,45 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
             label: "Just you and Lirael tonight", 
             next: 232,
             effect: () => { changeBond("lirael", 15); } 
+        }
+    ]
+},
+
+// 231 - Sleeping with Lirael and Lydia
+{
+    text: function() {
+        return "You smile softly and nod. \"Yeah… let’s all sleep together again.\"\n\nLirael’s golden eyes light up with warm approval. \"Mmm, I was hoping you’d say that.\"\n\nOnce the three of you are in your room with the door closed, Lirael removes her cloaking stone and lets her silk robe fall gracefully to the floor, revealing her towering, voluptuous lavender-skinned demonic body in all its glory. Her massive, heavy breasts sway and jiggle with every movement as she climbs into the large bed first, lying on her back and spreading her arms wide.\n\nYou’re pulled down on top of her immediately. Lirael wraps her powerful arms around you and presses your face deep into the soft, warm, pillowy valley of her enormous breasts, smothering you lovingly in her heavy titflesh. At the same time, Lydia shyly climbs in from behind, pressing her smaller, softer, and warmer body tightly against your back.\n\nLirael lets out a deep, satisfied purr as she pulls both of you even closer, effectively sandwiching you securely between their two warm, naked bodies. Her thick thighs wrap around one of your legs while Lydia clings to your back, her modest breasts squishing softly against you.\n\nAfter several minutes of gentle cuddling and affectionate touching, Lirael shifts slightly. She cups one of her massive, leaking breasts and brings the thick, dark nipple to your lips.\n\n\"Drink,\" she commands softly but firmly, pressing her nipple into your mouth. Warm, sweet, rich breastmilk immediately begins to flow. \"Both of you.\"\n\nShe guides Lydia to her other breast. The shy elven girl hesitates only for a moment before latching on as well. Lirael moans softly in pleasure as both of you begin to nurse from her, her infinite supply of warm, creamy milk flooding your mouths in steady streams.\n\nThe sensation is overwhelming — the sweet taste of her milk, the soft rhythmic sucking sounds, the gentle rocking of her body, and the warmth of both girls pressed tightly against you. Lirael strokes your hair lovingly with one hand while cradling Lydia’s head with the other.\n\n\"Good… just like that,\" she whispers huskily. \"Drink from me and sleep…\"\n\nExhausted from the long day and soothed by the steady flow of Lirael’s warm milk, you slowly drift off to sleep, still latched onto her breast.";
+
+    },
+    location: "Issac's Bedroom (Night)",
+    choices: [
+        { 
+            label: "Fall asleep nursing from Lirael", 
+            next: 233,
+            effect: () => { 
+                changeBond("lirael", 22); 
+                changeBond("liraelLydiaBond", 18); 
+                gameState.currentDate = "September 03"; 
+            } 
+        }
+    ]
+},
+
+// 232 - Sleeping Just with Lirael
+{
+    text: function() {
+        return "You glance at Lydia, then back to Lirael. \"Just us tonight.\"\n\nLirael’s lips curl into a hungry, possessive smile. \"As you wish, my sweet boy.\"\n\nAs soon as Lydia leaves the room and the door clicks shut, Lirael’s demeanor shifts. She strips completely, revealing her perfect, curvaceous demonic body, then pins you down on the bed beneath her with effortless strength.\n\nShe straddles your waist, grinding her slick, dripping pussy slowly and teasingly along your shaft while her massive, heavy breasts hang heavily above your face. \"You belong to me tonight,\" she purrs deeply, voice thick with lust.\n\nAfter several minutes of passionate kissing and grinding, Lirael shifts higher. She spreads her thick thighs wide and lowers herself directly over your head. \"Open your mouth,\" she commands softly.\n\nBefore you can fully process what’s happening, she presses her slick, warm folds against your face and begins to unbirth you. Her powerful vaginal muscles ripple and pull, slowly sucking your head and shoulders inside her tight, velvety tunnel with wet, rhythmic contractions.\n\nThe inside of Lirael’s womb is incredibly hot, soft, and wet. The powerful muscles massage and pull you deeper as she moans loudly in pleasure above you. Inch by inch, she works your body inside her until you’re curled up safely and snugly within her womb.\n\nLirael rubs her now massively swollen belly with both hands, purring in deep satisfaction.\n\n\"There we go… right where you belong,\" she whispers lovingly, gently stroking the bulge you make. \"Sleep well inside me, my precious human.\"\n\nCradled in the warm, pulsing embrace of Lirael’s womb, surrounded by her heartbeat and the soft sounds of her body, you drift off into a deep, blissful sleep.";
+
+    },
+    location: "Issac's Bedroom (Night)",
+    choices: [
+        { 
+            label: "Fall asleep inside Lirael", 
+            next: 233,
+            effect: () => { 
+                changeBond("lirael", 28); 
+                gameState.currentDate = "September 03"; 
+            } 
         }
     ]
 },
@@ -4331,11 +4409,11 @@ function applyRelationshipDecay() {
         if (!r || typeof r.bond !== "number") continue;
 
         // Only decay if above 100
-        if (r.bond > 100) {
+        if (r.bond > 150) {
             r.bond -= 1;
 
             // Safety clamp (in case something weird happens)
-            if (r.bond < 100) r.bond = 100;
+            if (r.bond < 150) r.bond = 150;
         }
     }
 }
