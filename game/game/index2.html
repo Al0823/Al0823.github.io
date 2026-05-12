@@ -3980,10 +3980,7 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
         { 
             label: "Have Lydia join us again", 
             next: 231,
-            effect: () => { 
-                changeBond("lirael", 10); 
-                changeBond("liraelLydiaBond", 12); 
-            } 
+            effect: () => { changeBond("lirael", 10); gameState.liraelLydiaBond += 12; } 
         },
         { 
             label: "Just you and Lirael tonight", 
@@ -4161,7 +4158,7 @@ Emily blushes and looks down at her enhanced curves.
         { 
             label: "Have Lydia join us again", 
             next: 231,
-            effect: () => { changeBond("liraelLydiaBond", 12); } 
+            effect: () => { gameState.liraelLydiaBond += 12; } 
         },
         { 
             label: "Just you and Lirael tonight", 
@@ -4174,7 +4171,7 @@ Emily blushes and looks down at her enhanced curves.
 // 231 - Sleeping with Lirael and Lydia
 {
     text: function() {
-        return "You smile softly and nod. \"Yeah… let’s all sleep together again.\"\n\nLirael’s golden eyes light up with warm approval. \"Mmm, I was hoping you’d say that.\"\n\nOnce the three of you are in your room with the door closed, Lirael removes her cloaking stone and lets her silk robe fall gracefully to the floor, revealing her towering, voluptuous lavender-skinned demonic body in all its glory. Her massive, heavy breasts sway and jiggle with every movement as she climbs into the large bed first, lying on her back and spreading her arms wide.\n\nYou’re pulled down on top of her immediately. Lirael wraps her powerful arms around you and presses your face deep into the soft, warm, pillowy valley of her enormous breasts, smothering you lovingly in her heavy titflesh. At the same time, Lydia shyly climbs in from behind, pressing her smaller, softer, and warmer body tightly against your back.\n\nLirael lets out a deep, satisfied purr as she pulls both of you even closer, effectively sandwiching you securely between their two warm, naked bodies. Her thick thighs wrap around one of your legs while Lydia clings to your back, her modest breasts squishing softly against you.\n\nAfter several minutes of gentle cuddling and affectionate touching, Lirael shifts slightly. She cups one of her massive, leaking breasts and brings the thick, dark nipple to your lips.\n\n\"Drink,\" she commands softly but firmly, pressing her nipple into your mouth. Warm, sweet, rich breastmilk immediately begins to flow. \"Both of you.\"\n\nShe guides Lydia to her other breast. The shy elven girl hesitates only for a moment before latching on as well. Lirael moans softly in pleasure as both of you begin to nurse from her, her infinite supply of warm, creamy milk flooding your mouths in steady streams.\n\nThe sensation is overwhelming — the sweet taste of her milk, the soft rhythmic sucking sounds, the gentle rocking of her body, and the warmth of both girls pressed tightly against you. Lirael strokes your hair lovingly with one hand while cradling Lydia’s head with the other.\n\n\"Good… just like that,\" she whispers huskily. \"Drink from me and sleep…\"\n\nExhausted from the long day and soothed by the steady flow of Lirael’s warm milk, you slowly drift off to sleep, still latched onto her breast.";
+        return "You smile softly and nod. \"Yeah… let’s all sleep together again.\"\n\nLirael’s golden eyes light up with warm approval. \"Mmm, I was hoping you’d say that.\"\n\nOnce the three of you are in your room with the door closed, Lirael removes her cloaking stone and lets her clothes fall gracefully to the floor, revealing her towering, voluptuous lavender-skinned demonic body in all its glory. Her massive, heavy breasts sway and jiggle with every movement as she climbs into the large bed first, lying on her back and spreading her arms wide.\n\nYou’re pulled down on top of her immediately. Lirael wraps her powerful arms around you and presses your face deep into the soft, warm, pillowy valley of her enormous breasts, smothering you lovingly in her heavy titflesh. At the same time, Lydia shyly climbs in from behind, pressing her smaller, softer, and warmer body tightly against your back.\n\nLirael lets out a deep, satisfied purr as she pulls both of you even closer, effectively sandwiching you securely between their two warm, naked bodies. Her thick thighs wrap around one of your legs while Lydia clings to your back, her modest breasts squishing softly against you.\n\nAfter several minutes of gentle cuddling and affectionate touching, Lirael shifts slightly. She cups one of her massive, leaking breasts and brings the thick, dark nipple to your lips.\n\n\"Drink,\" she commands softly but firmly, pressing her nipple into your mouth. Warm, sweet, rich breastmilk immediately begins to flow. \"Both of you.\"\n\nShe guides Lydia to her other breast. The shy elven girl hesitates only for a moment before latching on as well. Lirael moans softly in pleasure as both of you begin to nurse from her, her infinite supply of warm, creamy milk flooding your mouths in steady streams.\n\nThe sensation is overwhelming — the sweet taste of her milk, the soft rhythmic sucking sounds, the gentle rocking of her body, and the warmth of both girls pressed tightly against you. Lirael strokes your hair lovingly with one hand while cradling Lydia’s head with the other.\n\n\"Good… just like that,\" she whispers huskily. \"Drink from me and sleep…\"\n\nExhausted from the long day and soothed by the steady flow of Lirael’s warm milk, you slowly drift off to sleep, still latched onto her breast.";
 
     },
     location: "Issac's Bedroom (Night)",
@@ -4184,7 +4181,7 @@ Emily blushes and looks down at her enhanced curves.
             next: 233,
             effect: () => { 
                 changeBond("lirael", 22); 
-                changeBond("liraelLydiaBond", 18); 
+                gameState.liraelLydiaBond += 18; 
                 gameState.currentDate = "September 03"; 
             } 
         }
@@ -4204,6 +4201,33 @@ Emily blushes and looks down at her enhanced curves.
             next: 233,
             effect: () => { 
                 changeBond("lirael", 28); 
+                gameState.currentDate = "September 03"; 
+            } 
+        }
+    ]
+},
+
+// 233 - Morning of the First Day
+{
+    text: function() {
+        if (gameState.lastPassage === 231) {
+            // Came from sleeping with both Lirael and Lydia
+            return "You slowly wake up feeling incredibly warm and comfortable, still nestled between Lirael and Lydia. Both girls are still pressed tightly against you — Lirael’s massive, soft breasts pillowing your head, and Lydia’s smaller, warm body curled against your back.\n\nLirael is the first to stir. She kisses the top of your head affectionately and gently untangles herself from the pile.\n\n\"Good morning,\" she purrs softly, stretching her voluptuous body. \"Today is the first day of school. We should get ready.\"\n\nThe three of you reluctantly get out of bed. Lirael helps you and Lydia pick out your clothes for the day. She personally adjusts Lydia’s uniform with careful hands, making sure the shy elf looks presentable. Once everyone is dressed, you all look surprisingly normal on the surface — though Lirael’s cloaked 6'1\" human form still carries an undeniable aura of elegance and power.\n\nLirael smiles at both of you, looking proud.\n\n\"You both look wonderful,\" she says warmly. \"Ready to head downstairs? Emily and your parents are probably waiting.\"";
+
+        } else {
+            // Came from sleeping with just Lirael (unbirth)
+            return "You wake up with a start, feeling cold and slightly disoriented. You’re lying naked on the bathroom floor, a small puddle of warm fluids beneath you. Lirael is standing above you, gracefully slipping back into her elegant outfit for the day.\n\nShe looks down at you with a satisfied, slightly mischievous smile.\n\n\"Good morning,\" she says smoothly. \"I kept you nice and safe inside me all night… but it was time to let you out. You were getting a little too comfortable in my womb.\"\n\nShe helps you up and hands you a towel, then assists you in getting dressed for school. Once you’re both ready, she gives you a soft kiss on the forehead.\n\n\"Today is the first day of school for you, Emily, and Lydia. I will be acting as your official aide. Let’s go downstairs and join the others.\"";
+        }
+
+        // Common ending for both paths
+        return "\n\nYou, Lirael" + (gameState.lastPassage === 231 ? ", and Lydia" : "") + " step out of the bedroom and head toward the stairs, ready for the first official day at your new school.";
+    },
+    location: "Issac's Bedroom → Upstairs Hallway (Morning)",
+    choices: [
+        { 
+            label: "Head downstairs", 
+            next: 234,
+            effect: () => { 
                 gameState.currentDate = "September 03"; 
             } 
         }
