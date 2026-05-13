@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A.t.A. Projects, Websites, &amp; Games - Music Player</title>
+<title>A.t.A. Projects, Websites, &amp; Games - Music Player 1.0.1.</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
 
@@ -134,6 +134,9 @@
 
   .disc {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -149,7 +152,10 @@
 
   .disc.spinning { animation: spin 3s linear infinite; }
 
-  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
 
   .disc-hole {
     width: 14px;
@@ -525,7 +531,7 @@
 <div class="player-shell" id="player">
 
   <div class="header">
-    <div class="header-title">PLAYER_V1</div>
+    <div class="header-title">A.t.A. Music Player Version 1.0.1</div>
     <div class="header-dots">
       <div class="header-dot" id="dot1"></div>
       <div class="header-dot" id="dot2"></div>
@@ -939,7 +945,7 @@ clearBtn.addEventListener('click', () => {
 });
 
 // Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => {ss
   if (e.target.tagName === 'INPUT') return;
   if (e.code === 'Space') { e.preventDefault(); playBtn.click(); }
   if (e.code === 'ArrowRight') nextBtn.click();
