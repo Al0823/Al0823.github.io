@@ -4335,176 +4335,138 @@ changeBond("molly", 15);
 // 239 - Helping in the Cafeteria
 {
     text: function() {
+        // Store outcome ONCE so it doesn't reroll every render
+        if (gameState.helpMollyResult === undefined) {
+            gameState.helpMollyResult = Math.random() < 0.60;
+        }
+
         if (gameState.lastChoiceLabel === "youhelpmolly") {
-            
-            // Random success check (60% success rate)
-            if (Math.random() < 0.60) {
-                // SUCCESS
-                return "You don’t hesitate. You push forward and grab onto the upperclassman’s arm alongside Molly, pulling hard to try and free the struggling freshman.\n\n\"Let her go!\" you shout, adding your strength to Molly’s efforts.\n\nAfter several tense seconds of pulling and resistance, the upperclassman finally relents with an annoyed groan. She opens her mouth and lets the freshman slide back out, coughing and gasping for air as she collapses onto the floor.\n\nMolly immediately helps the smaller girl up, checking if she’s okay.\n\nThe crowd around you starts to disperse, many students looking disappointed that the show ended so quickly.";
-                
+            // SUCCESS
+            if (gameState.helpMollyResult) {
+                return "You don’t hesitate for even a second. You push forward through the crowd and grab onto the upperclassman’s arm right beside Molly, digging your heels in and pulling back with all your strength.\n\n\"Let her go!\" you shout, adding your effort to Molly’s determined tugging.\n\nThe upperclassman (Sarah) grunts in annoyance around her prey, her throat visibly bulging as she tries to finish the swallow. For several long, tense seconds the three of you struggle — you and Molly pulling outward while Sarah stubbornly tries to gulp the freshman deeper. Finally, with an irritated groan, Sarah relents. She opens her mouth and the smaller girl slides back out, coughing and gasping desperately for air as she collapses onto the cafeteria floor.\n\nMolly immediately drops down and helps the shaken freshman sit up, checking to make sure she’s okay.";
+
             } else {
                 // FAILURE - Vore Scene
-if (!gameState.inStomach) {
-            gameState.inStomach = true;
-            gameState.currentPredator = "Sarah";
-            gameState.lastSwallowedBy = "Sarah";
-            gameState.TurnCount = 0;
-            gameState.preyHealth = 100;
-            gameState.preyStamina = 100;
-            gameState.digestionProgress = 0;
-            gameState.acidStage = 0;
-            gameState.predHealth = 75;
-            gameState.predDefense = 3;
-            gameState.checkpointShown = {
-                pred75: false, pred50: false, pred25: false,
-                player75: false, player50: false, player25: false,
-                acid1: false, acid2: false, acid3: false
-            };
-            gameState.lastChoiceLabel = "";
-        }
+                if (!gameState.inStomach) {
+                    gameState.inStomach = true;
+                    gameState.currentPredator = "Sarah";
+                    gameState.lastSwallowedBy = "Sarah";
+                    gameState.TurnCount = 0;
+                    gameState.preyHealth = 100;
+                    gameState.preyStamina = 100;
+                    gameState.digestionProgress = 0;
+                    gameState.acidStage = 0;
+                    gameState.predHealth = 75;
+                    gameState.predDefense = 3;
+                    gameState.checkpointShown = {
+                        pred75: false, pred50: false, pred25: false,
+                        player75: false, player50: false, player25: false,
+                        acid1: false, acid2: false, acid3: false
+                    };
+                    gameState.lastChoiceLabel = "";
+                }
 
-        gameState.TurnCount++;
+                gameState.TurnCount++;
+                if (gameState.TurnCount % 3 === 0) {
+                    gameState.acidStage = Math.min(3, gameState.acidStage + 1);
+                }
+                gameState.digestionProgress += 3 + (gameState.acidStage * 2);
+                gameState.preyHealth -= gameState.acidStage * 2;
+                if (gameState.preyHealth < 0) gameState.preyHealth = 0;
 
-        if (gameState.TurnCount % 3 === 0) {
-            gameState.acidStage = Math.min(3, gameState.acidStage + 1);
-        }
-        gameState.digestionProgress += 3 + (gameState.acidStage * 2);
-        if (gameState.preyHealth < 0) gameState.preyHealth = 0;
+                let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${Math.floor(gameState.digestionProgress)}% | **Acid Stage:** ${gameState.acidStage} | **Sarah's Stomach:** ${gameState.predHealth}`;
 
-        let status = `**Turn:** ${gameState.TurnCount} | **Health:** ${gameState.preyHealth} | **Stamina:** ${gameState.preyStamina} | **Digestion:** ${Math.floor(gameState.digestionProgress)}% | **Acid Stage:** ${gameState.acidStage} | **Predator Health:** ${gameState.predHealth}`;
+                let sceneDesc = "You are trapped inside the stomach of an aggressive upperclassman named Sarah.\n\n";
 
-        let sceneDesc = "You are inside the Stomach of some Upperclassman after trying to help Molly free someone else from your current Predicament.\n\n";
+                if (gameState.TurnCount === 1) {
+                    sceneDesc += "You rush forward and grab the upperclassman’s arm, pulling with everything you have alongside Molly. For a brief moment it seems like you might actually succeed — but then Sarah suddenly twists with surprising speed. Her eyes flash with irritation as she releases the freshman and lunges at you instead.\n\nBefore you can even react, her mouth stretches impossibly wide and engulfs your head and shoulders in one swift motion. Powerful, wet *GLUCK-GLUCK-GLORP* sounds echo loudly as she begins swallowing you with aggressive, determined gulps. Molly shouts in surprise, but it’s already too late — you’re sliding rapidly down Sarah’s tight, rippling throat and dropping heavily into her stomach.\n\n";
+                }
 
-        if (gameState.TurnCount === 1) {
-            sceneDesc += "You rush forward and grab the upperclassman’s arm, pulling with all your strength alongside Molly.\n\nFor a moment it seems like it’s working — but then the upperclassman suddenly twists, her eyes flashing with irritation. In one swift motion she releases the freshman and lunges at you instead.\n\nBefore you can react, her mouth stretches wide and engulfs your head and shoulders. Powerful, wet *GLUCK-GLUCK* sounds fill the air as she begins swallowing you down with aggressive determination.\n\nMolly shouts in surprise, but it’s too late — you’re already sliding down the upperclassman’s tight, rippling throat.\n\n";
+                const stage = getDigestionStage(gameState.digestionProgress);
+                switch (stage.name) {
+                    case "Stable":
+                        sceneDesc += "The fleshy walls churn and squeeze around you with smug confidence.";
+                        break;
+                    case "Coating":
+                        sceneDesc += "Thick, sticky digestive fluids coat your body as the stomach claims you.";
+                        break;
+                    case "Burning":
+                        sceneDesc += "The acids are beginning to sting and burn against your skin.";
+                        break;
+                    case "Breaking Down":
+                        sceneDesc += "The stomach walls crush and grind against you with increasing force.";
+                        break;
+                    case "Critical":
+                        sceneDesc += "The chamber has become a burning, crushing nightmare. You won’t last much longer in here.";
+                        break;
+                }
 
-            sceneDesc += "\n\n";
+                let actionText = "\n\n";
+                if (gameState.lastChoiceLabel) {
+                    actionText += `You attempt to ${gameState.lastChoiceLabel.toLowerCase()} inside the tight, sweltering chamber. `;
+                }
 
-            sceneDesc += "\n\n";
-        }
+                const predAction = ["squeezes","crushes","shakes","kneads","taunts"][Math.floor(Math.random()*5)];
+                if (predAction === "squeezes") actionText += "Sarah deliberately flexes her stomach muscles, squeezing you tightly as if to remind you that you’re just food now.";
+                else if (predAction === "crushes") actionText += "The walls suddenly crush inward with brutal force, compressing your body painfully.";
+                else if (predAction === "shakes") actionText += "Sarah shakes her belly vigorously, tossing you around violently in the thick acids.";
+                else if (predAction === "kneads") actionText += "Sarah kneads her own stomach with both hands, grinding you against the churning walls.";
+                else if (predAction === "taunts") actionText += "Sarah’s mocking voice vibrates through the stomach: \"Should’ve minded your own business~\"";
 
-        const stage = getDigestionStage(gameState.digestionProgress);
-        switch (stage.name) {
-            case "Stable":
-                sceneDesc += "";
-                break;
-            case "Coating":
-                sceneDesc += "";
-                break;
-            case "Burning":
-                sceneDesc += "";
-                break;
-            case "Breaking Down":
-                sceneDesc += "";
-                break;
-            case "Critical":
-                sceneDesc += "";
-                break;
-        }
+                let checkpointText = "";
+                if (gameState.acidStage === 1 && !gameState.checkpointShown.acid1) {
+                    checkpointText += "\n\nThe acids are starting to burn more noticeably...";
+                    gameState.checkpointShown.acid1 = true;
+                }
+                if (gameState.acidStage === 2 && !gameState.checkpointShown.acid2) {
+                    checkpointText += "\n\nThe burning sensation is growing much worse.";
+                    gameState.checkpointShown.acid2 = true;
+                }
+                if (gameState.acidStage === 3 && !gameState.checkpointShown.acid3) {
+                    checkpointText += "\n\n@@color:red;The acids are now extremely painful and dangerous!@@";
+                    gameState.checkpointShown.acid3 = true;
+                }
 
-        let actionText = "\n\n";
-        if (gameState.lastChoiceLabel) {
-            actionText += `You attempt to ${gameState.lastChoiceLabel.toLowerCase()}. `;
-        }
+                if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
+                    killPlayer("digested", "Sarah’s stomach finally overwhelms and digests you completely.");
+                    return gameState.deathText;
+                }
 
-        const predAction = ["Relax","Crush","squeeze","shake","taunt", "massage", "knead"][Math.floor(Math.random()*6)];
-        
-        if (predAction === "Relax")
-            actionText += "";
-        else if (predAction === "Crush")
-            actionText += "";
-        else if (predAction === "squeeze")
-            actionText += "";
-        else if (predAction === "shake")
-            actionText += "";
-        else if (predAction === "taunt")
-            actionText += "";
-        else if (predAction === "massage")
-            actionText += "";
-        else if (predAction === "knead")
-            actionText += "";
+                if (gameState.predHealth <= 0) {
+                    gameState.inStomach = false;
+                    gameState.currentPredator = "";
+                    gameState.TurnCount = 0;
+                    gameState.acidStage = 0;
+                    gameState.helpMollyResult = undefined;
 
-        let checkpointText = "";
-        if (gameState.acidStage === 1 && !gameState.checkpointShown.acid1) {
-            checkpointText += "\n\nThe tingling has become a steady burning sensation...";
-            gameState.checkpointShown.acid1 = true;
-        }
-        if (gameState.acidStage === 2 && !gameState.checkpointShown.acid2) {
-            checkpointText += "\n\nThe acids are growing dangerously strong now.";
-            gameState.checkpointShown.acid2 = true;
-        }
-        if (gameState.acidStage === 3 && !gameState.checkpointShown.acid3) {
-            checkpointText += "\n\n@@color:red;The stomach is now extremely hostile and painful! You need to get out soon!@@";
-            gameState.checkpointShown.acid3 = true;
-        }
+                    return "With one final, desperate push, you manage to force Sarah’s stomach to give in. She doubles over and vomits you back up onto the cafeteria floor, coughing and gasping.\n\nBefore Sarah can recover, Lirael steps forward with a calm but stern expression.\n\n\"That’s enough,\" Lirael says, her voice carrying clear authority. \"It’s time for you to go to detention.\"\n\nIn one smooth motion, Lirael opens her mouth and engulfs Sarah’s head and shoulders. With powerful, practiced swallows, she quickly consumes the struggling upperclassman, her own belly swelling noticeably as Sarah disappears inside her.\n\nLirael gently pats her now rounded stomach. \"She’ll be released after detention… eventually.\"";
+                }
 
-        if (gameState.preyHealth <= 0 || gameState.digestionProgress >= 100) {
-            killPlayer("digested", ``);
-            return gameState.deathText;
-        }
-
-        if (gameState.predHealth <= 0) {
-            gameState.inStomach = false;
-            gameState.currentPredator = "";
-            gameState.TurnCount = 0;
-            gameState.acidStage = 0;
-            return digestionText + "\n\n";
-        }
-
-        return sceneDesc + "\n\n" + status + checkpointText + actionText + "\n\nWhat will you do?";
-    }
+                return sceneDesc + "\n\n" + status + checkpointText + actionText + "\n\nWhat will you do?";
+            }
         } else {
             // Asked Lirael to handle it (always succeeds)
-            return "You turn to Lirael quickly. \"Can you help her?\"\n\nLirael nods once and steps forward. With calm authority and surprising strength, she places one hand on the upperclassman’s shoulder.\n\n\"That’s enough,\" she says firmly. \"Release her. Now.\"\n\nThe upperclassman’s eyes widen at Lirael’s intimidating presence. After a brief standoff, she reluctantly opens her mouth and lets the freshman slide back out, coughing and gasping.\n\nMolly immediately helps the smaller girl up.";
+            return "You turn to Lirael quickly. \"Can you help her?\"\n\nLirael nods once and steps forward with calm, imposing grace. She places one elegant hand on the upperclassman’s shoulder.\n\n\"That’s enough,\" she says firmly, her voice carrying undeniable authority. \"Release her. Now.\"\n\nThe upperclassman’s eyes widen at Lirael’s towering presence and powerful tone. After a brief standoff, she reluctantly opens her mouth and lets the freshman slide back out, coughing and gasping for air.\n\nMolly immediately helps the smaller girl up.";
         }
 
         // Common continuation for success paths
-        if (gameState.lastChoiceLabel !== "youhelpmolly" && Math.random() < 0.60) {
-            return "\n\nMolly turns to you (and Lirael) with a relieved smile.\n\n\"Thanks for the backup,\" she says, brushing her hair out of her face. \"First day and people are already trying to eat freshmen in the cafeteria… Welcome to Hartford High.\"";
-        }
-
-        return ""; // Failure path continues in next passage
+        return "\n\nMolly turns to you (and Lirael) with a relieved smile.\n\n\"Thanks for the backup,\" she says, brushing her hair out of her face. \"First day and people are already trying to eat freshmen in the cafeteria… Welcome to Hartford High.\"";
     },
     location: "School Cafeteria",
     choices: function() {
-        // Dynamic choices based on outcome
-        if (gameState.lastChoiceLabel === "youhelpmolly" && Math.random() >= 0.60) {
-            // Failure - inside stomach
+        if (gameState.lastChoiceLabel === "youhelpmolly" && !gameState.helpMollyResult) {
+            // Inside stomach - vore mechanics
             return [
-													
-                {  label: "Struggle Conservatively", next: 239, effect: () => {
-            gameState.preyStamina -= 7;
-            gameState.predHealth -= Math.max(0, Math.floor(Math.random()*5)+5 - gameState.predDefense);
-            gameState.lastChoiceLabel = "Struggle Conservatively";
-        }},
-        { label: "Struggle", next: 239, effect: () => {
-            gameState.preyStamina -= 13;
-            gameState.predHealth -= Math.max(0, Math.floor(Math.random()*7)+9 - gameState.predDefense);
-            gameState.lastChoiceLabel = "Struggle";
-        }},
-        { label: "Struggle Aggressively", next: 239, effect: () => {
-            gameState.preyStamina -= 22;
-            gameState.preyHealth -= 8;
-            gameState.predHealth -= Math.max(0, Math.floor(Math.random()*12)+15 - Math.round(gameState.predDefense*0.6));
-            gameState.lastChoiceLabel = "Struggle Aggressively";
-        }},
-        { label: "Brace Yourself", next: 239, effect: () => {
-            gameState.preyStamina -= 9;
-            gameState.preyHealth += 15;
-            gameState.lastChoiceLabel = "Brace Yourself";
-        }},
-        { label: "Rest", next: 239, effect: () => {
-            gameState.preyStamina = Math.min(100, gameState.preyStamina + 18);
-            gameState.lastChoiceLabel = "Rest";
-        }},
-										
+                { label: "Struggle Conservatively", next: 239, effect: () => { gameState.preyStamina -= 7; gameState.predHealth -= Math.max(0, Math.floor(Math.random()*5)+5 - gameState.predDefense); gameState.lastChoiceLabel = "Struggle Conservatively"; }},
+                { label: "Struggle", next: 239, effect: () => { gameState.preyStamina -= 13; gameState.predHealth -= Math.max(0, Math.floor(Math.random()*7)+9 - gameState.predDefense); gameState.lastChoiceLabel = "Struggle"; }},
+                { label: "Struggle Aggressively", next: 239, effect: () => { gameState.preyStamina -= 22; gameState.preyHealth -= 8; gameState.predHealth -= Math.max(0, Math.floor(Math.random()*12)+15 - Math.round(gameState.predDefense*0.6)); gameState.lastChoiceLabel = "Struggle Aggressively"; }},
+                { label: "Brace Yourself", next: 239, effect: () => { gameState.preyStamina -= 9; gameState.preyHealth = Math.min(100, gameState.preyHealth + 15); gameState.lastChoiceLabel = "Brace Yourself"; }},
+                { label: "Rest", next: 239, effect: () => { gameState.preyStamina = Math.min(100, gameState.preyStamina + 18); gameState.lastChoiceLabel = "Rest"; }}
             ];
         } else {
             // Success path
             return [
-                { label: "Talk to Molly", next: 240 },
-                { label: "Check on the freshman", next: 241 },
-                { label: "Ask Lirael what she thinks", next: 242 }
+                { label: "Talk to Molly and the other student", next: 240, effect: () => {changeBond("molly", 15);} },
             ];
         }
     }
