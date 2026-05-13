@@ -3941,7 +3941,7 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
         { 
             label: "Comment on Emily's loud stomach", 
             next: 227,
-            effect: () => { changeBond("issacSister", 8); } 
+            effect: () => { changeBond("issacSister", 8); gameState.hasschedule = true;} 
         },
         { 
             label: "Keep relaxing and finish eating", 
@@ -4831,7 +4831,58 @@ Lab Participation: ${Object.keys(gameState.voreEncounters.labs || []).length}
         } else if (type === 'schedule') {
         title.textContent = "School Bell Schedule";
         if (gameState.currentschoolyear === "2024-2025" && gameState.currentsemester === "Fall") {
-            content.innerHTML = "<p>Sorry this is still Indev!</p>";
+            content.innerHTML = `<tr>
+<th></th>
+<th></th>
+</tr>
+<tr>
+<td>Bell 1<br>start time - end time</td>
+<td>English 11 - </td>
+</tr>
+<tr>
+<td>Bell 2<br>start time - end time</td>
+<td>Study Hall - </td>
+</tr>
+<tr>
+<td>Bell 3<br>start time - end time</td>
+<td>U.S. History</td>
+</tr>
+<tr>
+<td>Bell 4<br>start time - 10:51am</td>
+<td>Algebra II - </td>
+</tr>
+<tr>
+<td>Bell 5<br>start time - end time</td>
+<td>Lunch - Cafeteria</td>
+</tr>
+<tr>
+<td>Bell 6<br>start time - end time</td>
+<td>Study Hall - </td>
+</tr>
+<tr>
+<td>Bell 7<br>start time - end time</td>
+<td>Anatomy &amp; Physiology - </td>
+</tr>
+<tr>
+<td>Bell 8<br>start time - end time</td>
+<td>Escapism &amp; Prey Tactics - </td>
+</tr>
+<tr>
+<td>Bell 9<br>start time - end time</td>
+<td>Intro to Vore - </td>
+</tr>
+<tr>
+<td>Bell 10<br>start time - end time</td>
+<td>Study Hall - </td>
+</tr>
+<tr>
+<td>Bell 11<br>start time - end time</td>
+<td>Physical Education - Gymnasium/td>
+</tr>
+<tr>
+<td>Bell 12<br>start time - 2:35pm</td>
+<td>Survival &amp; Self-Defense</td>
+</tr>`;
         } else if (gameState.currentschoolyear === "2024-2025" && gameState.currentsemester === "Spring") {
             content.innerHTML = "<p>Sorry this is still Indev!</p>";
         } else if (gameState.currentschoolyear === "2025-2026" && gameState.currentsemester === "Fall") {
