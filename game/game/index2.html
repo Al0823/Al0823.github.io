@@ -210,6 +210,11 @@ font-family: "Segoe UI Symbol", "Arial Unicode MS", sans-serif;
 font-size: 18px;
 letter-spacing: 2px;
 }
+
+td { 
+border: solid 5px #000000;
+font-size: 15px;
+}
 </style>
 </head>
 <body>
@@ -224,7 +229,7 @@ letter-spacing: 2px;
 <div class="panel-title">MENU</div>
 <div class="panel-button" onclick="openModal('stats')">View Stats</div>
 <div id="schedule" class="panel-button" onclick="openModal('schedule')" style="display:none;">Class Schedule</div>
-<div class="panel-button" openModal('encounters')">Encounters</div>
+<div class="panel-button" onclick="console.log('CLICKED'); openModal('encounters')">Encounters</div>
 <div class="panel-button" onclick="openModal('relationships')">Relationships</div>
 <div class="panel-button" onclick="openModal('options')">Options</div>
 <div class="panel-button" onclick="openModal('system')">Save / Load</div>
@@ -3697,19 +3702,17 @@ next: function() {
         { label: "Head home from school", next: 212 }
     ]
 },
-
 // 212 - Heading Home from Orientation
 {
     text: function() {
-        return "The orientation activities wind down as the afternoon sun begins to dip lower in the sky. After the campus tour, meet-the-teachers sessions, and collecting various packets and schedules, the family gathers near the main entrance.\n\nYour father looks visibly relieved to be leaving.\n\n\"Alright, that’s enough for one day,\" he says, adjusting the stack of papers in his hands. \"Let’s head home before anything else happens.\"\n\nLirael stays close to you, Emily, and Lydia as the group walks back toward the parking lot. Lydia walks quietly between you and Lirael, still processing everything she’s seen. Her soft brown eyes occasionally dart around at the other students, but she seems a little less overwhelmed than when you first arrived.\n\nEmily is buzzing with energy, already talking about which clubs she wants to join and how she’s going to survive Freshman Friday Fright.\n\n\"Half the freshmen make it? Challenge accepted,\" she says with a grin, patting her belly.\n\nYour mother gives her a tired but fond look. \"Emily, please try not to eat half your class on the first week.\"\n\nLirael walks gracefully beside you, her 6'1\" cloaked form moving with quiet poise. She occasionally glances at Lydia with a gentle, protective expression.\n\nAs everyone loads back into the van, your father starts the engine and pulls out of the parking lot. The ride home is a mix of quiet reflection and light conversation — mostly Emily chatting about the school layout and Lirael asking thoughtful questions about what daily school life is like.\n\nLydia sits quietly, occasionally nodding along, still adjusting to the idea of attending a human school just tomorrow.\n\nWhen the van finally pulls into the driveway, the sun is beginning to set. The house looks the same as when you left it, but after the long day it feels a little more like home.\n\nYour father turns off the engine and sighs.\n\n\"We’ll talk more about everything over dinner,\" he says. \"For now… let’s get inside.\"";
+        return "The orientation activities wind down as the afternoon sun begins to dip lower in the sky. After the campus tour, meet-the-teachers sessions, and collecting various packets and schedules, the family gathers near the main entrance and begins walking toward the parking lot.\n\nJust as you all reach the van and start loading the bags, rapid footsteps echo behind you. Molly, the busty senior upperclassman from the sign-in table, comes jogging up to the group, slightly out of breath but smiling.\n\n\"Hey! Wait up!\" she calls out.\n\nShe stops in front of you, her generous chest heaving from the short run. She looks at you and your family with genuine curiosity.\n\n\"I don't know why, but… I find you and your family really interesting,\" she says, tilting her head. \"Something about you all just feels… different. I can't quite put my finger on it.\"\n\nShe smiles warmly and pulls out her phone.\n\n\"Would it be okay if I gave you my number? I'd love to stay in touch.\"\n\nYou nod and agree. Molly quickly adds her number to your phone with a cheerful grin.\n\n\"Great! Text me anytime,\" she says, waving as she jogs back toward the school building.\n\nYour father raises an eyebrow but says nothing as everyone finishes loading into the van. He starts the engine and pulls out of the parking lot.\n\nThe drive home is relatively quiet. Emily occasionally points out landmarks to Lydia and Lirael, trying to explain what they are. Lydia listens with wide, soft brown eyes, still overwhelmed by the sheer number of cars, buildings, and people. Lirael asks thoughtful questions about the school system and what to expect during the first week.\n\nYour father glances in the rearview mirror.\n\n\"Remember,\" he says, \"Lirael is officially there as an aide assigned to watch over you three. Stick close to her if anything feels off. And Lydia — try to stay calm. We’ll handle any questions about your background.\"\n\nLydia nods nervously, fiddling with the half-cloaking stone hidden under her shirt.\n\nWhen the van finally pulls into the driveway, the sun is beginning to set. The house looks the same as when you left it, but after the long day it feels a little more like home.\n\nYour father turns off the engine and sighs.\n\n\"We’ll talk more about everything over dinner,\" he says. \"For now… let’s get inside.\"";
 
     },
-    location: "Byrd Family Home - Driveway (Late Afternoon)",
+    location: "School Parking Lot → Byrd Family Home - Driveway (Late Afternoon)",
     choices: [
         { label: "Go inside the house", next: 213, effect: () => {gameState.relationships.molly.phone = true;} }
     ]
 },
-    
 // 213 - Back Home and Dinner Plans
 {
     text: function() {
@@ -3830,7 +3833,7 @@ if (gameState.lastChoiceLabel === "Have Lirael be the predator") {
     },
     location: "Upstairs Bathroom (Evening)",
     choices: [
-        { label: "Continue", next: 221, effect: () => { changeBond("lirael", 25); } }
+        { label: "Continue", next: 221, effect: () => { changeBond("lirael", 50); } }
     ]
 },
 
@@ -4259,13 +4262,13 @@ setDetail("lirael", 14);
 // 235 - Heading to School
 {
     text: function() {
-        return "Emily stretches one last time on the couch, her large, bumpy potbelly shifting noticeably as the bones inside continue their slow journey.\n\n\"Alright, alright… I’m going,\" she says with a yawn. She hops up and quickly heads upstairs to get changed.\n\nA few minutes later she comes bounding back down wearing an oversized sweater and a pair of sweatpants. Both garments are now dangerously tight on her newly enhanced body. The sweater stretches obscenely across her much larger, heavier breasts, while the sweatpants hug her dramatically widened hips and thick, plush ass like a second skin, leaving very little to the imagination.\n\nShe gives everyone a quick spin, clearly enjoying how her new curves strain against the fabric.\n\n\"Ready!\" she announces cheerfully.\n\nThe whole family heads out the front door and piles into the minivan. Your father takes the driver’s seat, your mother sits in the passenger side, while you, Emily, Lydia, and Lirael squeeze into the back rows. Lirael’s own voluptuous body takes up a good amount of space, her rounded, bumpy potbelly resting comfortably on her lap.\n\nAs the van pulls out of the driveway and starts heading toward school, your father glances in the rearview mirror.\n\n\"Remember,\" he says seriously, \"stay together, stay alert, and listen to Lirael if anything feels off. This is a new school with… new rules.\"\n\nEmily grins from her seat, still gently rubbing her potbelly.\n\n\"This is gonna be fun,\" she says excitedly.\n\nLirael sits gracefully beside you, one hand resting protectively on your thigh as the van drives down the wooded road toward your first official day of school.";
+        return "Emily stretches one last time on the couch, her large, bumpy potbelly shifting noticeably as the bones inside continue their slow journey.\n\n\"Alright, alright… I’m going,\" she says with a yawn. She hops up and quickly heads upstairs to get changed.\n\nA few minutes later she comes bounding back down wearing an oversized sweater and a pair of sweatpants. Both garments are now dangerously tight on her newly enhanced body. The sweater stretches obscenely across her much larger, heavier breasts, while the sweatpants hug her dramatically widened hips and thick, plush ass like a second skin, leaving very little to the imagination.\n\nShe gives everyone a quick spin, clearly enjoying how her new curves strain against the fabric.\n\n\"Ready!\" she announces cheerfully.\n\nThe whole family heads out the front door and piles into the minivan. Your father takes the driver’s seat, your mother sits in the passenger side, while you, Emily, Lydia, and Lirael squeeze into the back rows. Lirael’s own voluptuous body takes up a good amount of space, her rounded, mostly smooth potbelly resting comfortably on her lap.\n\nAs the van pulls out of the driveway and starts heading toward school, your father glances in the rearview mirror.\n\n\"Remember,\" he says seriously, \"stay together, stay alert, and listen to Lirael if anything feels off. This is a new school with… new rules.\"\n\nEmily grins from her seat, still gently rubbing her potbelly.\n\n\"This is gonna be fun,\" she says excitedly.\n\nLirael sits gracefully beside you, one hand resting protectively on your thigh as the van drives down the wooded road toward your first official day of school.";
 
     },
     location: "Byrd Family Minivan (Morning)",
     choices: [
         { 
-            label: "Arrive at school", 
+            label: "Continue", 
             next: 236,
             effect: () => { 
                 changeBond("issacSister", 8); 
@@ -4273,6 +4276,109 @@ setDetail("lirael", 14);
             } 
         }
     ]
+},
+// 236 - Text from Molly
+{
+    text: function() {
+        return "The van continues down the wooded road toward school. Your father is focused on driving while your mother reviews papers in the front seat. Emily is half-dozing beside you, gently rubbing her bumpy potbelly, while Lirael sits gracefully on your other side.\n\nYour phone vibrates. It's a message from Molly, the friendly upperclassman from orientation.\n\n**Molly:** Hey! You guys on the way yet? I’m already at school helping with setup.\n\nYou reply that you’re in the car and should arrive soon. A few moments later she texts again.\n\n**Molly:** Also, is that tall woman who was with you on orientation day your aide? The one with the long silver hair?\n\nYou confirm that Lirael is officially your aide (along with Emily and Lydia).\n\n**Molly:** Cool! Is she chill? Like… will she be strict or pretty relaxed?\n\nYou reply that Lirael is quite relaxed and understanding.\n\n**Molly:** Nice. That’ll make things easier.\n\nShe sends another message shortly after:\n\n**Molly:** Looks like we actually have a few classes together. We both have 5th period Survival & Self-Defense, 6th period Lunch, 10th period Chemistry, and 11th period Physical Education. Want to meet up in the cafeteria before first bell so I can show you around a bit?\n\nYou agree and tell her you’ll meet her in the cafeteria before the first bell starts.\n\n**Molly:** Sounds good! See you there.\n\nYou put your phone away. Lirael glances over at you curiously.\n\n\"Making friends already?\" she asks softly.";
+
+    },
+    location: "Byrd Family Minivan (Morning)",
+    choices: [
+        { 
+            label: "Continue the car ride", 
+            next: 237,
+            effect: () => { 
+                changeBond("lirael", 8); 
+changeBond("molly", 15); 
+            } 
+        }
+    ]
+},
+// 237 - Arrival at School
+{
+    text: function() {
+        return "The rest of the car ride passes in a mix of quiet conversation and nervous anticipation. Your father gives a few last-minute reminders about staying safe and listening to Lirael. Emily occasionally complains about how tight her sweater feels around her chest, while Lydia sits quietly, looking both excited and anxious about her first day.\n\nEventually the school comes into view. The parking lot is already bustling with students and parents. Your father pulls up near the main entrance and puts the van in park.\n\n\"This is it,\" he says. \"Have a good first day. Text us if anything comes up.\"\n\nYou, Emily, Lydia, and Lirael climb out of the van. Your parents wave before driving off to find parking.\n\nThe four of you head inside the main building. The first stop is the faculty lounge, where Lirael has to officially clock in as an aide. You all wait outside in the hallway while she steps inside. She returns a couple minutes later with a small visitor badge clipped to her outfit.\n\n\"All set,\" she says calmly. \"I am officially on duty.\"\n\nThe four of you check your schedules and quickly realize your first classes are in completely different parts of the building.\n\nEmily sighs. \"I’ve got Algebra I first. Wish me luck.\"\n\nLydia looks a little nervous. \"I have Global History…\"\n\nYou look at your  schedules and see you have English 10 for first period.\n\n\"We’ll head to the cafeteria to meet Molly first,\" you say. \"We’ll catch up with you two at lunch.\"\n\nEmily gives a thumbs-up and heads off toward the math wing. Lydia gives a shy wave and follows the signs toward the history classrooms. You and Lirael make your way toward the large cafeteria.\n\nAs you approach the cafeteria entrance, you notice something unusual — a large crowd of students is clustered tightly in the middle of the room, murmuring and shifting around something you can’t quite see.\n\nLirael narrows her golden eyes slightly.\n\n\"Something is happening,\" she says quietly.";
+
+    },
+    location: "School - Cafeteria Entrance",
+    choices: [
+        { 
+            label: "Investigate the crowd", 
+            next: 238,
+            effect: () => { 
+                changeBond("lirael", 8); 
+            } 
+        }
+    ]
+},
+// 238 - The Crowd in the Cafeteria
+{
+    text: function() {
+        return "Curious (and a little concerned), you and Lirael move toward the large crowd gathered in the center of the cafeteria. The murmurs and excited chatter grow louder as you approach.\n\nSuddenly, a familiar figure sprints past you — Molly. The busty upperclassman with long auburn hair moves surprisingly fast, pushing her way directly into the heart of the crowd without hesitation.\n\nSeeing her rush in like that, you pick up your pace as well. Lirael stays right beside you, her tall, curvaceous frame easily cutting through the crowd as you both make your way to the front.\n\nOnce you push through the ring of students, the scene becomes clear.\n\nAn upperclassman girl — tall, athletic-looking, with short dark hair — has a smaller student (who looks like a freshman or sophomore) halfway down her throat. The poor girl’s legs are kicking weakly in the air while the upperclassman holds her hips, steadily swallowing her further. The smaller student’s upper body is already bulging out the older girl’s throat and chest.\n\nMolly is right there in the middle of it, grabbing the upperclassman’s shoulders and trying to pry the freshman back out.\n\n\"Hey! Not on the first day!\" Molly shouts, pulling firmly. \"Let her go, Sarah!\"\n\nThe upperclassman (Sarah) grunts around her prey but doesn’t stop swallowing. A crowd of students watches with a mix of amusement, excitement, and indifference — clearly this kind of thing is not uncommon here.\n\nMolly glances over her shoulder, spots you and Lirael, and calls out:\n\n\"A little help here?!\"";
+
+    },
+    location: "School Cafeteria",
+    choices: [
+        { 
+            label: "Jump in and help Molly pull the girl out", 
+            next: 239,
+            effect: () => {changeBond("lirael", 5); changeBond("molly", 20); gameState.lastChoiceLabel = "youhelpmolly"; } 
+        },
+        { 
+            label: "Ask Lirael to handle it", 
+            next: 239,
+            effect: () => {changeBond("lirael", 10); changeBond("molly", 10); gameState.lastChoiceLabel = "liraelhelpmolly"; } 
+        }
+    ]
+},
+// 239 - Helping in the Cafeteria
+{
+    text: function() {
+        if (gameState.lastChoiceLabel === "youhelpmolly") {
+            
+            // Random success check (60% success rate)
+            if (Math.random() < 0.60) {
+                // SUCCESS
+                return "You don’t hesitate. You push forward and grab onto the upperclassman’s arm alongside Molly, pulling hard to try and free the struggling freshman.\n\n\"Let her go!\" you shout, adding your strength to Molly’s efforts.\n\nAfter several tense seconds of pulling and resistance, the upperclassman finally relents with an annoyed groan. She opens her mouth and lets the freshman slide back out, coughing and gasping for air as she collapses onto the floor.\n\nMolly immediately helps the smaller girl up, checking if she’s okay.\n\nThe crowd around you starts to disperse, many students looking disappointed that the show ended so quickly.";
+                
+            } else {
+                // FAILURE - Vore Scene
+                return "You rush forward and grab the upperclassman’s arm, pulling with all your strength alongside Molly.\n\nFor a moment it seems like it’s working — but then the upperclassman suddenly twists, her eyes flashing with irritation. In one swift motion she releases the freshman and lunges at you instead.\n\nBefore you can react, her mouth stretches wide and engulfs your head and shoulders. Powerful, wet *GLUCK-GLUCK* sounds fill the air as she begins swallowing you down with aggressive determination.\n\nMolly shouts in surprise, but it’s too late — you’re already sliding down the upperclassman’s tight, rippling throat.";
+            }
+            
+        } else {
+            // Asked Lirael to handle it (always succeeds)
+            return "You turn to Lirael quickly. \"Can you help her?\"\n\nLirael nods once and steps forward. With calm authority and surprising strength, she places one hand on the upperclassman’s shoulder.\n\n\"That’s enough,\" she says firmly. \"Release her. Now.\"\n\nThe upperclassman’s eyes widen at Lirael’s intimidating presence. After a brief standoff, she reluctantly opens her mouth and lets the freshman slide back out, coughing and gasping.\n\nMolly immediately helps the smaller girl up.";
+        }
+
+        // Common continuation for success paths
+        if (gameState.lastChoiceLabel !== "youhelpmolly" && Math.random() < 0.60) {
+            return "\n\nMolly turns to you (and Lirael) with a relieved smile.\n\n\"Thanks for the backup,\" she says, brushing her hair out of her face. \"First day and people are already trying to eat freshmen in the cafeteria… Welcome to Roosevelt High.\"";
+        }
+
+        return ""; // Failure path continues in next passage
+    },
+    location: "School Cafeteria",
+    choices: function() {
+        // Dynamic choices based on outcome
+        if (gameState.lastChoiceLabel === "youhelpmolly" && Math.random() >= 0.60) {
+            // Failure - inside stomach
+            return [
+                { 
+                    label: "Struggle", 
+                    next: 250 // You can change this number to your vore passage
+                }
+            ];
+        } else {
+            // Success path
+            return [
+                { label: "Talk to Molly", next: 240 },
+                { label: "Check on the freshman", next: 241 },
+                { label: "Ask Lirael what she thinks", next: 242 }
+            ];
+        }
+    }
 },
     // 999 - Game End / Content Boundary
 
@@ -4829,60 +4935,61 @@ Lab Participation: ${Object.keys(gameState.voreEncounters.labs || []).length}
 `;
 								}
         } else if (type === 'schedule') {
-        title.textContent = "School Bell Schedule";
+        title.innerHTML = `<center>School Bell Schedule</center>`;
         if (gameState.currentschoolyear === "2024-2025" && gameState.currentsemester === "Fall") {
-            content.innerHTML = `<tr>
+            content.innerHTML = `<table><tr>
 <th></th>
 <th></th>
 </tr>
 <tr>
-<td>Bell 1<br>start time - end time</td>
-<td>English 11 - </td>
+<td><center>Bell 1<br>start - end</center></td>
+<td><center>English 11 - </center></td>
 </tr>
 <tr>
-<td>Bell 2<br>start time - end time</td>
-<td>Study Hall - </td>
+<td><center>Bell 2<br>start - end</center></td>
+<td><center>Study Hall - </center></td>
 </tr>
 <tr>
-<td>Bell 3<br>start time - end time</td>
-<td>U.S. History</td>
+<td><center>Bell 3<br>start - end</center></td>
+<td><center>U.S. History</center></td>
 </tr>
 <tr>
-<td>Bell 4<br>start time - 10:51am</td>
-<td>Algebra II - </td>
+<td><center>Bell 4<br>start - 10:51am</center></td>
+<td><center>Algebra II - </center></td>
 </tr>
 <tr>
-<td>Bell 5<br>start time - end time</td>
-<td>Lunch - Cafeteria</td>
+<td><center>Bell 5<br>start - end</center></td>
+<td><center>Lunch - Cafeteria</center></td>
 </tr>
 <tr>
-<td>Bell 6<br>start time - end time</td>
-<td>Study Hall - </td>
+<td><center>Bell 6<br>start - end</center></td>
+<td><center>Study Hall - </center></td>
 </tr>
 <tr>
-<td>Bell 7<br>start time - end time</td>
-<td>Anatomy &amp; Physiology - </td>
+<td><center>Bell 7<br>start - end</center></td>
+<td><center>Anatomy &amp; Physiology - </center></td>
 </tr>
 <tr>
-<td>Bell 8<br>start time - end time</td>
-<td>Escapism &amp; Prey Tactics - </td>
+<td><center>Bell 8<br>start - end</center></td>
+<td><center>Escapism &amp; Prey Tactics - </center></td>
 </tr>
 <tr>
-<td>Bell 9<br>start time - end time</td>
-<td>Intro to Vore - </td>
+<td><center>Bell 9<br>start - end</center></td>
+<td><center>Intro to Vore - </center></td>
 </tr>
 <tr>
-<td>Bell 10<br>start time - end time</td>
-<td>Study Hall - </td>
+<td><center>Bell 10<br>start - end</center></td>
+<td><center>Study Hall - </center></td>
 </tr>
 <tr>
-<td>Bell 11<br>start time - end time</td>
-<td>Physical Education - Gymnasium/td>
+<td><center>Bell 11<br>start - end</center></td>
+<td><center>Physical Education - Gymnasium</center></td>
 </tr>
 <tr>
-<td>Bell 12<br>start time - 2:35pm</td>
-<td>Survival &amp; Self-Defense</td>
-</tr>`;
+<td><center>Bell 12<br>start - 2:35pm</center></td>
+<td><center>Survival &amp; Self-Defense</center></td>
+</tr>
+</table>`;
         } else if (gameState.currentschoolyear === "2024-2025" && gameState.currentsemester === "Spring") {
             content.innerHTML = "<p>Sorry this is still Indev!</p>";
         } else if (gameState.currentschoolyear === "2025-2026" && gameState.currentsemester === "Fall") {
