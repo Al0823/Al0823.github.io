@@ -1006,7 +1006,6 @@ function playAtQueuePos(pos) {
   trackIndex.textContent = 'TRACK ' + (pos + 1) + ' / ' + queue.length;
   updateQueueHighlight();
 
-  // Apply cover art to disc
   const cover = coverURLs[trackIdx];
   if (cover) {
     discCover.style.backgroundImage = `url(${cover})`;
@@ -1060,7 +1059,6 @@ function playPrev() {
   playAtQueuePos(prev);
 }
 
-// Controls
 playBtn.addEventListener('click', () => {
   if (!tracks.length) { openBtn.click(); return; }
   if (isPlaying) {
@@ -1092,14 +1090,12 @@ repeatBtn.addEventListener('click', () => {
 
 shuffleBtn.classList.add('active-btn');
 
-// Volume
 audio.volume = 0.8;
 volSlider.addEventListener('input', () => {
   audio.volume = volSlider.value / 100;
   volPct.textContent = volSlider.value + '%';
 });
 
-// Progress
 audio.addEventListener('timeupdate', () => {
   if (!audio.duration) return;
   const pct = (audio.currentTime / audio.duration) * 100;
@@ -1117,7 +1113,6 @@ progressTrack.addEventListener('click', (e) => {
 
 audio.addEventListener('ended', playNext);
 
-// File input
 openBtn.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', (e) => {
   if (e.target.files.length) loadFiles(e.target.files);
@@ -1147,7 +1142,6 @@ clearBtn.addEventListener('click', () => {
   queueCount.textContent = '0 TRACKS';
 });
 
-// Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT') return;
   if (e.code === 'Space') { e.preventDefault(); playBtn.click(); }
