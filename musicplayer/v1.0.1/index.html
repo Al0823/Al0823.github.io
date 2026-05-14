@@ -186,7 +186,7 @@
     transition: height 0.15s ease;
   }
 
-  /* Track info */
+  /* song info */
   .track-info {
     padding: 14px 16px 8px;
     border-bottom: 1px solid var(--divider);
@@ -222,7 +222,7 @@
     letter-spacing: 1px;
   }
 
-  /* Progress */
+  /* song progress */
   .progress-area {
     padding: 10px 16px;
     border-bottom: 1px solid var(--divider);
@@ -355,7 +355,7 @@
     letter-spacing: 1px;
   }
 
-  /* Queue */
+  /* Queue/song list */
   .queue-header {
     padding: 8px 16px;
     display: flex;
@@ -627,7 +627,7 @@
 
   <div class="queue-list" id="queueList">
     <div class="empty-state" id="emptyState">
-      <span>♪</span>
+      <span>&#9834;</span>
       NO FILES LOADED<br>USE THE BUTTON BELOW
     </div>
   </div>
@@ -775,7 +775,7 @@ function renderQueue() {
     dur.className = 'q-dur';
     dur.textContent = '—';
 
-    // Try to get duration
+    // get song duration
     const tmpAudio = new Audio(objectURLs[trackIdx]);
     tmpAudio.addEventListener('loadedmetadata', () => {
       dur.textContent = fmtTime(tmpAudio.duration);
@@ -892,14 +892,14 @@ repeatBtn.addEventListener('click', () => {
 
 shuffleBtn.classList.add('active-btn');
 
-// Volume
+// Volume slider
 audio.volume = 0.8;
 volSlider.addEventListener('input', () => {
   audio.volume = volSlider.value / 100;
   volPct.textContent = volSlider.value + '%';
 });
 
-// Progress
+// Song Progress
 audio.addEventListener('timeupdate', () => {
   if (!audio.duration) return;
   const pct = (audio.currentTime / audio.duration) * 100;
