@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Music Player</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+<title>A.t.A. Projects, Websites, &amp; Games - Music Player 1.1.1</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
 
@@ -545,7 +544,7 @@
 <div class="player-shell" id="player">
 
   <div class="header">
-    <div class="header-title">PLAYER_V1</div>
+    <div class="header-title">A.t.A. Music Player Version 1.1.1</div>
     <div class="header-dots">
       <div class="header-dot" id="dot1"></div>
       <div class="header-dot" id="dot2"></div>
@@ -756,6 +755,96 @@ function buildQueue() {
   }
 }
 
+// --- Native ID3v2 cover art extractor ---
+function extractCover(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const buf = new Uint8Array(e.target.result);
+        // Must start with "ID3"
+        if (buf[0] !== 0x49 || buf[1] !== 0x44 || buf[2] !== 0x33) return resolve(null);
+        const ver = buf[3]; // ID3v2 major version
+        const flags = buf[5];
+        const hasExtHeader = (flags & 0x40) !== 0;
+        // Syncsafe integer for tag size
+        const tagSize = ((buf[6] & 0x7f) << 21) | ((buf[7] & 0x7f) << 14) |
+                        ((buf[8] & 0x7f) << 7)  |  (buf[9] & 0x7f);
+        let pos = 10;
+        if (hasExtHeader) {
+          if (ver === 3) {
+            const extSize = (buf[10] << 24) | (buf[11] << 16) | (buf[12] << 8) | buf[13];
+            pos += 4 + extSize;
+          } else {
+            const extSize = ((buf[10] & 0x7f) << 21) | ((buf[11] & 0x7f) << 14) |
+                            ((buf[12] & 0x7f) << 7)  |  (buf[13] & 0x7f);
+            pos += extSize;
+          }
+        }
+        const end = 10 + tagSize;
+        while (pos < end - 10) {
+          // Frame ID: 4 bytes (v2.3/v2.4) or 3 bytes (v2.2)
+          let frameId, frameSize, frameHeaderLen;
+          if (ver === 2) {
+            frameId = String.fromCharCode(buf[pos], buf[pos+1], buf[pos+2]);
+            frameSize = (buf[pos+3] << 16) | (buf[pos+4] << 8) | buf[pos+5];
+            frameHeaderLen = 6;
+          } else {
+            frameId = String.fromCharCode(buf[pos], buf[pos+1], buf[pos+2], buf[pos+3]);
+            if (ver === 4) {
+              frameSize = ((buf[pos+4] & 0x7f) << 21) | ((buf[pos+5] & 0x7f) << 14) |
+                          ((buf[pos+6] & 0x7f) << 7)  |  (buf[pos+7] & 0x7f);
+            } else {
+              frameSize = (buf[pos+4] << 24) | (buf[pos+5] << 16) |
+                          (buf[pos+6] << 8)  |  buf[pos+7];
+            }
+            frameHeaderLen = 10;
+          }
+          if (frameSize <= 0 || pos + frameHeaderLen + frameSize > buf.length) break;
+          const isPic = (ver === 2 && frameId === 'PIC') || frameId === 'APIC';
+          if (isPic) {
+            let i = pos + frameHeaderLen;
+            // text encoding byte
+            i++;
+            // MIME type (null-terminated) or 3-char format for v2.2
+            if (ver === 2) {
+              i += 3; // format like "JPG" or "PNG"
+            } else {
+              while (i < buf.length && buf[i] !== 0) i++;
+              i++; // skip null
+            }
+            // picture type byte
+            i++;
+            // description (null-terminated, possibly 2-byte nulls for UTF-16)
+            const enc = buf[pos + frameHeaderLen];
+            if (enc === 1 || enc === 2) {
+              // UTF-16: skip pairs until 0x0000
+              while (i + 1 < buf.length && !(buf[i] === 0 && buf[i+1] === 0)) i += 2;
+              i += 2;
+            } else {
+              while (i < buf.length && buf[i] !== 0) i++;
+              i++;
+            }
+            const imgData = buf.slice(i, pos + frameHeaderLen + frameSize);
+            // Detect mime from magic bytes
+            let mime = 'image/jpeg';
+            if (imgData[0] === 0x89 && imgData[1] === 0x50) mime = 'image/png';
+            else if (imgData[0] === 0x47 && imgData[1] === 0x49) mime = 'image/gif';
+            else if (imgData[0] === 0x57 && imgData[1] === 0x45) mime = 'image/webp';
+            const blob = new Blob([imgData], { type: mime });
+            return resolve(URL.createObjectURL(blob));
+          }
+          pos += frameHeaderLen + frameSize;
+        }
+        resolve(null);
+      } catch { resolve(null); }
+    };
+    reader.onerror = () => resolve(null);
+    // Only read first 512KB — enough for cover art
+    reader.readAsArrayBuffer(file.slice(0, 524288));
+  });
+}
+
 function loadFiles(files) {
   objectURLs.forEach(u => URL.revokeObjectURL(u));
   objectURLs = [];
@@ -765,7 +854,6 @@ function loadFiles(files) {
   tracks.forEach(f => objectURLs.push(URL.createObjectURL(f)));
   coverURLs = new Array(tracks.length).fill(null);
 
-  // Read cover art for all tracks upfront
   let pending = tracks.length;
   function onDone() {
     pending--;
@@ -776,19 +864,10 @@ function loadFiles(files) {
     }
   }
   tracks.forEach((file, i) => {
-    try {
-      window.jsmediatags.read(file, {
-        onSuccess(tag) {
-          const pic = tag.tags && tag.tags.picture;
-          if (pic) {
-            const blob = new Blob([new Uint8Array(pic.data)], { type: pic.format });
-            coverURLs[i] = URL.createObjectURL(blob);
-          }
-          onDone();
-        },
-        onError() { onDone(); }
-      });
-    } catch(e) { onDone(); }
+    extractCover(file).then(url => {
+      coverURLs[i] = url;
+      onDone();
+    });
   });
 }
 
