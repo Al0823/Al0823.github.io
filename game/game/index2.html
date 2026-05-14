@@ -380,6 +380,7 @@ issacSister: {
 { text: "She tripped and accidentally ate a Chinese food delivery woman during a moment of hunger.", known: false }, // 8, set in passage 191
         { text: "She ate a clone of Lirael during the capacity test Lirael set up for her.", known: false }, // 9, set in passage 199
 { text: "She ate 7 women from a Peep-O's order.", unlocked: false }, // 10
+{ text: "She ate a Senior named Vanessa after Vanessa attempted to eat her in between 1st and 2nd Bell on your first day of School.", known: false }, // 11
     ]
 },
 
@@ -632,8 +633,7 @@ isDead: false,
     liraEaten: false,
 liraEatenMethod: 0,   // 0 = not eaten, 1 = eaten at food court, 2 = eaten earlier
 lastMallAttackerEatenBy: 0, // 0 = not eaten, 1 = eaten by Lirael, 2 = eaten by Emily, 3 = eaten by Lydia
-
-    liraelFedComfort: false,
+liraelFedComfort: false,
     liratoldenergyreadings: false,
     liratolddisappearances: false,
     exploredwoodsWithLira: false,
@@ -654,6 +654,7 @@ inTrainingSession: false,
 hasschedule: false,
 currentschoolyear: "2024-2025",
 currentsemester: "Fall",
+gameState.liraelAteSarah = false;
 };
 
 // Set random bonds only once when starting a new game
@@ -4605,6 +4606,7 @@ Sarah pats her now noticeably softer and rounder belly with a smug grin, clearly
                     gameState.helpMollyChoice = undefined;
                     gameState.helpMollyResult = undefined;
 setPredHistory("lirael", 5);
+gameState.liraelAteSarah = true;
                     return "With one final, desperate surge of strength, you manage to overwhelm Sarah’s stomach. She doubles over and vomits you back up onto the cafeteria floor in a wet, gasping heap.\n\nBefore Sarah can recover, Lirael steps forward with a calm but stern expression.\n\n\"That’s enough,\" Lirael says firmly. \"It’s time for you to go to detention.\"\n\nIn one smooth, practiced motion, Lirael opens her mouth and engulfs Sarah’s head and shoulders. With powerful, efficient swallows, she quickly consumes the struggling upperclassman, her own already voluptuous belly swelling noticeably as Sarah disappears inside her.\n\nLirael gently pats her rounded stomach.\n\n\"She’ll be released after detention… eventually.\"";}
 
                 return sceneDesc +
@@ -4838,7 +4840,86 @@ revealRelationship("sarah", {
         }
     ]
 },
-/*create 244, have it contain Emily's stomach getting louder and clearly more aggressive on her prey. Lirael asks Emily who she ate out of curiosity and Emily responds with this mean Senior Girl(that tried to eat Emily first) who was very delicious, curvy, thick, and soft. The whole time the study hall is going on, you notice that Ms. Smith is watching you, Emily and Lirael while trying not to make it too obvious. Lirael knows she is watching too.*/
+// 244 - Study Hall with Ms. Smith
+{
+    text: function() {
+        return "You and Lirael make your way to the back of the classroom and sit down next to Emily. The moment you settle in, Emily’s already large, rounded belly lets out a deep, wet *GLUUUURRRRP* that echoes noticeably through the quiet study hall. The sound is quickly followed by several aggressive, churning *GLORRRRP… GLOOORSH… BLORP-BLORP* noises as her powerful stomach works vigorously on whoever is currently inside her.\n\nEmily leans back in her chair with a satisfied smirk, gently rubbing slow circles over the top of her gurgling gut. Every few seconds another heavy *GLORP* or *GLUUUUURGLE* rumbles out, and you can occasionally see the faint outline of a hand or elbow pressing outward against the stretched skin before being crushed back down by a particularly strong contraction.\n\nLirael leans forward slightly, her golden eyes curious as she observes the noisy, active belly.\n\n\"Out of curiosity,\" she asks in a soft, velvety voice, \"who did you end up eating?\"\n\nEmily grins, clearly proud of herself.\n\n\"Some mean senior girl named Vanessa,\" she replies casually, patting her belly as it lets out another loud, aggressive *GLUUUUUUURGLE*. \"She tried to eat me first during passing period. Big mistake. She was really delicious though — super curvy, thick in all the right places, and so incredibly soft. She went down nice and smooth after I overpowered her. She’s putting up a pretty good fight in there, but…\" Emily gives her gut a firm slap, causing it to slosh heavily, \"…she’s not winning.\"\n\nThe entire time the study hall continues, you can’t help but notice Ms. Smith. The mysterious teacher sits behind her desk at the front of the room, seemingly focused on papers, but her eyes keep drifting back to your group. Her gaze lingers especially long on you, Emily’s noisy belly, and Lirael. She tries to make it subtle — looking down at her papers every few seconds — but the pattern is unmistakable.\n\nLirael notices it too. She remains perfectly composed, but you feel her hand gently rest on your thigh under the desk, a silent protective gesture. Her expression stays calm, yet her golden eyes are sharp and watchful whenever they drift toward Ms. Smith.\n\nEmily, completely oblivious to the staring, continues to lazily rub her loudly digesting belly as another series of wet, aggressive gurgles echoes through the room.";
+
+    },
+    location: "Hartford High - Room 127 (Ms. Smith's Study Hall)",
+    choices: [
+        { 
+            label: "Continue study hall", 
+            next: 245,
+            effect: () => { 
+                changeBond("issacSister", 12); 
+                changeBond("lirael", 10);
+                setPredHistory("issacSister", 11);
+            } 
+        }
+    ]
+},
+// 245 - Ms. Smith Approaches
+{
+    text: function() {
+        return "The study hall continues in relative quiet, broken only by the occasional wet, aggressive *GLORRRRP… GLOOORSH… GLUUUURGLE* coming from Emily’s still-active belly. She occasionally rubs it absentmindedly, clearly enjoying the sensations as Vanessa continues to break down inside her.\n\nA few minutes later, the only other student in the room — a lanky junior boy wearing headphones — raises his hand.\n\n\"Ms. Smith? Can I go to the Student Lounge?\" he asks politely.\n\nMs. Smith looks up from her desk, her expression unreadable behind her high collar and glasses. After a brief pause, she nods.\n\n\"Yes, you may,\" she says in a soft, eerily calm voice. \"Please shut the door behind you.\"\n\nThe boy gathers his things, gives a quick nod, and leaves the room, closing the heavy door with a solid *click* that echoes through the now mostly-empty study hall.\n\nFor a moment, the room is silent except for Emily’s noisy digestion.\n\nThen Ms. Smith slowly rises from her chair. She moves with deliberate, graceful steps, her long skirt swaying as she approaches your group. Up close, she is even more striking — tall and imposing in her sleek black heels, with a slender yet undeniably thick and curvy figure hidden beneath layers of modest clothing. Not a single inch of skin is visible from her neck down to her gloved hands.\n\nShe stops beside your desk, looking down at you, Emily, and Lirael with quiet, intense curiosity.\n\n\"I don’t believe I’ve seen any of you before,\" she says softly, her voice smooth and measured. \"You three are new here, aren’t you?\"\n\nLirael, ever composed, answers smoothly before you can speak.\n\n\"Yes,\" she replies with a polite smile. \"We all just moved to the area recently. This is our first day.\"\n\nMs. Smith’s eyes linger on each of you in turn — first on you, then on Emily’s noisy belly, and finally on Lirael for a noticeably longer moment. There is something deeply calculating in her gaze, though her expression remains carefully neutral.\n\n\"I see,\" she murmurs. \"Hartford High can be… quite the adjustment for new students. Especially with how things are done here. If you ever need any guidance, or have any questions about how the school operates, feel free to ask me. When I am not here during study hall, I am typically roaming the halls or in the Faculty Lounge.\"\n\nShe pauses, her gloved fingers lightly tapping the edge of your desk.\n\n\"I do hope you all settle in well.\"";
+
+    },
+    location: "Hartford High - Room 127 (Ms. Smith's Study Hall)",
+    choices: [
+        { 
+            label: "Continue talking with Ms. Smith", 
+            next: 246,
+            effect: () => { 
+                changeBond("lirael", 10); 
+            } 
+}
+    ]
+},
+// 246 - Conversation with Ms. Smith
+{
+    text: function() {
+        return "You decide to engage with Ms. Smith rather than shut down the conversation. Lirael remains quietly watchful beside you, her hand still resting lightly on your thigh under the desk.\n\n\"We’re still getting used to everything,\" you reply politely. \"The school is… a lot bigger than our old one.\"\n\nMs. Smith tilts her head slightly, her expression calm and unreadable. Her gloved fingers continue to tap rhythmically against the edge of the desk as she speaks in that soft, smooth voice.\n\n\"It can be quite overwhelming at first,\" she says, her eyes drifting slowly between you, Emily’s still-gurgling belly, and Lirael. \"Especially with how… free things are here compared to most schools. But I’m sure you’ll adjust. You seem like capable young people.\"\n\nThe conversation continues for a few more minutes — mostly surface-level questions about where you moved from and how you’re finding your classes so far. Emily chimes in occasionally between rubbing her noisy stomach, while Lirael stays mostly silent, observing Ms. Smith with sharp, cautious interest.\n\nThen Ms. Smith leans in just a little closer, her voice dropping slightly.\n\n\"You know… I think I would like to see you after class today,\" she says, looking directly at you. \"Just for a short chat. I like to get to know all my new students personally.\"\n\nYou feel a slight tension in the air. After a moment, you nod.\n\n\"Okay,\" you reply. \"Um… may I use the bathroom first? Lirael will come with me as my aide.\"\n\nMs. Smith’s lips curve into a small, almost affectionate smile.\n\n\"Sure, darling,\" she says softly, the word carrying an oddly intimate tone. \"Take your time.\"\n\nLirael stands up smoothly beside you, her expression calm but her golden eyes sharp as she places a protective hand on your lower back.";
+
+    },
+    location: "Hartford High - Room 127 (Ms. Smith's Study Hall)",
+    choices: [
+        { 
+            label: "Head to the bathroom with Lirael", 
+            next: 247,
+            effect: () => { 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+// 247 - Private Bathroom Strategy
+{
+    text: function() {
+        return "You and Lirael excuse yourselves from the study hall and head down the hallway. Lirael leads you to the nearest private bathroom, just down the hall and to the left. Once inside, she locks the door behind you with a firm click, sealing the two of you in privacy.\n\nLirael immediately turns to you, her expression serious.\n\n\"Something is very wrong with that woman,\" she says quietly, her golden eyes sharp. \"Ms. Smith is dangerous. We need a plan in case she tries anything.\"\n\nThe two of you quickly begin making a game plan — staying close together, never being alone with her, keeping Emily informed, and having Lirael ready to intervene if needed. While you talk, Lirael’s belly continues to make occasional deep, wet sounds.";
+
+        // Split based on whether Lirael ate Sarah
+        if (gameState.liraelAteSarah === true) {
+            return "\n\nLirael’s rounded belly suddenly lets out a long, loud *GLUUUUUUURRRRP*, followed by several heavy, wet *GLOOORSH… BLORP-BLORP* noises. The last of Sarah is being broken down and absorbed. Lirael gently rubs her stomach as the final remains are processed, her already voluptuous figure becoming slightly softer and curvier as she absorbs the usable nutrients. All that remains now is a smaller, bumpy potbelly full of bones slowly making their way through her system.\n\n\"She was quite filling,\" Lirael comments calmly, still focused on your plan.";
+        } else {
+            return "\n\nLirael’s belly lets out a deep, hungry *GRRRRROOOAN*, as if protesting the lack of a proper meal earlier. She gently places a hand on her smooth, rounded stomach and continues speaking without missing a beat.";
+        }
+
+        // Common ending
+        return "\n\nAfter finalizing your strategy, you and Lirael exit the bathroom and head back to the study hall. When you return, there are only about five minutes left in the period. You both quietly return to your seats next to Emily, who is still lazily rubbing her own gurgling gut.";
+
+    },
+    location: "School - Private Bathroom → Study Hall",
+    choices: [
+        { 
+            label: "Wait for the bell", 
+            next: 248,
+            effect: () => { 
+                changeBond("lirael", 20); 
+            } 
+        }
+    ]
+},
     // 999 - Game End / Content Boundary
 
     {
