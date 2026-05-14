@@ -52,7 +52,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-color: repeating-linear-gradient(to bottom, transparent, transparent 3px, #0000000F 3px, #0000000F 4px);
+background: repeating-linear-gradient(to bottom, transparent, transparent 3px, #0000000F 3px, #0000000F 4px);
     pointer-events: none;
     z-index: 10;
   }
@@ -115,11 +115,11 @@
     animation: pulse-ring 3s ease-in-out infinite;
   }
 
-  .ring:nth-child(1) { 
-		border-color: var(--accent); 
-		opacity: 0.8; 
-		animation-delay: 0s; 
-		}
+  .ring:nth-child(1) {
+		 border-color: var(--accent); 
+			opacity: 0.8; 
+			animation-delay: 0s; 
+			}
   .ring:nth-child(2) { 
 		inset: -14px; 
 		border-color: var(--accent); 
@@ -167,7 +167,7 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background-color: conic-gradient(var(--bg3) 0deg, var(--bg4) 60deg, var(--bg3) 120deg, var(--bg4) 180deg, var(--bg3) 240deg, var(--bg4) 300deg, var(--bg3) 360deg);
+background: conic-gradient(var(--bg3) 0deg, var(--bg4) 60deg, var(--bg3) 120deg, var(--bg4) 180deg, var(--bg3) 240deg, var(--bg4) 300deg, var(--bg3) 360deg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -324,7 +324,7 @@
   }
 
   .ctrl-btn {
-    background-color: none;
+    background: none;
     border: none;
     cursor: pointer;
     display: flex;
@@ -488,9 +488,9 @@
   .queue-list::-webkit-scrollbar { 
 		width: 4px; 
 		}
-  .queue-list::-webkit-scrollbar-track {
-		 background-color: var(--bg2); 
-			}
+  .queue-list::-webkit-scrollbar-track { 
+		background-color: var(--bg2); 
+		}
   .queue-list::-webkit-scrollbar-thumb { 
 		background-color: var(--bg4); 
 		border-radius: 2px; 
@@ -502,7 +502,7 @@
     padding: 8px 16px;
     gap: 10px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background 0.2s;
     border-bottom: 1px solid #3C3C3C80;
     position: relative;
     overflow: hidden;
@@ -571,7 +571,7 @@
   .open-btn {
     flex: 1;
     padding: 10px 16px;
-    background-color: none;
+    background: none;
     border: 1px solid var(--accent);
     border-radius: 30px;
     color: var(--accent);
@@ -595,7 +595,7 @@
   }
 
   .clear-btn {
-    background-color: none;
+    background: none;
     border: 1px solid var(--divider);
     border-radius: 30px;
     color: var(--text);
@@ -610,9 +610,9 @@
   }
 
   .clear-btn:hover { 
-		border-color: var(--green);
-		 color: var(--green); 
-			}
+		border-color: var(--green); 
+		color: var(--green); 
+		}
 
   #file-input { 
 		display: none; 
