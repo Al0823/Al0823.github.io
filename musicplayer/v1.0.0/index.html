@@ -3,103 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A.t.A. Projects, Websites, &amp; Games - Music Player 1.1.2</title>
+<title>A.t.A. Projects, Websites, &amp; Games - Music Player 1.0.0</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --accent: #ED01FC;
-    --green: #0DFF92;
-    --bg: #212121;
-    --bg2: #161616;
-    --bg3: #2C2C2C;
-    --bg4: #373737;
-    --text: #A1A1A1;
-    --text-bright: #D2D2D2;
-    --divider: #3C3C3C;
-    --font-main: 'Rajdhani', sans-serif;
-    --font-mono: 'Share Tech Mono', monospace;
-  }
-
-  body {
-    margin: 0;
-    font-family: var(--font-main);
-    background-color: var(--bg);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .player-shell {
-    width: 400px;
-    background: var(--bg2);
-    border: 1px solid var(--divider);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  /* scanline overlay */
-  .player-shell::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(to bottom, transparent, transparent 3px,#0000000F 3px,#0000000F 4px);
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  .header {
-    background: var(--bg);
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--divider);
-  }
-
-  .header-title {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-
-  .header-dots {
-    display: flex;
-    gap: 6px;
-  }
-
-  .header-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--divider);
-  }
-
-  .header-dot.active { 
-		background: var(--green); 
-		box-shadow: 0 0 6px var(--green); 
-		}
-
-  /* Album art / visualizer area */
-  .art-area {
-    position: relative;
-    height: 180px;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .art-rings {
-    position: relative;
+*, *::before, *::after { 
+box-sizing: border-box; 
+margin: 0; 
+padding: 0; 
+}
+:root {
+--accent: #ED01FC;
+--green: #0DFF92;
+--bg: #212121;
+--bg2: #161616;
+--bg3: #2C2C2C;
+--bg4: #373737;
+--text: #A1A1A1;
+--text-bright: #D2D2D2;
+--divider: #3C3C3C;
+--font-main: 'Rajdhani', sans-serif;
+--font-mono: 'Share Tech Mono', monospace;
+}
+body {
+margin: 0;
+font-family: var(--font-main);
+background-color: var(--bg);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+}
+.player-shell {
+width: 400px;
+background: var(--bg2);
+border: 1px solid var(--divider);
+border-radius: 4px;
+overflow: hidden;
+position: relative;
+}
+.player-shell::before {
+content: '';
+position: absolute;
+inset: 0;
+background: repeating-linear-gradient(to bottom, transparent, transparent 3px, #0000000f 3px, #0000000f 4px);
+pointer-events: none;
+z-index: 10;
+}
+.header {
+background: var(--bg);
+padding: 10px 16px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+border-bottom: 1px solid var(--divider);
+}
+.header-title {
+font-family: var(--font-mono);
+font-size: 11px;
+color: var(--accent);
+letter-spacing: 3px;
+text-transform: uppercase;
+}
+.header-dots {
+display: flex;
+gap: 6px;
+}
+.header-dot {
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: var(--divider);
+}
+.header-dot.active { 
+background: var(--green); 
+box-shadow: 0 0 6px var(--green); 
+}
+.art-area {
+position: relative;
+height: 180px;
+background: var(--bg);
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+.art-rings {
+position: relative;
     width: 100px;
     height: 100px;
   }
@@ -125,7 +116,8 @@
 		}
   .ring:nth-child(3) { 
 		inset: -28px; 
-		border-color: var(--accent); 
+		border-color: 
+		var(--accent); 
 		opacity: 0.2; 
 		animation-delay: 0.8s; 
 		}
@@ -151,9 +143,9 @@
 				opacity: 0.8; 
 				}
     50% { 
-				transform: scale(1.12); 
-				opacity: 1; 
-				}
+transform: scale(1.12); 
+opacity: 1; 
+}
   }
 
   .disc {
@@ -164,7 +156,7 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: conic-gradient(var(--bg3) 0deg, var(--bg4) 60deg, var(--bg3) 120deg, var(--bg4) 180deg, var(--bg3) 240deg, var(--bg4) 300deg, var(--bg3) 360deg);
+    background: conic-gradient( var(--bg3) 0deg, var(--bg4) 60deg, var(--bg3) 120deg, var(--bg4) 180deg, var(--bg3) 240deg, var(--bg4) 300deg, var(--bg3) 360deg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,7 +330,7 @@
 
   .ctrl-btn:hover { 
 		color: var(--accent); 
-		background: #ED01FC14; 
+		background: #ed01fc14; 
 		}
   .ctrl-btn:active { 
 		transform: scale(0.92); 
@@ -353,8 +345,8 @@
   }
 
   .ctrl-btn.play-btn:hover {
-    background: #ED01FC1F;
-    box-shadow: 0 0 14px #ED01FC4D;
+    background: #ed01fc1f;
+    box-shadow: 0 0 14px #ed01fc4d;
   }
 
   .ctrl-btn.active-btn { 
@@ -362,7 +354,7 @@
 		}
   .ctrl-btn.active-btn:hover { 
 		color: var(--green); 
-		background: #0DFF9214; 
+		background: #0dff9214; 
 		}
 
   svg { 
@@ -378,7 +370,10 @@
     border-bottom: 1px solid var(--divider);
   }
 
-  .vol-icon { color: var(--text); flex-shrink: 0; }
+  .vol-icon { 
+		color: var(--text); 
+		flex-shrink: 0; 
+		}
 
   .vol-slider {
     flex: 1;
@@ -462,17 +457,17 @@
     gap: 10px;
     cursor: pointer;
     transition: background 0.2s;
-    border-bottom: 1px solid #3C3C3C80;
+    border-bottom: 1px solid #3c3c3c80;
     position: relative;
     overflow: hidden;
   }
 
-  .queue-item:hover { 
-		background: #242424; 
-		}
+.queue-item:hover { 
+background: #242424; 
+}
 
   .queue-item.current {
-    background: #ED01FC0F;
+    background: #ed01fc0f;
   }
 
   .queue-item.current::before {
@@ -493,9 +488,9 @@
     letter-spacing: 1px;
   }
 
-  .queue-item.current .q-num { 
-		color: var(--accent); 
-		}
+.queue-item.current .q-num { 
+color: var(--accent); 
+}
 
   .q-name {
     font-size: 13px;
@@ -551,7 +546,7 @@
   .open-btn:hover {
     background: var(--accent);
     color: #000000;
-    box-shadow: 0 0 20px #ED01FC4D;
+    box-shadow: 0 0 20px #ed01fc4d;
   }
 
   .clear-btn {
@@ -597,9 +592,7 @@
   }
 
   /* Shuffle indicator */
-  .shuffle-on { 
-		color: var(--green) !important; 
-		}
+  .shuffle-on { color: var(--green) !important; }
 </style>
 </head>
 <body>
@@ -607,7 +600,7 @@
 <div class="player-shell" id="player">
 
   <div class="header">
-    <div class="header-title">A.t.A. Music Player Version 1.1.2</div>
+    <div class="header-title">A.t.A. Music Player Version 1.0.0</div>
     <div class="header-dots">
       <div class="header-dot" id="dot1"></div>
       <div class="header-dot" id="dot2"></div>
@@ -781,10 +774,8 @@ function animateBars() {
     if (isPlaying) {
       const h = 3 + Math.random() * 30;
       b.style.height = h + 'px';
-      b.style.background = Math.random() > 0.8 ? '#0DFF92' : '	#ED01FC';
+      b.style.background = Math.random() > 0.8 ? '#0dff92' : '#ed01fc';
     } else {
-				
-
       b.style.height = '3px';
     }
   });
