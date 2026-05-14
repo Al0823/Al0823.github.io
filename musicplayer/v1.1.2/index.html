@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.t.A. Projects, Websites, &amp; Games - Music Player 1.1.2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: rgb(237, 1, 252);
+    --green: rgb(13, 255, 146);
+    --bg: rgb(33, 33, 33);
+    --bg2: rgb(22, 22, 22);
+    --bg3: rgb(44, 44, 44);
+    --bg4: rgb(55, 55, 55);
+    --text: rgb(161, 161, 161);
+    --text-bright: rgb(210, 210, 210);
+    --divider: rgb(60, 60, 60);
+    --font-main: 'Rajdhani', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-main);
+    background-color: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .player-shell {
+    width: 400px;
+    background: var(--bg2);
+    border: 1px solid var(--divider);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* scanline overlay */
+  .player-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.06) 3px,
+      rgba(0,0,0,0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Header bar */
+  .header {
+    background: var(--bg);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .header-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .header-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .header-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--divider);
+  }
+
+  .header-dot.active { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+  /* Album art / visualizer area */
+  .art-area {
+    position: relative;
+    height: 180px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .art-rings {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+
+  .ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid;
+    animation: pulse-ring 3s ease-in-out infinite;
+  }
+
+  .ring:nth-child(1) { border-color: var(--accent); opacity: 0.8; animation-delay: 0s; }
+  .ring:nth-child(2) { inset: -14px; border-color: var(--accent); opacity: 0.4; animation-delay: 0.4s; }
+  .ring:nth-child(3) { inset: -28px; border-color: var(--accent); opacity: 0.2; animation-delay: 0.8s; }
+
+  .ring.playing { animation-name: pulse-ring-fast; }
+
+  @keyframes pulse-ring {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+
+  @keyframes pulse-ring-fast {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.12); opacity: 1; }
+  }
+
+  .disc {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: conic-gradient(
+      var(--bg3) 0deg, var(--bg4) 60deg, var(--bg3) 120deg,
+      var(--bg4) 180deg, var(--bg3) 240deg, var(--bg4) 300deg, var(--bg3) 360deg
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: animation 0.3s;
+    overflow: hidden;
+  }
+
+  .disc-cover {
+    position: absolute;
+    inset: 0;
+    background-size: 100% 100%;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+
+  .disc-cover.visible { opacity: 1; }
+
+  .disc.spinning { animation: spin 3s linear infinite; }
+
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .disc-hole {
+    position: relative;
+    z-index: 3;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg2);
+    border: 2px solid var(--divider);
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.6);
+  }
+
+  .visualizer-bars {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0 10px;
+    opacity: 0.4;
+  }
+
+  .bar {
+    flex: 1;
+    background: var(--accent);
+    border-radius: 2px 2px 0 0;
+    min-height: 3px;
+    transition: height 0.15s ease;
+  }
+
+  /* Track info */
+  .track-info {
+    padding: 14px 16px 8px;
+    border-bottom: 1px solid var(--divider);
+    min-height: 72px;
+  }
+
+  .track-title {
+    font-family: var(--font-main);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-bright);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+
+  .track-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  .track-index {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    opacity: 0.7;
+    margin-top: 2px;
+    letter-spacing: 1px;
+  }
+
+  /* Progress */
+  .progress-area {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 3px;
+    background: var(--bg3);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 6px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.3s linear;
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -3px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .time-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+
+  /* Controls */
+  .controls {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .ctrl-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    color: var(--text);
+  }
+
+  .ctrl-btn:hover { color: var(--accent); background: rgba(237,1,252,0.08); }
+  .ctrl-btn:active { transform: scale(0.92); }
+
+  .ctrl-btn.play-btn {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    color: var(--accent);
+  }
+
+  .ctrl-btn.play-btn:hover {
+    background: rgba(237,1,252,0.12);
+    box-shadow: 0 0 14px rgba(237,1,252,0.3);
+  }
+
+  .ctrl-btn.active-btn { color: var(--green); }
+  .ctrl-btn.active-btn:hover { color: var(--green); background: rgba(13,255,146,0.08); }
+
+  svg { display: block; }
+
+  /* Volume */
+  .volume-row {
+    padding: 8px 16px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .vol-icon { color: var(--text); flex-shrink: 0; }
+
+  .vol-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--bg3);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+
+  .vol-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  .vol-pct {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text);
+    min-width: 30px;
+    text-align: right;
+    letter-spacing: 1px;
+  }
+
+  /* Queue */
+  .queue-header {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .queue-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .queue-count {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .queue-list {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg4) var(--bg2);
+  }
+
+  .queue-list::-webkit-scrollbar { width: 4px; }
+  .queue-list::-webkit-scrollbar-track { background: var(--bg2); }
+  .queue-list::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+
+  .queue-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid rgba(60,60,60,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .queue-item:hover { background: rgb(36,36,36); }
+
+  .queue-item.current {
+    background: rgba(237,1,252,0.06);
+  }
+
+  .queue-item.current::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+  }
+
+  .q-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--divider);
+    min-width: 20px;
+    letter-spacing: 1px;
+  }
+
+  .queue-item.current .q-num { color: var(--accent); }
+
+  .q-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    letter-spacing: 0.3px;
+  }
+
+  .queue-item.current .q-name { color: var(--green); }
+
+  .q-dur {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--divider);
+    flex-shrink: 0;
+    letter-spacing: 1px;
+  }
+
+  /* Open files button */
+  .open-area {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .open-btn {
+    flex: 1;
+    padding: 10px 16px;
+    background: none;
+    border: 1px solid var(--accent);
+    border-radius: 30px;
+    color: var(--accent);
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .open-btn:hover {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 0 0 20px rgba(237,1,252,0.3);
+  }
+
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--divider);
+    border-radius: 30px;
+    color: var(--text);
+    font-family: var(--font-main);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 14px;
+    transition: all 0.3s ease;
+  }
+
+  .clear-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+
+  #file-input { display: none; }
+
+  /* Empty state */
+  .empty-state {
+    padding: 28px 16px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--divider);
+    letter-spacing: 2px;
+    line-height: 2;
+  }
+
+  .empty-state span {
+    display: block;
+    font-size: 28px;
+    margin-bottom: 6px;
+    opacity: 0.5;
+  }
+
+  /* Shuffle indicator */
+  .shuffle-on { color: var(--green) !important; }
+</style>
+</head>
+<body>
+
+<div class="player-shell" id="player">
+
+  <div class="header">
+    <div class="header-title">A.t.A. Music Player Version 1.1.1</div>
+    <div class="header-dots">
+      <div class="header-dot" id="dot1"></div>
+      <div class="header-dot" id="dot2"></div>
+      <div class="header-dot active" id="dot3"></div>
+    </div>
+  </div>
+
+  <div class="art-area" id="artArea">
+    <div class="art-rings" id="artRings">
+      <div class="ring" id="r1"></div>
+      <div class="ring" id="r2"></div>
+      <div class="ring" id="r3"></div>
+      <div class="disc" id="disc">
+        <div class="disc-cover" id="discCover"></div>
+        <div class="disc-hole"></div>
+      </div>
+    </div>
+    <div class="visualizer-bars" id="vizBars"></div>
+  </div>
+
+  <div class="track-info">
+    <div class="track-title" id="trackTitle">NO TRACK LOADED</div>
+    <div class="track-sub" id="trackSub">SELECT FILES TO BEGIN</div>
+    <div class="track-index" id="trackIndex">—</div>
+  </div>
+
+  <div class="progress-area">
+    <div class="progress-track" id="progressTrack">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="time-row">
+      <span id="timeCurrent">0:00</span>
+      <span id="timeTotal">0:00</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="shuffleBtn" title="Shuffle">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 3 21 3 21 8"></polyline>
+        <line x1="4" y1="20" x2="21" y2="3"></line>
+        <polyline points="21 16 21 21 16 21"></polyline>
+        <line x1="15" y1="15" x2="21" y2="21"></line>
+      </svg>
+    </button>
+
+    <button class="ctrl-btn" id="prevBtn" title="Previous">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="19 20 9 12 19 4 19 20"></polygon>
+        <line x1="5" y1="19" x2="5" y2="5"></line>
+      </svg>
+    </button>
+
+    <button class="ctrl-btn play-btn" id="playBtn" title="Play / Pause">
+      <svg id="playIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+    </button>
+
+    <button class="ctrl-btn" id="nextBtn" title="Next">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 4 15 12 5 20 5 4"></polygon>
+        <line x1="19" y1="5" x2="19" y2="19"></line>
+      </svg>
+    </button>
+
+    <button class="ctrl-btn" id="repeatBtn" title="Repeat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="volume-row">
+    <svg class="vol-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+    </svg>
+    <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="80">
+    <svg class="vol-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+    </svg>
+    <span class="vol-pct" id="volPct">80%</span>
+  </div>
+
+  <div class="queue-header">
+    <span class="queue-label">QUEUE</span>
+    <span class="queue-count" id="queueCount">0 TRACKS</span>
+  </div>
+
+  <div class="queue-list" id="queueList">
+    <div class="empty-state" id="emptyState">
+      <span>♪</span>
+      NO FILES LOADED<br>USE THE BUTTON BELOW
+    </div>
+  </div>
+
+  <div class="open-area">
+    <button class="open-btn" id="openBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="17 8 12 3 7 8"></polyline>
+        <line x1="12" y1="3" x2="12" y2="15"></line>
+      </svg>
+      LOAD FILES
+    </button>
+    <button class="clear-btn" id="clearBtn">CLEAR</button>
+  </div>
+
+  <input type="file" id="file-input" accept="audio/*" multiple>
+</div>
+
+<audio id="audioEl"></audio>
+
+<script>
+const audio = document.getElementById('audioEl');
+const playBtn = document.getElementById('playBtn');
+const playIcon = document.getElementById('playIcon');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const shuffleBtn = document.getElementById('shuffleBtn');
+const repeatBtn = document.getElementById('repeatBtn');
+const openBtn = document.getElementById('openBtn');
+const clearBtn = document.getElementById('clearBtn');
+const fileInput = document.getElementById('file-input');
+const progressFill = document.getElementById('progressFill');
+const progressTrack = document.getElementById('progressTrack');
+const timeCurrent = document.getElementById('timeCurrent');
+const timeTotal = document.getElementById('timeTotal');
+const volSlider = document.getElementById('volSlider');
+const volPct = document.getElementById('volPct');
+const trackTitle = document.getElementById('trackTitle');
+const trackSub = document.getElementById('trackSub');
+const trackIndex = document.getElementById('trackIndex');
+const queueList = document.getElementById('queueList');
+const queueCount = document.getElementById('queueCount');
+const emptyState = document.getElementById('emptyState');
+const disc = document.getElementById('disc');
+const discCover = document.getElementById('discCover');
+const r1 = document.getElementById('r1');
+const r2 = document.getElementById('r2');
+const r3 = document.getElementById('r3');
+const vizBars = document.getElementById('vizBars');
+
+let tracks = [];
+let queue = [];
+let currentIdx = -1;
+let isPlaying = false;
+let isShuffle = true;
+let isRepeat = false;
+let objectURLs = [];
+let coverURLs = []; // per-track cover image data URLs (null if none)
+let vizInterval = null;
+let barEls = [];
+
+// Build visualizer bars
+for (let i = 0; i < 40; i++) {
+  const b = document.createElement('div');
+  b.className = 'bar';
+  b.style.height = '3px';
+  vizBars.appendChild(b);
+  barEls.push(b);
+}
+
+function animateBars() {
+  barEls.forEach(b => {
+    if (isPlaying) {
+      const h = 3 + Math.random() * 30;
+      b.style.height = h + 'px';
+      b.style.background = Math.random() > 0.8 ? 'rgb(13,255,146)' : 'rgb(237,1,252)';
+    } else {
+      b.style.height = '3px';
+    }
+  });
+}
+
+vizInterval = setInterval(animateBars, 120);
+
+function fmtTime(s) {
+  if (!s || isNaN(s)) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function getName(file) {
+  return file.name.replace(/\.[^.]+$/, '');
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQueue() {
+  if (isShuffle) {
+    queue = shuffle([...Array(tracks.length).keys()]);
+  } else {
+    queue = [...Array(tracks.length).keys()];
+  }
+}
+
+// --- Native ID3v2 cover art extractor ---
+function extractCover(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const buf = new Uint8Array(e.target.result);
+        // Must start with "ID3"
+        if (buf[0] !== 0x49 || buf[1] !== 0x44 || buf[2] !== 0x33) return resolve(null);
+        const ver = buf[3]; // ID3v2 major version
+        const flags = buf[5];
+        const hasExtHeader = (flags & 0x40) !== 0;
+        // Syncsafe integer for tag size
+        const tagSize = ((buf[6] & 0x7f) << 21) | ((buf[7] & 0x7f) << 14) |
+                        ((buf[8] & 0x7f) << 7)  |  (buf[9] & 0x7f);
+        let pos = 10;
+        if (hasExtHeader) {
+          if (ver === 3) {
+            const extSize = (buf[10] << 24) | (buf[11] << 16) | (buf[12] << 8) | buf[13];
+            pos += 4 + extSize;
+          } else {
+            const extSize = ((buf[10] & 0x7f) << 21) | ((buf[11] & 0x7f) << 14) |
+                            ((buf[12] & 0x7f) << 7)  |  (buf[13] & 0x7f);
+            pos += extSize;
+          }
+        }
+        const end = 10 + tagSize;
+        while (pos < end - 10) {
+          // Frame ID: 4 bytes (v2.3/v2.4) or 3 bytes (v2.2)
+          let frameId, frameSize, frameHeaderLen;
+          if (ver === 2) {
+            frameId = String.fromCharCode(buf[pos], buf[pos+1], buf[pos+2]);
+            frameSize = (buf[pos+3] << 16) | (buf[pos+4] << 8) | buf[pos+5];
+            frameHeaderLen = 6;
+          } else {
+            frameId = String.fromCharCode(buf[pos], buf[pos+1], buf[pos+2], buf[pos+3]);
+            if (ver === 4) {
+              frameSize = ((buf[pos+4] & 0x7f) << 21) | ((buf[pos+5] & 0x7f) << 14) |
+                          ((buf[pos+6] & 0x7f) << 7)  |  (buf[pos+7] & 0x7f);
+            } else {
+              frameSize = (buf[pos+4] << 24) | (buf[pos+5] << 16) |
+                          (buf[pos+6] << 8)  |  buf[pos+7];
+            }
+            frameHeaderLen = 10;
+          }
+          if (frameSize <= 0 || pos + frameHeaderLen + frameSize > buf.length) break;
+          const isPic = (ver === 2 && frameId === 'PIC') || frameId === 'APIC';
+          if (isPic) {
+            let i = pos + frameHeaderLen;
+            // text encoding byte
+            i++;
+            // MIME type (null-terminated) or 3-char format for v2.2
+            if (ver === 2) {
+              i += 3; // format like "JPG" or "PNG"
+            } else {
+              while (i < buf.length && buf[i] !== 0) i++;
+              i++; // skip null
+            }
+            // picture type byte
+            i++;
+            // description (null-terminated, possibly 2-byte nulls for UTF-16)
+            const enc = buf[pos + frameHeaderLen];
+            if (enc === 1 || enc === 2) {
+              // UTF-16: skip pairs until 0x0000
+              while (i + 1 < buf.length && !(buf[i] === 0 && buf[i+1] === 0)) i += 2;
+              i += 2;
+            } else {
+              while (i < buf.length && buf[i] !== 0) i++;
+              i++;
+            }
+            const imgData = buf.slice(i, pos + frameHeaderLen + frameSize);
+            // Detect mime from magic bytes
+            let mime = 'image/jpeg';
+            if (imgData[0] === 0x89 && imgData[1] === 0x50) mime = 'image/png';
+            else if (imgData[0] === 0x47 && imgData[1] === 0x49) mime = 'image/gif';
+            else if (imgData[0] === 0x57 && imgData[1] === 0x45) mime = 'image/webp';
+            const blob = new Blob([imgData], { type: mime });
+            return resolve(URL.createObjectURL(blob));
+          }
+          pos += frameHeaderLen + frameSize;
+        }
+        resolve(null);
+      } catch { resolve(null); }
+    };
+    reader.onerror = () => resolve(null);
+    // Only read first 512KB — enough for cover art
+    reader.readAsArrayBuffer(file.slice(0, 524288));
+  });
+}
+
+function loadFiles(files) {
+  objectURLs.forEach(u => URL.revokeObjectURL(u));
+  objectURLs = [];
+  coverURLs = [];
+  tracks = Array.from(files).filter(f => f.type.startsWith('audio/'));
+  if (!tracks.length) return;
+  tracks.forEach(f => objectURLs.push(URL.createObjectURL(f)));
+  coverURLs = new Array(tracks.length).fill(null);
+
+  let pending = tracks.length;
+  function onDone() {
+    pending--;
+    if (pending === 0) {
+      buildQueue();
+      renderQueue();
+      playAtQueuePos(0);
+    }
+  }
+  tracks.forEach((file, i) => {
+    extractCover(file).then(url => {
+      coverURLs[i] = url;
+      onDone();
+    });
+  });
+}
+
+function renderQueue() {
+  queueList.innerHTML = '';
+  if (!tracks.length) {
+    queueList.appendChild(emptyState);
+    queueCount.textContent = '0 TRACKS';
+    return;
+  }
+  queueCount.textContent = tracks.length + ' TRACK' + (tracks.length !== 1 ? 'S' : '');
+  queue.forEach((trackIdx, pos) => {
+    const item = document.createElement('div');
+    item.className = 'queue-item' + (pos === currentIdx ? ' current' : '');
+    item.dataset.pos = pos;
+
+    const num = document.createElement('span');
+    num.className = 'q-num';
+    num.textContent = String(pos + 1).padStart(2, '0');
+
+    const name = document.createElement('span');
+    name.className = 'q-name';
+    name.textContent = getName(tracks[trackIdx]);
+
+    const dur = document.createElement('span');
+    dur.className = 'q-dur';
+    dur.textContent = '—';
+
+    // Try to get duration
+    const tmpAudio = new Audio(objectURLs[trackIdx]);
+    tmpAudio.addEventListener('loadedmetadata', () => {
+      dur.textContent = fmtTime(tmpAudio.duration);
+    });
+
+    item.appendChild(num);
+    item.appendChild(name);
+    item.appendChild(dur);
+
+    item.addEventListener('click', () => {
+      playAtQueuePos(pos);
+    });
+
+    queueList.appendChild(item);
+  });
+}
+
+function updateQueueHighlight() {
+  document.querySelectorAll('.queue-item').forEach((el, i) => {
+    el.classList.toggle('current', i === currentIdx);
+  });
+  const cur = document.querySelector('.queue-item.current');
+  if (cur) cur.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function playAtQueuePos(pos) {
+  if (!tracks.length) return;
+  currentIdx = pos;
+  const trackIdx = queue[pos];
+  audio.src = objectURLs[trackIdx];
+  audio.load();
+  audio.play().then(() => {
+    setPlaying(true);
+  }).catch(() => {});
+  const name = getName(tracks[trackIdx]);
+  trackTitle.textContent = name;
+  trackSub.textContent = tracks[trackIdx].type.replace('audio/', '').toUpperCase() + ' — ' + (tracks[trackIdx].size / 1024 / 1024).toFixed(1) + ' MB';
+  trackIndex.textContent = 'TRACK ' + (pos + 1) + ' / ' + queue.length;
+  updateQueueHighlight();
+
+  // Apply cover art to disc
+  const cover = coverURLs[trackIdx];
+  if (cover) {
+    discCover.style.backgroundImage = `url(${cover})`;
+    discCover.classList.add('visible');
+  } else {
+    discCover.classList.remove('visible');
+    discCover.style.backgroundImage = '';
+  }
+}
+
+function setPlaying(state) {
+  isPlaying = state;
+  if (state) {
+    disc.classList.add('spinning');
+    r1.classList.add('playing');
+    r2.classList.add('playing');
+    r3.classList.add('playing');
+    playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+    playIcon.setAttribute('fill', 'none');
+    playIcon.setAttribute('stroke', 'currentColor');
+    playIcon.setAttribute('stroke-width', '2');
+  } else {
+    disc.classList.remove('spinning');
+    r1.classList.remove('playing');
+    r2.classList.remove('playing');
+    r3.classList.remove('playing');
+    playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+    playIcon.setAttribute('fill', 'currentColor');
+    playIcon.removeAttribute('stroke');
+  }
+}
+
+function playNext() {
+  if (!tracks.length) return;
+  if (isRepeat) {
+    audio.currentTime = 0;
+    audio.play();
+    return;
+  }
+  const next = (currentIdx + 1) % queue.length;
+  playAtQueuePos(next);
+}
+
+function playPrev() {
+  if (!tracks.length) return;
+  if (audio.currentTime > 3) {
+    audio.currentTime = 0;
+    return;
+  }
+  const prev = (currentIdx - 1 + queue.length) % queue.length;
+  playAtQueuePos(prev);
+}
+
+// Controls
+playBtn.addEventListener('click', () => {
+  if (!tracks.length) { openBtn.click(); return; }
+  if (isPlaying) {
+    audio.pause();
+    setPlaying(false);
+  } else {
+    if (currentIdx === -1) playAtQueuePos(0);
+    else audio.play().then(() => setPlaying(true));
+  }
+});
+
+prevBtn.addEventListener('click', playPrev);
+nextBtn.addEventListener('click', playNext);
+
+shuffleBtn.addEventListener('click', () => {
+  isShuffle = !isShuffle;
+  shuffleBtn.classList.toggle('active-btn', isShuffle);
+  const curTrackIdx = queue[currentIdx];
+  buildQueue();
+  currentIdx = queue.indexOf(curTrackIdx);
+  renderQueue();
+  updateQueueHighlight();
+});
+
+repeatBtn.addEventListener('click', () => {
+  isRepeat = !isRepeat;
+  repeatBtn.classList.toggle('active-btn', isRepeat);
+});
+
+shuffleBtn.classList.add('active-btn');
+
+// Volume
+audio.volume = 0.8;
+volSlider.addEventListener('input', () => {
+  audio.volume = volSlider.value / 100;
+  volPct.textContent = volSlider.value + '%';
+});
+
+// Progress
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  progressFill.style.width = pct + '%';
+  timeCurrent.textContent = fmtTime(audio.currentTime);
+  timeTotal.textContent = fmtTime(audio.duration);
+});
+
+progressTrack.addEventListener('click', (e) => {
+  if (!audio.duration) return;
+  const rect = progressTrack.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  audio.currentTime = (x / rect.width) * audio.duration;
+});
+
+audio.addEventListener('ended', playNext);
+
+// File input
+openBtn.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', (e) => {
+  if (e.target.files.length) loadFiles(e.target.files);
+  fileInput.value = '';
+});
+
+clearBtn.addEventListener('click', () => {
+  audio.pause();
+  audio.src = '';
+  setPlaying(false);
+  tracks = [];
+  queue = [];
+  coverURLs = [];
+  objectURLs.forEach(u => URL.revokeObjectURL(u));
+  objectURLs = [];
+  currentIdx = -1;
+  progressFill.style.width = '0%';
+  timeCurrent.textContent = '0:00';
+  timeTotal.textContent = '0:00';
+  trackTitle.textContent = 'NO TRACK LOADED';
+  trackSub.textContent = 'SELECT FILES TO BEGIN';
+  trackIndex.textContent = '—';
+  discCover.classList.remove('visible');
+  discCover.style.backgroundImage = '';
+  queueList.innerHTML = '';
+  queueList.appendChild(emptyState);
+  queueCount.textContent = '0 TRACKS';
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'Space') { e.preventDefault(); playBtn.click(); }
+  if (e.code === 'ArrowRight') nextBtn.click();
+  if (e.code === 'ArrowLeft') prevBtn.click();
+});
+</script>
+</body>
+</html>
