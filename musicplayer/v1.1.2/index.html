@@ -36,7 +36,7 @@
 
   .player-shell {
     width: 400px;
-    background: var(--bg2);
+    background-color: var(--bg2);
     border: 1px solid var(--divider);
     border-radius: 4px;
     overflow: hidden;
@@ -48,13 +48,13 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(to bottom, transparent, transparent 3px,#0000000F 3px,#0000000F 4px);
+    background-color: repeating-linear-gradient(to bottom, transparent, transparent 3px,#0000000F 3px,#0000000F 4px);
     pointer-events: none;
     z-index: 10;
   }
 
   .header {
-    background: var(--bg);
+    background-color: var(--bg);
     padding: 10px 16px;
     display: flex;
     align-items: center;
@@ -79,11 +79,11 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--divider);
+    background-color: var(--divider);
   }
 
   .header-dot.active { 
-		background: var(--green); 
+		background-color: var(--green); 
 		box-shadow: 0 0 6px var(--green); 
 		}
 
@@ -91,7 +91,7 @@
   .art-area {
     position: relative;
     height: 180px;
-    background: var(--bg);
+    background-color: var(--bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -164,7 +164,7 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: conic-gradient(var(--bg3) 0deg, var(--bg4) 60deg, var(--bg3) 120deg, var(--bg4) 180deg, var(--bg3) 240deg, var(--bg4) 300deg, var(--bg3) 360deg);
+    background-color: conic-gradient(var(--bg3) 0deg, var(--bg4) 60deg, var(--bg3) 120deg, var(--bg4) 180deg, var(--bg3) 240deg, var(--bg4) 300deg, var(--bg3) 360deg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -206,7 +206,7 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--bg2);
+    background-color: var(--bg2);
     border: 2px solid var(--divider);
     flex-shrink: 0;
     box-shadow: 0 0 0 2px #00000099;
@@ -227,7 +227,7 @@
 
   .bar {
     flex: 1;
-    background: var(--accent);
+    background-color: var(--accent);
     border-radius: 2px 2px 0 0;
     min-height: 3px;
     transition: height 0.15s ease;
@@ -278,7 +278,7 @@
   .progress-track {
     width: 100%;
     height: 3px;
-    background: var(--bg3);
+    background-color: var(--bg3);
     border-radius: 2px;
     cursor: pointer;
     position: relative;
@@ -287,7 +287,7 @@
 
   .progress-fill {
     height: 100%;
-    background: var(--accent);
+    background-color: var(--accent);
     border-radius: 2px;
     width: 0%;
     transition: width 0.3s linear;
@@ -302,7 +302,7 @@
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: var(--accent);
+    background-color: var(--accent);
   }
 
   .time-row {
@@ -324,7 +324,7 @@
   }
 
   .ctrl-btn {
-    background: none;
+    background-color: none;
     border: none;
     cursor: pointer;
     display: flex;
@@ -338,7 +338,7 @@
 
   .ctrl-btn:hover { 
 		color: var(--accent); 
-		background: #ED01FC14; 
+		background-color: #ED01FC14; 
 		}
   .ctrl-btn:active { 
 		transform: scale(0.92); 
@@ -353,7 +353,7 @@
   }
 
   .ctrl-btn.play-btn:hover {
-    background: #ED01FC1F;
+    background-color: #ED01FC1F;
     box-shadow: 0 0 14px #ED01FC4D;
   }
 
@@ -362,7 +362,7 @@
 		}
   .ctrl-btn.active-btn:hover { 
 		color: var(--green); 
-		background: #0DFF9214; 
+		background-color: #0DFF9214; 
 		}
 
   svg { 
@@ -386,7 +386,7 @@
     appearance: none;
     height: 3px;
     border-radius: 2px;
-    background: var(--bg3);
+    background-color: var(--bg3);
     outline: none;
     cursor: pointer;
   }
@@ -396,7 +396,7 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: var(--accent);
+    background-color: var(--accent);
     cursor: pointer;
     transition: box-shadow 0.2s;
   }
@@ -448,10 +448,10 @@
 		width: 4px; 
 		}
   .queue-list::-webkit-scrollbar-track { 
-		background: var(--bg2); 
+		background-color: var(--bg2); 
 		}
   .queue-list::-webkit-scrollbar-thumb { 
-		background: var(--bg4); 
+		background-color: var(--bg4); 
 		border-radius: 2px; 
 		}
 
@@ -468,11 +468,11 @@
   }
 
   .queue-item:hover { 
-		background: #242424; 
+		background-color: #242424; 
 		}
 
   .queue-item.current {
-    background: #ED01FC0F;
+    background-color: #ED01FC0F;
   }
 
   .queue-item.current::before {
@@ -482,7 +482,7 @@
     top: 0;
     bottom: 0;
     width: 2px;
-    background: var(--accent);
+    background-color: var(--accent);
   }
 
   .q-num {
@@ -531,7 +531,7 @@
   .open-btn {
     flex: 1;
     padding: 10px 16px;
-    background: none;
+    background-color: none;
     border: 1px solid var(--accent);
     border-radius: 30px;
     color: var(--accent);
@@ -549,13 +549,13 @@
   }
 
   .open-btn:hover {
-    background: var(--accent);
+    background-color: var(--accent);
     color: #000000;
     box-shadow: 0 0 20px #ED01FC4D;
   }
 
   .clear-btn {
-    background: none;
+    background-color: none;
     border: 1px solid var(--divider);
     border-radius: 30px;
     color: var(--text);
