@@ -4398,7 +4398,7 @@ changeBond("molly", 15);
         if (gameState.helpMollyChoice === "player") {
 
             // SUCCESS
-            if (gameState.helpMollyResult === true) {
+            if (gameState.helpMollyResult === true ) {
 
                 // Cleanup so future events reroll properly
                 gameState.helpMollyChoice = undefined;
@@ -4427,7 +4427,7 @@ unlockEncounter("eatenBy", 4);
                     gameState.acidStage = 0;
 
                     gameState.predHealth = 75;
-                    gameState.predDefense = 3;
+                    gameState.predDefense = 5;
 
                     gameState.checkpointShown = {
                         pred75: false,
@@ -4602,7 +4602,7 @@ Sarah pats her now noticeably softer and rounder belly with a smug grin, clearly
 
                     gameState.TurnCount = 0;
                     gameState.acidStage = 0;
-
+gameState.lastChoiceLabel = "";
                     gameState.helpMollyChoice = undefined;
                     gameState.helpMollyResult = undefined;
 setPredHistory("lirael", 5);
@@ -4902,7 +4902,7 @@ revealRelationship("sarah", {
         if (gameState.liraelAteSarah === true) {
             return "\n\nLirael’s rounded belly suddenly lets out a long, loud *GLUUUUUUURRRRP*, followed by several heavy, wet *GLOOORSH… BLORP-BLORP* noises. The last of Sarah is being broken down and absorbed. Lirael gently rubs her stomach as the final remains are processed, her already voluptuous figure becoming slightly softer and curvier as she absorbs the usable nutrients. All that remains now is a smaller, bumpy potbelly full of bones slowly making their way through her system.\n\n\"She was quite filling,\" Lirael comments calmly, still focused on your plan.";
         } else {
-            return "\n\nLirael’s belly lets out a deep, hungry *GRRRRROOOAN*, as if protesting the lack of a proper meal earlier. She gently places a hand on her smooth, rounded stomach and continues speaking without missing a beat.";
+            return "\n\nLirael’s belly lets out a deep, hungry *GRRRRROOOAN*, as if protesting the lack of a proper meal. She gently places a hand on her smooth, rounded stomach and continues speaking without missing a beat.";
         }
 
         // Common ending
@@ -4920,6 +4920,95 @@ revealRelationship("sarah", {
         }
     ]
 },
+// 248 - The Trap Springs
+{
+    text: function() {
+        return "The final five minutes of study hall drag on in heavy, uncomfortable silence. Emily’s belly continues to gurgle and churn noisily beside you, though the sounds have grown softer and slower as her meal nears completion. You try to focus on your notebook, but your eyes keep drifting toward the front of the room where Ms. Smith sits motionless behind her desk, watching your group with that unnerving, calculated gaze.\n\nLirael remains perfectly still beside you, one hand resting protectively on your thigh under the desk. Her presence is the only thing keeping your nerves steady.\n\nFinally, the bell rings — loud and shrill, cutting through the tension like a knife.\n\nEmily stretches lazily, gives her rounded belly one last affectionate pat, and stands up. \"See you guys later,\" she says casually before slinging her bag over her shoulder and heading for the door. She shuts it firmly behind her, the heavy *click* of the latch echoing through the now nearly empty classroom.\n\nOnly you, Lirael, and Ms. Smith remain.\n\nMs. Smith slowly rises from her chair. Her movements are graceful and deliberate as she reaches up and unbuttons the top two buttons of her high-collared blouse. The fabric parts just enough to reveal the top of an intricate, glowing blue necklace resting against her pale skin. She then begins peeling off her black gloves, one finger at a time. As the gloves come off, you and Lirael both notice something unusual — the tips of her fingers have a distinct, soft blue tint, almost translucent, like tinted glass or liquid sapphire.\n\nShe begins walking slowly toward your desk, her heels clicking sharply against the tiled floor. Her eyes are locked onto you with an intensity that makes your skin crawl.\n\nLirael stands up instantly, positioning herself protectively in front of you. In a flash of violet light, she materializes a large metal thermos in her hand. Steam rises visibly from the opening.\n\n\"That’s close enough,\" Lirael says, her voice cold and commanding. \"One more step and I will throw this boiling water directly into your face. I suggest you stay right where you are.\"\n\nMs. Smith stops dead in her tracks, roughly double an arm’s length away from you. Her blue-tinted fingertips twitch slightly at her sides as she stares at Lirael with a mixture of surprise and dark amusement.";
+
+    },
+    location: "Hartford High - Room 127 (Ms. Smith's Study Hall)",
+    choices: [
+        { 
+            label: "Wait and see what happens next", 
+            next: 249,
+            effect: () => { 
+                changeBond("lirael", 22); 
+            } 
+        }
+    ]
+},
+// 249 - Revelations in the Empty Classroom
+{
+    text: function() {
+        return "Ms. Smith stands frozen in place, her blue-tinted fingertips twitching slightly at her sides as she stares at the steaming thermos in Lirael’s hand. After a long, tense moment, she speaks in that same soft, eerily calm voice.\n\n\"I did not mean any harm,\" she says carefully, raising her hands slightly in a placating gesture. \"I only asked to see you after class because… there is something off about the three of you. Something I cannot quite place. I simply wished to speak with you privately. That is all.\"\n\nLirael stares at her for several seconds, evaluating her words. Slowly, she lowers the thermos and sets it down on a nearby desk with a soft *clink*. Without taking her eyes off Ms. Smith, Lirael glances around the room — checking every window to ensure the shutters are fully closed, scanning the ceiling and corners for any cameras or recording devices. Once satisfied, she reaches up and removes the cloaking stone necklace from around her neck.\n\nThe air seems to shimmer for a brief moment. In the blink of an eye, Lirael’s human appearance melts away, replaced by her true form: a towering twelve-foot-tall she-demon with smooth, pale lavender skin that has a faint iridescent sheen, long flowing silver-white hair, elegant black horns, and a powerfully voluptuous body. Her massive breasts, narrow waist, extremely wide hips, and thick plush ass are now fully revealed in all their glory.\n\nMs. Smith’s eyes widen dramatically. She brings a hand up to cover her mouth in genuine shock, taking an involuntary step backward.\n\n\"You…\" she breathes, her voice barely above a whisper. \"You’re a Royal Demon…\"\n\nThe words hang heavy in the air. You didn’t know that detail about Lirael — she had never mentioned anything about being \"royal\" before. Lirael simply stands tall and regal, radiating an ancient, sensual authority as she looks down at Ms. Smith with calm, piercing golden eyes.";
+
+    },
+    location: "Hartford High - Room 127 (Ms. Smith's Study Hall)",
+    choices: [
+        { 
+            label: "Wait and see what happens next", 
+            next: 250,
+            effect: () => { 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+// 250 - Ms. Smith's True Form
+{
+    text: function() {
+        return "Ms. Smith stands frozen for a long moment, her eyes wide with shock as she stares at Lirael’s towering, majestic demonic form. After several seconds of stunned silence, she slowly reaches up with trembling fingers and unbuttons one more button on her high-collared blouse. Then, with deliberate care, she reaches behind her neck and removes a delicate silver necklace with a small glowing pendant.\n\nThe moment the necklace comes off, Ms. Smith’s entire body begins to shift and ripple. Her human appearance melts away like wax under heat. Her skin turns a beautiful, translucent deep blue, shimmering with an inner glow. Her body becomes incredibly smooth and glossy, yet retains a perfect hourglass figure — exceptionally thick and curvy, with heavy, bouncy breasts, a narrow waist, and wide, plush hips. Her face remains mostly the same, though her eyes now glow with a soft sapphire light and her hair flows like liquid sapphire.\n\nShe is unmistakably a Slimegirl.\n\nLirael’s golden eyes narrow with recognition.\n\n\"A blue Slimegirl,\" she says, almost impressed. \"The rarest kind.\"\n\nMs. Smith — now fully revealed in her true form — looks slightly embarrassed. She quickly puts her necklace back on, and her body shifts back into her fully-covered human appearance in a smooth ripple.\n\n\"I apologize for the misunderstanding,\" she says softly, bowing her head slightly. \"I truly did not mean any harm. I simply sensed something… different about all of you.\"\n\nLirael reaches up and calmly puts her own cloaking stone necklace back on, returning to her 6'1\" elegant human disguise. The tension in the room eases slightly.\n\nBy now, third period is already halfway over. The bell for the next period has not yet rung.\n\nMs. Smith’s lips slowly curve into a small, knowing smirk. She looks between you and Lirael with a much more playful and suggestive expression.\n\n\"Well… since we’ve all shown our cards,\" she says, her voice dropping into a smoother, almost sultry tone, \"would the two of you like to go somewhere more private? I would love the chance to really show you how friendly I can be.\"\n\nBefore Lirael can respond, you quickly speak up.\n\n\"Yes,\" you say, your heart beating faster as you clearly understand exactly where this is going.\n\nLirael glances at you, one elegant eyebrow raised, but she doesn’t object.";
+
+    },
+    location: "Hartford High - Room 127 (Ms. Smith's Study Hall)",
+    choices: [
+        { 
+            label: "Follow Ms. Smith to a more private location", 
+            next: 251,
+            effect: () => { 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+
+// 251 - Private Bathroom with Ms. Smith
+{
+    text: function() {
+        return "Ms. Smith gives you both a slow, sultry smile. Without a word, she calmly slips her gloves back onto her hands and carefully rebuttons the top of her blouse, once again covering every inch of skin. She adjusts her necklace, making sure it sits properly against her collar.\n\n\"Follow me,\" she says softly, her voice carrying a hint of excitement.\n\nThe three of you leave the study hall together. Ms. Smith leads you and Lirael down the hallway with confident, graceful steps, her heels clicking sharply against the tile. After a short walk, she stops at one of the school’s private bathrooms, glances both ways to ensure the coast is clear, and opens the door. You and Lirael step inside after her. Ms. Smith closes the door behind you and locks it with a heavy, final *click*.\n\nThe moment the lock engages, the atmosphere in the room changes completely.\n\nMs. Smith and Lirael turn to look at each other. A charged, understanding silence fills the air. Without needing to speak, both women begin undressing. Ms. Smith starts by slipping off her sleek black heels. The moment her feet touch the floor, they lose their solid form and melt into a shimmering, translucent blue puddle that spreads slightly across the tiles, though the rest of her body remains perfectly shaped. She continues undressing, shrugging off her blouse to reveal large, heavy, glistening blue breasts. Her body is incredibly voluptuous — thick thighs, wide hips, and a soft, plush rear that jiggles softly with every movement. She reaches behind her neck and removes her necklace. Her form ripples and shifts, fully returning to her true Slimegirl appearance — a beautiful, deep sapphire-blue translucent being with a perfect hourglass figure that seems to shimmer and glow faintly from within.\n\nLirael, choosing to remain at her 6'1\" elegant human height for now, removes her cloaking stone necklace as well. Her disguise melts away, revealing her true demonic form at this more manageable size — smooth pale lavender skin with an iridescent sheen, elegant black horns, long flowing silver-white hair, and an overwhelmingly voluptuous body. Her massive, heavy breasts, narrow waist, extremely wide hips, and thick, plush ass are breathtaking as she stands confidently beside the blue Slimegirl.\n\nBoth women are now completely nude, their powerful, curvaceous bodies on full display in the private bathroom. Ms. Smith’s translucent blue feet remain melted into a shimmering puddle on the floor while the rest of her glossy body jiggles and ripples softly. Lirael’s lavender form radiates ancient, sensual power. The two of them stand facing each other — and you — with clear hunger and interest in their eyes.";
+
+    },
+    location: "School - Private Bathroom",
+    choices: [
+        { 
+            label: "Continue", 
+            next: 252,
+            effect: () => { 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+ // 252 - Private Bathroom Encounter
+{
+    text: function() {
+        return "A small, involuntary \"eep\" escapes your throat as the realization hits you — these two incredibly powerful, voluptuous women are about to run rounds on you. Your face flushes hot, but the wave of nervous excitement that follows is undeniable. You can already feel yourself getting painfully hard, your body reacting strongly to the overwhelming presence of Lirael and the newly revealed blue Slimegirl.\n\nMs. Smith notices immediately. With a hungry, playful smirk, she turns around and lunges toward you ass-first. She backs up slowly and deliberately, giving you an extremely close, intimate view of her massive, glossy blue ass. The translucent cheeks jiggle and ripple with every movement as she hovers just inches away from your face, teasing you. She’s careful not to accidentally engulf you — yet — but the heat radiating from her body is intense.\n\n\"Mmm… like what you see?\" she purrs, her voice thick with lust.\n\nLirael steps forward with a sultry smile. Without saying a word, she kneels in front of you and begins undressing your lower body. Her fingers make quick but sensual work of your shoes, socks, pants, and underwear, freeing your already rock-hard cock. Once you’re exposed from the waist down, Lirael straddles your lap, pressing her slick, dripping pussy against your shaft and slowly grinding along your length.\n\n\"Drink,\" Lirael commands softly, cupping one of her massive, leaking breasts and offering the thick, dark nipple to Ms. Smith.\n\nMs. Smith’s eyes light up with delight. She leans in eagerly and latches onto Lirael’s nipple, drinking deeply. The moment she begins sucking, warm, rich breastmilk flows freely into her mouth. Ms. Smith drinks faster and faster, deliberately absorbing the milk at an accelerated rate. Her translucent blue body begins to swell noticeably — her breasts growing larger and heavier, her hips and ass expanding, her thighs thickening. She moans around the nipple as she grows, eventually becoming nearly three times her original size. At this point, she’s no longer just straddling your face — her massive, heavy blue ass and thighs completely engulf your upper body, smothering you in warm, glossy, jiggling slime-flesh while she continues drinking from Lirael.\n\nThe sensation is overwhelming. You’re surrounded by heat, softness, and the rhythmic grinding of Lirael’s slick pussy against your cock as she rides you slowly. Ms. Smith’s enormous, growing body presses down on you from above, her moans vibrating through her gelatinous form.\n\nThis continues for a full thirty minutes — both women using your body for their pleasure while feeding and growing. Finally, Ms. Smith pulls off Lirael’s breast with a wet pop and slowly lifts her massive body off you, giving you a chance to breathe. Lirael follows suit, sliding off your lap with a satisfied purr.\n\n\"Just giving your body a quick break,\" Lirael murmurs affectionately, stroking your hair. \"We’re not done with you yet.\"";
+
+    },
+    location: "School - Private Bathroom",
+    choices: [
+        { 
+            label: "Continue", 
+            next: 253,
+            effect: () => { 
+                changeBond("lirael", 25); 
+            } 
+        }
+    ]
+},
+/* redo with pasted message
+create 252, have you let out a small eep sound as you realize that they are going to run rounds on you, but it also excites you and gets you sprung. Ms. Smith then lunges at you ass first, knocking you onto the ground(laying on the ground) and gives you a close up of her ass(facesitting), being careful not to accidentally engulf you(not trap you inside her). after Ms. Smith gets settled, Lirael comes over and takes off your shoes, socks, pants and underpants(say that she undresses your lower body) and starts grinding on you while telling Ms. Smith to drink while offering her a breast. Ms. Smith gladly does, as Ms. Smith drinks more and more. She will get bigger(she deliberately absorbs the breast milk quickly) eventually being 3x her original size and at that point not just straddling your face, but straddling your whole upper body. She gets off after about 30 minutes, Lirael follows suit saying that they are just letting your body have a quick break. be very lewd. use maximum description and maximum verbose. Also have this one have two options "tell them that you do not want to take a break" and "wait for the break to be over"
+*/
     // 999 - Game End / Content Boundary
 
     {
@@ -5105,7 +5194,7 @@ function applyRelationshipDecay() {
 
         if (!r || typeof r.bond !== "number") continue;
 
-        // Only decay if above 100
+        // Only decay if above 150
         if (r.bond > 150) {
             r.bond -= 1;
 

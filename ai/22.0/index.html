@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<!-- index.html v22.0 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>A.t.A. Projects - FreeGPT</title>
@@ -21,7 +22,7 @@
     .nav-btn.active.mode-code      { border-left: 3px solid #f78166; }
     .nav-btn.active.mode-companion { border-left: 3px solid #bc8cff; }
     .nav-btn.active.mode-music     { border-left: 3px solid #e0974c; }
-    .nav-btn.active.mode-story     { border-left: 3px solid #2dd4bf; }
+    .nav-btn.active.mode-story     { border-left: 3px solid #e05c8a; }
     .nav-divider { width: 36px; height: 1px; background: #30363d; margin: 4px 0; }
     .nav-btn.coming { opacity: 0.35; cursor: default; }
     .nav-btn.coming:hover { background: transparent; color: #8b949e; }
@@ -39,6 +40,18 @@
     .header-chip { font-size: 11px; background: #21262d; border: 1px solid #30363d; border-radius: 20px; padding: 3px 10px; color: #8b949e; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
     .header-chip:hover { background: #30363d; color: #e6edf3; }
 
+    /* ── Story prior-text panel ── */
+    #story-prior-wrap { display: none; padding: 10px 16px; background: #0d1117; border-bottom: 1px solid #30363d; flex-shrink: 0; }
+    #story-prior-wrap.visible { display: block; }
+    #story-prior-toggle { background: none; border: none; color: #e05c8a; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 0 0 6px; }
+    #story-prior-toggle:hover { color: #f07aaa; }
+    #story-prior-inner { display: none; flex-direction: column; gap: 6px; }
+    #story-prior-inner.open { display: flex; }
+    #story-prior-text { width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 13px; font-family: "Courier New", monospace; padding: 9px 12px; resize: vertical; min-height: 72px; max-height: 160px; outline: none; line-height: 1.5; }
+    #story-prior-text:focus { border-color: #e05c8a; }
+    #story-prior-text::placeholder { color: #8b949e; }
+    #story-prior-hint { font-size: 11px; color: #8b949e; }
+
     #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
     #messages::-webkit-scrollbar { width: 6px; }
     #messages::-webkit-scrollbar-track { background: transparent; }
@@ -52,9 +65,13 @@
     body.mode-code      .message.user .bubble { background: #b35900; }
     body.mode-companion .message.user .bubble { background: #6e40c9; }
     body.mode-music     .message.user .bubble { background: #7a4a1e; }
-    body.mode-story     .message.user .bubble { background: #0f766e; }
+    body.mode-story     .message.user .bubble { background: #7a1a3e; }
     .message.assistant .bubble { background: #21262d; color: #e6edf3; border: 1px solid #30363d; border-bottom-left-radius: 4px; }
     .message.assistant .bubble.thinking { color: #8b949e; font-style: italic; }
+
+    /* Story mode: wider bubbles + pink left accent for prose feel */
+    body.mode-story .message { max-width: 92%; }
+    body.mode-story .message.assistant .bubble { font-size: 14.5px; line-height: 1.8; border-left: 3px solid #e05c8a; }
 
     .file-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 5px 10px; font-size: 12px; margin-bottom: 6px; max-width: 100%; overflow: hidden; }
     .file-badge .file-icon { font-size: 15px; flex-shrink: 0; }
@@ -65,6 +82,7 @@
     .image-prompt-label { font-size: 11px; color: #8b949e; font-style: italic; padding: 0 2px; word-break: break-word; }
     .spinner-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px; color: #8b949e; font-size: 13px; font-style: italic; }
     .spinner { width: 32px; height: 32px; border: 3px solid #30363d; border-top-color: #1f6feb; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    body.mode-story .spinner { border-top-color: #e05c8a; }
     .image-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
     .format-select { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e6edf3; font-size: 12px; padding: 5px 8px; outline: none; cursor: pointer; }
     .action-btn { border: none; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; white-space: nowrap; color: #fff; }
@@ -120,7 +138,7 @@
     body.mode-code      #input:focus { border-color: #f78166; }
     body.mode-companion #input:focus { border-color: #bc8cff; }
     body.mode-music     #input:focus { border-color: #e0974c; }
-    body.mode-story     #input:focus { border-color: #2dd4bf; }
+    body.mode-story     #input:focus { border-color: #e05c8a; }
     #input::placeholder { color: #8b949e; }
     .toolbar-btn { border: none; border-radius: 8px; padding: 10px 13px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; white-space: nowrap; color: #fff; }
     .toolbar-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
@@ -140,8 +158,8 @@
     body.mode-companion #send-btn:hover { background: #8957e5; }
     body.mode-music     #send-btn { background: #7a4a1e; }
     body.mode-music     #send-btn:hover { background: #e0974c; }
-    body.mode-story     #send-btn { background: #0f766e; }
-    body.mode-story     #send-btn:hover { background: #0d9488; }
+    body.mode-story     #send-btn { background: #9a1a4e; }
+    body.mode-story     #send-btn:hover { background: #e05c8a; }
     #lang-select { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 13px; padding: 10px; outline: none; cursor: pointer; font-family: inherit; display: none; }
     #lang-select:focus { border-color: #f78166; }
     #music-genre-select { background: #0d1117; border: 1px solid #4a3010; border-radius: 8px; color: #e6edf3; font-size: 13px; padding: 10px; outline: none; cursor: pointer; font-family: inherit; display: none; }
@@ -157,19 +175,7 @@
     body.mode-music  #image-gen-btn { display: none !important; }
     body.mode-music  #attach-btn { display: none !important; }
     body.mode-story  #image-gen-btn { display: none !important; }
-    body.mode-story  #music-gen-btn { display: none !important; }
     body.mode-story  #attach-btn { display: none !important; }
-    body.mode-story  #music-genre-select { display: none !important; }
-
-    /* Story mode: scene status bar */
-    #story-status { display: none; padding: 6px 16px; background: #0d2b28; border-bottom: 1px solid #134e4a; font-size: 11px; color: #5eead4; flex-shrink: 0; font-family: "Fira Code", monospace; gap: 16px; flex-wrap: wrap; }
-    #story-status.visible { display: flex; }
-    .story-stat { display: flex; gap: 5px; align-items: center; }
-    .story-stat-label { color: #0d9488; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-
-    /* Story new-game button */
-    #story-new-btn { background: #134e4a; color: #2dd4bf; border: 1px solid #0d9488; border-radius: 6px; padding: 4px 12px; font-size: 11px; font-weight: 700; cursor: pointer; margin-left: auto; }
-    #story-new-btn:hover { background: #0d9488; color: #fff; }
 
     #mode-tip { margin: auto; text-align: center; color: #8b949e; font-size: 14px; line-height: 1.8; padding: 20px; pointer-events: none; }
     #mode-tip .tip-icon  { font-size: 36px; margin-bottom: 8px; }
@@ -237,7 +243,7 @@
       .nav-btn.active.mode-code      { border-top-color: #f78166; }
       .nav-btn.active.mode-companion { border-top-color: #bc8cff; }
       .nav-btn.active.mode-music     { border-top-color: #e0974c; }
-      .nav-btn.active.mode-story     { border-top-color: #2dd4bf; }
+      .nav-btn.active.mode-story     { border-top-color: #e05c8a; }
       .nav-divider { display: none; }
       #main { flex-direction: column; flex: 1; width: 100%; min-width: 100%; padding-bottom: 60px; overflow: hidden; }
       #chat-area { flex: 1; width: 100%; }
@@ -277,32 +283,11 @@
     <button class="nav-btn mode-image" onclick="switchMode('image')" title="Image / Art"><span class="nav-icon">🎨</span><span>Art</span></button>
     <button class="nav-btn mode-code" onclick="switchMode('code')" title="Code Mode"><span class="nav-icon">💻</span><span>Code</span></button>
     <button class="nav-btn mode-music" onclick="switchMode('music')" title="Music Mode"><span class="nav-icon">🎵</span><span>Music</span></button>
-    <button class="nav-btn mode-story" onclick="switchMode('story')" title="Story Mode"><span class="nav-icon">📖</span><span>Story</span></button>
+    <button class="nav-btn mode-story" onclick="switchMode('story')" title="Creative Writing"><span class="nav-icon">📖</span><span>Story</span></button>
   </nav>
 
   <div id="main">
     <!-- Avatar panel commented out — will be restored later -->
-    <!--
-    <div id="face-panel">
-      <div id="face-panel-header">
-        <div>
-          <div id="face-comp-name">Companion</div>
-          <div id="face-emotion-label">idle</div>
-        </div>
-        <div id="face-view-toggle">
-          <button class="face-view-btn active" id="btn-bust"    onclick="setAvatarView('bust')">Bust</button>
-          <button class="face-view-btn"        id="btn-upper"   onclick="setAvatarView('upper')">Upper</button>
-          <button class="face-view-btn"        id="btn-full"    onclick="setAvatarView('full')">Full</button>
-          <button class="face-view-btn"        id="btn-hidden"  onclick="setAvatarView('hidden')">Hide</button>
-        </div>
-        <button id="face-close-btn" onclick="toggleAvatarPanel()">✕</button>
-      </div>
-      <div id="face-canvas-wrap">
-        <div id="face-building"><div class="face-spinner"></div><span>Building avatar...</span></div>
-        <canvas id="face-canvas"></canvas>
-      </div>
-    </div>
-    -->
 
     <!-- ── Chat area ── -->
     <div id="chat-area">
@@ -319,12 +304,15 @@
         </div>
       </div>
 
-      <!-- Story mode status bar -->
-      <div id="story-status">
-        <div class="story-stat"><span class="story-stat-label">Scene</span><span id="story-scene">—</span></div>
-        <div class="story-stat"><span class="story-stat-label">HP</span><span id="story-hp">—</span></div>
-        <div class="story-stat"><span class="story-stat-label">Inv</span><span id="story-inv">—</span></div>
-        <button id="story-new-btn" onclick="storyNewGame()">⚔ New Game</button>
+      <!-- ── Story: prior text panel (only shown in story mode) ── -->
+      <div id="story-prior-wrap">
+        <button id="story-prior-toggle" onclick="togglePriorPanel()">
+          <span id="story-prior-arrow">▶</span> Paste prior story for continuity
+        </button>
+        <div id="story-prior-inner">
+          <textarea id="story-prior-text" rows="4" placeholder="Paste an excerpt from an existing story here. The AI will match its voice, style, and continue from where it left off..."></textarea>
+          <div id="story-prior-hint">This excerpt is sent as context only — it won't appear in the chat.</div>
+        </div>
       </div>
 
       <div id="messages">
@@ -453,14 +441,13 @@
   var avatarView        = "bust";
   var avatarInitialized = false;
   var avatarPanelOpen   = false;
-  // These are no-ops until avatar is re-enabled:
-  function initAvatar()              { /* avatar disabled */ }
-  function showAvatarPanel()         { /* avatar disabled */ }
-  function hideAvatarPanel()         { /* avatar disabled */ }
+  function initAvatar()              { }
+  function showAvatarPanel()         { }
+  function hideAvatarPanel()         { }
   function setAvatarView(v)          { avatarView = v; }
-  function triggerAvatarExpression() { /* avatar disabled */ }
-  function setupAvatarResize()       { /* avatar disabled */ }
-  function toggleAvatarPanel()       { /* avatar disabled */ }
+  function triggerAvatarExpression() { }
+  function setupAvatarResize()       { }
+  function toggleAvatarPanel()       { }
 
   /* ══════════════════════════════════════════════════════════════════════════
      STATE
@@ -473,6 +460,7 @@
   var activeCompId       = null;
   var editingCompId      = null;
   var companionPanelOpen = false;
+  var priorPanelOpen     = false;
 
   var inputEl    = document.getElementById("input");
   var sendBtn    = document.getElementById("send-btn");
@@ -517,32 +505,43 @@
   var FILE_ICONS = { js:"📜",ts:"📜",jsx:"📜",tsx:"📜",html:"🌐",htm:"🌐",css:"🎨",py:"🐍",java:"☕",c:"⚙️",cpp:"⚙️",cs:"⚙️",php:"🐘",rb:"💎",go:"🐹",rs:"🦀",swift:"🍎",sh:"🖥️",bash:"🖥️",sql:"🗄️",json:"📋",csv:"📊",md:"📝",txt:"📄",xml:"📋",yaml:"📋",yml:"📋",default:"📄" };
 
   var MODES = {
-    sandbox:   { icon:"🧪", title:"Free / Sandbox",    sub:"Chat · Images · Code · Files",       placeholder:"Talk to your companion or ask anything..." },
-    companion: { icon:"🫂", title:"Companion",          sub:"Your AI friend",                     placeholder:"Hey, what's up?" },
-    image:     { icon:"🎨", title:"Image / Art",        sub:"Generate & edit images",             placeholder:"Describe an image to generate..." },
-    code:      { icon:"💻", title:"Code Mode",          sub:"Write and fix code in any language", placeholder:"Describe what you need, e.g. 'a Python web scraper'..." },
-    music:     { icon:"🎵", title:"Music Studio",       sub:"Write lyrics · Generate audio",      placeholder:"Describe your song idea, vibe, or topic..." },
-    story:     { icon:"📖", title:"Story Mode",         sub:"Interactive text adventure",         placeholder:"What kind of adventure? e.g. 'dark fantasy dungeon', 'space western', 'mystery noir'..." }
+    sandbox:   { icon:"🧪", title:"Free / Sandbox",    sub:"Chat · Images · Code · Files",             placeholder:"Talk to your companion or ask anything..." },
+    companion: { icon:"🫂", title:"Companion",          sub:"Your AI friend",                           placeholder:"Hey, what's up?" },
+    image:     { icon:"🎨", title:"Image / Art",        sub:"Generate & edit images",                   placeholder:"Describe an image to generate..." },
+    code:      { icon:"💻", title:"Code Mode",          sub:"Write and fix code in any language",       placeholder:"Describe what you need, e.g. 'a Python web scraper'..." },
+    music:     { icon:"🎵", title:"Music Studio",       sub:"Write lyrics · Generate audio",            placeholder:"Describe your song idea, vibe, or topic..." },
+    story:     { icon:"📖", title:"Creative Writing",   sub:"Unrestricted fiction · All themes welcome",placeholder:"Give a prompt, describe a scene, or continue your story..." }
   };
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     STORY MODE HELPERS
+  ══════════════════════════════════════════════════════════════════════════ */
+  function togglePriorPanel() {
+    priorPanelOpen = !priorPanelOpen;
+    document.getElementById("story-prior-inner").className = "story-prior-inner" + (priorPanelOpen ? " open" : "");
+    document.getElementById("story-prior-arrow").textContent = priorPanelOpen ? "▼" : "▶";
+  }
+
+  function getPriorStoryText() {
+    return document.getElementById("story-prior-text").value.trim();
+  }
 
   /* ══════════════════════════════════════════════════════════════════════════
      STORAGE & MEMORY HELPERS
   ══════════════════════════════════════════════════════════════════════════ */
-
   function cleanMemory(memory) {
     if (!memory || typeof memory !== "object") {
       return { aboutUser:"", aboutSelf:"", currentSituation:"", sharedEvents:"", insideJokes:"" };
     }
     function cl(text) {
       if (!text || typeof text !== "string") return "";
-      // Strip known corruption patterns
       var t = text;
       var idx = t.indexOf("[UNPARSED MEMORY]");
       if (idx !== -1) t = t.substring(0, idx);
       t = t.replace(/\[object Object\]/g, "")
            .replace(/\{"reply":[^}]*\}/g, "")
            .split("\n").filter(function(l){ return l.trim(); }).join("\n").trim();
-      return t.substring(0, 2000); // hard cap per field
+      return t.substring(0, 2000);
     }
     return {
       aboutUser:        cl(memory.aboutUser),
@@ -586,7 +585,6 @@
         activeCompId: activeCompId
       }));
     } catch(e) {
-      // If quota exceeded, trim sharedEvents and retry
       companions.forEach(function(c) {
         if (c.memory && c.memory.sharedEvents)
           c.memory.sharedEvents = c.memory.sharedEvents.split("\n").slice(-30).join("\n");
@@ -605,13 +603,12 @@
     if (!comp) return;
     var userMsgs = 0;
     for (var i = 0; i < chatHistory.length; i++) { if (chatHistory[i].role === "user") userMsgs++; }
-    // Trigger after every 5 user messages, minimum 4 total
     if (userMsgs < 4 || userMsgs - _memoryMsgCount < 5) return;
     if (_memoryUpdatePending) return;
 
     _memoryMsgCount = userMsgs;
     _memoryUpdatePending = true;
-    setTimeout(function() { _memoryUpdatePending = false; }, 25000); // safety release
+    setTimeout(function() { _memoryUpdatePending = false; }, 25000);
 
     setTimeout(function() {
       var nl = "\n";
@@ -651,7 +648,6 @@
           if (s === -1 || e === -1) throw new Error("no JSON");
           var parsed = JSON.parse(raw.substring(s, e + 1));
           if (!parsed || typeof parsed !== "object") throw new Error("bad parse");
-          // Cap lengths and strip corruption
           var capped = {
             aboutUser:        String(parsed.aboutUser        || "").substring(0, 600),
             aboutSelf:        String(parsed.aboutSelf        || "").substring(0, 400),
@@ -662,7 +658,7 @@
           Object.keys(capped).forEach(function(k) {
             capped[k] = capped[k].replace(/\{"reply":[^}]*\}/g, "").replace(/\[object Object\]/g, "").trim();
           });
-          comp.memory = capped; // replace, not merge
+          comp.memory = capped;
           comp.memorySummary = [capped.aboutUser, capped.currentSituation].filter(Boolean).join(" | ").substring(0, 200);
           saveStorage();
           console.log("[Memory] Updated:", comp.memory);
@@ -939,21 +935,22 @@
     inputEl.placeholder = m.placeholder;
     var showComp = (mode === "sandbox" || mode === "companion");
     document.getElementById("companions-btn").style.display = showComp ? "inline-flex" : "none";
+
+    // Show / hide story prior panel
+    var priorWrap = document.getElementById("story-prior-wrap");
+    if (mode === "story") { priorWrap.classList.add("visible"); }
+    else { priorWrap.classList.remove("visible"); }
+
     clearMessages(); clearFile(); updateCompanionBadge();
+
     var tips = {
       sandbox:   { icon:"🧪", title:"Free / Sandbox",    text:"Chat with your companion, generate images, ask for code — everything in one place." },
       companion: { icon:"🫂", title:"Companion Mode",     text:"Just you and your friend. All conversation, no distractions." },
       image:     { icon:"🎨", title:"Image / Art",        text:"Describe an image and hit Generate, or attach a file to edit it." },
       code:      { icon:"💻", title:"Code Mode",          text:"Describe what you need. Pick a language or leave it on Auto-detect for the AI to choose.\n\nThe code will actually run — no placeholder comments, no stubs." },
       music:     { icon:"🎵", title:"Music Studio",       text:"Describe your song concept. The AI writes full lyrics, then you can generate audio with Bark.\n\nAdd your HF token below to enable audio generation." },
-      story:     { icon:"📖", title:"Story Mode",         text:"Describe a world, genre, or scenario to begin. The AI narrates your adventure in second person.\n\nType your actions freely — attack, explore, talk, sneak, investigate — anything goes.\n\nType 'new game' or hit ⚔ New Game to start fresh." }
+      story:     { icon:"📖", title:"Creative Writing",   text:"No restrictions. Dark themes, morally complex characters, violence, mature emotions — all welcome.\n\nExpand the panel above to paste prior story text and the AI will match its voice and continue seamlessly." }
     };
-    // Toggle story status bar
-    var storyStatusEl = document.getElementById("story-status");
-    if (storyStatusEl) {
-      if (mode === "story") storyStatusEl.classList.add("visible");
-      else storyStatusEl.classList.remove("visible");
-    }
     var t = tips[mode];
     var tip = document.createElement("div"); tip.id = "mode-tip";
     tip.innerHTML = '<div class="tip-icon">' + t.icon + '</div><div class="tip-title">' + t.title + '</div>' + t.text;
@@ -984,8 +981,7 @@
     var w = document.createElement("div"); w.className = "message " + role;
     var l = document.createElement("div"); l.className = "label"; l.textContent = role === "user" ? "You" : getAssistantLabel();
     var b = document.createElement("div"); b.className = "bubble" + (isThinking ? " thinking" : "");
-    // Render code blocks in non-companion modes
-    if (role === "assistant" && !isThinking && (currentMode === "code" || currentMode === "sandbox" || currentMode === "story")) {
+    if (role === "assistant" && !isThinking && (currentMode === "code" || currentMode === "sandbox")) {
       renderMessageWithCode(b, text);
     } else {
       b.textContent = text;
@@ -995,7 +991,6 @@
   }
 
   function renderMessageWithCode(container, text) {
-    // Split text on ```lang ... ``` code blocks
     var parts = text.split(/(```[\w]*\n[\s\S]*?```)/);
     parts.forEach(function(part) {
       var codeMatch = part.match(/^```([\w]*)\n([\s\S]*?)```$/);
@@ -1020,8 +1015,10 @@
   }
 
   function getAssistantLabel() {
-    var isC = currentMode === "sandbox" || currentMode === "companion";
-    if (isC) { var c = getActiveComp(); return c ? c.name : "AI"; }
+    if (currentMode === "sandbox" || currentMode === "companion") {
+      var c = getActiveComp(); return c ? c.name : "AI";
+    }
+    if (currentMode === "story") return "Narrator";
     return "AI";
   }
 
@@ -1192,7 +1189,6 @@
   /* ══════════════════════════════════════════════════════════════════════════
      MUSIC MODE
   ══════════════════════════════════════════════════════════════════════════ */
-
   function generateMusic() {
     var concept = inputEl.value.trim();
     if (!concept) { alert("Describe your song idea first."); return; }
@@ -1202,7 +1198,6 @@
     addMessage("user", "\uD83C\uDFB5 [" + genre.toUpperCase() + "] " + concept);
     var lyricsBubble = addSpinnerBubble("Writing lyrics...");
 
-    // ── Step 1: Lyrics via worker action endpoint ──────────────────────────
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1217,12 +1212,10 @@
         var reply = (data.lyrics || "").trim();
         if (!reply) throw new Error("No lyrics returned");
 
-        // Extract title from end of response
         var titleMatch = reply.match(/TITLE:\s*(.+)/i);
         var songTitle  = titleMatch ? titleMatch[1].trim() : concept.substring(0, 40);
         var lyricsText = reply.replace(/TITLE:\s*.+/i, "").trim();
 
-        // Build music card
         lyricsBubble.className  = "";
         lyricsBubble.innerHTML  = "";
         lyricsBubble.style.cssText = "";
@@ -1233,7 +1226,6 @@
         var lyricsEl = document.createElement("div"); lyricsEl.className = "lyrics-text"; lyricsEl.textContent = lyricsText;
         card.appendChild(titleEl); card.appendChild(metaEl); card.appendChild(lyricsEl);
 
-        // ── Step 2: Audio generation section ────────────────────────────────
         var audioSection = document.createElement("div");
         var statusEl  = document.createElement("div");  statusEl.className  = "music-status";
         var audioGenBtn = document.createElement("button"); audioGenBtn.className = "music-gen-btn"; audioGenBtn.textContent = "\uD83D\uDD0A Generate Audio (Bark)";
@@ -1243,7 +1235,6 @@
           audioGenBtn.disabled = true; audioGenBtn.textContent = "Generating...";
           statusEl.textContent = "Sending to Bark on HuggingFace...";
           _callBarkWorker(lyricsText.substring(0, 1000), function(audioBase64, mimeType) {
-            // Convert base64 back to Blob for playback
             var binary = atob(audioBase64);
             var bytes  = new Uint8Array(binary.length);
             for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
@@ -1263,7 +1254,6 @@
         audioSection.appendChild(audioGenBtn); audioSection.appendChild(statusEl);
         card.appendChild(audioSection);
 
-        // Copy lyrics button
         var copyBtn = document.createElement("button"); copyBtn.className = "music-gen-btn"; copyBtn.textContent = "\uD83D\uDCCB Copy Lyrics";
         copyBtn.onclick = function() {
           navigator.clipboard.writeText(lyricsText).then(function() {
@@ -1272,7 +1262,6 @@
           });
         };
         card.appendChild(copyBtn);
-
         lyricsBubble.appendChild(card);
         messagesEl.scrollTop = messagesEl.scrollHeight;
       } catch(e) {
@@ -1284,13 +1273,12 @@
     xhr.ontimeout = function() { lyricsBubble.textContent = "\u26A0\uFE0F Request timed out."; setButtons(false); };
     xhr.send(JSON.stringify({ action: "lyrics", concept: concept, genre: genre }));
   }
-  // Calls the worker's bark action endpoint — HF token stays server-side
+
   function _callBarkWorker(text, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.timeout = 130000; // Bark is slow — give it 2m10s
-
+    xhr.timeout = 130000;
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== 4) return;
       try {
@@ -1301,14 +1289,13 @@
         if (data.error) { onError(data.error); return; }
         if (!data.audio) { onError("No audio data returned."); return; }
         onSuccess(data.audio, data.mimeType || "audio/wav");
-      } catch(e) {
-        onError("Parse error: " + e.message);
-      }
+      } catch(e) { onError("Parse error: " + e.message); }
     };
     xhr.onerror   = function() { onError("Network error reaching worker."); };
     xhr.ontimeout = function() { onError("Timed out — Bark may be overloaded. Try again."); };
     xhr.send(JSON.stringify({ action: "bark", text: text }));
   }
+
   /* ══════════════════════════════════════════════════════════════════════════
      MAIN SEND / XHR
   ══════════════════════════════════════════════════════════════════════════ */
@@ -1345,13 +1332,14 @@
     var fullInput = (lang && currentMode === "code") ? "Write the following in " + lang + ": " + userText : userText;
     inputEl.value=""; inputEl.style.height="auto"; setButtons(true);
     addMessage("user", lang ? "[" + lang + "] " + userText : userText);
-    var thinkingBubble = addMessage("assistant","Thinking...",true);
+    var thinkingBubble = addMessage("assistant", currentMode === "story" ? "Writing..." : "Thinking...", true);
     chatHistory.push({ role:"user", content:fullInput });
     doXHR(thinkingBubble);
   }
 
   function doXHR(thinkingBubble) {
-    var isCompMode = currentMode === "sandbox" || currentMode === "companion";
+    var isCompMode  = currentMode === "sandbox" || currentMode === "companion";
+    var isStoryMode = currentMode === "story";
     var comp = isCompMode ? getActiveComp() : null;
 
     var messages;
@@ -1364,6 +1352,9 @@
     } else {
       messages = chatHistory.slice(-60);
     }
+
+    // Story: include prior text as a separate field so the worker injects it into the system prompt
+    var priorStory = isStoryMode ? getPriorStoryText() : "";
 
     var retries = 0, MAX_RETRIES = 2;
 
@@ -1396,9 +1387,12 @@
             saveStorage(); maybeUpdateMemory(); updateEmotion("drift"); driftPersonality(comp);
           }
           thinkingBubble.classList.remove("thinking");
-          if (isCompMode) { typeText(thinkingBubble, text); }
-          else {
-            // For code/sandbox: render code blocks
+          if (isCompMode) {
+            typeText(thinkingBubble, text);
+          } else if (isStoryMode) {
+            // Story: plain prose, no code block rendering
+            thinkingBubble.textContent = text;
+          } else {
             thinkingBubble.innerHTML = "";
             renderMessageWithCode(thinkingBubble, text);
           }
@@ -1420,7 +1414,10 @@
         thinkingBubble.classList.remove("thinking");
         thinkingBubble.textContent = "\u26a0\ufe0f Request timed out."; setButtons(false);
       };
-      xhr.send(JSON.stringify({ messages: messages, mode: currentMode }));
+
+      var payload = { messages: messages, mode: currentMode };
+      if (priorStory) payload.priorStory = priorStory;
+      xhr.send(JSON.stringify(payload));
     }
     attempt();
   }
