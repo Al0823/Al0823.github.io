@@ -5103,6 +5103,62 @@ revealRelationship("sarah", {
         }
     ]
 },
+// 256 - Rest of Lunch and 6th Period
+{
+    text: function() {
+        return "The rest of lunch continues with easy, lighthearted conversation. Molly tells a few funny stories about chaotic moments from last year, Lydia slowly warms up and asks a couple shy questions about classes, and you occasionally chime in. Emily stays mostly focused on her food and her belly, which continues to make loud, active *GLORRRRP… GLOOORSH… GLUUUURGLE* sounds as her prey struggles inside her. Over time, the desperate movements grow weaker and slower, eventually fading into occasional twitches before going completely still. Emily lets out a long, satisfied sigh as her powerful stomach begins the final absorption phase. Her already extremely curvy figure softens and swells just a little more as she takes in the fresh nutrients.\n\nThe bell rings shortly after, signaling the end of lunch. The group stands up and begins to split off toward their next classes.\n\nYou, Molly, and Lydia head toward your sixth period Study Hall with Ms. Smith once again. Meanwhile, Lirael and Emily head off in the other direction — Lirael is assigned as Emily’s aide for this period.\n\nWhen the three of you enter Room 127, Ms. Smith is already seated behind her desk. The moment her eyes land on you, a brief but unmistakable flash of excitement crosses her face — her lips curving upward for just a split second before she quickly schools her expression back into her usual calm, distant, and mysterious demeanor. She greets the entering students with her typical soft, neutral voice, acting exactly as everyone else in the school perceives her.\n\nMolly, however, is more perceptive. She leans in close to you as you sit down and whispers under her breath:\n\n\"Okay… something is definitely off with her today. Did you see that look she just gave you?\"";
+
+    },
+    location: "Hartford High - Room 127 (Ms. Smith's Study Hall)",
+    choices: [
+        { 
+            label: "Continue study hall", 
+            next: 257,
+            effect: () => { 
+                changeBond("molly", 12); 
+            } 
+        }
+    ]
+},
+// 257 - The Rest of the Day & After School
+{
+    text: function() {
+        return "The remainder of study hall passes in a surprisingly relaxed manner. You, Molly, and Lydia spend the time engaged in light, casual conversation — talking about classes, teachers, and the general chaos of the first day. Molly shares several entertaining stories from her previous years at Hartford High, while Lydia slowly opens up more, asking questions about the school’s strange social rules. Ms. Smith remains at her desk, acting perfectly professional, though you catch her glancing in your direction more than once.\n\nThe rest of the school day continues in a relatively normal fashion for Hartford High standards. Classes come and go, with the usual mix of lectures, group work, and the occasional distant sounds of someone being swallowed in a hallway. You manage to make it through without any major incidents, though your mind keeps drifting back to the intense private bathroom session earlier.\n\nAfter the final bell rings, you all meet up at Molly’s car in the student parking lot. Lydia arrives first, looking a bit flushed and sporting a noticeably rounded, squirming gut. She explains shyly that during one of her classes, another student tried to eat her from behind — but lunged too aggressively and ended up with their head stuck in her mouth. Lydia, acting on pure instinct, swallowed them down. The prey is still very much alive and struggling inside her.\n\nEmily shows up a few minutes later, moving with a heavy, satisfied waddle. Her belly is even larger than it was at lunch, clearly containing yet another person. She casually explains that a sophomore girl found her extremely attractive and outright asked to be \"mulched\" by her. Emily obliged. The girl is still squirming happily inside her.\n\nLirael arrives last, looking as elegant and composed as ever. Surprisingly, she has not eaten anyone else since Sarah. She simply smiles and says she \"wasn’t particularly hungry.\"\n\nThe five of you attempt to pile into Molly’s car. It’s a tight fit. Emily’s massive, gurgling belly takes up a huge amount of space in the back seat, forcing everyone to squeeze in tightly. Lydia ends up half on your lap, Lirael’s voluptuous body presses warmly against your other side, and Molly laughs from the driver’s seat as she starts the engine.\n\nYou give Molly directions to your house. The drive home is filled with chatter, laughter, and the constant wet, noisy gurgles coming from both Emily’s and Lydia’s bellies. The car ride feels both chaotic and strangely comforting as you head back to the Byrd Family Home.";
+
+    },
+    location: "Molly's Car → Driving Home",
+    choices: [
+        { 
+            label: "Arrive home", 
+            next: 258,
+            effect: () => { 
+                changeBond("molly", 50); 
+                changeBond("lirael", 50); 
+                changeBond("issacSister", 50);
+                changeBond("lydia", 50); 
+            } 
+        }
+    ]
+},
+
+// 258 - Arrival Home
+{
+    text: function() {
+        return "Molly’s car pulls into the long gravel driveway of your house as the sun is beginning to dip lower in the sky. The ancient Victorian building looms ahead, its weathered gray-green exterior and thick ivy still giving it that unmistakable haunted mansion feel. Everyone piles out of the car, stretching after the somewhat cramped ride. Emily’s belly has softened a bit more during the drive, though it still lets out the occasional deep *glorp* as it finishes processing her latest meals.\n\nMolly stands on the driveway and looks up at the towering house with wide eyes and a mix of awe and amusement.\n\n\"So this is the place,\" she says, letting out a low whistle. \"You guys actually bought the old haunted house on the edge of the woods. I’ve heard so many stories about this place growing up. People disappearing left and right for decades… especially in the basement and attic. Most families don’t even make it a full year here before they bail.\"\n\nShe turns to you with a bright grin.\n\n\"By the way, I live only about twenty minutes down the road from here. So you should expect a lot more visits from me. Fair warning.\" She winks playfully.\n\nThe group heads inside together. Your parents are already waiting in the living room. Your mother looks relieved to see everyone home safely, while your father raises an eyebrow at the sight of Molly.\n\n\"Welcome home,\" your mother says warmly. \"And who is this?\"\n\nYou introduce Molly properly. She gives your parents a polite, cheerful greeting and chats with them for a moment about the school day. The house feels lively as everyone settles in — Emily immediately flops onto the couch with a satisfied groan, rubbing her still-softening belly, while Lydia sits nearby, looking a little overwhelmed but happy. Lirael moves gracefully through the space, already helping your mother with small tasks.\n\nMolly looks around the foyer with open curiosity, clearly intrigued by the old house and its reputation.";
+
+    },
+    location: "Byrd Family Home - Living Room",
+    choices: [
+        { 
+            label: "Continue welcoming Molly", 
+            next: 259,
+            effect: () => { 
+                changeBond("molly", 22); 
+                changeBond("lirael", 10); 
+            } 
+        }
+    ]
+},
     // 999 - Game End / Content Boundary
 
     {
