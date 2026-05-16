@@ -381,6 +381,8 @@ issacSister: {
         { text: "She ate a clone of Lirael during the capacity test Lirael set up for her.", known: false }, // 9, set in passage 199
 { text: "She ate 7 women from a Peep-O's order.", unlocked: false }, // 10
 { text: "She ate a Senior named Vanessa after Vanessa attempted to eat her in between 1st and 2nd Bell on your first day of School.", known: false }, // 11
+{ text: "She ate a Senior (with a large reputation around the school) named Sarah and her lacky named Annabelle after Sarah attempted to eat her somewhere between 2nd and 5th Bell on your first day of School.", known: false }, // 12
+{ text: "She ate a junior named Annabelle after Sarah attempted to eat her somewhere between 2nd and 5th Bell on your first day of School.", known: false }, // 13
     ]
 },
 
@@ -4447,8 +4449,8 @@ unlockEncounter("eatenBy", 4);
                     gameState.digestionProgress = 0;
                     gameState.acidStage = 0;
 
-                    gameState.predHealth = 75;
-                    gameState.predDefense = 5;
+                    gameState.predHealth = 100;
+                    gameState.predDefense = 8;
 
                     gameState.checkpointShown = {
                         pred75: false,
@@ -5046,6 +5048,57 @@ revealRelationship("sarah", {
 });
                 changeBond("lirael", 50);
                 changeBond("smith", 150); 
+            } 
+        }
+    ]
+},
+// 254 - Lunchtime Gathering
+{
+    text: function() {
+        return "You and Lirael arrive at the lunchroom just as the bell for fourth period ends. The hallways are already flooding with students as the loud ring echoes through the building. Within seconds, a massive wave of teenagers pours into the cafeteria and the surrounding Commons area, filling the space with chatter, laughter, and the clatter of trays.\n\nYou quickly grab a tray of food and find a relatively quiet table in the open Commons area just outside the main lunchroom. Lirael sits gracefully beside you, her posture elegant even after everything that happened earlier. The two of you begin eating while waiting for the others to arrive.\n\nA couple minutes later, Lydia appears, looking a bit frazzled as she scans the crowd. When she spots you and Lirael, she hurries over with clear relief on her face.\n\n\"There you are,\" Lydia says softly, sitting down across from you. She looks at Lirael with a slightly worried expression. \"Where were you during fourth bell? You’re supposed to be my aide for that class…\"\n\nLirael smiles calmly and reaches over to gently pat Lydia’s hand.\n\n\"I was taking care of something important,\" she replies smoothly, her voice warm and reassuring. \"But I’m here now. Did everything go alright?\"\n\nLydia nods shyly, though she still seems a little uneasy. A short while later, Molly arrives, waving cheerfully as she spots your table. She sits down next to Lydia, already chatting casually about her morning classes.\n\nSeveral minutes after that, Emily finally appears. She’s moving noticeably slower than usual, one hand resting on her heavily swollen belly. It looks like she has eaten one — possibly two — more people since study hall. The fresh prey are still very much alive, causing visible bulges and squirms to press outward against the stretched fabric of her tight sweater. She waddles over to the table with a satisfied but slightly strained expression and carefully lowers herself into a seat, her massive gut resting heavily on her lap and spilling out in front of her.\n\n\"Hey guys,\" Emily says casually, as if she hadn’t just added to her already impressive waistline. \"Miss me?\"";
+
+    },
+    location: "Hartford High - Commons Area (Lunch)",
+    choices: [
+        { 
+            label: "Continue lunch with the group", 
+            next: 255,
+            effect: () => { 
+                changeBond("molly", 12); 
+                changeBond("lirael", 8);
+                 changeBond("lydia", 8);
+                changeBond("issacSister", 10); 
+            } 
+        }
+    ]
+},
+// 255 - Lunchtime Conversation
+{
+    text: function() {
+        let splitText = "";
+
+        if (gameState.liraelAteSarah === true) {
+            // Lirael ate Sarah earlier — Emily only ate Annabelle
+            setPredHistory("issacSister", 13);
+            splitText = "Molly’s eyes widen as she looks at Emily’s heavily swollen, still very active belly. \"Wait… you’ve got someone in there? As a freshman? That’s seriously impressive.\" She leans in a bit, clearly fascinated. \"Who’d you end up eating?\"\n\nEmily grins proudly, rubbing her noisy gut as it lets out a series of loud, violent *GLORRRRP… GLOOORSH… GLUUUURGLE* sounds. Emily's prey is still struggling hard inside her.\n\n\"Some junior girl named Annabelle,\" Emily replies casually. \"She was one of Sarah’s lackeys and tried to jump me. She went down pretty easy.\"\n\nMolly’s expression shifts to one of surprise and respect.\n\n\"Well damn… everyone’s been talking about how your aide (Lirael) straight-up ate Sarah this morning in front of a bunch of people. It’s been the hot gossip among the upperclassmen all day. A lot of them are too scared to try anything with you now. You’ve basically got protection by association.\"";
+
+        } else {
+            // Emily ate Sarah herself
+            setPredHistory("issacSister", 12);
+            splitText = "Molly’s eyes widen as she looks at Emily’s heavily swollen, still very active belly. \"Wait… you’ve got two people in there? As a freshman? That’s seriously impressive.\" She leans in a bit, clearly fascinated. \"Who’d you end up eating?\"\n\nEmily grins proudly, rubbing her noisy gut as it lets out a series of loud, violent *GLORRRRP… GLOOORSH… GLUUUURGLE* sounds. Both girls inside are still struggling hard.\n\n\"Some mean senior girl named Sarah and one of her lackeys — a junior named Annabelle,\" Emily replies casually. \"Sarah tried to eat me first, so I flipped the script on her. They’re both putting up a pretty good fight in there.\"\n\nMolly’s hand flies up to cover her mouth, her eyes going wide with genuine shock.\n\n\"You… you ate Sarah? The Sarah?\" She looks stunned. \"She was basically the Pred Queen of Mean around here. A lot of people followed her lead. You just put a massive target on your back… but honestly? Kind of badass.\"";
+        }
+
+        return "The lunch table is lively as everyone settles in. Molly looks between you, Emily, and Lydia with a friendly, curious smile.\n\n\"I remember seeing you two at orientation,\" she says, pointing at Emily and Lydia. \"You’re Issac’s siblings, right?\"\n\nYou quickly correct her with a small smile. \"Lydia’s a close relative — she’s staying with us.\"\n\nMolly nods, accepting the explanation easily. You take the opportunity to give her proper introductions.\n\n\"This is Emily, my younger sister,\" you say, gesturing to the very full and satisfied-looking girl beside you. \"And this is Lydia.\"\n\nMolly gives both girls a warm smile. \"Nice to officially meet you both. I’m Molly — senior, occasional orientation helper, and apparently professional rescuer of freshmen now,\" she adds with a playful wink.\n\nThe conversation flows easily after that. Molly chats casually about her morning classes, asks how your first day is going so far, and mentions with a grin that she’s looking forward to coming over tonight after you invited her earlier. Lydia stays relatively quiet but seems happy to be included, while Emily continues lazily rubbing her still very active belly.\n\n" + splitText + "\n\nThe whole time, Emily’s stomach is going absolutely haywire — loud, aggressive *GLORRRRP… GLOOORSH… BLORP-BLORP… GLUUUURGLE* sounds constantly rumble from her massively swollen gut as her prey struggles desperately inside. The visible bulges and squirms are constant, pressing outward against the tight fabric of her sweater before being crushed back down by powerful contractions.\n\nEmily just smirks and gives her belly a proud pat.\n\n\"They’re feisty,\" she says with a satisfied grin. \"But they’ll settle down eventually.\"";
+
+    },
+    location: "Hartford High - Commons Area (Lunch)",
+    choices: [
+        { 
+            label: "Continue lunch conversation", 
+            next: 256,
+            effect: () => { 
+                changeBond("molly", 15); 
+                changeBond("issacSister", 10); 
             } 
         }
     ]
