@@ -5227,7 +5227,129 @@ revealRelationship("sarah", {
         }
     ]
 },
-/* Create 262, have it be the follow up. You all head upstairs into the attic and the atmosphere immediately feels off, But you all still get ready, you already made sure all of the other lights in the house were off and have candles lit up in the attic currently. You all sit around a conveniently placed table and start the session. */
+// 262 - The Attic Ouija Session
+{
+    text: function() {
+        return "The old wooden stairs creak and groan under the combined weight of the entire household as everyone makes their way up to the attic. The air grows noticeably cooler and heavier with each step. By the time you push open the attic door, the atmosphere shifts dramatically. A thick, oppressive stillness hangs in the room. The shadows seem deeper than they should be, and the faint scent of aged wood, dust, and something faintly metallic lingers in the air. The single bare bulb hanging from the ceiling feels inadequate against the darkness pressing in from the corners.\n\nThankfully, you had already gone around earlier and turned off every other light in the house. The only illumination now comes from several candles you and Lirael had set up earlier. Their warm, flickering flames cast long, dancing shadows across the slanted walls, old trunks, and forgotten furniture, giving the entire attic an eerie, almost ritualistic glow.\n\nA large, old wooden table sits conveniently in the center of the open space — as if the house itself had been waiting for this moment. Everyone gathers around it. Your mother and father sit on one side, both looking visibly uneasy. Emily plops down with her still-softening belly resting on her lap, while Lydia sits close to Lirael, appearing nervous but intrigued. Molly looks excited, her eyes sparkling in the candlelight as she sets the Ouija board and planchette in the center of the table.\n\nLirael sits gracefully beside you, her presence calm and reassuring, though her golden eyes scan the darkened corners of the attic with quiet vigilance.\n\nThe candle flames flicker more than they should, as if responding to an unseen draft. The attic feels alive — watchful, ancient, and expectant.\n\nMolly places her fingers lightly on the planchette and looks around the circle with a mischievous but slightly nervous grin.\n\n\"Alright,\" she says, her voice echoing softly in the large space. \"Everyone put a finger or two on the planchette. Let’s see if anyone’s home.\"\n\nOne by one, everyone reaches forward. The planchette sits motionless in the center of the board as the candle flames continue to dance unnaturally.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Begin the Ouija session", 
+            next: 263,
+            effect: () => { 
+                changeBond("molly", 20); 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+// 263 - The Ouija Session Begins
+{
+    text: function() {
+        return "The attic feels heavier now, as if the very air itself is watching and listening. The candle flames flicker erratically, casting long, distorted shadows that dance across the slanted ceiling and dusty corners. Everyone’s fingers rest lightly on the planchette, the wooden pointer sitting motionless in the center of the board for several long, tense seconds.\n\nMolly clears her throat softly, her voice carrying through the quiet space with a mix of excitement and nervousness.\n\n\"Alright… spirits of this house,\" she says clearly, her tone respectful but steady. \"If there are any of you here tonight who would like to communicate with us… please move the planchette to 'Yes'.\"\n\nFor a heartbeat, nothing happens.\n\nThen — almost instantly — the planchette jerks violently under everyone’s fingers and slides with unnatural speed across the board, stopping dead on the word **YES**.\n\nA collective shiver runs through the group. The temperature in the attic drops sharply and suddenly. A deep, bone-chilling cold washes over you, as if icy fingers had just brushed across the back of your neck and down your spine. The candle flames flicker wildly, some nearly extinguishing before flaring back to life. The air feels thicker, heavier, and unmistakably alive with presence.\n\nEmily’s eyes widen. Lydia lets out a small, nervous sound and scoots closer to Lirael. Your mother’s hand tightens visibly on your father’s arm. Even Molly looks momentarily startled, though she quickly regains her composure.\n\nLirael remains perfectly still beside you, but you can feel the subtle tension in her body. Her golden eyes are sharp, scanning the darkened corners of the attic as if searching for something only she can see.\n\nThe planchette sits perfectly still on **YES**, waiting.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Continue the session", 
+            next: 264,
+            effect: () => { 
+                changeBond("molly", 15); 
+                changeBond("lirael", 18); 
+            } 
+        }
+    ]
+},
+// 264 - The Spirit Responds
+{
+    text: function() {
+        return "The cold in the attic feels alive now, pressing against your skin like invisible hands. The candle flames continue to flicker and dance wildly, casting grotesque, shifting shadows across the rafters and old trunks. No one speaks for several long, breathless seconds. The planchette remains perfectly still on **YES**, as if waiting for the next question.\n\nLirael is the first to regain her composure. Her voice is calm, steady, and carries a quiet authority that cuts through the thick tension in the room.\n\n\"Spirit,\" she says clearly, her golden eyes fixed on the board, \"what is your name?\"\n\nEveryone’s fingers remain lightly touching the planchette. For a moment, nothing happens. Then, slowly at first, the pointer begins to move. It glides across the board with deliberate, almost teasing precision, stopping on each letter one by one:\n\n**S - E - C - R - E - T**\n\nThe word **SECRET** sits in the center of the board.\n\nA collective chill runs through the group. Emily’s eyes widen. Lydia grips Lirael’s arm tighter. Your mother’s hand flies to her cross. Molly looks equal parts thrilled and unnerved.\n\nBefore anyone else can ask a follow-up question, the planchette suddenly jerks again — faster this time — and begins spelling out another word with clear intent:\n\n**R - I - D - D - L - E**\n\nThe word **RIDDLE** now sits beside the first.\n\nThe temperature in the attic drops even further. One of the candles flickers violently and nearly goes out before flaring back to life. The silence that follows feels deafening. The planchette sits motionless once more, as if the spirit is waiting — almost daring someone to ask the next question.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Continue the Ouija session", 
+            next: 265,
+            effect: () => { 
+                changeBond("lirael", 20); 
+                changeBond("molly", 15); 
+            } 
+        }
+    ]
+},
+// 265 - The Spirit Reveals More
+{
+    text: function() {
+        return "The attic feels colder and heavier with every passing second. The candle flames flicker erratically, casting long, distorted shadows that seem to twist and reach across the rafters like living things. Everyone is silent, eyes fixed on the planchette as it sits motionless on the board after spelling out **RIDDLE**.\n\nLirael is the first to speak again. Her voice remains calm and steady, though her golden eyes are sharp and focused as she addresses the board.\n\n\"Spirit,\" she says clearly, \"where are you in this room right now?\"\n\nThe planchette stays still for a tense moment… then begins to move. It glides slowly across the board with deliberate intent, stopping first on **Y**, then **E**, then **S**. After spelling **YES**, it suddenly slides off the letters entirely and turns, pointing directly toward the only window in the attic — a small, dusty, arched window at the far end of the room, its glass dark and reflective in the candlelight.\n\nEveryone’s heads turn to follow the pointer’s direction. The window stares back like a black eye.\n\nBefore anyone can react or ask another question, the planchette jerks violently again and begins spelling with rapid, aggressive movements:\n\n**N - O - T -   A - N - Y - M - O - R - E**\n\nThe words **NOT ANYMORE** sit ominously on the board.\n\nA deep, bone-chilling cold washes over you instantly. It feels like icy fingers dragging slowly down your spine and wrapping around your chest. Your breath visibly fogs in the air for a brief moment. The candles flicker even more violently, some nearly extinguishing before flaring back to life with renewed intensity.\n\nEmily, eyes wide with a mix of excitement and nerves, leans forward and asks:\n\n\"Okay… what’s the riddle then?\"\n\nThe planchette doesn’t hesitate. It moves quickly and sharply across the board, spelling out a single word:\n\n**C - I - P - H - E - R**\n\nThe word **CIPHER** now sits on the board beside the others. The temperature in the attic seems to drop even further. The silence that follows is absolute, broken only by the faint, nervous breathing of the group.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Continue the Ouija session", 
+            next: 266,
+            effect: () => { 
+                changeBond("lirael", 22); 
+            } 
+        }
+    ]
+},
+// 266 - The Cipher
+{
+    text: function() {
+        return "The word **CIPHER** hangs in the air like a challenge. The attic feels even colder now, the candle flames flickering weakly as if struggling against an unseen force.\n\nLirael’s voice cuts through the tense silence, calm and educational.\n\n\"A cipher is a secret way of writing or encoding a message,\" she explains softly, her golden eyes never leaving the board. \"It is a code that must be deciphered before the true meaning can be understood.\"\n\nYou swallow, then ask the board directly:\n\n\"What kind of cipher is it?\"\n\nThe planchette moves almost immediately, sliding across the board with purpose:\n\n**M - U - L - T - I - P - L - E**\n\nThe word **MULTIPLE** appears.\n\nYour father, still seated with his fingers firmly on the planchette, leans forward slightly, studying the markings visible on the wall from where he sits. His eyes narrow in recognition.\n\n\"It’s a Pigpen cipher,\" he says, his voice low and focused. Without removing his fingers from the planchette, he begins carefully translating the symbols aloud, calling them out one by one as the group watches.\n\nAfter a few moments of careful work, he finishes:\n\n\"It spells… A-O-L-V.\"\n\nLirael tilts her head slightly and addresses the board again.\n\n\"Is your name Aolv?\"\n\nThe planchette shoots across the board with surprising speed and force, stopping hard on the word **NO**.\n\nThe temperature drops even further. One of the candles finally gutters out completely, plunging a corner of the attic into deeper shadow.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Continue the Ouija session", 
+            next: 267,
+            effect: () => { 
+                changeBond("lirael", 20); 
+            } 
+        }
+    ]
+},
+// 267 - The Spirit Gives a Hint
+{
+    text: function() {
+        return "The word **NO** sits accusingly on the board after Lirael’s question. The silence in the attic is absolute, broken only by the faint, nervous breathing of the group and the occasional soft creak of old wood settling. The remaining candles flicker weakly, their flames struggling against the oppressive cold that now fills the room.\n\nBefore anyone can ask another question, the planchette begins to move again — slowly at first, then with clear intent. It glides across the board and spells out a single word:\n\n**H - I - N - T ?**\n\nThe question mark at the end feels almost mocking, as if the spirit is toying with all of you.\n\nYou feel a chill run down your spine. Swallowing hard, you speak up, your voice quieter than you intended.\n\n\"Yes,\" you say. \"We’d like a hint.\"\n\nThe planchette immediately begins moving again, this time with more purpose. It slides across the board, spelling out another word with deliberate, almost theatrical slowness:\n\n**S - H - I - F - T**\n\nThe word **SHIFT** now sits on the board. Then, without pausing, the planchette glides down to the bottom row of numbers and stops firmly on the number **7**.\n\n**SHIFT 7**\n\nThe message hangs in the cold air. The temperature seems to drop even further. One of the candles sputters and dies completely, plunging another corner of the attic into darkness. The remaining flames flicker violently, casting long, writhing shadows that make the old trunks and dusty furniture look like they’re moving.\n\nYour father’s brow is furrowed deeply. Emily looks equal parts excited and nervous. Lydia is gripping Lirael’s arm tightly. Molly’s eyes are wide with fascination. Lirael remains perfectly still beside you, but you can feel the subtle tension in her body as she stares at the board with sharp, calculating intensity.\n\nThe planchette sits motionless once more, waiting.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Continue the Ouija session", 
+            next: 268,
+            effect: () => { 
+                changeBond("lirael", 22); 
+            } 
+        }
+    ]
+},
+// 268 - The Caesar Shift
+/* add the spirit responses for the questions */
+{
+    text: function() {
+        return "The word **SHIFT 7** lingers on the board like a challenge. A heavy, suffocating silence falls over the attic. No one speaks for what feels like a long time. The remaining candles flicker weakly, their flames casting long, wavering shadows that seem to breathe and shift along with the oppressive atmosphere. The cold in the room is now bone-deep, seeping into your clothes and making everyone’s breath visible in faint white puffs.\n\nYour father stares intently at the board, his brow deeply furrowed in concentration. After nearly a full minute of tense silence, he finally speaks, his voice low and thoughtful.\n\n\"It must be a Caesar shift of 7,\" he says slowly. \"A simple substitution cipher where each letter is shifted forward by seven places in the alphabet.\"\n\nHe falls quiet again, clearly working through the decoding in his head. While he thinks, the rest of you try to gather more information from the spirit.\n\nEmily leans forward, her voice unusually serious. \"How old are you?\"\n\nThe planchette doesn’t move.\n\nLydia, voice barely above a whisper, asks, \"How… how did you die?\"\n\nStill nothing.\n\nMolly tries next. \"When did you die?\"\n\nThe planchette remains completely still, as if deliberately ignoring the questions. The silence grows heavier, more uncomfortable. The only sound is the occasional soft creak of the old attic beams and the faint, nervous breathing of the group.\n\nYour father continues staring at the board, his fingers never leaving the planchette. His lips move silently as he works through the cipher, mentally shifting each letter. The tension in the room builds with every passing second. Even Lirael watches him with quiet intensity, her golden eyes reflecting the candlelight.\n\nFinally, after what feels like an eternity, your father’s eyes widen slightly. He speaks slowly, his voice filled with disbelief and dawning realization.\n\n\"Theo…\"\n\nThe name drops into the silence like a stone into still water.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "React to the revelation", 
+            next: 269,
+            effect: () => { 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
     // 999 - Game End / Content Boundary
 
     {
