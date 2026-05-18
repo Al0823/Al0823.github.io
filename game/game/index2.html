@@ -350,7 +350,7 @@ issacSister: {
 { text: "She is an Apex Human, which means she has predatory capabilities way better than that of a normal human", unlocked: false }, // 6, set in passage 202
     ],
     grade: "None",
-    age: 16,
+    age: 13,
     phone: true,
     predatorHistory: [
         { text: "To your knowledge, she has eaten no one.", known: false }, // 0, set in beginning
@@ -932,7 +932,7 @@ gameState.dayStartPassage = 23;
     // 44 - Asking Emily to Come Out
     // FIX: 'Stay behind' choice now also increments liraelSisterBond and issacSisterBond
     {
-        text: "You crouch down slightly so you're closer to eye level with the circle.\n\n\"Emily.\"\n\nYour voice comes out gentle.\n\nDeliberate.\n\n\"Can you come out for me? Just for now?\"\n\nEmily looks up at Lirael first.\n\nAsking permission.\n\nFrom a twelve-foot she-demon.\n\nLirael's expression does something complicated.\n\nHer enormous hand lifts — slowly, carefully — away from Emily's back.\n\n\"…Go,\" she murmurs. \"Your family is scared.\"\n\nA small pause.\n\n\"You can come back.\"\n\nEmily considers this with the serious gravity that only twelve-year-olds can bring to a demon's promise.\n\nThen she nods once.\n\nShe stands, brushes stone dust off her pajama pants, and walks calmly back through the barrier.\n\nThe violet light ripples around her again on the way out.\n\nGentle.\n\nUnhurried.\n\nShe stops beside you and looks up.\n\n\"She's sad,\" Emily says quietly. \"Like, really sad. Under all the rest of it.\"\n\nBehind the circle's edge, Lirael has gone very still.\n\nHer golden eyes are fixed on Emily.\n\nAnd for just a moment — just one — there is nothing lazy or guarded in her expression at all.",
+        text: "You crouch down slightly so you're closer to eye level with the circle.\n\n\"Emily.\"\n\nYour voice comes out gentle.\n\nDeliberate.\n\n\"Can you come out for me? Just for now?\"\n\nEmily looks up at Lirael first.\n\nAsking permission.\n\nFrom a twelve-foot she-demon.\n\nLirael's expression does something complicated.\n\nHer enormous hand lifts — slowly, carefully — away from Emily's back.\n\n\"…Go,\" she murmurs. \"Your family is scared.\"\n\nA small pause.\n\n\"You can come back.\"\n\nEmily considers this with the serious gravity that only teenagers can bring to a demon's promise.\n\nThen she nods once.\n\nShe stands, brushes stone dust off her pajama pants, and walks calmly back through the barrier.\n\nThe violet light ripples around her again on the way out.\n\nGentle.\n\nUnhurried.\n\nShe stops beside you and looks up.\n\n\"She's sad,\" Emily says quietly. \"Like, really sad. Under all the rest of it.\"\n\nBehind the circle's edge, Lirael has gone very still.\n\nHer golden eyes are fixed on Emily.\n\nAnd for just a moment — just one — there is nothing lazy or guarded in her expression at all.",
         location: "Basement",
         choices: [
             { label: "Guide everyone back upstairs and regroup", next: 46, effect: () => { gameState.familyTension += 5; }},
@@ -5333,10 +5333,9 @@ revealRelationship("sarah", {
     ]
 },
 // 268 - The Caesar Shift
-/* add the spirit responses for the questions */
 {
     text: function() {
-        return "The word **SHIFT 7** lingers on the board like a challenge. A heavy, suffocating silence falls over the attic. No one speaks for what feels like a long time. The remaining candles flicker weakly, their flames casting long, wavering shadows that seem to breathe and shift along with the oppressive atmosphere. The cold in the room is now bone-deep, seeping into your clothes and making everyone’s breath visible in faint white puffs.\n\nYour father stares intently at the board, his brow deeply furrowed in concentration. After nearly a full minute of tense silence, he finally speaks, his voice low and thoughtful.\n\n\"It must be a Caesar shift of 7,\" he says slowly. \"A simple substitution cipher where each letter is shifted forward by seven places in the alphabet.\"\n\nHe falls quiet again, clearly working through the decoding in his head. While he thinks, the rest of you try to gather more information from the spirit.\n\nEmily leans forward, her voice unusually serious. \"How old are you?\"\n\nThe planchette doesn’t move.\n\nLydia, voice barely above a whisper, asks, \"How… how did you die?\"\n\nStill nothing.\n\nMolly tries next. \"When did you die?\"\n\nThe planchette remains completely still, as if deliberately ignoring the questions. The silence grows heavier, more uncomfortable. The only sound is the occasional soft creak of the old attic beams and the faint, nervous breathing of the group.\n\nYour father continues staring at the board, his fingers never leaving the planchette. His lips move silently as he works through the cipher, mentally shifting each letter. The tension in the room builds with every passing second. Even Lirael watches him with quiet intensity, her golden eyes reflecting the candlelight.\n\nFinally, after what feels like an eternity, your father’s eyes widen slightly. He speaks slowly, his voice filled with disbelief and dawning realization.\n\n\"Theo…\"\n\nThe name drops into the silence like a stone into still water.";
+        return "The word **SHIFT 7** lingers on the board like a challenge. A heavy, suffocating silence falls over the attic. No one speaks for what feels like a long time. The remaining candles flicker weakly, their flames casting long, wavering shadows that seem to breathe and shift along with the oppressive atmosphere. The cold in the room is now bone-deep, seeping into your clothes and making everyone’s breath visible in faint white puffs.\n\nYour father stares intently at the board, his brow deeply furrowed in concentration. While he thinks, the rest of you try to gather more information from the spirit.\n\nEmily leans forward and asks, \"How old are you?\"\n\nThe planchette moves slowly across the board and spells out:\n\n**1 - 6**\n\nThe number **16** appears.\n\nLydia, voice barely above a whisper, asks, \"How… how did you die?\"\n\nThe planchette remains completely still for several seconds before finally moving again. It spells out a single word:\n\n**UNKNOWN**\n\nMolly tries next. \"When did you die?\"\n\nThis time the planchette moves more quickly:\n\n**R - E - C - E - N - T**\n\nThe word **RECENT** appears on the board.\n\nYour father continues staring at the board, his fingers never leaving the planchette. His lips move silently as he works through the cipher, mentally shifting each letter. The tension in the room builds with every passing second. Even Lirael watches him with quiet intensity.\n\nFinally, after what feels like an eternity, your father’s eyes widen slightly. He speaks slowly, his voice filled with disbelief and dawning realization.\n\n\"Theo…\"\n\nThe name drops into the silence like a stone into still water.";
 
     },
     location: "Byrd Family Home - Attic",
@@ -5346,6 +5345,40 @@ revealRelationship("sarah", {
             next: 269,
             effect: () => { 
                 changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+// 269 - Prove You Are Theo
+{
+    text: function() {
+        return "The name **Theo** hangs in the freezing air like a thunderclap. For a moment, no one breathes. Your chest tightens painfully as a storm of emotions crashes over you — disbelief, hope, grief, and anger all at once. Your hands tremble slightly as you lean forward, your voice cracking with raw emotion.\n\n\"Prove it,\" you say, the words coming out sharper and more upset than you intended. \"Prove you’re really Theo.\"\n\nThe planchette remains still for several agonizing seconds. Then, with deliberate slowness, it begins to move again. It glides across the board and spells out a single word:\n\n**P - I - C - T - U - R - E**\n\nThe word **PICTURE** appears.\n\nAlmost immediately after, the planchette slides off the letters and turns, pointing directly at you.\n\nYour heart hammers in your chest. With shaking hands, you reach into your pocket and pull out the old, worn photograph of Theo — the one you’ve carried with you every single day since he disappeared. The moment your fingers touch the paper, an unseen force rips it violently from your grasp. The picture flies out of your hand and hovers in the air above the center of the table.\n\nThen, in the flickering candlelight, you see them — barely visible, almost transparent hands. Two ghostly, ethereal hands materialize just above the candles. They are faint, translucent, and shimmer like heat haze, but they are unmistakably there. One of the hands holds the photograph while the other points directly at Theo’s smiling face in the picture.\n\nThe group watches in stunned silence. Your mother lets out a soft, choked sound. Emily’s eyes are wide. Lydia is gripping Lirael’s arm so tightly her knuckles are white. Molly looks equal parts terrified and amazed.\n\nThe ghostly hand then drops the photograph onto the center of the table. The planchette immediately moves again, spelling out a single, powerful word:\n\n**M - E**\n\n**ME**\n\nThe candle flames suddenly flare upward before dropping low again, casting the attic in an even more ominous, dancing light.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Continue the Ouija session", 
+            next: 270,
+            effect: () => { 
+                changeBond("lirael", 25); 
+            } 
+        }
+    ]
+},
+// 270 - Theo's Binding
+{
+    text: function() {
+        return "The word **ME** sits on the board like a declaration. Your heart is pounding so hard it feels like it might burst out of your chest. Tears sting at the corners of your eyes as a thousand questions flood your mind. You lean forward, your voice thick with emotion and barely held-together composure.\n\n\"How… how did you get here?\" you ask, your voice cracking. \"You disappeared back in New York… how are you here?\"\n\nThe planchette remains still for a long, agonizing moment. Then it begins to move again, sliding across the board with slow, deliberate purpose:\n\n**B - O - U - N - D**\n\nThe word **BOUND** appears.\n\nLirael’s golden eyes narrow slightly. She speaks next, her voice calm but intense.\n\n\"What are you bound to?\"\n\nThe planchette doesn’t hesitate. It moves swiftly and clearly across the board, spelling out a single name:\n\n**I - S - S - A - C**\n\n**ISSAC**\n\nThe name — your name — sits on the board in stark, undeniable letters. A heavy, electric silence falls over the attic. Your mother lets out a soft, broken sound. Your father’s face goes pale. Emily’s eyes are wide with shock. Lydia looks terrified but fascinated. Molly is completely still, her usual playful energy replaced by stunned silence.\n\nLirael’s expression remains composed, but you can feel the subtle shift in her posture — protective, alert, and deeply focused. The candle flames flicker violently, as if responding to the weight of the revelation.\n\nTheo — or whatever is here claiming to be him — is bound to you.";
+
+    },
+    location: "Byrd Family Home - Attic",
+    choices: [
+        { 
+            label: "Continue the Ouija session", 
+            next: 271,
+            effect: () => { 
+                changeBond("lirael", 25); 
             } 
         }
     ]
