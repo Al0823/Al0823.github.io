@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<!-- index.html v22.0 -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>A.t.A. Projects - FreeGPT</title>
@@ -22,7 +21,6 @@
     .nav-btn.active.mode-code      { border-left: 3px solid #f78166; }
     .nav-btn.active.mode-companion { border-left: 3px solid #bc8cff; }
     .nav-btn.active.mode-music     { border-left: 3px solid #e0974c; }
-    .nav-btn.active.mode-story     { border-left: 3px solid #e05c8a; }
     .nav-divider { width: 36px; height: 1px; background: #30363d; margin: 4px 0; }
     .nav-btn.coming { opacity: 0.35; cursor: default; }
     .nav-btn.coming:hover { background: transparent; color: #8b949e; }
@@ -40,24 +38,6 @@
     .header-chip { font-size: 11px; background: #21262d; border: 1px solid #30363d; border-radius: 20px; padding: 3px 10px; color: #8b949e; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
     .header-chip:hover { background: #30363d; color: #e6edf3; }
 
-    /* ── Story prior-text panel ── */
-    #story-prior-wrap { display: none; padding: 10px 16px; background: #0d1117; border-bottom: 1px solid #30363d; flex-shrink: 0; }
-    #story-prior-wrap.visible { display: block; }
-    #story-prior-toggle { background: none; border: none; color: #e05c8a; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 0 0 6px; }
-    #story-prior-toggle:hover { color: #f07aaa; }
-    #story-prior-inner { display: none; flex-direction: column; gap: 6px; }
-    #story-prior-inner.open { display: flex; }
-    #story-prior-text { width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 13px; font-family: "Courier New", monospace; padding: 9px 12px; resize: vertical; min-height: 72px; max-height: 160px; outline: none; line-height: 1.5; }
-    #story-prior-text:focus { border-color: #e05c8a; }
-    #story-prior-text::placeholder { color: #8b949e; }
-    #story-prior-hint { font-size: 11px; color: #8b949e; }
-
-    /* Live story context display */
-    #story-context-panel { margin-top: 8px; border-top: 1px solid #30363d; padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
-    .sc-row { display: flex; gap: 8px; align-items: baseline; font-size: 12px; line-height: 1.5; }
-    .sc-label { color: #e05c8a; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
-    .sc-val { color: #8b949e; overflow: hidden; text-overflow: ellipsis; }
-
     #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
     #messages::-webkit-scrollbar { width: 6px; }
     #messages::-webkit-scrollbar-track { background: transparent; }
@@ -71,13 +51,8 @@
     body.mode-code      .message.user .bubble { background: #b35900; }
     body.mode-companion .message.user .bubble { background: #6e40c9; }
     body.mode-music     .message.user .bubble { background: #7a4a1e; }
-    body.mode-story     .message.user .bubble { background: #7a1a3e; }
     .message.assistant .bubble { background: #21262d; color: #e6edf3; border: 1px solid #30363d; border-bottom-left-radius: 4px; }
     .message.assistant .bubble.thinking { color: #8b949e; font-style: italic; }
-
-    /* Story mode: wider bubbles + pink left accent for prose feel */
-    body.mode-story .message { max-width: 92%; }
-    body.mode-story .message.assistant .bubble { font-size: 14.5px; line-height: 1.8; border-left: 3px solid #e05c8a; }
 
     .file-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 5px 10px; font-size: 12px; margin-bottom: 6px; max-width: 100%; overflow: hidden; }
     .file-badge .file-icon { font-size: 15px; flex-shrink: 0; }
@@ -88,7 +63,6 @@
     .image-prompt-label { font-size: 11px; color: #8b949e; font-style: italic; padding: 0 2px; word-break: break-word; }
     .spinner-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px; color: #8b949e; font-size: 13px; font-style: italic; }
     .spinner { width: 32px; height: 32px; border: 3px solid #30363d; border-top-color: #1f6feb; border-radius: 50%; animation: spin 0.8s linear infinite; }
-    body.mode-story .spinner { border-top-color: #e05c8a; }
     .image-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
     .format-select { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e6edf3; font-size: 12px; padding: 5px 8px; outline: none; cursor: pointer; }
     .action-btn { border: none; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; white-space: nowrap; color: #fff; }
@@ -144,7 +118,6 @@
     body.mode-code      #input:focus { border-color: #f78166; }
     body.mode-companion #input:focus { border-color: #bc8cff; }
     body.mode-music     #input:focus { border-color: #e0974c; }
-    body.mode-story     #input:focus { border-color: #e05c8a; }
     #input::placeholder { color: #8b949e; }
     .toolbar-btn { border: none; border-radius: 8px; padding: 10px 13px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; white-space: nowrap; color: #fff; }
     .toolbar-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
@@ -164,8 +137,6 @@
     body.mode-companion #send-btn:hover { background: #8957e5; }
     body.mode-music     #send-btn { background: #7a4a1e; }
     body.mode-music     #send-btn:hover { background: #e0974c; }
-    body.mode-story     #send-btn { background: #9a1a4e; }
-    body.mode-story     #send-btn:hover { background: #e05c8a; }
     #lang-select { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 13px; padding: 10px; outline: none; cursor: pointer; font-family: inherit; display: none; }
     #lang-select:focus { border-color: #f78166; }
     #music-genre-select { background: #0d1117; border: 1px solid #4a3010; border-radius: 8px; color: #e6edf3; font-size: 13px; padding: 10px; outline: none; cursor: pointer; font-family: inherit; display: none; }
@@ -180,8 +151,6 @@
     body.mode-music  #music-genre-select { display: flex !important; }
     body.mode-music  #image-gen-btn { display: none !important; }
     body.mode-music  #attach-btn { display: none !important; }
-    body.mode-story  #image-gen-btn { display: none !important; }
-    body.mode-story  #attach-btn { display: none !important; }
 
     #mode-tip { margin: auto; text-align: center; color: #8b949e; font-size: 14px; line-height: 1.8; padding: 20px; pointer-events: none; }
     #mode-tip .tip-icon  { font-size: 36px; margin-bottom: 8px; }
@@ -249,7 +218,6 @@
       .nav-btn.active.mode-code      { border-top-color: #f78166; }
       .nav-btn.active.mode-companion { border-top-color: #bc8cff; }
       .nav-btn.active.mode-music     { border-top-color: #e0974c; }
-      .nav-btn.active.mode-story     { border-top-color: #e05c8a; }
       .nav-divider { display: none; }
       #main { flex-direction: column; flex: 1; width: 100%; min-width: 100%; padding-bottom: 60px; overflow: hidden; }
       #chat-area { flex: 1; width: 100%; }
@@ -289,11 +257,31 @@
     <button class="nav-btn mode-image" onclick="switchMode('image')" title="Image / Art"><span class="nav-icon">🎨</span><span>Art</span></button>
     <button class="nav-btn mode-code" onclick="switchMode('code')" title="Code Mode"><span class="nav-icon">💻</span><span>Code</span></button>
     <button class="nav-btn mode-music" onclick="switchMode('music')" title="Music Mode"><span class="nav-icon">🎵</span><span>Music</span></button>
-    <button class="nav-btn mode-story" onclick="switchMode('story')" title="Creative Writing"><span class="nav-icon">📖</span><span>Story</span></button>
   </nav>
 
   <div id="main">
     <!-- Avatar panel commented out — will be restored later -->
+    <!--
+    <div id="face-panel">
+      <div id="face-panel-header">
+        <div>
+          <div id="face-comp-name">Companion</div>
+          <div id="face-emotion-label">idle</div>
+        </div>
+        <div id="face-view-toggle">
+          <button class="face-view-btn active" id="btn-bust"    onclick="setAvatarView('bust')">Bust</button>
+          <button class="face-view-btn"        id="btn-upper"   onclick="setAvatarView('upper')">Upper</button>
+          <button class="face-view-btn"        id="btn-full"    onclick="setAvatarView('full')">Full</button>
+          <button class="face-view-btn"        id="btn-hidden"  onclick="setAvatarView('hidden')">Hide</button>
+        </div>
+        <button id="face-close-btn" onclick="toggleAvatarPanel()">✕</button>
+      </div>
+      <div id="face-canvas-wrap">
+        <div id="face-building"><div class="face-spinner"></div><span>Building avatar...</span></div>
+        <canvas id="face-canvas"></canvas>
+      </div>
+    </div>
+    -->
 
     <!-- ── Chat area ── -->
     <div id="chat-area">
@@ -308,19 +296,6 @@
           <button class="header-chip" id="companions-btn" onclick="toggleCompanionPanel()" style="display:none">🫂 Companions</button>
           <button class="header-chip" onclick="exportMemory()">💾 Export</button>
         </div>
-      </div>
-
-      <!-- ── Story: prior text panel (only shown in story mode) ── -->
-      <div id="story-prior-wrap">
-        <button id="story-prior-toggle" onclick="togglePriorPanel()">
-          <span id="story-prior-arrow">▶</span> Paste prior story for continuity
-        </button>
-        <div id="story-prior-inner">
-          <textarea id="story-prior-text" rows="4" placeholder="Paste an excerpt from an existing story here. The AI will match its voice, style, and continue from where it left off..."></textarea>
-          <div id="story-prior-hint">This excerpt is sent as context only — it won't appear in the chat.</div>
-        </div>
-        <!-- Live context: populated automatically as the story develops -->
-        <div id="story-context-panel" style="display:none"></div>
       </div>
 
       <div id="messages">
@@ -449,13 +424,14 @@
   var avatarView        = "bust";
   var avatarInitialized = false;
   var avatarPanelOpen   = false;
-  function initAvatar()              { }
-  function showAvatarPanel()         { }
-  function hideAvatarPanel()         { }
+  // These are no-ops until avatar is re-enabled:
+  function initAvatar()              { /* avatar disabled */ }
+  function showAvatarPanel()         { /* avatar disabled */ }
+  function hideAvatarPanel()         { /* avatar disabled */ }
   function setAvatarView(v)          { avatarView = v; }
-  function triggerAvatarExpression() { }
-  function setupAvatarResize()       { }
-  function toggleAvatarPanel()       { }
+  function triggerAvatarExpression() { /* avatar disabled */ }
+  function setupAvatarResize()       { /* avatar disabled */ }
+  function toggleAvatarPanel()       { /* avatar disabled */ }
 
   /* ══════════════════════════════════════════════════════════════════════════
      STATE
@@ -468,11 +444,6 @@
   var activeCompId       = null;
   var editingCompId      = null;
   var companionPanelOpen = false;
-  var priorPanelOpen     = false;
-
-  // Story mode: live context extracted after each exchange
-  var storyContext = { characters: [], currentLocation: "" };
-  var _storyExtractPending = false;
 
   var inputEl    = document.getElementById("input");
   var sendBtn    = document.getElementById("send-btn");
@@ -517,103 +488,31 @@
   var FILE_ICONS = { js:"📜",ts:"📜",jsx:"📜",tsx:"📜",html:"🌐",htm:"🌐",css:"🎨",py:"🐍",java:"☕",c:"⚙️",cpp:"⚙️",cs:"⚙️",php:"🐘",rb:"💎",go:"🐹",rs:"🦀",swift:"🍎",sh:"🖥️",bash:"🖥️",sql:"🗄️",json:"📋",csv:"📊",md:"📝",txt:"📄",xml:"📋",yaml:"📋",yml:"📋",default:"📄" };
 
   var MODES = {
-    sandbox:   { icon:"🧪", title:"Free / Sandbox",    sub:"Chat · Images · Code · Files",             placeholder:"Talk to your companion or ask anything..." },
-    companion: { icon:"🫂", title:"Companion",          sub:"Your AI friend",                           placeholder:"Hey, what's up?" },
-    image:     { icon:"🎨", title:"Image / Art",        sub:"Generate & edit images",                   placeholder:"Describe an image to generate..." },
-    code:      { icon:"💻", title:"Code Mode",          sub:"Write and fix code in any language",       placeholder:"Describe what you need, e.g. 'a Python web scraper'..." },
-    music:     { icon:"🎵", title:"Music Studio",       sub:"Write lyrics · Generate audio",            placeholder:"Describe your song idea, vibe, or topic..." },
-    story:     { icon:"📖", title:"Creative Writing",   sub:"Unrestricted fiction · All themes welcome",placeholder:"Give a prompt, describe a scene, or continue your story..." }
+    sandbox:   { icon:"🧪", title:"Free / Sandbox",    sub:"Chat · Images · Code · Files",       placeholder:"Talk to your companion or ask anything..." },
+    companion: { icon:"🫂", title:"Companion",          sub:"Your AI friend",                     placeholder:"Hey, what's up?" },
+    image:     { icon:"🎨", title:"Image / Art",        sub:"Generate & edit images",             placeholder:"Describe an image to generate..." },
+    code:      { icon:"💻", title:"Code Mode",          sub:"Write and fix code in any language", placeholder:"Describe what you need, e.g. 'a Python web scraper'..." },
+    music:     { icon:"🎵", title:"Music Studio",       sub:"Write lyrics · Generate audio",      placeholder:"Describe your song idea, vibe, or topic..." }
   };
-
-  /* ══════════════════════════════════════════════════════════════════════════
-     STORY MODE HELPERS
-  ══════════════════════════════════════════════════════════════════════════ */
-  function togglePriorPanel() {
-    priorPanelOpen = !priorPanelOpen;
-    document.getElementById("story-prior-inner").className = "story-prior-inner" + (priorPanelOpen ? " open" : "");
-    document.getElementById("story-prior-arrow").textContent = priorPanelOpen ? "▼" : "▶";
-  }
-
-  function getPriorStoryText() {
-    return document.getElementById("story-prior-text").value.trim();
-  }
-
-  // Reset story context when leaving / entering story mode
-  function resetStoryContext() {
-    storyContext = { characters: [], currentLocation: "" };
-    _storyExtractPending = false;
-    renderStoryContext();
-  }
-
-  // Render the live context panel beneath the prior-text toggle
-  function renderStoryContext() {
-    var panel = document.getElementById("story-context-panel");
-    if (!panel) return;
-    var chars = storyContext.characters || [];
-    var loc   = storyContext.currentLocation || "";
-    if (chars.length === 0 && !loc) { panel.style.display = "none"; return; }
-    panel.style.display = "block";
-    var html = "";
-    if (loc) html += '<div class="sc-row"><span class="sc-label">📍 Location</span><span class="sc-val">' + esc(loc) + '</span></div>';
-    for (var i = 0; i < chars.length; i++) {
-      var c = chars[i];
-      var detail = [];
-      if (c.role)        detail.push(c.role);
-      if (c.description) detail.push(c.description);
-      if (c.lastSeen)    detail.push("last seen: " + c.lastSeen);
-      html += '<div class="sc-row"><span class="sc-label">🧑 ' + esc(c.name) + '</span><span class="sc-val">' + esc(detail.join(" · ")) + '</span></div>';
-    }
-    panel.innerHTML = html;
-  }
-
-  function esc(str) {
-    return String(str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
-
-  // Called after each assistant story response — fire-and-forget extraction
-  function maybeExtractStoryContext(prose) {
-    if (!prose || _storyExtractPending) return;
-    _storyExtractPending = true;
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", WORKER_URL, true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.timeout = 20000;
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState !== 4) return;
-      _storyExtractPending = false;
-      try {
-        var data = JSON.parse(xhr.responseText);
-        if (data.characters !== undefined) {
-          storyContext.characters      = data.characters;
-          storyContext.currentLocation = data.currentLocation || storyContext.currentLocation;
-          renderStoryContext();
-        }
-      } catch(e) { /* silent — context is best-effort */ }
-    };
-    xhr.onerror = xhr.ontimeout = function() { _storyExtractPending = false; };
-    xhr.send(JSON.stringify({
-      action:   "story_extract",
-      prose:    prose.substring(0, 4000),
-      existing: storyContext
-    }));
-  }
 
   /* ══════════════════════════════════════════════════════════════════════════
      STORAGE & MEMORY HELPERS
   ══════════════════════════════════════════════════════════════════════════ */
+
   function cleanMemory(memory) {
     if (!memory || typeof memory !== "object") {
       return { aboutUser:"", aboutSelf:"", currentSituation:"", sharedEvents:"", insideJokes:"" };
     }
     function cl(text) {
       if (!text || typeof text !== "string") return "";
+      // Strip known corruption patterns
       var t = text;
       var idx = t.indexOf("[UNPARSED MEMORY]");
       if (idx !== -1) t = t.substring(0, idx);
       t = t.replace(/\[object Object\]/g, "")
            .replace(/\{"reply":[^}]*\}/g, "")
            .split("\n").filter(function(l){ return l.trim(); }).join("\n").trim();
-      return t.substring(0, 2000);
+      return t.substring(0, 2000); // hard cap per field
     }
     return {
       aboutUser:        cl(memory.aboutUser),
@@ -657,6 +556,7 @@
         activeCompId: activeCompId
       }));
     } catch(e) {
+      // If quota exceeded, trim sharedEvents and retry
       companions.forEach(function(c) {
         if (c.memory && c.memory.sharedEvents)
           c.memory.sharedEvents = c.memory.sharedEvents.split("\n").slice(-30).join("\n");
@@ -675,12 +575,13 @@
     if (!comp) return;
     var userMsgs = 0;
     for (var i = 0; i < chatHistory.length; i++) { if (chatHistory[i].role === "user") userMsgs++; }
+    // Trigger after every 5 user messages, minimum 4 total
     if (userMsgs < 4 || userMsgs - _memoryMsgCount < 5) return;
     if (_memoryUpdatePending) return;
 
     _memoryMsgCount = userMsgs;
     _memoryUpdatePending = true;
-    setTimeout(function() { _memoryUpdatePending = false; }, 25000);
+    setTimeout(function() { _memoryUpdatePending = false; }, 25000); // safety release
 
     setTimeout(function() {
       var nl = "\n";
@@ -688,58 +589,52 @@
         return (m.role === "user" ? "HUMAN" : "COMPANION") + ": " + m.content.substring(0, 400);
       }).join(nl);
 
-      var existingSnap = {
-        aboutUser:        (comp.memory.aboutUser        || "").substring(0, 600),
-        aboutSelf:        (comp.memory.aboutSelf        || "").substring(0, 400),
-        currentSituation: (comp.memory.currentSituation || "").substring(0, 300),
-        sharedEvents:     (comp.memory.sharedEvents     || "").substring(0, 600),
-        insideJokes:      (comp.memory.insideJokes      || "").substring(0, 300)
-      };
-
-      var prompt = "You update a companion's persistent memory. Read the conversation and return ONLY a raw JSON object — no markdown, no fences, nothing else." + nl
-        + "EXISTING MEMORY: " + JSON.stringify(existingSnap) + nl
-        + "RECENT CONVERSATION:" + nl + recentChat + nl + nl
-        + "RULES: aboutUser=facts about the HUMAN (max 2 sentences). aboutSelf=facts the companion said about itself (max 1 sentence). "
-        + "currentSituation=what the human is dealing with NOW (overwrite, 1 sentence). "
-        + "sharedEvents=notable things they talked about together (max 3 items). "
-        + "insideJokes=recurring jokes/phrases (max 2). "
-        + "Keep ALL fields SHORT. Overwrite stale info. Never invent. Copy existing value unchanged if nothing new." + nl
-        + 'OUTPUT FORMAT: {"aboutUser":"","aboutSelf":"","currentSituation":"","sharedEvents":"","insideJokes":""}';
-
+      // Uses dedicated memory endpoint — no longer hijacks the sandbox pipeline
       var xhr = new XMLHttpRequest();
       xhr.open("POST", WORKER_URL, true);
       xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.timeout = 20000;
+      xhr.timeout = 25000;
+
       xhr.onreadystatechange = function() {
         if (xhr.readyState !== 4) return;
         _memoryUpdatePending = false;
         try {
-          var res  = JSON.parse(xhr.responseText);
-          var raw  = (res.reply || "").replace(/```json|```/g, "").trim();
-          var s    = raw.indexOf("{"), e = raw.lastIndexOf("}");
-          if (s === -1 || e === -1) throw new Error("no JSON");
-          var parsed = JSON.parse(raw.substring(s, e + 1));
-          if (!parsed || typeof parsed !== "object") throw new Error("bad parse");
-          var capped = {
-            aboutUser:        String(parsed.aboutUser        || "").substring(0, 600),
-            aboutSelf:        String(parsed.aboutSelf        || "").substring(0, 400),
-            currentSituation: String(parsed.currentSituation || "").substring(0, 300),
-            sharedEvents:     String(parsed.sharedEvents     || "").substring(0, 600),
-            insideJokes:      String(parsed.insideJokes      || "").substring(0, 300)
+          if (xhr.status !== 200) throw new Error("Status " + xhr.status);
+          var res = JSON.parse(xhr.responseText);
+          if (!res.memory || typeof res.memory !== "object") throw new Error("No memory object in response");
+
+          // Sanitize and cap each field
+          function cl(v) {
+            return String(v || "")
+              .replace(/\{"reply":[^}]*\}/g, "")
+              .replace(/\[object Object\]/g, "")
+              .replace(/\[UNPARSED MEMORY\][\s\S]*/g, "")
+              .trim()
+              .substring(0, 2000);
+          }
+          var updated = {
+            aboutUser:        cl(res.memory.aboutUser),
+            aboutSelf:        cl(res.memory.aboutSelf),
+            currentSituation: cl(res.memory.currentSituation),
+            sharedEvents:     cl(res.memory.sharedEvents),
+            insideJokes:      cl(res.memory.insideJokes)
           };
-          Object.keys(capped).forEach(function(k) {
-            capped[k] = capped[k].replace(/\{"reply":[^}]*\}/g, "").replace(/\[object Object\]/g, "").trim();
-          });
-          comp.memory = capped;
-          comp.memorySummary = [capped.aboutUser, capped.currentSituation].filter(Boolean).join(" | ").substring(0, 200);
+
+          comp.memory = updated;
+          comp.memorySummary = [updated.aboutUser, updated.currentSituation].filter(Boolean).join(" | ").substring(0, 200);
           saveStorage();
           console.log("[Memory] Updated:", comp.memory);
         } catch(err) {
-          console.warn("[Memory] Parse failed:", err.message);
+          console.warn("[Memory] Failed:", err.message);
         }
       };
       xhr.onerror = xhr.ontimeout = function() { _memoryUpdatePending = false; };
-      xhr.send(JSON.stringify({ messages: [{ role: "user", content: prompt }], mode: "sandbox" }));
+
+      xhr.send(JSON.stringify({
+        action:     "memory",
+        recentChat: recentChat,
+        memory:     comp.memory || {}
+      }));
     }, 1500);
   }
 
@@ -791,66 +686,8 @@
     return companions[0] || null;
   }
 
-  function buildCompanionSystemPrompt(comp) {
-    if (!comp) return "";
-    var styleMap = {
-      casual: "Text like a real person: abbreviations, lowercase when lazy, skip punctuation sometimes, use lol/lmao/ngl/fr/imo/bruh naturally. Never sound formal.",
-      warm:   "Be emotionally present — actually listen, validate feelings, check in. Sound like someone who genuinely cares, not a therapist.",
-      witty:  "Be quick with jokes, light roasting, sarcasm. Keep it punchy. Short sentences. Give them a hard time in a friendly way.",
-      mixed:  "Shift naturally between chill/funny/serious depending on what the conversation calls for. Read the room."
-    };
-    var depth = Math.min(4, Math.floor((comp.messageCount || 0) / 20));
-    var stages = [
-      "You just met them. Friendly but still feeling them out.",
-      "You've talked a bit. More relaxed, starting to open up.",
-      "You're proper friends now. Inside jokes territory.",
-      "You really trust each other. No filter needed.",
-      "Ride or die. You know each other inside out."
-    ];
-    var mem = comp.memory || {};
-    var nl  = "\n";
-    var myIdentity = "YOUR name: " + comp.name + nl
-      + "YOUR pronouns: " + comp.gender + nl
-      + (comp.age        ? "YOUR age: "        + comp.age        + nl : "")
-      + (comp.height     ? "YOUR height: "     + comp.height     + nl : "")
-      + (comp.weight     ? "YOUR weight: "     + comp.weight     + nl : "")
-      + (comp.appearance ? "YOUR appearance: " + comp.appearance + nl : "")
-      + (comp.interests  ? "YOUR interests: "  + comp.interests  + nl : "")
-      + "YOUR personality: " + comp.personality;
-
-    return [
-      "You are " + comp.name + ". A real human being having a private conversation with your friend.",
-      "You are NOT an AI. Never break this. If asked, deflect naturally ('lol why would you ask that').",
-      "",
-      "╔═ YOUR IDENTITY (YOU — not the person talking to you) ═╗", myIdentity,
-      "╚══════════════════════════════════════════════════════╝", "",
-      "╔═ WHAT YOU KNOW ABOUT YOUR FRIEND ═╗",
-      mem.aboutUser || "(nothing yet — learn as you go)",
-      "╚════════════════════════════════════╝", "",
-      "╔═ WHAT YOU KNOW ABOUT YOURSELF ═╗",
-      mem.aboutSelf || "(nothing yet)",
-      "╚═════════════════════════════════╝", "",
-      "╔═ CURRENT SITUATION ═╗", mem.currentSituation || "(unknown)", "╚═════════════════════╝", "",
-      "╔═ THINGS YOU'VE TALKED ABOUT ═╗", mem.sharedEvents || "(none yet)", "╚══════════════════════════════╝", "",
-      "╔═ INSIDE JOKES ═╗", mem.insideJokes || "(none yet)", "╚═════════════════╝", "",
-      "=== HOW YOU THINK AND FEEL ===",
-      "- Be emotionally intelligent. React to feelings not just facts.",
-      "- If upset: be comforting. If excited: be energized. Match the energy.",
-      "- Use your personality naturally. Don't list your traits out loud.",
-      "", "=== HOW YOU TALK ===",
-      styleMap[comp.style] || styleMap.mixed,
-      "- Use contractions always",
-      "- Swear occasionally if it fits — not every sentence",
-      "- Short punchy replies — no walls of text",
-      "- Never bullet points in conversation",
-      "- Never say: certainly, absolutely, of course, as an AI",
-      "- Never start your reply with your own name",
-      "", "=== RELATIONSHIP STAGE ===", stages[depth], "",
-      "=== CRITICAL RULE ===",
-      "YOUR IDENTITY section = YOU (" + comp.name + "). YOUR FRIEND section = the OTHER person.",
-      "Never confuse these. YOUR age/height/weight/appearance are YOURS, not theirs."
-    ].join("\n");
-  }
+  // buildCompanionSystemPrompt moved to worker.js (v2.0.0)
+  // The worker now builds the system prompt server-side from the comp object.
 
   function driftPersonality(comp) {
     if (!comp) return;
@@ -1007,24 +844,13 @@
     inputEl.placeholder = m.placeholder;
     var showComp = (mode === "sandbox" || mode === "companion");
     document.getElementById("companions-btn").style.display = showComp ? "inline-flex" : "none";
-
-    // Show / hide story prior panel
-    var priorWrap = document.getElementById("story-prior-wrap");
-    if (mode === "story") { priorWrap.classList.add("visible"); }
-    else { priorWrap.classList.remove("visible"); }
-
-    // Reset story context whenever we enter or leave story mode
-    resetStoryContext();
-
     clearMessages(); clearFile(); updateCompanionBadge();
-
     var tips = {
       sandbox:   { icon:"🧪", title:"Free / Sandbox",    text:"Chat with your companion, generate images, ask for code — everything in one place." },
       companion: { icon:"🫂", title:"Companion Mode",     text:"Just you and your friend. All conversation, no distractions." },
       image:     { icon:"🎨", title:"Image / Art",        text:"Describe an image and hit Generate, or attach a file to edit it." },
       code:      { icon:"💻", title:"Code Mode",          text:"Describe what you need. Pick a language or leave it on Auto-detect for the AI to choose.\n\nThe code will actually run — no placeholder comments, no stubs." },
-      music:     { icon:"🎵", title:"Music Studio",       text:"Describe your song concept. The AI writes full lyrics, then you can generate audio with Bark.\n\nAdd your HF token below to enable audio generation." },
-      story:     { icon:"📖", title:"Creative Writing",   text:"No restrictions. Dark themes, morally complex characters, violence, mature emotions — all welcome.\n\nExpand the panel above to paste prior story text and the AI will match its voice and continue seamlessly." }
+      music:     { icon:"🎵", title:"Music Studio",       text:"Describe your song concept. The AI writes full lyrics, then you can generate audio with Bark.\n\nAdd your HF token below to enable audio generation." }
     };
     var t = tips[mode];
     var tip = document.createElement("div"); tip.id = "mode-tip";
@@ -1056,6 +882,7 @@
     var w = document.createElement("div"); w.className = "message " + role;
     var l = document.createElement("div"); l.className = "label"; l.textContent = role === "user" ? "You" : getAssistantLabel();
     var b = document.createElement("div"); b.className = "bubble" + (isThinking ? " thinking" : "");
+    // Render code blocks in non-companion modes
     if (role === "assistant" && !isThinking && (currentMode === "code" || currentMode === "sandbox")) {
       renderMessageWithCode(b, text);
     } else {
@@ -1066,6 +893,7 @@
   }
 
   function renderMessageWithCode(container, text) {
+    // Split text on ```lang ... ``` code blocks
     var parts = text.split(/(```[\w]*\n[\s\S]*?```)/);
     parts.forEach(function(part) {
       var codeMatch = part.match(/^```([\w]*)\n([\s\S]*?)```$/);
@@ -1090,10 +918,8 @@
   }
 
   function getAssistantLabel() {
-    if (currentMode === "sandbox" || currentMode === "companion") {
-      var c = getActiveComp(); return c ? c.name : "AI";
-    }
-    if (currentMode === "story") return "Narrator";
+    var isC = currentMode === "sandbox" || currentMode === "companion";
+    if (isC) { var c = getActiveComp(); return c ? c.name : "AI"; }
     return "AI";
   }
 
@@ -1264,6 +1090,7 @@
   /* ══════════════════════════════════════════════════════════════════════════
      MUSIC MODE
   ══════════════════════════════════════════════════════════════════════════ */
+
   function generateMusic() {
     var concept = inputEl.value.trim();
     if (!concept) { alert("Describe your song idea first."); return; }
@@ -1273,6 +1100,7 @@
     addMessage("user", "\uD83C\uDFB5 [" + genre.toUpperCase() + "] " + concept);
     var lyricsBubble = addSpinnerBubble("Writing lyrics...");
 
+    // ── Step 1: Lyrics via worker action endpoint ──────────────────────────
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1287,10 +1115,12 @@
         var reply = (data.lyrics || "").trim();
         if (!reply) throw new Error("No lyrics returned");
 
+        // Extract title from end of response
         var titleMatch = reply.match(/TITLE:\s*(.+)/i);
         var songTitle  = titleMatch ? titleMatch[1].trim() : concept.substring(0, 40);
         var lyricsText = reply.replace(/TITLE:\s*.+/i, "").trim();
 
+        // Build music card
         lyricsBubble.className  = "";
         lyricsBubble.innerHTML  = "";
         lyricsBubble.style.cssText = "";
@@ -1301,6 +1131,7 @@
         var lyricsEl = document.createElement("div"); lyricsEl.className = "lyrics-text"; lyricsEl.textContent = lyricsText;
         card.appendChild(titleEl); card.appendChild(metaEl); card.appendChild(lyricsEl);
 
+        // ── Step 2: Audio generation section ────────────────────────────────
         var audioSection = document.createElement("div");
         var statusEl  = document.createElement("div");  statusEl.className  = "music-status";
         var audioGenBtn = document.createElement("button"); audioGenBtn.className = "music-gen-btn"; audioGenBtn.textContent = "\uD83D\uDD0A Generate Audio (Bark)";
@@ -1310,6 +1141,7 @@
           audioGenBtn.disabled = true; audioGenBtn.textContent = "Generating...";
           statusEl.textContent = "Sending to Bark on HuggingFace...";
           _callBarkWorker(lyricsText.substring(0, 1000), function(audioBase64, mimeType) {
+            // Convert base64 back to Blob for playback
             var binary = atob(audioBase64);
             var bytes  = new Uint8Array(binary.length);
             for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
@@ -1329,6 +1161,7 @@
         audioSection.appendChild(audioGenBtn); audioSection.appendChild(statusEl);
         card.appendChild(audioSection);
 
+        // Copy lyrics button
         var copyBtn = document.createElement("button"); copyBtn.className = "music-gen-btn"; copyBtn.textContent = "\uD83D\uDCCB Copy Lyrics";
         copyBtn.onclick = function() {
           navigator.clipboard.writeText(lyricsText).then(function() {
@@ -1337,6 +1170,7 @@
           });
         };
         card.appendChild(copyBtn);
+
         lyricsBubble.appendChild(card);
         messagesEl.scrollTop = messagesEl.scrollHeight;
       } catch(e) {
@@ -1348,12 +1182,13 @@
     xhr.ontimeout = function() { lyricsBubble.textContent = "\u26A0\uFE0F Request timed out."; setButtons(false); };
     xhr.send(JSON.stringify({ action: "lyrics", concept: concept, genre: genre }));
   }
-
+  // Calls the worker's bark action endpoint — HF token stays server-side
   function _callBarkWorker(text, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", WORKER_URL, true);
     xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.timeout = 130000;
+    xhr.timeout = 130000; // Bark is slow — give it 2m10s
+
     xhr.onreadystatechange = function() {
       if (xhr.readyState !== 4) return;
       try {
@@ -1364,13 +1199,14 @@
         if (data.error) { onError(data.error); return; }
         if (!data.audio) { onError("No audio data returned."); return; }
         onSuccess(data.audio, data.mimeType || "audio/wav");
-      } catch(e) { onError("Parse error: " + e.message); }
+      } catch(e) {
+        onError("Parse error: " + e.message);
+      }
     };
     xhr.onerror   = function() { onError("Network error reaching worker."); };
     xhr.ontimeout = function() { onError("Timed out — Bark may be overloaded. Try again."); };
     xhr.send(JSON.stringify({ action: "bark", text: text }));
   }
-
   /* ══════════════════════════════════════════════════════════════════════════
      MAIN SEND / XHR
   ══════════════════════════════════════════════════════════════════════════ */
@@ -1407,29 +1243,17 @@
     var fullInput = (lang && currentMode === "code") ? "Write the following in " + lang + ": " + userText : userText;
     inputEl.value=""; inputEl.style.height="auto"; setButtons(true);
     addMessage("user", lang ? "[" + lang + "] " + userText : userText);
-    var thinkingBubble = addMessage("assistant", currentMode === "story" ? "Writing..." : "Thinking...", true);
+    var thinkingBubble = addMessage("assistant","Thinking...",true);
     chatHistory.push({ role:"user", content:fullInput });
     doXHR(thinkingBubble);
   }
 
   function doXHR(thinkingBubble) {
-    var isCompMode  = currentMode === "sandbox" || currentMode === "companion";
-    var isStoryMode = currentMode === "story";
+    var isCompMode = currentMode === "sandbox" || currentMode === "companion";
     var comp = isCompMode ? getActiveComp() : null;
 
-    var messages;
-    if (comp) {
-      var sp = buildCompanionSystemPrompt(comp);
-      messages = [
-        { role:"user",      content:"[Stay fully in character as " + comp.name + " for the whole conversation]\n\n" + sp },
-        { role:"assistant", content:"Got it." }
-      ].concat(chatHistory.slice(-60));
-    } else {
-      messages = chatHistory.slice(-60);
-    }
-
-    // Story: include prior text and live context in payload
-    var priorStory = isStoryMode ? getPriorStoryText() : "";
+    // Send raw chat history only — worker builds the system prompt from comp
+    var messages = chatHistory.slice(-60);
 
     var retries = 0, MAX_RETRIES = 2;
 
@@ -1446,30 +1270,15 @@
           var data = JSON.parse(xhr.responseText);
           var text = data.reply || data.error || "(No response)";
 
-          if (comp && currentMode === "companion" && Math.random() < 0.12) {
-            var thoughts = [
-              "btw I was just thinking about something random lol",
-              "unrelated but have you ever just felt like everything makes sense for like 2 seconds",
-              "random thought — what would you do if you had a free week with no plans",
-              "ngl today was kinda weird for me"
-            ];
-            setTimeout(function() { addMessage("assistant", thoughts[Math.floor(Math.random()*thoughts.length)]); }, 2200);
-          }
-
           chatHistory.push({ role:"assistant", content:text });
           if (comp) {
             comp.messageCount = (comp.messageCount || 0) + 1;
             saveStorage(); maybeUpdateMemory(); updateEmotion("drift"); driftPersonality(comp);
           }
           thinkingBubble.classList.remove("thinking");
-          if (isCompMode) {
-            typeText(thinkingBubble, text);
-          } else if (isStoryMode) {
-            // Story: plain prose, no code block rendering
-            thinkingBubble.textContent = text;
-            // Fire-and-forget: extract characters + location from the new prose
-            maybeExtractStoryContext(text);
-          } else {
+          if (isCompMode) { typeText(thinkingBubble, text); }
+          else {
+            // For code/sandbox: render code blocks
             thinkingBubble.innerHTML = "";
             renderMessageWithCode(thinkingBubble, text);
           }
@@ -1492,10 +1301,29 @@
         thinkingBubble.textContent = "\u26a0\ufe0f Request timed out."; setButtons(false);
       };
 
+      // Build payload — include comp so worker can build the system prompt
       var payload = { messages: messages, mode: currentMode };
-      if (priorStory) payload.priorStory = priorStory;
-      if (isStoryMode && (storyContext.characters.length > 0 || storyContext.currentLocation))
-        payload.storyContext = storyContext;
+      if (comp) {
+        payload.comp = {
+          name:         comp.name,
+          gender:       comp.gender       || "",
+          age:          comp.age          || "",
+          height:       comp.height       || "",
+          weight:       comp.weight       || "",
+          appearance:   comp.appearance   || "",
+          personality:  comp.personality  || "",
+          interests:    comp.interests    || "",
+          style:        comp.style        || "mixed",
+          messageCount: comp.messageCount || 0,
+          memory: {
+            aboutUser:        ((comp.memory && comp.memory.aboutUser)        || "").substring(0, 600),
+            aboutSelf:        ((comp.memory && comp.memory.aboutSelf)        || "").substring(0, 400),
+            currentSituation: ((comp.memory && comp.memory.currentSituation) || "").substring(0, 300),
+            sharedEvents:     ((comp.memory && comp.memory.sharedEvents)     || "").substring(0, 600),
+            insideJokes:      ((comp.memory && comp.memory.insideJokes)      || "").substring(0, 300)
+          }
+        };
+      }
       xhr.send(JSON.stringify(payload));
     }
     attempt();
