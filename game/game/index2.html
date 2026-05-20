@@ -120,7 +120,7 @@ align-items: center;
 justify-content: center; 
 }
 #modal-content::-webkit-scrollbar {
-    width: 8px;
+width: 8px;
 }
 #modal-content::-webkit-scrollbar-thumb {
 background: #888888;
@@ -5605,7 +5605,224 @@ revealRelationship("sarah", {
             next: 283,
             effect: () => { 
                 changeBond("molly", 25); 
-                changeBond("lirael", 18); 
+                changeBond("lirael", 20); 
+            } 
+        }
+    ]
+},
+// 283 - Lirael's Dare
+{
+    text: function() {
+        return "Molly’s eyes are still lingering on your now-bare chest when Lirael speaks up, her velvety voice smooth and full of playful authority.\n\n\"My turn,\" Lirael says, her golden eyes shifting to Molly with a sultry smile. \"Molly… Truth or Dare?\"\n\nMolly, still sitting across from you, straightens up slightly, a flush on her cheeks.\n\n\"Dare,\" she answers, trying to sound confident.\n\nLirael’s smile widens, a mischievous glint in her eyes.\n\n\"I dare you to sit on Issac’s lap for the next ten turns. And you must stay there until your ten turns are up.\"\n\nMolly’s face turns a deeper shade of red. She glances at you, then at Lirael, clearly weighing her options. After a moment, she lets out a nervous but excited laugh.\n\n\"Alright… fine,\" she says, refusing to drink. \"I’m not chickening out.\"\n\nShe stands up and moves over to you. With a mix of embarrassment and boldness, Molly carefully lowers herself onto your lap, straddling your thighs so she is facing you. Her generous, soft rear settles warmly against your legs, and you can feel the heat of her body through her clothes. She shifts slightly to get comfortable, her chest brushing against yours as she settles in.\n\n\"This is… bolder than I expected,\" Molly mutters, though she doesn’t try to move away.\n\nLirael watches with clear satisfaction, her golden eyes half-lidded.\n\n\"Your turn, Issac,\" she purrs softly.";
+
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Ask Molly Truth or Dare", 
+            next: 284,
+            effect: () => { 
+                gameState.lastChoiceLabel = "askmolly"; 
+            } 
+        },
+        { 
+            label: "Ask Lirael Truth or Dare", 
+            next: 284,
+            effect: () => { 
+                gameState.lastChoiceLabel = "asklirael"; 
+            } 
+        }
+    ]
+},
+// 284 - Your Turn
+{
+    text: function() {
+        let targetBond = 0;
+        // ASKED MOLLY
+        if (gameState.lastChoiceLabel === "askmolly") {
+            targetBond = gameState.relationships.molly.bond || 0;
+            // Bond-influenced probability
+            let dareChance = 0.50 + (targetBond * 0.0015);
+            dareChance = Math.min(0.85, Math.max(0.30, dareChance));
+            // Roll ONCE and store it
+            gameState.truthOrDareResult = Math.random() < dareChance ? "dare" : "truth";
+
+            // MOLLY CHOSE DARE
+            if (gameState.truthOrDareResult === "dare") {
+                return "You look at Molly, who is still comfortably seated on your lap, her warmth pressing against you. Her face is flushed, clearly affected by both the alcohol and the intimate position.\n\n\"Molly… Truth or Dare?\" you ask.\n\nMolly bites her lip for a second, then answers with a slightly nervous but excited smile.\n\n\"Dare,\" she says, her voice a little breathless as she looks down at you.";
+            }
+            // MOLLY CHOSE TRUTH
+            else {
+                return "You look at Molly, who is still comfortably seated on your lap, her warmth pressing against you. Her face is flushed, clearly affected by both the alcohol and the intimate position.\n\n\"Molly… Truth or Dare?\" you ask.\n\nMolly hesitates for only a moment before answering.\n\n\"Truth,\" she says, shifting slightly on your lap.";
+            }
+        }
+        // ASKED LIRAEL
+        else {
+            targetBond = gameState.relationships.lirael.bond || 0;
+            // Bond-influenced probability
+            let dareChance = 0.50 + (targetBond * 0.0015);
+            dareChance = Math.min(0.85, Math.max(0.30, dareChance));
+            // Roll ONCE and store it
+            gameState.truthOrDareResult = Math.random() < dareChance ? "dare" : "truth";
+
+            // LIRAEL CHOSE DARE
+            if (gameState.truthOrDareResult === "dare") {
+                return "You turn your head to look at Lirael, who is watching both you and Molly with half-lidded golden eyes and a sultry smile.\n\n\"Lirael… Truth or Dare?\" you ask.\n\nLirael’s golden eyes sparkle with playful hunger.\n\n\"Dare,\" she replies, her voice dripping with anticipation.";
+            }
+            // LIRAEL CHOSE TRUTH
+            else {
+                return "You turn your head to look at Lirael, who is watching both you and Molly with half-lidded golden eyes and a sultry smile.\n\n\"Lirael… Truth or Dare?\" you ask.\n\nLirael’s smile widens, her voice a low, velvety purr.\n\n\"Truth,\" she says smoothly, clearly enjoying the game.";
+            }
+        }
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        // =========================
+        // MOLLY - TRUTH
+        // =========================
+        {
+            label: "Ask Molly what she truly thinks about Emily",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "askmolly" && gameState.truthOrDareResult === "truth",
+            effect: () => { gameState.lastChoiceLabel = "mollytruth1"; }
+        },
+        {
+            label: "Ask Molly what she truly thinks about Lydia",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "askmolly" && gameState.truthOrDareResult === "truth",
+            effect: () => { gameState.lastChoiceLabel = "mollytruth2"; }
+        },
+        {
+            label: "Ask Molly what she truly thinks about Lirael",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "askmolly" && gameState.truthOrDareResult === "truth",
+            effect: () => { gameState.lastChoiceLabel = "mollytruth3"; }
+        },
+        // =========================
+        // MOLLY - DARE
+        // =========================
+        {
+            label: "Dare Molly to take her shirt off",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "askmolly" && gameState.truthOrDareResult === "dare",
+            effect: () => { gameState.lastChoiceLabel = "mollydare1"; }
+        },
+        {
+            label: "Dare Molly to take her pants off",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "askmolly" && gameState.truthOrDareResult === "dare",
+            effect: () => { gameState.lastChoiceLabel = "mollydare2"; }
+        },
+        {
+            label: "Dare Molly to chug the biggest bottle of alcohol here that has the highest alcohol content",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "askmolly" && gameState.truthOrDareResult === "dare",
+            effect: () => { gameState.lastChoiceLabel = "mollydare3"; }
+        },
+        // =========================
+        // LIRAEL - TRUTH
+        // =========================
+        {
+            label: "Ask Lirael if she has ever thought about eating Emily",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "asklirael" && gameState.truthOrDareResult === "truth",
+            effect: () => { gameState.lastChoiceLabel = "liraeltruth1"; }
+        },
+        {
+            label: "Ask Lirael what would happen to her if she was digested by a human",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "asklirael" && gameState.truthOrDareResult === "truth",
+            effect: () => { gameState.lastChoiceLabel = "liraeltruth2"; }
+        },
+        {
+            label: "Ask Lirael if she can make portals",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "asklirael" && gameState.truthOrDareResult === "truth",
+            effect: () => { gameState.lastChoiceLabel = "liraeltruth3"; }
+        },
+        // =========================
+        // LIRAEL - DARE
+        // =========================
+        {
+            label: "Dare Lirael to let Molly eat her",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "asklirael" && gameState.truthOrDareResult === "dare",
+            effect: () => { gameState.lastChoiceLabel = "liraeldare1"; }
+        },
+        {
+            label: "Dare Lirael to strip down to her undergarments for the rest of the game",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "asklirael" && gameState.truthOrDareResult === "dare",
+            effect: () => { gameState.lastChoiceLabel = "liraeldare2"; }
+        },
+        {
+            label: "Dare Lirael to go nude for the rest of the game",
+            next: 285,
+            condition: () => gameState.lastChoiceLabel === "asklirael" && gameState.truthOrDareResult === "dare",
+            effect: () => { gameState.lastChoiceLabel = "liraeldare3"; }
+        }
+    ]
+},
+// 285 - Responding to Your Question/Dare
+{
+    text: function() {
+        // =======================
+        // MOLLY TRUTH OPTIONS
+        // =======================
+        if (gameState.lastChoiceLabel === "mollytruth1") {
+            return "Molly shifts slightly on your lap, her cheeks flushing deeper as she thinks about the question. She glances toward the door for a moment as if making sure no one else is listening, then looks back at you with a sheepish smile.\n\n\"Emily? Honestly… she kind of intimidates me,\" Molly admits, her voice lowering. \"She’s really pretty and has this confident, dangerous energy. I’ve seen how she looks at people sometimes, like she’s sizing them up as a snack. But I also think she’s protective of you in her own way. She’s scary… but in a hot kind of way. I wouldn’t want to get on her bad side.\" She lets out a nervous laugh, having given her honest thoughts.";
+        }
+        else if (gameState.lastChoiceLabel === "mollytruth2") {
+            return "Molly bites her lip, thinking carefully while gently adjusting herself on your lap.\n\n\"Lydia? She seems really sweet and quiet,\" she says softly. \"Kind of shy compared to the rest of your family. I get the feeling she’s been through a lot. She’s cute though — really cute. I kind of want to get to know her better. She feels… safe? Even with everything weird going on in this house.\" Molly smiles gently, having given her truthful opinion.";
+        }
+        else if (gameState.lastChoiceLabel === "mollytruth3") {
+            return "Molly’s face turns bright red as she looks up at the towering Lirael, then back at you. She swallows hard before answering.\n\n\"Lirael? She’s… overwhelming,\" Molly says breathlessly. \"She’s insanely beautiful and powerful. Being this close to her is making my heart race like crazy. I’m terrified and turned on at the same time. I feel like she could break me without even trying… but she’s also really gentle with you. It’s confusing as hell… but I like it.\" She finishes her honest confession, clearly embarrassed.";
+        }
+        // =======================
+        // MOLLY DARE OPTIONS
+        // =======================
+        else if (gameState.lastChoiceLabel === "mollydare1") {
+            return "Molly hesitates only for a second before nodding. With slightly shaky hands, she grabs the hem of her shirt and slowly pulls it up and off, revealing a lacy bra that struggles to contain her generous chest. Her soft, full breasts jiggle slightly as she tosses the shirt aside. She sits there on your lap, now topless, her skin flushed and warm against you.\n\n\"There… shirt’s off,\" she says, voice a little shaky but determined.";
+        }
+        else if (gameState.lastChoiceLabel === "mollydare2") {
+            return "Molly’s eyes widen, but she doesn’t back down. She stands up briefly, turns around, and slowly slides her pants down her thick thighs, revealing lacy panties. Her ass, round and plush, is now barely covered as she steps out of her pants and returns to your lap, pressing her nearly bare rear firmly against you.\n\n\"Pants are off… happy now?\" she says, clearly flustered but committed to the dare.";
+        }
+        else if (gameState.lastChoiceLabel === "mollydare3") {
+            return "Molly looks at the collection of bottles, then picks up the strongest one — a nearly full bottle of high-proof vodka. She takes a deep breath and begins chugging. Her throat works visibly as she forces down gulp after gulp. Her eyes water, her face turns bright red, and she sways slightly, but she refuses to stop. After a long, difficult struggle, she finishes the entire bottle, slamming it down on the floor with a heavy gasp and cough. She looks dizzy and very drunk, breathing hard as the strong alcohol hits her system.\n\n\"Fuck… I did it,\" she wheezes, clearly feeling the full effects.";
+        }
+        // =======================
+        // LIRAEL TRUTH OPTIONS
+        // =======================
+        else if (gameState.lastChoiceLabel === "liraeltruth1") {
+            return "Lirael tilts her head, a slow, predatory smile spreading across her lips as she looks toward the door where Emily is presumably downstairs.\n\n\"Yes,\" she admits honestly, her voice low and velvety. \"I have thought about eating Emily many times. She is a fellow predator, thick and delicious-looking. The idea of claiming such a strong, curvy Apex as part of me is… very tempting. But I would only do so if she wanted it, or if she ever became a true threat to you.\"";
+        }
+        else if (gameState.lastChoiceLabel === "liraeltruth2") {
+            return "Lirael’s expression becomes more serious as she answers, her golden eyes focused.\n\n\"Physically speaking, digestion or absorption is the only way to truly kill me,\" she says calmly. \"If someone managed to fully digest and absorb me, I would cease to exist in my current form. However, that person would most likely undergo significant appearance-based changes — becoming much taller, curvier, and more demonic in features. They would also very likely inherit some of my powers as well.\"";
+        }
+        else if (gameState.lastChoiceLabel === "liraeltruth3") {
+            return "Lirael smiles softly and nods.\n\n\"Yes, I can create portals,\" she says calmly. \"Though they are draining and I prefer not to use them often. They allow me to travel between locations… or even realms, if I push myself hard enough.\"";
+        }
+        // =======================
+        // LIRAEL DARE OPTIONS
+        // =======================
+        else if (gameState.lastChoiceLabel === "liraeldare1") {
+            return "Lirael raises an eyebrow, then lets out a rich, amused laugh. She gently picks Molly up and holds the smaller girl in front of her.\n\n\"Interesting choice,\" she purrs. She then lowers Molly toward her own massive, soft breasts. Molly, emboldened by the alcohol, opens her mouth wide and begins trying to eat Lirael. Lirael helps guide her, allowing Molly to stretch her jaw impossibly wide as she takes in the demon’s head and shoulders. With Lirael’s assistance, Molly slowly works her way down, swallowing more and more of the towering demon until her belly is massively distended with Lirael’s form. Molly lets out a satisfied, drunken groan as she rubs her hugely swollen gut.\n\n\"Mmm… she tastes amazing,\" Molly mumbles, now heavily stuffed with Lirael.";
+        }
+        else if (gameState.lastChoiceLabel === "liraeldare2") {
+            return "Lirael stands up gracefully and, without hesitation, removes her elegant top and bottom clothing until she is standing in nothing but a very skimpy, lacy black bra and panties that barely contain her enormous curves. Her massive breasts and extremely wide hips are on full display as she sits back down, looking regal and incredibly lewd.\n\n\"As you wished,\" she says with a sultry smile, now dressed only in her undergarments for the rest of the game.";
+        }
+        else if (gameState.lastChoiceLabel === "liraeldare3") {
+            return "Lirael’s golden eyes flash with dark delight. Without a word, she stands up to her full towering height and slowly removes every last piece of clothing until she is completely nude. Her massive, heavy breasts, extremely wide hips, thick thighs, and glistening pussy are fully exposed. She sits back down, completely naked, her voluptuous body radiating heat and power.\n\n\"I am now nude for the rest of the game,\" she declares with a hungry smile.";
+        }
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Continue the game", 
+            next: 286,
+            effect: () => { 
+                changeBond("molly", 20); 
+                changeBond("lirael", 22); 
             } 
         }
     ]
