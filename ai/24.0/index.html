@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A.t.A. Projects - FreeGPT v2.1.0</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0d1117; color: #e6edf3; height: 100vh; display: flex; align-items: center; justify-content: center; }
+    #app { display: flex; width: 96vw; max-width: 1200px; height: 90vh; border: 1px solid #30363d; border-radius: 12px; overflow: hidden; }
+
+    /* ── Nav ── */
+    #nav { width: 72px; background: #0d1117; border-right: 1px solid #30363d; display: flex; flex-direction: column; align-items: center; padding: 16px 0; gap: 6px; flex-shrink: 0; }
+    #nav .nav-logo { font-size: 22px; margin-bottom: 12px; user-select: none; }
+    .nav-btn { width: 52px; height: 52px; border: none; border-radius: 10px; background: transparent; color: #8b949e; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11px; font-weight: 600; transition: background 0.15s, color 0.15s; padding: 0; line-height: 1.1; text-align: center; }
+    .nav-btn .nav-icon { font-size: 20px; line-height: 1; }
+    .nav-btn:hover { background: #161b22; color: #e6edf3; }
+    .nav-btn.active { background: #161b22; color: #fff; }
+    .nav-btn.active.mode-sandbox   { border-left: 3px solid #238636; }
+    .nav-btn.active.mode-image     { border-left: 3px solid #1f6feb; }
+    .nav-btn.active.mode-code      { border-left: 3px solid #f78166; }
+    .nav-btn.active.mode-companion { border-left: 3px solid #bc8cff; }
+    .nav-btn.active.mode-music     { border-left: 3px solid #e0974c; }
+    .nav-divider { width: 36px; height: 1px; background: #30363d; margin: 4px 0; }
+    .nav-btn.coming { opacity: 0.35; cursor: default; }
+    .nav-btn.coming:hover { background: transparent; color: #8b949e; }
+
+    /* ── Main ── */
+    #main { flex: 1; display: flex; min-width: 0; }
+
+    /* ── Chat area ── */
+    #chat-area { flex: 1; display: flex; flex-direction: column; background: #161b22; min-width: 0; }
+    #chat-header { padding: 14px 18px; border-bottom: 1px solid #30363d; display: flex; align-items: center; gap: 10px; background: #161b22; flex-shrink: 0; }
+    #header-icon { font-size: 18px; }
+    #header-title { font-weight: 700; font-size: 15px; }
+    #header-sub { font-size: 12px; color: #8b949e; }
+    #header-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .header-chip { font-size: 11px; background: #21262d; border: 1px solid #30363d; border-radius: 20px; padding: 3px 10px; color: #8b949e; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+    .header-chip:hover { background: #30363d; color: #e6edf3; }
+
+    #messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+    #messages::-webkit-scrollbar { width: 6px; }
+    #messages::-webkit-scrollbar-track { background: transparent; }
+    #messages::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+    .message { display: flex; flex-direction: column; max-width: 85%; gap: 4px; }
+    .message.user      { align-self: flex-end;  align-items: flex-start; }
+    .message.assistant { align-self: flex-start; align-items: flex-start; }
+    .message .label    { font-size: 11px; color: #8b949e; padding: 0 4px; }
+    .message .bubble   { padding: 12px 16px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+    .message.user .bubble { background: #238636; color: #fff; border-bottom-right-radius: 4px; }
+    body.mode-code      .message.user .bubble { background: #b35900; }
+    body.mode-companion .message.user .bubble { background: #6e40c9; }
+    body.mode-music     .message.user .bubble { background: #7a4a1e; }
+    .message.assistant .bubble { background: #21262d; color: #e6edf3; border: 1px solid #30363d; border-bottom-left-radius: 4px; }
+    .message.assistant .bubble.thinking { color: #8b949e; font-style: italic; }
+
+    .file-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.25); border-radius: 6px; padding: 5px 10px; font-size: 12px; margin-bottom: 6px; max-width: 100%; overflow: hidden; }
+    .file-badge .file-icon { font-size: 15px; flex-shrink: 0; }
+    .file-badge .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .bubble.image-bubble { padding: 10px; display: flex; flex-direction: column; gap: 8px; background: #21262d; border: 1px solid #30363d; border-radius: 12px; border-bottom-left-radius: 4px; min-width: 260px; }
+    .bubble img { max-width: 100%; border-radius: 8px; display: block; }
+    .image-prompt-label { font-size: 11px; color: #8b949e; font-style: italic; padding: 0 2px; word-break: break-word; }
+    .spinner-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 10px; color: #8b949e; font-size: 13px; font-style: italic; }
+    .spinner { width: 32px; height: 32px; border: 3px solid #30363d; border-top-color: #1f6feb; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .image-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .format-select { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e6edf3; font-size: 12px; padding: 5px 8px; outline: none; cursor: pointer; }
+    .action-btn { border: none; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; white-space: nowrap; color: #fff; }
+    .download-btn { background: #238636; } .download-btn:hover { background: #2ea043; }
+    .edit-toggle-btn { background: #6e40c9; } .edit-toggle-btn:hover { background: #8957e5; }
+    .action-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
+    .image-edit-area { display: flex; gap: 6px; margin-top: 2px; }
+    .image-edit-area.hidden { display: none; }
+    .image-edit-input { flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e6edf3; font-size: 13px; padding: 6px 10px; outline: none; font-family: inherit; }
+    .image-edit-input:focus { border-color: #1f6feb; }
+    .image-edit-input::placeholder { color: #8b949e; }
+    .image-edit-btn { background: #1f6feb; color: #fff; border: none; border-radius: 6px; padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .image-edit-btn:hover { background: #388bfd; }
+    .image-edit-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+
+    /* ── Music mode card ── */
+    .music-card { background: #1a1108; border: 1px solid #4a3010; border-radius: 12px; border-bottom-left-radius: 4px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; min-width: 260px; max-width: 100%; }
+    .music-card .music-title { font-weight: 700; font-size: 14px; color: #e0974c; }
+    .music-card .music-meta { font-size: 11px; color: #8b7060; }
+    .music-card .lyrics-text { font-size: 13px; line-height: 1.7; color: #e6edf3; white-space: pre-wrap; border-top: 1px solid #4a3010; padding-top: 10px; }
+    .music-card audio { width: 100%; border-radius: 6px; margin-top: 4px; }
+    .music-card .music-status { font-size: 12px; color: #8b7060; font-style: italic; }
+    .music-gen-btn { background: #7a4a1e; color: #fff; border: none; border-radius: 6px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+    .music-gen-btn:hover { background: #e0974c; }
+    .music-gen-btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+
+    /* ── Code block rendering ── */
+    .code-block { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 0; overflow: hidden; margin: 4px 0; font-family: "Fira Code", "Consolas", monospace; }
+    .code-block-header { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; background: #161b22; border-bottom: 1px solid #30363d; }
+    .code-lang-label { font-size: 11px; color: #8b949e; font-weight: 600; text-transform: uppercase; }
+    .code-copy-btn { background: none; border: 1px solid #30363d; color: #8b949e; border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer; }
+    .code-copy-btn:hover { color: #e6edf3; border-color: #8b949e; }
+    .code-block pre { padding: 14px; margin: 0; overflow-x: auto; font-size: 13px; line-height: 1.55; color: #e6edf3; }
+    .code-block pre::-webkit-scrollbar { height: 5px; }
+    .code-block pre::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+
+    #file-preview-wrap { display: none; padding: 8px 16px 0; background: #161b22; align-items: center; gap: 10px; flex-shrink: 0; }
+    #file-preview-wrap.visible { display: flex; }
+    #file-preview-thumb { width: 52px; height: 52px; object-fit: cover; border-radius: 6px; border: 1px solid #30363d; display: none; }
+    #file-preview-thumb.visible { display: block; }
+    #file-preview-icon { width: 52px; height: 52px; background: #21262d; border: 1px solid #30363d; border-radius: 6px; display: none; align-items: center; justify-content: center; font-size: 24px; }
+    #file-preview-icon.visible { display: flex; }
+    #file-preview-info { flex: 1; min-width: 0; }
+    #file-preview-name { font-size: 13px; font-weight: 600; color: #e6edf3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    #file-preview-meta { font-size: 11px; color: #8b949e; margin-top: 2px; }
+    #file-clear-btn { background: none; border: none; color: #8b949e; font-size: 18px; cursor: pointer; line-height: 1; padding: 0 4px; flex-shrink: 0; }
+    #file-clear-btn:hover { color: #e6edf3; }
+
+    #input-area { padding: 14px 16px; border-top: 1px solid #30363d; display: flex; gap: 8px; background: #161b22; align-items: flex-end; flex-shrink: 0; }
+    #input { flex: 1; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 14px; padding: 10px 14px; resize: none; outline: none; font-family: inherit; line-height: 1.5; max-height: 120px; }
+    #input:focus { border-color: #238636; }
+    body.mode-image     #input:focus { border-color: #1f6feb; }
+    body.mode-code      #input:focus { border-color: #f78166; }
+    body.mode-companion #input:focus { border-color: #bc8cff; }
+    body.mode-music     #input:focus { border-color: #e0974c; }
+    #input::placeholder { color: #8b949e; }
+    .toolbar-btn { border: none; border-radius: 8px; padding: 10px 13px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; white-space: nowrap; color: #FFFFFF; }
+    .toolbar-btn:disabled { background: #21262d !important; color: #8b949e; cursor: not-allowed; }
+    #attach-btn { background: #30363d; color: #8b949e; }
+    #attach-btn:hover { background: #3d444d; color: #e6edf3; }
+    #image-gen-btn { background: #1f6feb; }
+    #image-gen-btn:hover { background: #388bfd; }
+    #music-gen-btn { background: #7a4a1e; display: none; }
+    #music-gen-btn:hover { background: #e0974c; }
+    #send-btn { background: #238636; }
+    #send-btn:hover { background: #2ea043; }
+    body.mode-image     #send-btn { background: #1f6feb; }
+    body.mode-image     #send-btn:hover { background: #388bfd; }
+    body.mode-code      #send-btn { background: #b35900; }
+    body.mode-code      #send-btn:hover { background: #d4690a; }
+    body.mode-companion #send-btn { background: #6e40c9; }
+    body.mode-companion #send-btn:hover { background: #8957e5; }
+    body.mode-music     #send-btn { background: #7a4a1e; }
+    body.mode-music     #send-btn:hover { background: #e0974c; }
+    #lang-select { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 13px; padding: 10px; outline: none; cursor: pointer; font-family: inherit; display: none; }
+    #lang-select:focus { border-color: #f78166; }
+    #music-genre-select { background: #0d1117; border: 1px solid #4a3010; border-radius: 8px; color: #e6edf3; font-size: 13px; padding: 10px; outline: none; cursor: pointer; font-family: inherit; display: none; }
+    #music-genre-select:focus { border-color: #e0974c; }
+    .img-only  { display: none !important; }
+    .no-code   { display: flex !important; }
+    body.mode-image  .img-only  { display: flex !important; }
+    body.mode-code   #lang-select { display: flex !important; }
+    body.mode-code   .no-code { display: none !important; }
+    body.mode-code   #image-gen-btn { display: none !important; }
+    body.mode-music  #music-gen-btn { display: flex !important; }
+    body.mode-music  #music-genre-select { display: flex !important; }
+    body.mode-music  #image-gen-btn { display: none !important; }
+    body.mode-music  #attach-btn { display: none !important; }
+
+    #mode-tip { margin: auto; text-align: center; color: #8b949e; font-size: 14px; line-height: 1.8; padding: 20px; pointer-events: none; }
+    #mode-tip .tip-icon  { font-size: 36px; margin-bottom: 8px; }
+    #mode-tip .tip-title { font-weight: 700; font-size: 16px; color: #e6edf3; margin-bottom: 6px; }
+
+    /* ── Companion sidebar ── */
+    #companion-panel { width: 260px; background: #0d1117; border-left: 1px solid #30363d; display: none; flex-direction: column; flex-shrink: 0; }
+    #companion-panel.visible { display: flex; }
+    #cp-header { padding: 14px 16px; border-bottom: 1px solid #30363d; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: space-between; }
+    #cp-header span { color: #bc8cff; }
+    #cp-close { background: none; border: none; color: #8b949e; font-size: 18px; cursor: pointer; }
+    #cp-close:hover { color: #e6edf3; }
+    #cp-list { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    #cp-list::-webkit-scrollbar { width: 4px; }
+    #cp-list::-webkit-scrollbar-thumb { background: #30363d; border-radius: 2px; }
+    .cp-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 12px; cursor: pointer; transition: border-color 0.15s; }
+    .cp-card:hover { border-color: #8b949e; }
+    .cp-card.selected { border-color: #bc8cff; background: #1a1030; }
+    .cp-card-top { display: flex; align-items: center; gap: 10px; }
+    .cp-avatar { width: 38px; height: 38px; border-radius: 50%; background: #21262d; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .cp-name  { font-weight: 700; font-size: 14px; }
+    .cp-trait { font-size: 11px; color: #8b949e; margin-top: 2px; }
+    .cp-actions { display: flex; gap: 6px; margin-top: 10px; }
+    .cp-btn { flex: 1; border: none; border-radius: 6px; padding: 5px; font-size: 11px; font-weight: 600; cursor: pointer; color: #fff; }
+    .cp-select-btn { background: #238636; } .cp-select-btn:hover { background: #2ea043; }
+    .cp-edit-btn   { background: #30363d; color: #8b949e; } .cp-edit-btn:hover { background: #3d444d; color: #e6edf3; }
+    .cp-delete-btn { background: #6e1a1a; color: #f78166; } .cp-delete-btn:hover { background: #922020; }
+    #cp-footer { padding: 12px; border-top: 1px solid #30363d; display: flex; flex-direction: column; gap: 8px; }
+    .cp-footer-btn { border: none; border-radius: 8px; padding: 9px; font-size: 13px; font-weight: 600; cursor: pointer; color: #fff; width: 100%; }
+    #cp-new-btn    { background: #6e40c9; } #cp-new-btn:hover { background: #8957e5; }
+    #cp-export-btn { background: #21262d; color: #8b949e; } #cp-export-btn:hover { background: #30363d; color: #e6edf3; }
+    #cp-import-btn { background: #21262d; color: #8b949e; } #cp-import-btn:hover { background: #30363d; color: #e6edf3; }
+
+    /* ── Modal ── */
+    #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center; }
+    #modal-overlay.visible { display: flex; }
+    #modal { background: #161b22; border: 1px solid #30363d; border-radius: 14px; padding: 24px; width: 420px; max-width: 95vw; max-height: 90vh; overflow-y: auto; }
+    #modal h2 { font-size: 17px; margin-bottom: 18px; color: #bc8cff; }
+    .form-row { margin-bottom: 14px; }
+    .form-row label { display: block; font-size: 12px; color: #8b949e; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+    .form-row input, .form-row select, .form-row textarea { width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 14px; padding: 9px 12px; outline: none; font-family: inherit; }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: #bc8cff; }
+    .form-row textarea { resize: vertical; min-height: 70px; }
+    .form-row select option { background: #161b22; }
+    .trait-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .modal-btn { flex: 1; border: none; border-radius: 8px; padding: 10px; font-size: 14px; font-weight: 600; cursor: pointer; color: #fff; }
+    #modal-save-btn   { background: #6e40c9; } #modal-save-btn:hover { background: #8957e5; }
+    #modal-cancel-btn { background: #21262d; color: #8b949e; } #modal-cancel-btn:hover { background: #30363d; color: #e6edf3; }
+    .memory-badge { font-size: 11px; background: #1a1030; border: 1px solid #bc8cff44; border-radius: 20px; padding: 2px 9px; color: #bc8cff; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Mobile ── */
+    @media (max-width: 767px) {
+      body { height: 100dvh; align-items: flex-start; justify-content: flex-start; padding: 0; }
+      #app { width: 100vw; max-width: 100%; height: 100dvh; border: none; border-radius: 0; flex-direction: column; }
+      #nav { width: 100%; height: 60px; flex-direction: row; border-right: none; border-top: 1px solid #30363d; padding: 0; gap: 0; order: 2; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: #0d1117; }
+      #nav .nav-logo { display: none; }
+      .nav-btn { flex: 1; width: auto; height: 60px; border-radius: 0; gap: 2px; border-left: none; border-top: 3px solid transparent; border-bottom: none; padding: 6px 0; font-size: 10px; }
+      .nav-btn .nav-icon { font-size: 22px; }
+      .nav-btn.active { background: transparent; }
+      .nav-btn.active.mode-sandbox   { border-top-color: #238636; }
+      .nav-btn.active.mode-image     { border-top-color: #1f6feb; }
+      .nav-btn.active.mode-code      { border-top-color: #f78166; }
+      .nav-btn.active.mode-companion { border-top-color: #bc8cff; }
+      .nav-btn.active.mode-music     { border-top-color: #e0974c; }
+      .nav-divider { display: none; }
+      #main { flex-direction: column; flex: 1; width: 100%; min-width: 100%; padding-bottom: 60px; overflow: hidden; }
+      #chat-area { flex: 1; width: 100%; }
+      #chat-header { padding: 10px 12px; gap: 6px; }
+      #header-sub { display: none; }
+      #messages { padding: 12px; gap: 12px; }
+      .message { max-width: 95%; }
+      .message .bubble { padding: 8px 12px; font-size: 13px; }
+      #input-area { padding: 10px 12px; gap: 6px; flex-wrap: wrap; }
+      #input { font-size: 13px; padding: 8px 10px; min-height: 40px; }
+      .toolbar-btn { padding: 8px 10px; font-size: 12px; min-height: 40px; min-width: 40px; }
+      #companion-panel { position: fixed; top: 0; left: 0; right: 0; bottom: 60px; width: 100%; height: auto; max-height: 100%; display: none; border-left: none; z-index: 40; border-radius: 0; }
+      #companion-panel.visible { display: flex; }
+      #modal { width: 90vw; max-width: 100%; border-radius: 12px; max-height: 85vh; padding: 16px; }
+      .trait-grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 768px) and (max-width: 1024px) {
+      #app { width: 98vw; height: 95vh; max-width: 100%; }
+      #nav { width: 60px; }
+      .nav-btn { width: 50px; height: 50px; }
+      #companion-panel { width: 200px; }
+    }
+    @media (min-width: 1200px) {
+      #app { max-width: 1400px; }
+      #companion-panel { width: 300px; }
+      #messages { padding: 24px; }
+    }
+  </style>
+</head>
+<body class="mode-sandbox">
+
+<div id="app">
+  <nav id="nav">
+    <div class="nav-logo">🤖</div>
+    <button class="nav-btn mode-sandbox active" onclick="switchMode('sandbox')" title="Free / Sandbox"><span class="nav-icon">🧪</span><span>Free</span></button>
+    <button class="nav-btn mode-companion" onclick="switchMode('companion')" title="Companion"><span class="nav-icon">🫂</span><span>Friend</span></button>
+    <button class="nav-btn mode-image" onclick="switchMode('image')" title="Image / Art"><span class="nav-icon">🎨</span><span>Art</span></button>
+    <button class="nav-btn mode-code" onclick="switchMode('code')" title="Code Mode"><span class="nav-icon">💻</span><span>Code</span></button>
+    <button class="nav-btn mode-music" onclick="switchMode('music')" title="Music Mode"><span class="nav-icon">🎵</span><span>Music</span></button>
+  </nav>
+
+  <div id="main">
+    <!-- Avatar panel commented out — will be restored later -->
+    <!--
+    <div id="face-panel">
+      <div id="face-panel-header">
+        <div>
+          <div id="face-comp-name">Companion</div>
+          <div id="face-emotion-label">idle</div>
+        </div>
+        <div id="face-view-toggle">
+          <button class="face-view-btn active" id="btn-bust"    onclick="setAvatarView('bust')">Bust</button>
+          <button class="face-view-btn"        id="btn-upper"   onclick="setAvatarView('upper')">Upper</button>
+          <button class="face-view-btn"        id="btn-full"    onclick="setAvatarView('full')">Full</button>
+          <button class="face-view-btn"        id="btn-hidden"  onclick="setAvatarView('hidden')">Hide</button>
+        </div>
+        <button id="face-close-btn" onclick="toggleAvatarPanel()">✕</button>
+      </div>
+      <div id="face-canvas-wrap">
+        <div id="face-building"><div class="face-spinner"></div><span>Building avatar...</span></div>
+        <canvas id="face-canvas"></canvas>
+      </div>
+    </div>
+    -->
+
+    <!-- ── Chat area ── -->
+    <div id="chat-area">
+      <div id="chat-header">
+        <span id="header-icon">🧪</span>
+        <div>
+          <div id="header-title">Free / Sandbox</div>
+          <div id="header-sub">Chat · Images · Code · Files</div>
+        </div>
+        <div id="header-right">
+          <span id="companion-badge" class="memory-badge" style="display:none"></span>
+          <button class="header-chip" id="companions-btn" onclick="toggleCompanionPanel()" style="display:none">🫂 Companions</button>
+          <button class="header-chip" onclick="exportMemory()">💾 Export</button>
+        </div>
+      </div>
+
+      <div id="messages">
+        <div id="mode-tip">
+          <div class="tip-icon">🧪</div>
+          <div class="tip-title">Free / Sandbox</div>
+          All features unlocked — your companion is always with you here.
+        </div>
+      </div>
+
+      <div id="file-preview-wrap">
+        <img id="file-preview-thumb" src="" alt="preview" />
+        <div id="file-preview-icon"></div>
+        <div id="file-preview-info">
+          <div id="file-preview-name"></div>
+          <div id="file-preview-meta"></div>
+        </div>
+        <button id="file-clear-btn" onclick="clearFile()">✕</button>
+      </div>
+
+      <div id="input-area">
+        <textarea id="input" rows="1" placeholder="Talk to your companion..."></textarea>
+        <input type="file" id="file-input" accept="image/*,.js,.ts,.jsx,.tsx,.html,.htm,.css,.py,.java,.c,.cpp,.cs,.php,.rb,.go,.rs,.swift,.sh,.bash,.sql,.json,.csv,.md,.txt,.xml,.yaml,.yml" style="display:none" onchange="handleFileAttach(event)" />
+        <button id="attach-btn" class="toolbar-btn" onclick="document.getElementById('file-input').click()" title="Attach file">📎</button>
+        <button id="image-gen-btn" class="toolbar-btn no-code" onclick="generateImage()">🎨 Generate</button>
+        <button id="music-gen-btn" class="toolbar-btn" onclick="generateMusic()">🎵 Generate</button>
+        <select id="lang-select">
+          <option value="">Auto-detect</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="HTML">HTML</option>
+          <option value="CSS">CSS</option>
+          <option value="Python">Python</option>
+          <option value="Java">Java</option>
+          <option value="C">C</option>
+          <option value="C++">C++</option>
+          <option value="PHP">PHP</option>
+          <option value="SQL">SQL</option>
+          <option value="Perl">Perl</option>
+          <option value="Ruby">Ruby</option>
+          <option value="Shell">Shell/Bash</option>
+          <option value="Visual Basic">Visual Basic</option>
+          <option value="Assembly">Assembly</option>
+        </select>
+        <select id="music-genre-select">
+          <option value="pop">Pop</option>
+          <option value="hip-hop">Hip-Hop</option>
+          <option value="r&b">R&amp;B</option>
+          <option value="rock">Rock</option>
+          <option value="country">Country</option>
+          <option value="electronic">Electronic</option>
+          <option value="jazz">Jazz</option>
+          <option value="soul">Soul</option>
+          <option value="folk">Folk</option>
+          <option value="lo-fi">Lo-Fi</option>
+        </select>
+        <button id="send-btn" class="toolbar-btn" onclick="send()">Send</button>
+      </div>
+    </div>
+
+    <!-- ── Companion sidebar ── -->
+    <div id="companion-panel">
+      <div id="cp-header"><span>🫂 Companions</span><button id="cp-close" onclick="toggleCompanionPanel()">✕</button></div>
+      <div id="cp-list"></div>
+      <div id="cp-footer">
+        <button class="cp-footer-btn" id="cp-new-btn" onclick="openModal(null)">➕ New Companion</button>
+        <button class="cp-footer-btn" id="cp-export-btn" onclick="exportMemory()">💾 Export Memory</button>
+        <button class="cp-footer-btn" id="cp-import-btn" onclick="document.getElementById('import-input').click()">📂 Import Memory</button>
+        <input type="file" id="import-input" accept=".json" style="display:none" onchange="importMemory(event)" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal ── -->
+<div id="modal-overlay">
+  <div id="modal">
+    <h2 id="modal-title">Create Companion</h2>
+    <div class="form-row"><label>Name</label><input type="text" id="f-name" placeholder="e.g. Alex" maxlength="30" /></div>
+    <div class="form-row"><label>Avatar Emoji</label><input type="text" id="f-avatar" placeholder="e.g. 🧑 👾 🐉" maxlength="4" /></div>
+    <div class="form-row">
+      <label>Gender / Pronouns</label>
+      <select id="f-gender">
+        <option value="he/him">He / Him</option>
+        <option value="she/her">She / Her</option>
+        <option value="they/them">They / Them</option>
+        <option value="it/its">It / Its</option>
+        <option value="any">Any / All</option>
+      </select>
+    </div>
+    <div class="trait-grid">
+      <div class="form-row"><label>Age</label><input type="number" id="f-age" placeholder="e.g. 22" min="1" max="999" /></div>
+      <div class="form-row"><label>Height</label><input type="text" id="f-height" placeholder="e.g. 5'9&quot;" maxlength="20" /></div>
+      <div class="form-row"><label>Weight</label><input type="text" id="f-weight" placeholder="e.g. 160 lbs" maxlength="20" /></div>
+      <div class="form-row"><label>Appearance</label><input type="text" id="f-appearance" placeholder="e.g. dark hair, glasses, green eyes" maxlength="500" /></div>
+    </div>
+    <div class="form-row"><label>Base Personality</label><textarea id="f-personality" placeholder="e.g. Chill and funny, loves music, gets excited about tech"></textarea></div>
+    <div class="form-row"><label>Interests / Hobbies</label><input type="text" id="f-interests" placeholder="e.g. gaming, cooking, hip-hop, sci-fi" maxlength="500" /></div>
+    <div class="form-row">
+      <label>Speaking style</label>
+      <select id="f-style">
+        <option value="casual">Casual — uses slang, contractions, abbreviations</option>
+        <option value="warm">Warm — supportive, encouraging, emotionally open</option>
+        <option value="witty">Witty — sarcastic, playful, dry humor</option>
+        <option value="mixed">Mixed — all of the above depending on the vibe</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" id="modal-cancel-btn" onclick="closeModal()">Cancel</button>
+      <button class="modal-btn" id="modal-save-btn"   onclick="saveCompanion()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ══════════════════════════════════════════════════════════════════════════
+     CONSTANTS & CONFIG
+  ══════════════════════════════════════════════════════════════════════════ */
+  var WORKER_URL           = "https://githubai-relay.akonyswoodard.workers.dev";
+  var STORAGE_KEY          = "ai_chat_companions_v1";
+  var POLLINATIONS_REFERRER= "al0823.github.io";
+  var lastImageRequest     = 0;
+  var IMAGE_GAP_MS         = 5000;
+
+  /* ── Avatar stubs (avatar panel commented out — will be restored later) ── */
+  var avatarInstance    = null;
+  var avatarView        = "bust";
+  var avatarInitialized = false;
+  var avatarPanelOpen   = false;
+  // These are no-ops until avatar is re-enabled:
+  function initAvatar()              { /* avatar disabled */ }
+  function showAvatarPanel()         { /* avatar disabled */ }
+  function hideAvatarPanel()         { /* avatar disabled */ }
+  function setAvatarView(v)          { avatarView = v; }
+  function triggerAvatarExpression() { /* avatar disabled */ }
+  function setupAvatarResize()       { /* avatar disabled */ }
+  function toggleAvatarPanel()       { /* avatar disabled */ }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     STATE
+  ══════════════════════════════════════════════════════════════════════════ */
+  var chatHistory        = [];
+  var currentMode        = "sandbox";
+  var pendingFile        = null;
+  var modeTipEl          = document.getElementById("mode-tip");
+  var companions         = [];
+  var activeCompId       = null;
+  var editingCompId      = null;
+  var companionPanelOpen = false;
+
+  var inputEl    = document.getElementById("input");
+  var sendBtn    = document.getElementById("send-btn");
+  var messagesEl = document.getElementById("messages");
+
+  /* ── Companion state system ──
+     comp.state persists in localStorage and is sent to the worker each call.
+     The worker injects it into the system prompt so mood actually affects replies. */
+
+  var MOODS    = ["good", "okay", "off", "tired", "wired"];
+  var MOMENTUMS = ["playful", "neutral", "deep", "flat"];
+
+  function defaultState() {
+    return {
+      mood:              "okay",
+      energy:            0.7,
+      patience:          0.65,
+      affection:         0.6,
+      momentum:          "neutral",
+      relationshipScore: 0
+    };
+  }
+
+  // Called after each assistant reply — reads last user message for signals,
+  // nudges state values, applies slow natural drift back toward baseline.
+  function updateCompState(comp, lastUserMsg) {
+    if (!comp) return;
+    if (!comp.state || typeof comp.state !== "object") comp.state = defaultState();
+    var s = comp.state;
+    var txt = (lastUserMsg || "").toLowerCase();
+
+    // ── Signal detection ────────────────────────────────────────────────────
+    var isHeavy    = /\b(sad|depressed|anxious|scared|lonely|hurt|crying|lost|overwhelmed|hopeless)\b/.test(txt);
+    var isPositive = /\b(happy|excited|good news|amazing|love|great|finally|haha|lol|lmao)\b/.test(txt);
+    var isConflict = /\b(mad|angry|upset|hate|fight|argument|ugh|frustrated|annoyed)\b/.test(txt);
+    var isVulnerable = /\b(honest|tell you|trust|actually|confession|don't usually|never told)\b/.test(txt);
+    var isHumor    = /\b(haha|lmao|lol|funny|joke|hilarious|dying)\b/.test(txt);
+    var isLong     = txt.length > 300;
+
+    // ── State nudges ────────────────────────────────────────────────────────
+    if (isHeavy)      { s.affection  = clampVal(s.affection  + 0.06); s.momentum = "deep"; }
+    if (isPositive)   { s.energy     = clampVal(s.energy     + 0.05); }
+    if (isConflict)   { s.patience   = clampVal(s.patience   - 0.08); }
+    if (isVulnerable) { s.affection  = clampVal(s.affection  + 0.09); }
+    if (isHumor)      { s.momentum   = "playful"; s.energy = clampVal(s.energy + 0.04); }
+    if (isLong)       { s.patience   = clampVal(s.patience   - 0.04); }
+
+    // ── Relationship score (event-driven) ───────────────────────────────────
+    if (isVulnerable) s.relationshipScore = (s.relationshipScore || 0) + 6;
+    if (isHumor)      s.relationshipScore = (s.relationshipScore || 0) + 4;
+    if (isHeavy)      s.relationshipScore = (s.relationshipScore || 0) + 5;
+    if (isConflict)   s.relationshipScore = (s.relationshipScore || 0) - 3;
+    // Small baseline gain per exchange
+    s.relationshipScore = (s.relationshipScore || 0) + 0.4;
+
+    // ── Natural drift back toward baseline (prevents extremes locking in) ───
+    s.energy   = clampVal(s.energy   * 0.97 + 0.7  * 0.03);
+    s.patience = clampVal(s.patience * 0.97 + 0.65 * 0.03);
+
+    // ── Mood shift (occasional, weighted by energy) ──────────────────────────
+    if (Math.random() < 0.08) {
+      if      (s.energy > 0.75) s.mood = Math.random() < 0.6 ? "good"  : "wired";
+      else if (s.energy < 0.35) s.mood = Math.random() < 0.6 ? "tired" : "off";
+      else                      s.mood = Math.random() < 0.7 ? "okay"  : "off";
+    }
+
+    // ── Momentum drift ───────────────────────────────────────────────────────
+    if (Math.random() < 0.07 && s.momentum !== "playful" && s.momentum !== "deep") {
+      s.momentum = Math.random() < 0.5 ? "neutral" : "flat";
+    }
+
+    saveStorage();
+  }
+
+  function clampVal(v) { return Math.min(1, Math.max(0, v)); }
+
+  // dominantEmotion kept for avatar compatibility (avatar re-enable later)
+  function dominantEmotion() { return "neutral"; }
+
+  function detectIntent(text) {
+    text = text.toLowerCase();
+    if (text.match(/draw|image|picture|art|generate image/)) return "image";
+    if (text.match(/code|script|program|html|js|python|fix bug/)) return "code";
+    return "chat";
+  }
+
+  function typeText(el, text) {
+    el.textContent = ""; var i = 0;
+    function step() { if (i < text.length) { el.textContent += text.charAt(i); i++; messagesEl.scrollTop = messagesEl.scrollHeight; setTimeout(step, 8 + Math.random() * 18); } }
+    step();
+  }
+
+  var IMAGE_EXTS = ["png","jpg","jpeg","gif","webp","bmp","svg","ico","tiff","avif"];
+  var FILE_ICONS = { js:"📜",ts:"📜",jsx:"📜",tsx:"📜",html:"🌐",htm:"🌐",css:"🎨",py:"🐍",java:"☕",c:"⚙️",cpp:"⚙️",cs:"⚙️",php:"🐘",rb:"💎",go:"🐹",rs:"🦀",swift:"🍎",sh:"🖥️",bash:"🖥️",sql:"🗄️",json:"📋",csv:"📊",md:"📝",txt:"📄",xml:"📋",yaml:"📋",yml:"📋",default:"📄" };
+
+  var MODES = {
+    sandbox:   { icon:"🧪", title:"Free / Sandbox",    sub:"Chat · Images · Code · Files",       placeholder:"Talk to your companion or ask anything..." },
+    companion: { icon:"🫂", title:"Companion",          sub:"Your AI friend",                     placeholder:"Hey, what's up?" },
+    image:     { icon:"🎨", title:"Image / Art",        sub:"Generate & edit images",             placeholder:"Describe an image to generate..." },
+    code:      { icon:"💻", title:"Code Mode",          sub:"Write and fix code in any language", placeholder:"Describe what you need, e.g. 'a Python web scraper'..." },
+    music:     { icon:"🎵", title:"Music Studio",       sub:"Write lyrics · Generate audio",      placeholder:"Describe your song idea, vibe, or topic..." }
+  };
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     STORAGE & MEMORY HELPERS
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  function cleanMemory(memory) {
+    if (!memory || typeof memory !== "object") {
+      return { aboutUser:"", currentSituation:"", sharedEvents:"", insideJokes:"", emotionalMoments:[], recurringPatterns:[], openLoops:[] };
+    }
+    function cl(text) {
+      if (!text || typeof text !== "string") return "";
+      var t = text;
+      var idx = t.indexOf("[UNPARSED MEMORY]");
+      if (idx !== -1) t = t.substring(0, idx);
+      t = t.replace(/\[object Object\]/g, "")
+           .replace(/\{"reply":[^}]*\}/g, "")
+           .split("\n").filter(function(l){ return l.trim(); }).join("\n").trim();
+      return t.substring(0, 2000);
+    }
+    function cleanArr(arr) {
+      if (!Array.isArray(arr)) return [];
+      return arr.filter(function(x) { return x && typeof x === "object"; }).slice(0, 5);
+    }
+    return {
+      aboutUser:         cl(memory.aboutUser),
+      currentSituation:  cl(memory.currentSituation),
+      sharedEvents:      cl(memory.sharedEvents),
+      insideJokes:       cl(memory.insideJokes),
+      emotionalMoments:  cleanArr(memory.emotionalMoments),
+      recurringPatterns: Array.isArray(memory.recurringPatterns) ? memory.recurringPatterns.filter(function(x){ return typeof x === "string"; }).slice(0,5) : [],
+      openLoops:         cleanArr(memory.openLoops)
+    };
+  }
+
+  function normalizeCompanion(comp) {
+    var mem = cleanMemory(comp.memory || {});
+    var st  = comp.state && typeof comp.state === "object" ? comp.state : defaultState();
+    // Ensure all state fields exist
+    if (typeof st.mood              !== "string") st.mood              = "okay";
+    if (typeof st.energy            !== "number") st.energy            = 0.7;
+    if (typeof st.patience          !== "number") st.patience          = 0.65;
+    if (typeof st.affection         !== "number") st.affection         = 0.6;
+    if (typeof st.momentum          !== "string") st.momentum          = "neutral";
+    if (typeof st.relationshipScore !== "number") st.relationshipScore = (comp.messageCount || 0) * 0.4;
+    return Object.assign({}, comp, {
+      id: comp.id || "", name: comp.name || "", avatar: comp.avatar || "",
+      gender: comp.gender || "", age: comp.age || "", height: comp.height || "",
+      weight: comp.weight || "", appearance: comp.appearance || "",
+      personality: comp.personality || "", interests: comp.interests || "",
+      style: comp.style || "mixed",
+      memorySummary: comp.memorySummary || mem.aboutUser || "",
+      memory: mem,
+      state: st,
+      messageCount: comp.messageCount || 0
+    });
+  }
+
+  function loadStorage() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        companions   = (s.companions || []).map(normalizeCompanion);
+        activeCompId = s.activeCompId || null;
+      }
+    } catch(e) {}
+    if (companions.length === 0) setTimeout(function() { openModal(null); }, 400);
+  }
+
+  function saveStorage() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        companions: companions.map(normalizeCompanion),
+        activeCompId: activeCompId
+      }));
+    } catch(e) {
+      // If quota exceeded, trim sharedEvents and retry
+      companions.forEach(function(c) {
+        if (c.memory && c.memory.sharedEvents)
+          c.memory.sharedEvents = c.memory.sharedEvents.split("\n").slice(-30).join("\n");
+      });
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ companions: companions.map(normalizeCompanion), activeCompId: activeCompId })); }
+      catch(e2) { console.error("Storage failed:", e2); }
+    }
+  }
+
+  /* ── Memory extraction ── */
+  var _memoryUpdatePending = false;
+  var _memoryMsgCount      = 0;
+
+  function maybeUpdateMemory() {
+    var comp = getActiveComp();
+    if (!comp) return;
+    var userMsgs = 0;
+    for (var i = 0; i < chatHistory.length; i++) { if (chatHistory[i].role === "user") userMsgs++; }
+    // Trigger after every 5 user messages, minimum 4 total
+    if (userMsgs < 4 || userMsgs - _memoryMsgCount < 5) return;
+    if (_memoryUpdatePending) return;
+
+    _memoryMsgCount = userMsgs;
+    _memoryUpdatePending = true;
+    setTimeout(function() { _memoryUpdatePending = false; }, 25000); // safety release
+
+    setTimeout(function() {
+      var nl = "\n";
+      var recentChat = chatHistory.slice(-20).map(function(m) {
+        return (m.role === "user" ? "HUMAN" : "COMPANION") + ": " + m.content.substring(0, 400);
+      }).join(nl);
+
+      // Uses dedicated memory endpoint — no longer hijacks the sandbox pipeline
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", WORKER_URL, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.timeout = 25000;
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+        _memoryUpdatePending = false;
+        try {
+          if (xhr.status !== 200) throw new Error("Status " + xhr.status);
+          var res = JSON.parse(xhr.responseText);
+          if (!res.memory || typeof res.memory !== "object") throw new Error("No memory object in response");
+
+          // Sanitize and cap each field
+          function cl(v) {
+            return String(v || "")
+              .replace(/\{"reply":[^}]*\}/g, "")
+              .replace(/\[object Object\]/g, "")
+              .replace(/\[UNPARSED MEMORY\][\s\S]*/g, "")
+              .trim()
+              .substring(0, 2000);
+          }
+          var updated = {
+            aboutUser:         cl(res.memory.aboutUser),
+            currentSituation:  cl(res.memory.currentSituation),
+            sharedEvents:      cl(res.memory.sharedEvents),
+            insideJokes:       cl(res.memory.insideJokes),
+            emotionalMoments:  Array.isArray(res.memory.emotionalMoments)  ? res.memory.emotionalMoments.slice(0, 5)  : (comp.memory.emotionalMoments  || []),
+            recurringPatterns: Array.isArray(res.memory.recurringPatterns) ? res.memory.recurringPatterns.slice(0, 5) : (comp.memory.recurringPatterns || []),
+            openLoops:         Array.isArray(res.memory.openLoops)         ? res.memory.openLoops.slice(0, 5)         : (comp.memory.openLoops         || [])
+          };
+
+          comp.memory = updated;
+          comp.memorySummary = [updated.aboutUser, updated.currentSituation].filter(Boolean).join(" | ").substring(0, 200);
+          saveStorage();
+          console.log("[Memory] Updated:", comp.memory);
+        } catch(err) {
+          console.warn("[Memory] Failed:", err.message);
+        }
+      };
+      xhr.onerror = xhr.ontimeout = function() { _memoryUpdatePending = false; };
+
+      xhr.send(JSON.stringify({
+        action:     "memory",
+        recentChat: recentChat,
+        memory:     comp.memory || {}
+      }));
+    }, 1500);
+  }
+
+  function exportMemory() {
+    var btn = document.getElementById("cp-export-btn");
+    if (btn) { btn.textContent = "Saving..."; btn.disabled = true; }
+    function doExport() {
+      saveStorage();
+      var data = JSON.stringify({ companions: companions, activeCompId: activeCompId }, null, 2);
+      var blob = new Blob([data], { type: "application/json" });
+      var url  = URL.createObjectURL(blob);
+      var a    = document.createElement("a");
+      a.href = url; a.download = "companion_memory.json";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      if (btn) { btn.textContent = "💾 Export Memory"; btn.disabled = false; }
+    }
+    if (_memoryUpdatePending) {
+      var waited = 0;
+      var w = setInterval(function() {
+        waited += 250;
+        if (!_memoryUpdatePending || waited >= 5000) { clearInterval(w); doExport(); }
+      }, 250);
+    } else { doExport(); }
+  }
+
+  function importMemory(event) {
+    var file = event.target.files[0]; if (!file) return; event.target.value = "";
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        var data = JSON.parse(e.target.result);
+        if (!Array.isArray(data.companions)) { alert("Invalid file format."); return; }
+        companions   = data.companions.map(normalizeCompanion);
+        activeCompId = data.activeCompId || (companions[0] && companions[0].id) || null;
+        saveStorage(); renderCompanionList(); updateCompanionBadge();
+        alert("Memory imported! (" + companions.length + " companions)");
+      } catch(err) { alert("Could not read file."); }
+    };
+    reader.readAsText(file);
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     COMPANION SYSTEM PROMPT
+  ══════════════════════════════════════════════════════════════════════════ */
+  function getActiveComp() {
+    if (!activeCompId) return companions[0] || null;
+    for (var i = 0; i < companions.length; i++) { if (companions[i].id === activeCompId) return companions[i]; }
+    return companions[0] || null;
+  }
+
+  // buildCompanionSystemPrompt moved to worker.js (v2.0.0)
+  // The worker now builds the system prompt server-side from the comp object.
+
+  function driftPersonality(comp) {
+    if (!comp) return;
+    var traits = ["curious","witty","warm","playful","adventurous"];
+    for (var i = 0; i < traits.length; i++) {
+      if (Math.random() < 0.03 && comp.personality.indexOf(traits[i]) === -1)
+        comp.personality += ", " + traits[i];
+    }
+    saveStorage();
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     COMPANION LIST UI
+  ══════════════════════════════════════════════════════════════════════════ */
+  function renderCompanionList() {
+    var list = document.getElementById("cp-list"); list.innerHTML = "";
+    if (companions.length === 0) {
+      list.innerHTML = '<div style="color:#8b949e;font-size:13px;padding:12px;text-align:center">No companions yet.<br>Create one below!</div>';
+      return;
+    }
+    for (var i = 0; i < companions.length; i++) {
+      (function(comp) {
+        var card = document.createElement("div"); card.className = "cp-card" + (comp.id === activeCompId ? " selected" : "");
+        var top  = document.createElement("div"); top.className = "cp-card-top";
+        var av   = document.createElement("div"); av.className = "cp-avatar"; av.textContent = comp.avatar || "🧑";
+        var info = document.createElement("div");
+        var nm   = document.createElement("div"); nm.className = "cp-name"; nm.textContent = comp.name;
+        var tr   = document.createElement("div"); tr.className = "cp-trait";
+        tr.textContent = comp.gender + (comp.age ? " · " + comp.age + " yrs" : "") + (comp.interests ? " · " + comp.interests.split(",")[0].trim() : "");
+        info.appendChild(nm); info.appendChild(tr); top.appendChild(av); top.appendChild(info);
+        var mem = document.createElement("div"); mem.style.cssText = "font-size:11px;color:#bc8cff;margin-top:6px";
+        var mf = comp.memory || {}, parts = [];
+        if (mf.aboutUser) parts.push("profile");
+        if (mf.currentSituation) parts.push("situation");
+        if (mf.sharedEvents) parts.push("history");
+        if (mf.insideJokes) parts.push("jokes");
+        mem.textContent = (comp.messageCount || 0) + " msgs · " + (parts.length ? "memory: " + parts.join(", ") : "no memory yet");
+        var acts = document.createElement("div"); acts.className = "cp-actions";
+        var sb = document.createElement("button"); sb.className = "cp-btn cp-select-btn";
+        sb.textContent = comp.id === activeCompId ? "✓ Active" : "Select";
+        sb.onclick = function(e) { e.stopPropagation(); selectCompanion(comp.id); };
+        var eb = document.createElement("button"); eb.className = "cp-btn cp-edit-btn"; eb.textContent = "Edit";
+        eb.onclick = function(e) { e.stopPropagation(); openModal(comp.id); };
+        var db = document.createElement("button"); db.className = "cp-btn cp-delete-btn"; db.textContent = "Delete";
+        db.onclick = function(e) { e.stopPropagation(); deleteCompanion(comp.id); };
+        acts.appendChild(sb); acts.appendChild(eb); acts.appendChild(db);
+        card.appendChild(top); card.appendChild(mem); card.appendChild(acts);
+        card.onclick = function() { selectCompanion(comp.id); };
+        list.appendChild(card);
+      })(companions[i]);
+    }
+  }
+
+  function selectCompanion(id) {
+    activeCompId = id; saveStorage(); renderCompanionList(); updateCompanionBadge();
+    chatHistory = []; clearMessages();
+  }
+
+  function deleteCompanion(id) {
+    if (!confirm("Delete this companion? Their memory will be erased.")) return;
+    companions = companions.filter(function(c) { return c.id !== id; });
+    if (activeCompId === id) activeCompId = companions.length ? companions[0].id : null;
+    saveStorage(); renderCompanionList(); updateCompanionBadge();
+  }
+
+  function updateCompanionBadge() {
+    var comp  = getActiveComp();
+    var badge = document.getElementById("companion-badge");
+    if (comp && (currentMode === "sandbox" || currentMode === "companion")) {
+      badge.textContent = comp.avatar + " " + comp.name; badge.style.display = "inline-flex";
+    } else { badge.style.display = "none"; }
+    var labels = document.querySelectorAll(".message.assistant .label");
+    for (var i = 0; i < labels.length; i++) labels[i].textContent = comp ? comp.name : "AI";
+  }
+
+  function toggleCompanionPanel() {
+    companionPanelOpen = !companionPanelOpen;
+    var panel = document.getElementById("companion-panel");
+    if (companionPanelOpen) { panel.classList.add("visible"); renderCompanionList(); }
+    else panel.classList.remove("visible");
+  }
+
+  /* ── Modal ── */
+  function openModal(id) {
+    editingCompId = id;
+    document.getElementById("modal-title").textContent = id ? "Edit Companion" : "Create Companion";
+    if (id) {
+      var comp = companions.filter(function(c) { return c.id === id; })[0];
+      if (comp) {
+        document.getElementById("f-name").value        = comp.name        || "";
+        document.getElementById("f-avatar").value      = comp.avatar      || "";
+        document.getElementById("f-gender").value      = comp.gender      || "they/them";
+        document.getElementById("f-age").value         = comp.age         || "";
+        document.getElementById("f-height").value      = comp.height      || "";
+        document.getElementById("f-weight").value      = comp.weight      || "";
+        document.getElementById("f-appearance").value  = comp.appearance  || "";
+        document.getElementById("f-personality").value = comp.personality || "";
+        document.getElementById("f-interests").value   = comp.interests   || "";
+        document.getElementById("f-style").value       = comp.style       || "mixed";
+      }
+    } else {
+      ["f-name","f-age","f-height","f-weight","f-appearance","f-personality","f-interests"]
+        .forEach(function(fid) { document.getElementById(fid).value = ""; });
+      document.getElementById("f-avatar").value = "🧑";
+      document.getElementById("f-gender").value = "they/them";
+      document.getElementById("f-style").value  = "mixed";
+    }
+    document.getElementById("modal-overlay").classList.add("visible");
+  }
+
+  function closeModal() { document.getElementById("modal-overlay").classList.remove("visible"); editingCompId = null; }
+
+  function saveCompanion() {
+    var name = document.getElementById("f-name").value.trim();
+    if (!name) { alert("Give your companion a name!"); return; }
+    var comp = {
+      id:           editingCompId || ("comp_" + Date.now()),
+      name:         name,
+      avatar:       document.getElementById("f-avatar").value.trim()      || "🧑",
+      gender:       document.getElementById("f-gender").value,
+      age:          document.getElementById("f-age").value.trim(),
+      height:       document.getElementById("f-height").value.trim(),
+      weight:       document.getElementById("f-weight").value.trim(),
+      appearance:   document.getElementById("f-appearance").value.trim(),
+      personality:  document.getElementById("f-personality").value.trim() || "Chill, funny, supportive, and real.",
+      interests:    document.getElementById("f-interests").value.trim(),
+      style:        document.getElementById("f-style").value,
+      memorySummary:"", memory:{}, messageCount:0
+    };
+    if (editingCompId) {
+      var ex = companions.filter(function(c){ return c.id === editingCompId; })[0];
+      if (ex) { comp.memorySummary = ex.memorySummary || ""; comp.memory = ex.memory || {}; comp.messageCount = ex.messageCount || 0; }
+      companions = companions.map(function(c){ return c.id === editingCompId ? comp : c; });
+    } else {
+      companions.push(comp);
+      if (!activeCompId) activeCompId = comp.id;
+    }
+    saveStorage(); renderCompanionList(); updateCompanionBadge(); closeModal();
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MODE SWITCHING
+  ══════════════════════════════════════════════════════════════════════════ */
+  function switchMode(mode) {
+    currentMode = mode;
+    document.body.className = "mode-" + mode;
+    var navBtns = document.querySelectorAll(".nav-btn");
+    for (var i = 0; i < navBtns.length; i++) navBtns[i].classList.remove("active");
+    var ab = document.querySelector(".nav-btn.mode-" + mode); if (ab) ab.classList.add("active");
+    var m = MODES[mode];
+    document.getElementById("header-icon").textContent  = m.icon;
+    document.getElementById("header-title").textContent = m.title;
+    document.getElementById("header-sub").textContent   = m.sub;
+    inputEl.placeholder = m.placeholder;
+    var showComp = (mode === "sandbox" || mode === "companion");
+    document.getElementById("companions-btn").style.display = showComp ? "inline-flex" : "none";
+    clearMessages(); clearFile(); updateCompanionBadge();
+    var tips = {
+      sandbox:   { icon:"🧪", title:"Free / Sandbox",    text:"Chat with your companion, generate images, ask for code — everything in one place." },
+      companion: { icon:"🫂", title:"Companion Mode",     text:"Just you and your friend. All conversation, no distractions." },
+      image:     { icon:"🎨", title:"Image / Art",        text:"Describe an image and hit Generate, or attach a file to edit it." },
+      code:      { icon:"💻", title:"Code Mode",          text:"Describe what you need. Pick a language or leave it on Auto-detect for the AI to choose.\n\nThe code will actually run — no placeholder comments, no stubs." },
+      music:     { icon:"🎵", title:"Music Studio",       text:"Describe your song concept. The AI writes full lyrics, then you can generate audio with Bark.\n\nAdd your HF token below to enable audio generation." }
+    };
+    var t = tips[mode];
+    var tip = document.createElement("div"); tip.id = "mode-tip";
+    tip.innerHTML = '<div class="tip-icon">' + t.icon + '</div><div class="tip-title">' + t.title + '</div>' + t.text;
+    messagesEl.appendChild(tip); modeTipEl = tip;
+    chatHistory = [];
+
+    inputEl.focus();
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MESSAGE HELPERS
+  ══════════════════════════════════════════════════════════════════════════ */
+  function clearMessages() { messagesEl.innerHTML = ""; modeTipEl = null; }
+  function clearTip() { if (modeTipEl && modeTipEl.parentNode) { modeTipEl.parentNode.removeChild(modeTipEl); modeTipEl = null; } }
+
+  inputEl.addEventListener("input", function() { inputEl.style.height = "auto"; inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px"; });
+  inputEl.addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (currentMode === "image" && !pendingFile) { generateImage(); }
+      else if (currentMode === "music") { generateMusic(); }
+      else { send(); }
+    }
+  });
+
+  function addMessage(role, text, isThinking) {
+    clearTip();
+    var w = document.createElement("div"); w.className = "message " + role;
+    var l = document.createElement("div"); l.className = "label"; l.textContent = role === "user" ? "You" : getAssistantLabel();
+    var b = document.createElement("div"); b.className = "bubble" + (isThinking ? " thinking" : "");
+    // Render code blocks in non-companion modes
+    if (role === "assistant" && !isThinking && (currentMode === "code" || currentMode === "sandbox")) {
+      renderMessageWithCode(b, text);
+    } else {
+      b.textContent = text;
+    }
+    w.appendChild(l); w.appendChild(b); messagesEl.appendChild(w); messagesEl.scrollTop = messagesEl.scrollHeight;
+    return b;
+  }
+
+  function renderMessageWithCode(container, text) {
+    // Split text on ```lang ... ``` code blocks
+    var parts = text.split(/(```[\w]*\n[\s\S]*?```)/);
+    parts.forEach(function(part) {
+      var codeMatch = part.match(/^```([\w]*)\n([\s\S]*?)```$/);
+      if (codeMatch) {
+        var lang = codeMatch[1] || "code";
+        var code = codeMatch[2];
+        var block = document.createElement("div"); block.className = "code-block";
+        var hdr = document.createElement("div"); hdr.className = "code-block-header";
+        var lbl = document.createElement("span"); lbl.className = "code-lang-label"; lbl.textContent = lang;
+        var cpyBtn = document.createElement("button"); cpyBtn.className = "code-copy-btn"; cpyBtn.textContent = "Copy";
+        cpyBtn.onclick = (function(c){ return function() { navigator.clipboard.writeText(c).then(function(){ cpyBtn.textContent = "Copied!"; setTimeout(function(){ cpyBtn.textContent = "Copy"; }, 1500); }); }; })(code);
+        hdr.appendChild(lbl); hdr.appendChild(cpyBtn);
+        var pre = document.createElement("pre"); pre.textContent = code;
+        block.appendChild(hdr); block.appendChild(pre);
+        container.appendChild(block);
+      } else if (part.trim()) {
+        var span = document.createElement("span"); span.textContent = part;
+        span.style.whiteSpace = "pre-wrap";
+        container.appendChild(span);
+      }
+    });
+  }
+
+  function getAssistantLabel() {
+    var isC = currentMode === "sandbox" || currentMode === "companion";
+    if (isC) { var c = getActiveComp(); return c ? c.name : "AI"; }
+    return "AI";
+  }
+
+  function setButtons(disabled) {
+    sendBtn.disabled = disabled;
+    document.getElementById("attach-btn").disabled = disabled;
+    var g = document.getElementById("image-gen-btn"); if (g) g.disabled = disabled;
+    var mg = document.getElementById("music-gen-btn"); if (mg) mg.disabled = disabled;
+  }
+
+  function addUserFileMessage(file, userText) {
+    clearTip();
+    var w = document.createElement("div"); w.className = "message user";
+    var l = document.createElement("div"); l.className = "label"; l.textContent = "You";
+    var b = document.createElement("div"); b.className = "bubble";
+    var badge = document.createElement("div"); badge.className = "file-badge";
+    var ic = file.type === "image" ? "🖼️" : (FILE_ICONS[file.ext] || FILE_ICONS["default"]);
+    badge.innerHTML = '<span class="file-icon">' + ic + '</span><span class="file-name">' + file.name + '</span>';
+    b.appendChild(badge);
+    if (file.type === "image") {
+      var img = document.createElement("img"); img.src = file.dataUrl; img.alt = file.name;
+      img.style.cssText = "max-width:200px;border-radius:6px;display:block;margin-top:4px";
+      b.appendChild(img);
+    }
+    if (userText) { var t = document.createElement("div"); t.style.marginTop = "6px"; t.textContent = userText; b.appendChild(t); }
+    w.appendChild(l); w.appendChild(b); messagesEl.appendChild(w); messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     FILE HANDLING
+  ══════════════════════════════════════════════════════════════════════════ */
+  function handleFileAttach(event) {
+    var file = event.target.files[0]; if (!file) return; event.target.value = "";
+    var ext = file.name.split(".").pop().toLowerCase();
+    var isImage = IMAGE_EXTS.indexOf(ext) !== -1;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      pendingFile = { type: isImage ? "image" : "text", name: file.name, ext: ext, mimeType: file.type, dataUrl: isImage ? e.target.result : null, textContent: isImage ? null : e.target.result };
+      showFilePreview();
+    };
+    if (isImage) reader.readAsDataURL(file); else reader.readAsText(file);
+  }
+
+  function showFilePreview() {
+    if (!pendingFile) return;
+    document.getElementById("file-preview-name").textContent = pendingFile.name;
+    var thumb = document.getElementById("file-preview-thumb");
+    var iconEl = document.getElementById("file-preview-icon");
+    if (pendingFile.type === "image") {
+      thumb.src = pendingFile.dataUrl; thumb.classList.add("visible"); iconEl.classList.remove("visible");
+      document.getElementById("file-preview-meta").textContent = "Image — type a prompt to edit or ask about it";
+      inputEl.placeholder = "Describe what to do with this image...";
+    } else {
+      var ic = FILE_ICONS[pendingFile.ext] || FILE_ICONS["default"];
+      iconEl.textContent = ic; iconEl.classList.add("visible"); thumb.classList.remove("visible");
+      document.getElementById("file-preview-meta").textContent = pendingFile.textContent.split("\n").length + " lines";
+      inputEl.placeholder = '"explain this", "fix the bugs", "rewrite in Python"...';
+    }
+    document.getElementById("file-preview-wrap").classList.add("visible"); inputEl.focus();
+  }
+
+  function clearFile() {
+    pendingFile = null;
+    document.getElementById("file-preview-thumb").src = "";
+    document.getElementById("file-preview-thumb").classList.remove("visible");
+    document.getElementById("file-preview-icon").classList.remove("visible");
+    document.getElementById("file-preview-wrap").classList.remove("visible");
+    inputEl.placeholder = MODES[currentMode].placeholder;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     IMAGE GENERATION
+  ══════════════════════════════════════════════════════════════════════════ */
+  function buildImageUrl(prompt, extraParams) {
+    return "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+      + "?width=768&height=768&nologo=true&enhance=true&referrer=" + POLLINATIONS_REFERRER
+      + "&seed=" + Date.now() + (extraParams || "");
+  }
+
+  function fetchImage(url, onLoad, onError, retries) {
+    retries = retries || 0;
+    var now = Date.now();
+    var delay = Math.max(0, IMAGE_GAP_MS - (now - lastImageRequest));
+    lastImageRequest = now + delay;
+    setTimeout(function() {
+      var pre = new Image(); pre.crossOrigin = "anonymous";
+      pre.onload = onLoad;
+      pre.onerror = function() {
+        if (retries < 1) { setTimeout(function(){ fetchImage(url, onLoad, onError, retries+1); }, 5000); }
+        else { onError(); }
+      };
+      pre.src = url;
+    }, delay);
+  }
+
+  function addSpinnerBubble(label) {
+    clearTip();
+    var w = document.createElement("div"); w.className = "message assistant";
+    var l = document.createElement("div"); l.className = "label"; l.textContent = getAssistantLabel();
+    var b = document.createElement("div"); b.className = "bubble image-bubble";
+    var sw = document.createElement("div"); sw.className = "spinner-wrap";
+    var sp = document.createElement("div"); sp.className = "spinner";
+    var st = document.createElement("span"); st.textContent = label || "Generating...";
+    sw.appendChild(sp); sw.appendChild(st); b.appendChild(sw); w.appendChild(l); w.appendChild(b);
+    messagesEl.appendChild(w); messagesEl.scrollTop = messagesEl.scrollHeight; return b;
+  }
+
+  function convertAndDownload(imgEl, format, prompt) {
+    var canvas = document.createElement("canvas"); canvas.width = imgEl.naturalWidth || imgEl.width; canvas.height = imgEl.naturalHeight || imgEl.height;
+    canvas.getContext("2d").drawImage(imgEl, 0, 0);
+    var fn = (prompt||"image").replace(/[^a-z0-9]/gi,"_").substring(0,40);
+    if (format === "svg") {
+      var du = canvas.toDataURL("image/png");
+      var sc = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="'+canvas.width+'" height="'+canvas.height+'"><image href="'+du+'" width="'+canvas.width+'" height="'+canvas.height+'"/></svg>';
+      var bl = new Blob([sc],{type:"image/svg+xml"}); var ur = URL.createObjectURL(bl); triggerDL(ur,fn+".svg"); URL.revokeObjectURL(ur);
+    } else {
+      var mm = {png:"image/png",jpeg:"image/jpeg",webp:"image/webp"};
+      canvas.toBlob(function(bl){ var ur = URL.createObjectURL(bl); triggerDL(ur,fn+"."+(format==="jpeg"?"jpg":format)); URL.revokeObjectURL(ur); }, mm[format]||"image/png", format==="jpeg"?0.95:undefined);
+    }
+  }
+
+  function triggerDL(url, fn) { var a = document.createElement("a"); a.href=url; a.download=fn; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
+
+  function renderImageIntoBubble(bubble, imageUrl, prompt) {
+    bubble.textContent = "";
+    var img = document.createElement("img"); img.crossOrigin="anonymous"; img.src=imageUrl; img.alt=prompt; bubble.appendChild(img);
+    var pl = document.createElement("div"); pl.className="image-prompt-label"; pl.textContent="Prompt: "+prompt; bubble.appendChild(pl);
+    var acts = document.createElement("div"); acts.className="image-actions";
+    var fs = document.createElement("select"); fs.className="format-select";
+    [{value:"png",label:"PNG"},{value:"jpeg",label:"JPEG"},{value:"webp",label:"WebP"},{value:"svg",label:"SVG"}].forEach(function(f){ var o=document.createElement("option"); o.value=f.value; o.textContent=f.label; fs.appendChild(o); });
+    var db = document.createElement("button"); db.className="action-btn download-btn"; db.textContent="⬇ Download";
+    db.onclick=(function(ir,sr,pr){return function(){convertAndDownload(ir,sr.value,pr);};})(img,fs,prompt);
+    var etb = document.createElement("button"); etb.className="action-btn edit-toggle-btn"; etb.textContent="✏️ Edit";
+    acts.appendChild(fs); acts.appendChild(db); acts.appendChild(etb); bubble.appendChild(acts);
+    var ea = document.createElement("div"); ea.className="image-edit-area hidden";
+    var ei = document.createElement("input"); ei.type="text"; ei.className="image-edit-input"; ei.placeholder='e.g. "make it night time"';
+    var eb = document.createElement("button"); eb.className="image-edit-btn"; eb.textContent="Apply";
+    ea.appendChild(ei); ea.appendChild(eb); bubble.appendChild(ea);
+    etb.onclick=function(){ ea.classList.toggle("hidden"); ei.focus(); etb.textContent = ea.classList.contains("hidden") ? "✏️ Edit" : "✕ Cancel"; };
+    eb.onclick=function(){ var ep=ei.value.trim(); if(!ep) return; applyEdit(bubble,img,prompt,ep,eb,ei,etb,pl,fs,db); };
+    ei.addEventListener("keydown",function(e){ if(e.key==="Enter") eb.click(); });
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function applyEdit(bubble,imgEl,oldP,editP,editBtn,editInput,etb,pl,fs,db) {
+    var newP=oldP+", "+editP; editBtn.disabled=true; editBtn.textContent="Generating..."; editInput.disabled=true; etb.disabled=true;
+    var url = buildImageUrl(newP);
+    fetchImage(url, function() {
+      imgEl.src=url; imgEl.alt=newP; pl.textContent="Prompt: "+newP;
+      db.onclick=(function(ir,sr,pr){return function(){convertAndDownload(ir,sr.value,pr);};})(imgEl,fs,newP);
+      editBtn.onclick=function(){ var ep=editInput.value.trim(); if(!ep) return; applyEdit(bubble,imgEl,newP,ep,editBtn,editInput,etb,pl,fs,db); };
+      editInput.value=""; editInput.placeholder="Edit again...";
+      editBtn.disabled=false; editBtn.textContent="Apply"; editInput.disabled=false; etb.disabled=false;
+      messagesEl.scrollTop=messagesEl.scrollHeight;
+    }, function() { editBtn.disabled=false; editBtn.textContent="Rate limited — wait"; editInput.disabled=false; etb.disabled=false; });
+  }
+
+  function generateImage() {
+    var input = inputEl.value.trim(); if (!input) { alert("Type an image description first."); return; }
+    inputEl.value=""; inputEl.style.height="auto"; setButtons(true);
+    addMessage("user","🎨 "+input);
+    var bubble = addSpinnerBubble("Generating image...");
+    var url = buildImageUrl(input);
+    fetchImage(url, function() { renderImageIntoBubble(bubble,url,input); setButtons(false); inputEl.focus(); messagesEl.scrollTop=messagesEl.scrollHeight; },
+    function() { bubble.classList.remove("image-bubble"); bubble.textContent="Rate limited — wait a moment and try again."; setButtons(false); });
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MUSIC MODE
+  ══════════════════════════════════════════════════════════════════════════ */
+
+  function generateMusic() {
+    var concept = inputEl.value.trim();
+    if (!concept) { alert("Describe your song idea first."); return; }
+    var genre = document.getElementById("music-genre-select").value || "pop";
+    inputEl.value = ""; inputEl.style.height = "auto"; setButtons(true);
+
+    addMessage("user", "\uD83C\uDFB5 [" + genre.toUpperCase() + "] " + concept);
+    var lyricsBubble = addSpinnerBubble("Writing lyrics...");
+
+    // ── Step 1: Lyrics via worker action endpoint ──────────────────────────
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.timeout = 35000;
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
+      try {
+        if (xhr.status !== 200) throw new Error("Server returned " + xhr.status);
+        var data = JSON.parse(xhr.responseText);
+        if (data.error) throw new Error(data.error);
+        var reply = (data.lyrics || "").trim();
+        if (!reply) throw new Error("No lyrics returned");
+
+        // Extract title from end of response
+        var titleMatch = reply.match(/TITLE:\s*(.+)/i);
+        var songTitle  = titleMatch ? titleMatch[1].trim() : concept.substring(0, 40);
+        var lyricsText = reply.replace(/TITLE:\s*.+/i, "").trim();
+
+        // Build music card
+        lyricsBubble.className  = "";
+        lyricsBubble.innerHTML  = "";
+        lyricsBubble.style.cssText = "";
+
+        var card     = document.createElement("div"); card.className     = "music-card";
+        var titleEl  = document.createElement("div"); titleEl.className  = "music-title"; titleEl.textContent  = "\uD83C\uDFB5 " + songTitle;
+        var metaEl   = document.createElement("div"); metaEl.className   = "music-meta";  metaEl.textContent   = genre.toUpperCase() + " \u00B7 AI Generated";
+        var lyricsEl = document.createElement("div"); lyricsEl.className = "lyrics-text"; lyricsEl.textContent = lyricsText;
+        card.appendChild(titleEl); card.appendChild(metaEl); card.appendChild(lyricsEl);
+
+        // ── Step 2: Audio generation section ────────────────────────────────
+        var audioSection = document.createElement("div");
+        var statusEl  = document.createElement("div");  statusEl.className  = "music-status";
+        var audioGenBtn = document.createElement("button"); audioGenBtn.className = "music-gen-btn"; audioGenBtn.textContent = "\uD83D\uDD0A Generate Audio (Bark)";
+        statusEl.textContent = "Audio generation via Bark (30\u201390 sec)";
+
+        audioGenBtn.onclick = function() {
+          audioGenBtn.disabled = true; audioGenBtn.textContent = "Generating...";
+          statusEl.textContent = "Sending to Bark on HuggingFace...";
+          _callBarkWorker(lyricsText.substring(0, 1000), function(audioBase64, mimeType) {
+            // Convert base64 back to Blob for playback
+            var binary = atob(audioBase64);
+            var bytes  = new Uint8Array(binary.length);
+            for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+            var blob     = new Blob([bytes], { type: mimeType || "audio/wav" });
+            var audioUrl = URL.createObjectURL(blob);
+            var audio    = document.createElement("audio"); audio.controls = true; audio.src = audioUrl;
+            var dlBtn    = document.createElement("button"); dlBtn.className = "music-gen-btn"; dlBtn.textContent = "\u2B07 Download Audio";
+            dlBtn.onclick = function() { triggerDL(audioUrl, songTitle.replace(/[^a-z0-9]/gi, "_") + ".wav"); };
+            audioSection.innerHTML = ""; audioSection.appendChild(audio); audioSection.appendChild(dlBtn);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+          }, function(errMsg) {
+            statusEl.textContent = "\u26A0\uFE0F Audio failed: " + errMsg;
+            audioGenBtn.disabled = false; audioGenBtn.textContent = "\uD83D\uDD0A Retry Audio";
+          });
+        };
+
+        audioSection.appendChild(audioGenBtn); audioSection.appendChild(statusEl);
+        card.appendChild(audioSection);
+
+        // Copy lyrics button
+        var copyBtn = document.createElement("button"); copyBtn.className = "music-gen-btn"; copyBtn.textContent = "\uD83D\uDCCB Copy Lyrics";
+        copyBtn.onclick = function() {
+          navigator.clipboard.writeText(lyricsText).then(function() {
+            copyBtn.textContent = "Copied!";
+            setTimeout(function() { copyBtn.textContent = "\uD83D\uDCCB Copy Lyrics"; }, 1500);
+          });
+        };
+        card.appendChild(copyBtn);
+
+        lyricsBubble.appendChild(card);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      } catch(e) {
+        lyricsBubble.textContent = "\u26A0\uFE0F Lyrics failed: " + e.message;
+      }
+      setButtons(false); inputEl.focus();
+    };
+    xhr.onerror   = function() { lyricsBubble.textContent = "\u26A0\uFE0F Network error."; setButtons(false); };
+    xhr.ontimeout = function() { lyricsBubble.textContent = "\u26A0\uFE0F Request timed out."; setButtons(false); };
+    xhr.send(JSON.stringify({ action: "lyrics", concept: concept, genre: genre }));
+  }
+  // Calls the worker's bark action endpoint — HF token stays server-side
+  function _callBarkWorker(text, onSuccess, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", WORKER_URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.timeout = 130000; // Bark is slow — give it 2m10s
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return;
+      try {
+        if (xhr.status === 503) { onError("Bark model is loading on HuggingFace — wait ~30s and retry."); return; }
+        if (xhr.status === 401) { onError("HF token invalid — check the HF_TOKEN secret in your Cloudflare worker."); return; }
+        if (xhr.status !== 200) { onError("Worker returned status " + xhr.status); return; }
+        var data = JSON.parse(xhr.responseText);
+        if (data.error) { onError(data.error); return; }
+        if (!data.audio) { onError("No audio data returned."); return; }
+        onSuccess(data.audio, data.mimeType || "audio/wav");
+      } catch(e) {
+        onError("Parse error: " + e.message);
+      }
+    };
+    xhr.onerror   = function() { onError("Network error reaching worker."); };
+    xhr.ontimeout = function() { onError("Timed out — Bark may be overloaded. Try again."); };
+    xhr.send(JSON.stringify({ action: "bark", text: text }));
+  }
+  /* ══════════════════════════════════════════════════════════════════════════
+     MAIN SEND / XHR
+  ══════════════════════════════════════════════════════════════════════════ */
+  function send() {
+    if (currentMode === "image" && !pendingFile) { generateImage(); return; }
+    if (currentMode === "music") { generateMusic(); return; }
+
+    var userText = inputEl.value.trim();
+    if (currentMode === "sandbox") {
+      var intent = detectIntent(userText);
+      if (intent === "image") { generateImage(); return; }
+    }
+
+    if (pendingFile) {
+      if (!userText) { alert("Tell the AI what to do with this file."); return; }
+      var file = pendingFile;
+      addUserFileMessage(file, userText); clearFile(); inputEl.value=""; inputEl.style.height="auto"; setButtons(true);
+      if (file.type === "image") {
+        var b0 = addSpinnerBubble("Analyzing image...");
+        var u0 = buildImageUrl(userText, "&image_url=" + encodeURIComponent(file.dataUrl));
+        fetchImage(u0, function(){ renderImageIntoBubble(b0,u0,userText); setButtons(false); inputEl.focus(); },
+        function(){ b0.classList.remove("image-bubble"); b0.textContent="Rate limited — wait a moment."; setButtons(false); });
+        return;
+      }
+      var MAX=12000, content=file.textContent;
+      if (content.length > MAX) content = content.substring(0,MAX) + "\n\n[...truncated...]";
+      chatHistory.push({ role:"user", content:'I uploaded "'+file.name+'".\n\nContent:\n```\n'+content+'\n```\n\nMy request: '+userText });
+      var tb = addMessage("assistant","Reading file...",true); doXHR(tb); return;
+    }
+
+    if (!userText) return;
+    var langSelect = document.getElementById("lang-select");
+    var lang = langSelect ? langSelect.value : "";
+    var fullInput = (lang && currentMode === "code") ? "Write the following in " + lang + ": " + userText : userText;
+    inputEl.value=""; inputEl.style.height="auto"; setButtons(true);
+    addMessage("user", lang ? "[" + lang + "] " + userText : userText);
+    var thinkingBubble = addMessage("assistant","Thinking...",true);
+    chatHistory.push({ role:"user", content:fullInput });
+    doXHR(thinkingBubble);
+  }
+
+  function doXHR(thinkingBubble) {
+    var isCompMode = currentMode === "sandbox" || currentMode === "companion";
+    var comp = isCompMode ? getActiveComp() : null;
+
+    // Send raw chat history only — worker builds the system prompt from comp
+    var messages = chatHistory.slice(-60);
+
+    var retries = 0, MAX_RETRIES = 2;
+
+    function attempt() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", WORKER_URL, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.timeout = 30000;
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4) return;
+        try {
+          if (xhr.status !== 200) throw new Error("Status " + xhr.status);
+          var data = JSON.parse(xhr.responseText);
+          var text = data.reply || data.error || "(No response)";
+
+          chatHistory.push({ role:"assistant", content:text });
+          if (comp) {
+            comp.messageCount = (comp.messageCount || 0) + 1;
+            // Update state from the last user message before saving
+            var lastUser = "";
+            for (var hi = chatHistory.length - 2; hi >= 0; hi--) {
+              if (chatHistory[hi].role === "user") { lastUser = chatHistory[hi].content; break; }
+            }
+            updateCompState(comp, lastUser);
+            saveStorage(); maybeUpdateMemory(); driftPersonality(comp);
+          }
+          thinkingBubble.classList.remove("thinking");
+          if (isCompMode) { typeText(thinkingBubble, text); }
+          else {
+            // For code/sandbox: render code blocks
+            thinkingBubble.innerHTML = "";
+            renderMessageWithCode(thinkingBubble, text);
+          }
+        } catch(e) {
+          if (retries < MAX_RETRIES) { retries++; setTimeout(attempt, 1500); return; }
+          thinkingBubble.classList.remove("thinking");
+          thinkingBubble.textContent = "\u26a0\ufe0f " + (xhr.status === 0 ? "No connection to server." : "Error: " + e.message);
+          console.error("XHR:", e, xhr.responseText);
+        }
+        setButtons(false); inputEl.focus(); messagesEl.scrollTop = messagesEl.scrollHeight;
+      };
+      xhr.onerror = function() {
+        if (retries < MAX_RETRIES) { retries++; setTimeout(attempt, 1500); return; }
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = "\u26a0\ufe0f Network error."; setButtons(false);
+      };
+      xhr.ontimeout = function() {
+        if (retries < MAX_RETRIES) { retries++; setTimeout(attempt, 1500); return; }
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = "\u26a0\ufe0f Request timed out."; setButtons(false);
+      };
+
+      // Build payload — include comp so worker can build the system prompt
+      var payload = { messages: messages, mode: currentMode };
+      if (comp) {
+        var mem = comp.memory || {};
+        payload.comp = {
+          name:         comp.name,
+          gender:       comp.gender       || "",
+          age:          comp.age          || "",
+          height:       comp.height       || "",
+          weight:       comp.weight       || "",
+          appearance:   comp.appearance   || "",
+          personality:  comp.personality  || "",
+          interests:    comp.interests    || "",
+          style:        comp.style        || "mixed",
+          messageCount: comp.messageCount || 0,
+          state: comp.state || defaultState(),
+          memory: {
+            aboutUser:         (mem.aboutUser         || "").substring(0, 600),
+            currentSituation:  (mem.currentSituation  || "").substring(0, 300),
+            sharedEvents:      (mem.sharedEvents      || "").substring(0, 600),
+            insideJokes:       (mem.insideJokes       || "").substring(0, 300),
+            emotionalMoments:  Array.isArray(mem.emotionalMoments)  ? mem.emotionalMoments.slice(0, 5)  : [],
+            recurringPatterns: Array.isArray(mem.recurringPatterns) ? mem.recurringPatterns.slice(0, 5) : [],
+            openLoops:         Array.isArray(mem.openLoops)         ? mem.openLoops.slice(0, 5)         : []
+          }
+        };
+      }
+      xhr.send(JSON.stringify(payload));
+    }
+    attempt();
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     STARTUP
+  ══════════════════════════════════════════════════════════════════════════ */
+  setInterval(function() {
+    if (currentMode !== "companion") return;
+    var comp = getActiveComp(); if (!comp) return;
+    if (Math.random() < 0.2) addMessage("assistant", "*" + comp.name + " is thinking...*");
+  }, 60000);
+
+  loadStorage();
+  updateCompanionBadge();
+  document.getElementById("companions-btn").style.display = "inline-flex";
+
+  window.addEventListener("load", function() {
+    // nothing needed without avatar
+  });
+
+</script>
+</body>
+</html>
