@@ -1,0 +1,33 @@
+[text]pagetitle=Dynamic WebDNA Title[/text]
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title id="pageTitle">Default Title</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        p { margin: 10px 0; }
+        
+        [loop start=10&end=50&advance=1]
+.fs-[index]{font-size: [math][index]/10[/math]rem !Important;}
+[/loop]
+    </style>
+</head>
+
+<body>
+<h1>Test</h1><br><br>
+[loop start=10&end=50&advance=1]
+<p class="fs-[index]">Sample text with font size [index]/10rem</p>
+[/loop]
+</body>
+    <script>
+    
+        // Set JS variable from WebDNA text variable
+        var pageJsTitle = "[pagetitle]";
+        // Apply title using getElementById
+        document.getElementById('pageTitle').textContent = pageJsTitle;
+    </script>
+
+
+
+</html>
