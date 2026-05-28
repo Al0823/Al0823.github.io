@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<script src="http://www.citicoding.org/citi/coding/2026/2/fpp3/finalproject/utils/vars.js"></script>
+
+ 
+<head>
+	<meta charset="UTF-8">
+	<script>let PAGETITLE="Game Page";</script>
+	<title id="pageTitle"></title>
+</head>
+<body class="finalprojectbody" id="finalprojectbody">
+	<header id="finalprojectheader" class="finalprojectheader">
+		[INCLUDE FILE=[INCVAR]header.html]
+	</header>
+	<div id="finalprojectnav">[INCLUDE FILE=[INCVAR]nav.html]</div>
+
+	<!-- Status bar: shows whose turn it is, player color, connection state -->
+	<div id="gameStatusBar" style="background:#222222; color:#ffffff; padding:8px 16px; font-size:14px; display:flex; gap:24px; align-items:center;">
+		<span>Your color: <strong id="myColorDisplay" style="text-transform:capitalize;">joining...</strong></span>
+		<span>Turn: <strong id="turnDisplay">—</strong></span>
+		<span>Roll: <strong id="lastRollDisplay">—</strong></span>
+		<span id="syncStatus" style="margin-left:auto;font-size:12px;opacity:0.7;">⏳ connecting...</span>
+	</div>
+
+	<main class="main-layout">
+ 
+		<section class="game-section">
+			<div class="board-container">
+ 
+			[include file=[ASSETSVAR]troubleboard.svg]
+ 
+				<div id="diceContainer" onclick="pickRandomSVG()">
+				[include file=[ASSETSVAR]dice/dice1.svg]
+				</div>
+ 
+			</div>
+		</section>
+ 
+	<aside class="side-panel">
+		[include file=[incvar]sidepanel.html]
+	</aside>
+	</main>
+ 
+  <!-- Piece selection modal -->
+	<div id="pieceModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);background:#ffffff; border:3px solid #333333; border-radius:12px; padding:24px; z-index:1000;box-shadow: 0 8px 32px #00000066; min-width:280px; text-align:center;">
+		<div id="pieceModalTitle" style="font-size:18px; font-weight:bold; margin-bottom:16px;"></div>
+		<div id="pieceModalButtons" style="display:flex; flex-direction:column; gap:10px;"></div>
+	</div>
+	<div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;background:#00000066; z-index:999;" onclick="closeModal()"></div>
+ 
+	<footer id="finalprojectfooter" class="finalprojectfooter">
+	[INCLUDE FILE=[INCVAR]footer.html]
+	</footer>
+</body>
+<script>
+ 
+let dicenum = 1;
+let pendingRoll = null;      // stores roll value while waiting for player piece choice
+let extraTurn = false;       // true when player rolled a 6 and gets another turn
+ 
+// Board path (44 main spots in clockwise order)
+const boardPath = [
+"spot1", "spot2", "spot3", "spot4", "spot5", "spot6", "spot7", "spot8", "spot9", "spot10",
+"spot11", "spot12", "spot13", "spot14", "spot15", "spot16", "spot17", "spot18", "spot19",
+"spot20", "spot21", "spot22", "spot23", "spot24", "spot25", "spot26", "spot27", "spot28",
+"spot29", "spot30", "spot31", "spot32", "spot33", "spot34", "spot35", "spot36", "spot37",
+"spot38", "spot39", "spot40", "spot41", "spot42", "spot43", "spot44"
+];
+ 
+// Finish paths per color (spot IDs closest→furthest from center)
+const finishPath = {
+yellow: ["yfinish1", "yfinish2", "yfinish3", "yfinish4"],
+blue:   ["bfinish1", "bfinish2", "bfinish3", "bfinish4"],
+red:    ["rfinish1", "rfinish2", "rfinish3", "rfinish4"],
+green:  ["gfinish1", "gfinish2", "gfinish3", "gfinish4"]
+};
+ 
+// Board entry index for each color 
+ //The index in boardPath where each color enters the main track.
+// Set to one BEFORE the entry spot so the first roll of 1 lands them on it.
+const entryIndex = {
+yellow: 1,   // enters at spot2  (boardPath index 1)
+blue:   12,  // enters at spot13 (boardPath index 12)
+red:    23,  // enters at spot24 (boardPath index 23)
+green:  34   // enters at spot35 (boardPath index 34)
+};
+ 
+// Per-piece state 
+// Each color has 4 pieces: ids are yh1–yh4, bh1–bh4, rh1–rh4, gh1–gh4
+// State: "home" | "board" | "finish" | "done"
+// boardIndex: index in boardPath (-1 = not on board yet)
+// finishIndex: index in finishPath (-1 = not in finish yet)
+ 
+function makePieces(prefix) {
+	return [1, 2, 3, 4].map(n => ({
+	id: `${prefix}${n}`,
+	state: "home",
+	boardIndex: -1,
+	finishIndex: -1
+	}));
+}
+ 
+const pieces = {
+yellow: makePieces("yh"),
+blue:   makePieces("bh"),
+red:    makePieces("rh"),
+green:  makePieces("gh")
+};
+ 
+// Turn order 
+const turnOrder = ["yellow", "blue", "red", "green"];
+let currentTurnIdx = 0;
+let currentTurn = turnOrder[currentTurnIdx];
+ 
+// Helpers 
+ 
+function getPieceEl(piece) {
+	return document.getElementById(piece.id);
+}
+ 
+function getBoardSpotEl(spotId) {
+	return document.getElementById(spotId);
+}
+ 
+function movePieceElToSpot(piece, spotId) {
+	const el = getPieceEl(piece);
+	const spot = getBoardSpotEl(spotId);
+	const boardSVG = document.querySelector(".board-container svg");
+	if (!el || !spot || !boardSVG) return;
+	boardSVG.appendChild(el); // bring to top
+	el.setAttribute("cx", spot.getAttribute("cx"));
+	el.setAttribute("cy", spot.getAttribute("cy"));
+}
+ 
+function updateTurnDisplay() {
+	const el = document.getElementById("turnDisplay");
+		if (el) {
+		el.textContent = `${currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1)}'s Turn`;
+		}
+	console.log(`It is now ${currentTurn}'s turn.`);
+}
+ 
+function advanceTurn() {
+	if (extraTurn) {
+	extraTurn = false;
+	console.log(`${currentTurn} gets an extra turn for rolling a 6!`);
+	updateTurnDisplay();
+	enableDice();
+	return;
+	}
+currentTurnIdx = (currentTurnIdx + 1) % turnOrder.length;
+currentTurn = turnOrder[currentTurnIdx];
+updateTurnDisplay();
+enableDice();
+}
+ 
+function enableDice() {
+	const dc = document.getElementById("diceContainer");
+	if (dc) dc.style.pointerEvents = "auto";
+}
+ 
+function disableDice() {
+	const dc = document.getElementById("diceContainer");
+	if (dc) dc.style.pointerEvents = "none";
+}
+ 
+// Win check 
+ 
+function checkWin(color) {
+const allDone = pieces[color].every(p => p.state === "done");
+	if (allDone) {
+		setTimeout(() => {
+		alert(` ${color.toUpperCase()} wins! All 4 pieces in the finish zone!`);
+		disableDice();
+		}, 200);
+	return true;
+	}
+return false;
+}
+ 
+// Collision check 
+/* After a piece lands on a main board spot, check if any other color's piece is already there and send it home.*/
+ 
+function checkCollisions(movingColor, landedBoardIndex) {
+	for (const color of turnOrder) {
+	if (color === movingColor) continue;
+		for (const p of pieces[color]) {
+			if (p.state === "board" && p.boardIndex === landedBoardIndex) {
+			console.log(`${movingColor} bumped ${color} piece ${p.id}!`);
+			sendHome(color, p);
+			}
+		}
+	}
+}
+ 
+// Send a piece home 
+ 
+function sendHome(color, piece) {
+piece.state = "home";
+piece.boardIndex = -1;
+piece.finishIndex = -1;
+
+// Snap to any home piece of same color to stack visually
+const el = getPieceEl(piece);
+const others = pieces[color].filter(p => p !== piece);
+const anchor = others[0]; // stack onto first sibling
+const anchorEl = getPieceEl(anchor);
+	if (el && anchorEl) {
+	el.setAttribute("cx", anchorEl.getAttribute("cx"));
+	el.setAttribute("cy", anchorEl.getAttribute("cy"));
+	}
+console.log(`${color} piece ${piece.id} sent home.`);
+}
+ 
+// Actually move a piece 
+ 
+function applyMove(color, piece, steps) {
+const boardSVG = document.querySelector(".board-container svg");
+
+	if (piece.state === "home") {
+	if (isOwnBoardSpotOccupied(color, entryIndex[color])) {
+	console.log(`${color} entry spot is blocked.`);
+	return false;
+}
+	// First move — always 1 step (6 was required to deploy, treated as 1)
+	piece.state = "board";
+	piece.boardIndex = entryIndex[color]; // lands on entry spot
+	const spotId = boardPath[piece.boardIndex];
+	movePieceElToSpot(piece, spotId);
+	console.log(`${color} piece ${piece.id} entered board at ${spotId}`);
+	checkCollisions(color, piece.boardIndex);
+	}
+	else if (piece.state === "board") {
+	// How many steps remain on the main track before finish entry?
+	// Each color enters finish after completing a full loop back near their entry.
+	// We define "finish entry" as when boardIndex would wrap past entryIndex[color]-1.
+	// Simpler: track total steps from entry. finishEntry happens after 44 steps from entryIndex.
+	// We'll compute absolute steps from entry to determine finish approach.
+	
+	const entry = entryIndex[color];
+	// steps already taken on board = distance from entry to current position (clockwise)
+	const stepsFromEntry = (piece.boardIndex - entry + boardPath.length) % boardPath.length;
+	const stepsToFinish = boardPath.length - stepsFromEntry; // steps needed to reach finish lane
+	
+		if (steps === stepsToFinish) {
+		// Cannot enter finish slot if a piece is already there
+if (isOwnFinishSpotOccupied(color, 0, piece)) {
+	console.log(`${color} finish entrance occupied.`);
+	return false;
+}
+		// Lands exactly at finish entrance — move to finish spot 1
+		piece.state = "finish";
+		piece.finishIndex = 0;
+		movePieceElToSpot(piece, finishPath[color][0]);
+		console.log(`${color} piece ${piece.id} entered finish at slot 1`);
+		checkWin(color);
+		}
+		else if (steps > stepsToFinish) {
+		// Would overshoot finish — need exact count, can't move
+		const needed = stepsToFinish;
+		console.log(`${color} piece ${piece.id} needs exactly ${needed} to enter finish. Rolled ${steps} — can't move.`);
+		// Don't move this piece; turn still advances
+		}
+		else {
+		// Normal board move
+		const targetBoardIndex = (piece.boardIndex + steps) % boardPath.length;
+
+// Cannot land on your own piece
+if (isOwnBoardSpotOccupied(color, targetBoardIndex, piece)) {
+	console.log(`${color} already occupies that spot.`);
+	return false;
+}
+		/*piece.boardIndex = (piece.boardIndex + steps) % boardPath.length;*/
+		piece.boardIndex = targetBoardIndex;
+		const spotId = boardPath[piece.boardIndex];
+		movePieceElToSpot(piece, spotId);
+		console.log(`${color} piece ${piece.id} moved to ${spotId}`);
+		checkCollisions(color, piece.boardIndex);
+		}
+	}
+	else if (piece.state === "finish") {
+	const newFinishIndex = piece.finishIndex + steps;
+		if (newFinishIndex === finishPath[color].length - 1) {
+		// Lands exactly on last finish spot
+		piece.finishIndex = newFinishIndex;
+		piece.state = "done";
+		movePieceElToSpot(piece, finishPath[color][newFinishIndex]);
+		console.log(`${color} piece ${piece.id} finished!`);
+		checkWin(color);
+		}
+		else if (newFinishIndex > finishPath[color].length - 1) {
+		// Overshoots — must land exactly
+		console.log(`${color} piece ${piece.id} needs exact count to finish. Can't move.`);
+		}
+		else {
+		// Move further into finish zone
+		// Cannot land on your own finish piece
+if (isOwnFinishSpotOccupied(color, newFinishIndex, piece)) {
+	console.log(`${color} finish slot occupied.`);
+	return false;
+}
+		piece.finishIndex = newFinishIndex;
+		movePieceElToSpot(piece, finishPath[color][newFinishIndex]);
+		console.log(`${color} piece ${piece.id} advanced in finish to slot ${newFinishIndex + 1}`);
+		}
+	}
+
+setTimeout(() => advanceTurn(), 300);
+}
+
+// Check if one of YOUR OWN pieces occupies a board spot
+function isOwnBoardSpotOccupied(color, boardIndex, ignorePiece = null) {
+	return pieces[color].some(p =>
+		p !== ignorePiece &&
+		p.state === "board" &&
+		p.boardIndex === boardIndex
+	);
+}
+
+// Check if one of YOUR OWN pieces occupies a finish slot
+function isOwnFinishSpotOccupied(color, finishIndex, ignorePiece = null) {
+	return pieces[color].some(p =>
+		p !== ignorePiece &&
+		(p.state === "finish" || p.state === "done") &&
+		p.finishIndex === finishIndex
+	);
+}
+
+function canPieceMove(color, piece, steps) {
+
+	// HOME PIECES
+	if (piece.state === "home") {
+
+		// Must roll 6 to leave home
+		if (steps !== 6) {
+			return false;
+		}
+
+		// Entry space blocked by own piece
+		if (isOwnBoardSpotOccupied(color, entryIndex[color])) {
+			return false;
+		}
+
+		return true;
+	}
+
+	// BOARD PIECES
+	if (piece.state === "board") {
+
+		const entry = entryIndex[color];
+
+		const stepsFromEntry =
+			(piece.boardIndex - entry + boardPath.length) % boardPath.length;
+
+		const stepsToFinish = boardPath.length - stepsFromEntry;
+
+		// EXACTLY entering finish
+		if (steps === stepsToFinish) {
+
+			// Finish entrance occupied
+			if (isOwnFinishSpotOccupied(color, 0, piece)) {
+				return false;
+			}
+
+			return true;
+		}
+
+		// OVERSHOOT finish
+		if (steps > stepsToFinish) {
+			return false;
+		}
+
+		// NORMAL BOARD MOVE
+		const targetBoardIndex =
+			(piece.boardIndex + steps) % boardPath.length;
+
+		// Own piece occupies destination
+		if (isOwnBoardSpotOccupied(color, targetBoardIndex, piece)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	// FINISH PIECES
+	if (piece.state === "finish") {
+
+		const newFinishIndex = piece.finishIndex + steps;
+
+		// Overshoot finish
+		if (newFinishIndex > finishPath[color].length - 1) {
+			return false;
+		}
+
+		// Occupied finish slot
+		if (isOwnFinishSpotOccupied(color, newFinishIndex, piece)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+ 
+// Modal helpers 
+ 
+	function showModal(title, buttons) {
+	document.getElementById("pieceModalTitle").textContent = title;
+	const btnContainer = document.getElementById("pieceModalButtons");
+	btnContainer.innerHTML = "";
+		for (const btn of buttons) {
+		const b = document.createElement("button");
+		b.textContent = btn.label;
+		b.style.cssText = "padding:10px 16px; font-size:15px; border-radius:8px; cursor:pointer; border:2px solid #333333;";
+		b.onclick = () => { closeModal(); btn.action(); };
+		btnContainer.appendChild(b);
+		}
+	document.getElementById("pieceModal").style.display = "block";
+	document.getElementById("modalOverlay").style.display = "block";
+	}
+ 
+	function closeModal() {
+	document.getElementById("pieceModal").style.display = "none";
+	document.getElementById("modalOverlay").style.display = "none";
+	}
+ 
+// Main roll handler 
+ 
+	function pickRandomSVG() {
+	const roll = Math.floor(Math.random() * 6) + 1;
+	dicenum = roll;
+	disableDice();
+
+	const path = "[ASSETSVAR]dice/dice" + roll + ".svg";
+	fetch(path)
+	.then(res => res.text())
+	.then(svg => {
+	document.getElementById("diceContainer").innerHTML = svg;
+	});
+ 
+	console.log(`${currentTurn} rolled: ${roll}`);
+	handleRoll(currentTurn, roll);
+	}
+ 
+		function handleRoll(color, roll) {
+	const myPieces = pieces[color];
+	
+	// Pieces currently on board or in finish (moveable without needing a 6)
+	/*const activePieces = myPieces.filter(p => p.state === "board" || p.state === "finish");
+	// Pieces still at home
+	const homePieces = myPieces.filter(p => p.state === "home");*/
+	
+	// Pieces that can legally move this turn
+const moveablePieces = myPieces.filter(p =>
+	canPieceMove(color, p, roll)
+);
+
+// Home pieces only
+const homePieces = myPieces.filter(p => p.state === "home");
+	
+		if (roll === 6) {
+		// Extra turn granted regardless of what happens
+		extraTurn = true;
+		
+			if (homePieces.length > 0 && moveablePieces.length > 0) {
+			// Player chooses: deploy new piece or move existing one
+				const buttons = [
+					{
+					label: `Deploy a new ${color} piece`,
+					action: () => applyMove(color, homePieces[0], 6)
+					}
+				];
+			// Offer each active piece as a choice
+				for (const p of moveablePieces) {
+				const label = pieceLabel(color, p);
+					buttons.push({
+					label: `Move ${label}`,
+					action: () => applyMove(color, p, 6)
+					});
+				}
+			showModal(`${color.toUpperCase()} rolled a 6 — choose an action:`, buttons);
+			
+			}
+			else if (homePieces.length > 0 && moveablePieces.length === 0) {
+			// Must deploy — no choice needed
+			console.log(`${color} deploys a new piece.`);
+			applyMove(color, homePieces[0], 6);
+			
+			}
+			else {
+			// All pieces already out — move one of them
+				if (moveablePieces.length === 1) {
+				applyMove(color, moveablePieces[0], 6);
+				}
+				else{
+					const buttons = moveablePieces.map(p => ({
+					label: `Move ${pieceLabel(color, p)}`,
+					action: () => applyMove(color, p, 6)
+					}));
+				showModal(`${color.toUpperCase()} rolled a 6 — which piece to move?`, buttons);
+				}
+			}
+		
+		} else {
+		// Not a 6
+			if (moveablePieces.length === 0) {
+			// No pieces out, no 6 rolled — skip turn
+			console.log(`${color} has no pieces out and didn't roll a 6. Turn skipped.`);
+			setTimeout(() => advanceTurn(), 300);
+			return;
+			}
+		
+			if (moveablePieces.length === 1) {
+			// Only one moveable piece — move it automatically
+			applyMove(color, moveablePieces[0], roll);
+			}
+			else {
+			// Multiple pieces out — player picks which to move
+				const buttons = moveablePieces.map(p => ({
+				label: `Move ${pieceLabel(color, p)}`,
+				action: () => applyMove(color, p, roll)
+				}));
+			showModal(`${color.toUpperCase()} rolled a ${roll} — which piece to move?`, buttons);
+			}
+		}
+	}
+ 
+// Readable piece label
+ 
+	function pieceLabel(color, piece) {
+		if (piece.state === "board") {
+		return `piece on ${boardPath[piece.boardIndex]}`;
+		}
+		else if (piece.state === "finish") {
+		return `piece in finish slot ${piece.finishIndex + 1}`;
+		}
+	return `piece ${piece.id}`;
+	}
+ 
+// Init 
+ 
+updateTurnDisplay();
+ 
+// ════════════════════════════════════════════════════════════════════
+//  AJAX / WEBDNA LAYER
+/* 
+Everything below here handles server sync. The local game logic
+ above runs immediately for the player who makes a move; the poll
+ loop keeps other players' boards in sync.
+*/
+// ════════════════════════════════════════════════════════════════════
+ 
+// Grab lobbyID from the URL (?SKUVAR=X or ?lobbyid=X) 
+const urlParams  = new URLSearchParams(window.location.search);
+const LOBBY_ID   = urlParams.get("SKUVAR") || urlParams.get("lobbyid") || "";
+const UTIL       = vars.UTILVAR; 
+const POLL_MS    = 5000;            // 5-second poll
+ 
+// Player's own color, populated after joinlobby call
+let myColor = null;
+// SKU map: color → [piecesku1, piecesku2, piecesku3, piecesku4]
+// Populated from joinlobby / gamestate responses
+const pieceSKUs  = { yellow: [], blue: [], red: [], green: [] };
+ 
+// Piece-SKU → piece object lookup
+// Build a flat map so we can update piece state from gamestate JSON
+
+function buildSKUMap(piecesArr) {
+  piecesArr.forEach(p => {
+    const color = p.color;
+    if (!color) return;
+    if (!pieceSKUs[color]) pieceSKUs[color] = [];
+    // pieceSKUs[color] stores ordered skus
+    if (!pieceSKUs[color].includes(p.piecesku)) {
+      pieceSKUs[color].push(p.piecesku);
+    }
+  });
+}
+ 
+/* Apply a remote game state to the local board
+ Called on every poll. Reconciles DB state → JS pieces array → SVG. */
+	function applyRemoteState(data) {
+		if (!data || data.status !== "ok") return;
+		
+		// Update turn display
+		currentTurn    = data.currentTurn;
+		currentTurnIdx = turnOrder.indexOf(currentTurn);
+		updateTurnDisplay();
+		
+		document.getElementById("lastRollDisplay").textContent = data.lastRoll || "—";
+		
+		/* For each piece record from the server, find the matching local piece
+		object and reconcile its state and position.*/
+		(data.pieces || []).forEach(remote => {
+		const color = remote.color;
+			if (!color) return;
+			
+			// Find matching local piece by its index in pieceSKUs[color]
+			const idx = pieceSKUs[color].indexOf(remote.piecesku);
+				if (idx < 0 || !pieces[color] || !pieces[color][idx]) return;
+				
+				const local = pieces[color][idx];
+				const newState    = remote.state    || "home";
+				const newLocation = remote.location || "0";
+				
+				// Nothing changed — skip
+					if (local.state === newState && local._dbLocation === newLocation) return;
+					
+					local.state      = newState;
+					local._dbLocation = newLocation;
+					
+						if (newState === "home") {
+						local.boardIndex  = -1;
+						local.finishIndex = -1;
+						// Snap to home pile (stack onto first sibling)
+						const others = pieces[color].filter(p => p !== local);
+							if (others[0]) {
+							const el = getPieceEl(local);
+							const anchorEl = getPieceEl(others[0]);
+								if (el && anchorEl) {
+								el.setAttribute("cx", anchorEl.getAttribute("cx"));
+								el.setAttribute("cy", anchorEl.getAttribute("cy"));
+								}
+							}
+						}
+						else if (newState === "board") {
+						const bIdx = boardPath.indexOf(newLocation);
+							if (bIdx >= 0) {
+								local.boardIndex = bIdx;
+								movePieceElToSpot(local, newLocation);
+							}
+					}
+					else if (newState === "finish") {
+					// newLocation is e.g. "yfinish2" — find index in finishPath[color]
+					const fIdx = finishPath[color].indexOf(newLocation);
+						if (fIdx >= 0) {
+						local.finishIndex = fIdx;
+						movePieceElToSpot(local, newLocation);
+						}
+					} else if (newState === "done") {
+					const fIdx = finishPath[color].indexOf(newLocation);
+						if (fIdx >= 0) {
+						local.finishIndex = fIdx;
+						movePieceElToSpot(local, newLocation);
+						}
+					}
+		});
+
+		// Enable/disable dice based on whether it is the player's turn
+		if (myColor && currentTurn === myColor) {
+		enableDice();
+		document.getElementById("syncStatus").textContent = "your turn";
+		}
+		else {
+		disableDice();
+		const who = currentTurn ? currentTurn.charAt(0).toUpperCase() + currentTurn.slice(1) : "?";
+		document.getElementById("syncStatus").textContent = ` waiting for ${who}`;
+		}
+	}
+ 
+// Poll gamestate every 15 seconds 
+let pollTimer = null;
+ 
+	function startPolling() {
+		if (pollTimer) clearInterval(pollTimer);
+		pollTimer = setInterval(pollGameState, POLL_MS);
+	}
+ 
+	function pollGameState() {
+		if (!LOBBY_ID) return;
+		fetch(`${UTIL}gamestate.html?lobbyid=${encodeURIComponent(LOBBY_ID)}`, {
+		method: "GET",
+		credentials: "include"
+		})
+		.then(r => r.json())
+			.then(data => {
+			document.getElementById("syncStatus").textContent = "synced";
+			console.log(`Game is synced`);
+			applyRemoteState(data);
+			})
+		.catch(() => {
+		console.log(`sync error in pollGameState Function`);
+		document.getElementById("syncStatus").textContent = " sync error";
+		});
+	}
+ 
+// Save a move to the server 
+// Called after applyMove() succeeds locally.
+// piece        = local piece object (has ._pieceSKU set after join)
+// newLocation  = spot ID string or "0"
+// newState     = "home"|"board"|"finish"|"done"
+// roll         = dice value
+// nextTurn     = color string
+// bumpedSKU    = (optional) DB sku of bumped piece
+	function saveMoveToServer(piece, newLocation, newState, roll, nextTurn, bumpedSKU) {
+		const body = new URLSearchParams({
+		lobbyid:  LOBBY_ID,
+		piecesku: piece._pieceSKU || "",
+		location: newLocation,
+		state:    newState,
+		roll:     roll,
+		nextturn: nextTurn
+		});
+	if (bumpedSKU) body.append("bumpedsku", bumpedSKU);
+	
+		fetch(`${UTIL}move.html`, {
+		method:      "POST",
+		credentials: "include",
+		headers:     { "Content-Type": "application/x-www-form-urlencoded" },
+	body:        body.toString()
+	})
+	.then(r => r.json())
+		.then(data => {
+			if (data.status !== "ok") {
+			console.warn("move.html error:", data.message);
+			}
+		})
+	.catch(err => {
+	console.log(`error in saveMoveToServer Function`);
+	console.log(`saveMoveToServer failed`);
+	});
+}
+//  Make applyMove to also save to Server/Database 
+// Also wrap the original applyMove so server writes happen transparently.
+const _origApplyMove = applyMove;
+	applyMove = function(color, piece, steps) {
+	// Snapshot state BEFORE the move to compute what changed
+	const prevState    = piece.state;
+	const prevBoardIdx = piece.boardIndex;
+	
+	_origApplyMove(color, piece, steps);
+	
+	// After applyMove, piece.state / boardIndex / finishIndex are updated.
+	// Compute the new location string for the DB.
+	let newLoc = "0";
+	if (piece.state === "home")   { newLoc = "0"; }
+	else if (piece.state === "board")  { newLoc = boardPath[piece.boardIndex]; }
+	else if (piece.state === "finish") { newLoc = finishPath[color][piece.finishIndex]; }
+	else if (piece.state === "done")   { newLoc = finishPath[color][piece.finishIndex]; }
+	
+	// Detect bumped pieces: any other color whose boardIndex matches and was reset to home
+	let bumpedSKU = null;
+		if (piece.state === "board") {
+			for (const otherColor of turnOrder) {
+			if (otherColor === color) continue;
+				pieces[otherColor].forEach(op => {
+				// Was on board at same spot before the move but now is home?
+				if (op.state === "home" && op.boardIndex === -1
+					&& prevBoardIdx !== op.boardIndex) {
+					// Best-effort: check all opponent pieces that are home and have a SKU
+					if (op._pieceSKU && !bumpedSKU) bumpedSKU = op._pieceSKU;
+					}
+				});
+			}
+		}
+		
+		saveMoveToServer(piece, newLoc, piece.state, dicenum, currentTurn, bumpedSKU);
+	};
+ 
+// Join the lobby on page load
+	function joinLobby() {
+		if (!LOBBY_ID) {
+		console.log(`error: no lobby ID in URL`);
+		document.getElementById("syncStatus").textContent = "no lobby ID in URL";
+		return;
+		}
+	
+		fetch(`${UTIL}joinlobby.html?lobbyid=${encodeURIComponent(LOBBY_ID)}`, {
+		method: "POST",
+		credentials: "include"
+		})
+	.then(r => r.json())
+		.then(data => {
+			if (data.status !== "ok") {
+			console.log(`data.message`);
+			document.getElementById("syncStatus").textContent = data.message;
+			return;
+			}
+		
+		myColor = data.color;
+		document.getElementById("myColorDisplay").textContent = myColor;
+		document.getElementById("myColorDisplay").style.color = myColor === "yellow" ? "#e6c800" : myColor;
+		
+		// Make SKUs be local piece objects
+			/*function buildSKUMap(piecesArr) {
+			const colorPieces = pieces[myColor];
+			const mySKUs = pieceSKUs[myColor] || [];
+				colorPieces.forEach((p, i) => {
+				p._pieceSKU = mySKUs[i] || null;
+			});}
+		
+		buildSKUMap(data.pieces);*/
+		
+		function buildSKUMap(piecesArr) {
+
+	piecesArr.forEach(p => {
+		const color = p.color;
+
+		if (!color) return;
+
+		if (!pieceSKUs[color]) {
+			pieceSKUs[color] = [];
+		}
+
+		if (!pieceSKUs[color].includes(p.piecesku)) {
+			pieceSKUs[color].push(p.piecesku);
+		}
+	});
+
+	for (const color in pieces) {
+
+		pieces[color].forEach((piece, i) => {
+			piece._pieceSKU = pieceSKUs[color][i] || null;
+		});
+	}
+}
+
+buildSKUMap(data.pieces);
+		
+		// Apply starting state
+		applyRemoteState(data);
+		
+		// Start polling loop
+		startPolling();
+		})
+		.catch(err => {
+		console.log(`sync error in JoinLobby Function`);
+		document.getElementById("syncStatus").textContent = "Join failed";
+		/*console.error("joinLobby error:", err);*/
+		});
+	}
+ 
+// Kick off join + polling
+joinLobby();
+ 
+</script>
+
+</html>
