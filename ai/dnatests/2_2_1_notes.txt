@@ -1,0 +1,12 @@
+2.2.0:
+Shows great understanding of what user asks and writes WebDNA near-perfectly, 
+what user asks must be written a certain or it will write it incorrectly or will write something 
+different. Can do loops and text variables.
+
+2.2.1:
+Shows a decent understanding of what user asks and writes decent to good WebDNA depending on what
+user asks, what user asks must still be written a certain way and must be very specific or the AI 
+will write something incorrectly or something different of what user asks for. 
+Has(or maybe I should say that it should have) a wide variety of WebDNA knowledge. Though it seems
+to get WebDNA logic mixed up with HTML logic, using square brackets instead ofthe < > for things
+like a href and other things. Needs more work done.
