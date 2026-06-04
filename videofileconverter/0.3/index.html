@@ -289,18 +289,19 @@ body{
 </div>
 </div>
 <input type="file" id="fileInput" accept="video/*">
-<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.10/dist/umd/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.11.0/dist/index.js"></script>
 <script>
 let selectedFile = null;
 let ffmpegLoaded = false;
 let outputBlob = null;
 
 // IMPORTANT: UMD API (this is the correct way)
-const { createFFmpeg, fetchFile } = FFmpeg;
-const ffmpeg = createFFmpeg({
+const ffmpeg = FFmpeg.createFFmpeg({
     log: true
 });
+
+const { fetchFile } = FFmpeg;
 
 // ---------------- UI ELEMENTS ----------------
 const dropZone = document.getElementById("dropZone");
@@ -323,14 +324,10 @@ async function loadFFmpeg() {
         addLog("LOADING FFMPEG...");
         document.getElementById("status").textContent = "LOADING";
 
-        // REQUIRED for GitHub Pages stability
-        ffmpeg.setWorkerPath(
-            "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg-worker.js"
-        );
-
         await ffmpeg.load();
 
         ffmpegLoaded = true;
+
         addLog("FFMPEG READY");
         document.getElementById("status").textContent = "READY";
 
