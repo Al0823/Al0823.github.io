@@ -297,11 +297,12 @@ let selectedFile = null;
 let ffmpegLoaded = false;
 let outputBlob = null;
 
-// ✅ correct UMD API
+// FIX: correct UMD access
 const { createFFmpeg, fetchFile } = FFmpeg;
 
 const ffmpeg = createFFmpeg({
     log: true,
+    // IMPORTANT: use full CDN core path (prevents worker issues)
     corePath: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js"
 });
 
@@ -311,13 +312,13 @@ const fileInput = document.getElementById("fileInput");
 const convertBtn = document.getElementById("convertBtn");
 const logPanel = document.getElementById("logPanel");
 
-function addLog(message) {
-    const time = new Date().toLocaleTimeString();
-    logPanel.innerHTML += `<div>[${time}] ${message}</div>`;
+function addLog(msg) {
+    const t = new Date().toLocaleTimeString();
+    logPanel.innerHTML += `<div>[${t}] ${msg}</div>`;
     logPanel.scrollTop = logPanel.scrollHeight;
 }
 
-// ---------------- LOAD ----------------
+// ---------------- LOAD FFmpeg ----------------
 async function loadFFmpeg() {
     if (ffmpegLoaded) return;
 
@@ -349,7 +350,7 @@ function loadFile(file) {
 
     convertBtn.disabled = false;
 
-    addLog(`VIDEO LOADED: ${file.name}`);
+    addLog(`FILE LOADED: ${file.name}`);
 }
 
 // ---------------- EVENTS ----------------
@@ -357,6 +358,24 @@ dropZone.addEventListener("click", () => fileInput.click());
 
 fileInput.addEventListener("change", e => {
     const file = e.target.files[0];
+    if (file) loadFile(file);
+});
+
+// drag/drop
+dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.classList.add("drag");
+});
+
+dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("drag");
+});
+
+dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    dropZone.classList.remove("drag");
+
+    const file = e.dataTransfer.files[0];
     if (file) loadFile(file);
 });
 
@@ -376,9 +395,13 @@ convertBtn.addEventListener("click", async () => {
         const format = document.getElementById("formatSelect").value;
         const outputName = `output.${format}`;
 
-        addLog("WRITING FILE...");
+        addLog("WRITING INPUT...");
 
-        ffmpeg.FS("writeFile", inputName, await fetchFile(selectedFile));
+        await ffmpeg.FS(
+            "writeFile",
+            inputName,
+            await fetchFile(selectedFile)
+        );
 
         addLog("TRANSCODING...");
 
@@ -403,6 +426,7 @@ convertBtn.addEventListener("click", async () => {
         console.error(err);
         addLog("ERROR: " + err.message);
         document.getElementById("status").textContent = "ERROR";
+
     } finally {
         convertBtn.disabled = false;
     }
