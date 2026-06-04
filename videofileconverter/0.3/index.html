@@ -293,21 +293,29 @@ body{
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.10/dist/umd/index.js"></script>
 <script>
 let selectedFile = null;
-const dropZone =
-    document.getElementById("dropZone");
-const fileInput =
-    document.getElementById("fileInput");
-const convertBtn =
-    document.getElementById("convertBtn");
-const logPanel =
-    document.getElementById("logPanel");
-function addLog(message){
-    const time =
-        new Date()
-        .toLocaleTimeString();
-    logPanel.innerHTML +=`<div>[${time}] ${message}</div>`;
+let ffmpegLoaded = false;
+let outputBlob = null;
+
+// IMPORTANT: UMD API (this is the correct way)
+const { createFFmpeg, fetchFile } = FFmpeg;
+const ffmpeg = createFFmpeg({
+    log: true
+});
+
+// ---------------- UI ELEMENTS ----------------
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const convertBtn = document.getElementById("convertBtn");
+const logPanel = document.getElementById("logPanel");
+
+// ---------------- LOG ----------------
+function addLog(message) {
+    const time = new Date().toLocaleTimeString();
+    logPanel.innerHTML += `<div>[${time}] ${message}</div>`;
     logPanel.scrollTop = logPanel.scrollHeight;
 }
+
+// ---------------- LOAD FFMPEG ----------------
 async function loadFFmpeg() {
     if (ffmpegLoaded) return;
 
@@ -315,258 +323,165 @@ async function loadFFmpeg() {
         addLog("LOADING FFMPEG...");
         document.getElementById("status").textContent = "LOADING";
 
+        // REQUIRED for GitHub Pages stability
+        ffmpeg.setWorkerPath(
+            "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg-worker.js"
+        );
+
         await ffmpeg.load();
 
         ffmpegLoaded = true;
-
         addLog("FFMPEG READY");
         document.getElementById("status").textContent = "READY";
+
     } catch (err) {
         console.error(err);
         addLog("FFMPEG LOAD FAILED");
         throw err;
     }
 }
-function formatBytes(bytes){
-    if(bytes < 1024)
-        return bytes + " B";
-    if(bytes < 1024 * 1024)
-        return (bytes/1024).toFixed(1) + " KB";
-    if(bytes < 1024*1024*1024)
-        return (bytes/1024/1024).toFixed(1) + " MB";
-    return (bytes/1024/1024/1024).toFixed(1) + " GB";
+
+// ---------------- FILE FORMAT ----------------
+function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    if (bytes < 1024 * 1024 * 1024) return (bytes / 1024 / 1024).toFixed(1) + " MB";
+    return (bytes / 1024 / 1024 / 1024).toFixed(1) + " GB";
 }
-function loadFile(file){
+
+// ---------------- FILE LOAD ----------------
+function loadFile(file) {
     selectedFile = file;
-    document.getElementById("fileName")
-        .textContent = file.name;
-    document.getElementById("fileSize")
-        .textContent = formatBytes(file.size);
-    document.getElementById("fileType")
-        .textContent = file.type || "Unknown";
-    document.getElementById("status")
-        .textContent = "SYSTEM READY";
+
+    document.getElementById("fileName").textContent = file.name;
+    document.getElementById("fileSize").textContent = formatBytes(file.size);
+    document.getElementById("fileType").textContent = file.type || "Unknown";
+
+    document.getElementById("status").textContent = "SYSTEM READY";
+
     convertBtn.disabled = false;
+
     addLog(`VIDEO LOADED: ${file.name}`);
     addLog(`SIZE: ${formatBytes(file.size)}`);
 }
-const ffmpeg = new FFmpeg.FFmpeg();
-ffmpeg.on(
-    "log",
-    ({ message }) => {
 
-        addLog(message);
+// ---------------- EVENTS ----------------
+dropZone.addEventListener("click", () => fileInput.click());
 
-    }
-);
-ffmpeg.on(
-    "progress",
-    ({ progress }) => {
-
-        const pct =
-            Math.round(
-                progress * 100
-            );
-
-        document
-            .getElementById(
-                "progressFill"
-            )
-            .style.width =
-            pct + "%";
-
-        document
-            .getElementById(
-                "progressPercent"
-            )
-            .textContent =
-            pct + "%";
-
-    }
-);
-let ffmpegLoaded = false;
-let outputBlob = null;
-dropZone.addEventListener("click", () => {fileInput.click();});
 fileInput.addEventListener("change", e => {
     const file = e.target.files[0];
-    if(file)
-        loadFile(file);
+    if (file) loadFile(file);
 });
+
 dropZone.addEventListener("dragover", e => {
     e.preventDefault();
     dropZone.classList.add("drag");
 });
-dropZone.addEventListener("dragleave", () => {dropZone.classList.remove("drag");});
+
+dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("drag");
+});
+
 dropZone.addEventListener("drop", e => {
     e.preventDefault();
     dropZone.classList.remove("drag");
-    const file =
-        e.dataTransfer.files[0];
-    if(file)
-        loadFile(file);
+
+    const file = e.dataTransfer.files[0];
+    if (file) loadFile(file);
 });
 
-convertBtn.addEventListener(
-    "click",
-    async () => {
+// ---------------- PROGRESS ----------------
+ffmpeg.on("progress", ({ progress }) => {
+    const pct = Math.round(progress * 100);
 
-        try{
+    document.getElementById("progressFill").style.width = pct + "%";
+    document.getElementById("progressPercent").textContent = pct + "%";
+});
 
-            if(!selectedFile)
-                return;
+// ---------------- LOG OUTPUT ----------------
+ffmpeg.on("log", ({ message }) => {
+    addLog(message);
+});
 
-            convertBtn.disabled = true;
-document.getElementById(
-    "progressFill"
-).style.width = "0%";
+// ---------------- CONVERT ----------------
+convertBtn.addEventListener("click", async () => {
+    if (!selectedFile) return;
 
-document.getElementById(
-    "progressPercent"
-).textContent = "0%";
-            await loadFFmpeg();
+    try {
+        convertBtn.disabled = true;
 
-            addLog(
-                "WRITING INPUT FILE"
-            );
+        document.getElementById("progressFill").style.width = "0%";
+        document.getElementById("progressPercent").textContent = "0%";
 
-            const inputName =
-                selectedFile.name;
+        await loadFFmpeg();
 
-            const format =
-                document
-                .getElementById(
-                    "formatSelect"
-                )
-                .value;
+        addLog("WRITING INPUT FILE");
 
-            const outputName =
-                "output." + format;
-try{
-    await ffmpeg.deleteFile(outputName);
-}
-catch{}
-            await ffmpeg.writeFile(
-                inputName,
-await FFmpegUtil.fetchFile(selectedFile)
-            );
+        const inputName = "input_" + selectedFile.name.replace(/\s/g, "_");
+        const format = document.getElementById("formatSelect").value;
+        const outputName = "output." + format;
 
-            addLog(
-                "STARTING TRANSCODE"
-            );
+        // clean old file
+        try {
+            ffmpeg.FS("unlink", outputName);
+        } catch {}
 
-            document
-                .getElementById(
-                    "status"
-                )
-                .textContent =
-                "TRANSCODING";
+        // write input file
+        await ffmpeg.FS(
+            "writeFile",
+            inputName,
+            await fetchFile(selectedFile)
+        );
 
-            await ffmpeg.exec([
-                "-i",
-                inputName,
-                outputName
-            ]);
+        addLog("STARTING TRANSCODE");
 
-            addLog(
-                "READING OUTPUT"
-            );
+        document.getElementById("status").textContent = "TRANSCODING";
 
-            const data =
-                await ffmpeg.readFile(
-                    outputName
-                );
+        await ffmpeg.run(
+            "-i",
+            inputName,
+            outputName
+        );
 
-            outputBlob =
-                new Blob(
-                    [data.buffer]
-                );
+        addLog("READING OUTPUT");
 
-            document
-                .getElementById(
-                    "status"
-                )
-                .textContent =
-                "COMPLETE";
+        const data = ffmpeg.FS("readFile", outputName);
 
-            addLog(
-                "TRANSCODE COMPLETE"
-            );
+        outputBlob = new Blob([data.buffer], {
+            type: "video/" + format
+        });
 
-            document
-                .getElementById(
-                    "downloadBtn"
-                )
-                .disabled =
-                false;
+        document.getElementById("status").textContent = "COMPLETE";
+        addLog("TRANSCODE COMPLETE");
 
-        }
-        catch(error){
+        document.getElementById("downloadBtn").disabled = false;
 
-            console.error(error);
+    } catch (error) {
+        console.error(error);
 
-            addLog(
-                "ERROR: " +
-                error.message
-            );
+        addLog("ERROR: " + error.message);
+        document.getElementById("status").textContent = "ERROR";
 
-            document
-                .getElementById(
-                    "status"
-                )
-                .textContent =
-                "ERROR";
-        }
-
-        finally{
-
-            convertBtn.disabled =
-                false;
-        }
-
+    } finally {
+        convertBtn.disabled = false;
     }
-);
+});
 
-document
-    .getElementById(
-        "downloadBtn"
-    )
-    .addEventListener(
-        "click",
-        () => {
+// ---------------- DOWNLOAD ----------------
+document.getElementById("downloadBtn").addEventListener("click", () => {
+    if (!outputBlob) return;
 
-            if(!outputBlob)
-                return;
+    const format = document.getElementById("formatSelect").value;
 
-            const format =
-                document
-                .getElementById(
-                    "formatSelect"
-                )
-                .value;
+    const url = URL.createObjectURL(outputBlob);
 
-            const url =
-                URL.createObjectURL(
-                    outputBlob
-                );
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "converted." + format;
+    a.click();
 
-            const a =
-                document
-                .createElement("a");
-
-            a.href = url;
-
-            a.download =
-                "converted." +
-                format;
-
-            a.click();
-
-            URL.revokeObjectURL(
-                url
-            );
-        }
-    );
-
+    URL.revokeObjectURL(url);
+});
 </script>
 
 </body>
