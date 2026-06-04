@@ -3,196 +3,450 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Converter (Stable FFmpeg WASM)</title>
-
+<title>A.t.A. Projects, Websites &amp; Games - Video File Type Converter v0.3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-body {
-    background:#1e1e1e;
-    color:#ddd;
-    font-family:Arial;
+*,*::before,*::after{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+:root{
+    --accent:#ED01FC;
+    --green:#0DFF92;
+    --bg:#212121;
+    --bg2:#161616;
+    --bg3:#2C2C2C;
+    --bg4:#373737;
+    --text:#A1A1A1;
+    --text-bright:#D2D2D2;
+    --divider:#3C3C3C;
+    --font-main:'Rajdhani',sans-serif;
+    --font-mono:'Share Tech Mono',monospace;
+}
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-main);
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
-}
-
-.box {
-    width:600px;
-    background:#2a2a2a;
-    border:1px solid #444;
     padding:20px;
-    border-radius:8px;
 }
-
-.drop {
-    border:2px dashed #666;
-    padding:40px;
-    text-align:center;
+.converter-shell{
+    width:min(700px,100%);
+    background:var(--bg2);
+    border:1px solid var(--divider);
+    border-radius:4px;
+    overflow:hidden;
+    position:relative;
+}
+.converter-shell::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background: repeating-linear-gradient(to bottom, transparent, transparent 3px, #0000000F 3px, #0000000F 4px);
+    pointer-events:none;
+}
+.header{
+    background:var(--bg);
+    padding:12px 18px;
+    border-bottom:1px solid var(--divider);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.header-title{
+    color:var(--accent);
+    font-family:var(--font-mono);
+    letter-spacing:3px;
+    font-size:12px;
+}
+.header-dots{
+    display:flex;
+    gap:6px;
+}
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--divider);
+}
+.dot.active{
+    background:var(--green);
+    box-shadow:0 0 8px var(--green);
+}
+.drop-zone{
+    height:220px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--divider);
     cursor:pointer;
-    margin-bottom:15px;
 }
-
-.drop.drag {
-    border-color:#0f0;
-    background:#0f0a;
+.drop-zone.drag{
+    background:#ED01FC10;
 }
-
-button {
-    padding:10px 15px;
-    margin-right:10px;
-    cursor:pointer;
+.upload-icon{
+    font-size:60px;
 }
-
-progress {
+.drop-text{
+    font-size:20px;
+    color:var(--text-bright);
+}
+.drop-sub{
+    font-family:var(--font-mono);
+    font-size:11px;
+}
+.panel{
+    padding:16px;
+    border-bottom:1px solid var(--divider);
+}
+.section-title{
+    color:var(--accent);
+    font-family:var(--font-mono);
+    letter-spacing:2px;
+    font-size:11px;
+    margin-bottom:12px;
+}
+.info-grid{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:8px;
+}
+.label{
+    font-family:var(--font-mono);
+    font-size:11px;
+}
+.value{
+    color:var(--text-bright);
+}
+.select{
     width:100%;
-    height:20px;
+    background:var(--bg3);
+    border:1px solid var(--divider);
+    color:var(--text-bright);
+    padding:10px;
+    font-family:var(--font-main);
+}
+.progress-track{
+    width:100%;
+    height:8px;
+    background:var(--bg3);
+    border-radius:999px;
+    overflow:hidden;
+}
+.progress-fill{
+    width:0%;
+    height:100%;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+}
+.status{
+    margin-top:12px;
+    font-family:var(--font-mono);
+    color:var(--green);
+}
+.actions{
+    padding:16px;
+    display:flex;
+    gap:12px;
+}
+.btn{
+    flex:1;
+    background:none;
+    border:1px solid var(--accent);
+    color:var(--accent);
+    padding:12px;
+    font-family:var(--font-main);
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+}
+.btn:hover{
+    background:var(--accent);
+    color:#000000;
+}
+.btn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+}
+#fileInput{
+    display:none;
+}
+.option-grid{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:10px;
+    align-items:center;
+}
+.log-panel{
+    background:var(--bg);
+    border:1px solid var(--divider);
+    padding:12px;
+    height:140px;
+    overflow-y:auto;
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--green);
+    white-space:pre-wrap;
+    line-height:1.6;
+}
+.progress-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.progress-track{
+    flex:1;
+}
+#progressPercent{
+    width:50px;
+    text-align:right;
+    color:var(--accent);
+    font-family:var(--font-mono);
+    font-size:12px;
 }
 </style>
 </head>
-
 <body>
-
-<div class="box">
-
-    <div id="drop" class="drop">
-        Drop video here or click
+<div class="converter-shell">
+    <div class="header">
+        <div class="header-title">A.t.A. Projects, Websites &amp; Games - Video File Type Converter v0.3</div>
+        <div class="header-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
     </div>
-
-    <input type="file" id="file" hidden>
-
-    <select id="format">
-        <option value="mp4">MP4</option>
-        <option value="webm">WEBM</option>
-        <option value="mkv">MKV</option>
-    </select>
-
-    <br><br>
-
-    <button id="convert" disabled>Convert</button>
-    <button id="download" disabled>Download</button>
-
-    <br><br>
-
-    <progress id="progress" value="0" max="100"></progress>
-
-    <p id="status">Idle</p>
-
+    <div class="drop-zone" id="dropZone">
+        <div class="upload-icon">
+            &#127909;
+        </div>
+        <div class="drop-text">Drop Video Here</div>
+        <div class="drop-sub">OR CLICK TO SELECT</div>
+    </div>
+    <div class="panel">
+        <div class="section-title">FILE ANALYSIS</div>
+<div class="info-grid">
+    <div class="label">NAME</div>
+    <div class="value" id="fileName">---</div>
+    <div class="label">SIZE</div>
+    <div class="value" id="fileSize">---</div>
+    <div class="label">TYPE</div>
+    <div class="value" id="fileType">---</div>
+    <div class="label">VIDEO CODEC</div>
+    <div class="value" id="videoCodec">---</div>
+    <div class="label">AUDIO CODEC</div>
+    <div class="value" id="audioCodec">---</div>
+    <div class="label">RESOLUTION</div>
+    <div class="value" id="resolution">---</div>
+    <div class="label">DURATION</div>
+    <div class="value" id="duration">---</div>
+    <div class="label">FPS</div>
+    <div class="value" id="fps">---</div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.0/dist/ffmpeg.min.js"></script>
+    </div>
+<div class="panel">
+    <div class="section-title">OUTPUT OPTIONS</div>
+    <div class="option-grid">
+        <label class="label">FORMAT</label>
+        <select id="formatSelect" class="select">
+												<option value="mp4">MP4</option>
+												<option value="webm">WEBM</option>
+												<option value="mkv">MKV</option>
+												<!--<option value="mov">MOV</option>-->
+        </select>
+        <label class="label">QUALITY</label>
+        <select id="qualitySelect" class="select">
+            <option value="high">HIGH</option>
+            <option value="medium">MEDIUM</option>
+            <option value="low">LOW</option>
+        </select>
+    </div>
+ </div>
+<div class="panel">
+    <div class="section-title">CONVERSION LOG</div>
+    <div id="logPanel" class="log-panel">&gt; SYSTEM READY</div>
+</div>
+    <div class="panel">
+        <div class="section-title">STATUS</div>
+<div class="progress-row">
+    <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div id="progressPercent">0%</div>
+</div>
+<div class="status" id="status">WAITING FOR FILE...</div>
+    </div>
+<div class="actions">
+    <button class="btn" id="convertBtn" disabled>CONVERT</button>
+    <button class="btn" id="downloadBtn" disabled>DOWNLOAD</button>
+</div>
+</div>
+<input type="file" id="fileInput" accept="video/*">
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.11.0/dist/index.js"></script>
 
 <script>
+let selectedFile = null;
+let ffmpegLoaded = false;
+let outputBlob = null;
+
+// FIX: correct UMD access
 const { createFFmpeg, fetchFile } = FFmpeg;
 
 const ffmpeg = createFFmpeg({
-    log: false,
-    corePath: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js"
+    log: true,
+    // IMPORTANT: use full CDN core path (prevents worker issues)
+    corePath: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js"
 });
 
-let fileData = null;
-let outputBlob = null;
+// ---------------- UI ----------------
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
+const convertBtn = document.getElementById("convertBtn");
+const logPanel = document.getElementById("logPanel");
 
-const drop = document.getElementById("drop");
-const fileInput = document.getElementById("file");
-const convertBtn = document.getElementById("convert");
-const downloadBtn = document.getElementById("download");
-const progress = document.getElementById("progress");
-const status = document.getElementById("status");
+function addLog(msg) {
+    const t = new Date().toLocaleTimeString();
+    logPanel.innerHTML += `<div>[${t}] ${msg}</div>`;
+    logPanel.scrollTop = logPanel.scrollHeight;
+}
 
-// ---------------- LOAD ----------------
-async function load() {
-    if (ffmpeg.isLoaded()) return;
+// ---------------- LOAD FFmpeg ----------------
+async function loadFFmpeg() {
+    if (ffmpegLoaded) return;
 
-    status.textContent = "Loading FFmpeg...";
+    addLog("LOADING FFMPEG...");
+    document.getElementById("status").textContent = "LOADING";
+
     await ffmpeg.load();
-    status.textContent = "Ready";
+
+    ffmpegLoaded = true;
+
+    addLog("FFMPEG READY");
+    document.getElementById("status").textContent = "READY";
 }
 
 // ---------------- FILE ----------------
-drop.onclick = () => fileInput.click();
+function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    if (bytes < 1024 * 1024 * 1024) return (bytes / 1024 / 1024).toFixed(1) + " MB";
+    return (bytes / 1024 / 1024 / 1024).toFixed(1) + " GB";
+}
 
-fileInput.onchange = e => {
-    fileData = e.target.files[0];
+function loadFile(file) {
+    selectedFile = file;
+
+    document.getElementById("fileName").textContent = file.name;
+    document.getElementById("fileSize").textContent = formatBytes(file.size);
+    document.getElementById("fileType").textContent = file.type || "Unknown";
+
     convertBtn.disabled = false;
-    status.textContent = "File loaded: " + fileData.name;
-};
 
-drop.ondragover = e => {
+    addLog(`FILE LOADED: ${file.name}`);
+}
+
+// ---------------- EVENTS ----------------
+dropZone.addEventListener("click", () => fileInput.click());
+
+fileInput.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (file) loadFile(file);
+});
+
+// drag/drop
+dropZone.addEventListener("dragover", e => {
     e.preventDefault();
-    drop.classList.add("drag");
-};
+    dropZone.classList.add("drag");
+});
 
-drop.ondragleave = () => drop.classList.remove("drag");
+dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("drag");
+});
 
-drop.ondrop = e => {
+dropZone.addEventListener("drop", e => {
     e.preventDefault();
-    drop.classList.remove("drag");
+    dropZone.classList.remove("drag");
 
-    fileData = e.dataTransfer.files[0];
-    convertBtn.disabled = false;
-    status.textContent = "File loaded: " + fileData.name;
-};
-
-// ---------------- PROGRESS ----------------
-ffmpeg.setProgress(({ ratio }) => {
-    progress.value = Math.round(ratio * 100);
+    const file = e.dataTransfer.files[0];
+    if (file) loadFile(file);
 });
 
 // ---------------- CONVERT ----------------
-convertBtn.onclick = async () => {
-    if (!fileData) return;
+convertBtn.addEventListener("click", async () => {
+    if (!selectedFile) return;
 
     try {
         convertBtn.disabled = true;
-        downloadBtn.disabled = true;
 
-        await load();
+        document.getElementById("progressFill").style.width = "0%";
+        document.getElementById("progressPercent").textContent = "0%";
+
+        await loadFFmpeg();
 
         const inputName = "input.mp4";
-        const format = document.getElementById("format").value;
+        const format = document.getElementById("formatSelect").value;
         const outputName = `output.${format}`;
 
-        status.textContent = "Writing file...";
+        addLog("WRITING INPUT...");
 
-        ffmpeg.FS("writeFile", inputName, await fetchFile(fileData));
+        await ffmpeg.FS(
+            "writeFile",
+            inputName,
+            await fetchFile(selectedFile)
+        );
 
-        status.textContent = "Converting...";
+        addLog("TRANSCODING...");
+
+        document.getElementById("status").textContent = "TRANSCODING";
 
         await ffmpeg.run("-i", inputName, outputName);
 
-        status.textContent = "Reading output...";
+        addLog("READING OUTPUT...");
 
         const data = ffmpeg.FS("readFile", outputName);
 
         outputBlob = new Blob([data.buffer], {
-            type: "video/" + format
+            type: `video/${format}`
         });
 
-        status.textContent = "Done";
-        downloadBtn.disabled = false;
+        document.getElementById("status").textContent = "COMPLETE";
+        addLog("DONE");
+
+        document.getElementById("downloadBtn").disabled = false;
 
     } catch (err) {
         console.error(err);
-        status.textContent = "Error: " + err.message;
+        addLog("ERROR: " + err.message);
+        document.getElementById("status").textContent = "ERROR";
 
     } finally {
         convertBtn.disabled = false;
     }
-};
+});
 
 // ---------------- DOWNLOAD ----------------
-downloadBtn.onclick = () => {
+document.getElementById("downloadBtn").addEventListener("click", () => {
     if (!outputBlob) return;
+
+    const format = document.getElementById("formatSelect").value;
 
     const url = URL.createObjectURL(outputBlob);
     const a = document.createElement("a");
 
     a.href = url;
-    a.download = "converted." + document.getElementById("format").value;
+    a.download = "converted." + format;
     a.click();
 
     URL.revokeObjectURL(url);
-};
+});
 </script>
 
 </body>
