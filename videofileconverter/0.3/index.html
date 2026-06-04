@@ -324,6 +324,11 @@ async function loadFFmpeg(){
             .getElementById("status")
             .textContent =
             "LOADING FFMPEG";
+												console.log("LOAD CONFIG", {
+    workerURL: "/videofileconverter/assets/worker.js",
+    coreURL: "/videofileconverter/assets/ffmpeg-core.js",
+    wasmURL: "/videofileconverter/assets/ffmpeg-core.wasm"
+});
 await ffmpeg.load({
 
     workerURL:
