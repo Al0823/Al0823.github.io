@@ -343,10 +343,23 @@ async function loadFFmpeg(){
             "INITIALIZING WASM..."
         );
 
-        await ffmpeg.load({
-            coreURL,
-            wasmURL
-        });
+const baseURL =
+    "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd";
+
+await ffmpeg.load({
+    workerURL: await toBlobURL(
+        "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/worker.js",
+        "text/javascript"
+    ),
+    coreURL: await toBlobURL(
+        `${baseURL}/ffmpeg-core.js`,
+        "text/javascript"
+    ),
+    wasmURL: await toBlobURL(
+        `${baseURL}/ffmpeg-core.wasm`,
+        "application/wasm"
+    )
+});
 
         ffmpegLoaded = true;
 
@@ -394,7 +407,9 @@ function loadFile(file){
     addLog(`VIDEO LOADED: ${file.name}`);
     addLog(`SIZE: ${formatBytes(file.size)}`);
 }
-const ffmpeg = new FFmpeg();
+const ffmpeg = new FFmpeg({
+    log: true
+});
 ffmpeg.on(
     "log",
     ({ message }) => {
