@@ -289,10 +289,9 @@ body{
 </div>
 </div>
 <input type="file" id="fileInput" accept="video/*">
-<script type="module">
-import { FFmpeg } from "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js";
-import { fetchFile }
-from "https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js";
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.10/dist/umd/index.js"></script>
+<script>
 let selectedFile = null;
 const dropZone =
     document.getElementById("dropZone");
@@ -309,70 +308,23 @@ function addLog(message){
     logPanel.innerHTML +=`<div>[${time}] ${message}</div>`;
     logPanel.scrollTop = logPanel.scrollHeight;
 }
-async function loadFFmpeg(){
+async function loadFFmpeg() {
+    if (ffmpegLoaded) return;
 
-    if(ffmpegLoaded)
-        return;
+    try {
+        addLog("LOADING FFMPEG...");
+        document.getElementById("status").textContent = "LOADING";
 
-    try{
-
-        addLog(
-            "LOADING FFMPEG CORE..."
-        );
-
-        document
-            .getElementById("status")
-            .textContent =
-            "LOADING FFMPEG";
-												console.log("LOAD CONFIG", {
-    workerURL: "/videofileconverter/assets/worker.js",
-    coreURL: "/videofileconverter/assets/ffmpeg-core.js",
-    wasmURL: "/videofileconverter/assets/ffmpeg-core.wasm"
-});
-console.log({
-    workerURL:
-        "/videofileconverter/assets/worker.js",
-
-    coreURL:
-        "/videofileconverter/assets/ffmpeg-core.js",
-
-    wasmURL:
-        "/videofileconverter/assets/ffmpeg-core.wasm"
-});
-await ffmpeg.load({
-
-    workerURL:
-        "/videofileconverter/assets/worker.js",
-
-    coreURL:
-        "/videofileconverter/assets/ffmpeg-core.js",
-
-    wasmURL:
-        "/videofileconverter/assets/ffmpeg-core.wasm"
-
-});
+        await ffmpeg.load();
 
         ffmpegLoaded = true;
 
-        addLog(
-            "FFMPEG READY"
-        );
-
-        document
-            .getElementById("status")
-            .textContent =
-            "READY";
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        addLog(
-            "FFMPEG LOAD FAILED"
-        );
-
-        throw error;
+        addLog("FFMPEG READY");
+        document.getElementById("status").textContent = "READY";
+    } catch (err) {
+        console.error(err);
+        addLog("FFMPEG LOAD FAILED");
+        throw err;
     }
 }
 function formatBytes(bytes){
@@ -398,9 +350,7 @@ function loadFile(file){
     addLog(`VIDEO LOADED: ${file.name}`);
     addLog(`SIZE: ${formatBytes(file.size)}`);
 }
-const ffmpeg = new FFmpeg({
-    log: true
-});
+const ffmpeg = new FFmpeg.FFmpeg();
 ffmpeg.on(
     "log",
     ({ message }) => {
@@ -497,9 +447,7 @@ try{
 catch{}
             await ffmpeg.writeFile(
                 inputName,
-                await fetchFile(
-                    selectedFile
-                )
+await FFmpegUtil.fetchFile(selectedFile)
             );
 
             addLog(
