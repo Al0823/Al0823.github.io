@@ -348,7 +348,9 @@ const wasmURL =
         `${baseURL}/ffmpeg-core.wasm`,
         "application/wasm"
     );
-
+console.log(workerURL);
+console.log(coreURL);
+console.log(wasmURL);
 await ffmpeg.load({
     workerURL,
     coreURL,
