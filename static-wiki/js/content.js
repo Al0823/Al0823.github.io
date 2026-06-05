@@ -33,10 +33,10 @@ async function apiFetch(path, options) {
   return res.json();
 }
 
-// ── Auth ──────────────────────────────────────────────────────────────────────
+// Auth 
 
 async function login(uname, pword) {
-  var data = await apiFetch("/auth/login", {
+  var data = await apiFetch("/auth/login.php", {
     method: "POST",
     body: JSON.stringify({ uname: uname, pword: pword })
   });
@@ -46,7 +46,7 @@ async function login(uname, pword) {
 }
 
 async function signup(fname, lname, email, uname, pword) {
-  var data = await apiFetch("/auth/signup", {
+  var data = await apiFetch("/auth/signup.php", {
     method: "POST",
     body: JSON.stringify({ fname: fname, lname: lname, email: email, uname: uname, pword: pword })
   });
@@ -67,7 +67,7 @@ function getUser() {
 function isLoggedIn() { return !!getUser(); }
 function isAdmin()    { return !!(getUser() && getUser().ADMIN === "1"); }
 
-// ── Public pages ──────────────────────────────────────────────────────────────
+// Public pages
 
 async function loadPageList(containerId, searchQuery) {
   searchQuery = searchQuery || "";
@@ -107,7 +107,7 @@ async function loadPageDetail(sku) {
   }
 }
 
-// ── Comments ──────────────────────────────────────────────────────────────────
+// Comments 
 
 async function loadComments(pageSku, container) {
   container.innerHTML = "Loading comments...";
@@ -129,9 +129,9 @@ async function submitComment(pageSku, comment) {
   return apiFetch("/comments", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
 }
 
-// ── Pub (own-content) pages ───────────────────────────────────────────────────
+// Pub (own-content) pages 
 
-async function pubGetPages()               { return apiFetch("/pub/pages"); }
+async function pubGetPages() { return apiFetch("/pub/pages"); }
 async function pubAddPage(title, bodycopy) {
   return apiFetch("/pub/pages", { method: "POST", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
 }
@@ -142,19 +142,19 @@ async function pubDeletePage(sku) {
   return apiFetch("/pub/pages/" + sku, { method: "DELETE" });
 }
 
-// ── Admin ─────────────────────────────────────────────────────────────────────
+// Admin 
 
-async function adminGetMembers()          { return apiFetch("/admin/members"); }
-async function adminAddMember(data)       { return apiFetch("/admin/members",       { method: "POST",   body: JSON.stringify(data) }); }
-async function adminEditMember(sku, data) { return apiFetch("/admin/members/" + sku, { method: "PUT",    body: JSON.stringify(data) }); }
-async function adminDeleteMember(sku)     { return apiFetch("/admin/members/" + sku, { method: "DELETE" }); }
+async function adminGetMembers() { return apiFetch("/admin/members"); }
+async function adminAddMember(data) { return apiFetch("/admin/members", { method: "POST", body: JSON.stringify(data) }); }
+async function adminEditMember(sku, data) { return apiFetch("/admin/members/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
+async function adminDeleteMember(sku) { return apiFetch("/admin/members/" + sku, { method: "DELETE" }); }
 
-async function adminGetPages()            { return apiFetch("/admin/pages"); }
-async function adminAddPage(data)         { return apiFetch("/admin/pages",          { method: "POST",   body: JSON.stringify(data) }); }
-async function adminEditPage(sku, data)   { return apiFetch("/admin/pages/" + sku,   { method: "PUT",    body: JSON.stringify(data) }); }
-async function adminDeletePage(sku)       { return apiFetch("/admin/pages/" + sku,   { method: "DELETE" }); }
+async function adminGetPages() { return apiFetch("/admin/pages"); }
+async function adminAddPage(data) { return apiFetch("/admin/pages", { method: "POST", body: JSON.stringify(data) }); }
+async function adminEditPage(sku, data) { return apiFetch("/admin/pages/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
+async function adminDeletePage(sku) { return apiFetch("/admin/pages/" + sku, { method: "DELETE" }); }
 
-// ── Guards ────────────────────────────────────────────────────────────────────
+// Guards 
 
 function requireLogin(redirectPath) {
   if (!isLoggedIn()) {
@@ -166,7 +166,7 @@ function requireAdmin() {
   if (!isAdmin()) window.location.href = window.vars.PATHVAR + "index.html";
 }
 
-// ── Utility ───────────────────────────────────────────────────────────────────
+// Utility
 
 function esc(str) {
   return String(str || "")

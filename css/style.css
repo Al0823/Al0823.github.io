@@ -242,6 +242,93 @@ height: 10px;
 background-color: #4b4b4b;
 }
 
+/*Static-Wiki specific*/
+
+/* login/index.html */
+      .login-wrap { 
+							max-width: 800px; 
+						}
+      .login-flex { 
+							display: flex; 
+							flex-wrap: nowrap; 
+							gap: 20px; 
+						}
+      .login-flex > div { 
+							flex: 1; 
+							padding: 16px; 
+							border: 1px solid #CCCCCC; 
+						}
+      .login-flex fieldset { 
+							border: none; 
+							padding: 0; 
+							margin: 0; 
+						}
+      .login-flex legend { 
+							font-weight: bold; 
+							font-size: 1.1rem; 
+							margin-bottom: 12px; 
+							display: block; 
+						}
+      .login-flex label { 
+							display: block; 
+							margin-top: 10px; 
+							font-size: 0.9rem; 
+						}
+.login-flex input[type=text] { 
+							width: 100%; 
+							box-sizing: border-box; 
+							padding: 6px 8px; 
+							margin-top: 4px; 
+						}
+						.login-flex input[type=email] {
+							width: 100%; 
+							box-sizing: border-box; 
+							padding: 6px 8px; 
+							margin-top: 4px; 
+						}
+						.login-flex input[type=password]{
+							width: 100%; 
+							box-sizing: border-box; 
+							padding: 6px 8px; 
+							margin-top: 4px; 
+						}
+      .login-flex button { 
+							margin-top: 14px; 
+							padding: 7px 20px; 
+							cursor: pointer; 
+						}
+      .err  { 
+							color: #FF0000; 
+						 margin-top: 8px; 
+							font-size: 0.9rem; 
+							min-height: 1.2em; 
+						}
+      .succ { 
+							color: #008000; 
+							margin-top: 8px; 
+							font-size: 0.9rem; 
+							min-height: 1.2em; 
+						}
+
+      
+      #loggedInPanel { 
+							display: none; 
+							padding: 16px; 
+							border: 1px solid #CCCCCC; 
+							max-width: 380px; 
+						}
+      #loggedInPanel h3 { 
+							margin: 0 0 10px 0; 
+						}
+      #loggedInPanel p  { 
+							margin: 4px 0; 
+							font-size: 0.9rem; 
+						}
+      #loggedInPanel button { 
+							margin-top: 12px; 
+							padding: 7px 20px; 
+							cursor: pointer; 
+						}
 
 @media (max-width: 1024px) {
 main { flex-direction: column  !Important; }
