@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!-- tbg2.html -->
 <html>
@@ -5809,10 +5810,10 @@ revealRelationship("sarah", {
             return "Lirael raises an eyebrow, then lets out a rich, amused laugh. She gently picks Molly up and holds the smaller girl in front of her.\n\n\"Interesting choice,\" she purrs. She then lowers Molly toward her own massive, soft breasts. Molly, emboldened by the alcohol, opens her mouth wide and begins trying to eat Lirael. Lirael helps guide her, allowing Molly to stretch her jaw impossibly wide as she takes in the demon’s head and shoulders. With Lirael’s assistance, Molly slowly works her way down, swallowing more and more of the towering demon until her belly is massively distended with Lirael’s form. Molly lets out a satisfied, drunken groan as she rubs her hugely swollen gut.\n\n\"Mmm… she tastes amazing,\" Molly mumbles, now heavily stuffed with Lirael.";
         }
         else if (gameState.lastChoiceLabel === "liraeldare2") {
-            return "Lirael stands up gracefully and, without hesitation, removes her elegant top and bottom clothing until she is standing in nothing but a very skimpy, lacy black bra and panties that barely contain her enormous curves. Her massive breasts and extremely wide hips are on full display as she sits back down, looking regal and incredibly lewd.\n\n\"As you wished,\" she says with a sultry smile, now dressed only in her undergarments for the rest of the game.";
+            return "Lirael stands up gracefully and, without hesitation, removes her elegant top and bottom clothing until she is standing in nothing but a very skimpy, lacy black bra and panties that barely contain her enormous curves. Her massive breasts and extremely wide hips are on full display as she sits back down, looking regal and incredibly sexy.\n\n\"As you wished,\" she says with a sultry smile, now dressed only in her undergarments for the rest of the game.";
         }
         else if (gameState.lastChoiceLabel === "liraeldare3") {
-            return "Lirael’s golden eyes flash with dark delight. Without a word, she stands up to her full towering height and slowly removes every last piece of clothing until she is completely nude. Her massive, heavy breasts, extremely wide hips, thick thighs, and glistening pussy are fully exposed. She sits back down, completely naked, her voluptuous body radiating heat and power.\n\n\"I am now nude for the rest of the game,\" she declares with a hungry smile.";
+            return "Lirael’s golden eyes flash with dark delight. Without a word, she stands up to her full towering height and slowly removes every last piece of clothing until she is completely nude. Her massive, heavy breasts, extremely wide hips, thick thighs, and the rest of her is fully exposed. She sits back down, completely naked, her voluptuous body radiating heat and power.\n\n\"I am now nude for the rest of the game,\" she declares with a hungry smile.";
         }
     },
     location: "Issac's Bedroom",
@@ -5822,7 +5823,185 @@ revealRelationship("sarah", {
             next: 286,
             effect: () => { 
                 changeBond("molly", 20); 
-                changeBond("lirael", 22); 
+                changeBond("lirael", 25); 
+            } 
+        }
+    ]
+},
+// 286 - The Game Continues
+{
+    text: function() {
+        let base = "The game continues with growing intensity. Molly remains seated on your lap, her body warm and increasingly restless against yours. Lirael watches the two of you with hungry, entertained golden eyes. The alcohol and escalating dares have thickened the air with tension and arousal.\n\n";
+
+        // =======================
+        // MAJOR STATE SPLITS
+        // =======================
+
+        if (gameState.lastChoiceLabel === "liraeldare1") {
+            // Molly ate Lirael
+            return base + "Molly’s belly is enormously distended — a massive, heavy, drum-tight orb that dominates her entire torso and hangs heavily down between her spread thighs, easily reaching past her knees. The sheer size of it is obscene, stretched impossibly tight around Lirael’s full twelve-foot-tall demonic form. Constant, powerful bulges and shifts ripple across the smooth, taut surface as the demon moves inside her. Molly keeps rubbing her hugely swollen gut with both hands, breathing heavily and letting out soft, drunken moans every time Lirael shifts or presses outward.\n\nDespite her massive belly, the game continues, with Molly growing increasingly bold and affectionate as she grinds against you.";
+        } 
+        else if (gameState.lastChoiceLabel === "mollydare3") {
+            // Molly chugged the vodka (very drunk)
+            return base + "Molly is visibly and heavily drunk from chugging the entire bottle of strong vodka. Her cheeks are flushed bright red, her words are heavily slurred, and she keeps giggling uncontrollably while squirming and grinding on your lap. She has become significantly more bold and handsy as the game progresses.\n\nOver the following turns, more clothing is removed. Molly ends up in just her undergarments, while Lirael loses more of her clothing as well.";
+        } 
+        else if (gameState.lastChoiceLabel === "liraeldare3") {
+            // Lirael is fully nude
+            return base + "Lirael sits completely nude, her towering twelve-foot-tall voluptuous body fully on display. Her massive heavy breasts, extremely wide hips, thick thighs, and the rest of her are completely exposed as she watches the two of you with hungry golden eyes.\n\nThe game becomes far more explicit over the next several turns. Dares grow increasingly sexual as the heat in the room continues to rise.";
+        } 
+        else if (gameState.lastChoiceLabel === "liraeldare2") {
+            // Lirael in lingerie
+            return base + "Lirael is down to just her skimpy black lingerie, her enormous curves barely contained by the delicate fabric. Every movement causes her massive breasts and wide hips to jiggle enticingly.\n\nThe next several turns see a steady removal of clothing. Molly loses her shirt and eventually her pants, while you and Lirael are pushed into increasingly intimate dares. The atmosphere grows hotter with every round.";
+        } 
+        else {
+            // Default / other previous choices
+            return base + "Over the next several turns the game escalates rapidly. Clothing is steadily removed as dares become bolder. Molly grows more comfortable and affectionate on your lap, pressing herself tightly against you, while Lirael watches with clear amusement and rising hunger. The combination of alcohol and intimate challenges continues to push everyone further.";
+        }
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Continue the game", 
+            next: 287,
+            effect: () => { 
+                changeBond("molly", 25); 
+                changeBond("lirael", 25); 
+            } 
+        }
+    ]
+},
+// 287 - The Ninth Turn
+{
+    text: function() {
+        let base = "The game has reached its ninth turn. The air in your bedroom is thick with tension, alcohol, and heavy breathing. Molly is still firmly seated on your lap, her body hot and increasingly restless against you.\n\n";
+
+        if (gameState.lastChoiceLabel === "liraeldare1") {
+            // Special variation: Lirael is inside Molly
+            return base + "Even with Lirael currently deep inside Molly’s massively distended belly, the game continues. Molly’s huge, gurgling gut dominates the space between the three of you, constantly shifting and bulging as the demon moves inside her.\n\nYou look toward Molly’s swollen stomach and speak clearly.\n\n\"Lirael… Truth or Dare?\"\n\nFrom inside Molly’s stomach, Lirael’s muffled but amused voice replies, \"Dare.\"\n\nYou grin. \"I dare you to create a portal to Ms. Smith’s current location and bring her here right now.\"\n\nThere’s a moment of silence, followed by a rich, delighted laugh echoing from within Molly’s belly.\n\n\"As you wish~\"\n\nThe air in front of you suddenly ripples and tears open. A swirling violet portal forms, crackling with arcane energy. A moment later, Ms. Smith — in her fully disguised human form, complete with her necklace, modest clothing, and blue-tinted fingertips hidden by gloves — is pulled through the portal.\n\nShe stumbles forward, eyes wide with shock as she takes in the scene before her: you shirtless with a very drunk, almost naked Molly on your lap, and Molly’s enormous belly containing Lirael.";
+        } 
+        else {
+            // Normal variation (Lirael is outside)
+            if (gameState.lastChoiceLabel === "liraeldare2") {
+            return base + "You turn to Lirael and speak with a bold, excited voice.\n\n\"Lirael… Truth or Dare?\"\n\nLirael’s golden eyes light up with delight.\n\n\"Dare,\" she purrs.\n\nYou smile. \"I dare you to create a portal to Ms. Smith’s current location and bring her here right now.\"\n\nLirael’s smile turns into a wide, mischievous grin.\n\n\"Mmm… a wonderful idea,\" she says, clearly pleased by the dare.\n\nShe raises one elegant hand and makes a graceful twisting motion. The air in front of her ripples violently before tearing open into a swirling violet portal. A moment later, Ms. Smith — in her disguised human form with her necklace on, fully dressed, and appearing as the modest teacher everyone knows — is yanked through the portal.\n\nShe stumbles forward into the bedroom, eyes wide with shock as she takes in the scene: you shirtless with a flushed, drunk, and almost naked Molly squirming on your lap, and a towering, mostly nude Lirael sitting nearby.";
+            }
+            else {
+            return base + "You turn to Lirael and speak with a bold, excited voice.\n\n\"Lirael… Truth or Dare?\"\n\nLirael’s golden eyes light up with delight.\n\n\"Dare,\" she purrs.\n\nYou smile. \"I dare you to create a portal to Ms. Smith’s current location and bring her here right now.\"\n\nLirael’s smile turns into a wide, mischievous grin.\n\n\"Mmm… a wonderful idea,\" she says, clearly pleased by the dare.\n\nShe raises one elegant hand and makes a graceful twisting motion. The air in front of her ripples violently before tearing open into a swirling violet portal. A moment later, Ms. Smith — in her disguised human form with her necklace on, fully dressed, and appearing as the modest teacher everyone knows — is yanked through the portal.\n\nShe stumbles forward into the bedroom, eyes wide with shock as she takes in the scene: you shirtless with a flushed, drunk, and almost naked Molly squirming on your lap, and a towering, fully nude Lirael sitting nearby.";}
+        }
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Continue", 
+            next: 288,
+            effect: () => { 
+                changeBond("lirael", 30); 
+                changeBond("molly", 15); 
+            } 
+        }
+    ]
+},
+// 288 - Welcoming Ms. Smith
+{
+    text: function() {
+        let base = "Ms. Smith stands frozen in the middle of your bedroom, staring wide-eyed at the chaotic and highly lewd scene in front of her. You, shirtless with a very drunk and almost naked Molly squirming on your lap, and the current state of Lirael.\n\n";
+
+        if (gameState.lastChoiceLabel === "liraeldare1") {
+            // Lirael is inside Molly
+            return base + "You gently rub Molly’s massive, gurgling belly as you look up at the stunned teacher and offer a friendly, if slightly awkward, smile.\n\n\"Hey Ms. Smith… welcome to my room,\" you say, trying to sound casual despite the absurdity of the situation. \"It’s okay. You can drop the disguise. Molly already knows you’re a Slimegirl, and she’s really drunk right now. She probably won’t even remember most of this tomorrow.\"\n\nMs. Smith blinks several times, clearly processing everything. After a moment of hesitation, she reaches up and removes her necklace. Her human disguise melts away, revealing her true blue slime form — curvy, translucent-blue skin, and her signature huge ass and thick thighs.\n\n\"This… is certainly not how I expected my night to go,\" she says, her voice a smooth, slightly echoing timbre.\n\nMolly giggles drunkenly from your lap, rubbing her enormous Lirael-filled belly. \"Hiii Ms. Ssssmith… you’re blue~\"\n\nLirael’s muffled voice echoes from inside Molly’s stomach, sounding amused. \"Tenth round, everyone. Let’s continue.\"";
+        } 
+        else {
+            // Normal variation
+            if (gameState.lastChoiceLabel === "liraeldare2") {
+            return base + "You gently shift Molly on your lap and offer Ms. Smith a friendly, if slightly awkward, smile.\n\n\"Hey Ms. Smith… welcome to my room,\" you say. \"It’s okay. You can drop the disguise. Molly already knows you’re a Slimegirl, and she’s really drunk right now. She probably won’t remember most of this tomorrow.\"\n\nMs. Smith hesitates for a moment, then reaches up and removes her necklace. Her human appearance melts away, revealing her true blue slime form — smooth translucent-blue skin, medium breasts, and an incredibly thick lower body with massive ass and thighs.\n\n\"Well… this is unexpected,\" she murmurs, taking in the sight of you shirtless with a flushed, almost naked Molly on your lap and a towering, mostly nude Lirael nearby.\n\nMolly giggles drunkenly and waves. \"Hiii teacherrr~ You’re all shiny and blue!\"\n\nLirael smiles elegantly. \"Tenth round,\" she announces, her voice rich with anticipation. \"Shall we continue the game?\"";
+            } 
+            else {
+                        return base + "You gently shift Molly on your lap and offer Ms. Smith a friendly, if slightly awkward, smile.\n\n\"Hey Ms. Smith… welcome to my room,\" you say. \"It’s okay. You can drop the disguise. Molly already knows you’re a Slimegirl, and she’s really drunk right now. She probably won’t remember most of this tomorrow.\"\n\nMs. Smith hesitates for a moment, then reaches up and removes her necklace. Her human appearance melts away, revealing her true blue slime form — smooth translucent-blue skin, medium breasts, and an incredibly thick lower body with massive ass and thighs.\n\n\"Well… this is unexpected,\" she murmurs, taking in the sight of you shirtless with a flushed, almost naked Molly on your lap and a towering, fully nude Lirael nearby.\n\nMolly giggles drunkenly and waves. \"Hiii teacherrr~ You’re all shiny and blue!\"\n\nLirael smiles elegantly. \"Tenth round,\" she announces, her voice rich with anticipation. \"Shall we continue the game?\"";
+            }
+        }
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Begin the tenth round", 
+            next: 289,
+            effect: () => { 
+                changeBond("molly", 15); 
+                changeBond("lirael", 20); 
+            } 
+        }
+    ]
+},
+// 289 - Tenth Round Begins
+{
+    text: function() {
+        let base = "The atmosphere in the room is electric as the tenth round officially begins. Ms. Smith stands nearby in her true blue Slimegirl form, still looking slightly stunned by everything happening. Molly continues squirming drunkenly on your lap, her body hot and heavy against you.\n\n";
+
+        if (gameState.lastChoiceLabel === "liraeldare1") {
+            // Lirael is inside Molly
+            return base + "You gently rub Molly’s massively swollen belly and speak up.\n\n\"Molly, it’s been ten turns. You don’t have to stay on my lap anymore if you don’t want to.\"\n\nFrom deep inside Molly’s hugely distended gut, Lirael’s muffled but amused voice echoes out.\n\n\"Mmm… I would also appreciate being let out soon, if that’s alright with you.\"\n\nMolly lets out a drunken giggle and shakes her head, her enormous Lirael-filled belly wobbling heavily with the motion.\n\n\"Nuh-uh… I don’t wanna get off your lap… and I don’t wanna let her out either,\" she slurs, clearly very intoxicated. \"I wanna do somethin’ else instead~\"\n\nWith a hazy, mischievous grin, Molly leans forward and stretches her arms out toward Ms. Smith, trying to grab at the blue Slimegirl. However, her reach falls comically short, her fingers wiggling uselessly in the air several feet away from her target. She lets out a frustrated, drunken whine as she strains, her massive belly pressing harder into you.";
+        } 
+        else {
+            // Normal variation (Lirael outside)
+            return base + "You gently hold Molly’s hips and speak softly.\n\n\"Molly, it’s been ten turns. You don’t have to stay on my lap anymore if you don’t want to.\"\n\nMolly lets out a drunken giggle and shakes her head stubbornly.\n\n\"Nuh-uh… I don’t wanna get off,\" she slurs, pressing herself more firmly against you. \"I wanna do somethin’ else instead~\"\n\nWith a hazy, mischievous grin, Molly suddenly leans forward and stretches her arms out toward Ms. Smith, trying to grab at the curvy blue Slimegirl. Her fingers wiggle desperately in the air, but she can’t quite reach her. She lets out a frustrated, playful whine as she strains, still firmly planted on your lap.";
+        }
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Continue", 
+            next: 290,
+            effect: () => { 
+                changeBond("molly", 20); 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+
+// 290 - Molly's Dare
+{
+    text: function() {
+        if (gameState.lastChoiceLabel === "liraeldare1") {
+            // Lirael is already inside Molly
+            return "Molly continues squirming drunkenly on your lap, her massively overstuffed belly — already containing the full form of Lirael — gurgling and shifting heavily between the two of you. She suddenly blinks as a thought fights through her alcohol-soaked mind.\n\n\"Oh yeah… we’re still playing Truth or Dare!\" she slurs excitedly. She turns her hazy gaze toward Ms. Smith and grins widely.\n\n\"Ms. Smith! Truth or Dare?\"\n\nMs. Smith looks visibly nervous but answers carefully.\n\n\"…Dare.\"\n\nMolly’s drunken smile widens.\n\n\"I dare you to let me eat you!\"\n\nMs. Smith hesitates for a long moment, staring at Molly’s already absurdly huge, Lirael-filled belly, before letting out a resigned sigh.\n\n\"I accept… but I refuse to drink. The last time I got drunk I absorbed an entire bar full of people.\"\n\nWith reluctant acceptance, Ms. Smith steps closer. Molly eagerly grabs her legs and starts swallowing feet-first. Wet, messy gulping sounds fill the room as she works her way up the Slimegirl’s thick thighs and enormous ass. Molly’s already gigantic belly swells even larger as she forces Ms. Smith down, the blue Slimegirl’s form visibly bulging out her throat and adding to the already overstuffed orb. With several powerful swallows, Molly finishes her off, sending the rest of Ms. Smith down to join Lirael inside her massively distended gut.\n\nMolly lets out a long, satisfied groan and leans back heavily against you, both hands rubbing her now even more enormous, double-stuffed belly.\n\n\"Mmmph… two for one… so full~\"";
+        } 
+        else {
+            // Normal variation (Lirael is outside)
+            return "Molly continues squirming drunkenly on your lap, her face flushed deep red. She suddenly blinks as a thought manages to surface through the heavy fog of alcohol.\n\n\"Oh yeah… we’re still playing Truth or Dare!\" she slurs with a big mischievous grin. She turns toward Ms. Smith.\n\n\"Ms. Smith! Truth or Dare?\"\n\nMs. Smith looks wary but answers.\n\n\"…Dare.\"\n\nMolly’s grin turns wicked.\n\n\"I dare you to let me eat you!\"\n\nMs. Smith hesitates, then sighs.\n\n\"I accept the dare… but I refuse to drink. The last time I got drunk I absorbed an entire bar full of people. It took days to reform.\"\n\nMs. Smith steps closer. Molly eagerly grabs her legs and begins swallowing feet-first. Loud, wet gulping sounds echo through the room as she works her way up the Slimegirl’s thick, juicy thighs and massive ass. Molly’s throat bulges obscenely as she forces more and more of the curvy blue woman inside her. With several powerful, greedy swallows, Molly sends the rest of Ms. Smith down — her waist, breasts, and finally her head disappearing between her lips.\n\nMolly lets out a long, satisfied groan and leans back against you, both hands rubbing her now hugely swollen, gurgling belly.\n\n\"Mmmph… she tasted really good…\"";
+        }
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Continue", 
+            next: 291,
+            effect: () => { 
+                changeBond("molly", 25); 
+                changeBond("lirael", 15); 
+            } 
+        }
+    ]
+},
+// 291 - The Long Game
+{
+    text: function() {
+        return "The game continues despite the increasingly absurd situation. Molly remains heavily drunk and stubbornly planted on your lap, her massively overstuffed belly — now containing both Lirael and Ms. Smith — resting heavily against you. The huge, gurgling orb dominates her torso and presses into your chest as she giggles and slurs through more truths and dares with you.\n\nFor the next ten turns, the two of you keep playing. Molly grows bolder and more affectionate, grinding against you while her enormous belly gurgles and churns loudly around its two occupants. At turn 20, Lirael’s voice echoes from deep inside Molly’s stomach, sounding noticeably more urgent.\n\n\"Molly… you really need to let us out soon. It is becoming dangerous for Ms. Smith in here.\"\n\nMolly just giggles and ignores her, continuing the game as if nothing was said.\n\nFive more turns pass. At turn 25, Lirael speaks again, her tone firmer.\n\n\"Molly. If you do not let us out within the next five turns, I will force our way out.\"\n\nMolly, still very drunk, simply waves a hand dismissively and leans back against you, rubbing her gigantic belly while daring you to do something lewd.\n\nThe next five turns progress slowly. Molly gradually begins to sober up just enough to register what’s happening. By turn 30, she looks considerably more aware, though still quite intoxicated.\n\nLirael’s voice rings out once more from inside the overstuffed stomach, now clearly serious.\n\n\"Molly. This is your final warning. If you do not let us out right now, I will force our way out.\"\n\nMolly finally seems to come to her senses. A look of dawning horror crosses her face as she realizes she has two living people trapped inside her. She quickly stands up on shaky legs, her enormous belly hanging heavily in front of her.\n\n\"Oh shit… okay, okay, I’ll let you out,\" she mumbles, suddenly looking guilty. She pushes hard on the underside of her bloated stomach, trying to force them back up. She strains, grunting with effort, but nothing happens. Her belly is simply too full and her muscles too uncoordinated from the alcohol.\n\nMolly’s face pales as she keeps pushing uselessly.\n\n\"I… I can’t get them out,\" she says, voice trembling slightly. \"They’re stuck…\"";
+
+    },
+    location: "Issac's Bedroom",
+    choices: [
+        { 
+            label: "Help Molly vomit them back up", 
+            next: 292,
+            effect: () => { 
+                gameState.lastChoiceLabel = "helpvomit"; 
+            } 
+        },
+        { 
+            label: "Stay put and let Lirael struggle her way out", 
+            next: 293,
+            effect: () => { 
+                gameState.lastChoiceLabel = "lethandle"; 
             } 
         }
     ]
