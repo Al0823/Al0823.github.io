@@ -50,11 +50,26 @@ textarea {
   <button onclick="newFile()">New</button>
   <button onclick="openFile()">Open</button>
   <button onclick="saveFile()">Save as HTML</button>
+		    <button id="saveHelpBtn" type="button">
+        How to Save This Page (.MHTML)
+    </button>
   <input type="file" id="fileInput" accept=".html,.txt,.js,.css" style="display:none" />
 </div>
 
 <textarea id="editor" placeholder="Write HTML or code here..."></textarea>
 
+<script>
+document.getElementById("saveHelpBtn").addEventListener("click", function () {
+    alert(
+        "To save this page as an MHTML file:\n\n" +
+        "Chrome / Edge:\n" +
+        "1. Press Ctrl + S\n" +
+        "2. Change 'Save as type' to 'Webpage, Single File (*.mhtml)'\n" +
+        "3. Click Save\n\n" +
+        "If you do not see the MHTML option, your browser may not support it or it may be disabled."
+    );
+});
+</script>
 <script>
 let currentFileName = "index.html";
 
