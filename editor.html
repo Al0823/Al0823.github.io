@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>A.t.A. Projects, Websites, &amp; Games - Simple Code Editor</title>
+<style>
+body {
+  margin: 0;
+  font-family: monospace;
+  background: #1E1E1E;
+  color: #00FF90;
+}
+
+#toolbar {
+  background: #2A2A2A;
+  padding: 8px;
+}
+
+button {
+  margin-right: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  height: calc(100vh - 50px);
+  background: #111111;
+  color: #00FF90;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 14px;
+  font-family: monospace;
+
+  overflow-x: hidden;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+
+  resize: none;
+  box-sizing: border-box;
+}
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <button onclick="newFile()">New</button>
+  <button onclick="openFile()">Open</button>
+  <button onclick="saveFile()">Save as HTML</button>
+  <input type="file" id="fileInput" accept=".html,.txt,.js,.css" style="display:none" />
+</div>
+
+<textarea id="editor" placeholder="Write HTML or code here..."></textarea>
+
+<script>
+let currentFileName = "index.html";
+
+// NEW FILE
+function newFile() {
+  document.getElementById("editor").value = "";
+  currentFileName = "index.html";
+}
+
+// OPEN FILE (offline)
+function openFile() {
+  document.getElementById("fileInput").click();
+}
+
+document.getElementById("fileInput").addEventListener("change", function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  currentFileName = file.name;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    document.getElementById("editor").value = evt.target.result;
+  };
+  reader.readAsText(file);
+});
+
+// SAVE FILE
+function saveFile() {
+  const text = document.getElementById("editor").value;
+  const blob = new Blob([text], { type: "text/html" });
+
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = currentFileName;
+  a.click();
+}
+</script>
+
+</body>
+</html>
