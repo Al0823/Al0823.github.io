@@ -50,9 +50,7 @@ textarea {
   <button onclick="newFile()">New</button>
   <button onclick="openFile()">Open</button>
   <button onclick="saveFile()">Save as HTML</button>
-		    <button id="saveHelpBtn" type="button">
-        How to Save This Page (.MHTML)
-    </button>
+<button id="saveHelpBtn" type="button">How to download our editor</button>
   <input type="file" id="fileInput" accept=".html,.txt,.js,.css" style="display:none" />
 </div>
 
@@ -61,7 +59,7 @@ textarea {
 <script>
 document.getElementById("saveHelpBtn").addEventListener("click", function () {
     alert(
-        "To save this page as an MHTML file:\n\n" +
+        "To save this page as a fully offline browser based editor:\n\n" +
         "Chrome / Edge:\n" +
         "1. Press Ctrl + S\n" +
         "2. Change 'Save as type' to 'Webpage, Single File (*.mhtml)'\n" +
