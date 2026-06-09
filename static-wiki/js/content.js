@@ -2,7 +2,7 @@
 // Requires window.vars.APIVAR to point to your deployed worker URL
 
 function apiBase() {
-  var base = (window.vars && window.vars.APIVAR) ? window.vars.APIVAR.replace(/\/$/, "") : "";
+  var base = (window.vars && window.vars.OLDAPIVAR) ? window.vars.OLDAPIVAR.replace(/\/$/, "") : "";
   return base;
 }
 
@@ -36,7 +36,8 @@ async function apiFetch(path, options) {
 // Auth 
 
 async function login(uname, pword) {
-  var data = await apiFetch("/auth/login.php", {
+	/*var data = await apiFetch("/auth/login.php",*/ // Switch over to php when all changes done 
+  var data = await apiFetch("/auth/", {
     method: "POST",
     body: JSON.stringify({ uname: uname, pword: pword })
   });
@@ -46,7 +47,8 @@ async function login(uname, pword) {
 }
 
 async function signup(fname, lname, email, uname, pword) {
-  var data = await apiFetch("/auth/signup.php", {
+  /*var data = await apiFetch("/auth/signup.php",*/ // Switch over to php when all changes done 
+			 var data = await apiFetch("/auth/", {
     method: "POST",
     body: JSON.stringify({ fname: fname, lname: lname, email: email, uname: uname, pword: pword })
   });
