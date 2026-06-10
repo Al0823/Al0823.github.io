@@ -1,206 +1,668 @@
-// content.js — API client for the Cloudflare Worker
-// Requires window.vars.APIVAR to point to your deployed worker URL
+// content.js
+// Firebase-powered replacement for Cloudflare Worker backend
 
-function apiBase() {
-  var base = (window.vars && window.vars.APIVAR) ? window.vars.APIVAR.replace(/\/$/, "") : "";
-  return base;
-}
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
-async function apiFetch(path, options) {
-  options = options || {};
-  var base = apiBase();
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
-  if (!base || base.indexOf("YOUR_SUBDOMAIN") !== -1) {
-    throw new Error("APIVAR is not configured in vars.js — set it to your Cloudflare Worker URL");
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  query,
+  where
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+/*FIREBASE CONFIG*/
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+/*AUTH STATE SYNC*/
+
+onAuthStateChanged(auth, async (firebaseUser) => {
+
+  if (!firebaseUser) {
+    localStorage.removeItem("authUser");
+    return;
   }
 
-  var token = localStorage.getItem("authToken");
-  var headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
-  if (token) headers["Authorization"] = "Bearer " + token;
+  try {
 
-  var res = await fetch(base + path, Object.assign({}, options, { headers: headers }));
+    const userDoc = await getDoc(
+      doc(db, "users", firebaseUser.uid)
+    );
 
-  if (!res.ok) {
-    // If the response isn't JSON (e.g. an HTML error page), give a clear message
-    var contentType = res.headers.get("Content-Type") || "";
-    if (contentType.indexOf("application/json") === -1) {
-      throw new Error("Worker returned HTTP " + res.status + " — check your APIVAR URL is correct");
+    if (userDoc.exists()) {
+
+      const user = {
+        uid: firebaseUser.uid,
+        ...userDoc.data()
+      };
+
+      localStorage.setItem(
+        "authUser",
+        JSON.stringify(user)
+      );
     }
-    var err = await res.json().catch(function() { return { error: res.statusText }; });
-    throw new Error(err.error || res.statusText);
+
+  } catch (err) {
+    console.error(err);
   }
 
-  return res.json();
+});
+
+/*AUTH*/
+
+async function login(email, pword) {
+
+  const cred =
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      pword
+    );
+
+  const userDoc =
+    await getDoc(
+      doc(db, "users", cred.user.uid)
+    );
+
+  const user = {
+    uid: cred.user.uid,
+    ...userDoc.data()
+  };
+
+  localStorage.setItem(
+    "authUser",
+    JSON.stringify(user)
+  );
+
+  return user;
 }
 
-// Auth 
+async function signup(
+  fname,
+  lname,
+  email,
+  uname,
+  pword
+) {
 
-async function login(uname, pword) {
-  var data = await apiFetch("/auth/", {
-    method: "POST",
-    body: JSON.stringify({ uname: uname, pword: pword })
-  });
-  localStorage.setItem("authToken", data.token);
-  localStorage.setItem("authUser",  JSON.stringify(data.user));
-  return data.user;
+  const cred =
+    await createUserWithEmailAndPassword(
+      auth,
+      email,
+      pword
+    );
+
+  const userData = {
+    fname,
+    lname,
+    email,
+    username: uname,
+    ADMIN: "0",
+    created: Date.now()
+  };
+
+  await setDoc(
+    doc(db, "users", cred.user.uid),
+    userData
+  );
+
+  const user = {
+    uid: cred.user.uid,
+    ...userData
+  };
+
+  localStorage.setItem(
+    "authUser",
+    JSON.stringify(user)
+  );
+
+  return user;
 }
 
-async function signup(fname, lname, email, uname, pword) {
-			 var data = await apiFetch("/auth/", {
-    method: "POST",
-    body: JSON.stringify({ fname: fname, lname: lname, email: email, uname: uname, pword: pword })
-  });
-  localStorage.setItem("authToken", data.token);
-  localStorage.setItem("authUser",  JSON.stringify(data.user));
-  return data.user;
-}
+async function logout() {
 
-function logout() {
-  localStorage.removeItem("authToken");
+  await signOut(auth);
+
   localStorage.removeItem("authUser");
 }
 
 function getUser() {
-  try { return JSON.parse(localStorage.getItem("authUser")); } catch(e) { return null; }
+
+  try {
+    return JSON.parse(
+      localStorage.getItem("authUser")
+    );
+  } catch {
+    return null;
+  }
 }
 
-function isLoggedIn() { return !!getUser(); }
-function isAdmin()    { return !!(getUser() && getUser().ADMIN === "1"); }
+function isLoggedIn() {
+  return !!auth.currentUser;
+}
 
-// Public pages
+function isAdmin() {
 
-async function loadPageList(containerId, searchQuery) {
-  searchQuery = searchQuery || "";
-  var container = document.getElementById(containerId);
+  const u = getUser();
+
+  return !!(
+    u &&
+    u.ADMIN === "1"
+  );
+}
+
+/*PUBLIC PAGES*/
+
+async function loadPageList(
+  containerId,
+  searchQuery = ""
+) {
+
+  const container =
+    document.getElementById(containerId);
+
   if (!container) return;
+
   container.innerHTML = "Loading...";
+
   try {
-    var url   = searchQuery ? "/pages?search=" + encodeURIComponent(searchQuery) : "/pages";
-    var pages = await apiFetch(url);
-    if (pages.length === 0) {
-      container.innerHTML = searchQuery
-        ? "<p>No results for \"<b>" + esc(searchQuery) + "</b>\".</p>"
-        : "<p>No pages found.</p>";
+
+    const snap =
+      await getDocs(
+        collection(db, "pages")
+      );
+
+    let pages = [];
+
+    snap.forEach(docSnap => {
+
+      pages.push({
+        SKU: docSnap.id,
+        ...docSnap.data()
+      });
+
+    });
+
+    if (searchQuery) {
+
+      const q =
+        searchQuery.toLowerCase();
+
+      pages = pages.filter(page =>
+        (page.TITLE || "")
+          .toLowerCase()
+          .includes(q)
+      );
+    }
+
+    if (!pages.length) {
+
+      container.innerHTML =
+        "<p>No pages found.</p>";
+
       return;
     }
-    var heading = searchQuery
-      ? "<p><b>" + pages.length + "</b> result(s) for \"<b>" + esc(searchQuery) + "</b>\"</p>" : "";
-    container.innerHTML = heading + pages.map(function(p) {
-      return "<a href=\"" + window.vars.PATHVAR + "content/pagedetail.html?sku=" + p.SKU + "\">" + esc(p.TITLE) + "</a><br><br>";
-    }).join("");
-  } catch(err) {
-    container.innerHTML = "<p class=\"error\">" + esc(err.message) + "</p>";
+
+    container.innerHTML =
+      pages.map(page => {
+
+        return `
+          <a href="${window.vars.PATHVAR}content/pagedetail.html?sku=${page.SKU}">
+            ${esc(page.TITLE)}
+          </a>
+          <br><br>
+        `;
+
+      }).join("");
+
+  } catch (err) {
+
+    container.innerHTML =
+      `<p class="error">${esc(err.message)}</p>`;
   }
 }
 
-async function loadPageDetail(sku) {
-  var articleEl  = document.getElementById("pageContent");
-  var commentsEl = document.getElementById("commentsList");
+async function loadPageDetail(
+  sku
+) {
+
+  const articleEl =
+    document.getElementById(
+      "pageContent"
+    );
+
+  const commentsEl =
+    document.getElementById(
+      "commentsList"
+    );
+
   if (!articleEl) return;
+
   try {
-    var page = await apiFetch("/pages/" + sku);
-    document.title = page.TITLE;
-    articleEl.innerHTML = "<h2>" + esc(page.TITLE) + "</h2>" + page.BODYCOPY;
-    if (commentsEl) await loadComments(sku, commentsEl);
-  } catch(err) {
-    articleEl.innerHTML = "<p class=\"error\">" + esc(err.message) + "</p>";
+
+    const pageDoc =
+      await getDoc(
+        doc(db, "pages", sku)
+      );
+
+    if (!pageDoc.exists()) {
+      throw new Error(
+        "Page not found"
+      );
+    }
+
+    const page =
+      pageDoc.data();
+
+    document.title =
+      page.TITLE;
+
+    articleEl.innerHTML =
+      `<h2>${esc(page.TITLE)}</h2>${page.BODYCOPY}`;
+
+    if (commentsEl) {
+
+      await loadComments(
+        sku,
+        commentsEl
+      );
+    }
+
+  } catch (err) {
+
+    articleEl.innerHTML =
+      `<p class="error">${esc(err.message)}</p>`;
   }
 }
 
-// Comments 
+/*COMMENTS*/
 
-async function loadComments(pageSku, container) {
-  container.innerHTML = "Loading comments...";
+async function loadComments(
+  pageSku,
+  container
+) {
+
+  container.innerHTML =
+    "Loading comments...";
+
   try {
-    var comments = await apiFetch("/comments/" + pageSku);
-    if (comments.length === 0) { container.innerHTML = "<p>No comments yet.</p>"; return; }
-    container.innerHTML = comments.map(function(c) {
-      return "<div class=\"comment\"><b>" + esc(c.AUTHOR) + "</b>" +
-        "<span class=\"comment-date\"> — " + esc(c.CREATEDATE) + " " + esc(c.CREATETIME) + "</span>" +
-        "<p>" + esc(c.COMMENT) + "</p><hr></div>";
-    }).join("");
-  } catch(err) {
-    container.innerHTML = "<p class=\"error\">" + esc(err.message) + "</p>";
+
+    const q = query(
+      collection(
+        db,
+        "comments"
+      ),
+      where(
+        "pageSku",
+        "==",
+        pageSku
+      )
+    );
+
+    const snap =
+      await getDocs(q);
+
+    if (snap.empty) {
+
+      container.innerHTML =
+        "<p>No comments yet.</p>";
+
+      return;
+    }
+
+    let html = "";
+
+    snap.forEach(docSnap => {
+
+      const c =
+        docSnap.data();
+
+      html += `
+        <div class="comment">
+          <b>${esc(c.author)}</b>
+          <span class="comment-date">
+            —
+            ${new Date(c.created).toLocaleString()}
+          </span>
+          <p>${esc(c.comment)}</p>
+          <hr>
+        </div>
+      `;
+    });
+
+    container.innerHTML =
+      html;
+
+  } catch (err) {
+
+    container.innerHTML =
+      `<p class="error">${esc(err.message)}</p>`;
   }
 }
 
-async function submitComment(pageSku, comment) {
-  if (!isLoggedIn()) throw new Error("You must be logged in to comment");
-  return apiFetch("/comments", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
+async function submitComment(
+  pageSku,
+  comment
+) {
+
+  if (!auth.currentUser) {
+
+    throw new Error(
+      "You must be logged in"
+    );
+  }
+
+  const user =
+    getUser();
+
+  await addDoc(
+    collection(
+      db,
+      "comments"
+    ),
+    {
+      pageSku,
+      comment,
+      uid:
+        auth.currentUser.uid,
+      author:
+        user?.username ||
+        auth.currentUser.email,
+      created:
+        Date.now()
+    }
+  );
 }
 
-// Pub (own-content) pages 
+/*PAGE MANAGEMENT*/
 
-async function pubGetPages() { return apiFetch("/pub/pages"); }
-async function pubAddPage(title, bodycopy) {
-  return apiFetch("/pub/pages", { method: "POST", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
+async function pubGetPages() {
+
+  const snap =
+    await getDocs(
+      collection(db, "pages")
+    );
+
+  return snap.docs.map(d => ({
+    SKU: d.id,
+    ...d.data()
+  }));
 }
-async function pubEditPage(sku, title, bodycopy) {
-  return apiFetch("/pub/pages/" + sku, { method: "PUT", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
+
+async function pubAddPage(
+  title,
+  bodycopy
+) {
+
+  return addDoc(
+    collection(
+      db,
+      "pages"
+    ),
+    {
+      TITLE: title,
+      BODYCOPY: bodycopy,
+      AUTHOR_UID:
+        auth.currentUser.uid,
+      CREATED:
+        Date.now()
+    }
+  );
 }
-async function pubDeletePage(sku) {
-  return apiFetch("/pub/pages/" + sku, { method: "DELETE" });
+
+async function pubEditPage(
+  sku,
+  title,
+  bodycopy
+) {
+
+  return updateDoc(
+    doc(
+      db,
+      "pages",
+      sku
+    ),
+    {
+      TITLE: title,
+      BODYCOPY: bodycopy
+    }
+  );
 }
 
-// Admin 
+async function pubDeletePage(
+  sku
+) {
 
-async function adminGetMembers() { return apiFetch("/admin/members"); }
-async function adminAddMember(data) { return apiFetch("/admin/members", { method: "POST", body: JSON.stringify(data) }); }
-async function adminEditMember(sku, data) { return apiFetch("/admin/members/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
-async function adminDeleteMember(sku) { return apiFetch("/admin/members/" + sku, { method: "DELETE" }); }
+  return deleteDoc(
+    doc(
+      db,
+      "pages",
+      sku
+    )
+  );
+}
 
-async function adminGetPages() { return apiFetch("/admin/pages"); }
-async function adminAddPage(data) { return apiFetch("/admin/pages", { method: "POST", body: JSON.stringify(data) }); }
-async function adminEditPage(sku, data) { return apiFetch("/admin/pages/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
-async function adminDeletePage(sku) { return apiFetch("/admin/pages/" + sku, { method: "DELETE" }); }
+/*ADMIN USERS*/
 
-// Guards 
+async function adminGetMembers() {
 
-function requireLogin(redirectPath) {
+  const snap =
+    await getDocs(
+      collection(
+        db,
+        "users"
+      )
+    );
+
+  return snap.docs.map(d => ({
+    SKU: d.id,
+    ...d.data()
+  }));
+}
+
+async function adminAddMember(
+  data
+) {
+
+  return addDoc(
+    collection(
+      db,
+      "users"
+    ),
+    data
+  );
+}
+
+async function adminEditMember(
+  uid,
+  data
+) {
+
+  return updateDoc(
+    doc(
+      db,
+      "users",
+      uid
+    ),
+    data
+  );
+}
+
+async function adminDeleteMember(
+  uid
+) {
+
+  return deleteDoc(
+    doc(
+      db,
+      "users",
+      uid
+    )
+  );
+}
+
+/*ADMIN PAGES*/
+
+async function adminGetPages() {
+  return pubGetPages();
+}
+
+async function adminAddPage(
+  data
+) {
+
+  return addDoc(
+    collection(
+      db,
+      "pages"
+    ),
+    data
+  );
+}
+
+async function adminEditPage(
+  sku,
+  data
+) {
+
+  return updateDoc(
+    doc(
+      db,
+      "pages",
+      sku
+    ),
+    data
+  );
+}
+
+async function adminDeletePage(
+  sku
+) {
+
+  return deleteDoc(
+    doc(
+      db,
+      "pages",
+      sku
+    )
+  );
+}
+
+/*GUARDS*/
+
+function requireLogin(
+  redirectPath
+) {
+
   if (!isLoggedIn()) {
-    window.location.href = redirectPath || (window.vars.PATHVAR + "login/index.html");
+
+    window.location.href =
+      redirectPath ||
+      (
+        window.vars.PATHVAR +
+        "login/index.html"
+      );
   }
 }
 
 function requireAdmin() {
-  if (!isAdmin()) window.location.href = window.vars.PATHVAR + "index.html";
+
+  if (!isAdmin()) {
+
+    window.location.href =
+      window.vars.PATHVAR +
+      "index.html";
+  }
 }
 
-// Utility
+/*UTILITY*/
 
 function esc(str) {
+
   return String(str || "")
-    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    );
 }
 
 function getSkuFromUrl() {
-  return new URLSearchParams(window.location.search).get("sku");
+
+  return new URLSearchParams(
+    window.location.search
+  ).get("sku");
 }
 
-window.login            = login;
-window.signup           = signup;
-window.logout           = logout;
-window.getUser          = getUser;
-window.isLoggedIn       = isLoggedIn;
-window.isAdmin          = isAdmin;
-window.requireLogin     = requireLogin;
-window.requireAdmin     = requireAdmin;
-window.loadPageList     = loadPageList;
-window.loadPageDetail   = loadPageDetail;
-window.loadComments     = loadComments;
-window.submitComment    = submitComment;
-window.pubGetPages      = pubGetPages;
-window.pubAddPage       = pubAddPage;
-window.pubEditPage      = pubEditPage;
-window.pubDeletePage    = pubDeletePage;
-window.adminGetMembers  = adminGetMembers;
-window.adminAddMember   = adminAddMember;
-window.adminEditMember  = adminEditMember;
+/*EXPORTS*/
+
+window.login = login;
+window.signup = signup;
+window.logout = logout;
+window.getUser = getUser;
+window.isLoggedIn = isLoggedIn;
+window.isAdmin = isAdmin;
+
+window.requireLogin = requireLogin;
+window.requireAdmin = requireAdmin;
+
+window.loadPageList = loadPageList;
+window.loadPageDetail = loadPageDetail;
+
+window.loadComments = loadComments;
+window.submitComment = submitComment;
+
+window.pubGetPages = pubGetPages;
+window.pubAddPage = pubAddPage;
+window.pubEditPage = pubEditPage;
+window.pubDeletePage = pubDeletePage;
+
+window.adminGetMembers = adminGetMembers;
+window.adminAddMember = adminAddMember;
+window.adminEditMember = adminEditMember;
 window.adminDeleteMember = adminDeleteMember;
-window.adminGetPages    = adminGetPages;
-window.adminAddPage     = adminAddPage;
-window.adminEditPage    = adminEditPage;
-window.adminDeletePage  = adminDeletePage;
-window.getSkuFromUrl    = getSkuFromUrl;
-window.esc              = esc;
+
+window.adminGetPages = adminGetPages;
+window.adminAddPage = adminAddPage;
+window.adminEditPage = adminEditPage;
+window.adminDeletePage = adminDeletePage;
+
+window.getSkuFromUrl = getSkuFromUrl;
+window.esc = esc;
