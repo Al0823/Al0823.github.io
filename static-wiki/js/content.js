@@ -75,7 +75,9 @@ async function loadPageList(containerId, searchQuery) {
   if (!container) return;
   container.innerHTML = "Loading...";
   try {
-    var url   = searchQuery ? "/pages?search=" + encodeURIComponent(searchQuery) : "/pages";
+    var url = searchQuery
+    ? "/pages/index.php?search=" + encodeURIComponent(searchQuery)
+    : "/pages/index.php";
     var pages = await apiFetch(url);
     if (pages.length === 0) {
       container.innerHTML = searchQuery
@@ -98,7 +100,10 @@ async function loadPageDetail(sku) {
   var commentsEl = document.getElementById("commentsList");
   if (!articleEl) return;
   try {
-    var page = await apiFetch("/pages/" + sku);
+    var page = await apiFetch(
+    "/pages/view.php?sku=" +
+    encodeURIComponent(sku)
+);
     document.title = page.TITLE;
     articleEl.innerHTML = "<h2>" + esc(page.TITLE) + "</h2>" + page.BODYCOPY;
     if (commentsEl) await loadComments(sku, commentsEl);
@@ -112,7 +117,10 @@ async function loadPageDetail(sku) {
 async function loadComments(pageSku, container) {
   container.innerHTML = "Loading comments...";
   try {
-    var comments = await apiFetch("/comments/" + pageSku);
+    apiFetch(
+  "/comments/index.php?pageSku=" +
+  encodeURIComponent(pageSku)
+);
     if (comments.length === 0) { container.innerHTML = "<p>No comments yet.</p>"; return; }
     container.innerHTML = comments.map(function(c) {
       return "<div class=\"comment\"><b>" + esc(c.AUTHOR) + "</b>" +
@@ -126,7 +134,7 @@ async function loadComments(pageSku, container) {
 
 async function submitComment(pageSku, comment) {
   if (!isLoggedIn()) throw new Error("You must be logged in to comment");
-  return apiFetch("/comments", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
+  return apiFetch("/comments/add.php", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
 }
 
 // Pub (own-content) pages 
