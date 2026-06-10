@@ -10,9 +10,9 @@ async function apiFetch(path, options) {
   options = options || {};
   var base = apiBase();
 
-  if (!base || base.indexOf("YOUR_SUBDOMAIN") !== -1) {
-    throw new Error("APIVAR is not configured in vars.js — set it to your Cloudflare Worker URL");
-  }
+if (!base) {
+  throw new Error("APIVAR is not set (vars.js missing or not loaded)");
+}
 
   var token = localStorage.getItem("authToken");
   var headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
@@ -117,16 +117,22 @@ async function loadPageDetail(sku) {
 async function loadComments(pageSku, container) {
   container.innerHTML = "Loading comments...";
   try {
-    apiFetch(
-  "/comments/index.php?pageSku=" +
-  encodeURIComponent(pageSku)
-);
-    if (comments.length === 0) { container.innerHTML = "<p>No comments yet.</p>"; return; }
+    var comments = await apiFetch(
+      "/comments/index.php?pageSku=" +
+      encodeURIComponent(pageSku)
+    );
+
+    if (comments.length === 0) {
+      container.innerHTML = "<p>No comments yet.</p>";
+      return;
+    }
+
     container.innerHTML = comments.map(function(c) {
       return "<div class=\"comment\"><b>" + esc(c.AUTHOR) + "</b>" +
         "<span class=\"comment-date\"> — " + esc(c.CREATEDATE) + " " + esc(c.CREATETIME) + "</span>" +
         "<p>" + esc(c.COMMENT) + "</p><hr></div>";
     }).join("");
+
   } catch(err) {
     container.innerHTML = "<p class=\"error\">" + esc(err.message) + "</p>";
   }
