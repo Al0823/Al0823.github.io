@@ -167,15 +167,72 @@ async function pubDeletePage(sku) {
 
 // Admin 
 
-async function adminGetMembers() { return apiFetch("/admin/members"); }
-async function adminAddMember(data) { return apiFetch("/admin/members", { method: "POST", body: JSON.stringify(data) }); }
-async function adminEditMember(sku, data) { return apiFetch("/admin/members/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
-async function adminDeleteMember(sku) { return apiFetch("/admin/members/" + sku, { method: "DELETE" }); }
+async function adminGetMembers() {
+  return apiFetch("/admin/members/index.php");
+}
+async function adminAddMember(data) {
+  return apiFetch("/admin/members/add.php", {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+}
+async function adminEditMember(sku, data) {
 
-async function adminGetPages() { return apiFetch("/admin/pages"); }
-async function adminAddPage(data) { return apiFetch("/admin/pages", { method: "POST", body: JSON.stringify(data) }); }
-async function adminEditPage(sku, data) { return apiFetch("/admin/pages/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
-async function adminDeletePage(sku) { return apiFetch("/admin/pages/" + sku, { method: "DELETE" }); }
+  data.sku = sku;
+
+  return apiFetch(
+    "/admin/members/edit.php",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    }
+  );
+}
+async function adminDeleteMember(sku) {
+  return apiFetch(
+    "/admin/members/delete.php?sku=" +
+    encodeURIComponent(sku),
+    {
+      method: "POST"
+    }
+  );
+}
+
+async function adminGetPages() {
+  return apiFetch("/admin/pages/list.php");
+}
+async function adminAddPage(data) {
+  return apiFetch(
+    "/admin/pages/add.php",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    }
+  );
+}
+async function adminEditPage(sku, data) {
+
+  data.sku = sku;
+
+  return apiFetch(
+    "/admin/pages/edit.php",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    }
+  );
+}
+async function adminDeletePage(sku) {
+  return apiFetch(
+    "/admin/pages/delete.php",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        sku: sku
+      })
+    }
+  );
+}
 
 // Guards 
 
