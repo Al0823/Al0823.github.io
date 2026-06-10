@@ -12,8 +12,8 @@ window.vars = (function() {
     UTILVAR: PATHVAR + "utils/",
     wikiadminVAR: PATHVAR + "26admin16/",
 
-				OLDAPIVAR: "https://wiki-worker.akonyswoodard.workers.dev",
-    APIVAR: "https://aloysiusprojects.kesug.com/wiki-backend/",
+				APIVAR: "https://wiki-worker.akonyswoodard.workers.dev",
+    PHPAPIVAR: "https://aloysiusprojects.kesug.com/wiki-backend/",
 
     DEBUGVAR: true,
     WEBSITETITLE: "A.t.A. Tech Wiki"

@@ -2,7 +2,7 @@
 // Requires window.vars.APIVAR to point to your deployed worker URL
 
 function apiBase() {
-  var base = (window.vars && window.vars.OLDAPIVAR) ? window.vars.OLDAPIVAR.replace(/\/$/, "") : "";
+  var base = (window.vars && window.vars.PHPAPIVAR) ? window.vars.PHPAPIVAR.replace(/\/$/, "") : "";
   return base;
 }
 
@@ -10,9 +10,9 @@ async function apiFetch(path, options) {
   options = options || {};
   var base = apiBase();
 
-  if (!base || base.indexOf("YOUR_SUBDOMAIN") !== -1) {
-    throw new Error("APIVAR is not configured in vars.js — set it to your Cloudflare Worker URL");
-  }
+if (!base) {
+  throw new Error("APIVAR is not set (vars.js missing or not loaded)");
+}
 
   var token = localStorage.getItem("authToken");
   var headers = Object.assign({ "Content-Type": "application/json" }, options.headers || {});
@@ -36,7 +36,7 @@ async function apiFetch(path, options) {
 // Auth 
 
 async function login(uname, pword) {
-  var data = await apiFetch("/auth/", {
+	var data = await apiFetch("/auth/login.php",{
     method: "POST",
     body: JSON.stringify({ uname: uname, pword: pword })
   });
@@ -46,7 +46,7 @@ async function login(uname, pword) {
 }
 
 async function signup(fname, lname, email, uname, pword) {
-			 var data = await apiFetch("/auth/", {
+  var data = await apiFetch("/auth/signup.php",{
     method: "POST",
     body: JSON.stringify({ fname: fname, lname: lname, email: email, uname: uname, pword: pword })
   });
@@ -75,7 +75,9 @@ async function loadPageList(containerId, searchQuery) {
   if (!container) return;
   container.innerHTML = "Loading...";
   try {
-    var url   = searchQuery ? "/pages?search=" + encodeURIComponent(searchQuery) : "/pages";
+    var url = searchQuery
+    ? "/pages/index.php?search=" + encodeURIComponent(searchQuery)
+    : "/pages/index.php";
     var pages = await apiFetch(url);
     if (pages.length === 0) {
       container.innerHTML = searchQuery
@@ -98,7 +100,10 @@ async function loadPageDetail(sku) {
   var commentsEl = document.getElementById("commentsList");
   if (!articleEl) return;
   try {
-    var page = await apiFetch("/pages/" + sku);
+    var page = await apiFetch(
+    "/pages/view.php?sku=" +
+    encodeURIComponent(sku)
+);
     document.title = page.TITLE;
     articleEl.innerHTML = "<h2>" + esc(page.TITLE) + "</h2>" + page.BODYCOPY;
     if (commentsEl) await loadComments(sku, commentsEl);
@@ -112,13 +117,22 @@ async function loadPageDetail(sku) {
 async function loadComments(pageSku, container) {
   container.innerHTML = "Loading comments...";
   try {
-    var comments = await apiFetch("/comments/" + pageSku);
-    if (comments.length === 0) { container.innerHTML = "<p>No comments yet.</p>"; return; }
+    var comments = await apiFetch(
+      "/comments/index.php?pageSku=" +
+      encodeURIComponent(pageSku)
+    );
+
+    if (comments.length === 0) {
+      container.innerHTML = "<p>No comments yet.</p>";
+      return;
+    }
+
     container.innerHTML = comments.map(function(c) {
       return "<div class=\"comment\"><b>" + esc(c.AUTHOR) + "</b>" +
         "<span class=\"comment-date\"> — " + esc(c.CREATEDATE) + " " + esc(c.CREATETIME) + "</span>" +
         "<p>" + esc(c.COMMENT) + "</p><hr></div>";
     }).join("");
+
   } catch(err) {
     container.innerHTML = "<p class=\"error\">" + esc(err.message) + "</p>";
   }
@@ -126,33 +140,105 @@ async function loadComments(pageSku, container) {
 
 async function submitComment(pageSku, comment) {
   if (!isLoggedIn()) throw new Error("You must be logged in to comment");
-  return apiFetch("/comments", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
+  return apiFetch("/comments/add.php", { method: "POST", body: JSON.stringify({ pageSku: pageSku, comment: comment }) });
 }
 
 // Pub (own-content) pages 
 
-async function pubGetPages() { return apiFetch("/pub/pages"); }
+async function pubGetPages() {
+  return apiFetch("/pub/pages/index.php");
+}
 async function pubAddPage(title, bodycopy) {
-  return apiFetch("/pub/pages", { method: "POST", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
+  return apiFetch("/pub/pages/add.php", { method: "POST", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
 }
 async function pubEditPage(sku, title, bodycopy) {
-  return apiFetch("/pub/pages/" + sku, { method: "PUT", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
+  return apiFetch("/pub/pages/edit.php", {
+    method: "POST",
+    body: JSON.stringify({
+      sku: sku,
+      title: title,
+      bodycopy: bodycopy
+    })
+  });
 }
 async function pubDeletePage(sku) {
-  return apiFetch("/pub/pages/" + sku, { method: "DELETE" });
+  return apiFetch(
+    "/pub/pages/delete.php?sku=" +
+    encodeURIComponent(sku),
+    {
+      method: "POST"
+    }
+  );
 }
 
 // Admin 
 
-async function adminGetMembers() { return apiFetch("/admin/members"); }
-async function adminAddMember(data) { return apiFetch("/admin/members", { method: "POST", body: JSON.stringify(data) }); }
-async function adminEditMember(sku, data) { return apiFetch("/admin/members/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
-async function adminDeleteMember(sku) { return apiFetch("/admin/members/" + sku, { method: "DELETE" }); }
+async function adminGetMembers() {
+  return apiFetch("/admin/members/index.php");
+}
+async function adminAddMember(data) {
+  return apiFetch("/admin/members/add.php", {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+}
+async function adminEditMember(sku, data) {
 
-async function adminGetPages() { return apiFetch("/admin/pages"); }
-async function adminAddPage(data) { return apiFetch("/admin/pages", { method: "POST", body: JSON.stringify(data) }); }
-async function adminEditPage(sku, data) { return apiFetch("/admin/pages/" + sku, { method: "PUT", body: JSON.stringify(data) }); }
-async function adminDeletePage(sku) { return apiFetch("/admin/pages/" + sku, { method: "DELETE" }); }
+  data.sku = sku;
+
+  return apiFetch(
+    "/admin/members/edit.php",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    }
+  );
+}
+async function adminDeleteMember(sku) {
+  return apiFetch(
+    "/admin/members/delete.php?sku=" +
+    encodeURIComponent(sku),
+    {
+      method: "POST"
+    }
+  );
+}
+
+async function adminGetPages() {
+  return apiFetch("/admin/pages/list.php");
+}
+async function adminAddPage(data) {
+  return apiFetch(
+    "/admin/pages/add.php",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    }
+  );
+}
+async function adminEditPage(sku, data) {
+
+  data.sku = sku;
+
+  return apiFetch(
+    "/admin/pages/edit.php",
+    {
+      method: "POST",
+      body: JSON.stringify(data)
+    }
+  );
+}
+async function adminDeletePage(sku) {
+  return apiFetch(
+    "/admin/pages/delete.php",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        sku: sku
+      })
+    }
+  );
+}
 
 // Guards 
 
