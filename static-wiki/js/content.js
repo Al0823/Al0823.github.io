@@ -28,12 +28,12 @@ import {
 /*FIREBASE CONFIG*/
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyAqxosKdaWmw5cuylu8lDSpEgvW0--2EPc",
+    authDomain: "wiki-backend-50439.firebaseapp.com",
+    projectId: "wiki-backend-50439",
+    storageBucket: "wiki-backend-50439.firebasestorage.app",
+    messagingSenderId: "218725553653",
+    appId: "1:218725553653:web:9804f35c22d8815a997cbc"
 };
 
 const app = initializeApp(firebaseConfig);
