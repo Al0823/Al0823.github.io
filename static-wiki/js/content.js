@@ -139,15 +139,30 @@ async function submitComment(pageSku, comment) {
 
 // Pub (own-content) pages 
 
-async function pubGetPages() { return apiFetch("/pub/pages"); }
+async function pubGetPages() {
+  return apiFetch("/pub/pages/index.php");
+}
 async function pubAddPage(title, bodycopy) {
-  return apiFetch("/pub/pages", { method: "POST", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
+  return apiFetch("/pub/pages/add.php", { method: "POST", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
 }
 async function pubEditPage(sku, title, bodycopy) {
-  return apiFetch("/pub/pages/" + sku, { method: "PUT", body: JSON.stringify({ title: title, bodycopy: bodycopy }) });
+  return apiFetch("/pub/pages/edit.php", {
+    method: "POST",
+    body: JSON.stringify({
+      sku: sku,
+      title: title,
+      bodycopy: bodycopy
+    })
+  });
 }
 async function pubDeletePage(sku) {
-  return apiFetch("/pub/pages/" + sku, { method: "DELETE" });
+  return apiFetch(
+    "/pub/pages/delete.php?sku=" +
+    encodeURIComponent(sku),
+    {
+      method: "POST"
+    }
+  );
 }
 
 // Admin 
