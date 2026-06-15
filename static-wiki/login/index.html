@@ -133,7 +133,7 @@ const email = document.getElementById("loginEmail").value.trim();
 
         try {
           const user = await login(email, pword);
-          succ.textContent = "Logged in as " + user.username + ". Redirecting...";
+          succ.textContent = "Logged in as " + user.uname + ". Redirecting...";
           setTimeout(function() {
             window.location.href = window.vars.PATHVAR + "index.html";
           }, 800);
