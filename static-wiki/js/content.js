@@ -164,7 +164,7 @@ function getUser() {
 }
 
 function isLoggedIn() {
-  return !!auth.currentUser;
+return !!getUser();
 }
 
 function isAdmin() {
@@ -419,6 +419,8 @@ async function pubAddPage(
   title,
   bodycopy
 ) {
+
+
 
   return addDoc(
     collection(
