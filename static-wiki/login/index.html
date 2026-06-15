@@ -56,7 +56,7 @@
           <fieldset>
             <legend>Already a member? — Log in</legend>
             <label>Email:
-              <input type="text" id="loginUname" placeholder="Username" autocomplete="username">
+              <input type="text" id="loginEmail" placeholder="Email" autocomplete="Email">
             </label>
             <label>Password:
               <input type="password" id="loginPword" placeholder="Password" autocomplete="current-password">
@@ -110,25 +110,28 @@
           // Show logged-in state instead of the login form
           document.getElementById("loginPanel").style.display   = "none";
           document.getElementById("loggedInPanel").style.display = "";
-          document.getElementById("liUname").textContent  = user.UNAME;
-          document.getElementById("liName").textContent   = user.FNAME + " " + user.LNAME;
+document.getElementById("liUname").textContent =
+  user.username || "";
+
+document.getElementById("liName").textContent =
+  (user.fname || "") + " " + (user.lname || "");
           document.getElementById("liAdmin").textContent  = user.ADMIN === "1" ? "Yes" : "No";
         }
       });
 
       async function handleLogin() {
-        const uname = document.getElementById("loginUname").value.trim();
+const email = document.getElementById("loginEmail").value.trim();
         const pword = document.getElementById("loginPword").value;
         const err   = document.getElementById("loginErr");
         const succ  = document.getElementById("loginSucc");
         err.textContent  = "";
         succ.textContent = "";
 
-        if (!uname || !pword) { err.textContent = "Please enter your username and password."; return; }
+        if (!email || !pword) { err.textContent = "Please enter your Email and password."; return; }
 
         try {
-          const user = await login(uname, pword);
-          succ.textContent = "Logged in as " + user.UNAME + ". Redirecting...";
+          const user = await login(email, pword);
+          succ.textContent = "Logged in as " + user.username + ". Redirecting...";
           setTimeout(function() {
             window.location.href = window.vars.PATHVAR + "index.html";
           }, 800);
@@ -161,7 +164,7 @@
 
         try {
           const user = await signup(fname, lname, email, uname, pword);
-          succ.textContent = "Account created! Welcome, " + user.UNAME + ". Redirecting...";
+          succ.textContent = "Account created! Welcome, " + user.username + ". Redirecting...";
           setTimeout(function() {
             window.location.href = window.vars.PATHVAR + "index.html";
           }, 800);
