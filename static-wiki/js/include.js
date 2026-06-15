@@ -116,6 +116,17 @@ const { INCVAR, DBVAR, JSVAR, DEBUGVAR } = window.vars;
     }
   }
 
+		  function updatePageTitle() {
+    const pageTitle = typeof PAGETITLE !== "undefined" ? PAGETITLE : "";
+    const fullTitle = window.vars.WEBSITETITLE + (pageTitle ? " - " + pageTitle : "");
+
+    document.title = fullTitle;
+
+    const titleEl = document.getElementById("pageTitle");
+    if (titleEl) titleEl.textContent = fullTitle;
+  }
+
+  window.updatePageTitle = updatePageTitle;
   if (typeof updatePageTitle === "function") updatePageTitle();
 
   document.dispatchEvent(new Event("includesLoaded"));
