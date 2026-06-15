@@ -1,3 +1,4 @@
+// nav.js
 async function loadNav() {
   try {
     const response = await fetch(window.vars.DBVAR + "nav.xml");
@@ -64,13 +65,46 @@ async function loadNav() {
 }
 
 function addCustomLink(list, title, path, currentPath) {
+
   const li = document.createElement("li");
   const a  = document.createElement("a");
+
   a.href = path;
   a.textContent = title;
-  if (currentPath.includes(path)) li.classList.add("activenav");
+
+  if (title === "Logout") {
+
+    a.addEventListener("click", async function(e) {
+
+      e.preventDefault();
+
+      try {
+
+        if (window.logout) {
+          await window.logout();
+        }
+
+      } catch(err) {
+
+        console.error(err);
+
+      }
+
+      window.location.href =
+        (window.vars?.PATHVAR ?? "/static-wiki/") +
+        "index.html";
+
+    });
+
+  }
+
+  if (currentPath.includes(path)) {
+    li.classList.add("activenav");
+  }
+
   li.appendChild(a);
   list.appendChild(li);
+
 }
 
 function getCookie(name) {
