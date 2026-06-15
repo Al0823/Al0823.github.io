@@ -40,7 +40,7 @@ async function loadNav() {
         if (!loggedIn) {
           addCustomLink(list, item.title, toAbsolute(item.path), currentPath);
         } else {
-          addCustomLink(list, "Logout", toAbsolute("login/index.html") + "?action=logout", currentPath);
+          addCustomLink(list, "Logout", toAbsolute("login/index.html"), currentPath);
         }
         return;
       }
@@ -80,13 +80,11 @@ function addCustomLink(list, title, path, currentPath) {
 
       try {
 
-        if (window.logout) {
-          await window.logout();
-        }
+        await window.logout();
 
       } catch(err) {
 
-        console.error(err);
+        console.error("Logout failed:", err);
 
       }
 
@@ -98,13 +96,15 @@ function addCustomLink(list, title, path, currentPath) {
 
   }
 
-  if (currentPath.includes(path)) {
+  if (
+    path !== "#" &&
+    currentPath.includes(path)
+  ) {
     li.classList.add("activenav");
   }
 
   li.appendChild(a);
   list.appendChild(li);
-
 }
 
 function getCookie(name) {
