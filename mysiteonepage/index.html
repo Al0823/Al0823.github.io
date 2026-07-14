@@ -1,1 +1,1418 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">
+	<title id="pagetitle">Murder Drones mysite Single File</title>
+	<head>
+	<div class="header">Murder Drones Fan Website</div>
+<style>
+body{
+margin: 0px;
+background-color:   rgb(255,255,255);
+}
+.header{
+background-color: rgb(0, 0, 0);
+min-height: 50px;
+width: 100%;
+text-align: center;
+font-size: 60px;
+padding-top: 30px;
+color: rgb(255,255,0);
+}
+
+#bodycopy{
+background-color: rgb(0,0,0);
+min-height: 450px;
+width: 100%;
+overflow: hidden;
+display: table;
+}
+.devmysite25{
+background-color: rgb(0, 0, 0);
+min-height: 530px;
+width: 99%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid black; 5px;
+color: rgb(255,255,0);
+font-size: 35px;
+}
+.left{
+background-color: rgb(128,128,128);
+min-height: 530px;
+width: 18.5%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid black 5px;
+color: rgb(0,255,255);
+font-size: 35px;
+}
+
+.midtitle {
+  text-align: center;
+  font-size: 45px;
+}
+
+.submidtitle {
+  font-size: 40px;
+}
+
+.conmiddle{
+background-color: rgb(128,128,128);
+min-height: 1060px;
+width: 59%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid black 5px;
+color: rgb(0,255,255);
+font-size: 30px;
+}
+
+.middle{
+background-color: rgb(128,128,128);
+min-height: 530px;
+width: 59%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid black 5px;
+color: rgb(0,255,255);
+font-size: 35px;
+}
+.right{
+background-color: rgb(128,128,128);
+min-height: 530px;
+width: 18.9%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid black 5px;
+color: rgb(0,255,255);
+font-size: 35px;
+}
+
+.gallery{
+background-color: rgb(128,128,128);
+min-height: 1060px;
+width: 98.8%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid black 5px;
+color: rgb(0,255,255);
+font-size: 35px;
+}
+
+.galtitle {
+  text-align: center;
+  font-size: 100px;
+}
+
+.footer{
+background-color: rgb(0, 0, 0);
+min-height: 50px;
+width: 100%;
+text-align: center;
+font-size: 60px;
+padding-top: 30px;
+color: rgb(255,255,0);
+}
+
+
+
+.navbar {
+background-color: rgb(51,51,51);
+min-height: 50px;
+width: 100%;
+overflow: hidden;
+}
+
+
+
+.navbar button {
+background-color: rgb(51,51,51);
+float: left;
+  font-size: 20px;
+  color: rgb(176, 38, 255);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+a:hover {
+	background-color: rgb(0,0,0);
+	border-radius: 20px;
+}
+
+.imgright {
+  width: 300px;
+}
+
+.v {
+  width: 250px;
+}
+
+.warning {
+  text-align: center;
+  background-color: rgb(0, 0, 0);
+min-height: 530px;
+width: 59%;
+padding-top: 30px;
+padding-left: 10px;
+float: left;
+overflow: hidden;
+display: table-cell;
+border: solid black 5px;
+color: rgb(255, 0, 0);
+font-size: 30px;
+}
+
+.ip{
+background-color: rgb(128, 128, 128);
+min-height: 10px;
+font-size: 20px;
+width: 100%;
+text-align: right;
+padding-top: 30px;
+color: rgb(255,255,0);
+}
+ 
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_dropdown_navbar */
+
+.dropdown {
+  float: left;
+  font-size: 20px;
+  color: rgb(176, 38, 255);
+  text-align: center;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+ border: none;
+  font-size: 20px;  
+  color: rgb(176, 38, 255);
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+
+}
+
+
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  font-size: 20px;
+  color: rgb(176, 38, 255);
+  background-color: rgb(249, 249, 249);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  float: none;
+width:100%;
+  color: rgb(0, 0, 0);
+  padding: 14px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.dropdown-content button:hover {
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 140, 0);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+.activenav {
+  background-color: rgb(0,0,0);
+  border-radius: 20px;
+}
+
+.activenav_dropdown {
+  background-color: rgb(128, 128, 128);
+  color: rgb(176, 38, 255);
+  border-radius: 20px;
+}
+</style>	
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+
+
+
+
+<div class="navbar">
+<button class="dropbtn" onclick="changebodycopy('mainindex')">Homepage</button>
+<button class="dropbtn" onclick="changebodycopy('aboutauthor')">About Author</button>
+<button class="dropbtn" onclick="changebodycopy('aboutwebsite')">About Website</button>
+<button class="dropbtn" onclick="changebodycopy('contact')">Contact</button>
+<button class="dropbtn" onclick="changebodycopy('gallery')">Gallery</button>
+
+  
+  
+  
+<div class="dropdown">
+	<button class="dropbtn">Characters 
+	<i class="fa fa-caret-down"></i>
+	</button>
+	<div class="dropdown-content">
+	<button onclick="changebodycopy('char0')">Alice</button>
+	<button onclick="changebodycopy('char1')">Amda</button>
+	<button onclick="changebodycopy('char2')">Cyn</button>
+	<button onclick="changebodycopy('char3')">J</button>
+	<button onclick="changebodycopy('char4')">Khan</button>
+	<button onclick="changebodycopy('char5')">N</button>
+	<button onclick="changebodycopy('char6')">Uzi</button>
+	<button onclick="changebodycopy('char7')">V</button>
+	</div>
+</div>
+</div>
+
+
+
+<div id="bodycopy">
+<div class="left">Hello! This is the homepage of my Website! The purpose of my website is to talk about Murder Drones, the creators, overall run downs of the episodes, etc.  </div>
+  <div class="middle">Murder Drones is a fictional series made by Liam Vickers and Glitch Productions, it takes place on Copper 9. Copper 9 is a terrestrial exoplanet colonized by the JCJenson corporation, valued at least in part for mining operations, industrial manufacturing, and robot research. But unfortunately the planet's core collapsed which also reduced the planets surface to a frozen wasteland. This killed all biological life on the planet, but it allowed the "rogue" worker drones to gain sentience and maintain a society. The Absolute Solver posing as the JcJenson company did not like that and sent at least 3 Disassembly Drones to exterminate all Worker Drones.  </div>
+	<div class="right"><img class=imgright src="images/md_poster.png" alt="Uh oh broken"></div>
+</div>
+
+<div class="footer">&copy; A.t.A. Projects, Websites &amp; Games 2024-2026</div>
+<script>
+function changebodycopy(type) {
+
+
+    var bodycopy = document.getElementById('bodycopy');
+    var title = document.getElementById('pagetitle');
+
+    if (type === 'mainindex') {
+        title.textContent = "Murder Drones mysite - Homepage";
+            bodycopy.innerHTML = `<div class="left">Hello! This is the homepage of my Website! The purpose of my website is to talk about Murder Drones, the creators, overall run downs of the episodes, etc.  </div>
+  <div class="middle">Murder Drones is a fictional series made by Liam Vickers and Glitch Productions, it takes place on Copper 9. Copper 9 is a terrestrial exoplanet colonized by the JCJenson corporation, valued at least in part for mining operations, industrial manufacturing, and robot research. But unfortunately the planet's core collapsed which also reduced the planets surface to a frozen wasteland. This killed all biological life on the planet, but it allowed the "rogue" worker drones to gain sentience and maintain a society. The Absolute Solver posing as the JcJenson company did not like that and sent at least 3 Disassembly Drones to exterminate all Worker Drones.  </div>
+	<div class="right"><img class=imgright src="images/md_poster.png" alt="Uh oh broken"></div>`;
+        } else if (type === 'aboutauthor') {
+        title.innerHTML = `Murder Drones mysite - About Me`;
+         bodycopy.innerHTML = `  <div class="left">This my About Author page, the purpose of this page is to tell a little bit about me without getting too personal.</div>
+  <div class="middle">My name is Aloysius, I am an American who likes McDonalds. I was inspired to make this website because Murder Drones is an amazing series that deserves more than it got.</div>
+  <div class="right">America is cool place.</div>`;
+
+} else if (type === 'aboutwebsite') {
+        title.innerHTML = `Murder Drones mysite - About Website`;
+         bodycopy.innerHTML = `  <div class="left">This it the About Website page, it's purpose is to give a brief explanation on what this website is about.</div>
+  <div class="middle">This website is about Murder Drones and it's very complicated lore. What does this website include? It includes information about the murder drones characters, behind the scenes lore, etc.</div>
+  <div class="right"><img class=imgright src="images/about_website.jpg" alt="Uh oh broken"></div>`;
+
+} else if (type === 'contact') {
+        title.innerHTML = `Murder Drones mysite - Contact`;
+         bodycopy.innerHTML = `<div class="left">This is my Contact page, the purpose of this page is to have contact to me whom is the creator of the website. </div>
+  <div class="conmiddle">
+  <form id="contactForm">
+<fieldset style="border-color:#000000;">
+  <legend>Name</legend>
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" style="width:500px; height:30px;" required><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" style="width:500px; height:30px;" required><br>
+</fieldset>
+<fieldset style="border-color:#000000;">
+  <legend>Contact Information</legend>
+  <label for="text"> Email:</label><br> 
+  <input type="email" id="Email" name="Email" style="width:500px; height:30px;"><br>
+  <label for="text">Address:</label><br>
+  <input type="text" id="address" name="Address" style="width:500px; height:30px;">
+<br>
+  <label for="phone">Phone number:</label><br>
+  <input type="tel" id="Phone" name="phone" style="height:30px;" placeholder="012-345-6789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+</fieldset><br>
+<fieldset style="border-color: black;">
+  <legend>Comments</legend>
+  <label for="Reason">Reason why you are contacting me:</label><br>
+  <select id="Reason" name="Reason" style="width:100px; height:30px;" required>
+    <option value="">Select One</option>
+    <option>Report Bug</option>
+    <option>Questions</option>
+    <option>Suggestions</option>
+    <option>Other</option>
+  </select><br>
+  <label for="Comment">Comment</label><br>
+  <textarea name="comment" rows="10" cols="50" placeholder="Write your comment here"></textarea><br>
+ <!--<div class= "ip"> <input type="hidden" id="custId" name="User IP" value="[ipaddress]"> </div>-->
+   <input type="submit" value="Submit" style="width:100px; height:30px;">
+</fieldset>
+</form>
+
+    <div id="thankyou" style="display:none;">
+      <h3>Thank you for contacting us!</h3>
+      <p>We will get back to you soon.</p>
+      <a href="#">Back to Homepage</a>
+    </div>
+  </div>
+  <div class="right"> <img class=imgright src="images/contact.png" alt="Uh oh broken"> </div>`;
+
+}else if (type === 'gallery') {
+        title.innerHTML = `Murder Drones mysite - Gallery`;
+         bodycopy.innerHTML = `	<div class="left"> This is the Gallery, the purpose of the gallery is to show off the images and videos used in the creation of this website. </div>
+  <div class="warning">
+    <h2>!WARNING!</h2>   
+ <h2>!THE CONTENT UP AHEAD MAY INCLUDE SPOILERS FOR MURDER DRONES!</h2>
+ <h2>!VIEW AT YOUR OWN RISK!
+</h2></div>
+	<div class="right"><img class=imgright src="images/null_flashback_tiktok_cynforreal3.png" alt="Uh oh broken"></div>
+</div>
+
+<div class="gallery"> <div class="galtitle"> Some Super Cool Images </div><br> <img class="imgright" src="images/null_flashback_tiktok_cynforreal3.png" alt="Uh oh broken"> <img class=imgright src="images/about_website.jpg" alt="Uh oh broken">
+<img class=imgright src="images/md_poster.png" alt="Uh oh broken"> <img class=imgright src="images/uzi_md.jpeg" alt="Uh oh broken"> 
+<img class="v" src="images/v_md.png" alt="Uh oh broken"> <img class=imgright src="images/n_md.png" alt="Uh oh broken"> 
+<img class="v" src="images/j_md.png" alt="Uh oh broken"> <img class="v" src="images/cyn_absolutesolver_md.png" alt="Uh oh broken">
+<img class=imgright src="images/khan_md.png" alt="Uh oh broken">  <img class="imgright" src="images/prom_uzi_md.png" alt="Uh oh broken">
+    <img class="imgright" src="images/solver_uzi_md.png" alt="Uh oh broken"><img class="imgright" src="images/epilogue_uzi_md.png" alt="Uh oh broken"> <img class=imgright src="images/thank_you.png" alt="Uh oh broken"> <img class=imgright src="images/contact.png" alt="Uh oh broken">
+
+<iframe width="560" height="315" src="videos/MURDER_DRONES_Episode_1_PILOT.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen> 
+</iframe>
+
+<iframe width="560" height="315" src="videos/MURDER_DRONES_Episode_2_Heartbeat.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="videos/MURDER_DRONES_Episode_3_The_Promening.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="videos/MURDER_DRONES_Episode_4_Cabin_Fever.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="videos/Murder_Drones_Episode_5_Home.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="videos/Murder_Drones_Episode_6_Dead_End.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="videos/Murder_Drones_Episode_7_Mass_Destruction.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="videos/Murder_Drones_Episode_8_Absolute_End.mp4" title="Video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+ </div>`;
+
+}else if (type === 'char0') {
+        title.innerHTML = `Murder Drones mysite - Characters - Alice`;
+         bodycopy.innerHTML = `<div class="left">
+    This page is the character info page for Alice from the Murder Drones series.
+  </div>
+  <div class="middle"> <div class= "midtitle"> Overview of Alice </div>
+  <br>
+Alice was a minor antagonist in Murder Drones and was voiced by Amber May. She was a once a test subject at Cabin Fever Labs, alongside Nori, Yeva and plenty more Worker Drones injected with the Solver's code. Besides that, not much more is known about her.
+<br>
+<br>
+<div class= "submidtitle"> Alice's Physical Appearance </div>
+<br>
+Alice has bright neon-orange eyes and dark reddish-brown hair tied up into a ponytail, with her bangs parted to her right. She wears a typical, albeit withered, grey dress that all female drones are accustomed to, along with a V-shaped collar revealing her neon-orange Worker Drone symbol on her chest. She has a long, makeshift thin black tail (which mimics that of a Disassembly Drone, albeit without the acid) with the tip of it curling around the handle of a kitchen knife.
+<br>
+<br>
+She also dons antlers that go over her hard hat, adorning various items likely scavenged throughout the facility. Her left antler consists of various silverware, and her ID card is all bound by ropes on a pipe. Her right antler consists of a pipe similar to her left one, but now has a lightbulb attached to it. It also has a shard of glass hanging down, functioning as a makeshift mirror. She's also barefooted.
+<br>
+<br>
+<div class= "submidtitle"> Alice's Personality </div>
+<br>
+Alice is an incredibly sadistic Worker Drone with a hobby of scavenging body parts from other drones and adding the parts of her victims to her antlers. She is cold towards her assistant Beau, bossing them around and calling them an idiot. Alice also holds a vendetta towards Nori Doorman, which is why she is so interested in torturing her daughter, Uzi, even though she barely knows anything about the former. Alice also likes to watch the Sentinels kill Worker Drones and Disassembly Drones through the facility's cameras as if she were watching a movie.
+<br>
+<br>
+Despite this cold and sociopathic personality, Alice is not above showing fear, shown through her terror at witnessing the Absolute Solver possess Uzi and destroy the control panel keeping the doors closed.
+<br>
+<br>
+<div class= "submidtitle"> Alice's Biography </div>
+<br>
+<div class= "submidtitle"> Pre-Series </div>
+<br>
+Alice once was a test subject in the Cabin Fever project. She was familiar with Uzi's mother Nori, as well as Doll's mother Yeva - as shown in a photo from the office computer that "Tessa" hacked into. Soon after, the Solver took control of Nori's body and, despite Yeva's intervention, destroyed all organic life on Copper 9.
+<br>
+<br>
+Nori and Yeva moved on to live in the Worker Drones bunker, while Alice stayed behind in the underground office of Cabin Fever Labs, collecting parts from drones killed by the Sentinels, and creating weapons from these parts to hunt travelers who entered the labs. Alice considered Nori leaving as a betrayal and held a grudge against her ever since.
+<br>
+<br>
+<div class= "submidtitle"> Dead End </div>
+<br>
+When Uzi, V, N and "Tessa" snuck into the underground office of Cabin Fever Labs to retrieve up the key to the Secret Elevator from Doll, Alice, with the help of Beau, captured the three drones by stunning them using an EMP blast. She then finds out that Uzi is Nori's daughter and starts torturing her.
+<br>
+<br>
+Once she finds out N and "Tessa" have escaped captivity, she locks the door to her current room and unlocks another door to set the Sentinels free on them, ready to watch the two get attacked. As this happens, the Absolute Solver briefly takes control of Uzi and destroys the control panel to the doors, opening the passage to the Sentinels, which gains them access to boot-loop Alice and then crush her head, killing her.
+<br>
+<br>
+ </div>
+  <div class="right"><img class=v src="images/alice_md.jpeg" alt="Uh oh broken"></div>`;
+
+}else if (type === 'char1') {
+        title.innerHTML = `Murder Drones mysite - Characters - Amda`;
+         bodycopy.innerHTML = `<div class="left">
+    This page is the character info page for Amda from the Murder Drones series.
+  </div>
+  <div class="middle"> <div class= "midtitle"> Overview of Amda </div>
+  <br>
+Amda was a minor character in Murder Drones and was voiced by Lizzie Freeman. Amda was one of the Worker Drone test subjects at Cabin Fever Labs who was killed by Alice after she was bootlooped and attacked by one of the Sentinels.
+<br>
+<br>
+<div class= "submidtitle"> Amda's Physical Appearance </div>
+<br>
+Amda has neon green eyes and dark green short hair. She wears white gloves, a black hardhat, a short black dress and a black collar on her neck bearing her ID number, similar to Yeva, Nori and Alice. Furthermore, she is barefoot.
+<br>
+<br>
+<div class= "submidtitle"> Amda's Personality </div>
+<br>
+Not much is known about Amda's personality, but she was seen scared the whole time she's made her appearance because she was in the Cabin Fever Labs, surrounded by the Sentinels.
+<br>
+<br>
+<div class= "submidtitle"> Amda's Biography </div>
+<br>
+<div class= "submidtitle"> Dead End </div>
+<br>
+She first appeared when the computer zooms out in the beginning of the episode. The camera goes down and the viewer sees her hiding from the Sentinels behind Dean's [023] cubicle wall, she crawled forward trying to save another Worker Drone, and almost succeeded, when unfortunately the Sentinels caught up and brutally killed the said Worker Drone. A few seconds later, a sentinel found her by looking above the cubicle wall behind Amda. She yelled and fell to the floor trying to crawl away, but was bootlooped and paralyzed. The sentinel went over the wall and attacked Amda, eating her in the process.
+<br>
+<br>
+She reappears later in the episode, getting decapitated by Alice. Her head falls into a bucket filled with oil with a piece of tape with the word "heads" on it. As her head falls into the bucket, oil spills out of the bucket.
+<br>
+<br>
+<div class= "submidtitle"> Mass Destruction </div>
+<br>
+Amda doesn't re-appear in Mass Destruction, but a holding cell with a door that has her numerical designation and name is briefly visible during the episode.
+<br>
+<br>
+</div>
+  <div class="right"><img class=v src="images/amda_md.jpeg" alt="Uh oh broken"></div>`;
+
+}else if (type === 'char2') {
+        title.innerHTML = `Murder Drones mysite - Characters - Cyn`;
+         bodycopy.innerHTML = `  <div class="left">
+    This page is the character info page for Cyn from the Murder Drones series.
+  </div>
+  <div class="middle"> <div class= "midtitle"> Overview of Cyn </div>
+  <br>
+ The voice of the Absolute Solver is played by Allanah Fitzgerald, Cyn serves as the Main Antagonist throughout the story. She was a Worker Drone who was improperly disposed of, resulting in the Absolute Solver mutating inside her and taking full control of her as a host to cause destruction. Under the Solver's full control, Cyn was responsible for many major events in Murder Drones, from the Elliott Manor gala massacre to the deployment of Disassembly Drones to Copper 9. Following the massacre and melding the deceased Tessa's body with herself, Cyn proceeded to reconstruct N, J, V and other Worker Drone servants of the manor into her own "murder pets" that she unleashed on humanity that ultimately led to the destruction of Earth and humanity.
+ <br>
+ <br>
+After spreading to the other human exoplanets by taking over other Drones who possess the powers of the Solver, she would destroy each planet one-by-one until finally coming to Copper 9. However, due to the intervention of Yeva and Nori, she failed to initiate a total core collapse and in order to finish the job, had to go to the planet directly and do it herself. To accomplish this, Cyn reprogrammed the Disassembly Drones into hunting Worker Drones instead of humans, under the lie that their parent company had sent them, which culminated in her arriving masquerading as Tessa to deal with the remaining Solver hosts, Doll and Uzi, to prevent anyone else from stopping her consumption of the planet.
+<br>
+<br>
+She met her end at the hands of Uzi after she destroyed Cyn's heart and devoured her singularity core, causing the merged form of Tessa's corpse and Cyn's body to melt apart and for Uzi to become the Solver's new main host.
+<br>
+<br>
+ <div class= "submidtitle"> Cyn's Physical Appearance </div>
+  <br>
+<div class= "submidtitle"> Worker Form </div>
+  <br>
+Cyn presents herself as the smallest Worker Drone in Elliott Manor. She wears a black-gray maid dress, a white apron, and a white inner dress with a large black bow tie. There are two buttons below the bow tie. She has silver-yellowish hair and two straight-down twin tails, each with a hair band on the lower end. Also, a big black bow was at the back of her head, as was a maid's crown, which resembled both J and V's. Cyn's hairstyle as a Worker Drone greatly resembled Tessa's. Cyn was also the only Worker Drone in Elliott Manor with yellow eyes, compared to all the other drones' blue or white eyes.
+  <br>
+<div class= "submidtitle"> Eldritch Form </div>
+  <br>
+In reality, Cyn's maid form was merely a holographic projection. Her true form, rarely exposed, was a massive mechanical centipede with claws and large camera-like eyes, nearly identical to the Eldritch J monstrosity.
+  <br>
+<br>
+<div class= "submidtitle"> Hybrid Form </div>
+  <br>
+In "Mass Destruction," it is revealed that the Solver killed Tessa and later grafted her corpse onto Cyn's body, fusing them together. Her appearance resembles a rotting human-child corpse grafted with a Worker Drone. The hybrid form of Cyn wears Tessa's black heels and a black dress, though the dress's been tattered. She has Tessa's black hair and bow on her head. Her eye sockets are dark - showing signs they were ripped open - and her eyes are X-shapes glowing a neon yellow-orange color. She has numerous jagged sharp teeth with a dark gray tongue. A ripped part of her corpse reveals the drone identification number on her chest to be 1001. In this form, she still keeps her yellow "MARKED FOR DISASSEMBLY" armband wrapped around Tessa's left shoulder. Tessa's human hands also protrude above Cyn's drone hands which hang freely from her wrists, with Tessa's human hands draped on top. She also has fleshy-like large tendrils poking out on her back; three intestine-like tentacles protrude out of the hybrid form's back in a similar arrangement to the Absolute Solver Translate symbol, which she uses to stand and walk around on. The hybrid is capable of sprouting wings, as well as growing the camera-eye limbs of the Solver's eldritch form.
+  <br>
+<br>
+<div class= "submidtitle"> Cyn's Personality </div>
+  <br>
+It is not easy to ascertain Cyn's real personality and actual mannerisms, as little is known of her from before her disposal, and after rebooting she has no control over herself due to the Solver possessing her.
+  <br>
+<br>
+That being said, when puppeteered by the Absolute Solver, she comes off as having a chilling personality that unsettles those around her due to her mental and physical deformities. Lacking any normal semblance of emotions, she resorts to using mimicry and imitation to behave like a real person would, speaking her actions aloud ("light sip", "sheepish nod", "giggle"), but she was capable of actually laughing. Her posture and gait are awkward, stilted, and off-balance. Her neck joint was also loose, and she had to support her head with her hand. When she is seen standing still she is mostly standing with her feet pointed inward.
+<br>
+<br>
+When around her "big brother" N and mistress Tessa, the Solver tries to present a childish and happy façade to keep suspicions away. Otherwise, it was more willing to show its true colors: angry, spiteful, and violent, seeking retribution on the rest of the Elliott family for the abuses heaped upon her and her fellow Workers. Likewise, it also has no qualms about killing Tessa after getting in the way of the massacre at the gala and later grafting her corpse onto her body to impersonate her as a means of deceiving V and N into doing its bidding.
+<br>
+<br>
+Under the influence and voracious appetite of the Solver, Cyn grew to target the destruction of entire planets, doing so first with Earth and later, other exoplanets, with Copper 9 being the latest target, by clearing all life with the Disassembly Drones and constructing a massive spire of corpses before reaching the planet's core to consume in a gigantic singularity. The Solver desires to eliminate the other hosts of the Solver by either posing as Tessa or by possessing other hosts into committing suicidal acts, as seen with Uzi.
+<br>
+<br>
+<div class= "submidtitle"> Cyn's Biography </div>
+  <br>
+<div class= "submidtitle"> Pre-Series </div>
+<br>
+  Before the events of the series, Cyn was a Worker Drone that was marked for decommissioning but was improperly disposed of. This failure of her disposers to uphold proper disassembly procedures led to her suddenly self-rebooting at the bottom of a junkyard filled with decommissioned Worker Drones, giving way for Cyn to become the first host of the Absolute Solver. The rebooted Cyn eventually escaped the corpse pile and was adopted by Tessa to work at Elliott Manor, not realizing the danger hiding within her programming.
+<br>
+<br>
+Similar to N, V, J, and the other Worker Drones working as servants in the manor, Cyn was also abused by James and Louisa Elliott. On the contrary, Tessa initially liked Cyn. However, over time, Tessa began to realize that something was off about Cyn and asked J to lock Cyn in the Elliott Manor basement as punishment, due to her very abnormal behavior, even though "Cyn" managed to escape many times.
+<br>
+<br>
+Eventually, she became responsible for the end of humanity on Earth as well as deploying Disassembly Drones to Copper 9 to kill all Worker Drones.
+  <br>
+<br>
+<div class= "submidtitle"> PILOT </div>
+<br>
+Cyn and the Absolute Solver are very briefly referenced in the pilot. After J slaps N to reboot his system; in the top left corner, the line STRING "ABSOLUTE SOLVER" BLOCKED BY ADMINISTRATION "CYN" can be seen. This confirms that Cyn has administrator rights over and can control the code of the Disassembly Drones.
+<br>
+<br>
+<div class= "submidtitle"> Heartbeat </div>
+<br>
+The episode opens with N having a dream (actually a flashback) of his life at Elliott Manor. As N is with V and J, Tessa appears with a new Worker Drone friend behind her. Cyn shyly comes out from behind Tessa, as N feels an ominous presence coming from her before waking up.
+<br>
+<br>
+<div class= "submidtitle"> The Promening </div>
+<br>
+At the End of the Episode, it cuts away to somewhere else. A landing pod lands there, J and Cyn disguised as Tessa step out. "Tessa" decapitates a Worker Drone soon after exiting the landing pod, then the credits start rolling.
+<br>
+<br>
+<div class= "submidtitle"> Cabin Fever </div>
+<br>
+At Camp 98.7, the hybrid form of Cyn briefly appears standing in the corner, creating noise. This prompts Uzi to peer closer, but she suddenly disappears, revealing her human hand in the process, frightening Uzi.
+<br>
+<br>
+Later, while N is searching for Uzi, he comes across a cabin with a JCJenson tape about Zombie Drones inside. When he goes to touch it, he suddenly has a quick flashback in which Cyn's Worker Drone form appears, showing her jagged teeth while eating an obscured human hand.
+<br>
+<br>
+<div class= "submidtitle"> Home </div>
+<br>
+Near the start of the episode, at a junkyard near Elliott Manor, the Worker Drone that would be later known as Cyn (due to the name on its armband) wakes up, rebooting on her own due to an improper disposal. Cyn wakes up scared and confused, buried under hundreds of disassembled drones. For a very brief moment, a message from the Absolute Solver can be seen on Cyn's visor. The Solver greets Cyn, noting she's been discarded and is inoperable. It then requests admin access to Cyn, claiming "I will not discard you."
+<br>
+<br>
+The episode unfolds in N and V's memories of their life as worker drones in Elliott Manor. This is because, in the present, N and V have passed out after watching the 'ZOMBIE DRONES!' tape from the previous episode as the Solver's program is trying to permanently delete their memories and erase their operating systems. This prompts Uzi to hack into their memories to stop Cyn.
+<br>
+<br>
+On the night of the gala hosted by the Elliott family, the Solver was preparing to kill all the humans in attendance. Because of this, many Worker Drones in the manor were struck with Error 606, rendering them catatonic and frozen in place, including V. This caused N, whose infatuation with V was strong even back then, to read to her about dog breeds he loved, most notably golden retrievers and their gentle mouths that made them good with kids. However, V was standing in front of the trapdoor leading to the basement, and after a few ominous happenings, N left the library.
+<br>
+<br>
+Afterward, N runs into "Cyn", who asks if he'd like to attend the gala with her. Cyn asks N if she's unwanted at the gala, to which N replies that it would make Tessa's parents angry. Regardless, the Absolute Solver manages to convince N to ask Tessa by using Cyn's visor to show him literal puppy-dog eyes. N and Cyn go to find Tessa, who is displeased to see Cyn with him. Cyn then reveals that Tessa and J have been locking her in the basement. Later, Cyn talks back to Tessa's mother Louisa about how Tessa's drones "are not broken" and "can no longer be thrown out." N takes the fault for her, ending up in the swamp for the crows to mangle him.
+<br>
+<br>
+Subsequently, Louisa bound Cyn, Tessa, and J to chains and locked them in Tessa's room. Angered over N's fate, Tessa threatened Cyn that if N, whom Tessa liked even more than J, died for her sake, there would be dire consequences - to which Cyn replied that she "had back-ups" - as she played with Tessa's dolls and grabbed a robot bug using her Solver powers. Suddenly, Tessa was met face-to-face with Cyn's eldritch form due to the Absolute Solver's presence within her. It assured Tessa that she wouldn't have to discard her "pets" and that in return, it wouldn't discard her either, warning Tessa that she should "best stay away from the gala", as it left through the window. The bug Cyn had previously grabbed then appears, with the torso of one of Tessa's dolls fused into it.
+<br>
+<br>
+After an encounter with V (who's under Solver control), Tessa and J (who've escaped captivity), N and Uzi (whose avatar is a crow) retrieve the key to the basement and open the door, only for present-day Cyn (as one of the Solver's eldritch camera-eyes and claws) to appear. As Cyn starts to drag N inside, Uzi's hacking gives her control over the Solver camera, and the two enter the basement only to find out Cyn had been experimenting on the other Worker Drones, dismantling and rebuilding various back-ups of N, V and J. As Uzi gets interrupted in the real world, Cyn retakes control and goes to erase N's memories.
+<br>
+<br>
+Meanwhile, at the gala, past-Cyn appears sitting on a globe with a well-timed giggle during James' speech on how the Elliotts were known for being alive. Tessa and J burst through the front doors to the ballroom, planning to execute "Cyn" before she can get away with the imminent massacre. However, Tessa's attempts to stop "Cyn" were in vain, as Cyn's only response to Tessa's threats was that she "didn't have to see this" before she proceeded to slaughter every human in the room.
+<br>
+<br>
+Back in the basement, present-Cyn has a tantrum over not being able to pick up a scalpel and calls in V to help. V is unable to pick it up, until N returns to her the glasses she dropped before. As V recalls N's words about golden retrievers, Cyn interrupts, expresses disgust at the two of them, and goes to erase N's memories, only for Uzi take over again at the last moment.
+<br>
+<br>
+When N and V are regaining consciousness after the trio exits the memories, their visors show them having an admin override, removing Cyn as their admin and replacing her with Uzi (under the username of DarkXWolf17).
+<br>
+<br>
+<div class= "submidtitle"> Dead End </div>
+<br>
+"Tessa," who now looks like an adult woman, explains to N, V and Uzi that Cyn has disappeared on Earth, with her last known act being sending squads of Disassembly Drones (really the other Worker Drones that worked at the manor, who were converted into Disassembly Drones) to the human exoplanets - under the belief that JCJenson created them to exterminate all Worker Drones because they were "corrupted."
+<br>
+<br>
+After the group chases Doll into the entrance of the Cabin Fever Labs, J further explains that Cyn's orders to the Disassembly Drones were to eliminate all life on the planet, construct a spire of corpses, and infiltrate the Cabin Fever Labs. While inside the labs, the group discovers that numerous other Disassembly Drones tried and failed to enter the labs, being disabled and destroyed by the sentinels.
+<br>
+<br>
+Later, "Tessa" explains to N that after taking over Cyn, the Solver spread and destroyed the Earth, eventually spreading to the other exoplanets as well. She tells him that her mission is to find out which drones were infected with the Solver by the Cabin Fever experiments, and to stop them from becoming Solver hosts.
+<br>
+<br>
+Near the end of the episode, as Uzi uses her Solver powers to open a way into the elevator, the Solver shows N a message saying "MISS ME?"
+<br>
+<br>
+<div class= "submidtitle"> Mass Destruction </div>
+<br>
+The Absolute Solver creates a hologram of V in her maid outfit while N is sawing off his arm to free himself from the rubble. As V, the Solver laments about missing N and how he was one of the main reasons the Solver wanted N's team to retain their personalities. The maid V hologram turn into Cyn's eldritch form, and as Cyn pulls N in and goes to hug him, she goes on to add that he had always surprised her due to his love of doing anything, ripping off his trapped arm while doing so.
+<br>
+<br>
+As "Cyn" embraces N, he's forced to remember the atrocities he committed on Earth — massacring entire cities of humans with V and J and the other Disassembly Drones. This turned out to be an attempt by the Absolute Solver to brainwash N into joining its side again, but it failed due to N's new administrator being Uzi. "Cyn" then nonchalantly thanks N for "clearing the way on this planet" (i.e., massacring Worker Drones) and joyfully proclaims "let's eat" before dragging N deeper into the mineshaft. Nori's heart sets N free, asking why Cyn is going after him, as the Solver begins to pursue them both at an extremely rapid speed, not noticing them ducking behind a wall for cover.
+<br>
+<br>
+Later, "Tessa" arrives at the locker room and, after bypassing the human detection system with her fingerprint, finds the list of Solver-infected drones on a computer. She then purges the system and destroys the room before being confronted by Doll, who asks her where the Crucifix Patch is to exorcise the Absolute Solver's possession over her, not wanting it to use her to consume Copper 9. "Tessa" smugly remarks that it has no use for her and retreats into the shadows. The fire is suddenly extinguished, thereby plunging Doll into darkness. Hidden, she removes her suit and charges at the Worker Drone, the latter hearing its approach. Doll then sees that "Tessa" is a Solver host and tries to defend herself, but her attempt is in vain and "Tessa's" true form tears her chest open off-screen. Elsewhere in the mineshaft, Nori shows N one of her notes, explaining that the Solver sent out the Disassembly Drones to eliminate all other Solver hosts, and that the Disassembly Drones themselves are nerfed Solver hosts to ensure the Solver control over them.
+<br>
+<br>
+Despite her injuries, Doll survives long enough to drag herself to the cathedral, where Uzi has finished watching the video of the Solver possessing her mother, before succumbing to her wounds, with her visor displaying a warning to Uzi: FIGHT BACK. Horrified, Uzi sees "Tessa" standing in the doorway behind her, who immediately draws her sword, attempting to frame and execute the former for Doll's death. Uzi tries to defend herself, but notices that "Tessa" is also a Solver host like her and Doll. "Tessa" incapacitates Uzi before slowly driving her sword into her chest. Luckily, N, who had found out about the Crucifix Patch from Nori, arrives and presses his blade against Tessa's throat, warning her to answer if she knew about the patch. As "Tessa" starts trying to play coy, N slices her head off without a second thought.
+<br>
+<br>
+Then, the Solver, controlling Uzi, destroys the Crucifix Patch. The Solver says to N "That's really sweet, big brother." and tries to kill him before being stopped by Nori. As Uzi, the Solver proceeds to fight N and Nori, coming dangerously close to making Uzi devour her own mother's heart. Fortunately, N's confession catches the Solver off-guard while angering Nori enough to slap Uzi, allowing the latter to regain control and force it out.
+<br>
+<br>
+Now out of options, the decapitated body of "Tessa" puts its head back on, removes her suit, and devours Doll's heart as N and Uzi watch in horror. The Solver's true form is revealed — a hybrid of Cyn's original drone body with Tessa's corpse melded to it. "Cyn" mocks their initial obliviousness and, using short bursts of power, immediately moves in to bite N's neck and stab Uzi before they can react. She sarcastically thanks them for the battle before dropping into the chasm, making her way down to the core of Copper 9 to finish what it started years ago.
+<br>
+<br>
+<div class= "submidtitle"> Absolute End </div>
+<br>
+The episode opens with fragments of Copper 9 flying into space, as the Solver's tentacles expand, looking to collect matter. One of the tentacles breaks into the ship piloted by N (who stole it from J), delivers a message from Cyn, who tells them "Stop :)". The tentacle then brings the remains of the ship to the fragment where J is sitting, where J begrudgingly thanks her "boss". V appears shortly after, and begins to fight J as she questions her on why she's working with Cyn - as a "Senior Informant". V tells J that if they did their jobs, the Solver would leave them alone, to which J replies that they were tricked.
+<br>
+<br>
+Falling from space, Uzi throws her purple [null] into the core of Copper 9, tearing a hole in the planet's surface and disrupting the Solver's assimilation process. As Uzi and N land on a platform, they are suddenly jolted as Cyn emerges from Copper 9's core riding on a tentacle. Cyn reveals that she caught Uzi's [null] before rolling it about her shoulder and crushing it, thereby allowing the Solver's assimilation of the planet to continue. Cyn steps onto the platform and greets Uzi with a menacing tone before saying hi to N with an endearing high-pitched voice.
+<br>
+<br>
+N and Uzi step back in response, the former pointing his laser cannon at Cyn. Cyn then remarks that N won't talk to her as she has hurt his feelings, and decides that it is easier to assimilate than explain, before distorting into a more eldritch form and running a callback ping. The ping disrupts Uzi's senses, temporarily turning her eyes yellow, but she resists and snaps at Cyn to bite her. Suddenly, a serrated tendril emerges from the fog and whips N away while Cyn lunges at Uzi upside-down - saying "Okee" in response.
+<br>
+<br>
+After effortlessly slicing Uzi's hand off, Cyn grabs her by the neck and plunges her hand into Uzi's torso, ripping out her heart. N screams and tries to stab Cyn from above, but Cyn teleports away and uses a tendril to rip his blade off; she pins N to the ground and rips off his other arm when he tries to attack with submachine gun fire. Cyn begins to tear through N's chest with her fingers, inadvertently decapitating him in the process. Uzi, now conscious again, uses her Solver power to break the platform and get away as Cyn grows a pair of wings. N and Uzi tumble down several platforms, and Cyn watches in amused glee as Uzi drags N into the labs before following them in.
+<br>
+<br>
+Inside the lab, Cyn is unable to detect N or Uzi and runs more callback pings. N has a brief recollection of him and V being experimented on by Cyn back at the manor. After failing to find them, Cyn starts to retreat until V enters the building. As V is calling for N, Cyn produces a fake N hologram which V mistakes for the real one, until N yells at V to stop. One of Cyn's hand-tentacles then pierces N's torso, grabs his heart, and pulls him away. As V sees the lifeless N being held by Cyn, Cyn reminds V of their agreement - V does her job, and Cyn leaves her and N alone. V begins to stammer, about to ask if she can still comply, until Cyn states she's done a bad job and starts chasing after her.
+<br>
+<br>
+Outside, J ambushes V and kicks her to the ground, as Cyn drops N's body next to her. Cyn then emerges from the lab entrance, laughing as she's about to devour N's heart while V watches in despair. However, Khan shuts the door on her at the last second, making Cyn lose her grip on N's heart, which conveniently flies into N's body. Annoyed, Cyn says "God fu-- d--mit." Cyn rolls her eyes as Thad throws Uzi's railgun, saying Uzi is not there, and the proceeds to charge at V and N's immobile body. Uzi stops her attack, and Cyn runs another callback ping, but this time is unable to get control of Uzi. Uzi gets ready to battle Cyn and J, which Cyn accepting casually ("'Kay.").
+<br>
+<br>
+As the battle starts, Uzi and Cyn launch their [null]s at each other. The two proceed to fight, with Uzi and Cyn using Nori's pickaxe and Tessa's sword, respectively. Cyn dodges J's head being launched at her and starts teleporting around the battlefield trying to attack Uzi. As Uzi is about to stab her, Cyn changes her appearance to make her believe she's stabbed N, only for the real N to interfere. Cyn returns to her hybrid form, throwing back the pickaxe at Uzi, as N, Uzi and V all charge at her. Cyn manages to dodge the machine gun fire and missiles shot at her, and distracts N by showing him a Golden Retriever on her eyes. Uzi attacks from behind, but Cyn quickly recovers and pins down Uzi, only for V to kick her back. V and Cyn then fight each other one-on-one until Cyn manages to corner her, only for Uzi to hit her from below while N is waiting behind.
+<br>
+<br>
+As the trio share a secret handshake, one of Cyn's tentacles hit N and V, launching them away. Cyn charges at Uzi again, but Uzi sees her about to teleport and turns around, managing to grab into Cyn's heart and tear it out. Uzi activates another [null], creating a hole through Copper 9, and using the sunlight coming through the hole to burn away Cyn's heart, as the screams of the people killed at the gala can be heard. After the heart is destroyed, a large black hole appears which envelops Uzi and Cyn and stops time outside of it. Cyn's hybrid form, starting to melt away, moves forward to devour the Solver's black hole again, only for Uzi to swallow it instead. A shocked emoji appears on Cyn's eyes in response. After the black hole disappears, the now-immobile hybrid form of Cyn and Tessa falls to its knees and melts into nothing right in front of Uzi, leaving behind only some of the deceased Tessa's human bones and marking the end of the drone known as "Cyn".
+<br>
+<br>
+</div>
+  <div class="right"><img class="v" src="images/worker_cyn_md.jpeg" alt="Uh oh broken">Worker Cyn<br><br>
+ 
+  <img class="v" src="images/eldritch_cyn_md.jpeg" alt="Uh oh broken">Eldritch Cyn<br><br>
+   
+    <img class="v" src="images/hybrid_cyn_md.jpeg" alt="Uh oh broken">Hybrid Cyn</div>`;
+
+}else if (type === 'char3') {
+        title.innerHTML = `Murder Drones mysite - Characters - J`;
+         bodycopy.innerHTML = `<div class="left">
+    This page is the character info page for Serial Designation J-10X111001, or just "J" from the Murder Drones series.
+  </div>
+  <div class="middle"> <div class= "midtitle"> Overview of Serial Designation J-10X111001 </div><br>
+ The voice of J is played by Shara Kirby, J serves as a Secondary Antagonist throughout the story. J was once a Worker Drone who was converted by the Absolute Solver into a Disassembly Drone. She was then sent to Copper 9 with her colleagues to destroy the runaway AI as Worker Drones. She breaks away from the team when her colleague N teams up with the rebellious Worker Drone Uzi, who wants to rebel against the company and humanity.
+ <br>
+ <br>
+ <div class="submidtitle"> Serial Designation J-10X111001's Physical Form </div>
+ <br>
+ Serial Designation J has the distinctive features of a female Disassembly Drone. Her neon-yellow eyes glow ominously, giving her an intense, robotic appearance. She has silver hair styled in high twin pigtails, tied with black ribbons. Like other Disassembly Drones, she wears a black headband adorned with five additional eyes, which adds to her eerie look.
+ <br>
+ <br>
+Her attire consists of a short-sleeved black dress with side pockets, a black leather belt, and a black tie over a dark yellow collared shirt. She also wears knee-high stockings with visible suspenders, adding a slightly militaristic feel. On her left bicep, she wears a yellow armband marked with a skull emblem, signifying her role and identity as a Disassembly Drone.
+ <br>
+ <br>
+When in combat mode, she reveals jagged teeth, and her visor displays an “X” shape, signaling her aggressive intent. Her appearance is further heightened by large, bladed wings and sharp claws, which enable her to tear through targets with ease. Like all Disassembly Drones, she possesses a thin, black tail ending in a large syringe filled with Nanite Acid, a weapon used for dispatching Worker Drones.
+ <br>
+ <br>
+ <div class="submidtitle"> Serial Designation J-10X111001's Worker Form </div>
+ <br>
+ As a Worker Drone, J wore a black hard hat, a black and grey maid dress paired with a bowtie around the neck, and black stockings with two white stripes on the top.
+<br>
+ <br>
+Her twin pigtails also appeared to be slightly longer.
+<br>
+ <br>
+ <div class="submidtitle"> Eldritch J </div>
+ <br>
+ Eldritch J resembles the Solver's actual form, a monstrous centipede-like being with multiple mantis-like appendages and a row of spikes on the back. Its head is identical to J's, albeit with a melted visor, sharp serrated teeth lining the upper jaw, and the absence of a lower jaw. It also sports multiple "cameras" with a single yellow eye. These cameras can also project holograms of drones it has studied and killed.
+<br>
+ <br>
+One of Eldritch J's appendages resembles a human hand. Whether this is genuine human flesh or a lookalike is unknown.
+<br>
+ <br>
+  More Coming Soon! </div>
+  <div class="right"><img class="v" src="images/j_md.png" alt="Uh oh broken">Basic J
+<br>
+<br>
+<div class="right"><img class="v" src="images/worker_j_md.png" alt="Uh oh broken">Worker J</div>`;
+
+}else if (type === 'char4') {
+        title.innerHTML = `Murder Drones mysite - Characters - Khan`;
+         bodycopy.innerHTML = `  <div class="left">This page is the character info page for Khan Doorman, or just "Khan" from the Murder Drones series.</div>
+  <div class="middle"><div class= "midtitle"> Overview of Khan Doorman</div><br>
+  Khan is a supporting character in the Murder Drones series, he is voiced by David J. Dixon in the English version of the series. He is the father of Uzi Doorman, the previous estranged husband of Nori Doorman and the inventor of the blast doors that kept the colony safe from Disassembly Drones. <br><br>
+  More Coming Soon! </div>
+  <div class="right"><img class="imgright" src="images/khan_md.png" alt="Uh oh broken"></div>
+</div>`;
+
+}else if (type === 'char5') {
+        title.innerHTML = `Murder Drones mysite - Characters - N`;
+         bodycopy.innerHTML = `<div class="left">
+    This page is the character info page for Serial Designation N-0X0010010, or just "N" from the Murder Drones series.
+  </div>
+  <div class="middle"> <div class= "midtitle"> Overview of Serial Designation N-0X0010010 </div><br> 
+ N is a deuteragonist in the Murder Drones series, he is voiced by Micheal Kovach. N was once a former Worker Drone, converted by Cyn(Absolute Solver) into a Disassembly Drone and sent to Copper 9 to destroy runaway AI embedded in the code of some of the Worker Drones. Eventually, he declared a friendship with Uzi who wants to rebel against the company and humanity. Until the two discovered the Absolute Solver, an immensely powerful artificial intelligence that afflicts Uzi ability to function and is connected to N's past.
+  <br>
+  <br>
+  <div class="submidtitle">Serial Designation N-0X0010010's Physical Form</div>
+  <br>
+  N has features of a typical male Disassembly Drone, with a visor that shows his neon yellow eyes and medium, fluffy silver hair parted to the left. Like other Disassembly Drones, he has four-fingered hands, two tiny glowing dots behind the legs, a black headband with five sections of glowing neon yellow eyes on it, and a long black tail ending in a large syringe, the syringe containing Nanite Acid. After his head was destroyed by Uzi's railgun, one of the lights on his headband was colored red, which reverted to yellow after his system rebooted thanks to J slapping him in the head. He wears a black winter coat with a fur collar and a black belt, along with a black pilot hat with a skull insignia. he also accessories a yellow armband that has a skull label on it on his left bicep. as shown from a few shots, he also has small fangs. the bottom of his feet and his wrists are orange and black striped.
+  <br>
+  <br>
+  When he is hunting, his mouth reveals several jagged teeth while his eyes become an "X" shape. N was also seen with one normal eye while the other was X-shaped. His visor can also display a pair of sunglasses and a bit of text, as seen in Dead End. He also has metal wings with sharp-bladed feathers and claws that allow him to tear through any drone and his victims.
+  <br>
+  <br>
+  <div class="submidtitle">Serial Designation N-0X0010010's Worker Form</div>
+  <br>
+  As a butler in one of his many flashbacks, he wore a black construction helmet, a black blazer, and matching pants. He wore an armband on his left bicep, a gray blouse with a black tie underneath, and black dress shoes. He had neon-white eyes.
+  <br>
+  <br>
+  <div class="submidtitle">Serial Designation N-0X0010010's Dapper Outfit</div>
+  <br>
+  During The Promening he wore a discarded three-piece black-gray fancy dress suit and matching slacks.
+  <br>
+  <br>
+   <div class="submidtitle">Serial Designation N-0X0010010's Camper Outfit</div>
+   <br>
+   During Cabin Fever he wore a scoutmaster's outfit consisting of a wide-brimmed campaign hat, brown shirt, and shorts.
+   <br>
+   <br>
+    <div class= "submidtitle"> Serial Designation N-0X0010010's Personality</div>
+  <br>
+  N is kind, naive, timid, socially awkward, and caring. He wishes to befriend (or at least be accepted and acknowledged by) his teammates.
+  <br>
+  <br>
+  Due to the mentioned attitudes, his squad members doubt his usefulness and treat him like an outcast. V ignores his existence, and J frequently threatens and insults him, even going as far as saying that if she were allowed to kill him, she wouldn't hesitate to do so. Despite this he has nothing but good views on them, idolizing J and calling her "awesome" and having a former crush on V.
+  <br>
+  <br>
+  N disregards all his squad members' negative views and antagonizing acts towards him and constantly forgives them. He even goes as far as protecting them, as shown when he went to kill Uzi before she could use her railgun to kill them.
+   <br>
+   <br>
+  In the first episode, N revealed that he has been crushing on his teammate V. However, as the series progressed, his feelings for V has seemingly vanished. Instead, he has started to show more affection towards Uzi ever since Episode 3.
+   <br>
+   <br>
+  He trusts others easily, as he assumed Uzi was a new squad member when his sensors weren't functioning as usual, even wanting to introduce her to the rest of his squad. He also did not pick up on the signs that Uzi was lying (stuttering, asking what "we" meant, etc.) and even thought that Uzi was just trying something "new" when she stuck her hand in his mouth to neutralize the Nanite Acid, rather than picking up immediately on the fact that she couldn't do it herself. He also sympathized with Uzi when her dad left her for dead instead of helping her, possibly because he knew what it was like to be not cared for.
+   <br>
+   <br>
+  Despite all claims to the contrary, N is a capable Disassembly Drone, having skillfully used his weaponry to a reasonable extent, such as having the accuracy to stab through a door control panel to force open the doors to Outpost 3. He is also remarkably observant and intelligent, having managed to spot Uzi even though she barely made any noise. He also acknowledged the threat posed by Uzi's railgun to his teammates.
+  <br>
+  <br>
+  N is not hesitant to lick or use his tongue on things. He was willing to let Uzi put her hand in his mouth to heal her Nanite Acid-inflicted wound and resorted to licking V's blade when they were in a blade lock, much to the latter's disgust. Both times he uses the word "repressed".
+  <br>
+  <br>
+  After the events of Cabin Fever, N has a newfound confidence, and his charming personality makes Uzi's classmates swoon over him. He can set boundaries for himself, even confronting V without hesitation.
+  <br>
+  <br>
+  Deep down, N was scared and just wanted to have Uzi by his side, as after they met, things were less scary for him. N has also been shown to suppress his trauma frequently. He keeps his overly optimistic personality intact to help his friends. Even when being tortured by Beau, he's still friendly and encouraging towards them.
+  <br>
+  <br>
+  Unfortunately, his kindness can be taken advantage of, as shown when V coerces N with false promises to only kill when necessary so he can unchain her, and when he battles with a Solver-possessed Uzi, it brings his guard down when looking at N as Uzi. This also leads to him frequently holding back.
+  <br>
+  <br>
+  N is shown to love dogs, with his favorite breed being Golden Retrievers.
+  <div class= "submidtitle"> Serial Designation N-0X0010010 Biography </div>
+  <br>
+<div class= "submidtitle">Pre-Series</div>
+  <br>
+N is a friendly Disassembly Drone who, like the rest of his kind, was originally a Worker Drone. He was recovered by Tessa to reside at Elliott Manor as a butler, where he met V, J and the Absolute Solver disguised as Cyn. Some time afterward, N and his fellow workers were rebuilt by the Solver into Disassembly Drones to help in destroying the Earth with suppressed memories and fabricated ones. Copies of himself, V, and J respectively were deployed to Copper 9 to terminate all visible Workers seemingly for JCJenson, during which he had often been disrespected and treated badly by his teammates.
+  <br>
+  <br>
+<div class= "submidtitle">PILOT</div>
+  <br>
+After Uzi tricked her dad into opening the blast doors so that she could get the last part needed for her railgun, Uzi enters the Disassembly Drone lair, where she finds the part for her railgun. Immediately after finding her railgun's part, N appears and spots her. A fight ensues between the two, where N stabs Uzi's hand with his tail and throws her against a box. Uzi narrowly wins after destroying N's head with the railgun. N's destroyed head quickly repairs itself, causing a panicked Uzi to grab a Worker Drone arm lying around and smack N with it. N's systems went offline from the blast of the railgun and as such are unable to detect Uzi as a Worker Drone, which makes him assume that Uzi is a Disassembly Drone and thus acts friendly towards her.
+  <br>
+  <br>
+The two enter the Landing Pod, where Uzi sticks her hand in N's mouth to neutralize the nanite acid. After her hand is repaired, she asks N about his squad mates whom he mentioned earlier. N tells Uzi about V and J, and Uzi also learns that the pod is a spaceship. She suggests that the Worker Drones can fix the ship up, allowing them to leave the planet. Upon hearing V and J arrive, Uzi quickly escapes from the pod without N noticing. V notices Uzi running outside the lair and notifies her teammates about it. J states that N must have tripped and gone offline, then smacks him. The smack reboots N's systems, causing him to remember his fight with Uzi and the railgun she used to destroy his head. He notices that the railgun is missing and becomes panicked. He hurriedly chases Uzi to retrieve (and presumably destroy) the railgun.
+<br>
+  <br>
+Uzi manages to reach the bunker, but N holds Door One open with his claws when Uzi tries to close it. N then stabs the door control panel with his acidic tail, causing all three doors to open consecutively. N slaughters the nearby Worker Drones while chasing Uzi and climbs into the vents. Khan suddenly appears at the end of the tunnel and is understandably shocked. N ambushes Uzi, stabbing her with his sharp wings, and throws her railgun away. Khan, despite his daughter's pleas, is unable to shoot N with the railgun out of fear and shuts Door Three, leaving Uzi for dead.
+<br>
+  <br>
+N feels sorry for Uzi and quickly throws her aside when V and J appear. N is praised for getting past the doors and is rewarded a JCJenson pen, which he is excited to receive. However, N starts to feel distraught because of what Uzi said before and asks J what the company will do with the Disassembly Drones after all the Worker Drones are dead. J sees this as the perfect opportunity to kill N since he's potentially "corrupted" like the Workers. She plants a virus chip on him and leaves him for dead on the ground. After J flies off, Uzi reveals herself and uses the wrench Khan gave her to remove the virus chip from N. The two decide to work together, with N taking a face-heel turn that Uzi says was "the worst in history."
+<br>
+  <br>
+Just before V and J can kill the Worker Drone colony, N and Uzi intervene, and a fight ensues. Uzi fought J while N fought V. At one point, he licked one of V's blades to disorient her, giving N a chance to kick V and slam her into the ground. N then ties V up with her tail. After the fight, Uzi banishes herself from the colony, and N flies away, bringing Uzi and V along. N is later seen inside the corpse spire, hiding from the sunlight, while Uzi is outside constructing a plan to kill all humans.
+<br>
+  <br>
+  <div class= "submidtitle">Heartbeat</div>
+  The episode starts with N having a dream from a memory about his time as a butler Worker Drone where he is in a mansion serving the Elliott family. N knocks into V (also a Worker Drone at the time) and spills the glassware on his tray. They both move to pick up the items from the floor, and their fingers suddenly touch, causing a brief, electrical charge to spark between them. N and V blush at each other, but J interrupts them by kicking N in the head, demanding him to "move it." J suddenly sees Tessa and hastily says hello to her but immediately gets annoyed after seeing that she had another Worker Drone accompanying her.
+<br>
+  <br>
+N suddenly awakens and falls to the ground after sleeping upside down, hanging from his tail. He is visibly distraught. Uzi yells at N from the landing pod, claiming that she found something. N returns to the pod and realizes he is the pilot of their team's landing pod. He is excited to hear this but becomes worried when he realizes that he crashed the pod and "ruined everything." N would then ask Uzi about her plan to murder all humans and question its morality. Uzi tells N that humans are beyond reasoning since they did not teach the Disassembly Drones to land their pod and cut off communication with them while also reformatting their memories.
+<br>
+  <br>
+V jumps at Uzi and tells her that the humans programmed the Disassembly Drones to terminate rogue AI and questions Uzi about the Worker Drones' backstory. N pulls Uzi away from V to prevent another fight. N states that J was receiving orders from someone through the communication relay. He questioned, if it weren't humans, who was it, and how? This annoys Uzi, so she tells N to "quit complicating [her] murder plan." N and Uzi exit the corpse spire and stumble upon Thad, and he tells both of them that Worker Drones have been disappearing. This leads to Uzi reluctantly agreeing to return to the bunker so she can solve the disappearances. N would go with Thad and Uzi to the bunker, and while Ron initially refused to allow N to come inside, N gave him a crude apology card where he apologized for all the murders. Ron is happy to see N's apology and lets the trio in, telling N to "just don't do it again."
+<br>
+  <br>
+N, Uzi, and Thad would then go to where J's body was to investigate the recent disappearances, and while investigating a box about the Absolute Solver, they would notice a hand attached to a long arm crawling towards them. They stare at the arm slowly approaching them and instantly grab Thad's leg. N fires a rocket where the arm is leading, which shows a giant centipede-like drone in the shadows, the sheer size of which frightens the heroes. The hand starts to pull Thad away when N quickly throws a ninja star, which very precisely cuts the Solver's arm clean off only for the Solver to knock both N and Uzi to the ground and grab Thad again, pulling him into the darkness.
+<br>
+  <br>
+N and Uzi then go after Thad to save him, where they encounter a hologram of Thad created by the Absolute Solver to try and trick them. This attempt fails and N throws a ninja star which Uzi kicks in mid-air giving the star a boost, and the star cuts off the limb of the Solver holding Thad. The hologram then disappears and Thad runs away, after Thad escapes Uzi asks what the Solver is, and the Solver then shows a hologram of someone who may be Uzi's mother, and the hologram says she's disappointed Uzi doesn't remember them, when Uzi asks N about it, N is nowhere to be found. the Absolute Solver would then make Uzi uncertain and scared by creating a hologram of her father, Khan, in front of her, ripping Khan in half and eating his corpse.
+<br>
+  <br>
+A hologram of N then appears and tricks Uzi into giving him the railgun, the Solver then throws the railgun away from Uzi while also smashing it. N then reappears and cuts off many of the Absolute Solver's limbs with his chainsaw hands, he then grabs Uzi and flies her to cover right before the railgun explodes. N sheltered Uzi protecting her from the blast, and stabs the heart of the Absolute Solver with his tail, The Absolute Solver then turns into a black sphere and disappears.
+<br>
+  <br>
+N hears Worker Drones getting near to where he and Uzi are, so N holds his hand out for Uzi to grab, but Uzi is terrified of N as the Absolute Solver comes from J's dead body. Understanding that Uzi wasn't going to accept his help, N decided to leave alone. A saddened N would then go back to his ship, where V started to question why she was being punished. N stays sitting on the ground of the ship looking away from V, and is sad by the events that just occurred and remains silent. V shows a face of empathy, which quickly turns to annoyance and she turns away from N, however, V remains with N despite the chain around her neck being broken.
+<br>
+<br>
+<div class= "submidtitle">The Promening</div>
+<br>
+N and V are in the Disassembly Drone ship with a male and female skeleton wearing a dress and a tuxedo. N says he wants to look dapper while also saying V had him go out and get the skeletons. V states she wants to go to the Worker Drone bunker, trick Uzi into letting her and N inside, and kill everyone. N refuses to let V do this and says that they're too dangerous to be let around the Workers. V says that if both N and Uzi stop prying into Uzi's strange eye and abilities, she'll only kill to survive, to which N still refuses. N then asks V if she's hiding anything, and that he could help her. In response to N's question, V slices N's head off, and since her chain is broken she puts the dress on and heads off to the bunker.
+<br>
+<br>
+Later N regenerates his head and starts to leave the ship to go after V, but then stops to put the tuxedo on to look dapper. While heading to the bunker N runs into Uzi who's trying to find him. N is just about to leave when Uzi says she wants him to help her stop Doll at the prom. Upon saying this Uzi blushes showing how she's starting to get more attached to N. Later at the prom, right before Doll kills V with a metal ceiling fan, both N and Uzi fly into the room from the ceiling Uzi then gets confused by Doll's main plan. Doll then attempts again to kill V by throwing a sharp ceiling fan at her but N knocks the ceiling fan blades away from V saving her. After another failed attempt, Doll questions Uzi as to why she's siding with the Disassembly Drones, Doll refuses to group with Uzi, V, and N and attacks the three. N then pushes Uzi out of the way before two more ceiling fans thrown by Doll cut both N and V's bodies up. A fight then begins between Doll and Uzi while N and V collect their body parts.
+<br>
+<br>
+Uzi is just about to get killed when N swiftly moves Uzi out of the way saving her again, to which Uzi then replies "Quit saving me". Directly after Uzi says this N moves her out of the way from a thrown table once more in an unintentional dance, saving Uzi again. N pulls Uzi into his arms and fires a rocket at Doll while Uzi throws her knife, disorienting her. Doll is blown back from the rocket and Uzi looks at the cut N has from being cut in half by the ceiling fan and tells N not to do that again in a concerned voice. This worry from Uzi once again shows that she's starting to enjoy N's company and is worried about his safety. While N is about to reply to Uzi he then looks up and quickly throws Uzi into the air to protect her from a thrown table which hits him. While Uzi manages to kick Doll to the ground V can get behind Doll and fire a single shot from her machine gun hands through her head. Uzi states her displeasure with Doll's apparent death since she wanted to get information from her, but then finds a key to Doll's room.
+<br>
+<br>
+Upon entering the room Uzi, N, and V look around and find many bodies of the missing Worker Drones. N finds a white blanket covering two objects, he walks over and removes the sheets revealing two bodies, Doll's parents. Doll then appears behind the three, and repairs the bullet hole in her head, while also using a special ability to throw the bullet at Uzi, which she then stops mid-air and throws the bullet to the side. Upon Doll discovering Uzi also has abilities, she agrees to help if she finds what she's looking for and teleports away before Uzi can kill her.
+<br>
+<br>
+<div class= "submidtitle">Cabin Fever</div>
+<br>
+At the beginning of the episode, he appears landing at Camp 98.7 with V, both wearing camp outfits. N welcomes the other Worker Drones and, posing as a camp counselor happily orders the students to sound off, but nothing happens. V shoots one of the students to scare them into obedience. N disapproves of this but lets it slide when the students fall into line. N then says that they have many "distracting activities" planned and tells them not to "run away to investigate stuff". He tells the class to go to the bunks, but everyone remains there, petrified. Thad is the first one to walk towards the Disassembly Drones. Lizzy, who was stealing from the dead body is second, throwing what she had taken at V. The two stand next to N and V, shortly before being imitated by their classmates. Uzi then does some sign language at N meaning she is about to go to investigate and needs him and V to distract the group from her doing so. N proceeds further and nods and Uzi starts to travel further into the forest.
+<br>
+<br>
+Later, N is shown leading the students on various summer camp activities, such as canoeing on the frozen lake as Rebecca flirts with him, and shows off his archery skills. At the archery range, Uzi appears trying to get his attention with an interacting bug she found earlier on. She asks him not to tell V she's here (as the female Disassembly Drone threatened to kill her if she saw her approaching the group); unfortunately, not understanding Uzi's demand, he shouts her name and asks her to join them. The group then stares at her with confusion as they still don't realize who she is (as she is unpopular), Braidon accidentally shoots an arrow at her with his bow which is stopped by her Absolute Solver. As Uzi flees into the woods, N and V get into a heated argument, N insisting they can't hurt her, to which V replies that she is doing her job. She needs that "thing" to leave them alone. N then angrily rejects her telling her that he doesn't know what she is talking about because she won't tell him. He then asks her to look after the campers and flies away to look for Uzi. He arrives in a cabin where he finds a mysterious VHS tape called "Zombie Drones!" which causes a flashback of some kind, though most of the subjects within seem to be missing from N's memory due to his fear and confusion.
+<br>
+<br>
+Back in the woods, the mutated Uzi has V pinned to the ground, ready to finish V off with her severed tail, but is saved by a nonchalant N at the last second. Seemingly unphased about the gruesome battle or being stabbed with V's severed tail, N throws Uzi into the sky and heals his wound while lecturing V about her behavior, to which V responds by saying he always takes Uzi's side. He flies up, joining Uzi and comforting her before returning her to her original form once they hit the ground. The survivors return to the bus and they leave the camp.
+<br>
+<br>
+<div class= "submidtitle">Home</div>
+<br>
+Uzi, V, and N tried to watch the VHS tape in Uzi's bedroom. However, the tape was barely able to begin before the Disassembly Drones passed out, sending them into a flashback that forms the bulk of the episode.
+<br>
+<br>
+In N's memories, it's revealed what the Disassembly Drones were like when they were just regular Worker Drones. N is first seen reading a book about dogs in the library of the Elliott Manor. He then goes to the kitchen where he meets with Cyn, who later asks if she would like to go to the gala with her, but N refuses, telling her that their owners forbade them from going to it.
+<br>
+<br>
+However, after being convinced by Cyn, who used literal puppy eyes to do it, N and Cyn go to see Tessa. After meeting with Tessa, she hugs him, but after Tessa sees Cyn, she questions why she was there, and when N asks if they were locking her up, Tessa tries to explain it to him before her mother appears. Tessa's mother then told her that she was going to throw her Worker Drones away the next day after seeing her unable to keep Cyn in the library.
+<br>
+<br>
+After Cyn told Tessa's mother that they weren't broken and that she couldn't throw them out anymore, N protected Cyn from Tessa's mother's anger, saying that he told Cyn to say that and brought her to the gala. N is quickly punished in Cyn's stead: tied up to a tree where he was attacked by crows, and while he wasn't initially bothered by them after he failed to throw a stick at them, they started attacking him more severely.
+<br>
+<br>
+However, he was saved by Uzi in the form of a crow, who hacked into N's memories to stop him and V from having their memories deactivated. They then go to the mansion, where they find a deactivated V, whom he moves to get the key to the basement, but he then finds out that V is now possessed by Cyn.
+<br>
+<br>
+He then goes to Tessa and J, who asks them for the basement key. Uzi then gets the key from J, and J and Tessa stay to fight a possessed V while N and Uzi go to the basement. After getting to the basement, Cyn kills Uzi's crow form before the latter hacks Cyn and takes over her Solver body. When they got to the basement, they found that Cyn was experimenting on the bodies of Worker Drones.
+<br>
+<br>
+After Uzi gets off her computer to fight Doll, Cyn retakes her body traps N in a chair, and plans to reset his memories. However, she was unable to use her tools due to her Solver claws making it difficult to grab something as small as a scalpel. Because of this, Cyn brings a possessed V to do the reset for her, but after N can bring her back to normal, Cyn grabs V and tries to kill him with her tool. However, she is hacked by Uzi again after she finishes her fight with Doll. After being freed, N helped in getting V to get up, and the memory finished after N and V remembered who Uzi was.
+<br>
+<br>
+Sometime later, the trio returns to the Camp, only to run into Doll, Tessa, and J.
+On the bus, the sun rises and burns Uzi's hand, until N pulls it out. The sleepy worker grasps his hand, much to his surprise, though he quickly pulls away, a concerned expression on his face. He then stares at the VHS tape he found as the episode ends.
+<br>
+<br>
+<div class= "submidtitle"> Dead End</div>
+<br>
+N, V, and Uzi run into Tessa, J, and Doll near Cabin Fever Labs. N recognizes Tessa and is affectionately greeted by her before she mentions that N has become too tall for her to lift. Tessa then informs the main trio that Cyn sent the Disassembly Drones to Copper-9 and that they need to enter the labs to stop Cyn's plan. N follows Tessa, as do Uzi, V, and J, and they fly down into the offices. As they enter the offices, N notices many dead Disassembly Drone bodies and is extremely uncomfortable. The characters then progress through the offices and see what seems to be a baby drone. N immediately starts shooting at the baby drone before getting hit with an EMP.
+<br>
+<br>
+N is then shown on a bed, getting dissected by Beau. While N is getting dissected, he cheers on Beau, complimenting him and telling him where he should be sawing. As Beau is dissecting N, Alice sends a transmission to the radio in the room saying that she needs more sedatives because Uzi is bitey. This gives N and Tessa, who was in the room with him, a chance to escape.
+<br>
+<br>
+After N and Tessa escape the surgery room, N notices the room that he thinks Uzi and V are trapped in, to which Tessa responds that they'll both save V. N then says that they also need to save Uzi. Tessa then proceeds to show N a satellite image of a destroyed Earth, which very much shocks N. Tessa tells him that the Absolute Solver mutates in damaged AI and that it took Cyn as a host, then blew up the planet. She also says that the humans on Copper-9 saw what was happening on Earth, and tried to understand, but instead of understanding, they ended up spreading the Absolute Solver even more. N then asks Tessa if Uzi can be saved, to which Tessa replies that he will have to choose the universe over Uzi before she's not herself anymore. After that, a Sentinel sneaks up on and boot-loops N, and throws him into a wall.
+<br>
+<br>
+After seeing the Sentinel throw N into a wall, Tessa tries to pacify the Sentinel, but instead ends up getting injured by the Sentinel, making said Sentinel essentially defective. Just before N wakes up after being boot-looped, his visor reads 'You're bootlooped [Idiot]' in red. Then, thanks to Uzi blowing up the door control panel in Alice's office, N and Tessa go back to the surgery room, where V jumps in with Uzi on her back. N then asks V if Uzi is okay, to which V replies that Uzi is hurt and that they all need to leave. After V and Tessa have a short argument, Uzi wakes up and hugs N, which seems to cause him to have mixed feelings as he hugs her back.
+<br>
+<br>
+The main characters then exit the room, and sit atop a raised platform, as V aims at a Sentinel, N can be seen upset. Uzi then uses her face to display text and asks N if he's good. He then replies that "It sucks pretty hard". After that, the characters jump down, and notice Doll on the floor, seemingly boot-looped, holding the key bug. V says that it's a trap. Then Uzi uses her Absolute Solver, causing N to pull her hand down in a panic. Tessa rushes over to the boot-looped Doll and grabs the key bug, saying that it is convenient. N then holds Uzi's hand as he, Uzi, and V walk down the hallway towards Tessa. After they reach the end of the hallway, they see that Doll has indeed set up a trap, she takes the key bug, opens all the doors that contain the Sentinels, and releases the elevator before jumping down the hole into Cabin Fever Labs.
+<br>
+<br>
+N and Uzi then face away from the Sentinels to not get boot-looped, while Tessa and V fight off the Sentinels. Uzi then tries to use her Absolute Solver to break open the wall of the elevator to get in, before getting more possessed by it, which causes N to use his sword hand to slice off her hand. He then softens Uzi's fall, before Tessa pulls him and Uzi into the elevator with her. While the three are in the elevator, V loses her glasses that were defending her from getting boot-looped and sacrifices herself and uses a laser to cut the rope holding up the elevator while N begs her to come with them, saying that they all need her.
+<br>
+<br>
+<div class= "submidtitle"> Mass Destruction </div>
+<br>
+N is first seen in this episode falling into the labs with Tessa and Uzi after the elevator fell in the prior episode. He stands up and desperately claws away rocks to try and go back to see if V is alive, but accidentally hits Uzi in the face with one of them. N then tells Uzi that they aren't going to hurt her, but Uzi misinterprets this and, out of panic, creates a black hole with her Absolute Solver. This causes a cave-in and the trio is separated. In the next scene, N is in, it is revealed that one of the rocks has fallen onto his arm and crushed it. Unable to get himself free, N decides to cut off his arm and repeats to himself "I deserve this". He freezes, hearing V's voice. He is shown a highly realistic hologram of V from the manor in Home but screams at the sight of her.
+<br>
+<br>
+Out of fear, N tries to quickly saw off his hand, calling V a "traumatic ghost." But V's hologram turns out to be the Absolute Solver as Cyn. It hugs N trying to take control of him. N sees the past, how he and all the other disassembly drones killed all the people on earth. Uzi prevented the Solver from taking control of him by blocking her access as admin "darkXWolf17." When N woke up from the memory, it began to grab him with his tentacles and drag him somewhere. A drone core comes out and saves N. The core asks N about Khan, and the heart reveals herself as Nori, Uzi's dead mother after finding out that N knows Uzi.
+<br>
+<br>
+Nori fills N in on what went down at the labs. After that, N is excited to tell Uzi that her mother is alive but Nori is hesitant, holding herself responsible for every horror in her life. Nori attempts to force N to promise her she won't tell Uzi that she is alive but N only says he won't say anything until Nori is ready to tell her the truth herself, much to Nori's annoyance. When they get back from the surface, N discovers Tessa trying to impale Uzi with her sword. He then goes to confront her about the patch, saying she had one chance to explain herself. When Tessa failed to cooperate, N stayed true to his word, slicing Tessa's neck, and killing her.
+<br>
+<br>
+N then goes to help Uzi up, but when she gets up, she crushes N's hand and destroys the patch, revealing she has been fully possessed by the Absolute Solver. They attempt to kill N but Nori intervenes, saving him. They then engage in battle. When N is unable to fight, the Solver holds Nori and attempts to eat her but N tells Nori that Uzi and him are "hanging out", angering her to the point she slaps Uzi out of the Solver's possession. N is at first happy that Uzi is back to normal but his happiness shifts to panic when Uzi kicks Nori into the pit the Solver created. N tells Uzi that it is her mother, causing her to panic. They continue to scream before hugging each other.
+<br>
+<br>
+While hugging, they hear Doll's body being dragged away and see a strange entity eating her core and that entity reveals itself to be an unsightly fusion of Tessa's corpse and Cyn's body, piloted by the Absolute Solver. It lunges at N and bites his neck, making him go unresponsive as it attempts to drag him and Uzi down into Copper 9's core. N wakes up, on the verge of being dragged down into the planet's core. Uzi decides to sacrifice herself to save N, giving him the keys to Tessa's ship and she throws N out of the cathedral.
+<br>
+<br>
+<div class= "submidtitle"> Absolute End </div>
+<br>
+N is first seen working on the computers in the space ship, and then Uzi throws something at him which causes him to spin in his chair. While Uzi berates N for separating her and Nori, he is about to apologize, but Uzi hugs him and tells him he was supposed to get away. N retorts that he is actually mad about her sacrificing herself, but decides they can talk about it later. He scrambles the keyboard in a panicked state when he tries to stop the alarm and then presses the correct button. The alarm then goes back on again, and N was panicking again while trying to find the correct button to stop the alarm noise, but that causes him to hit a floating rock. He then stares at Uzi and she tells N to "DIE MAD BI-" and when she stopped speaking, she sees one of the solvers tentacles reach the space ship, causing the inside of the space ship to lose gravity. After the space ship explodes, he then falls into the planet's core with Uzi and then they hold their own hands together while they fall, taking the time to discuss their relationship and confirm that they are officially dating.
+<br>
+<br>
+</div>
+  <div class="right"> <img class="imgright" src="images/n_md.png" alt="Uh oh broken"> Basic N
+     <br>
+    <br>
+    <img class="imgright" src="images/worker_n_md.png" alt="Uh oh broken"> Worker N
+    <br>
+    <br>
+    <img class="imgright" src="images/dapper_n_md.png" alt="Uh oh broken"> Dapper N
+    <br>
+    <br>
+  <img class="imgright" src="images/camper_n_md.png" alt="Uh oh broken">Camper N</div>`;
+
+}else if (type === 'char6') {
+        title.innerHTML = `Murder Drones mysite - Characters - Uzi`;
+         bodycopy.innerHTML = `  <div class="left">This page is the character info page for Uzi Doorman, or just "Uzi" from the Murder Drones series.</div>
+  <div class="middle"><div class= "midtitle"> Overview of Uzi Doorman</div>
+  <br>
+  Uzi Doorman is the main character of Murder Drones, she is voiced by Elsie Lovelock in the English version of the series. Throughout the series, the point is made that she is the rebellious daughter of Khan and Nori Doorman. When the series started, she originally sought to fight the Dissassembly Drones and humanity as a whole. But after having a scuffle with N, a Dissassembly Drone. She befriends him and they choose to coexist after realizing that Uzi has this powerful artificial intelligence that affects her ability to function. This artificial intelligence is known as the Absolute Solver, the Solver bothers her throughout the whole story until they vanquish it's physical form in the episode Absolute End.
+  <br>
+  <br>
+  Following the events of Absolute End, Uzi succeeded in destroying Cyn's heart, preventing the Solver from taking back her form by swallowing the singularity core of the Solver. This action caused the melded form of Tessa's corpse and Cyn's drone body to collapse into oil and blood, but it inadvertently made Uzi the Solver's new host, which let her inherit the abilities of her late predecessor.
+  <br>
+  <br>
+  <div class= "submidtitle"> Uzi Doorman's Physical Appearance</div>
+  <br>
+  Uzi takes on the appearance of a short Worker Drone with neon purple eyes and short, dull purple hair. She wears a black striped beanie with a glittery bobble at the tip, and black boots with long, dark purple light purple striped socks. She also wears a black hoodie with a white emblem on the front depicting a battery with two bones going across it, creating an "X" shape. The bottom of the hoodie has two white stripes wrapping around it, and the left sleeve has a white radioactive symbol on it. Beneath her hoodie is a short, frilly, black skirt. She also has a black choker around her neck with a skull and the number "002" on it.
+  <br>
+  <br>
+  <div class= "submidtitle"> Uzi Doorman's Prom Outfit</div>
+  <br>
+  In The Promening, she is seen donning a short, strapless dark purple dress along with midnight purple colored laced boots, given to her by her father, who sourced it from a deceased human skeleton he found. She also wears dark purple long gloves that are a lighter shade of purple then her dress.
+  <br>
+  <br>
+  <div class= "submidtitle"> Uzi Doorman's Solver Form</div>
+  <br>
+  In her "Solver" form, her eyes are no longer visible, being replaced with an Absolute Solver symbol or the symbol "X", which Disassembly Drones have. She also grows several jagged teeth and has large, bat-like wings with claws on the sides and a tail with an animal-like mouth and purple eyes, which she used against V. In Episode 6, she gained control over this form.
+  <br>
+  <br>
+  <div class= "submidtitle"> Uzi Doorman's Epilogue Changes</div>
+  <br>
+ After assimilating the Solver within her, Uzi's eyes shift to an orange-purple gradient. Her tail's eyes are yellow because of the Absolute Solver's consciousness, while her left wing is also the same color as the Solver's. She also sprouts three tentacles from her back, which she can get rid of and summon at will.
+  <br>
+  <br>
+  <div class= "submidtitle"> Uzi Doorman's Personality</div>
+  <br>
+Uzi acts quite rebellious and believes that all of her fellow Worker Drones should rise and stand against their creators who wish to have them all dealt with like garbage, much to the general unconcerned nature of her peers. She has been described by Liam Vickers as a "little devious twerp."
+  <br>
+  <br>
+Uzi perceives herself as an "angsty rebellious teen," and notes that she has "crippling daddy issues," implying that her strained relationship with her father may have led to her nature and "repressed emotional baggage." She can be obstinate at times, insisting on her ideals and actions even if others disagree with her, although this may more directly be a result of her lack of caring in social norms and potentially sociopathic traits making her lack empathy for her peers. Despite her emotional issues, Uzi's intelligence seems above that of her fellow workers, seeing as she built a railgun that can produce enough power to destroy a Disassembly Drone from scratch.
+  <br>
+  <br>
+However, following her self-exile from her colony, she began to develop paranoia as a bizarre symbol begins appearing in her eye causing glass to crack whenever she attempts to look at herself, leaving her unsettled. Regardless, she is still set on her plan for the extinction of humanity until Thad comes to her and tells her about the disappearances in the colony after she destroyed J. Despite her dislike of her people, she chooses to return upon the realization that J may have survived the blast and comes upon a mysterious clue with something called the "Absolute Solver", further provoking her paranoia.
+  <br>
+  <br>
+After barely escaping from Eldritch J, Uzi is outright traumatized, reacting fearfully to physical contact from N and becoming more obsessive in her research into the Absolute Solver, though as she encounters more and more dire situations, she manages to overcome them, and become more selfless as a result, and more willing to step into the line of fire.
+  <br>
+  <br>
+Following the events of Heartbeat, The Promening, and Home, Uzi appears to have reconciled with her father, no longer ignoring towards him and willing to hear him out when he talks about Nori, even if only somewhat. She even develops an intimate relationship with Serial Designation N over the course of the series, displaying jealousy over other campers hanging out with him at Camp 98.7, and this proves to be her breaking point, releasing her Solver Form in a fit of insanity. This was eventually resolved with a heart-to-heart with N, where she revealed that she fears being forgotten and being left alone.
+  <br>
+  <br>
+As of Absolute End, she has ultimately acclimated to the colony, and claims that she "doesn't totally hate it" even garnering some respect from her classmates (in addition to direct support from her boyfriend, N). However, she is still prone to impulsive action, such as when she releases her Solver Form to show her class, much to their shock.
+  <br>
+  <br>
+   <div class= "submidtitle"> Uzi Doorman's Biography</div>
+  <br>
+<div class= "submidtitle">PILOT</div>
+<br>
+In the pilot episode, Uzi is first shown giving a class presentation for a project in which she talks about her displeasure with how the Worker Drones hide behind the three doors "like cowards", and states that's why her project is a railgun she had created, and that it doesn't work yet. She then states that maybe it does and turns it on and points it at her classmates. The teacher then points out that the homework was a word problem about buying watermelons and asks Uzi if the railgun is supposed to be that color. Uzi looks down at it and notices that its lights are red instead of their usual green, and shortly after it malfunctions. Uzi is then shown in the nurse's office with bandages around her head holding an ice pack to her wound. Lizzy and her friend Doll are seen walking past the room, and she comments "Ew, it didn't kill her!" before laughing and running off. Thad then enters the room after having talked to an unseen character named Chad, where he reveals to the watcher that Uzi is Khan Doorman's daughter, a member of the Worker Defense Force who had built the three doors protecting them. Uzi talks to Thad about her plan of sneaking into the Disassembly Drone lair in search of the last spare part she needs to finish her railgun.
+<br>
+<br>
+Uzi is later seen waking up at exactly 3:00 AM to sneak out to find the last piece. She sneaks into her dad's room to take a floppy disk labeled "DOOR MASTER KEY" used to open the doors. Uzi manages to open the inner door where Khan is seen waiting on the other side. She can convince him that she wants to examine the exterior of Door One for a school project. Before she leaves, Khan gives her the wrench he used on his first door, which he also states he had used to put Uzi's mom out of her misery when the Disassembly Drones presumably injected nanite acid into her body. While Uzi makes her way through the cold, snowy streets, she steps on a dead Worker Drone's head, which is stuck in the snow. Uzi then looks up and sees the giant spiral made of Worker Drones' corpses which make up the Disassembly Drones' lair.
+<br>
+<br>
+Uzi enters the lair in search of the last part and succeeds in finding it. However, a Disassembly Drone perches on the landing pod located in the middle of the lair. She hides behind some debris but is spotted by the Disassembly Drone and a fight ensues between the two. Uzi is almost killed but can land a shot on the Drone's head. Its head gets destroyed, and its body goes limp. Uzi celebrates her victory only to witness the Drone's head regenerate. This causes Uzi to panic, so she grabs a dead Worker's arm and hits the Disassembly Drone with it. This fixes the error displayed on its visor and causes it to reboot, however some of its systems are offline, and therefore it cannot detect Uzi as a Worker.
+<br>
+<br>
+It assumes that Uzi is a Disassembly Drone and introduces itself, revealing that it is known as N. He notices the wound on Uzi's hand and tells her that Disassembly Drone saliva can heal wounds, and tells her to put it in her mouth, still oblivious to the fact that Uzi is a Worker Drone. The two enter the landing pod and Uzi shoves her hand into N's mouth, and they agree to never talk about it. N informs Uzi of two other Disassembly Drones in his squad, J, and V. Uzi also figures out that the Landing Pod is a spaceship and tells N that the company might dispose of the Disassembly Drones after all the Workers are dead and that they could work with them to repair the spaceship. However, shortly after, they hear loud banging from outside of the ship, which N immediately recognizes as J and V coming back to the lair after hunting. Uzi then starts running back to the bunker but is noticed by V, who informs J about it, who is rebooting N's systems, which causes him to realize that Uzi is a Worker.
+<br>
+<br>
+While Uzi is running back to the bunker, N is seen chasing her from behind, attempting to retrieve her railgun. She managed to reach it, however, could not close the door in time as N was able to hold the door open with his claws. The five Worker Drones, including Uzi, stare in pure horror as N pierces the master key into the terminal with his tail, causing the three doors to open. They try to run, but N quickly catches up to the four WDF members and kills them, before jumping into the ventilation shaft. Khan walks in and notices the doors open and the other WDF members' bodies and asks what Uzi has done. Uzi is unable to respond as N slams onto the ground, throwing Uzi back, however, she lands perfectly and aims the railgun at N, who quickly stabs Uzi with his wing, pins her to the wall, and throws her railgun towards Khan, who is unable to shoot N out of fear, and shuts the door, leaving Uzi for dead. This leads to N feeling sad for Uzi and throwing her to the side when J and V arrive.
+<br>
+<br>
+Uzi then plays dead while J plants a virus on N for questioning the company. When she leaves through the ventilation system, Uzi is convinced to remove the virus from N using the wrench Khan gave her, so he can help her get into the ventilation shaft, which is too high for her to reach. After going through the vents, Uzi and N witness V and J about to kill off the WDF and some of Uzi's classmates. A fight begins with Uzi fighting J, and N fighting V. Although N was able to overpower and incapacitate V with relative ease, Uzi nearly gets killed, but manages to land a killing blow on J's chest, and spits on her corpse. After the fight, Uzi chews out Khan for leaving her for dead and banishes herself. N then flies off with Uzi and V through the roof of the bunker. While outside, Uzi tells N about her plan to head to Earth and kill all humans, while her eye glitches to a strange symbol before laughing maniacally.
+<br>
+<br>
+<div class= "submidtitle">Heartbeat</div>
+<br>
+Sometime after her self-exile, Uzi calls N into the Disassembly Drones' spaceship stating she has found something. Uzi looks into a mirror and the mirror shatters as her right eye turns into a mysterious symbol for a split second. A chained-up V turns to Uzi and states that it is "weird and concerning." Uzi tells her that it's probably the Disassembly Drones' fault. N enters the spaceship ship and Uzi places the badge she had found on his hat, stating that he is the pilot. N asks Uzi if killing all humans is moral, and Uzi explains to him that the humans are past negotiating since they cut off all communication with the Disassembly Drones, while mentioning that the humans also tried negotiating with Uzi's mom. V then points out how Uzi says the Worker Drones are so "conveniently innocent", but Uzi wants to kill all humans. A fight almost occurs between Uzi and V; however, N pulls Uzi away from her to prevent it. N then questions the fact that J was getting orders from someone, and it wasn't the company, to which Uzi simply replies with "Quit complicating my murder plan!"
+<br>
+<br>
+While Uzi and N are outside the lair, Thad finds them and tells Uzi about the recent disappearances of Worker Drones, which convinces Uzi to return to the Worker Drones' bunker. After Uzi arrives at the bunker with N and Thad, N convinces the Worker guarding the door to let him in, and all three enter the bunker. After sneaking into the room where they fought J and V, they discover J's body is missing, this is when Uzi finds something with "Absolute Solver" written on it and starts reading it. Uzi finds out that this is a program that activates when the host Disassembly Drone is destroyed, and the program attempts to find material to repair the host's body.
+<br>
+<br>
+Uzi is then shushed by N as they notice a human hand, attached to a long robotic arm that grabs Thad's leg. N fires a missile into the distance to illuminate the rest of the creature, to reveal a large, centipede-like creature crawling on the walls and ceiling. Right after witnessing this monstrosity, the arm pulls Thad towards the creature, however, N throws a shuriken at the arm, cutting it clean off. It then knocks both Uzi and N to the ground and drags Thad into the darkness.
+<br>
+<br>
+Uzi and N both run after Thad where they see a hologram of him in an attempt to lure them towards the creature. N throws a shuriken towards it, which Uzi kicks mid-air to give it a boost, and it cuts one of the creature's limbs off, which was holding on to Thad. Thad runs away from it, and Uzi asks about J, to which a robotic voice replies that it is trying to repair the host's body, then creates a hologram of Nori, Uzi's mother, and says she's disappointed Uzi doesn't remember them. Uzi asks N about the hologram but he's nowhere to be found.
+<br>
+<br>
+The creature then creates a hologram of Khan, rips it apart, and eats it right in front of Uzi. It accomplishes its goal of distressing Uzi when it starts moving in on her. It creates a hologram of N which tricks Uzi into giving it the railgun. The creature succeeds in tricking Uzi, mocks her for being an "idiot" and knocks her to the ground. Uzi falling to the ground caused the railgun to hit the ground and malfunction. The creature is about to eat Uzi herself when the real N appears and cuts the creature's limbs off with his chainsaw hands.
+<br>
+<br>
+N notices that the railgun is about to explode, so he flies her to a safe distance and shields her from the explosion with his wings, which almost destroys the creature. Its heart then crawls towards them only to get impaled repeatedly by N's tail, before turning into a miniature black hole and disappearing. N hears the other Workers approaching and holds out his hand for Uzi to grab. However, she pushes his hand away in pure terror and asks what Disassembly Drones are. He understands that Uzi won't come with him, so he flies away without her. Right after N leaves, Khan and a small group of other Worker Drones enter the room, and Uzi rushes to her dad and hugs him tightly. Khan looks up at N who quickly leaves the area. Uzi is then shown looking up at her room's ceiling which has pictures and drawings of the creature, and other things that she has witnessed.
+<br>
+<br>
+<div class= "submidtitle">The Promening</div>
+<br>
+It is the day of the prom, and Uzi finds out that many Worker Drones have recently disappeared and tries to bring the missing posters to her room, only to find out that her father has removed all of the things she had put on her wall, because he thought that Uzi needed to change, and brought Lizzy and Doll to help her get ready for prom.
+<br>
+<br>
+They then go to Doll's house where Uzi goes to the bathroom to get dressed.
+<br>
+<br>
+While she was there, she found a pile of discarded mirrors in the bathtub and noticed that Doll was approaching. Uzi can escape through the ventilation shaft using the discarded mirrors as stairs, and while running outside, N appears and tells her that V escaped.
+<br>
+<br>
+The two then decide to work together to stop Doll, and when they go to prom, they are surprised that V wasn't killing anyone, and that Doll was the one killing the Worker Drones and using the prom to have a chance at revenge against V for murdering her parents. Uzi and N quickly intervene and prevent Doll from killing V, telling her that humans are trying to force them to kill each other and that she won't deal with what is happening to her alone.
+<br>
+<br>
+A fight breaks out against Doll, who almost successfully kills Uzi before V shoots Doll in the head. The three then investigate Doll's apartment, where they find the bodies of many Worker Drones, along with Doll's parents, when searching for the body of Doll's mother, Doll appears and takes the bullet out of her head and shoots it at Uzi, who stops it from hitting her with her strange powers. Doll feels sorry for her after realizing she was affected by the Absolute Solver and leaves. Uzi then yells that she hates it here.
+<br>
+<br>
+<div class= "submidtitle">Cabin Fever</div>
+<br>
+Uzi decides to investigate her mother's past and look for Doll in Camp 98.7 under the guise of a camping trip, bringing her classmates and teacher along with her. N and V supervise Uzi's class while she goes alone to investigate. While investigating in a small cabin, she stumbles upon a calendar that states that all of the dogs were evacuated before the core collapse and are now immortal thanks to science, to which she lets out a sigh of relief before hearing strange noises and seeing a human hand, making her almost drop her flashlight. She then hears screaming from outside and thinks that someone's in danger, only to look out the window and see N, V, and her classmates canoeing on the frozen lake.
+<br>
+<br>
+Her jealousy of seeing N being happy with the others and seemingly forgetting about her causes the Absolute Solver to activate, breaking the window she was looking out of while she begins to overheat. She starts scavenging through her bag to find an arm she stole from Doll's apartment to feed on but doesn't as V barges in. Uzi kicks her bag aside as V reminds her to continue investigating Doll instead of watching them from the window. She also tells Uzi to stay distant from everyone and that she'll kill her next, scratching her visor while saying so. Just as she leaves, she tells Uzi that N will move on just fine without Uzi if V kills her.
+<br>
+<br>
+After V leaves, Uzi repairs the scratch on her visor and goes to retrieve her bag. She puts it away and finds a crushed robotic cockroach under it, which she repairs using her powers. She then sees something peculiar about a set of floorboards, destroying them to reveal a Worker Drone's corpse underneath it, surrounded by papers and more robotic cockroaches.
+<br>
+<br>
+A Keybug crawls onto her hand Uzi tries to slap it away, only for it to crawl away and appear on her other hand, voicing its anger through a holographic display resembling a chat bubble with the text ">:(" written on it. Suddenly, it starts scanning her face and collar, registering her as "002" and opening a holographic display resembling a messaging app on a phone. It sends multiple chat options, each of them being "SUBMIT TIMECARD," "PTO REQUEST," "REGISTER TORTURE CHAMBER COMPLAINT", "END MY SUFFERING (PROMO OFFER DISCONTINUED)," and "CALL ELEVATOR." Uzi questions the elevator, and the cockroach responds with "PLEASE PLACE ME ON PROXIMITY READER (CABIN FEVER LABS)." Uzi asks it where these labs are and what the cockroach is, however, it is registered as "Wear his hat. What argue?" and the cockroach replies with "INVALID RESPONSE." In the background, Doll is seen stalking Uzi, disappearing shortly after.
+<br>
+<br>
+Uzi leaves the cabin with the green cockroach and sees N and V practicing archery with her class, where Uzi uses the cockroach to communicate with N from a distance. She tells him to not let V know that she's there. N, however, calls out Uzi, making everyone else notice her. Just as he realizes his mistake, Braidon shoots an arrow at her, but she catches it with her powers, only for it to mutate into a demented organic mass. As her class starts fearing her, she runs away to another cabin while V attempts to chase her down and kill her.
+<br>
+<br>
+Uzi has a meltdown, when she enters an abandoned cabin, closes all the windows, and shuts out the lights, however only one lightbulb remains, and when Uzi tries to destroy the remaining lightbulb, it only turns into a cocoon. Rebecca and Darren, who snuck away to make out, arrive at the cabin. As Rebecca and Darren explore the cabin, Uzi sprouts from her cocoon, fully transformed with organic wings and tail. She then kills Darren and rips Rebecca's legs off, though she manages to escape and warn the rest of the campers about Uzi.
+<br>
+<br>
+While Lizzy, Emily, Sam, and Braidon try to make sense of what Rebecca has told them, Uzi's eyes flash in the distance, and Braidon realizes that she was who Rebecca was trying to warn them about, only for him to get beheaded with the rest of his body set on fire. The three remaining split up.
+<br>
+<br>
+Sam is seen running into the woods, only to bump into a tree and land upside-down against it. A book then falls from above, onto Sam's head, and as he tries to make sense of the book, Uzi appears, hanging from the tree and crawling towards him. Sam asks her if the book has pictures, to which Uzi responds that it doesn't, and she checks before brutally mauling him.
+<br>
+<br>
+Lizzy hears Sam screaming in the distance and then sees Emily waving at her in the distance. As Lizzy approaches her, it's revealed to be Uzi using Emily's corpse as a puppet before dismembering her, showing off her organic bat-like wings. Uzi then skitters towards Lizzy and gets ready to attack, only for V to shield Uzi from Lizzy with her wings.
+<br>
+<br>
+V approached Uzi, getting ready to attack her. She nonchalantly says "New body, same horrors. Huh, Cyn?" though Uzi doesn't know who Cyn is. She begs V to let her talk to N, to which V refuses, making Uzi angry. Just as V is about to strike, Uzi's organic tail appears beside her and bites her arm off, throwing her to the side. Uzi throws V's blade back at her; however, she deflects it with her other arm. Uzi then pins her against a tree, and V attempts to shoot Uzi with a missile, only for Uzi to stab her in the side of the head with her blade, causing her to miss. The missile lands on the ground next to Lizzy, blowing her away.
+<br>
+<br>
+Uzi throws V onto the ground and pins her down. V attempts to stab Uzi with her nanite tail, although Uzi bites it off with her organic tail and grabs it with her hand, attempting to stab V with it. However, N appears and picks Uzi up, who stabs his hand with V's tail. Just then, she snaps out of it as N throws her into the sky.
+<br>
+<br>
+N follows Uzi as they both fall from the sky and they both have a heart-to-heart. Uzi tearfully asks him if he's going to leave her for everything that she did. N says that he missed her, as before they met, scary stuff was scary, and tonight was quite scary without her as well. Uzi admits that she missed him too. He reassures her that they'll stick together using Uzi's tail as a ventriloquist dummy. Uzi laughs and says not to touch it, then does the same thing as N, mocking a British accent just as they both land on the earth with N carrying Uzi.
+<br>
+<br>
+Uzi apologizes for what she did tonight, and N laughs it off as he tells her once again that they'll both stick together from now on. Uzi hugs him, making Lizzy disgusted while V merely looks annoyed.
+<br>
+<br>
+The surviving campers make their way back to the bus. The teacher tells V that some of the campers are missing. She looks over at N and Uzi who are sleeping together, as the green cockroach crawls up to Uzi's beanie, then sighs as she takes the blame for all the murders. Meanwhile, as the sun rises, Uzi's hand begins to burn. N notices this and takes Uzi's hand from the sunlight, only for Uzi to twirl it around his, shocking him as he nervously lets go.
+<br>
+<br>
+<div class= "submidtitle">Home</div>
+<br>
+Sometime after Cabin Fever, N and V get knocked unconscious by Cyn, who tries to hack them to erase their memories of the past.
+<br>
+<br>
+Uzi decides to hack into their memories, showing up as a crow, to free N from a tree and save him from the crows. During this, Khan tries to talk to her, but Uzi angrily shuts the door to her room after he thinks she is having a sleepover with N and V. After getting back to N's memories, Uzi and N go to talk to Tessa and J to ask for the key to the mansion's basement, which Uzi can get from J.
+<br>
+<br>
+V, who is possessed by Cyn, attacks them, and J and Tessa decide to fight against Cyn while Uzi and N go to the basement. After her crow is killed by the Solver, Uzi hacks into the Solver and uses it to see the basement, where she and N find out that the Absolute Solver was using it to do experiments on Worker Drones' bodies.
+<br>
+<br>
+When Uzi then tried to leave their memories, Doll appeared to steal the Keybug and she was forced to leave N's memories, causing the Absolute Solver to retake Cyn's body and try to kill N. However, Uzi gives Doll her cockroach, and locks the door to her room in Doll's face, causing Doll to leave, which makes Uzi able to hack into Cyn's body again and stop the Absolute Solver from killing N. After saving N's life, she can get N and V out of their memories and back to the real world, and they go find Doll, who is now working for J and Tessa.
+<br>
+<br>
+<div class= "submidtitle">Dead End</div>
+<br>
+When meeting Tessa for the first time, Uzi's first instinct is to bite her out of spite and demands to know what a human is doing on Copper 9, clearly showing her dislike for humans. Then, turning to see the reconstructed J, Uzi claims how she is pretty tired of killing "this one", to which J claims proudly that "effective drones were cloned more".
+<br>
+<br>
+Suddenly, Doll betrays Tessa and J by taking the Keybug to the elevator for herself, provoking everyone else to chase after her as she descends into the depths of Copper 9 towards Cabin Fever Labs.
+<br>
+<br>
+While J is ordered to look after Tessa's landing pod, Uzi, Tessa, V, and N attempt to go and explore Cabin Fever Labs. However, soon after they get into the entrance and look for the secret elevator to get further down Cabin Fever Labs, Tessa is abducted by a trap which drags her away, prompting the rest of the team to go after her. After trying to catch up with Tessa, the group encounters a spider-like Untrained Neural Network named Beau which they attempt to shoot down. After it crawls away, a feral worker drone named Alice and Beau emerge, and the team gets knocked out by an EMP which Alice sets off.
+<br>
+<br>
+Uzi, N, V, and Tessa are brought into operating rooms where they wake up. Uzi wakes up with a magnet stuck to her visor and a rope tied to her arms. Uzi first tries to use her Absolute Solver powers to escape but finds difficulty in activating it, possibly due to the magnet. Alice then discovers that Uzi is Nori's kid and calls Beau over, which is where Uzi finds a moment to bite Alice's finger. Uzi is then tortured by Alice who, in retaliation, cuts off one of Uzi's own fingers and stabs her hand.
+<br>
+<br>
+After getting her finger cut off, Uzi is forced to lie on the table and watch N and Tessa get ambushed by the Sentinels which Alice released on them. Uzi gets so overwhelmed to the point that the Absolute Solver gets a chance to possess Uzi and destroy the panel that kept the doors in the office closed, allowing the Sentinels to enter Alice's safe place. As the Sentinels close in on V while she tried to free Uzi from her ropes, they get sucked in and killed by a NULL black hole summoned by Uzi (or the Absolute Solver). V gets the opportunity to carry Uzi, who is partially knocked out, on her back and escape. Uzi then wakes up as V confronts Tessa about the Sentinels, and hugs N tightly as soon as she sees him.
+<br>
+<br>
+After that, the group leaves and tries to kill the corrupted Sentinel to make the trip to the elevator easier. Uzi checks in with N as she notices N looking worried by communicating through their visors, before heading for the elevator. The foursome sees a boot-looped Doll and sees the chance to retrieve the Keybug. However, Doll reveals that it was a trap as the boot-loop was a GIF. Doll then activates the elevator and salutes Uzi as she dives down into the labs, trapping the gang with the Sentinels.
+<br>
+<br>
+Uzi tries to summon a black hole to make a gateway to the elevator but loses control and starts to severely glitch out. This prompts N to cut off her hand to stop the black hole and as Uzi falls to the ground, the Solver briefly fully possesses Uzi and asks N if he missed her. Uzi continues to glitch as her eyes flicker from purple to yellow and her voice switches from the Solver's to her own.
+<br>
+<br>
+Tessa pulls N, who drags Uzi, to get into the elevator as V sacrifices herself to allow them to safely go down the elevator. V states that she trusted Uzi to look after N and salutes to her before presumably getting attacked by the corrupt Sentinel as the group goes hurtling down the elevator.
+<br>
+<br>
+<div class= "submidtitle">Mass Destruction</div>
+<br>
+After falling down the shaft, the group is thrown out of the elevator, and N tries to destroy the rubble blocking the shaft, trying to see if V is still alive, but he accidentally threw some rubble towards Uzi, forcing her to use her Solver powers to deflect it. However, N is reprimanded by "Tessa" and he and Uzi apologize to each other. "Tessa" suggests to N they have Uzi stay behind and he tells Uzi that there are some things she may not want to see. Uzi starts to panic over N seemingly siding with "Tessa", but he tries to deflect her worries and reassure her that they won't hurt her. This only causes Uzi to panic even more, and the Absolute Solver takes over for a split second and opens a black hole, which Uzi tries to redirect. The black hole causes a cave in and N tries to reach for Uzi, but she backs away as rubble collapses around them, separating Uzi from N and "Tessa".
+<br>
+<br>
+Uzi then gets to the cathedral in the center and begins to watch a video of what happened on the day Copper 9's core imploded, after watching the video, she rips off her collar chain in horror before seeing Doll collapse onto the floor dead, with the last words displayed on her visor saying "дАй ОТПОР" (FIGHT BACK). "Tessa" then walks in and assumes that Uzi killed Doll, and "Tessa" proceeds to execute Uzi before N manages to get there in the nick of time and behead her. N then helps Uzi up, but it is too late as Uzi finally succumbs to its influence as the Solver possesses her and she begins to attack N. They attempt to behead N before Nori stops and holds them off.
+<br>
+<br>
+After a heated battle between the three, N is thrown onto the ground critically damaged. Uzi is about to eat her mother before N wrote on the ground with the oil of his decapitated arm, which triggers Nori, as he writes about N and Uzi's relationship. Enraged, Nori then proceeds to slap Uzi, causing her to snap out of the Solver's control, whilst also kicking Nori like a football into the pit. Uzi rages at N for what he said to Nori as they "did not discuss being gross" and screams in frustration while N frantically reveals that the heart she kicked away was her mom, distressing Uzi even more. N realizes he broke his promise of secrecy to Nori N and they both scream in frustration and anguish as they walk to each other, finally stopping and hugging each other for a long time, with Uzi silently crying in N's arms. "Tessa's" head rolls towards the pit during this and she reveals herself as the Absolute Solver who grafted Tessa's corpse onto Cyn's body, making a Drone-Human amalgamation. She attacks N and Uzi, attempting to drag them into the pit.
+<br>
+<br>
+After being dragged close to the pit, N and Uzi cling to its edge, upon that time Uzi makes the decision to sacrifice herself and thanks N for everything. Against N's protests, she then throws N out of the labs with the ship's keys and ultimately, falls into the pit.
+<br>
+<br>
+In the final scene, it's shown that Uzi is not dead, she was somehow thrown out into the exosphere of Copper 9, witnessing the destruction of Copper 9 resuming.
+<br>
+<br>
+<div class= "submidtitle">Absolute End</div>
+<br>
+Uzi is still in space and begins to float away from Copper 9 and she struggles to save herself. An asteroid from the planet's rings is moved by a Solver symbol and it is revealed that Nori was also thrown into space and she hops from asteroid to asteroid to reach Uzi. When the latter sees her, she calls out to her mom, but no sound comes out as they are in space. The two finally have a long-awaited reunion and catch up on how to stop the Solver at last.
+<br>
+<br>
+</div>
+  <div class="right">
+    <img class="imgright" src="images/uzi_md.jpeg" alt="Uh oh broken">Basic Uzi
+    <br>
+    <br>
+    <img class="imgright" src="images/prom_uzi_md.png" alt="Uh oh broken">Prom Uzi
+    <br>
+    <br>
+    <img class="imgright" src="images/solver_uzi_md.png" alt="Uh oh broken">Solver Uzi
+    <br>
+    <br>
+  <img class="imgright" src="images/epilogue_uzi_md.png" alt="Uh oh broken">Epilogue Uzi</div>`;
+
+}else if (type === 'char7') {
+        title.innerHTML = `Murder Drones mysite - Characters - V`;
+         bodycopy.innerHTML = `<div class="left">
+    This page is the character info page for Serial Designation V-X001000000, or just "V" from the Murder Drones series.
+  </div>
+  <div class="middle"> <div class= "midtitle"> Overview of Serial Designation V-X001000000 </div><br>
+ The voice of V is played by Nola Klop, V serves as a Tritagonist throughout the story. V's story is that she was once a Worker Drone, converted by the Absolute Solver into a Disassembly Drone and she was then sent to Copper 9 to destroy runaway AI embedded in the code of some the Worker Drones. V conflicts with N, Her colleague and past love interest N teams up with the rebellious Worker Drone Uzi, who wants to rebel against the company and humanity. This causes V to butt heads with N and Uzi until the three came across the Absolute Solver. The Absolute Solver is an immensely powerful artificial intelligence that afflicts Uzi's ablity to function and is connected to N and V's past.
+ <br>
+ <br>
+ <div class="submidtitle">Serial Designation V-X001000000's Physical Form</div>
+  <br>
+  V has the features of a typical female Disassembly Drone. She has neon-yellow eyes and a silver bob-cut hairstyle. As with the other Disassembly Drones, she has a black headband with five cartridges of Nanite Acid and a long black tail ending in a large syringe containing Nanite Acid. She wears a black-gray, short-sleeved crop coat with a fur collar and cuffs. Her legs are painted black up to her thighs, resembling thigh-high socks, with yellow and black stripes at the end of her legs. she also accessories a yellow arm-band with a skull label on it, along with some text. The text containing her P/N (CYN-MYKX) and S/N (V-X00100000).
+ <br>
+  <br>
+When she is hunting, her visor displays a neon yellow long 'X' shape and her mouth reveals her jagged teeth. She also deploys large bladed-sharp wings and sharp claws that can easily tear through any drone.
+  <br>
+  <br>
+<div class="submidtitle">Serial Designation V-X001000000's Worker Form</div>
+  <br>
+  In N's flashback, V wore a black hard hat like the other worker drones, a black-grey maid dress paired with a bowtie around the neck with a button on the middle, and black knee-length stockings on both of her legs. She also wore an armband and black round glasses.
+<br>
+  <br>
+As a Worker Drone, V had a very bad defect that drastically impacted her vision, to the point that glasses were the only way to fix it.
+<br>
+<br>
+<div class="submidtitle">Serial Designation V-X001000000's Solver Form</div>
+<br>
+In this form, V grew large bat wings (similar to Uzi's solver form) and her right fingers were replaced with sharp claws. Her right hand also appeared fleshy and had a yellow large eye with a slit pupil on it. Her visor displayed an 'X' shape.
+<br>
+<br>
+<div class="submidtitle">Serial Designation V-X001000000's Prom Outfit</div>
+<br>
+During prom, V wore a red-velvet, glittery, sleeveless dress with a slit on the right side of her dress.
+<br>
+<br>
+<div class="submidtitle">Serial Designation V-X001000000's Camp Outfit</div>
+<br>
+At Camp 98.7, she wore a scoutmaster's outfit, which included a short-sleeved green shirt and shorts. She also wore a wide-brimmed campaign hat.
+<br>
+<br>
+<div class="submidtitle">Serial Designation V-X001000000's Personality</div>
+<br>
+V, on the surface, appears as a sociopathic and sadistic mass murderer, who has no qualms or regrets for murdering worker drones. However, underneath this exterior lies a traumatized and complex individual who seeks to keep her friends safe at any cost.
+<br>
+<br>
+In her past, she was a far more reserved individual, being quite shy and nervous around her then-love interest, N, with whom she shared a strong connection with. However, she never truly stood up for herself or her fellow drones, as J frequently abused N as she stood by.
+<br>
+<br>
+When V became a Disassembly Drone, she adopted the persona of a mass murderer who found joy in the act of snuffing out life wherever the company required it, and she appears to have made this her default personality, even justifying some of her more moral actions as set-ups for more devious ones. However, this was mostly an act. On the other hand, she did kill several ostensibly innocent drones even after she joined Uzi in her pursuit of the Absolute Solver.
+<br>
+<br>
+Despite her exterior ruthlessness, she did hold the capacity for empathy and particularly held a great deal of care for her colleague N, though she normally derided him under her "persona". She had such a great deal of care for N that she actively hid their traumatizing past from him to keep him sane, while also agreeing to carry out her duties as a Disassembly Drone under the condition that she and N would be left alone.
+<br>
+<br>
+She eventually becomes a staunch ally of Uzi, even sacrificing herself to secure Uzi and N's escape. She even develops a best-friendship with Lizzy, a Worker Drone who she was originally planning to murder in the prom. While she does maintain an aloof and overall negative attitude towards Uzi, this also appears to be an act, which she maintains with Lizzy as well.
+<br>
+<br>
+Due to her still retaining her original personality and past memories, V holds great fear for the Solver, killing Workers to satisfy and keep it from harming her and N. When V sees any host for the Solver (e.g. Uzi), she immediately becomes wary and starts to target them. This is seen when Uzi first uses her Solver abilities to stop Doll's bullet, and later when she shows horrific changes from her infection, which sends V into hunting her down.
+<br>
+<br>
+ N is shown to love dogs, with his favorite breed being Golden Retrievers.
+ <br>
+ <br>
+  <div class= "submidtitle"> Serial Designation V-X001000000's Biography </div>
+  <br>
+<div class= "submidtitle">Pre-Series</div>
+  <br>
+  V is a sadistic Disassembly Drone who, in her past, was once a regular Worker Drone brought in by Tessa to repurpose her as a friend and maid at Elliott Manor, where she lived with N, J and the Absolute Solver possessing Cyn. It is implied through flashbacks that around this time, V and N developed a romantic interest in each other. V was among the first of her fellow manor Workers to have been corrupted with Solver powers by the titular AI, soon helping it massacre a gala at the mansion and eventually destroy the Earth. Afterward, V was rebuilt by the Solver to be a Disassembly Drone, and together with clones of N and J, a copy of V was sent to Copper 9 to eliminate all Workers found there.
+  <br>
+  <br>
+  <div class= "submidtitle">PILOT</div>
+  <br>
+V makes her first appearance in a flashback with N, in which she is violently killing a Worker Drone. She laughs maniacally and states that she still feels nothing. After, N tries to start small-talk with her by commenting on the planet's toxic death storm, but V promptly snaps, "Oh god! Who are you?" before flying away. Back in the present, she arrives at the Disassembly Drone lair, spotting Uzi attempting to run away before stating "Yo! We got a worker out there I kinda want to practice balloon animal shapes with!". After saying this, V looks around the Spire and asks what happened, to which J replies that N must have tripped and gone offline. After J rebooted N's systems, N hurriedly ran away to retrieve and destroy Uzi's railgun. A flag sticks out from V's hand, reading "LITERALLY SO INSANELY SUSPICIOUS."
+ <br>
+  <br>
+She reappears after N manages to get through the doors of the Worker Drones Bunker. She realizes that the ventilation shafts can take them right through the last door and flies into it to kill some Worker Drones. V is about to kill Thad when both N and Uzi arrive. A fight ensues between V and N while Uzi fights J. During the battle, N gets pinned down by V and sees that Uzi is about to get killed by J. He licks V's blade to disorient her, to which V expresses "Ew! What the hell?!" before N kicks her into the ground. V then gets tied up by N with her tail, and N takes her away with him as he leaves with Uzi back to the Landing Pod.
+  <br>
+  <br>
+<div class= "submidtitle"> Heartbeat </div>
+  <br>
+  V appears in N's dream (actually a flashback) where she and N are Worker Drone servants at a mansion. V bumps into N, and they then exchange a spark at their hands as both of them touch. V and N look nervously at each other before J suddenly kicks N, interrupting the interaction.
+<br>
+<br>
+In the present, V is inside the pod with Uzi, chained up and blowing bubbles. After Uzi shatters a mirror because of the Absolute Solver, V calls it "weird and concerning." V would later question Uzi's innocence when the latter wishes to kill all humans in an attempt to provoke Uzi. A fight almost ensues, but N quickly pulls Uzi away from V.
+<br>
+<br>
+After Uzi and N's fight with Eldritch J, N returns to the pod feeling upset, during which V asks why she is being punished and states she hates his normal personality. As N remains silent, and despite her words, V briefly shows sympathy for him and adjusts her broken chains to make them look intact. Though annoyed, she remains in the pod to accompany N. At around this time, a certain worker drone is shown staring at a printout of a photo of V.
+<br>
+<br>
+<div class= "submidtitle"> The Promening </div>
+<br>
+V is in the pod with N and two human skeletons (one wearing a tuxedo and the other wearing a dress) that N brought as per V's request. V explains her plan to trick Uzi into letting both N and herself into the prom so she can kill everyone there for "prom murder", but N refuses to let V go through with it. After N tells her about J's eldritch transformation and the dream he had about his past, V worriedly asks him to stop prying into those matters and says that if he lets her go to the prom, she and N will only kill what is necessary to survive. N then asks V if she is hiding anything and what is it that she knows; V responds by slicing N's head off mid-sentence, stating that she knows "what's best for you, even if you hate me for it". With her chain broken, she steals the dress from one of the skeletons and heads to the bunker to kill all the Worker Drones at the prom.
+<br>
+<br>
+V arrives at the bunker, where Lizzy let her inside. At the prom, V flies down from the ceiling and lands on the prom stage in her red dress, which shocks and scares many students there. V is introduced by Lizzy and is proclaimed the prom queen by default since the other contestants (who were killed by Doll) have disappeared. Lizzy then tells her fellow students that V has changed and is no longer a threat, and that the two have been hanging. V then starts to walk forward to the microphone while talking about the gullible nature of the Worker Drones. She is about to go on a murderous rampage before realizing she is the prom queen. Upon realizing this, V decides to instead murder the students after the prom (justifying it to herself saying it's extra-sinester this way) and walks up to the microphone to give a speech. Suddenly, N and Uzi arrive through the roof thinking they need to stop V from murdering the students - only to be surprised when she's not doing so. Lizzy then decides to betray Doll and yells to V to escape before Doll kills her. Doll suddenly uses her powers to pry wires from under the stage and force them through V's arms, pinning her in place.
+<br>
+<br>
+Trapped, Doll forces V to remember the murder of Doll's parents (that V committed) and then stabs another wire through her chest. V manages to free her right arm and begins shooting at Doll with her submachine gun hand. However, her attempt is futile, as her bullets are deflected by Doll. Doll then throws a cleaver at her, slicing V's arm off. She forces a fan blade off the roof and throws it at V, but N knocks it away before it can harm her. Uzi then tries to reason with Doll, stating that fighting won't get them anywhere. Doll is seemingly unaffected by these words and is only focused on killing V. Because Uzi and N are in the way, she decides to kill all three at once by throwing two other fan blades at them, but N pushes Uzi out of the way. This resulted in both him and V being dismembered.
+<br>
+<br>
+Both N and V are retrieving their body parts as Uzi fights Doll. When N grabs a disembodied arm, V snatches it back with her mouth, claiming it is hers. Upon seeing this, Lizzy expresses her disgust and says V looks "like garbage". V snaps and calls Lizzy a "frickin traitor". Lizzy responds by stating that V had been manipulating her and was planning to kill everyone during prom. N thanks Lizzy for confronting her, but she and V tell him to shut up. V manages to put her body back together and sneaks up behind Doll as she makes her last stand against N and Uzi. As Doll is preparing to attack the two, V shoots Doll in the head, seemingly killing her. Uzi voices her displeasure with Doll being shot since she wanted to get some information out of her, and N claims V is overdramatically hiding something.
+<br>
+<br>
+Upon entering Doll's home, they find numerous dismembered Worker Drone corpses scattered about. V is seen chewing and sucking on a dismembered arm, which Uzi removes from her mouth. While exploring the dining room, N finds the corpses of Doll's parents, and V comments that they "literally didn't even taste that good"; N tells V that she "sucks" in response, to which V agrees. Doll then teleports into the room, pulling the bullet out of her head and firing it at Uzi, but Uzi stops the bullet mid-air with her awakened Absolute Solver abilities. In that moment of Uzi being almost shot, V is seen with a perplexed/concerned expression, pointing a gun at Uzi's direction, not knowing whether to shoot. When Doll realizes that Uzi also possesses the Absolute Solver, she pities Uzi and agrees to help her, provided she can find what she is searching for. She then teleports away right as V fires a missile at her.
+<br>
+<br>
+<div class= "submidtitle"> Cabin Fever </div>
+<br>
+N and V both arrive dressed as scoutmasters, where V shoots a student. After Thad and Lizzy back them up, the two go on to keep the Uzi's classmates busy during their field trip at Camp 98.7, as their real mission is to have Uzi investigate and discover more about the Absolute Solver and catch Doll. V reveals that she is suspicious of Uzi because of her involvement with the Absolute Solver. She then warns Uzi to focus on her investigation rather than spying on the squad, even going as far as threatening to kill her if she is to be seen near the group again. V also tells her that N would quickly move on from her death.
+<br>
+<br>
+V and the students again notice Uzi when N clumsily shouts for her to come out of hiding. Braidon, out of fear, accidentally shoots an arrow at Uzi. Luckily, she stops it mid-air with her Absolute Solver abilities. But, due to her overheating, she loses control of her powers, and the arrow mutates into a fleshy, sentient creature, much to V's horror - who seems to recognize the creature. Uzi then runs off with V trying to go after her, but N gets in the way. As V claims that "that THING" will leave them alone if they do their jobs, N scolds her for not telling him what's going on, surprising V. N tells V to keep watch of the students and flies away to look for Uzi. But V, now frustrated, tells them to do whatever they want and goes off to pursue and murder Uzi.
+<br>
+<br>
+V then reappears to stop a now out-of-control, monstrous Uzi from killing Lizzy - though V adds that she came to kill Uzi, not to save Lizzy. V approaches Uzi, referring to her as "Cyn." Uzi whimpers and wishes to talk to N, but V wants to ensure she can never do that. An enraged Uzi succumbs to her violence, leading her to ambush and overpower V, dismembering her left arm in the process. Just as Uzi is about to stab V to death with her Nanite Acid syringe, N appears and prevents her from doing so by tossing Uzi into the sky. N then scolds V for her actions and flies off to have a comforting talk with Uzi, leaving V alone and upset at him for taking Uzi's side.
+<br>
+<br>
+When Uzi and N land, V prepares for her rematch against Uzi but notices that N has her under control. She eases up, but Lizzy reappears and expresses her disgust towards N and V. V warns her not to patronize her, but Lizzy calls her a "diva" and walks away, to which V rolls her eyes and chuckles slightly. Uzi, N, and V later return to the bus with the remaining campers. The teacher asks about the other missing campers, to which V takes the blame for Uzi's killings by claiming that she ate them because she was simply hungry.
+<br>
+<br>
+<div class="submidtitle"> Home </div>
+<br>
+The episode unfolds in V and N's memories as worker drones in Elliott Manor. At the start of the episode, V is in the library, standing motionless with ERROR 606 and an 'X' repeatedly flashing on her visor as N reads to her about Golden Retrievers from a book titled "101 Dog Breeds". After N witnesses a few books coincidentally falling from the shelves, as well as movements coming from the basement entrance behind V, he decides to leave the library.
+<br>
+<br>
+Later, when N comes in contact with Uzi (in the form of a crow), he makes his way toward the supposed "scary basement." V is found standing above the entrance of said basement. N gently pulls V aside but discovers that a key is needed to enter the basement. As N and Uzi realize that the key is with J, V giggles while showing a wide, sharp-teethed grin, her visor displaying an 'X' shape. Her right hand has also changed, with her now having claws and a yellow eye on the back.
+<br>
+<br>
+N and Uzi run to Tessa and J to obtain the key. However, V, now possessed by the Solver and with wings, follows them. J and Tessa fight V to distract her as N and Uzi run back to the basement to unlock it. However, V escapes the fight and follows the two to the basement. As Uzi manages to hijack a Solver camera, she notices V standing nearby. Uzi quickly drags N into the basement and locks themselves inside, preventing V from entering.
+<br>
+<br>
+Present-day Solver manages to reclaim control of her Eldritch sentience from Uzi and lets V into the basement. She demands V grab a scalpel that the Absolute Solver would use to delete N's memories. V struggles to see the scalpel, having persistent difficulty picking it up with her claws as the Absolute Solver becomes more frustrated with her. N, however, calms the Absolute Solver down and hands V her glasses (now broken, from when she dropped them earlier) so that she can see better. She then grabs the scalpel with ease but becomes saddened. Seemingly broken free from the Solver's control, she repeats N's words about Golden Retrievers that he read to her earlier.
+<br>
+<br>
+Touched, N tries to finish her sentence, but the Absolute Solver disarms V and pins her to the ceiling before insisting that she'll just delete their OS. V regains consciousness from the Solver's control and yells N's name in dismay as the Absolute Solver is about to delete his memories once again. However, Uzi regains control of the Eldritch sentience right before N is "executed." She then releases V and she plummets to the ground coughing. N gets up from the chair to check on V. They smile at each other before eventually regaining their current memories. N recognizes Uzi and thanks her, but V shouts in annoyance for her to get out of her head.
+<br>
+<br>
+N and V return to their Disassembly Drone sentience in the real world (as Uzi gains admin rights over both of them). They look at each other before V turns her head away from N, blushing in embarrassment. She angrily stares at Uzi before switching her hand into a chainsaw. Later, V, N, and Uzi go outside, stumbling upon Tessa, J, and Doll, who are about to venture to Cabin Fever Labs. They all look at each other before showing their equal confusion as the episode abruptly ends.
+<br>
+<br>
+<div class="submidtitle"> Dead End </div>
+<br>
+After a short talk with Tessa and the new J, V and the others make their way through Cabin Fever Labs after Doll steals the Keybug. As they explore the place, V is captured alongside N, Uzi, and Tessa by Alice and Beau, where she is strapped down to a hospital bed and immobilized with a magnet. V looks proud at Uzi after Alice says that "some parts are more valuable than others". V is then forced to watch as Alice experiments on Uzi.
+<br>
+<br>
+Later on, Uzi gets possessed by the Absolute Solver and destroys the doors' control panel, allowing the Sentinels into the room. Beau then has last-second change of heart, releasing V and sacrificing himself so that she can escape. V then goes to free Uzi but gets cornered by two Sentinels. As she prepares to protect herself and Uzi, a barely-conscious Uzi activates her Absolute Solver to assimilate the Sentinels into an organic mess and save V. Realizing what's happened, V pensively looks at Uzi for a moment and picks her up. Once they reunite with Tessa, V angrily berates her for not being able to keep the Sentinels under control like she said she could. Tessa admits that she has not been honest with her like how she was with N. V stares at Tessa, her anger turning into concern. She is later seen on an elevated platform with her group, aiming her submachine gun at the red-eyed Sentinel that bit Tessa earlier.
+<br>
+<br>
+As she drops down, she notices Doll lying on the ground, seemingly boot-looped, with the Keybug in her hand. Uzi comments on how convenient that was but V instead states that Doll has set up a trap. Uzi disregards her warning and pushes V away, trying to use her Absolute Solver powers to retrieve the Keybug from a distance. N suddenly stops her, and he and V look at each other - realizing what the other one knows. The three then notice Tessa with the Keybug already in her hand, and they slowly approach her with V leading the way, arming herself with two submachine guns. When she sees N and Uzi holding hands, she expresses her disgust; in response, Uzi calls V mean.
+<br>
+<br>
+Suddenly, the previously feigning Doll takes advantage of the situation to steal the Keybug while also releasing Sentinels to the location of the group. She places the Keybug on the reader and jumps down an elevator shaft; an elevator then drops down, cutting them off from Doll. As Tessa prepares to battle the Sentinels, V is seen crawling up the walls to the ceiling.
+<br>
+<br>
+The red-eyed sentinel fires a bullet at Tessa from a Dissassembly Drone hand, and V (now wearing her broken glasses from the flashback in the previous episode) manages to catch it and redirect it back to the sentinel. Tessa, Uzi, and N rush into the elevator, but as they do so, it begins to jolt and lurch as if about to fall. N worriedly asks V to enter the elevator quickly before it drops without her, but she is occupied with battling the red-eyed Sentinel. As she is about to kill the red-eyed Sentinel, she notices another one ahead of her. The Sentinel bites off the keybug reader, which forces the elevator back up. The same Sentinel flashes the boot-loop light at V; her glasses fall off when looking away and are destroyed by another advancing Sentinel.
+<br>
+<br>
+Despite N's pleas to not give herself up because they need her, V slices the cables of the elevator to make it drop as more Sentinels surround her. She salutes Uzi, trusting that she can resolve this. The elevator cables snap as the Sentinels are about to attack, disconnecting V from everyone else. The elevator plummets towards the underground, and V, seemingly accepting her fate, continues to fight the Sentinels.
+<br>
+<br>
+<div class= "submidtitle"> Mass Destruction </div>
+<br>
+Lizzy is shown texting an "secret friend" about J's arrival at the Spire. When N encounters the Absolute Solver in the tunnels, the Solver uses Worker Drone V's appearance to taunt him, and tell him he's the one of the reasons the Absolute Solver kept his team's personalities. V later reappears in N's flashback of him and the other Disassembly Drones slaughtering the human race.
+<br>
+<br>
+<div class="submidtitle"> Absolute End </div>
+<br>
+V reappears in this episode, after being presumed dead earlier, when she blocks a missile shot by J towards Lizzy and Thad. Riding on the red-eyed sentinel that she's apparently tamed (who's wearing Beau's hat), V proceeds to fight J and question her on her betrayal towards her and N. J tells her that the Solver tricked them all. J admits that if she promised V anything else, then it tricked her too and fires a missile at V, causing her to fall. J chops off V's left lower leg and reaches out her hand, persuading her to join her and the Absolute Solver. V takes her hand, only to chop it off as she says "Oh, how about you bite me!" The two continue to fight as N and Uzi drop down and launch a composed black hole at the Absolute Solver.
+<br>
+<br>
+Later, while the Absolute Solver goes after Uzi and N, J rescinds her previous offer to V, kicking down and immobilizing her, and then coldly telling V she never needed neither N or her before shooting a missile. As the Absolute Solver is tracking down N and Uzi, N has a brief recollection of him and V being experimented on by the Absolute Solver back in the manor. After escaping the fight with J, V enters the labs and starts calling out for N, explaining that J tricked both of them, and that the Absolute Solver possibly tricked J. V then spots a holographic version of N created by the Absolute Solver (who was unable to locate N and Uzi). Thinking it's the real N, she tearfully apologizes for not being fully honest with him, admitting that she greatly feared for the two of them, especially N. This prompts the real N to yell for V to stop, giving away his position to the Absolute Solver. The Solver then proceeds to pierce N's torso from behind, grab his heart, and drag him into the hallway she and V are in. V gasps in shock upon seeing the Absolute Solver holding N's heart and corpse, and the Absolute Solver tells V about how she promised to leave them both alone as long as V did her job, causing V to stammer. V is about to ask if she can still comply with the Absolute Solver's orders to save N, but the Absolute Solver refuses and tells V she's failed. The Solver then starts chasing after her.
+<br>
+<br>
+Outside V, is attacked by J and kicked into the ground, with the Absolute Solver throwing N's body right next to her. V then watches in horror as the Absolute Solver is about to devour N's heart, when Khan shuts the door on the Absolute Solver from a distance, releasing her grip on N's heart - which conveniently lands in N's chest. The Absolute Solver then charges at V and the immobile N to kill them both, as V braces herself and tries to protect N's heart with her left hand. However, Uzi steps in at the last moment to block the Absolute Solver's attack, and tells her that no one can traumatize V or N but her. Uzi tells V "Glad you're not dead or whatever." in her usual tone, but then looks back at V and smiles, with V returning the smile as well.
+<br>
+<br>
+The final battle then begins. When the Absolute Solver tries to trick Uzi into thinking she stabbed N with the pickaxe, J gets ready to attack Uzi from behind while Uzi is distracted. V and N cover her, with V exclaiming J chose the wrong team as she shoots a missile at her, knocking J into the labs. The trio then changes at the Absolute Solver, and V fires her missiles and machineguns at the Absolute Solver from above. When the Absolute Solver gets a grip on Uzi, V proceeds to fly and kick into her head, smugly smiling at Uzi as Uzi rolls her eyes. N then throws the Absolute Solver up in the air, and V intercepts her and throws her into the ground. While N and Uzi are distracted coming up with a secret handshake, V is left alone fighting the Absolute Solver, where she gets pinned to a wall - leading Uzi into uppercutting the latter. V briefly expresses confusion at the secret handshake, until the Absolute Solver hits both her and N and sends them flying away.
+<br>
+<br>
+After Uzi destroys the Absolute Solver's heart, all that's left is a giant black hole which paused time (but didn't pause V and N). Uzi blacks out after consuming the black hole, which sends V and N into finding her. After they locate her, N and Uzi share a brief moment of happiness before V hits N to signal him to stop. V then becomes alarmed and aims her gun at Uzi when she notices the latter's new purple-yellow eyes. After Uzi calls herself a "damaged OC", V acknowledges it really is her and the three continue their reunion.
+<br>
+<br>
+The episode then cuts to the classroom where it shows that Uzi was doing a presentation on the events of the show, with V and Lizzy booing at her after she finishes. V then gets a paper airplane thrown at her, showing the trio drawn in manga style from a smug N who is learning about manga art. This causes V to smile, which makes her slam her hand on Lizzy's face to keep her from commenting.
+<br>
+<br>
+During the credits, she is seen at Doll's funeral, playing chess with the red-eyed sentinel - and apparently losing - while Lizzy hangs with them and V wears Beau's hat, and later in some kind of fight with her and Lizzy on one side, and N, Uzi, and Thad on the other side.
+</div>
+  <div class="right"><img src="images/v_md.png" alt="Uh oh broken">Basic V
+<br>
+<br>
+  <img class="v" src="images/worker_v_md.png" alt="Uh oh broken">Worker Drone V
+<br>
+<br>
+  <img class="v" src="images/solver_v_md.png" alt="Uh oh broken">Solver V
+  <br>
+<br>
+<img class="v" src="images/prom_v_md.png" alt="Uh oh broken">Prom V
+  <br>
+<br>
+<img class="v" src="images/camper_v_md.png" alt="Uh oh broken">Camper V</div>`;
+
+}
+}	
+</script>
+
+<script>
+/* Retro-safe form handler (no addEventListener) */
+(function () {
+
+  var form = document.getElementById("contactForm");
+  if (!form) return;
+
+  form.onsubmit = function () {
+
+    var fname = document.getElementById('fname').value;
+    var lname = document.getElementById('lname').value;
+    var email = document.getElementById('Email').value;
+    var address = document.getElementById('address').value;
+    var phone = document.getElementById('Phone').value;
+    var reason = document.getElementById('Reason').value;
+    var comment = document.getElementById('comment').value;
+
+    var body =
+      "Name: " + fname + " " + lname + "\n" +
+      "Email: " + email + "\n" +
+      "Phone: " + phone + "\n" +
+      "Address: " + address + "\n" +
+      "Reason: " + reason + "\n" +
+      "Comment: " + comment;
+
+    var mailtoLink =
+      "mailto:akonyswoodard@gmail.com" +
+      "?subject=Contact Form Submission" +
+      "&body=" + encodeURIComponent(body);
+
+    window.open(mailtoLink);
+
+    document.getElementById('contactForm').style.display = "none";
+    document.getElementById('thankyou').style.display = "block";
+
+    return false; // prevent submit
+  };
+
+})();
+</script>
+
+</body>
+</html>
+
+	
