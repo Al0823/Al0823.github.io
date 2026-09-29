@@ -1,0 +1,376 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>A.t.A. Projects, Websites and Games - Time Tracker</title>
+
+<script>
+try {
+    var s = localStorage.getItem('tt-theme');
+    if (s === 'light' || s === 'dark' || s === 'grey') {
+        document.documentElement.dataset.theme = s;
+    }
+} catch (e) {}
+</script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #afafaf;
+    --card: #e6e6e6;
+    --header: #4b4b4b;
+    --border: #646464;
+    --text: #000000;
+    --invert: #ffffff;
+    --button: #c8c8c8;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]):not([data-theme="grey"]) {
+        --bg: #121212;
+        --card: #2a2a2a;
+        --header: #000000;
+        --border: #444444;
+        --text: #e5e5e5;
+        --invert: #ffffff;
+        --button: #1e1e1e;
+    }
+}
+
+:root[data-theme="dark"] {
+    --bg: #121212;
+    --card: #2a2a2a;
+    --header: #000000;
+    --border: #444444;
+    --text: #e5e5e5;
+    --invert: #ffffff;
+    --button: #1e1e1e;
+}
+
+:root[data-theme="light"] {
+    --bg: #f2f2f2;
+    --card: #fafafa;
+    --header: #e5e5e5;
+    --border: #cccccc;
+    --text: #000000;
+    --invert: #000000;
+    --button: #ffffff;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+header {
+    background: var(--header);
+    color: var(--invert);
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+
+header h1 {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+main {
+    flex: 1;
+    padding: 1.5rem;
+}
+
+.themes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+    margin-bottom: 1rem;
+}
+
+.themes button {
+    font: inherit;
+    cursor: pointer;
+    background: var(--button);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: .3rem 1rem;
+}
+
+.themes button.activenav {
+    font-weight: bold;
+}
+
+.clocks {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+    margin: auto;
+}
+
+.card {
+    flex: 1 1 300px;
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    margin: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.card h2 {
+    font-size: 1.4rem;
+}
+
+.time {
+    font-size: clamp(2.2rem, 9vw, 3.75rem);
+    font-weight: 700;
+    margin: .5rem 0;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.ap {
+    font-size: .4em;
+    margin-left: .3em;
+}
+
+.date {
+    font-size: 1.1rem;
+}
+
+.zone {
+    margin-top: .25rem;
+}
+
+footer {
+    background: var(--header);
+    color: var(--invert);
+    text-align: center;
+    padding: 15px 10px;
+    border-top: 1px solid var(--border);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Time Tracker</h1>
+</header>
+
+<main>
+
+<div class="themes">
+    <span>Theme:</span>
+    <button type="button" data-set="grey">Grey</button>
+    <button type="button" data-set="light">Light</button>
+    <button type="button" data-set="dark">Dark</button>
+</div>
+
+<div class="clocks">
+
+<section class="card">
+    <h2>Eastern Time</h2>
+    <p class="zone" id="z-eastern"></p>
+    <p class="time" id="t-eastern"></p>
+    <p class="date" id="d-eastern"></p>
+</section>
+
+<section class="card">
+    <h2>Eastern +11 Hours</h2>
+    <p class="zone">11 hours ahead of Eastern Time</p>
+    <p class="time" id="t-plus11"></p>
+    <p class="date" id="d-plus11"></p>
+</section>
+
+</div>
+
+</main>
+
+<footer>
+    Eastern Time automatically switches between EDT and EST.
+</footer>
+
+<script>
+(function () {
+
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    function getEastern() {
+        var now = new Date();
+
+        var parts = new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/New_York",
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            timeZoneName: "short"
+        }).formatToParts(now);
+
+        var o = {};
+
+        parts.forEach(function (p) {
+            if (p.type !== "literal") {
+                o[p.type] = p.value;
+            }
+        });
+
+        return o;
+    }
+
+    function render() {
+
+        var eastern = getEastern();
+
+        $("t-eastern").innerHTML =
+            eastern.hour + ":" +
+            eastern.minute + ":" +
+            eastern.second +
+            '<span class="ap">' + eastern.dayPeriod + '</span>';
+
+        $("d-eastern").textContent =
+            eastern.weekday + ", " +
+            eastern.month + " " +
+            eastern.day + ", " +
+            eastern.year;
+
+        $("z-eastern").textContent =
+            eastern.timeZoneName;
+
+        /*
+         * Get the current Eastern time as UTC,
+         * then add 11 hours.
+         */
+        var now = new Date();
+
+        var easternParts = new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/New_York",
+            hourCycle: "h23",
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric"
+        }).formatToParts(now);
+
+        var e = {};
+
+        easternParts.forEach(function (p) {
+            if (p.type !== "literal") {
+                e[p.type] = Number(p.value);
+            }
+        });
+
+        var easternUTC = Date.UTC(
+            e.year,
+            e.month - 1,
+            e.day,
+            e.hour % 24,
+            e.minute,
+            e.second
+        );
+
+        var plus11 = new Date(easternUTC + (11 * 60 * 60 * 1000));
+
+        var p11 = new Intl.DateTimeFormat("en-US", {
+            timeZone: "UTC",
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        }).formatToParts(plus11);
+
+        var x = {};
+
+        p11.forEach(function (p) {
+            if (p.type !== "literal") {
+                x[p.type] = p.value;
+            }
+        });
+
+        $("t-plus11").innerHTML =
+            x.hour + ":" +
+            x.minute + ":" +
+            x.second +
+            '<span class="ap">' + x.dayPeriod + '</span>';
+
+        $("d-plus11").textContent =
+            x.weekday + ", " +
+            x.month + " " +
+            x.day + ", " +
+            x.year;
+    }
+
+    function tick() {
+        render();
+        setTimeout(tick, 1000 - (Date.now() % 1000));
+    }
+
+    tick();
+
+    var root = document.documentElement;
+    var buttons = document.querySelectorAll("[data-set]");
+
+    function getTheme() {
+        return root.dataset.theme ||
+            (matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "grey");
+    }
+
+    function markTheme() {
+        var current = getTheme();
+
+        buttons.forEach(function (button) {
+            var active = button.dataset.set === current;
+            button.classList.toggle("activenav", active);
+            button.setAttribute("aria-pressed", active);
+        });
+    }
+
+    buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            root.dataset.theme = button.dataset.set;
+
+            try {
+                localStorage.setItem("tt-theme", button.dataset.set);
+            } catch (e) {}
+
+            markTheme();
+        });
+    });
+
+    markTheme();
+
+})();
+</script>
+
+</body>
+</html>
+```
