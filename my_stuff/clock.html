@@ -166,6 +166,13 @@ main{padding:1rem .75rem}
 
 <div class="clocks">
 
+<section class="card" aria-labelledby="h-minus1">
+<h2 id="h-minus1">Eastern -1 hour</h2>
+<p id="z-minus1"></p>
+<p class="time" id="t-minus1" role="timer"></p>
+<p class="date" id="d-minus1"></p>
+</section>
+
 <section class="card" aria-labelledby="h-ny">
 <h2 id="h-ny">Eastern time</h2>
 <p id="z-ny"></p>
@@ -186,6 +193,13 @@ main{padding:1rem .75rem}
 <p id="z-plus6"></p>
 <p class="time" id="t-plus6" role="timer"></p>
 <p class="date" id="d-plus6"></p>
+</section>
+
+<section class="card" aria-labelledby="h-plus930">
+<h2 id="h-plus930">Eastern +9 hours 30 minutes</h2>
+<p id="z-plus930"></p>
+<p class="time" id="t-plus930" role="timer"></p>
+<p class="date" id="d-plus930"></p>
 </section>
 
 <section class="card" aria-labelledby="h-plus11">
@@ -289,6 +303,36 @@ function getOffsetTime(baseParts, offsetHours){
   return new Date(easternUTC + offsetHours*60*60*1000);
 }
 
+function renderOffsetCard(idSuffix, offsetHours, label){
+  var when=getOffsetTime(null, offsetHours);
+  var p={};
+
+  new Intl.DateTimeFormat('en-US',{
+    timeZone:'UTC',
+    hour:'numeric',
+    minute:'2-digit',
+    second:'2-digit',
+    hour12:true,
+    weekday:'long',
+    month:'long',
+    day:'numeric',
+    year:'numeric'
+  })
+  .formatToParts(when)
+  .forEach(function(part){
+    p[part.type]=part.value;
+  });
+
+  $('t-'+idSuffix).innerHTML=
+    p.hour+':'+p.minute+':'+p.second+
+    '<span class="ap">'+p.dayPeriod+'</span>';
+
+  $('d-'+idSuffix).textContent=
+    p.weekday+', '+p.month+' '+p.day+', '+p.year;
+
+  $('z-'+idSuffix).textContent=label;
+}
+
 function render(){
   var d=new Date();
 
@@ -328,65 +372,11 @@ function render(){
       o.timeZoneName+' (UTC'+fmtOff(L[k].off)+')';
   }
 
-  // Eastern +6 hours
-  var plus6=getOffsetTime(null,6);
-
-  var p6={};
-
-  new Intl.DateTimeFormat('en-US',{
-    timeZone:'UTC',
-    hour:'numeric',
-    minute:'2-digit',
-    second:'2-digit',
-    hour12:true,
-    weekday:'long',
-    month:'long',
-    day:'numeric',
-    year:'numeric'
-  })
-  .formatToParts(plus6)
-  .forEach(function(p){
-    p6[p.type]=p.value;
-  });
-
-  $('t-plus6').innerHTML=
-    p6.hour+':'+p6.minute+':'+p6.second+
-    '<span class="ap">'+p6.dayPeriod+'</span>';
-
-  $('d-plus6').textContent=
-    p6.weekday+', '+p6.month+' '+p6.day+', '+p6.year;
-
-  $('z-plus6').textContent='6 hours ahead of Eastern time';
-
-  // Eastern +11 hours
-  var plus11=getOffsetTime(null,11);
-
-  var p11={};
-
-  new Intl.DateTimeFormat('en-US',{
-    timeZone:'UTC',
-    hour:'numeric',
-    minute:'2-digit',
-    second:'2-digit',
-    hour12:true,
-    weekday:'long',
-    month:'long',
-    day:'numeric',
-    year:'numeric'
-  })
-  .formatToParts(plus11)
-  .forEach(function(p){
-    p11[p.type]=p.value;
-  });
-
-  $('t-plus11').innerHTML=
-    p11.hour+':'+p11.minute+':'+p11.second+
-    '<span class="ap">'+p11.dayPeriod+'</span>';
-
-  $('d-plus11').textContent=
-    p11.weekday+', '+p11.month+' '+p11.day+', '+p11.year;
-
-  $('z-plus11').textContent='11 hours ahead of Eastern time';
+  // Fixed offsets from Eastern's own wall clock
+  renderOffsetCard('minus1', -1, '1 hour behind Eastern time');
+  renderOffsetCard('plus6', 6, '6 hours ahead of Eastern time');
+  renderOffsetCard('plus930', 9.5, '9 hours 30 minutes ahead of Eastern time');
+  renderOffsetCard('plus11', 11, '11 hours ahead of Eastern time');
 
   // Tbilisi day comparison only
   var dd=L.tbs.day-L.ny.day;
