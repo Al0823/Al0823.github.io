@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class schedule &mdash; Indonesia time</title>
+<style>
+  :root {
+    --bg: #f3f4f3;
+    --ink: #1f2421;
+    --muted: #5d655f;
+    --line: #cfd4d0;
+    --head: #006633;
+    --head-ink: #ffffff;
+    --cell: #e4f2ea;
+    --cell-accent: #1aa37a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1b1e1c;
+      --ink: #e8ebe9;
+      --muted: #9aa39d;
+      --line: #3a403c;
+      --head: #0b4d2e;
+      --cell: #203a2c;
+    }
+  }
+  body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--ink); margin: 0; padding: 1.5rem; }
+  h1 { font-size: 1.4rem; margin: 0 0 .25rem; }
+  p.note { color: var(--muted); margin: 0 0 1rem; max-width: 70ch; }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; }
+  th, td { border: 1px solid var(--line); padding: .5rem .6rem; vertical-align: top; text-align: left; }
+  thead th { background: var(--head); color: var(--head-ink); font-weight: 600; }
+  tbody th { white-space: nowrap; color: var(--muted); font-weight: 500; background: transparent; }
+  .cls { background: var(--cell); border-left: 4px solid var(--cell-accent); padding: .35rem .5rem; border-radius: 3px; }
+  .cls b { display: block; }
+  .cls small { display: block; color: var(--muted); }
+</style>
+</head>
+<body>
+  <h1>Class schedule &mdash; Indonesia time (WIB)</h1>
+  <p class="note">Eastern time + 11 hours. Days are Indonesia's days, so late classes that cross midnight appear on the next day.</p>
+  <div class="wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Time (WIB)</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- ENG 102: 13:50-14:45 ET Mon/Wed/Fri -> Tue/Thu/Sat -->
+      <tr>
+        <th>00:50&mdash;01:45</th>
+        <td></td>
+        <td><div class="cls"><b>ENG 102</b><small>Marano Campus</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>ENG 102</b><small>Marano Campus</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>ENG 102</b><small>Marano Campus</small></div></td>
+      </tr>
+      <!-- CSC 212: 09:10-10:05 ET MWF -->
+      <tr>
+        <th>20:10&mdash;21:05</th>
+        <td><div class="cls"><b>CSC 212</b><small>Park Hall-315</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>CSC 212</b><small>Park Hall-315</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>CSC 212</b><small>Park Hall-315</small></div></td>
+        <td></td>
+      </tr>
+      <!-- PHL 100: 09:35-10:55 ET TTh -->
+      <tr>
+        <th>20:35&mdash;21:55</th>
+        <td></td>
+        <td><div class="cls"><b>PHL 100</b><small>Lanigan Hall-107</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>PHL 100</b><small>Lanigan Hall-107</small></div></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <!-- SOC 100: 10:20-11:15 ET MWF -->
+      <tr>
+        <th>21:20&mdash;22:15</th>
+        <td><div class="cls"><b>SOC 100</b><small>Marano Campus</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>SOC 100</b><small>Marano Campus</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>SOC 100</b><small>Marano Campus</small></div></td>
+        <td></td>
+      </tr>
+      <!-- CSC 212 lab: 11:30-12:25 ET Wed -->
+      <tr>
+        <th>22:30&mdash;23:25</th>
+        <td></td>
+        <td></td>
+        <td><div class="cls"><b>CSC 212 Lab</b><small>Shineman Center</small></div></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <!-- GST 104: 12:40-13:40 ET Mon/Wed (ends 00:40 next day) -->
+      <tr>
+        <th>23:40&mdash;00:40</th>
+        <td><div class="cls"><b>GST 104</b><small>Shineman Center-194</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>GST 104</b><small>Shineman Center-194</small></div></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <!-- MAT 101: 12:45-14:05 ET TTh (ends 01:05 next day) -->
+      <tr>
+        <th>23:45&mdash;01:05</th>
+        <td></td>
+        <td><div class="cls"><b>MAT 101</b><small>Shineman Center-183</small></div></td>
+        <td></td>
+        <td><div class="cls"><b>MAT 101</b><small>Shineman Center-183</small></div></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</body>
+</html>
