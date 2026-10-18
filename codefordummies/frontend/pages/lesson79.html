@@ -19,9 +19,59 @@
 	</Div><br><br>
   <div class="fs-15">HTML Attributes</div><br><br>
   <div class="fs-10">
+<ul>
+<li>All HTML elements are able have attributes</li>
+<li>Attributes are used to provide additional information about elements</li>
+<li>Attributes are always specified in the start tag</li>
+<li>Attributes usually come in name/value pairs like: name="value"</li>
+  </ul>
+    </div><br><br>
+  <div class="fs-15">The href Attribute</div><br><br>
+  <div class="fs-10">The <code><a></code> tag defines a hyperlink. The <code>href</code> attribute specifies the URL of the page the link goes to:</div><br><br>
+    <textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
 
-    </div>
-</article>
+<h2>The href Attribute</h2>
+
+<p>HTML links are defined with the a tag. The link address is specified in the href attribute:</p>
+
+<a href="http://129.3.20.66/index.html">Visit W3Schools</a>
+
+</body>
+</html>
+
+</textarea><br><br>
+<div class="fs-10">You will learn more about links in our <a href="">HTML Links chapter.</a></div><br><br>
+<div class="fs-15">The src Attribute</div><br><br>
+<div class="fs-10">The <code><img></code> tag is used to embed an image in an HTML page. The <code>src</code> attribute specifies the path to the image to be displayed:
+      <textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>The src Attribute</h2>
+<p>HTML images are defined with the img tag, and the filename of the image source is specified in the src attribute:</p>
+
+<img src="img_girl.jpg" width="500" height="600">
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-10">There are two ways to specify the URL in the src attribute:
+<br><br>
+1. Absolute URL - Links to an external image that is hosted on another website. Example: <code>src="http://129.3.20.66/images/img.jpg"</code>
+<br><br>
+Notes: External images might be under copyright. If you do not get permission to use it, you may be in violation of copyright laws. In addition, you cannot control external images; it can suddenly be removed or changed.
+<br><br>
+2. Relative URL - Links to an image that is hosted within the website. Here, the URL does not include the domain name. If the URL begins without a slash, it will be relative to the current page. Example: <code>src="img_girl.jpg"</code> If the URL begins with a slash, it will be relative to the domain. Example: <code>src="/images/img.jpg"</code>
+<br><br>
+Tip: It is almost always best to use relative URLs. They will not break if you change domain.</div><br><br>
+<div class="fs-15">The width and height Attributes</div><br><br>
+<div class="fs-10">The <code><img></code> tag can also contain the <code>width</code> and <code>height</code> attributes, which specify the width and height of the image (in pixels):
+  </div>
+    </article>
 </main>
 <footer id="footer"></footer>
   <div id="debugInclude"></div>
