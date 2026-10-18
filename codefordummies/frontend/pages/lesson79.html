@@ -70,7 +70,87 @@ Notes: External images might be under copyright. If you do not get permission to
 Tip: It is almost always best to use relative URLs. They will not break if you change domain.</div><br><br>
 <div class="fs-15">The width and height Attributes</div><br><br>
 <div class="fs-10">The <code><img></code> tag can also contain the <code>width</code> and <code>height</code> attributes, which specify the width and height of the image (in pixels):
-  </div>
+  </div><br><br>
+  <div class="fs-15">The alt Attribute</div><br><br>
+  <div class="fs-10">The <code>alt</code> attribute for the <code><img></code> tag specifies an alternate text for an image, if the image for some reason cannot be displayed. This can be due to a slow connection, or an error in the <code>src</code> attribute, or if the user uses a screen reader.</div><br><br>
+   <textarea id="textbox" rows="10" cols="70"></textarea>
+  <!DOCTYPE html>
+<html>
+<body>
+
+<h2>The alt Attribute</h2>
+<p>The alt attribute should reflect the image content, so users who cannot see the image get an understanding of what the image contains:</p>
+
+<img src="img.jpg" alt="Image" width="500" height="600">
+
+</body>
+</html>
+
+
+  </textarea><br><br>
+  <div class="fs-10">
+  You will learn more about images in our <a href="">HTML Images chapter</a>.
+  </div><br><br>
+  <div class="fs-15">The style Attribute</div><br><br>
+  <div class="fs-10">The <code>style</code> attribute is used to add styles to an element, such as color, font, size, and more.</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+  <!DOCTYPE html>
+<html>
+<body>
+
+<h2>The style Attribute</h2>
+<p>The style attribute is used to add styles to an element, such as color:</p>
+
+<p style="color:red;">This is a red paragraph.</p>
+
+</body>
+</html>
+
+</textarea><br><br>
+<div class="fs-10">You will learn more about styles in the <a href="">HTML Styles chapter</a>.</div><br><br>
+<div class="fs-15">The lang Attribute</div><br><br>
+<div class="fs-10">
+It is good practice to include the <code>lang</code> attribute inside the <code><html></code> tag, to declare the language of the Web page. This is meant to assist search engines and browsers.
+<br><br>
+The following example specifies English as the language:
+</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+...
+</body>
+</html>
+  </textarea><br><br>
+<div class="fs-10">Country codes can also be added to the language code in the <code>lang</code> attribute. So, the first two characters define the language of the HTML page, and the last two characters define the country.
+<br><br>
+The following example specifies English as the language and United States as the country:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+
+<!DOCTYPE html>
+<html lang="en-US">
+<body>
+...
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-15">The title Attribute</div><br><br>
+<div class="fs-10">The title attribute defines some extra information about an element.
+<br><br>
+The value of the title attribute will be displayed as a tooltip when you mouse over the element:</div><br><br>
+<textarea id="textbox" rows="10" cols="70">
+  <!DOCTYPE html>
+<html>
+<body>
+
+<h2 title="I'm a header">The title Attribute</h2>
+
+<p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
+
+</body>
+</html>
+</textarea>
     </article>
 </main>
 <footer id="footer"></footer>
