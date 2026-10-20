@@ -1801,7 +1801,7 @@ function kitHouse(o = {}) {
   return { g, w: X + (kind === 'farm' ? 4 : 2) + (outStairs ? 2 : 0) + 1.5, d: Z + jet + (kind === 'inn' || kind === 'shop' ? 4 : 2.5), door: [doorX, fz + (porch ? 1.6 : 0.7)] };
 }
 
-// ================= chunk generation =================
+// chunk generation 
 const BUILD = { cottage: () => cottage(), inn: () => cottage({ two: true, inn: true, W: rr(8, 10) }), shop: () => cottage({ shop: true }),
   hobbit, treehouse: treeHouse, treetop: treeTop, witch, forge, tower, kit: () => KIT ? kitHouse() : cottage(),
   kitinn: () => KIT ? kitHouse({ kind: 'inn' }) : cottage({ two: true, inn: true, W: rr(8, 10) }), kitshop: () => KIT ? kitHouse({ kind: 'shop' }) : cottage({ shop: true }) };
@@ -2001,7 +2001,7 @@ const pathMats = {
   }), gradientMap, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 })
 };
 
-// ================= grass tufts and wildflowers: instanced crossed cards that sway in the wind =================
+// grass tufts and wildflowers: instanced crossed cards that sway in the wind 
 const swayTime = { value: 0 };
 function cardTex(draw) { const c = document.createElement('canvas'); c.width = c.height = 128; draw(c.getContext('2d')); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; }
 const tuftTex = cardTex(g => {
@@ -2039,8 +2039,8 @@ const tuftMat = swayMat(tuftTex), flowerMat = swayMat(flowerTex);
 // crossed cards with upward normals, so they light like the ground they grow from
 function crossGeo(w, h) { const a = new THREE.PlaneGeometry(w, h); a.translate(0, h / 2, 0); const b = a.clone(); b.rotateY(Math.PI / 2); const g = mergeGeometries([a, b]), n = g.attributes.normal; for (let i = 0; i < n.count; i++) n.setXYZ(i, 0, 1, 0); return g; }
 const tuftGeo = crossGeo(0.85, 0.42), flowerGeo = crossGeo(0.55, 0.45);
-const TUFT_TOWN = ['#a8c058', '#b8c868', '#c8bc68', '#98b050', '#d0b870', '#b4c060'], TUFT_WOOD = ['#7a9448', '#8a9a50', '#a88a50', '#b87a4a', '#6f8a46'];
-const FLOWER_COLS = ['#f4ecd8', '#f0c84a', '#c890e8', '#e88060', '#f8f8ff'];
+const TUFT_TOWN = ['#A8C058', '#B8C868', '#C8BC68', '#98B050', '#D0B870', '#B4C060'], TUFT_WOOD = ['#7A9448', '#8A9A50', '#A88A50', '#B87A4A', '#6F8A46'];
+const FLOWER_COLS = ['#F4ECD8', '#F0C84A', '#C890E8', '#E88060', '#F8F8FF'];
 function buildGrass(c, cg, occ, seg) {
   const z0 = c * CH, wood = seg.type === 'forest', half = seg.type === 'town' ? 3.0 : seg.type === 'farm' ? 2.0 : 1.5;
   const big = (occ || []).filter(o => o.r >= 1.4), cr = creekAt(c), out = [];
@@ -2170,7 +2170,7 @@ function dropChunk(c) {
   chunks.delete(c);
 }
 
-// ================= mountains (follow the walker, always on the horizon) =================
+// mountains (follow the walker, always on the horizon) 
 const mountains = (() => {
   reseed(4242 + WORLD);
   const AS = 900, RS = 44, R0 = 230, R1 = 380, pos = [], hs = [], idx = [];
@@ -2198,7 +2198,7 @@ const mountains = (() => {
   scene.add(m); return m;
 })();
 
-// ================= night sky =================
+//  night sky 
 const MOON_DIR = new THREE.Vector3(0.55, 0.42, 0.72).normalize();
 const sky = new THREE.Mesh(new THREE.SphereGeometry(600, 48, 24), new THREE.ShaderMaterial({
   side: THREE.BackSide, depthWrite: false, fog: false,
@@ -2255,9 +2255,9 @@ const sky = new THREE.Mesh(new THREE.SphereGeometry(600, 48, 24), new THREE.Shad
 }));
 sky.layers.set(1); sky.frustumCulled = false; sky.renderOrder = -1; scene.add(sky);
 
-// ================= lights =================
-const hemi = new THREE.HemisphereLight('#3d5290', '#20160f', 0.6); scene.add(hemi);
-const moon = new THREE.DirectionalLight('#9fb6ff', 1.1);
+// lights 
+const hemi = new THREE.HemisphereLight('#3D5290', '#20160F', 0.6); scene.add(hemi);
+const moon = new THREE.DirectionalLight('#9FB6FF', 1.1);
 moon.castShadow = true; moon.shadow.mapSize.set(2048, 2048);
 Object.assign(moon.shadow.camera, { left: -60, right: 60, top: 60, bottom: -60, near: 1, far: 400 });
 moon.shadow.bias = -0.0005; moon.shadow.normalBias = 0.05;
@@ -2266,7 +2266,7 @@ const shadowAt = new THREE.Vector3(1e9, 0, 0);
 let shadowNeed = false;
 const pool = Array.from({ length: LIGHT_POOL }, () => { const l = new THREE.PointLight(LCOL, 0, 12, 2); scene.add(l); return l; });
 
-// ================= particles =================
+// particles
 function pointsMat(color, additive) {
   return new THREE.ShaderMaterial({
     uniforms: { uColor: { value: color }, uScale: { value: 400 } },
@@ -2312,7 +2312,7 @@ function spawnLeaf(l, cx, cz, high) {
   l.p.y = groundY(l.p.x, l.p.z) + (high ? mr(10, 16) : mr(0.5, 16)); l.rest = 0; l.init = true;
 }
 
-// ================= post: bloom + ink outlines =================
+// post: bloom + ink outlines
 const normalMat = new THREE.MeshNormalMaterial();
 let normalRT;
 const composer = new EffectComposer(renderer, new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: 4 }));
