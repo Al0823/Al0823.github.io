@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autumn Walk</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0b0d16; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; height: 100dvh; touch-action: none; cursor: grab; }
+  canvas.dragging { cursor: grabbing; }
+  #ui { position: fixed; right: 16px; bottom: 16px; display: flex; gap: 8px; font: 600 13px/1 Georgia, serif; }
+  #ui button { background: rgba(30, 20, 14, .72); color: #f3dfb8; border: 1px solid rgba(243, 223, 184, .35);
+    border-radius: 999px; padding: 9px 14px; cursor: pointer; font: inherit; }
+  #hint { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%); color: #f3dfb8; font: italic 15px Georgia, serif;
+    background: rgba(20, 14, 10, .55); padding: 8px 16px; border-radius: 999px; transition: opacity 1.5s; pointer-events: none; white-space: nowrap; }
+  #loading { position: fixed; inset: 0; display: grid; place-items: center; color: #f3dfb8; font: italic 18px Georgia, serif; background: #0b0d16; }
+  #msg { position: fixed; inset: 0; display: none; place-items: center; color: #f3dfb8; font: 16px Georgia, serif; padding: 16px; text-align: center; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="ui"><button id="pause">Pause</button></div>
+<div id="hint">Drag to look around · double-click to look ahead</div>
+<div id="loading">Lighting the lanterns…</div>
+<div id="msg">This scene needs WebGL, which this browser could not start.</div>
+<script type="module" src="autumn.js?v=2"></script>
+</body>
+</html>
