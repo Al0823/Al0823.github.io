@@ -2361,7 +2361,7 @@ function resize() {
 }
 addEventListener('resize', resize); resize();
 
-// ================= input: drag to look =================
+// input: drag to look
 let running = true, yaw = 0, pitch = 0, yawT = 0, pitchT = 0, dragging = false, lastX = 0, lastY = 0, lastInput = -1e9, autoAmt = 0;
 const touch = () => { lastInput = performance.now(); if (autoAmt > 0.01) { yawT = yaw; pitchT = pitch; autoAmt = 0; } };
 const btn = document.getElementById('pause'), cvs = renderer.domElement, hint = document.getElementById('hint');
