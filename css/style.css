@@ -99,7 +99,10 @@ flex: 1;
 padding: 1.5rem;
 }
 
-
+#textarea {
+	  background: #111111!important;
+  color: #00FF90!important;
+}
 
 nav, .nav {
 width: 300px  !Important;
