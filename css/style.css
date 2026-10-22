@@ -99,11 +99,11 @@ flex: 1;
 padding: 1.5rem;
 }
 
-#textarea {
-	  background: #111111!important;
-  color: #00FF90!important;
-  border: #ED01FC!important;
-  font-family: 'VT323', monospace!important;
+#textbox {
+background: #111111!important;
+color: #00FF90!important;
+border: #ED01FC!important;
+font-family: 'VT323', monospace!important;
 }
 
 nav, .nav {
