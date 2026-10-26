@@ -54,7 +54,107 @@ p {
 </body>
 </html>
 </textarea><br><br>
+<div class="fs-15">The CSS id Selector</div><br><br>
+<div class="fs-10">The id selector uses the id attribute of an HTML element to select a specific element.
+<br><br>
+The id of an element is unique within a page, so the id selector is used to select one unique element!
+<br><br>
+To select an element with a specific id, write a hash (#) character, followed by the id of the element.<br><br>
+The CSS rule in the example below will be applied to the HTML element with id="para2" </div><br><br>
+  <textarea id="textbox" rows="10" cols="70">
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#para2 {
+  text-align: center;
+  color: red;
+}
+</style>
+</head>
+<body>
 
+<p id="para2">Hello World!</p>
+<p>This paragraph is not affected by the style.</p>
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-15">The CSS class Selector</div><br><br>
+<div class="fs-10">The class selector selects HTML elements with a specific class attribute.
+<br><br>
+To select elements with a specific class, write a period (.) character, followed by the class name.
+<br><br>
+In this example all HTML elements with class="center" will be red and center-aligned</div><br><br>
+  <textarea id="textbox" rows="10" cols="70">
+    <!DOCTYPE html>
+<html>
+<head>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+</head>
+<body>
+
+<h1 class="center">Red and center-aligned heading</h1>
+<p class="center">Red and center-aligned paragraph.</p> 
+
+</body>
+</html>
+
+
+
+  </textarea><br><br>
+  <div class="fs-10">You can also specify that only specific HTML elements should be affected by a class.<br><br>
+  In this example only <code><p></code> elements with class="center" will be red and center-aligned</div><br><br>
+  <textarea id="textbox" rows="10" cols="70"><!DOCTYPE html>
+<html>
+<head>
+<style>
+p.center {
+  text-align: center;
+  color: red;
+}
+</style>
+</head>
+<body>
+
+<h1 class="center">This heading will not be affected</h1>
+<p class="center">This paragraph will be red and center-aligned.</p> 
+
+</body>
+</html>
+</textarea><br><br>
+<div class="fs-10">HTML elements can also refer to more than one class.<br><br>
+
+
+In this example the <p> element will be styled according to class="center" and to class="large"</div><br><br>
+  <textarea id="textbox" rows="10" cols="70"><!DOCTYPE html>
+<html>
+<head>
+<style>
+p.center {
+  text-align: center;
+  color: red;
+}
+
+p.large {
+  font-size: 300%;
+}
+</style>
+</head>
+<body>
+
+<h1 class="center">This heading will not be affected</h1>
+<p class="center">This paragraph will be red and center-aligned.</p>
+<p class="center large">This paragraph will be red, center-aligned, and in a large font-size.</p> 
+
+</body>
+</html>
+</textarea>
 </article>
 </main>
 <footer id="footer"></footer>
